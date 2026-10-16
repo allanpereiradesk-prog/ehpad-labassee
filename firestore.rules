@@ -1,0 +1,28 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function mail() { return request.auth != null && request.auth.token.email != null ? request.auth.token.email.lower() : ""; }
+    function isAdmin() { return mail() == "allan.pereiradesk@gmail.com"; }
+    function isProf() { return exists(/databases/$(database)/documents/config/profs) && mail() in get(/databases/$(database)/documents/config/profs).data.emails; }
+    function isTeam() { return isAdmin() || (!isProf() && mail() in get(/databases/$(database)/documents/config/team).data.emails); }
+
+    // Réglages : lecture publique ; listes équipe/profs = Allan seulement
+    match /config/{doc} {
+      allow read: if true;
+      allow write: if isAdmin() || (isTeam() && !(doc in ["team", "profs"]));
+    }
+    // Échanges profs : privé (équipe + profs connectés)
+    match /echanges/{id} {
+      allow read: if isTeam() || isProf();
+      allow create: if (isTeam() || isProf()) && request.resource.data.email == mail()
+                    && request.resource.data.text is string && request.resource.data.text.size() <= 4000;
+      allow update: if resource.data.email == mail() && request.resource.data.email == mail();
+      allow delete: if isAdmin() || resource.data.email == mail();
+    }
+    // Tout le reste : lecture publique, écriture équipe uniquement (pas les profs)
+    match /{col}/{rest=**} {
+      allow read: if col != "echanges";
+      allow write: if col != "config" && col != "echanges" && isTeam();
+    }
+  }
+}
