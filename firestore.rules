@@ -31,7 +31,7 @@ service cloud.firestore {
     function chatOk(d) {
       return (d.conv == "general" && (isTeam() || isProf()))
           || (d.conv == "equipe" && isTeam())
-          || (d.members is list && mail() in d.members && (isTeam() || isProf()));
+          || (mail() in d.get("members", []) && (isTeam() || isProf()));
     }
     match /chat/{id} {
       allow read: if chatOk(resource.data);
