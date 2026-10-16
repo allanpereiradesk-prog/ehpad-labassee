@@ -519,6 +519,8 @@ th,.kpis dt,.flab,.grp{font-size:13px}
 .seg2 .btn[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
 .cal.week .day{min-height:120px}
 /* 2. Accueil */
+.h-ask{display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px;width:100%;text-align:left;margin:0 0 14px;padding:12px 16px;border:0;border-left:4px solid var(--accent);border-radius:var(--r);background:color-mix(in srgb,var(--accent) 10%,var(--surface));box-shadow:var(--sh);font:inherit;color:var(--ink);cursor:pointer}
+.h-ask b{font-size:16px}.h-ask span{color:var(--muted);font-size:14px;flex:1;min-width:200px}.h-ask em{font-style:normal;font-weight:600;color:var(--accent)}
 .h-tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:14px}
 @media (max-width:860px){.h-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .h-tile{background:var(--surface);border:0;border-radius:var(--r);box-shadow:var(--sh);padding:14px 16px;display:grid;gap:2px;text-align:left;color:var(--ink);font:inherit}
@@ -2267,8 +2269,12 @@ function renderHome(){
   const chips=t=>(t.assignees||[]).length?`<span class="chips">${t.assignees.map(p=>`<span class="chip" style="--pc:${PCOLOR[p]||"var(--muted)"}" title="${esc(p)}">${esc(initials(p))}</span>`).join("")}</span>`:`<span class="hint">personne</span>`;
   const trow=t=>`<button class="h-row" data-task="${esc(t._id)}"><span class="step">${stepNo(t)}</span><span class="h-tt">${esc(t.title)}</span>${t.due?`<span class="hint nw ${t.due<today&&t.status!=="fait"?"late":""}">${fmtDate(t.due)}</span>`:""}${chips(t)}</button>`;
   const ech=(typeof echMsgs!=="undefined"&&echCan&&echCan())?echMsgs.filter(m=>m.role==="prof").slice(-4).reverse():null;
+  const pend=ech===null?[]:echMsgs.filter(m=>m.kind==="topic"&&m.role!=="prof"&&!echMsgs.some(r=>r.kind==="reply"&&r.topic===m._id&&r.role==="prof"));
+  const spName=k=>(ECH_SPACES.find(x=>x.k===k)||{}).n||k;
+  const iAmProf=typeof isProf==="function"&&isProf();
   const mine=me?tasks.filter(t=>(t.assignees||[]).includes(me)&&t.status!=="fait").sort(byOrder):[];
   box.innerHTML=`
+  ${pend.length?`<button class="h-ask" data-goq="${esc(pend[0].space)}"><b>📩 ${pend.length} question${pend.length>1?"s":""} ${iAmProf?"de l'équipe attend":"attend"}${pend.length>1?"ent":""} ${iAmProf?"votre réponse":"la réponse d'un prof"}</b><span>${pend.slice(0,3).map(q=>esc(q.title||"")+" · "+esc(spName(q.space))).join(" — ")}</span><em>Voir</em></button>`:""}
   <div class="h-tiles">
     <div class="h-tile"><span>Prochain jalon</span><b>${next?(days<=0?"Aujourd'hui":"J-"+days):"–"}</b><em>${next?esc(next.t)+" · "+fmtDate(next.d):"Projet terminé"}</em></div>
     <button class="h-tile" data-go="tasks"><span>Tâches terminées</span><b>${fait} / ${tasks.length}</b><em>${enc.length} en cours</em></button>
@@ -2285,6 +2291,7 @@ function renderHome(){
   </div>`;
   box.querySelectorAll("[data-task]").forEach(b=>b.onclick=()=>openTask(b.dataset.task,"det"));
   box.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{ setTab(b.dataset.go); window.scrollTo(0,0); });
+  box.querySelectorAll("[data-goq]").forEach(b=>b.onclick=()=>{ echSpace=b.dataset.goq; setTab("ech"); window.scrollTo(0,0); });
 }
 function clampReports(root){ (root||document).querySelectorAll(".report:not(.empty):not([data-cl])").forEach(r=>{ r.dataset.cl=1; if(r.closest(".iss-sol")||r.closest(".reply")) return; r.classList.add("clamp"); requestAnimationFrame(()=>{ if(r.scrollHeight>r.clientHeight+4){ const b=document.createElement("button"); b.className="more-link"; b.type="button"; b.textContent="Lire la suite"; b.onclick=()=>{ const o=r.classList.toggle("clamp"); b.textContent=o?"Lire la suite":"Réduire"; }; r.after(b); } else r.classList.remove("clamp"); }); }); }
 function renderAll(){ renderHome(); renderBoard(); renderMine(); renderDone(); renderCal(); renderIssueForm(); renderIssues(); renderHoursForm(); renderHours(); renderTaskExtras(); renderDocs(); renderSyn(); }
