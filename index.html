@@ -1928,7 +1928,7 @@ async function rv3dInit(){
 function rv3dResize(){ if(!R3) return; const box=$("#rv3d"); const w=box.clientWidth, h=box.clientHeight||w*.75; if(!w) return; R3.ren.setSize(w,h,false); R3.cam.aspect=w/h; R3.cam.updateProjectionMatrix(); }
 function rv3dUpdate(){ if(!R3) return; R3.groups.N01.visible=rvLv==="N01"; }
 /* ---------- Bâtiment complet (ARC + STR + espaces) ---------- */
-let RB=null; const BAT_V="2026-10-16b";
+let RB=null; const BAT_V="2026-10-16c";
 const BAT_COL={"Murs":0xe9e3d8,"Sols":0xcfc7ba,"Toitures":0xa99a8c,"Fenêtres":0x8fc3dd,"Portes":0xa9825a,"Meneaux":0x7d8a92,"Escaliers":0xc9c2b6,"Garde-corps":0x6d7a83,"Poteaux":0xd9d4cb,"Plafonds":0xf4f1ea,"Divers":0xbdbdbd,"Panneaux solaires":0x2f4f7f};
 const BAT_STR=0xa3abb2, BAT_LAYERS=[["arc","Architecture",true],["ceil","Plafonds",false],["str","Structure",true],["pv","Panneaux solaires",true],["esp","Espaces CVC (zones)",false]];
 function batLayerOf(g){ return g.layer==="str"?"str":g.cat==="Plafonds"?"ceil":g.cat==="Panneaux solaires"?"pv":"arc"; }
@@ -1971,7 +1971,7 @@ async function rvBatInit(){
       const mk=l=>{ const pts=[]; for(let i=0;i<l.length;i+=2) pts.push(new THREE.Vector2(l[i]-cx,l[i+1]-cy)); return pts; };
       const shape=new THREE.Shape(mk(s.p[0])); s.p.slice(1).forEach(h=>shape.holes.push(new THREE.Path(mk(h))));
       const h=Math.max(.2,Math.min(6,(s.v||0)/(s.a||1)))-0.1;
-      const m=new THREE.Mesh(new THREE.ExtrudeGeometry(shape,{depth:h,bevelEnabled:false}),new THREE.MeshLambertMaterial({color:RV_COL[s.sv]||"#cccccc",transparent:true,opacity:.55,clippingPlanes:[clip],depthWrite:false}));
+      const m=new THREE.Mesh(new THREE.ExtrudeGeometry(shape,{depth:h,bevelEnabled:false}),new THREE.MeshLambertMaterial({color:RV_COL[s.sv]||"#cccccc",transparent:true,opacity:.6,side:THREE.DoubleSide,clippingPlanes:[clip],depthWrite:false}));
       m.position.z=ELEV[s.l]+0.05; m.userData={space:s}; layers.esp.add(m); pick.push(m); });
     const ctl=new THREE.OrbitControls(cam,ren.domElement); ctl.target.set(0,8,3); ctl.enableDamping=true; ctl.maxPolarAngle=Math.PI*0.49; ctl.update();
     const ray=new THREE.Raycaster(), mv=new THREE.Vector2(); let down=null;
