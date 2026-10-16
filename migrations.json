@@ -1,0 +1,12 @@
+[
+ {
+  "id": "2026-10-16-str-reglee",
+  "doc": "issues/iss-str-2026",
+  "data": {
+   "status": "resolu",
+   "resolvedBy": "Allan",
+   "resolvedAt": "2026-10-16T13:05:00Z",
+   "solution": "Réglé au lycée le 16/10 :\n- J'ai ouvert DCE_STR_MNT.rvt seule dans Revit 2024 (avec « Auditer »), en cliquant sur « Détache les éléments » à chaque message.\n- Le fichier s'est ouvert (message « modèle analytique structurel » : on ferme, ça ne nous concerne pas).\n- Je l'ai enregistré sous DCE_STR_MNT_corrige.rvt.\n- Ensuite, je l'ai liée dans la maquette CVC sous Revit 2026 : Insérer → Lier Revit → « Automatique - A l'emplacement partagé » → site PARTAGEES. Ça passe.\nLa STR corrigée est téléchargeable dans l'onglet Revit et le Tuto Revit. Toutes les captures sont dans l'onglet Captures."
+  }
+ }
+]

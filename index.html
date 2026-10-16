@@ -373,6 +373,9 @@ tfoot td{font-weight:600}
 .cap-b p{margin:0}
 .cap-l{font-weight:600;color:var(--muted)}
 .cap .pill{justify-self:start}
+.iss-sep{font-size:16px;margin:18px 0 8px;padding-top:12px;border-top:2px solid var(--line)}
+.iss-sol{border-left:3px solid var(--done);background:color-mix(in srgb,var(--done) 9%,transparent);padding:8px 12px;border-radius:4px;margin:8px 0}
+.iss-sol b{color:var(--done);font-size:13.5px}
 .authbar{display:flex;gap:10px;align-items:center;justify-content:flex-end;flex-wrap:wrap;margin:10px 0 0;font-size:14px}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:7px;font-weight:600;z-index:30;max-width:calc(100% - 32px)}
 @media (prefers-reduced-motion:no-preference){.card{transition:border-color .15s}}
@@ -1726,19 +1729,22 @@ function renderIssues(){
   const badge=$("#issBadge"); badge.hidden=!n; badge.textContent=n;
   const box=$("#iList"); if(!box) return;
   const f=$("#iFilter").value;
-  const list=issues.filter(i=>!f||(i.status||"ouvert")===f).sort((a,b)=>((b.urgent?1:0)-(a.urgent?1:0))||(b.at||"").localeCompare(a.at||""));
-  box.innerHTML=list.length?list.map(i=>{
+  const isRes=i=>i.status==="resolu";
+  const list=issues.filter(i=>!f||(i.status||"ouvert")===f).sort((a,b)=>((isRes(a)?1:0)-(isRes(b)?1:0))||(isRes(a)?(b.resolvedAt||"").localeCompare(a.resolvedAt||""):(((b.urgent?1:0)-(a.urgent?1:0))||(b.at||"").localeCompare(a.at||""))));
+  const firstRes=list.findIndex(isRes), nRes=list.filter(isRes).length;
+  box.innerHTML=list.length?list.map((i,idx)=>{
     const t=tasks.find(x=>x._id===i.taskId); const res=i.status==="resolu";
-    return `<article class="iss ${i.urgent&&!res?"urgent":""} ${res?"resolu":""}" data-id="${esc(i._id)}">
+    return `${idx===firstRes?`<h3 class="iss-sep">✅ Problèmes réglés <span class="hint">(${nRes})</span></h3>`:""}<article class="iss ${i.urgent&&!res?"urgent":""} ${res?"resolu":""}" data-id="${esc(i._id)}">
       <div class="iss-h"><span class="tag">${i.kind==="site"?"Site":"Projet"}</span><span class="tt">${esc(i.title)}</span>
         ${res?`<span class="pill" style="--pc:var(--done)">Réglé</span>`:(i.urgent?`<span class="pill" style="--pc:var(--danger)">Urgent</span>`:`<span class="pill" style="--pc:var(--doing)">À régler</span>`)}</div>
       <div class="meta"><span class="chip" style="--pc:${PCOLOR[i.who]||"var(--muted)"}">${esc(initials(i.who||"?"))}</span><span>${esc(i.who)} · ${fmtDate((i.at||"").slice(0,10))}</span>
         ${t?`<button class="x" data-task="${esc(t._id)}" style="color:var(--accent)">${stepNo(t)} · ${esc(t.title.length>50?t.title.slice(0,48)+"…":t.title)}</button>`:""}
-        ${res&&i.resolvedBy?`<span>Réglé par ${esc(i.resolvedBy)}</span>`:""}</div>
+        ${res&&i.resolvedBy?`<span>Réglé par ${esc(i.resolvedBy)}${i.resolvedAt?" le "+fmtDate(i.resolvedAt.slice(0,10)):""}</span>`:""}</div>
+      ${res&&i.solution?`<div class="iss-sol"><b>✅ Comment on l'a réglé</b><div class="report">${esc(i.solution)}</div></div>`:""}
       ${i.detail?`<p class="report">${esc(i.detail)}</p>`:""}
       ${(i.shots||[]).length?`<div class="shots">${i.shots.map((s,k)=>`<a href="#" class="blob" data-blob="${esc(s)}" data-type="image/png" data-name="Capture ${k+1}" title="Voir en grand"><img data-fid="${esc(s)}" alt="Capture ${k+1} de ${esc(i.who)}" loading="lazy"></a>`).join("")}</div>`:""}
       ${(i.replies||[]).map(r=>`<div class="reply"><b>${esc(r.who)}</b> <span class="hint">${fmtDate((r.at||"").slice(0,10))}</span><div class="report">${esc(r.text)}</div></div>`).join("")}
-      <div class="inline"><div class="field"><label for="r_${esc(i._id)}" class="hint">Répondre${me?" ("+esc(me)+")":""}</label><input id="r_${esc(i._id)}" maxlength="2000" placeholder="Une idée, une solution…"></div>
+      <div class="inline"><div class="field"><label for="r_${esc(i._id)}" class="hint">${res?"Répondre":"Répondre, ou écris la solution puis « Marquer réglé »"}${me?" ("+esc(me)+")":""}</label><input id="r_${esc(i._id)}" maxlength="2000" placeholder="${res?"Une remarque…":"Une idée, ou comment tu l'as réglé…"}"></div>
         <button class="btn small" data-reply="${esc(i._id)}">Envoyer</button>
         <button class="btn small ${res?"":"primary"}" data-toggle="${esc(i._id)}">${res?"Rouvrir":"Marquer réglé"}</button>
         ${assets?`<span class="btn small filebtn">+ Capture<input type="file" accept="image/png,image/jpeg,image/webp,image/gif" data-addshot="${esc(i._id)}" aria-label="Ajouter une capture"></span>`:""}
@@ -1750,7 +1756,8 @@ function renderIssues(){
     const i=issues.find(x=>x._id===id); b.disabled=true;
     try{ await db.doc("issues/"+id).update({replies:[...(i.replies||[]),{who:me||"Quelqu'un",text,at:new Date().toISOString()}]}); toast("Réponse envoyée"); }catch(e){ fail(e,"Réponse"); b.disabled=false; } });
   box.querySelectorAll("[data-toggle]").forEach(b=>b.onclick=async()=>{ const id=b.dataset.toggle, i=issues.find(x=>x._id===id); const res=i.status==="resolu";
-    try{ await db.doc("issues/"+id).update(res?{status:"ouvert"}:{status:"resolu",resolvedBy:me||"",resolvedAt:new Date().toISOString()}); toast(res?"Problème rouvert":"Problème réglé"); }catch(e){ fail(e,"Mise à jour"); } });
+    const sol=($("#r_"+CSS.escape(id))||{}).value; const solution=(sol||"").trim();
+    try{ await db.doc("issues/"+id).update(res?{status:"ouvert"}:{status:"resolu",resolvedBy:me||"",resolvedAt:new Date().toISOString(),...(solution?{solution}:{})}); toast(res?"Problème rouvert":(solution?"Problème réglé, solution enregistrée":"Problème réglé")); }catch(e){ fail(e,"Mise à jour"); } });
   box.querySelectorAll("[data-delete]").forEach(b=>{ let armed=false; b.onclick=async()=>{ if(!armed){armed=true;b.textContent="Confirmer";return;}
     const i=issues.find(x=>x._id===b.dataset.delete);
     try{ await db.doc("issues/"+b.dataset.delete).delete(); toast("Supprimé");
@@ -1857,20 +1864,28 @@ renderMe(); renderTimeline(); renderFilters(); renderBoard(); renderHours();
   const applyAuth=()=>{ writeOk=isTeam(); authBar();
     $("#status").innerHTML = !fbUser ? `<div class="notice">Tu peux tout consulter. Pour ajouter ou modifier (tâches, heures, problèmes…), clique sur <b>Se connecter avec Google</b> en haut.</div>`
       : (!isTeam() ? `<div class="notice warn">Ton compte ${esc(fbUser.email)} n'est pas dans l'équipe : tu es en lecture seule. Demande à Allan de l'ajouter.</div>` : "");
-    $("#newTask").disabled=!writeOk; if(ready) renderAll(); maybeSeed();
+    $("#newTask").disabled=!writeOk; if(ready) renderAll(); maybeSeed(); maybeMigrate();
     if(isAdmin() && teamLoaded && DEFAULT_TEAM.some(m=>!teamEmails.includes(m))) db.doc("config/team").set({emails:[...new Set([...teamEmails,...DEFAULT_TEAM])]}).catch(e=>console.error(e)); };
   let teamLoaded=false;
   db.doc("config/team").onSnapshot(s=>{ teamLoaded=true; teamEmails=((s.exists&&s.data().emails)||[]).map(x=>String(x).toLowerCase()); applyAuth(); }, e=>console.error(e));
   fauth.getRedirectResult().catch(e=>console.error(e));
   fauth.onAuthStateChanged(u=>{ fbUser=u; applyAuth(); });
   let seeding=false;
+  let migrating=false;
+  async function maybeMigrate(){
+    if(migrating||!isAdmin()||!gotT||!tasks.length) return; migrating=true;
+    try{ const migs=await (await fetch("migrations.json",{cache:"no-store"})).json();
+      const ds=await db.doc("config/migrations").get(); const done=(ds.exists&&ds.data().done)||[];
+      let n=0; for(const m of migs){ if(done.includes(m.id)) continue; await db.doc(m.doc).update(m.data); done.push(m.id); n++; }
+      if(n){ await db.doc("config/migrations").set({done}); toast(`Mise à jour appliquée (${n})`); }
+    }catch(e){ console.error("migrations",e); migrating=false; } }
   async function maybeSeed(){
     if(seeding||!isAdmin()||!gotT||tasks.length) return; seeding=true;
     try{ const seed=await (await fetch("seed.json",{cache:"no-store"})).json(); let n=0;
       for(const [col,docs] of Object.entries(seed)) for(const [id,data] of Object.entries(docs)){ await db.doc(col+"/"+id).set(data); n++; }
       toast(`Données d'origine importées (${n} éléments)`); }
     catch(e){ seeding=false; fail(e,"Import des données"); } }
-  db.collection("tasks").onSnapshot(s=>{ tasks=s.docs.map(d=>({...d.data(), _id:d.id})); gotT=true; ready=gotT&&gotH; renderAll(); maybeSeed(); },
+  db.collection("tasks").onSnapshot(s=>{ tasks=s.docs.map(d=>({...d.data(), _id:d.id})); gotT=true; ready=gotT&&gotH; renderAll(); maybeSeed(); maybeMigrate(); },
     e=>{ console.error(e); $("#status").innerHTML=`<div class="notice warn">Connexion aux tâches perdue. Recharge la page.</div>`; });
   db.collection("hours").onSnapshot(s=>{ hours=s.docs.map(d=>({...d.data(), _id:d.id})); gotH=true; ready=gotT&&gotH; renderAll(); },
     e=>{ console.error(e); });
