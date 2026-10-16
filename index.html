@@ -1928,13 +1928,13 @@ async function rv3dInit(){
 function rv3dResize(){ if(!R3) return; const box=$("#rv3d"); const w=box.clientWidth, h=box.clientHeight||w*.75; if(!w) return; R3.ren.setSize(w,h,false); R3.cam.aspect=w/h; R3.cam.updateProjectionMatrix(); }
 function rv3dUpdate(){ if(!R3) return; R3.groups.N01.visible=rvLv==="N01"; }
 /* ---------- Bâtiment complet (ARC + STR + espaces) ---------- */
-let RB=null;
+let RB=null; const BAT_V="2026-10-16b";
 const BAT_COL={"Murs":0xe9e3d8,"Sols":0xcfc7ba,"Toitures":0xa99a8c,"Fenêtres":0x8fc3dd,"Portes":0xa9825a,"Meneaux":0x7d8a92,"Escaliers":0xc9c2b6,"Garde-corps":0x6d7a83,"Poteaux":0xd9d4cb,"Plafonds":0xf4f1ea,"Divers":0xbdbdbd,"Panneaux solaires":0x2f4f7f};
 const BAT_STR=0xa3abb2, BAT_LAYERS=[["arc","Architecture",true],["ceil","Plafonds",false],["str","Structure",true],["pv","Panneaux solaires",true],["esp","Espaces CVC (zones)",false]];
 function batLayerOf(g){ return g.layer==="str"?"str":g.cat==="Plafonds"?"ceil":g.cat==="Panneaux solaires"?"pv":"arc"; }
 async function batLoadBin(){
-  if("DecompressionStream" in window){ try{ const r=await fetch("files/b3d/building.bin.gz"); if(r.ok){ const s=r.body.pipeThrough(new DecompressionStream("gzip")); return await new Response(s).arrayBuffer(); } }catch(e){} }
-  const r=await fetch("files/b3d/building.bin"); if(!r.ok) throw new Error("géométrie introuvable"); return r.arrayBuffer();
+  if("DecompressionStream" in window){ try{ const r=await fetch("files/b3d/building.bin.gz?v="+BAT_V); if(r.ok){ const s=r.body.pipeThrough(new DecompressionStream("gzip")); return await new Response(s).arrayBuffer(); } }catch(e){} }
+  const r=await fetch("files/b3d/building.bin?v="+BAT_V); if(!r.ok) throw new Error("géométrie introuvable"); return r.arrayBuffer();
 }
 async function rvBatInit(){
   if(RB){ rvBatResize(); return; }
@@ -1943,7 +1943,7 @@ async function rvBatInit(){
     await loadLib("THREE","https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js");
     if(!THREE.OrbitControls) await new Promise((res,rej)=>{ const sc=document.createElement("script"); sc.src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"; sc.onload=res; sc.onerror=()=>rej(new Error("contrôles 3D indisponibles")); document.head.appendChild(sc); });
     cv.innerHTML=`<p class="hint" style="padding:12px">Chargement du bâtiment (≈ 1 Mo)…</p>`;
-    const [meta,buf]=await Promise.all([fetch("files/b3d/building.json").then(r=>r.json()),batLoadBin()]);
+    const [meta,buf]=await Promise.all([fetch("files/b3d/building.json?v="+BAT_V).then(r=>r.json()),batLoadBin()]);
     cv.innerHTML="";
     const I=new Int16Array(buf);
     const all=rvData(); let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9; all.forEach(s=>{ const l=s.p[0]; if(l) for(let i=0;i<l.length;i+=2){ x0=Math.min(x0,l[i]);x1=Math.max(x1,l[i]);y0=Math.min(y0,l[i+1]);y1=Math.max(y1,l[i+1]); } });
