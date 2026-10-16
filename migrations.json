@@ -200,11 +200,18 @@
    "kind": "topic",
    "space": "tous",
    "title": "Nos hypothèses de débits d'air sont-elles bonnes ?",
-   "text": "Bonjour,\n\nPour les débits de ventilation (tâche 05), certaines valeurs ne sont pas dans le dossier. On a supposé :\n• Occupation : 1 personne pour 2 m² en salle à manger, 3 m² en salon, 8 m² en bureau\n• Office : 30 repas\n• Ménage, déchets, linge sale : 30 m³/h extraits\n\nCes valeurs vous conviennent ? Le détail est dans l'Excel de la tâche 05.\n\nMerci,\nAllan",
+   "text": "Bonjour,\n\nPour les débits de ventilation (tâche 05), certaines valeurs ne sont pas dans le dossier. On a supposé :\n• Occupation : 1 personne pour 2 m² en salle à manger, 3 m² en salon, 8 m² en bureau\n• Office : 30 repas\n• Ménage, déchets, linge sale : 30 m³/h extraits\n\nCes valeurs vous conviennent ? Le détail est dans l'onglet Documents : Excel « débits de ventilation » (tâche 06, calcul des charges).\n\nMerci,\nAllan",
    "email": "allan.pereiradesk@gmail.com",
    "name": "Allan",
    "role": "equipe",
    "at": "2026-10-16T18:50:00Z"
+  }
+ },
+ {
+  "id": "2026-10-16-question-texte",
+  "doc": "echanges/q-2026-10-16-hypotheses",
+  "data": {
+   "text": "Bonjour,\n\nPour les débits de ventilation (tâche 05), certaines valeurs ne sont pas dans le dossier. On a supposé :\n• Occupation : 1 personne pour 2 m² en salle à manger, 3 m² en salon, 8 m² en bureau\n• Office : 30 repas\n• Ménage, déchets, linge sale : 30 m³/h extraits\n\nCes valeurs vous conviennent ? Le détail est dans l'onglet Documents : Excel « débits de ventilation » (tâche 06, calcul des charges).\n\nMerci,\nAllan"
   }
  }
 ]
