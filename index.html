@@ -697,7 +697,7 @@ tfoot td{font-weight:600}
 <script>
 /* ---------- Firebase : remplace le runtime claude.ai ---------- */
 const FB_CFG={apiKey:"AIzaSyAQUjWyCRxWBgepL1PF-Txm9JDJIMj3lqw",authDomain:"ehpad-labassee.firebaseapp.com",projectId:"ehpad-labassee",storageBucket:"ehpad-labassee.firebasestorage.app",messagingSenderId:"539175458010",appId:"1:539175458010:web:b0b00facefd5543ed941e3"};
-const ADMINS=[];
+const ADMINS=["allan.pereiradesk@gmail.com"];
 const STATIC_FILES={"3123751c84d97ff990b116a61db62f13": "files/3123751c84d97ff990b116a61db62f13.jpg", "f109fc362936815e947e3f35ad3b9f5e": "files/f109fc362936815e947e3f35ad3b9f5e.jpg", "cccce1fb53326b4a5cfc2a65809b4ed6": "files/cccce1fb53326b4a5cfc2a65809b4ed6.jpg", "9440fcd110d41a3b8948855d5a7628da": "files/9440fcd110d41a3b8948855d5a7628da.jpg", "6cd0163b4f49205eb641a9633dc49272": "files/6cd0163b4f49205eb641a9633dc49272.jpg", "0bfbe7cf7feaa264c612428ea3943d94": "files/0bfbe7cf7feaa264c612428ea3943d94.pdf"};
 let fbOk=false, fdb=null, fauth=null, fbUser=null, teamEmails=[];
 try{ firebase.initializeApp(FB_CFG); fdb=firebase.firestore(); fauth=firebase.auth(); fbOk=true; }catch(e){ console.error("Firebase",e); }
