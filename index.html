@@ -335,7 +335,8 @@ tfoot td{font-weight:600}
 .rv-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
 .rv-col{border:1px solid var(--line);border-radius:6px;padding:10px 12px;font-size:14px;min-width:0}
 .rv-col ol{margin:6px 0 0;padding-left:18px;display:grid;gap:4px}
-.rv-shot{margin:12px 0 0;max-width:780px}
+.rv-shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px;margin-top:12px}
+.rv-shot{margin:0;min-width:0}
 .rv-shot img{width:100%;height:auto;border:1px solid var(--line);border-radius:6px;display:block}
 .rv-shot figcaption{font-size:13px;color:var(--muted);margin-top:4px}
 .authbar{display:flex;gap:10px;align-items:center;justify-content:flex-end;flex-wrap:wrap;margin:10px 0 0;font-size:14px}
@@ -655,7 +656,11 @@ tfoot td{font-weight:600}
           <li>Redépose le fichier sur <b>ACC</b> (02_MAQUETTE CVC).</li>
           <li>Note le dépôt dans l'onglet <b>ACC</b> du site.</li></ol></div>
       </div>
-      <figure class="rv-shot"><img src="files/revit-ouvrir-detache.png" alt="Fenêtre Ouvrir de Revit avec la case Détacher du fichier central cochée en bas" loading="lazy"><figcaption>Étape 2 : la case <b>« Détacher du fichier central »</b> est en bas de la fenêtre Ouvrir, dans « Partage du projet ».</figcaption></figure>
+      <div class="rv-shots">
+        <figure class="rv-shot"><img src="files/revit-ouvrir-detache.png" alt="Fenêtre Ouvrir de Revit, avec le fichier, la case Détacher du fichier central et le bouton Ouvrir encadrés en rouge" loading="lazy"><figcaption><b>Étape 2 – Ouvrir détaché :</b> ① sélectionne la maquette, ② coche <b>« Détacher du fichier central »</b>, ③ <b>Ouvrir</b>, puis choisis « Détacher et conserver les sous-projets ».</figcaption></figure>
+        <figure class="rv-shot"><img src="files/revit-gerer-liens.png" alt="Fenêtre Gestion des liens, avec la ligne DCE_ARC_MNT et la flèche du bouton Recharger encadrées en rouge" loading="lazy"><figcaption><b>Étape 3 – Gérer les liens :</b> ① sélectionne <b>DCE_ARC_MNT.rvt</b>, ② clique sur la <b>petite flèche ▾</b> à côté de Recharger → <b>« Recharger depuis… »</b> (ou clic droit sur la ligne). Choisis bien le fichier <b>DCE_ARC</b>, pas la maquette CVC.</figcaption></figure>
+        <figure class="rv-shot"><img src="files/revit-lier-arc.png" alt="Fenêtre Importer/Lier RVT, avec le fichier DCE_ARC_MNT, le positionnement A l'emplacement partagé et le bouton Ouvrir encadrés en rouge" loading="lazy"><figcaption><b>Si « Recharger depuis » ne marche pas :</b> supprime le lien, puis <b>Insérer → Lier Revit</b> : ① <b>DCE_ARC_MNT</b>, ② positionnement <b>« Automatique - A l'emplacement partagé »</b>, ③ <b>Ouvrir</b>.</figcaption></figure>
+      </div>
       <p class="rv-units" style="margin-top:12px"><b>La règle :</b> ACC est la seule version de référence. On repart toujours de la dernière version d'ACC, et on la redépose après avoir travaillé, que ce soit chez soi ou au lycée. Comme chacun a son fichier (PROD, VMC, CHAUF, PLB), il n'y a jamais deux versions du même fichier. Le détachement ne fait rien perdre : les sous-projets sont conservés.</p>
     </section>
     <section class="rv-plan">
