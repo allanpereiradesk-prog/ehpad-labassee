@@ -2223,7 +2223,7 @@ function rvBatFocus(id){ if(!RB) return; const e=RB.EQ.find(x=>String(x.id)===St
   RB.layers.eq.visible=true; const cb=document.querySelector('[data-blay="eq"]'); if(cb) cb.checked=true;
   const cut=document.querySelector('[data-bcut=""]'); if(cut && c[2]>5) cut.click();
   RB.ctl.target.set(c[0],c[1],c[2]); RB.cam.position.set(c[0]-14,c[1]-18,c[2]+12); RB.ctl.update(); RB.eqSel(e.id); eqInfo(e); }
-function rvShowEq(id){ setTab("revit"); const b=document.querySelector('[data-vw="bat"]'); if(b) b.click(); const go=()=>{ if(RB) rvBatFocus(id); else setTimeout(go,300); }; go(); }
+function rvShowEq(id){ setTab("revit"); const b=document.querySelector('[data-vw="bat"]'); if(b) b.click(); const go=()=>{ if(RB){ rvBatFocus(id); $("#rvBat").scrollIntoView({behavior:"smooth",block:"start"}); } else setTimeout(go,300); }; setTimeout(()=>$("#rvBat").scrollIntoView({block:"start"}),50); go(); }
 function rvBatResize(){ if(!RB) return; const cv=$("#rvBatCv"); const w=cv.clientWidth, h=cv.clientHeight||w*.75; if(!w) return; RB.ren.setSize(w,h,false); RB.cam.aspect=w/h; RB.cam.updateProjectionMatrix(); }
 function rvBatApply(){ if(!RB) return;
   document.querySelectorAll("[data-blay]").forEach(c=>{ RB.layers[c.dataset.blay].visible=c.checked; });
