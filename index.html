@@ -322,6 +322,13 @@ tfoot td{font-weight:600}
 .rv-dl{display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 16px;margin-bottom:12px}
 .rv-dl h3{font-size:17px}.rv-dl>div{flex:1 1 320px;min-width:0}
 #rv3d{position:relative;width:100%;aspect-ratio:4/3;max-height:72vh}
+#rvBat{display:flex;flex-direction:column}
+.bat-tools{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:8px 10px;border-bottom:1px solid var(--line);background:var(--surface);border-radius:6px 6px 0 0}
+.bat-lay{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:14px}.bat-lay label{display:inline-flex;gap:5px;align-items:center;cursor:pointer}
+#rvBatCv{position:relative;width:100%;aspect-ratio:4/3;max-height:70vh}
+#rvBatCv canvas{display:block;width:100%!important;height:100%!important;touch-action:none}
+.bat-info{padding:8px 10px;font-size:14px;border-top:1px solid var(--line);background:var(--surface);border-radius:0 0 6px 6px;min-height:38px}
+[data-lv]:disabled{opacity:.45;cursor:not-allowed}
 #rv3d canvas{display:block;width:100%!important;height:100%!important;border-radius:6px;touch-action:none}
 .rv-key{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;margin-bottom:12px}
 .rv-key h3{font-size:17px;color:var(--accent)}
@@ -856,16 +863,16 @@ button.h-tile{cursor:pointer}button.h-tile:hover{outline:2px solid color-mix(in 
     <section class="rv-open rv-pointer"><div><h3>Mettre en place la maquette sur ton PC</h3><p class="hint" style="margin:2px 0 0">Ouvrir détaché, relier l'ARC et la STR, chemins relatifs, erreurs fréquentes : tout est dans l'onglet <b>Tuto Revit</b>, avec des captures.</p></div><button class="btn primary" id="goTuto">Ouvrir le tuto</button></section>
     <section class="rv-plan">
       <div class="rv-tools">
-        <div class="seg" role="group" aria-label="Vue"><button data-vw="2d" aria-pressed="true">Plan</button><button data-vw="3d" aria-pressed="false">3D</button></div>
+        <div class="seg" role="group" aria-label="Vue"><button data-vw="2d" aria-pressed="true">Plan</button><button data-vw="3d" aria-pressed="false">3D espaces</button><button data-vw="bat" aria-pressed="false">Bâtiment complet</button></div>
         <div class="seg" role="group" aria-label="Niveau"><button data-lv="N00" aria-pressed="true">N00 · RDC</button><button data-lv="N01" aria-pressed="false">N01 · Étage</button></div>
         <div class="seg" role="group" aria-label="Étiquettes"><button data-md="zone" aria-pressed="true">Étiquettes zones</button><button data-md="space" aria-pressed="false">Étiquettes espaces</button></div>
         <span class="hint">Clique une pièce ou une zone de la légende.</span>
       </div>
       <div class="rv-grid">
-        <div class="rv-svgbox"><svg id="rvSvg" role="img" aria-label="Plan des espaces CVC colorés par zone"></svg><div id="rv3d" hidden><p class="hint" style="padding:12px">Chargement de la 3D…</p></div></div>
+        <div class="rv-svgbox"><svg id="rvSvg" role="img" aria-label="Plan des espaces CVC colorés par zone"></svg><div id="rv3d" hidden><p class="hint" style="padding:12px">Chargement de la 3D…</p></div><div id="rvBat" hidden><div id="rvBatTools" class="bat-tools"></div><div id="rvBatCv"></div><div id="rvBatInfo" class="bat-info"><span class="hint">Clique un élément pour savoir ce que c'est. Glisse pour tourner, molette pour zoomer, clic droit pour déplacer.</span></div></div></div>
         <aside class="rv-side"><div id="rvInfo" class="rv-info"><span class="hint">Aucune pièce sélectionnée.</span></div><div id="rvLegend"></div></aside>
       </div>
-      <p class="rv-units"><b>Comment lire les chiffres :</b> <b>Surface</b> = surface au sol de l'espace, en m². <b>Volume</b> = surface × hauteur de l'espace, en m³ (c'est lui qui sert pour la ventilation et les déperditions). Dans la légende, <b>« 81 esp. · 976 m² »</b> = 81 espaces dans cette zone, pour 976 m² de surface au total.</p>
+      <p class="rv-units"><b>Comment lire les chiffres :</b> <b>Surface</b> = surface au sol de l'espace, en m². <b>Volume</b> = surface × hauteur de l'espace, en m³ (c'est lui qui sert pour la ventilation et les déperditions). Dans la légende, <b>« 67 esp. · 739 m² »</b> = 67 espaces dans cette zone, pour 739 m² de surface au total.</p>
       <p class="hint" style="margin:8px 0 0">En 3D : glisse pour tourner, molette ou pincement pour zoomer, clic droit ou deux doigts pour déplacer. « N00 » montre le RDC seul, « N01 » ajoute l'étage.<br>Plan et 3D dessinés à partir des contours des espaces Revit (export du 16/10). Valeurs détaillées dans l'Excel « pièces, espaces, zones » de l'onglet Documents.</p>
     </section>
   </main>
@@ -1877,7 +1884,8 @@ document.querySelectorAll("[data-lv]").forEach(b=>b.onclick=()=>{ rvLv=b.dataset
 document.querySelectorAll(".rv-k i[data-sv]").forEach(i=>i.style.background=RV_COL[i.dataset.sv]);
 let rvVw="2d", R3=null;
 document.querySelectorAll("[data-vw]").forEach(b=>b.onclick=()=>{ rvVw=b.dataset.vw; document.querySelectorAll("[data-vw]").forEach(x=>x.setAttribute("aria-pressed",x===b));
-  $("#rvSvg").style.display=rvVw==="2d"?"":"none"; $("#rv3d").hidden=rvVw!=="3d"; if(rvVw==="3d") rv3dInit(); });
+  $("#rvSvg").style.display=rvVw==="2d"?"":"none"; $("#rv3d").hidden=rvVw!=="3d"; $("#rvBat").hidden=rvVw!=="bat"; if(rvVw==="3d") rv3dInit(); if(rvVw==="bat") rvBatInit();
+  document.querySelectorAll("[data-lv]").forEach(x=>x.disabled=rvVw==="bat"); });
 async function rv3dInit(){
   if(R3){ rv3dResize(); return; }
   const box=$("#rv3d");
@@ -1919,6 +1927,82 @@ async function rv3dInit(){
 }
 function rv3dResize(){ if(!R3) return; const box=$("#rv3d"); const w=box.clientWidth, h=box.clientHeight||w*.75; if(!w) return; R3.ren.setSize(w,h,false); R3.cam.aspect=w/h; R3.cam.updateProjectionMatrix(); }
 function rv3dUpdate(){ if(!R3) return; R3.groups.N01.visible=rvLv==="N01"; }
+/* ---------- Bâtiment complet (ARC + STR + espaces) ---------- */
+let RB=null;
+const BAT_COL={"Murs":0xe9e3d8,"Sols":0xcfc7ba,"Toitures":0xa99a8c,"Fenêtres":0x8fc3dd,"Portes":0xa9825a,"Meneaux":0x7d8a92,"Escaliers":0xc9c2b6,"Garde-corps":0x6d7a83,"Poteaux":0xd9d4cb,"Plafonds":0xf4f1ea,"Divers":0xbdbdbd,"Panneaux solaires":0x2f4f7f};
+const BAT_STR=0xa3abb2, BAT_LAYERS=[["arc","Architecture",true],["ceil","Plafonds",false],["str","Structure",true],["pv","Panneaux solaires",true],["esp","Espaces CVC (zones)",false]];
+function batLayerOf(g){ return g.layer==="str"?"str":g.cat==="Plafonds"?"ceil":g.cat==="Panneaux solaires"?"pv":"arc"; }
+async function batLoadBin(){
+  if("DecompressionStream" in window){ try{ const r=await fetch("files/b3d/building.bin.gz"); if(r.ok){ const s=r.body.pipeThrough(new DecompressionStream("gzip")); return await new Response(s).arrayBuffer(); } }catch(e){} }
+  const r=await fetch("files/b3d/building.bin"); if(!r.ok) throw new Error("géométrie introuvable"); return r.arrayBuffer();
+}
+async function rvBatInit(){
+  if(RB){ rvBatResize(); return; }
+  const box=$("#rvBat"); const cv=$("#rvBatCv");
+  try{
+    await loadLib("THREE","https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js");
+    if(!THREE.OrbitControls) await new Promise((res,rej)=>{ const sc=document.createElement("script"); sc.src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"; sc.onload=res; sc.onerror=()=>rej(new Error("contrôles 3D indisponibles")); document.head.appendChild(sc); });
+    cv.innerHTML=`<p class="hint" style="padding:12px">Chargement du bâtiment (≈ 1 Mo)…</p>`;
+    const [meta,buf]=await Promise.all([fetch("files/b3d/building.json").then(r=>r.json()),batLoadBin()]);
+    cv.innerHTML="";
+    const I=new Int16Array(buf);
+    const all=rvData(); let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9; all.forEach(s=>{ const l=s.p[0]; if(l) for(let i=0;i<l.length;i+=2){ x0=Math.min(x0,l[i]);x1=Math.max(x1,l[i]);y0=Math.min(y0,l[i+1]);y1=Math.max(y1,l[i+1]); } });
+    const cx=(x0+x1)/2, cy=(y0+y1)/2;
+    const scene=new THREE.Scene();
+    const dark=matchMedia("(prefers-color-scheme: dark)").matches && document.documentElement.dataset.theme!=="light" || document.documentElement.dataset.theme==="dark";
+    scene.background=new THREE.Color(dark?0x1b2831:0xdfe6eb);
+    const cam=new THREE.PerspectiveCamera(38,4/3,0.5,1500); cam.up.set(0,0,1); cam.position.set(-70,-95,75);
+    const ren=new THREE.WebGLRenderer({antialias:true}); ren.setPixelRatio(Math.min(devicePixelRatio||1,2)); ren.localClippingEnabled=true; cv.appendChild(ren.domElement);
+    scene.add(new THREE.HemisphereLight(0xffffff,0x6b7884,0.9)); const dl=new THREE.DirectionalLight(0xffffff,0.55); dl.position.set(-50,-80,120); scene.add(dl);
+    const clip=new THREE.Plane(new THREE.Vector3(0,0,-1),999);
+    const layers={}; BAT_LAYERS.forEach(([k])=>{ layers[k]=new THREE.Group(); scene.add(layers[k]); });
+    const pick=[];
+    meta.groups.forEach(g=>{
+      const n=g.tris*9, pos=new Float32Array(n), o=g.start*9;
+      for(let i=0;i<n;i+=3){ pos[i]=I[o+i]/100-cx; pos[i+1]=I[o+i+1]/100-cy; pos[i+2]=I[o+i+2]/100; }
+      const geo=new THREE.BufferGeometry(); geo.setAttribute("position",new THREE.BufferAttribute(pos,3)); geo.computeVertexNormals();
+      const glass=g.cat==="Fenêtres", col=g.layer==="str"?BAT_STR:(BAT_COL[g.cat]||0xbbbbbb);
+      const mat=new THREE.MeshLambertMaterial({color:col,side:THREE.DoubleSide,clippingPlanes:[clip],transparent:glass||g.cat==="Plafonds",opacity:glass?0.55:g.cat==="Plafonds"?0.6:1,polygonOffset:g.layer==="str",polygonOffsetFactor:1});
+      const m=new THREE.Mesh(geo,mat); m.userData=g; layers[batLayerOf(g)].add(m); pick.push(m);
+    });
+    // espaces CVC
+    const ELEV={N00:0,N01:3.36};
+    all.forEach(s=>{ if(!s.p.length||ELEV[s.l]===undefined||s.sv==="désenfumage") return;
+      const mk=l=>{ const pts=[]; for(let i=0;i<l.length;i+=2) pts.push(new THREE.Vector2(l[i]-cx,l[i+1]-cy)); return pts; };
+      const shape=new THREE.Shape(mk(s.p[0])); s.p.slice(1).forEach(h=>shape.holes.push(new THREE.Path(mk(h))));
+      const h=Math.max(.2,Math.min(6,(s.v||0)/(s.a||1)))-0.1;
+      const m=new THREE.Mesh(new THREE.ExtrudeGeometry(shape,{depth:h,bevelEnabled:false}),new THREE.MeshLambertMaterial({color:RV_COL[s.sv]||"#cccccc",transparent:true,opacity:.55,clippingPlanes:[clip],depthWrite:false}));
+      m.position.z=ELEV[s.l]+0.05; m.userData={space:s}; layers.esp.add(m); pick.push(m); });
+    const ctl=new THREE.OrbitControls(cam,ren.domElement); ctl.target.set(0,8,3); ctl.enableDamping=true; ctl.maxPolarAngle=Math.PI*0.49; ctl.update();
+    const ray=new THREE.Raycaster(), mv=new THREE.Vector2(); let down=null;
+    ren.domElement.addEventListener("pointerdown",e=>{ down=[e.clientX,e.clientY]; });
+    ren.domElement.addEventListener("pointerup",e=>{ if(!down||Math.hypot(e.clientX-down[0],e.clientY-down[1])>5) return; const r=ren.domElement.getBoundingClientRect();
+      mv.set(((e.clientX-r.left)/r.width)*2-1,-((e.clientY-r.top)/r.height)*2+1); ray.setFromCamera(mv,cam);
+      const vis=pick.filter(m=>m.parent.visible);
+      const hit=ray.intersectObjects(vis).find(h=>h.point.z<=clip.constant+0.001);
+      const info=$("#rvBatInfo");
+      if(!hit){ info.innerHTML=`<span class="hint">Clique un élément pour savoir ce que c'est.</span>`; return; }
+      const u=hit.object.userData;
+      if(u.space){ const s=u.space; info.innerHTML=`<b>Espace ${esc(s.n)} · ${esc(s.nm)}</b> · zone ${esc(s.z)} · ${s.a.toFixed(1)} m²`; return; }
+      const fi=hit.faceIndex; let el=null; for(const e of u.els){ if(fi>=e[1]&&fi<e[1]+e[2]){ el=e; break; } }
+      info.innerHTML=`<b>${esc(u.cat)}</b> · ${esc(el?meta.names[el[0]]:"")} <span class="hint">· maquette ${u.layer==="str"?"structure":"architecte"}${el?" · ID Revit "+el[3]:""}</span>`; });
+    RB={scene,cam,ren,ctl,layers,clip};
+    rvBatApply(); rvBatResize(); new ResizeObserver(rvBatResize).observe(cv);
+    (function loop(){ if(!document.body.contains(ren.domElement)) return; requestAnimationFrame(loop); if($("#rvBat").hidden||$("#viewRevit").hidden) return; ctl.update(); ren.render(scene,cam); })();
+  }catch(e){ console.error(e); cv.innerHTML=`<p class="hint" style="padding:12px">Vue du bâtiment indisponible (${esc(e.message||String(e))}).</p>`; }
+}
+function rvBatResize(){ if(!RB) return; const cv=$("#rvBatCv"); const w=cv.clientWidth, h=cv.clientHeight||w*.75; if(!w) return; RB.ren.setSize(w,h,false); RB.cam.aspect=w/h; RB.cam.updateProjectionMatrix(); }
+function rvBatApply(){ if(!RB) return;
+  document.querySelectorAll("[data-blay]").forEach(c=>{ RB.layers[c.dataset.blay].visible=c.checked; });
+  const cut=(document.querySelector("[data-bcut][aria-pressed=true]")||{}).dataset; RB.clip.constant=cut&&cut.bcut?+cut.bcut:999; }
+(function(){
+  const t=$("#rvBatTools"); if(!t) return;
+  t.innerHTML=`<div class="bat-lay">${BAT_LAYERS.map(([k,l,on])=>`<label><input type="checkbox" data-blay="${k}" ${on?"checked":""}> ${l}</label>`).join("")}</div>
+    <div class="seg" role="group" aria-label="Coupe"><button data-bcut="" aria-pressed="true">Entier</button><button data-bcut="1.5" aria-pressed="false">Coupe RDC</button><button data-bcut="4.9" aria-pressed="false">Coupe étage</button></div>`;
+  t.querySelectorAll("[data-blay]").forEach(c=>c.onchange=rvBatApply);
+  t.querySelectorAll("[data-bcut]").forEach(b=>b.onclick=()=>{ t.querySelectorAll("[data-bcut]").forEach(x=>x.setAttribute("aria-pressed",x===b)); rvBatApply(); });
+})();
+
 document.querySelectorAll(".dl-arc").forEach(btn=>btn.onclick=async()=>{
   if(btn.disabled) return; btn.disabled=true; const lab=btn.querySelector(".dl-arc-s"), old=lab.textContent;
   try{ const parts=[];
