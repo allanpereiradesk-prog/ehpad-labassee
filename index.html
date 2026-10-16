@@ -329,6 +329,7 @@ tfoot td{font-weight:600}
 .rv-k{display:flex;gap:10px;align-items:flex-start;min-width:0}
 .rv-k i{width:16px;height:16px;border-radius:4px;flex:none;margin-top:3px}
 .rv-k b{font-size:14.5px}.rv-k p{margin:1px 0 0;font-size:13.5px;color:var(--muted)}
+.rv-units{margin:10px 0 0;padding:8px 12px;border-left:3px solid var(--accent);background:var(--sunk);border-radius:4px;font-size:13.5px}
 .authbar{display:flex;gap:10px;align-items:center;justify-content:flex-end;flex-wrap:wrap;margin:10px 0 0;font-size:14px}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:7px;font-weight:600;z-index:30;max-width:calc(100% - 32px)}
 @media (prefers-reduced-motion:no-preference){.card{transition:border-color .15s}}
@@ -637,6 +638,7 @@ tfoot td{font-weight:600}
         <div class="rv-svgbox"><svg id="rvSvg" role="img" aria-label="Plan des espaces CVC colorés par zone"></svg><div id="rv3d" hidden><p class="hint" style="padding:12px">Chargement de la 3D…</p></div></div>
         <aside class="rv-side"><div id="rvInfo" class="rv-info"><span class="hint">Aucune pièce sélectionnée.</span></div><div id="rvLegend"></div></aside>
       </div>
+      <p class="rv-units"><b>Comment lire les chiffres :</b> <b>Surface</b> = surface au sol de l'espace, en m². <b>Volume</b> = surface × hauteur de l'espace, en m³ (c'est lui qui sert pour la ventilation et les déperditions). Dans la légende, <b>« 81 esp. · 976 m² »</b> = 81 espaces dans cette zone, pour 976 m² de surface au total.</p>
       <p class="hint" style="margin:8px 0 0">En 3D : glisse pour tourner, molette ou pincement pour zoomer, clic droit ou deux doigts pour déplacer. « N00 » montre le RDC seul, « N01 » ajoute l'étage.<br>Plan et 3D dessinés à partir des contours des espaces Revit (export du 16/10). Valeurs détaillées dans l'Excel « pièces, espaces, zones » de l'onglet Documents.</p>
     </section>
   </main>
