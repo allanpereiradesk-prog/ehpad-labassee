@@ -18,6 +18,7 @@
   --body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
   --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
   --r:8px;
+  --side:#16252e; --side-2:#22363f; --side-line:#3a5260; --side-ink:#dbe6eb; --side-mut:#93a9b4; --side-acc:#5fc2dc;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#0e151a; --surface:#152028; --sunk:#1b2831; --ink:#e4ecf0; --muted:#94a4ae; --line:#283843;
@@ -38,7 +39,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
-.label{font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600}
+.label{font-size:13px;color:var(--muted);font-weight:600}
 
 /* Header */
 .sheet{border:1px solid var(--line);background:var(--surface);border-radius:var(--r);display:grid;grid-template-columns:1fr auto;gap:0}
@@ -65,11 +66,61 @@ button{cursor:pointer}
 .tl-legend b{color:var(--ink);font-weight:600}
 .sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
 
+/* App shell : barre latérale */
+.app{display:grid;grid-template-columns:248px minmax(0,1fr);min-height:100vh}
+.side{background:var(--side);color:var(--side-ink);position:sticky;top:0;height:100vh;overflow-y:auto;padding:18px 14px 24px;display:flex;flex-direction:column;gap:16px}
+.side-id{border:1.5px solid var(--side-line);border-radius:3px}
+.sid-t{font-family:var(--display);font-weight:700;font-size:21px;line-height:1.1;padding:10px 12px 2px}
+.sid-s{font-size:12.5px;color:var(--side-mut);padding:0 12px 10px}
+.sid-g{display:grid;grid-template-columns:auto 1fr;margin:0;border-top:1.5px solid var(--side-line);font-size:12.5px}
+.sid-g dt{padding:6px 10px 6px 12px;color:var(--side-mut);border-right:1px solid var(--side-line)}
+.sid-g dd{margin:0;padding:6px 10px}
+.sid-g dt:not(:last-of-type),.sid-g dd:not(:last-of-type){border-bottom:1px solid var(--side-line)}
+.side-me{display:grid;gap:4px;font-size:12.5px;color:var(--side-mut)}
+.side-me select{background:var(--side-2);color:var(--side-ink);border:1px solid var(--side-line);border-radius:6px;padding:7px 9px}
+.tabs{display:grid;gap:14px}
+.ngroup{display:grid;gap:1px}
+.nhead{font-size:12px;font-weight:600;color:var(--side-mut);padding:0 10px 4px}
+.tabs button{display:flex;align-items:center;gap:6px;width:100%;text-align:left;border:0;background:transparent;color:var(--side-ink);padding:7px 10px;border-radius:6px;font-weight:500;font-size:15px;border-left:3px solid transparent}
+.tabs button:hover{background:var(--side-2)}
+.tabs button[aria-selected="true"]{background:var(--side-2);border-left-color:var(--side-acc);font-weight:600;color:#fff}
+.tabs button[hidden]{display:none}
+.tabs .badge{margin-left:auto}
+.side :focus-visible{outline-color:var(--side-acc)}
+.crumb{margin:4px 0 16px}
+#status:not(:empty){margin-bottom:14px}
+main .rv-head{background:none;border:0;padding:0;margin:0 0 16px}
+main .rv-head>.label,main .rv-head>h2{display:none}
+main .rv-head p{margin:0;font-size:15.5px;color:var(--ink);max-width:78ch}
+.side .authbar{order:9;margin-top:auto;display:grid;gap:8px;justify-items:start;font-size:12.5px;padding-top:12px;border-top:1px solid var(--side-line)}
+.side .authbar .hint{color:var(--side-mut)}.side .authbar b{color:#fff;font-weight:600}
+.side .authbar .btn{background:var(--side-2);color:var(--side-ink);border-color:var(--side-line)}
+.side .authbar .btn.primary{background:var(--side-acc);color:#08232c;border-color:var(--side-acc)}
+.crumb #crumbG{font-size:13px;font-weight:600;color:var(--accent)}
+.crumb h1{font-size:34px;line-height:1.05;margin-top:2px}
+.crumb p{margin:6px 0 0;color:var(--muted);max-width:68ch}
+.sheet-h{font-size:26px;line-height:1.1}
+body:not([data-tab="proj"]) .sheet,body:not([data-tab="proj"]) .tl{display:none}
+.wrap{max-width:1240px;width:100%;margin:0;min-width:0}
+@media (min-width:901px){.wrap{padding-left:36px;padding-right:36px;padding-top:28px}}
+body{margin:0}
+@media (max-width:900px){
+  .app{grid-template-columns:minmax(0,1fr);align-content:start}
+  .side{min-width:0}
+  .side{position:static;height:auto;padding:12px 12px 8px;gap:10px}
+  .side-id{display:grid;grid-template-columns:1fr auto;align-items:center}
+  .sid-g,.sid-s{display:none}
+  .side .authbar{order:0;margin-top:0;padding-top:0;border-top:0;display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-start}
+  .side-me{grid-template-columns:auto 1fr;align-items:center;gap:8px}
+  .tabs{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;margin:0 -12px;padding:0 12px 6px}
+  .ngroup{display:contents}.nhead{display:none}
+  .tabs button{width:auto;white-space:nowrap;border-left:0;border-bottom:3px solid transparent;border-radius:6px 6px 0 0;flex:none}
+  .tabs button[aria-selected="true"]{border-bottom-color:var(--side-acc)}
+  .crumb h1{font-size:28px}
+}
 /* Tabs + toolbar */
-.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin:22px 0 12px}
-.tabs{display:flex;flex-wrap:wrap;gap:4px;background:var(--sunk);padding:4px;border-radius:9px;max-width:100%}
-.tabs button{border:0;background:transparent;padding:7px 14px;border-radius:6px;font-weight:600;color:var(--muted)}
-.tabs button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgb(0 0 0 / .12)}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:flex-end;margin:0 0 12px}
+.bar:not(:has(#taskTools:not([hidden]))){display:none}
 .filters{display:flex;gap:8px;flex-wrap:wrap}
 .filters select,.field input,.field select,.field textarea{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:6px 9px;min-width:0}
 .btn{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:7px 13px;font-weight:600}
@@ -444,18 +495,51 @@ tfoot td{font-weight:600}
 @media (prefers-reduced-motion:no-preference){.card{transition:border-color .15s}}
 </style>
 
+<div class="app">
+  <aside class="side">
+    <div class="side-id" aria-label="Cartouche du projet">
+      <div class="sid-t">EHPAD La Bassée</div>
+      <div class="sid-s">Lot 12 CVC · projet tutoré Licence BIM-CVC</div>
+      <dl class="sid-g"><dt>Phase</dt><dd>Exécution · RT 2012</dd><dt>Jalon</dt><dd id="sideNext">–</dd></dl>
+    </div>
+    <div class="side-me"><label for="meSel">Je suis</label><select id="meSel"></select></div>
+    <div id="authBar" class="authbar"></div>
+    <nav class="tabs" role="tablist" aria-label="Sections du site">
+      <div class="ngroup" role="presentation"><div class="nhead" role="presentation">Projet</div>
+        <button role="tab" id="tabProj" aria-selected="false">Le projet</button>
+        <button role="tab" id="tabAcc" aria-selected="false">ACC</button>
+      </div>
+      <div class="ngroup" role="presentation"><div class="nhead" role="presentation">Travail</div>
+        <button role="tab" id="tabTasks" aria-selected="true">Tâches</button>
+        <button role="tab" id="tabMine" aria-selected="false">Mes tâches</button>
+        <button role="tab" id="tabDone" aria-selected="false">Réalisé</button>
+        <button role="tab" id="tabHours" aria-selected="false">Heures</button>
+        <button role="tab" id="tabIssues" aria-selected="false">Problèmes <span id="issBadge" class="badge" hidden></span></button>
+      </div>
+      <div class="ngroup" role="presentation"><div class="nhead" role="presentation">Fichiers</div>
+        <button role="tab" id="tabDocs" aria-selected="false">Documents</button>
+        <button role="tab" id="tabSyn" aria-selected="false">Synoptiques</button>
+        <button role="tab" id="tabRevit" aria-selected="false">Revit</button>
+        <button role="tab" id="tabTuto" aria-selected="false">Tuto Revit</button>
+        <button role="tab" id="tabCaps" aria-selected="false">Captures</button>
+      </div>
+      <div class="ngroup" role="presentation"><div class="nhead" role="presentation">Échanges</div>
+        <button role="tab" id="tabEch" aria-selected="false">Échanges profs <span id="echBadge" class="badge" hidden></span></button>
+        <button role="tab" id="tabLogs" aria-selected="false" hidden>Logs</button>
+      </div>
+    </nav>
+  </aside>
 <div class="wrap">
+  <div class="crumb"><span id="crumbG"></span><h1 id="crumbT">Le projet</h1><p id="crumbD"></p></div>
   <header class="sheet">
     <div class="sheet-main">
       <div class="label">Projet tutoré 140 h · Licence BIM-CVC · Lycée Raspail – CNAM</div>
-      <h1>EHPAD La Bassée (62)</h1>
+      <h2 class="sheet-h">EHPAD La Bassée (62)</h2>
       <p>Lot 12 CVC-DF-GEO-PBS · PAC géothermiques + chaudières gaz d'appoint, 5 CTA double flux, VMC sanitaires, radiateurs et panneaux rayonnants, ECS bouclée.</p>
     </div>
     <div class="cart">
       <div>Équipe</div><div>Allan · Mouhamed · Yann · Noah</div>
       <div>Phase</div><div>Exécution · RT 2012</div>
-      <div>Je suis</div>
-      <div class="me"><select id="meSel" aria-label="Je suis"></select></div>
     </div>
   </header>
 
@@ -465,26 +549,9 @@ tfoot td{font-weight:600}
     <div class="tl-legend" id="tlLegend"></div>
   </section>
 
-  <div id="authBar" class="authbar"></div>
   <div id="status"></div>
 
   <div class="bar">
-    <div class="tabs" role="tablist">
-      <button role="tab" id="tabProj" aria-selected="false">Le projet</button>
-      <button role="tab" id="tabAcc" aria-selected="false">ACC</button>
-      <button role="tab" id="tabTasks" aria-selected="true">Tâches</button>
-      <button role="tab" id="tabMine" aria-selected="false">Mes tâches</button>
-      <button role="tab" id="tabDone" aria-selected="false">Réalisé</button>
-      <button role="tab" id="tabDocs" aria-selected="false">Documents</button>
-      <button role="tab" id="tabRevit" aria-selected="false">Revit</button>
-      <button role="tab" id="tabTuto" aria-selected="false">Tuto Revit</button>
-      <button role="tab" id="tabCaps" aria-selected="false">Captures</button>
-      <button role="tab" id="tabSyn" aria-selected="false">Synoptiques</button>
-      <button role="tab" id="tabHours" aria-selected="false">Heures</button>
-      <button role="tab" id="tabIssues" aria-selected="false">Problèmes <span id="issBadge" class="badge" hidden></span></button>
-      <button role="tab" id="tabEch" aria-selected="false">Échanges profs <span id="echBadge" class="badge" hidden></span></button>
-      <button role="tab" id="tabLogs" aria-selected="false" hidden>Logs</button>
-    </div>
     <div class="filters" id="taskTools">
       <select id="fPerson" aria-label="Filtrer par personne"></select>
       <select id="fPhase" aria-label="Filtrer par phase"></select>
@@ -995,6 +1062,7 @@ tfoot td{font-weight:600}
     </section>
   </main>
 </div>
+</div><!-- /app -->
 
 <div id="modalRoot"></div>
 
@@ -1134,6 +1202,7 @@ function renderTimeline(){
     `<span><i class="sw" style="background:color-mix(in srgb,var(--heat) 32%,transparent)"></i>Individuelle 30/03 → 28/05 · 100 h/pers.</span>`+
     `<span>▮ Revue 27/03/27 · Soutenance 28/05/27</span>`+
     (next ? `<span>Prochain jalon : <b>${esc(next.t)}</b> dans <b class="mono">${days}</b> j</span>` : "");
+  const sn=$("#sideNext"); if(sn) sn.textContent = next ? `${next.t}, dans ${days} j` : "Projet terminé";
 }
 
 /* ---------- Tasks ---------- */
@@ -2125,8 +2194,10 @@ function renderMine(){
   box.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>openTask(b.dataset.open,"doc"));
 }
 
+const TAB_META={proj:["Projet","Le projet","Le bâtiment, les équipements CVC et le calendrier."],acc:["Projet","ACC","Notre espace Autodesk Construction Cloud et ce qu'on y dépose."],tasks:["Travail","Tâches","Qui fait quoi, et où en est chaque tâche."],mine:["Travail","Mes tâches","Tes tâches à toi. Choisis ton nom dans « Je suis »."],done:["Travail","Réalisé","Ce qui est terminé, avec les livrables."],hours:["Travail","Heures","Les heures passées par chacun."],issues:["Travail","Problèmes","Ce qui bloque, et comment on l'a réglé."],docs:["Fichiers","Documents","Tous les fichiers produits, rangés par tâche."],syn:["Fichiers","Synoptiques","Les schémas de principe : télécharger, modifier, redéposer."],revit:["Fichiers","Revit","La maquette de départ, les zones et les modèles à télécharger."],tuto:["Fichiers","Tuto Revit","Mettre en place les maquettes Revit, étape par étape."],caps:["Fichiers","Captures","Les messages d'erreur Revit expliqués, capture par capture."],ech:["Échanges","Échanges profs","Discuter avec les enseignants : chat et forum."],logs:["Échanges","Logs","Qui s'est connecté et ce qui a été modifié."]};
+function setCrumb(t){ const m=TAB_META[t]; if(!m) return; $("#crumbG").textContent=m[0]; $("#crumbT").textContent=m[1]; $("#crumbD").textContent=m[2]; document.body.dataset.tab=t; document.title=m[1]+" · EHPAD La Bassée"; const b=document.querySelector('.tabs [aria-selected="true"]'); if(b&&matchMedia("(max-width:900px)").matches) b.scrollIntoView({block:"nearest",inline:"center"}); }
 function setTab(t){ if(t==="logs"&&!(typeof isAdmin==="function"&&isAdmin())) t="proj"; tab=t; store.set("ehpad-tab",t); if(typeof logEv==="function") logEv("onglet",t);
-  $("#tabTasks").setAttribute("aria-selected",t==="tasks"); $("#tabMine").setAttribute("aria-selected",t==="mine"); $("#tabDone").setAttribute("aria-selected",t==="done"); $("#tabIssues").setAttribute("aria-selected",t==="issues"); $("#tabProj").setAttribute("aria-selected",t==="proj"); $("#tabAcc").setAttribute("aria-selected",t==="acc"); $("#tabHours").setAttribute("aria-selected",t==="hours"); $("#tabDocs").setAttribute("aria-selected",t==="docs"); $("#tabRevit").setAttribute("aria-selected",t==="revit"); $("#tabTuto").setAttribute("aria-selected",t==="tuto"); $("#tabCaps").setAttribute("aria-selected",t==="caps"); $("#tabSyn").setAttribute("aria-selected",t==="syn"); $("#tabEch").setAttribute("aria-selected",t==="ech"); $("#tabLogs").setAttribute("aria-selected",t==="logs");
+  $("#tabTasks").setAttribute("aria-selected",t==="tasks"); $("#tabMine").setAttribute("aria-selected",t==="mine"); $("#tabDone").setAttribute("aria-selected",t==="done"); $("#tabIssues").setAttribute("aria-selected",t==="issues"); $("#tabProj").setAttribute("aria-selected",t==="proj"); $("#tabAcc").setAttribute("aria-selected",t==="acc"); $("#tabHours").setAttribute("aria-selected",t==="hours"); $("#tabDocs").setAttribute("aria-selected",t==="docs"); $("#tabRevit").setAttribute("aria-selected",t==="revit"); $("#tabTuto").setAttribute("aria-selected",t==="tuto"); $("#tabCaps").setAttribute("aria-selected",t==="caps"); $("#tabSyn").setAttribute("aria-selected",t==="syn"); $("#tabEch").setAttribute("aria-selected",t==="ech"); $("#tabLogs").setAttribute("aria-selected",t==="logs"); setCrumb(t);
   $("#viewTasks").hidden=t!=="tasks"; $("#viewMine").hidden=t!=="mine"; $("#viewDone").hidden=t!=="done"; $("#viewIssues").hidden=t!=="issues"; $("#viewProj").hidden=t!=="proj"; $("#viewAcc").hidden=t!=="acc"; $("#viewHours").hidden=t!=="hours"; $("#viewDocs").hidden=t!=="docs"; if(t==="docs") renderDocs(); $("#viewRevit").hidden=t!=="revit"; if(t==="revit") renderRevit(); $("#viewTuto").hidden=t!=="tuto"; $("#viewCaps").hidden=t!=="caps"; $("#viewSyn").hidden=t!=="syn"; if(t==="syn") renderSyn(); $("#viewEch").hidden=t!=="ech"; if(t==="ech" && typeof renderEch==="function") renderEch(); $("#viewLogs").hidden=t!=="logs"; if(t==="logs" && typeof renderLogs==="function") renderLogs(); $("#taskTools").hidden=t!=="tasks";
   if(t==="hours"){ renderHoursForm(); renderHours(); renderCal(); }
   if(t==="acc") renderAcc();
