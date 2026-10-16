@@ -443,47 +443,44 @@ tfoot td{font-weight:600}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:7px;font-weight:600;z-index:30;max-width:calc(100% - 32px)}
 @media (prefers-reduced-motion:no-preference){.card{transition:border-color .15s}}
 
-/* ===== Design v2 ===== */
-:root{--band:#15242c;--band-2:#1f3540;--band-line:rgb(255 255 255 / .14);--band-ink:#e8f0f3;--band-mut:#9fb4bd;--supply:#2f8fb3;--return:#d0573f;
-  --sh:0 1px 2px rgb(16 37 46 / .06),0 4px 14px rgb(16 37 46 / .05);--r:10px}
+/* ===== Design v3 : clair, inspiré d'Autodesk Construction Cloud ===== */
+:root:not([data-theme="dark"]){--bg:#f4f6f8;--surface:#ffffff;--sunk:#eceff2;--ink:#1f2a33;--muted:#5f6b75;--line:#dde3e8;--accent:#0696d7;--accent-ink:#ffffff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--accent:#38b2e8;--accent-ink:#04212f}}
+:root{--supply:#0696d7;--return:#e25a3c;--sh:0 1px 2px rgb(31 42 51 / .05),0 2px 10px rgb(31 42 51 / .05);--r:10px}
 body{margin:0;background:var(--bg)}
 .label{text-transform:none;letter-spacing:0;font-size:13px;color:var(--muted)}
-/* En-tête : bandeau type cartouche, liseré aller/retour */
-.sheet{background:var(--band);color:var(--band-ink);border:0;box-shadow:var(--sh);position:relative;overflow:hidden}
+/* En-tête clair avec liseré aller/retour */
+.sheet{background:var(--surface);border:0;box-shadow:var(--sh);position:relative;overflow:hidden}
 .sheet::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:linear-gradient(90deg,var(--return) 0 50%,var(--supply) 50% 100%)}
 .sheet-main{padding:24px 26px 22px}
-.sheet-main .label{color:var(--band-mut)}
-.sheet-main h1{font-size:36px;letter-spacing:0;margin-top:4px;color:#fff}
-.sheet-main p{color:var(--band-mut);font-size:15px}
-.cart{border-left:1px solid var(--band-line);align-content:center;padding:10px 0}
-.cart div{border-bottom-color:var(--band-line);padding:9px 18px}
-.cart div:nth-child(odd){color:var(--band-mut)}
-.cart select{background:var(--band-2);color:var(--band-ink);border:1px solid var(--band-line);border-radius:6px;padding:5px 8px}
-@media (max-width:760px){.cart{border-left:0;border-top:1px solid var(--band-line)}.sheet-main h1{font-size:28px}}
-/* Calendrier */
+.sheet-main h1{font-size:34px;letter-spacing:0;margin-top:4px}
+.sheet-main p{font-size:15px}
+.cart{border-left:1px solid var(--line);align-content:center;padding:10px 0;background:color-mix(in srgb,var(--sunk) 45%,var(--surface))}
+.cart div{padding:9px 18px}
+@media (max-width:760px){.cart{border-left:0;border-top:1px solid var(--line)}.sheet-main h1{font-size:28px}}
 .tl{border:0;box-shadow:var(--sh)}
-.tl-seg.c{background:color-mix(in srgb,var(--supply) 55%,transparent)}
-.tl-seg.i{background:color-mix(in srgb,var(--return) 50%,transparent)}
-/* Barre d'onglets : collante, soulignée, groupée */
-.bar{position:sticky;top:0;z-index:20;margin:18px -16px 0;padding:6px 16px 0;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);align-items:flex-end}
+.tl-seg.c{background:color-mix(in srgb,var(--supply) 45%,transparent)}
+.tl-seg.i{background:color-mix(in srgb,var(--return) 40%,transparent)}
+/* Onglets : barre blanche collante, soulignement bleu */
+.bar{position:sticky;top:0;z-index:20;margin:18px 0 0;padding:4px 8px 0;background:var(--surface);border-radius:var(--r) var(--r) 0 0;box-shadow:var(--sh);border-bottom:1px solid var(--line);align-items:flex-end}
 .tabs{background:none;padding:0;gap:0 2px;border-radius:0;align-items:center}
-.tabs button{border-radius:0;padding:10px 9px 9px;font-weight:500;color:var(--muted);border-bottom:3px solid transparent;box-shadow:none;font-size:14.5px}
-.tabs button:hover{color:var(--ink)}
-.tabs button[aria-selected="true"]{background:none;box-shadow:none;color:var(--ink);font-weight:600;border-bottom-color:var(--accent)}
+.tabs button{border-radius:0;padding:12px 8px 10px;font-weight:500;color:var(--muted);border-bottom:3px solid transparent;box-shadow:none;font-size:14.5px}
+.tabs button:hover{color:var(--accent)}
+.tabs button[aria-selected="true"]{background:none;box-shadow:none;color:var(--accent);font-weight:600;border-bottom-color:var(--accent)}
 .tabs button[hidden]{display:none}
-.tsep{width:1px;height:20px;background:var(--line);margin:0 5px}
-.bar .filters{padding-bottom:7px}
-.crumb{margin:12px 0 14px}
-.crumb p{margin:0;color:var(--muted);font-size:14.5px}
+.tsep{width:1px;height:20px;background:var(--line);margin:0 3px}
+.bar .filters{padding-bottom:8px}
+.crumb{margin:0 0 16px;background:var(--surface);border-radius:0 0 var(--r) var(--r);box-shadow:var(--sh);padding:10px 16px}
+.crumb p{margin:0;color:var(--muted);font-size:14px}
 .authbar{margin:10px 0 0}
 /* Surfaces */
 .notice,.rv-head,.col,.card,.doc,.syn-card,.ech-col,.log-list,.log-stat,.log-seen,.pj-fig,.eq,.pcard{border-radius:var(--r)}
 .notice,.rv-head,.syn-card,.ech-col,.log-list,.log-stat,.log-seen{border-color:transparent;box-shadow:var(--sh)}
-.card{border-color:transparent;box-shadow:var(--sh)}
+.card{border-color:var(--line);box-shadow:none}
 .card:hover{border-color:var(--accent)}
-.col{background:color-mix(in srgb,var(--sunk) 70%,var(--bg))}
-.btn{border-radius:7px}
-.btn.primary{box-shadow:0 1px 2px rgb(10 106 134 / .3)}
+.col{background:var(--sunk)}
+.btn{border-radius:6px}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 @media (max-width:760px){.tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;max-width:100%}.tabs button{white-space:nowrap;flex:none}.bar{flex-direction:column;align-items:stretch}.bar .filters{justify-content:flex-start}}
 </style>
 
