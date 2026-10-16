@@ -142,5 +142,48 @@
     }
    ]
   }
+ },
+ {
+  "id": "2026-10-16-c04-services",
+  "doc": "tasks/c04",
+  "data": {
+   "report": "Ce que j'ai fait (16/10) dans la maquette CVC :\n• 320 espaces MEP créés à partir des pièces de l'ARC (145 au N00, 175 au N01), avec le nom et le numéro de la pièce archi. Le service de chaque pièce est repéré dans le paramètre ZoneName.\n• 13 zones CVC créées par niveau et par service : N00 ouvert (725 m²), N00 soins (264 m²), N00 vie (321 m²), N00 logistique (293 m²), N00 technique, N00 et N01 dégagements, N01 ouvert (739 m²), N01 fermé (771 m²)…\n• Correction du 16/10 au soir : dans la maquette ARC, 14 chambres des unités fermées du R+1 avaient le service « ouvert ». Je les ai remises en « fermé » (paramètre ZoneName + zone N01 - fermé). On a maintenant 55 chambres en secteur ouvert et 26 en secteur fermé, autant que de salles de bains, ce qui colle avec les débits des CTA du CCTP.\n\nÀ vérifier : 16 pièces du N00 n'ont pas eu d'espace (pièces non fermées par des murs dans l'ARC). Les zones « terrasse » et « vide » du N01 ne sont pas chauffées, il faudra les sortir du bilan. Les « désenfumage » sont de petites gaines.\n\nReste à faire : les compositions de parois, les fenêtres, les ponts thermiques et l'occupation, pour le bilan thermique."
+  }
+ },
+ {
+  "id": "2026-10-16-c05-debits",
+  "doc": "tasks/c05",
+  "union": {
+   "docs": [
+    {
+     "name": "Excel débits de ventilation par local (CCTP + RSDT)",
+     "at": "2026-10-16T19:40:00Z",
+     "by": "Allan",
+     "file": "EHPAD_Debits_Ventilation.xlsx",
+     "kind": "static",
+     "path": "docs/EHPAD_Debits_Ventilation.xlsx.b64.txt",
+     "type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    }
+   ]
+  }
+ },
+ {
+  "id": "2026-10-16-iss-arc-service",
+  "doc": "issues/iss-arc-service",
+  "set": {
+   "title": "Maquette ARC : 14 chambres des unités fermées ont le service « ouvert »",
+   "kind": "projet",
+   "who": "Allan",
+   "taskId": "c04",
+   "at": "2026-10-16T19:50:00Z",
+   "urgent": false,
+   "shots": [],
+   "replies": [],
+   "detail": "En calculant les débits de ventilation, on trouvait au R+1 41 chambres « ouvert » pour seulement 27 salles de bains, et 12 chambres « fermé » pour 26 salles de bains. Dans la maquette de l'architecte, 14 chambres des unités fermées ont le mauvais service. Ça faussait la répartition entre les CTA 1-2 (zone ouverte) et 3-4 (zone fermée).",
+   "status": "resolu",
+   "resolvedBy": "Allan",
+   "resolvedAt": "2026-10-16T20:10:00Z",
+   "solution": "Corrigé dans notre maquette CVC le 16/10 : les 14 chambres (repérées par leur position, dans l'aile des salles de bains du secteur fermé) sont repassées en « fermé » (paramètre ZoneName) et déplacées dans la zone N01 - fermé. Résultat : 55 chambres ouvert / 26 fermé, autant que de salles de bains. Débits : 4 950 m³/h en zone ouverte (CCTP 4 850) et 2 340 m³/h en zone fermée (CCTP 2 340). La maquette ARC reste fausse (on ne peut pas modifier un lien) : à savoir si on réutilise ses pièces."
+  }
  }
 ]
