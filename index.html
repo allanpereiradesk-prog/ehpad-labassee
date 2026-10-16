@@ -594,6 +594,12 @@ button.h-tile{cursor:pointer}button.h-tile:hover{outline:2px solid color-mix(in 
 .fw-del{background:none;border:0;color:var(--muted);font-size:12.5px;text-decoration:underline;cursor:pointer;padding:0}
 .fw-del:hover{color:var(--danger)}
 .fw-badge{display:inline-block;margin-top:4px;font-size:12px;color:var(--accent);cursor:pointer;text-decoration:underline}
+.bat-eq{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 8px}
+.eqi{display:grid;gap:10px}.eqi-h{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-start}.eqi-b{display:flex;gap:6px;flex-wrap:wrap}
+.eqi-g{display:grid;gap:6px}.eqi-r{display:grid;grid-template-columns:170px 1fr;gap:10px;font-size:13.5px;border-top:1px solid var(--line);padding-top:6px}.eqi-r>span{color:var(--muted);font-weight:600}
+.eqi-c{margin:0;padding-left:18px;display:grid;gap:3px}
+@media (max-width:600px){.eqi-r{grid-template-columns:1fr;gap:2px}}
+.fam-placed{margin-top:4px;font-size:12.5px}.linklike{background:none;border:0;padding:0;color:var(--accent);text-decoration:underline;cursor:pointer;font:inherit;font-weight:600}
 </style>
 
 <div class="wrap">
@@ -920,7 +926,7 @@ button.h-tile{cursor:pointer}button.h-tile:hover{outline:2px solid color-mix(in 
         <span class="hint">Clique une pièce ou une zone de la légende.</span>
       </div>
       <div class="rv-grid">
-        <div class="rv-svgbox"><svg id="rvSvg" role="img" aria-label="Plan des espaces CVC colorés par zone"></svg><div id="rv3d" hidden><p class="hint" style="padding:12px">Chargement de la 3D…</p></div><div id="rvBat" hidden><div id="rvBatTools" class="bat-tools"></div><div id="rvBatCv"></div><div id="rvBatInfo" class="bat-info"><span class="hint">Clique un élément pour savoir ce que c'est. Glisse pour tourner, molette pour zoomer, clic droit pour déplacer.</span></div></div></div>
+        <div class="rv-svgbox"><svg id="rvSvg" role="img" aria-label="Plan des espaces CVC colorés par zone"></svg><div id="rv3d" hidden><p class="hint" style="padding:12px">Chargement de la 3D…</p></div><div id="rvBat" hidden><div id="rvBatTools" class="bat-tools"></div><div id="rvBatEq" class="bat-eq"></div><div id="rvBatCv"></div><div id="rvBatInfo" class="bat-info"><span class="hint">Clique un élément pour savoir ce que c'est. Glisse pour tourner, molette pour zoomer, clic droit pour déplacer.</span></div></div></div>
         <aside class="rv-side"><div id="rvInfo" class="rv-info"><span class="hint">Aucune pièce sélectionnée.</span></div><div id="rvLegend"></div></aside>
       </div>
       <p class="rv-units"><b>Comment lire les chiffres :</b> <b>Surface</b> = surface au sol de l'espace, en m². <b>Volume</b> = surface × hauteur de l'espace, en m³ (c'est lui qui sert pour la ventilation et les déperditions). Dans la légende, <b>« 67 esp. · 739 m² »</b> = 67 espaces dans cette zone, pour 739 m² de surface au total.</p>
@@ -2012,9 +2018,9 @@ async function rv3dInit(){
 function rv3dResize(){ if(!R3) return; const box=$("#rv3d"); const w=box.clientWidth, h=box.clientHeight||w*.75; if(!w) return; R3.ren.setSize(w,h,false); R3.cam.aspect=w/h; R3.cam.updateProjectionMatrix(); }
 function rv3dUpdate(){ if(!R3) return; R3.groups.N01.visible=rvLv==="N01"; }
 /* ---------- Bâtiment complet (ARC + STR + espaces) ---------- */
-let RB=null; const BAT_V="2026-10-16c";
+let RB=null; const BAT_V="2026-10-16c", EQ_V="1";
 const BAT_COL={"Murs":0xe9e3d8,"Sols":0xcfc7ba,"Toitures":0xa99a8c,"Fenêtres":0x8fc3dd,"Portes":0xa9825a,"Meneaux":0x7d8a92,"Escaliers":0xc9c2b6,"Garde-corps":0x6d7a83,"Poteaux":0xd9d4cb,"Plafonds":0xf4f1ea,"Divers":0xbdbdbd,"Panneaux solaires":0x2f4f7f};
-const BAT_STR=0xa3abb2, BAT_LAYERS=[["arc","Architecture",true],["ceil","Plafonds",false],["str","Structure",true],["pv","Panneaux solaires",true],["esp","Espaces CVC (zones)",false]];
+const BAT_STR=0xa3abb2, BAT_LAYERS=[["arc","Architecture",true],["ceil","Plafonds",false],["str","Structure",true],["pv","Panneaux solaires",true],["esp","Espaces CVC (zones)",false],["eq","Équipements CVC",true]];
 function batLayerOf(g){ return g.layer==="str"?"str":g.cat==="Plafonds"?"ceil":g.cat==="Panneaux solaires"?"pv":"arc"; }
 async function batLoadBin(){
   if("DecompressionStream" in window){ try{ const r=await fetch("files/b3d/building.bin.gz?v="+BAT_V); if(r.ok){ const s=r.body.pipeThrough(new DecompressionStream("gzip")); return await new Response(s).arrayBuffer(); } }catch(e){} }
@@ -2074,6 +2080,13 @@ $("#fwSave").onclick=async()=>{
   }catch(e){ fail(e,"Ajout de la famille"); }
   b.disabled=false; b.textContent="Ajouter la famille";
 };
+
+/* familles : où elles sont placées dans la maquette */
+fetch("files/b3d/equip.json?v="+EQ_V).then(r=>r.ok?r.json():[]).then(EQ=>{
+  document.querySelectorAll("#famOursT tbody tr").forEach(tr=>{ const b=tr.querySelector("[data-f3d]"); if(!b) return; const L=EQ.filter(e=>e.fam===b.dataset.f3d); if(!L.length) return;
+    const d=document.createElement("div"); d.className="fam-placed"; d.innerHTML=`<span class="hint">Placé dans la maquette :</span> `+L.map(e=>`<button class="linklike" data-eqshow="${esc(e.id)}">${esc(e.mark||e.type)}</button>`).join(", ");
+    tr.querySelector("td:nth-child(2)").appendChild(d); d.querySelectorAll("[data-eqshow]").forEach(x=>x.onclick=()=>rvShowEq(x.dataset.eqshow)); });
+}).catch(()=>{});
 /* ---- Aperçu 3D des familles ---- */
 let F3D=null; const FAM_V="3";
 async function famGeo(){ if(!famGeo.p) famGeo.p=fetch("files/familles/geo.json?v="+FAM_V).then(r=>{ if(!r.ok) throw new Error("géométrie introuvable"); return r.json(); }); return famGeo.p; }
@@ -2155,6 +2168,14 @@ async function rvBatInit(){
       const h=Math.max(.2,Math.min(6,(s.v||0)/(s.a||1)))-0.1;
       const m=new THREE.Mesh(new THREE.ExtrudeGeometry(shape,{depth:h,bevelEnabled:false}),new THREE.MeshLambertMaterial({color:RV_COL[s.sv]||"#cccccc",transparent:true,opacity:.6,side:THREE.DoubleSide,clippingPlanes:[clip],depthWrite:false}));
       m.position.z=ELEV[s.l]+0.05; m.userData={space:s}; layers.esp.add(m); pick.push(m); });
+    // équipements CVC placés dans la maquette
+    const EQ=await fetch("files/b3d/equip.json?v="+EQ_V).then(r=>r.ok?r.json():[]).catch(()=>[]); const eqMeshes={};
+    EQ.forEach(e=>{ const grp=new THREE.Group(); grp.userData={eq:e};
+      e.m.forEach(M=>{ const pos=new Float32Array(M.t.length*3); for(let i=0;i<M.t.length;i++){ const j=M.t[i]*3; pos[i*3]=M.v[j]-cx; pos[i*3+1]=M.v[j+1]-cy; pos[i*3+2]=M.v[j+2]; }
+        const geo=new THREE.BufferGeometry(); geo.setAttribute("position",new THREE.BufferAttribute(pos,3)); geo.computeVertexNormals();
+        const mesh=new THREE.Mesh(geo,new THREE.MeshLambertMaterial({color:parseInt(M.col,16),side:THREE.DoubleSide,clippingPlanes:[clip]})); mesh.userData={eq:e}; grp.add(mesh); pick.push(mesh); });
+      layers.eq.add(grp); eqMeshes[e.id]=grp; });
+    const eqSel=id=>{ Object.entries(eqMeshes).forEach(([k,g])=>g.children.forEach(m=>m.material.emissive.setHex(k===String(id)?0x8a6a00:0x000000))); };
     const ctl=new THREE.OrbitControls(cam,ren.domElement); ctl.target.set(0,8,3); ctl.enableDamping=true; ctl.maxPolarAngle=Math.PI*0.49; ctl.update();
     const ray=new THREE.Raycaster(), mv=new THREE.Vector2(); let down=null;
     ren.domElement.addEventListener("pointerdown",e=>{ down=[e.clientX,e.clientY]; });
@@ -2163,16 +2184,46 @@ async function rvBatInit(){
       const vis=pick.filter(m=>m.parent.visible);
       const hit=ray.intersectObjects(vis).find(h=>h.point.z<=clip.constant+0.001);
       const info=$("#rvBatInfo");
-      if(!hit){ info.innerHTML=`<span class="hint">Clique un élément pour savoir ce que c'est.</span>`; return; }
+      if(!hit){ eqSel(null); info.innerHTML=`<span class="hint">Clique un élément pour savoir ce que c'est.</span>`; return; }
       const u=hit.object.userData;
+      if(u.eq){ eqSel(u.eq.id); eqInfo(u.eq); return; }
+      eqSel(null);
       if(u.space){ const s=u.space; info.innerHTML=`<b>Espace ${esc(s.n)} · ${esc(s.nm)}</b> · zone ${esc(s.z)} · ${s.a.toFixed(1)} m²`; return; }
       const fi=hit.faceIndex; let el=null; for(const e of u.els){ if(fi>=e[1]&&fi<e[1]+e[2]){ el=e; break; } }
       info.innerHTML=`<b>${esc(u.cat)}</b> · ${esc(el?meta.names[el[0]]:"")} <span class="hint">· maquette ${u.layer==="str"?"structure":"architecte"}${el?" · ID Revit "+el[3]:""}</span>`; });
-    RB={scene,cam,ren,ctl,layers,clip};
+    RB={scene,cam,ren,ctl,layers,clip,EQ,eqSel,cx,cy};
+    const lst=$("#rvBatEq"); if(lst){ lst.innerHTML=EQ.length?`<span class="hint">Équipements placés :</span> `+EQ.map(e=>`<button class="btn small" data-eqgo="${esc(e.id)}">${esc(e.mark||e.type)}</button>`).join(" "):"";
+      lst.querySelectorAll("[data-eqgo]").forEach(b=>b.onclick=()=>rvBatFocus(b.dataset.eqgo)); }
     rvBatApply(); rvBatResize(); new ResizeObserver(rvBatResize).observe(cv);
     (function loop(){ if(!document.body.contains(ren.domElement)) return; requestAnimationFrame(loop); if($("#rvBat").hidden||$("#viewRevit").hidden) return; ctl.update(); ren.render(scene,cam); })();
   }catch(e){ console.error(e); cv.innerHTML=`<p class="hint" style="padding:12px">Vue du bâtiment indisponible (${esc(e.message||String(e))}).</p>`; }
 }
+
+const SYS_FR={SupplyHydronic:"Aller chauffage / eau glacée",ReturnHydronic:"Retour chauffage / eau glacée",SupplyAir:"Soufflage",ReturnAir:"Reprise",ExhaustAir:"Extraction / rejet",OtherAir:"Air neuf",Sanitary:"Eaux usées",DomesticHotWater:"Eau chaude sanitaire",DomesticColdWater:"Eau froide",OtherPipe:"Autre fluide (gaz, glycol…)",Global:"Libre"};
+function eqInfo(e){
+  const info=$("#rvBatInfo"), d=e.bb?[0,1,2].map(i=>Math.round((e.bb[1][i]-e.bb[0][i])*1000)):null, alt=e.bb?e.bb[0][2]:null;
+  const row=(k,v)=>v?`<div class="eqi-r"><span>${k}</span><div>${v}</div></div>`:"";
+  info.innerHTML=`<div class="eqi"><div class="eqi-h"><div><b>${esc(e.mark||"")}</b> · ${esc(e.type)}<div class="hint">${esc(e.fab)} ${esc(e.mod)} · ${esc(e.desc)}</div></div>
+    <div class="eqi-b"><button class="btn small" data-eq3d>Voir la famille en 3D</button><button class="btn small" data-eqfam>Onglet Familles</button></div></div>
+    <div class="eqi-g">
+      ${row("Caractéristiques (CCTP)",esc(e.cctp))}
+      ${row("Source",esc(e.src))}
+      ${row("Emplacement",`niveau ${esc(e.lv)}${e.off?` + ${String(e.off).replace(".",",")} m`:""}${alt!=null?` · posé à ${alt.toFixed(2).replace(".",",")} m`:""}${e.space?` · espace « ${esc(e.space)} »`:""}`)}
+      ${row("Encombrement",d?`${d[0].toLocaleString("fr-FR")} × ${d[1].toLocaleString("fr-FR")} × ${d[2].toLocaleString("fr-FR")} mm (avec raccords)`:"")}
+      ${row("Raccords",e.cons.length?`<ul class="eqi-c">${e.cons.map(c=>`<li><b>${esc(c[0])}</b> · ${esc(SYS_FR[c[1]]||c[1])} · ${esc(c[2])} <span class="pill" style="--pc:${c[3]?"var(--done)":"var(--todo)"}">${c[3]?"raccordé":"pas encore raccordé"}</span></li>`).join("")}</ul>`:"")}
+      ${row("Commentaire",esc(e.com))}
+      ${row("À vérifier",e.verif?`<span class="pill" style="--pc:var(--doing)">À vérifier</span> ${esc(e.verif)}`:"")}
+      ${row("ID Revit",esc(e.id)+` <span class="hint">(Gérer › Sélection par ID dans Revit)</span>`)}
+    </div></div>`;
+  info.querySelector("[data-eq3d]").onclick=()=>f3dOpen(e.fam,`${e.mark||""} · ${e.type}`);
+  info.querySelector("[data-eqfam]").onclick=()=>{ setTab("fam"); setFamView("ours"); window.scrollTo(0,0); };
+}
+function rvBatFocus(id){ if(!RB) return; const e=RB.EQ.find(x=>String(x.id)===String(id)); if(!e) return;
+  const c=[(e.bb[0][0]+e.bb[1][0])/2-RB.cx,(e.bb[0][1]+e.bb[1][1])/2-RB.cy,(e.bb[0][2]+e.bb[1][2])/2];
+  RB.layers.eq.visible=true; const cb=document.querySelector('[data-blay="eq"]'); if(cb) cb.checked=true;
+  const cut=document.querySelector('[data-bcut=""]'); if(cut && c[2]>5) cut.click();
+  RB.ctl.target.set(c[0],c[1],c[2]); RB.cam.position.set(c[0]-14,c[1]-18,c[2]+12); RB.ctl.update(); RB.eqSel(e.id); eqInfo(e); }
+function rvShowEq(id){ setTab("revit"); const b=document.querySelector('[data-vw="bat"]'); if(b) b.click(); const go=()=>{ if(RB) rvBatFocus(id); else setTimeout(go,300); }; go(); }
 function rvBatResize(){ if(!RB) return; const cv=$("#rvBatCv"); const w=cv.clientWidth, h=cv.clientHeight||w*.75; if(!w) return; RB.ren.setSize(w,h,false); RB.cam.aspect=w/h; RB.cam.updateProjectionMatrix(); }
 function rvBatApply(){ if(!RB) return;
   document.querySelectorAll("[data-blay]").forEach(c=>{ RB.layers[c.dataset.blay].visible=c.checked; });
