@@ -1876,7 +1876,7 @@ renderMe(); renderTimeline(); renderFilters(); renderBoard(); renderHours();
     if(migrating||!isAdmin()||!gotT||!tasks.length) return; migrating=true;
     try{ const migs=await (await fetch("migrations.json",{cache:"no-store"})).json();
       const ds=await db.doc("config/migrations").get(); const done=(ds.exists&&ds.data().done)||[];
-      let n=0; for(const m of migs){ if(done.includes(m.id)) continue; await db.doc(m.doc).update(m.data); done.push(m.id); n++; }
+      let n=0; for(const m of migs){ if(done.includes(m.id)) continue; if(m.union){ const u={}; for(const [f,items] of Object.entries(m.union)) u[f]=firebase.firestore.FieldValue.arrayUnion(...items); await db.doc(m.doc).update(u); } else await db.doc(m.doc).update(m.data); done.push(m.id); n++; }
       if(n){ await db.doc("config/migrations").set({done}); toast(`Mise à jour appliquée (${n})`); }
     }catch(e){ console.error("migrations",e); migrating=false; } }
   async function maybeSeed(){
