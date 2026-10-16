@@ -64,5 +64,83 @@
     }
    ]
   }
+ },
+ {
+  "id": "2026-10-16-syn-01",
+  "doc": "synoptiques/SYN-01",
+  "set": {
+   "title": "Production chaud / froid",
+   "desc": "Chaufferie gaz + PAC, bouteille de découplage, départs radiateurs, planchers et CTA",
+   "preview": "files/syn/apercu-SYN-01.jpg",
+   "versions": [
+    {
+     "indice": "A",
+     "at": "2026-10-16T14:00:00Z",
+     "by": "Allan",
+     "note": "Première version",
+     "dxf": {
+      "path": "files/syn/EXE_RSP_CVC_SYN-01_Production.dxf",
+      "name": "EXE_RSP_CVC_SYN-01_A.dxf"
+     },
+     "pdf": {
+      "path": "files/syn/EXE_RSP_CVC_SYN-01_Production.pdf",
+      "name": "EXE_RSP_CVC_SYN-01_A.pdf",
+      "type": "application/pdf"
+     }
+    }
+   ]
+  }
+ },
+ {
+  "id": "2026-10-16-syn-02",
+  "doc": "synoptiques/SYN-02",
+  "set": {
+   "title": "Eau froide / ECS",
+   "desc": "Arrivée EF, disconnecteur, production ECS et bouclage",
+   "preview": "files/syn/apercu-SYN-02.jpg",
+   "versions": [
+    {
+     "indice": "A",
+     "at": "2026-10-16T14:00:00Z",
+     "by": "Allan",
+     "note": "Première version",
+     "dxf": {
+      "path": "files/syn/EXE_RSP_CVC_SYN-02_EF-ECS.dxf",
+      "name": "EXE_RSP_CVC_SYN-02_A.dxf"
+     },
+     "pdf": {
+      "path": "files/syn/EXE_RSP_CVC_SYN-02_EF-ECS.pdf",
+      "name": "EXE_RSP_CVC_SYN-02_A.pdf",
+      "type": "application/pdf"
+     }
+    }
+   ]
+  }
+ },
+ {
+  "id": "2026-10-16-syn-03",
+  "doc": "synoptiques/SYN-03",
+  "set": {
+   "title": "Ventilation",
+   "desc": "CTA double flux et réseaux de soufflage / reprise par zone",
+   "preview": "files/syn/apercu-SYN-03.jpg",
+   "versions": [
+    {
+     "indice": "A",
+     "at": "2026-10-16T14:00:00Z",
+     "by": "Allan",
+     "note": "Première version",
+     "dxf": {
+      "path": "files/syn/EXE_RSP_CVC_SYN-03_Ventilation.dxf",
+      "name": "EXE_RSP_CVC_SYN-03_A.dxf"
+     },
+     "pdf": {
+      "path": "files/syn/EXE_RSP_CVC_SYN-03_Ventilation.pdf",
+      "name": "EXE_RSP_CVC_SYN-03_A.pdf",
+      "type": "application/pdf"
+     }
+    }
+   ]
+  }
  }
 ]

@@ -376,6 +376,23 @@ tfoot td{font-weight:600}
 .iss-sep{font-size:16px;margin:18px 0 8px;padding-top:12px;border-top:2px solid var(--line)}
 .iss-sol{border-left:3px solid var(--done);background:color-mix(in srgb,var(--done) 9%,transparent);padding:8px 12px;border-radius:4px;margin:8px 0}
 .iss-sol b{color:var(--done);font-size:13.5px}
+.docs-mode{display:inline-flex;margin:0 0 12px;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.docs-mode button{border:0;background:var(--surface);padding:7px 14px;font:inherit;font-size:14px;cursor:pointer;color:var(--ink)}
+.docs-mode button[aria-pressed=true]{background:var(--accent);color:var(--accent-ink);font-weight:600}
+.syn-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:14px;margin-top:12px}
+.syn-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;display:grid;gap:10px;align-content:start;min-width:0}
+.syn-h{display:flex;gap:12px;align-items:flex-start}
+.syn-h h3{font-size:17px}
+.syn-id{font-family:var(--mono);font-weight:600;background:var(--accent);color:var(--accent-ink);border-radius:5px;padding:4px 8px;flex:none;font-size:13px}
+.syn-ind{margin-left:auto;flex:none;font-size:13px;color:var(--muted)}.syn-ind b{color:var(--ink);font-size:16px}
+.syn-prev{border:1px solid var(--line);border-radius:6px;padding:0;background:#fff;cursor:zoom-in;display:block;width:100%}
+.syn-prev img{display:block;width:100%;height:auto;border-radius:6px}
+.syn-btns{display:flex;gap:8px;flex-wrap:wrap}
+.syn-up,.syn-hist{border:1px solid var(--line);border-radius:6px}
+.syn-up summary,.syn-hist summary{padding:8px 12px;cursor:pointer;font-weight:600;color:var(--accent);font-size:14px}
+.syn-up .dadd-b{padding:4px 12px 12px}
+.syn-up input[type=text]{width:100%;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+.syn-hist ul{margin:0;padding:0 12px 10px 28px;display:grid;gap:6px;font-size:13.5px}
 .authbar{display:flex;gap:10px;align-items:center;justify-content:flex-end;flex-wrap:wrap;margin:10px 0 0;font-size:14px}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:7px;font-weight:600;z-index:30;max-width:calc(100% - 32px)}
 @media (prefers-reduced-motion:no-preference){.card{transition:border-color .15s}}
@@ -416,6 +433,7 @@ tfoot td{font-weight:600}
       <button role="tab" id="tabRevit" aria-selected="false">Revit</button>
       <button role="tab" id="tabTuto" aria-selected="false">Tuto Revit</button>
       <button role="tab" id="tabCaps" aria-selected="false">Captures</button>
+      <button role="tab" id="tabSyn" aria-selected="false">Synoptiques</button>
       <button role="tab" id="tabHours" aria-selected="false">Heures</button>
       <button role="tab" id="tabIssues" aria-selected="false">Problèmes <span id="issBadge" class="badge" hidden></span></button>
     </div>
@@ -620,6 +638,7 @@ tfoot td{font-weight:600}
   <main id="viewDocs" hidden>
     <div class="docs-h"><div><h2>Tous nos documents</h2><p class="hint" style="margin:4px 0 0">Tout ce que l'équipe a produit, rangé par tâche. Clique pour ouvrir ou télécharger.</p></div>
       <input id="docQ" type="search" placeholder="Rechercher un document…" aria-label="Rechercher un document"></div>
+    <div class="seg docs-mode" role="group" aria-label="Type de documents"><button data-dm="all" aria-pressed="true">Tous les documents</button><button data-dm="syn" aria-pressed="false">Synoptiques (PDF)</button></div>
     <div id="docsSum" class="docs-sum"></div>
     <details class="dadd" id="dAdd"><summary>+ Ajouter un document</summary>
       <div class="dadd-b">
@@ -830,6 +849,15 @@ tfoot td{font-weight:600}
         <div class="cap-b"><span class="pill" style="--pc:var(--done)">Bonne solution</span><b>Choix du site : PARTAGEES</b><p><span class="cap-l">Ce que ça veut dire :</span> Revit demande où placer la STR. PARTAGEES = les coordonnées communes ARC/STR. ORIGINE la placerait décalée.</p><p><span class="cap-l">Quoi faire :</span> ① PARTAGEES, ② OK. Ensuite chemins en Relatif et enregistrer.</p></div></article>
     </div></section>
     <p class="hint">La procédure complète, dans l'ordre, est dans l'onglet <b>Tuto Revit</b>.</p>
+  </main>
+
+  <main id="viewSyn" hidden>
+    <section class="rv-head">
+      <div class="label">Lot 12 CVC-PBS · schémas de principe</div>
+      <h2>Synoptiques</h2>
+      <p>Les schémas de principe de l'installation. Pour en modifier un : <b>télécharge le DXF</b>, ouvre-le dans AutoCAD, fais tes changements, puis <b>« Déposer une nouvelle version »</b> avec le DXF (ou DWG) et son PDF. L'indice passe à la lettre suivante (A → B → C…) et les anciennes versions restent dans l'historique.</p>
+    </section>
+    <div id="synList" class="syn-list"></div>
   </main>
 
   <main id="viewMine" hidden>
@@ -1535,8 +1563,11 @@ document.addEventListener("click",e=>{
 document.addEventListener("keydown",e=>{ if(e.key==="Escape" && $("#vov")){ e.stopPropagation(); closeViewer(); } }, true);
 
 /* ---------- Documents ---------- */
+let docsMode="all";
 function renderDocs(){
   const box=$("#docsList"); if(!box) return;
+  $("#docsSum").hidden=docsMode==="syn"; $("#dAdd").hidden=docsMode==="syn";
+  if(docsMode==="syn"){ box.innerHTML=synDocsHtml(); bindSynButtons(box); return; }
   const q=($("#docQ").value||"").trim().toLowerCase();
   const seen=new Map(); // regroupe un même fichier présent sur plusieurs tâches
   [...tasks].sort(byOrder).forEach(t=>(t.docs||[]).forEach(d=>{
@@ -1675,6 +1706,65 @@ document.querySelectorAll(".dl-arc").forEach(btn=>btn.onclick=async()=>{
   }catch(e){ toast("Téléchargement impossible : "+(e.message||e)); }
   lab.textContent=old; btn.disabled=false; });
 document.querySelectorAll("[data-md]").forEach(b=>b.onclick=()=>{ rvMd=b.dataset.md; document.querySelectorAll("[data-md]").forEach(x=>x.setAttribute("aria-pressed",x===b)); renderRevit(); });
+
+/* ---------- Synoptiques ---------- */
+let syns=[];
+const synLatest=s=>(s.versions||[])[(s.versions||[]).length-1]||null;
+const nextIndice=s=>String.fromCharCode(65+(s.versions||[]).length);
+function synFileBtn(f,label,cls="btn small"){ if(!f) return ""; return `<button class="${cls}" data-sdl='${esc(JSON.stringify(f))}'>${label}</button>`; }
+function synViewBtn(f,label="Voir le PDF"){ if(!f) return ""; return `<button class="btn small primary" data-sview='${esc(JSON.stringify(f))}'>${label}</button>`; }
+async function synDownload(f){
+  try{ let blob;
+    if(f.path){ const r=await fetch(f.path); if(!r.ok) throw new Error("fichier introuvable"); blob=await r.blob(); }
+    else blob=new Blob([await getBlobBuf(f.id)]);
+    await (await window.claude.use("downloads")).save({filename:f.name,data:blob}); toast("Téléchargé : "+f.name);
+  }catch(e){ toast("Téléchargement impossible : "+(e.message||e)); } }
+function bindSynButtons(root){
+  root.querySelectorAll("[data-sdl]").forEach(b=>b.onclick=()=>synDownload(JSON.parse(b.dataset.sdl)));
+  root.querySelectorAll("[data-sview]").forEach(b=>b.onclick=()=>{ const f=JSON.parse(b.dataset.sview); openViewer(f.id||"","application/pdf",f.name,f.path||""); });
+}
+function synDocsHtml(){
+  if(!syns.length) return `<div class="notice">${ready?"Aucun synoptique pour l'instant.":"Chargement…"}</div>`;
+  return `<section class="dgroup"><h3>Synoptiques – dernière version</h3><div class="docs">`+[...syns].sort((a,b)=>a._id.localeCompare(b._id)).map(s=>{ const v=synLatest(s); if(!v) return "";
+    return `<div class="doc"><span class="k">pdf</span><span class="nm"><b>${esc(s._id)}</b> · ${esc(s.title||"")} <span class="hint">· indice ${esc(v.indice||"")}</span></span><span class="meta" style="display:flex;gap:6px">${synViewBtn(v.pdf,"Ouvrir")}${synFileBtn(v.pdf,"PDF ⬇")}${synFileBtn(v.dxf,"DXF ⬇")}</span></div>`; }).join("")+`</div></section>`;
+}
+function renderSyn(){
+  const box=$("#synList"); if(!box) return;
+  if(!syns.length){ box.innerHTML=`<div class="notice">${ready?"Aucun synoptique pour l'instant.":"Chargement…"}</div>`; return; }
+  box.innerHTML=[...syns].sort((a,b)=>a._id.localeCompare(b._id)).map(s=>{ const v=synLatest(s)||{}; const hist=(s.versions||[]).slice(0,-1).reverse();
+    return `<article class="syn-card" data-sid="${esc(s._id)}">
+      <div class="syn-h"><span class="syn-id">${esc(s._id)}</span><div><h3>${esc(s.title||"")}</h3><p class="hint" style="margin:2px 0 0">${esc(s.desc||"")}</p></div>
+        <span class="syn-ind">Indice <b>${esc(v.indice||"–")}</b></span></div>
+      ${s.preview?`<button class="syn-prev" data-sview='${esc(JSON.stringify(v.pdf||{}))}' title="Ouvrir le PDF"><img src="${esc(s.preview)}" alt="Aperçu de ${esc(s._id)}" loading="lazy"></button>`:""}
+      <div class="syn-meta hint">Version ${esc(v.indice||"")} · ${esc(v.by||"")} · ${v.at?fmtDate(v.at.slice(0,10)):""}${v.note?" · "+esc(v.note):""}${s.preview&&(s.versions||[]).length>1?" · l'aperçu image montre l'indice A, ouvre le PDF pour la dernière version":""}</div>
+      <div class="syn-btns">${synViewBtn(v.pdf)}${synFileBtn(v.dxf,"Télécharger le DXF (AutoCAD)")}${synFileBtn(v.pdf,"Télécharger le PDF")}</div>
+      <details class="syn-up"><summary>Déposer une nouvelle version (indice ${nextIndice(s)})</summary>
+        <div class="dadd-b">
+          <div class="field"><label>Fichier AutoCAD modifié (.dxf ou .dwg)</label><input type="file" accept=".dxf,.dwg" data-f="cad"></div>
+          <div class="field"><label>PDF du synoptique (conseillé)</label><input type="file" accept="application/pdf,.pdf" data-f="pdf"></div>
+          <div class="field"><label>Ce qui a changé</label><input type="text" maxlength="300" data-f="note" placeholder="ex. ajout du vase d'expansion C3"></div>
+          <div><button class="btn small primary" data-sup="${esc(s._id)}">Envoyer la version ${nextIndice(s)}</button></div>
+        </div></details>
+      ${hist.length?`<details class="syn-hist"><summary>Historique (${hist.length} ancienne${hist.length>1?"s":""} version${hist.length>1?"s":""})</summary><ul>${hist.map(h=>`<li><b>${esc(h.indice)}</b> · ${esc(h.by||"")} · ${h.at?fmtDate(h.at.slice(0,10)):""}${h.note?" · "+esc(h.note):""} ${synFileBtn(h.dxf,"DXF","btn small")}${synFileBtn(h.pdf,"PDF","btn small")}</li>`).join("")}</ul></details>`:""}
+    </article>`; }).join("");
+  bindSynButtons(box);
+  box.querySelectorAll("[data-sup]").forEach(b=>b.onclick=async()=>{
+    const s=syns.find(x=>x._id===b.dataset.sup); const card=b.closest(".syn-card");
+    const cad=card.querySelector('[data-f="cad"]').files[0], pdf=card.querySelector('[data-f="pdf"]').files[0], note=card.querySelector('[data-f="note"]').value.trim();
+    if(!cad){ toast("Choisis le fichier DXF ou DWG modifié."); return; }
+    if(!writeOk){ toast("Connecte-toi avec Google (en haut) pour déposer une version."); return; }
+    b.disabled=true; b.textContent="Envoi en cours…";
+    try{ const ind=nextIndice(s); const base=`EXE_RSP_CVC_${s._id}_${ind}`;
+      const ext=(cad.name.match(/\.(dxf|dwg)$/i)||[".dxf"])[0].toLowerCase();
+      const rc=await assets.upload(cad,{type:ext===".dwg"?"application/acad":"application/dxf"});
+      let pf=null; if(pdf){ const rp=await assets.upload(pdf,{type:"application/pdf"}); pf={id:rp.id,name:base+".pdf",type:"application/pdf"}; }
+      const v={indice:ind,at:new Date().toISOString(),by:me||(fbUser&&fbUser.displayName)||"",note,dxf:{id:rc.id,name:base+ext},pdf:pf||(synLatest(s)||{}).pdf||null,...(pf?{}:{pdfOld:true})};
+      await db.doc("synoptiques/"+s._id).update({versions:[...(s.versions||[]),v]});
+      toast(`${s._id} : version ${ind} déposée`);
+    }catch(e){ fail(e,"Dépôt"); b.disabled=false; b.textContent="Réessayer"; }
+  });
+}
+document.querySelectorAll("[data-dm]").forEach(b=>b.onclick=()=>{ docsMode=b.dataset.dm; document.querySelectorAll("[data-dm]").forEach(x=>x.setAttribute("aria-pressed",x===b)); renderDocs(); });
 
 /* ---------- Tabs ---------- */
 /* ---------- Problèmes ---------- */
@@ -1841,20 +1931,20 @@ function renderMine(){
 }
 
 function setTab(t){ tab=t; store.set("ehpad-tab",t);
-  $("#tabTasks").setAttribute("aria-selected",t==="tasks"); $("#tabMine").setAttribute("aria-selected",t==="mine"); $("#tabDone").setAttribute("aria-selected",t==="done"); $("#tabIssues").setAttribute("aria-selected",t==="issues"); $("#tabProj").setAttribute("aria-selected",t==="proj"); $("#tabAcc").setAttribute("aria-selected",t==="acc"); $("#tabHours").setAttribute("aria-selected",t==="hours"); $("#tabDocs").setAttribute("aria-selected",t==="docs"); $("#tabRevit").setAttribute("aria-selected",t==="revit"); $("#tabTuto").setAttribute("aria-selected",t==="tuto"); $("#tabCaps").setAttribute("aria-selected",t==="caps");
-  $("#viewTasks").hidden=t!=="tasks"; $("#viewMine").hidden=t!=="mine"; $("#viewDone").hidden=t!=="done"; $("#viewIssues").hidden=t!=="issues"; $("#viewProj").hidden=t!=="proj"; $("#viewAcc").hidden=t!=="acc"; $("#viewHours").hidden=t!=="hours"; $("#viewDocs").hidden=t!=="docs"; if(t==="docs") renderDocs(); $("#viewRevit").hidden=t!=="revit"; if(t==="revit") renderRevit(); $("#viewTuto").hidden=t!=="tuto"; $("#viewCaps").hidden=t!=="caps"; $("#taskTools").hidden=t!=="tasks";
+  $("#tabTasks").setAttribute("aria-selected",t==="tasks"); $("#tabMine").setAttribute("aria-selected",t==="mine"); $("#tabDone").setAttribute("aria-selected",t==="done"); $("#tabIssues").setAttribute("aria-selected",t==="issues"); $("#tabProj").setAttribute("aria-selected",t==="proj"); $("#tabAcc").setAttribute("aria-selected",t==="acc"); $("#tabHours").setAttribute("aria-selected",t==="hours"); $("#tabDocs").setAttribute("aria-selected",t==="docs"); $("#tabRevit").setAttribute("aria-selected",t==="revit"); $("#tabTuto").setAttribute("aria-selected",t==="tuto"); $("#tabCaps").setAttribute("aria-selected",t==="caps"); $("#tabSyn").setAttribute("aria-selected",t==="syn");
+  $("#viewTasks").hidden=t!=="tasks"; $("#viewMine").hidden=t!=="mine"; $("#viewDone").hidden=t!=="done"; $("#viewIssues").hidden=t!=="issues"; $("#viewProj").hidden=t!=="proj"; $("#viewAcc").hidden=t!=="acc"; $("#viewHours").hidden=t!=="hours"; $("#viewDocs").hidden=t!=="docs"; if(t==="docs") renderDocs(); $("#viewRevit").hidden=t!=="revit"; if(t==="revit") renderRevit(); $("#viewTuto").hidden=t!=="tuto"; $("#viewCaps").hidden=t!=="caps"; $("#viewSyn").hidden=t!=="syn"; if(t==="syn") renderSyn(); $("#taskTools").hidden=t!=="tasks";
   if(t==="hours"){ renderHoursForm(); renderHours(); renderCal(); }
   if(t==="acc") renderAcc();
   if(t==="mine") renderMine();
   if(t==="done") renderDone();
   if(t==="issues"){ renderIssueForm(); renderIssues(); } }
-$("#tabTasks").onclick=()=>setTab("tasks"); $("#tabMine").onclick=()=>setTab("mine"); $("#tabDone").onclick=()=>setTab("done"); $("#tabIssues").onclick=()=>setTab("issues"); $("#tabProj").onclick=()=>setTab("proj"); $("#tabAcc").onclick=()=>setTab("acc"); $("#tabHours").onclick=()=>setTab("hours"); $("#tabDocs").onclick=()=>setTab("docs"); $("#tabRevit").onclick=()=>setTab("revit"); $("#tabTuto").onclick=()=>setTab("tuto"); $("#tabCaps").onclick=()=>setTab("caps"); $("#goTuto").onclick=()=>{ setTab("tuto"); window.scrollTo(0,0); };
+$("#tabTasks").onclick=()=>setTab("tasks"); $("#tabMine").onclick=()=>setTab("mine"); $("#tabDone").onclick=()=>setTab("done"); $("#tabIssues").onclick=()=>setTab("issues"); $("#tabProj").onclick=()=>setTab("proj"); $("#tabAcc").onclick=()=>setTab("acc"); $("#tabHours").onclick=()=>setTab("hours"); $("#tabDocs").onclick=()=>setTab("docs"); $("#tabRevit").onclick=()=>setTab("revit"); $("#tabTuto").onclick=()=>setTab("tuto"); $("#tabCaps").onclick=()=>setTab("caps"); $("#tabSyn").onclick=()=>setTab("syn"); $("#goTuto").onclick=()=>{ setTab("tuto"); window.scrollTo(0,0); };
 
-function renderAll(){ renderBoard(); renderMine(); renderDone(); renderCal(); renderIssueForm(); renderIssues(); renderHoursForm(); renderHours(); renderTaskExtras(); renderDocs(); }
+function renderAll(){ renderBoard(); renderMine(); renderDone(); renderCal(); renderIssueForm(); renderIssues(); renderHoursForm(); renderHours(); renderTaskExtras(); renderDocs(); renderSyn(); }
 
 /* ---------- Boot ---------- */
 renderMe(); renderTimeline(); renderFilters(); renderBoard(); renderHours();
-{ const st=store.get("ehpad-tab"); if(location.hash==="#heures") setTab("hours"); else if(location.hash==="#mes-taches") setTab("mine"); else if(location.hash==="#realise") setTab("done"); else if(location.hash==="#problemes") setTab("issues"); else if(location.hash==="#projet") setTab("proj"); else if(location.hash==="#acc") setTab("acc"); else if(location.hash==="#documents") setTab("docs"); else if(location.hash==="#revit") setTab("revit"); else if(location.hash==="#tuto") setTab("tuto"); else if(location.hash==="#captures") setTab("caps"); else setTab(["hours","mine","done","issues","proj","tasks","acc","docs","revit","tuto","caps"].includes(st)?st:"proj"); }
+{ const st=store.get("ehpad-tab"); if(location.hash==="#heures") setTab("hours"); else if(location.hash==="#mes-taches") setTab("mine"); else if(location.hash==="#realise") setTab("done"); else if(location.hash==="#problemes") setTab("issues"); else if(location.hash==="#projet") setTab("proj"); else if(location.hash==="#acc") setTab("acc"); else if(location.hash==="#documents") setTab("docs"); else if(location.hash==="#revit") setTab("revit"); else if(location.hash==="#tuto") setTab("tuto"); else if(location.hash==="#captures") setTab("caps"); else if(location.hash==="#synoptiques") setTab("syn"); else setTab(["hours","mine","done","issues","proj","tasks","acc","docs","revit","tuto","caps","syn"].includes(st)?st:"proj"); }
 
 (async()=>{
   db = await window.claude.use("db");
@@ -1876,7 +1966,7 @@ renderMe(); renderTimeline(); renderFilters(); renderBoard(); renderHours();
     if(migrating||!isAdmin()||!gotT||!tasks.length) return; migrating=true;
     try{ const migs=await (await fetch("migrations.json",{cache:"no-store"})).json();
       const ds=await db.doc("config/migrations").get(); const done=(ds.exists&&ds.data().done)||[];
-      let n=0; for(const m of migs){ if(done.includes(m.id)) continue; if(m.union){ const u={}; for(const [f,items] of Object.entries(m.union)) u[f]=firebase.firestore.FieldValue.arrayUnion(...items); await db.doc(m.doc).update(u); } else await db.doc(m.doc).update(m.data); done.push(m.id); n++; }
+      let n=0; for(const m of migs){ if(done.includes(m.id)) continue; if(m.set){ await db.doc(m.doc).set(m.set); } else if(m.union){ const u={}; for(const [f,items] of Object.entries(m.union)) u[f]=firebase.firestore.FieldValue.arrayUnion(...items); await db.doc(m.doc).update(u); } else await db.doc(m.doc).update(m.data); done.push(m.id); n++; }
       if(n){ await db.doc("config/migrations").set({done}); toast(`Mise à jour appliquée (${n})`); }
     }catch(e){ console.error("migrations",e); migrating=false; } }
   async function maybeSeed(){
@@ -1891,6 +1981,7 @@ renderMe(); renderTimeline(); renderFilters(); renderBoard(); renderHours();
     e=>{ console.error(e); });
   db.doc("config/acc").onSnapshot(s=>{ accCfg=s.exists?{projectUrl:"",folders:{},...s.data()}:{projectUrl:"",folders:{}}; renderAcc(); }, e=>console.error(e));
   db.collection("deposits").onSnapshot(s=>{ deposits=s.docs.map(d=>({...d.data(), _id:d.id})); renderDeposits(); renderDocs(); }, e=>console.error(e));
+  db.collection("synoptiques").onSnapshot(s=>{ syns=s.docs.map(d=>({...d.data(), _id:d.id})); renderSyn(); renderDocs(); }, e=>console.error(e));
   db.collection("issues").onSnapshot(s=>{ issues=s.docs.map(d=>({...d.data(), _id:d.id})); renderBoard(); renderIssues(); renderDocs(); },
     e=>{ console.error(e); });
 })();
