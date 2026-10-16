@@ -447,6 +447,39 @@ tfoot td{font-weight:600}
 .log-k{font-size:12px;font-weight:600;border-radius:4px;padding:1px 6px;background:var(--bg,#eef);white-space:nowrap}
 .lt-modif .log-k{background:color-mix(in srgb,var(--accent) 18%,transparent)}
 .lt-connexion .log-k,.lt-deconnexion .log-k{background:color-mix(in srgb,var(--heat,#c0392b) 18%,transparent)}
+#chDock[hidden]{display:none}
+#chTab{position:fixed;left:0;top:42%;z-index:60;display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 7px;border:0;border-radius:0 10px 10px 0;background:var(--accent);color:var(--accent-ink);box-shadow:var(--sh);font:inherit;font-weight:600;cursor:pointer;transition:left .25s ease}
+#chTab .ch-lbl{writing-mode:vertical-rl;transform:rotate(180deg);font-size:13px;letter-spacing:.02em}
+#chTab .badge{margin:0}
+#chPanel{position:fixed;left:0;top:0;bottom:0;z-index:59;width:min(360px,100vw);background:var(--surface);box-shadow:4px 0 24px rgb(16 37 46 / .18);display:flex;flex-direction:column;transform:translateX(-102%);transition:transform .25s ease}
+#chDock.open #chPanel{transform:none}
+#chDock.open #chTab{left:min(360px,100vw)}
+@media (max-width:420px){#chDock.open #chTab{display:none}}
+@media (prefers-reduced-motion:reduce){#chPanel,#chTab{transition:none}}
+.ch-h{display:flex;align-items:center;gap:6px;padding:10px 8px;border-bottom:1px solid var(--line)}
+.ch-ti{flex:1;min-width:0;display:grid}.ch-ti b{font-size:16px}.ch-ti span{font-size:12.5px;color:var(--muted)}
+.ch-ic{border:0;background:none;font-size:24px;line-height:1;width:34px;height:34px;border-radius:6px;cursor:pointer;color:var(--muted)}.ch-ic:hover{background:var(--sunk)}
+.ch-convs{overflow-y:auto;flex:1}
+.ch-conv{display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;border:0;border-bottom:1px solid var(--line);background:none;font:inherit;text-align:left;cursor:pointer;color:var(--ink)}
+.ch-conv:hover{background:color-mix(in srgb,var(--accent) 6%,transparent)}
+.ch-av{flex:none;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:color-mix(in srgb,var(--accent) 18%,var(--surface));color:var(--accent);font-weight:700;font-size:14px}
+.ch-av.grp{border-radius:9px;font-size:18px}
+.ch-cm{flex:1;min-width:0;display:grid}.ch-cm span{font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ch-n{background:var(--danger);color:#fff;border-radius:10px;padding:1px 7px;font-size:12px;font-weight:700}
+.ch-t{font-size:12px;color:var(--muted)}
+.ch-body{flex:1;display:flex;flex-direction:column;min-height:0}
+.ch-msgs{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:2px}
+.ch-m{display:flex;flex-direction:column;align-items:flex-start;max-width:85%;margin-top:8px}
+.ch-m.same{margin-top:1px}
+.ch-m.me{align-self:flex-end;align-items:flex-end}
+.ch-who{font-size:12px;color:var(--muted);margin:0 0 2px 8px}
+.ch-bub{background:var(--sunk);padding:7px 11px;border-radius:14px;font-size:14.5px;overflow-wrap:anywhere}
+.ch-m.me .ch-bub{background:var(--accent);color:var(--accent-ink)}.ch-m.me .ch-bub a{color:inherit}
+.ch-tm{font-size:11px;color:var(--muted);margin:2px 8px 0}
+.ch-empty{color:var(--muted);text-align:center;margin:auto}
+.ch-form{display:flex;gap:6px;padding:8px;border-top:1px solid var(--line);align-items:flex-end}
+.ch-form textarea{flex:1;resize:none;font:inherit;font-size:14.5px;padding:8px 10px;border:1px solid var(--line);border-radius:18px;background:var(--surface);color:var(--ink);max-height:120px}
+.ch-form .btn{border-radius:50%;width:38px;height:38px;padding:0}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:7px;font-weight:600;z-index:30;max-width:calc(100% - 32px)}
 @media (prefers-reduced-motion:no-preference){.card{transition:border-color .15s}}
 
@@ -2161,6 +2194,89 @@ function renderLogs(){
 }
 ["#logType","#logWhoSel","#logMe"].forEach(s=>$(s).onchange=renderLogs); $("#logQ").oninput=renderLogs;
 
+/* ---------- Messagerie (bande à gauche) ---------- */
+const CH_PEOPLE=()=>[...Object.keys(TEAM_NAMES).map(m=>({m,n:TEAM_NAMES[m],r:"Équipe"})),...Object.entries(PROFS).map(([m,p])=>({m,n:p.n,r:"Enseignant"}))];
+let chMsgs={}, chUnsubs=[], chOpen=false, chConv=null, chOn=false;
+const chMe=()=>(fbUser&&fbUser.email||"").toLowerCase();
+const chSeen={get(c){ try{ return localStorage.getItem("chs-"+c)||""; }catch(e){ return ""; } }, set(c,v){ try{ localStorage.setItem("chs-"+c,v); }catch(e){} }};
+function chDm(other){ return "dm:"+[chMe(),other].sort().join("|"); }
+function chConvs(){
+  const me=chMe(), team=isTeam(); const L=[{id:"general",n:"Général",d:"Toute l'équipe + les enseignants",ic:"#"}];
+  if(team) L.push({id:"equipe",n:"Équipe",d:"Allan, Mouhamed, Yann, Noah",ic:"#"});
+  CH_PEOPLE().filter(p=>p.m!==me).forEach(p=>L.push({id:chDm(p.m),n:p.n,d:p.r,ic:p.n.replace(/^M\. /,"").slice(0,2),dm:p.m}));
+  return L;
+}
+function chList(c){ return (chMsgs[c]||[]).slice().sort((a,b)=>(a.at||"").localeCompare(b.at||"")); }
+function chUnread(c){ const s=chSeen.get(c); return chList(c).filter(m=>m.email!==chMe()&&(m.at||"")>s).length; }
+function chTotal(){ return chOn?chConvs().reduce((a,c)=>a+chUnread(c.id),0):0; }
+function chSub(q,key){ chUnsubs.push(q.onSnapshot(s=>{ const byConv={}; s.docs.forEach(d=>{ const x={...d.data(),_id:d.id}; (byConv[x.conv]=byConv[x.conv]||[]).push(x); });
+    if(key) chMsgs[key]=byConv[key]||[]; else { Object.keys(chMsgs).filter(k=>k.startsWith("dm:")).forEach(k=>delete chMsgs[k]); Object.assign(chMsgs,byConv); }
+    chRender(); },e=>console.error("chat",key||"dm",e))); }
+function startChat(){
+  const can=!!fbUser&&(isTeam()||isProf());
+  if(can&&!chOn){ chOn=true;
+    chSub(fdb.collection("chat").where("conv","==","general"),"general");
+    if(isTeam()) chSub(fdb.collection("chat").where("conv","==","equipe"),"equipe");
+    chSub(fdb.collection("chat").where("members","array-contains",chMe()),null);
+  }
+  if(!can&&chOn){ chUnsubs.forEach(u=>u()); chUnsubs=[]; chMsgs={}; chOn=false; chConv=null; }
+  document.getElementById("chDock").hidden=!can; chRender();
+}
+function chTime(iso){ if(!iso) return ""; const d=new Date(iso), n=new Date(); const p=x=>String(x).padStart(2,"0");
+  return (d.toDateString()===n.toDateString()?"":p(d.getDate())+"/"+p(d.getMonth()+1)+" ")+p(d.getHours())+":"+p(d.getMinutes()); }
+function chRender(){
+  const dock=document.getElementById("chDock"); if(!dock||dock.hidden) return;
+  const tot=chTotal(); const b=document.getElementById("chBadge"); b.textContent=tot; b.hidden=!tot;
+  dock.classList.toggle("open",chOpen);
+  if(!chOpen) return;
+  const list=document.getElementById("chConvs"), body=document.getElementById("chBody");
+  if(!chConv){
+    body.hidden=true; list.hidden=false;
+    list.innerHTML=chConvs().map(c=>{ const l=chList(c.id), last=l[l.length-1], u=chUnread(c.id);
+      return `<button class="ch-conv" data-c="${esc(c.id)}"><span class="ch-av${c.dm?"":" grp"}">${esc(c.ic)}</span><span class="ch-cm"><b>${esc(c.n)}</b><span>${last?esc((last.email===chMe()?"Moi : ":"")+last.text).slice(0,60):esc(c.d)}</span></span>${u?`<span class="ch-n">${u}</span>`:last?`<span class="ch-t">${chTime(last.at)}</span>`:""}</button>`; }).join("");
+    list.querySelectorAll("[data-c]").forEach(x=>x.onclick=()=>{ chConv=x.dataset.c; chRender(); setTimeout(()=>{ const i=document.getElementById("chIn"); if(i) i.focus(); },50); });
+    return;
+  }
+  const c=chConvs().find(x=>x.id===chConv)||{n:"",d:""};
+  list.hidden=true; body.hidden=false;
+  document.getElementById("chTitle").innerHTML=`<b>${esc(c.n)}</b><span>${esc(c.d)}</span>`;
+  const box=document.getElementById("chMsgs"); const atB=box.scrollHeight-box.scrollTop-box.clientHeight<40;
+  const L=chList(chConv);
+  box.innerHTML=L.length?L.map((m,i)=>{ const mine=m.email===chMe(); const prev=L[i-1]; const same=prev&&prev.email===m.email&&(new Date(m.at)-new Date(prev.at))<5*60e3;
+    return `<div class="ch-m${mine?" me":""}${same?" same":""}">${!mine&&!same&&!c.dm?`<span class="ch-who">${esc(m.name||m.email)}</span>`:""}<div class="ch-bub">${esc(m.text).replace(/(https?:\/\/[^\s<]+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>').replace(/\n/g,"<br>")}</div>${same?"":`<span class="ch-tm">${chTime(m.at)}</span>`}</div>`; }).join("")
+    :`<p class="ch-empty">Pas encore de message. Écris le premier !</p>`;
+  if(atB||!box.dataset.c||box.dataset.c!==chConv){ box.scrollTop=box.scrollHeight; box.dataset.c=chConv; }
+  if(L.length) chSeen.set(chConv,L[L.length-1].at||"");
+  const tot2=chTotal(); b.textContent=tot2; b.hidden=!tot2;
+}
+async function chSend(){
+  const i=document.getElementById("chIn"); const text=i.value.trim(); if(!text||!chConv) return;
+  const c=chConvs().find(x=>x.id===chConv); const me=chMe();
+  const d={conv:chConv,text:text.slice(0,2000),email:me,name:(PROFS[me]&&PROFS[me].n)||TEAM_NAMES[me]||(fbUser.displayName)||me,at:new Date().toISOString()};
+  if(c&&c.dm) d.members=[me,c.dm].sort();
+  i.value=""; i.style.height="";
+  try{ await fdb.collection("chat").add(d); }catch(e){ console.error(e); i.value=text; toast("Message non envoyé : "+(e.code==="permission-denied"?"droits insuffisants":e.message)); }
+}
+(function(){
+  const el=document.createElement("div"); el.id="chDock"; el.hidden=true;
+  el.innerHTML=`<button id="chTab" aria-label="Ouvrir la messagerie" title="Messagerie"><span aria-hidden="true">💬</span><span class="ch-lbl">Messages</span><span id="chBadge" class="badge" hidden></span></button>
+  <aside id="chPanel" aria-label="Messagerie">
+    <div class="ch-h"><button id="chBack" class="ch-ic" aria-label="Retour aux conversations">‹</button><div id="chTitle" class="ch-ti"><b>Messages</b><span>Équipe et enseignants</span></div><button id="chClose" class="ch-ic" aria-label="Fermer">×</button></div>
+    <div id="chConvs" class="ch-convs"></div>
+    <div id="chBody" class="ch-body" hidden><div id="chMsgs" class="ch-msgs" aria-live="polite"></div>
+      <form id="chForm" class="ch-form"><textarea id="chIn" rows="1" maxlength="2000" placeholder="Écrire un message…"></textarea><button class="btn primary" aria-label="Envoyer">➤</button></form></div>
+  </aside>`;
+  document.body.appendChild(el);
+  document.getElementById("chTab").onclick=()=>{ chOpen=!chOpen; chRender(); };
+  document.getElementById("chClose").onclick=()=>{ chOpen=false; chRender(); };
+  document.getElementById("chBack").onclick=()=>{ if(chConv){ chConv=null; document.getElementById("chTitle").innerHTML="<b>Messages</b><span>Équipe et enseignants</span>"; chRender(); } else { chOpen=false; chRender(); } };
+  document.getElementById("chForm").onsubmit=e=>{ e.preventDefault(); chSend(); };
+  const ta=document.getElementById("chIn");
+  ta.onkeydown=e=>{ if(e.key==="Enter"&&!e.shiftKey){ e.preventDefault(); chSend(); } };
+  ta.oninput=()=>{ ta.style.height=""; ta.style.height=Math.min(120,ta.scrollHeight)+"px"; };
+  document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&chOpen){ chOpen=false; chRender(); } });
+})();
+
 /* ---------- Tabs ---------- */
 /* ---------- Problèmes ---------- */
 let issues=[];
@@ -2397,7 +2513,7 @@ renderMe(); renderTimeline(); renderFilters(); renderBoard(); renderHours();
     if(isAdmin() && teamLoaded){ const want=[...new Set([...teamEmails,...DEFAULT_TEAM])].filter(m=>!PROFS[m]); if(want.length!==teamEmails.length||want.some(m=>!teamEmails.includes(m))) db.doc("config/team").set({emails:want}).catch(e=>console.error(e));
       const pe=Object.keys(PROFS); if(profsLoaded && (profEmails.length!==pe.length||pe.some(m=>!profEmails.includes(m)))) db.doc("config/profs").set({emails:pe}).catch(e=>console.error(e)); }
     if(isProf() && !profLanded){ profLanded=true; setTab("ech"); }
-    startEchanges(); startLogs(); };
+    startEchanges(); startLogs(); startChat(); };
   let profsLoaded=false, profEmails=[], profLanded=false;
   db.doc("config/profs").onSnapshot(s=>{ profsLoaded=true; profEmails=((s.exists&&s.data().emails)||[]).map(x=>String(x).toLowerCase()); applyAuth(); }, e=>console.error(e));
   let teamLoaded=false;

@@ -27,10 +27,22 @@ service cloud.firestore {
                     && request.resource.data.detail is string && request.resource.data.detail.size() <= 300
                     && (request.resource.data.email == null || request.resource.data.email == mail());
     }
+    // Messagerie : Général (équipe + profs), Équipe (équipe seule), messages privés (les 2 personnes)
+    function chatOk(d) {
+      return (d.conv == "general" && (isTeam() || isProf()))
+          || (d.conv == "equipe" && isTeam())
+          || (d.members is list && mail() in d.members && (isTeam() || isProf()));
+    }
+    match /chat/{id} {
+      allow read: if chatOk(resource.data);
+      allow create: if chatOk(request.resource.data) && request.resource.data.email == mail()
+                    && request.resource.data.text is string && request.resource.data.text.size() <= 2000;
+      allow delete: if resource.data.email == mail() || isAdmin();
+    }
     // Tout le reste : lecture publique, écriture équipe uniquement (pas les profs)
     match /{col}/{rest=**} {
-      allow read: if col != "echanges" && col != "logs";
-      allow write: if col != "config" && col != "echanges" && col != "logs" && isTeam();
+      allow read: if col != "echanges" && col != "logs" && col != "chat";
+      allow write: if col != "config" && col != "echanges" && col != "logs" && col != "chat" && isTeam();
     }
   }
 }
