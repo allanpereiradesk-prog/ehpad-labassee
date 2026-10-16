@@ -361,6 +361,18 @@ tfoot td{font-weight:600}
 .dl-k{font-family:var(--mono);font-size:12px;font-weight:600;background:var(--accent);color:var(--accent-ink);border-radius:4px;padding:3px 6px;flex:none}
 .dl-t{display:grid;min-width:0}.dl-t b{font-family:var(--mono);font-size:13.5px;overflow-wrap:anywhere}.dl-t span{font-size:12.5px;color:var(--muted)}
 .dl-go{margin-left:auto;font-size:18px;color:var(--accent);flex:none}
+.cap-legend{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.cap-story{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;margin:12px 0}
+.cap-story h3{font-size:18px;display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.cap-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.cap{border:1px solid var(--line);border-radius:8px;overflow:hidden;display:flex;flex-direction:column;min-width:0;background:var(--surface)}
+.cap-img{display:block;background:var(--sunk);border-bottom:1px solid var(--line)}
+.cap-img img{display:block;width:100%;height:190px;object-fit:contain}
+.cap-b{padding:10px 12px;display:grid;gap:5px;font-size:13.5px}
+.cap-b b{font-size:14px;line-height:1.3}
+.cap-b p{margin:0}
+.cap-l{font-weight:600;color:var(--muted)}
+.cap .pill{justify-self:start}
 .authbar{display:flex;gap:10px;align-items:center;justify-content:flex-end;flex-wrap:wrap;margin:10px 0 0;font-size:14px}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:7px;font-weight:600;z-index:30;max-width:calc(100% - 32px)}
 @media (prefers-reduced-motion:no-preference){.card{transition:border-color .15s}}
@@ -400,6 +412,7 @@ tfoot td{font-weight:600}
       <button role="tab" id="tabDocs" aria-selected="false">Documents</button>
       <button role="tab" id="tabRevit" aria-selected="false">Revit</button>
       <button role="tab" id="tabTuto" aria-selected="false">Tuto Revit</button>
+      <button role="tab" id="tabCaps" aria-selected="false">Captures</button>
       <button role="tab" id="tabHours" aria-selected="false">Heures</button>
       <button role="tab" id="tabIssues" aria-selected="false">Problèmes <span id="issBadge" class="badge" hidden></span></button>
     </div>
@@ -757,7 +770,63 @@ tfoot td{font-weight:600}
         <tr><td>« Mise à niveau du modèle analytique structurel » + avertissements</td><td>Modèle de calcul de la structure, pas utilisé par nous</td><td>Fermer, ignorer</td></tr>
         <tr><td>« Une erreur s'est produite dans la famille … et a été automatiquement corrigée »</td><td>Simple avertissement</td><td>Rien à faire</td></tr>
       </tbody></table>
-      <p class="hint" style="margin:8px 0 0">Un autre souci ? Mets-le dans l'onglet <b>Problèmes</b> avec une capture.</p></section>
+      <p class="hint" style="margin:8px 0 0">Toutes ces erreurs en images : onglet <b>Captures</b>. Un autre souci ? Mets-le dans l'onglet <b>Problèmes</b> avec une capture.</p></section>
+  </main>
+
+  <main id="viewCaps" hidden>
+    <section class="rv-head">
+      <div class="label">Journal en images · 15 et 16 octobre 2026</div>
+      <h2>Ce qu'on a rencontré sur Revit, capture par capture</h2>
+      <p>Toutes les captures partagées pendant la mise en place, dans l'ordre, avec ce que ça veut dire et quoi faire. Si tu vois un de ces messages, tu sais quoi répondre. Clique sur une image pour l'agrandir.</p>
+      <div class="cap-legend"><span class="pill" style="--pc:var(--danger)">Erreur</span><span class="pill" style="--pc:var(--doing)">À gérer</span><span class="pill" style="--pc:var(--muted)">Info</span><span class="pill" style="--pc:var(--done)">Bonne solution</span><span class="pill" style="--pc:var(--danger)">Mauvais choix</span></div>
+    </section>
+    <section class="cap-story"><h3><span class="tt-n">A</span>Lier la structure (STR) dans la maquette CVC</h3><p class="hint" style="margin:0 0 10px">15/10 au soir, Revit 2026 : la STR du DCE (faite sous Revit 2020) refuse de se charger.</p><div class="cap-grid">
+      <article class="cap"><a href="files/captures/01-str-lien-impossible.png" target="_blank" rel="noopener" class="cap-img"><img src="files/captures/01-str-lien-impossible.png" alt="« Impossible de charger le lien … DCE_STR_MNT.rvt »" loading="lazy"></a>
+        <div class="cap-b"><span class="pill" style="--pc:var(--danger)">Erreur</span><b>« Impossible de charger le lien … DCE_STR_MNT.rvt »</b><p><span class="cap-l">Ce que ça veut dire :</span> Revit 2026 n&#x27;arrive pas à convertir l&#x27;ancienne STR (Revit 2020) pour la lier.</p><p><span class="cap-l">Quoi faire :</span> Ne pas insister : il faut d&#x27;abord ouvrir la STR seule pour la réparer (voir plus bas).</p></div></article>
+      <article class="cap"><a href="files/captures/02-str-element-joint.png" target="_blank" rel="noopener" class="cap-img"><img src="files/captures/02-str-element-joint.png" alt="« Impossible de couper l&#x27;élément joint »" loading="lazy"></a>
+        <div class="cap-b"><span class="pill" style="--pc:var(--doing)">À gérer</span><b>« Impossible de couper l&#x27;élément joint »</b><p><span class="cap-l">Ce que ça veut dire :</span> Des éléments de la structure sont « joints » (ex. poutre et voile) et Revit ne sait pas les convertir.</p><p><span class="cap-l">Quoi faire :</span> Cliquer sur « Détache les éléments ». Sans risque.</p></div></article>
+      <article class="cap"><a href="files/captures/03-str-famille-corrompue.png" target="_blank" rel="noopener" class="cap-img"><img src="files/captures/03-str-famille-corrompue.png" alt="Erreur dans la famille « M_Double raccord à 45 degrés - PVC… »" loading="lazy"></a>
+        <div class="cap-b"><span class="pill" style="--pc:var(--danger)">Erreur</span><b>Erreur dans la famille « M_Double raccord à 45 degrés - PVC… »</b><p><span class="cap-l">Ce que ça veut dire :</span> Une famille de plomberie abîmée traîne dans la maquette structure. Revit 2026 annule tout.</p><p><span class="cap-l">Quoi faire :</span> Bloquant sous Revit 2026 → on passe par Revit 2024 au lycée.</p></div></article>
+    </div></section>
+    <section class="cap-story"><h3><span class="tt-n">B</span>Réparer la STR sous Revit 2024 (lycée)</h3><p class="hint" style="margin:0 0 10px">16/10 midi : ouverture de DCE_STR_MNT.rvt seule dans Revit 2024, avec « Auditer ».</p><div class="cap-grid">
+      <article class="cap"><a href="files/captures/04-str2024-element-joint.png" target="_blank" rel="noopener" class="cap-img"><img src="files/captures/04-str2024-element-joint.png" alt="« Impossible de couper l&#x27;élément joint » (1 sur 2)" loading="lazy"></a>
+        <div class="cap-b"><span class="pill" style="--pc:var(--doing)">À gérer</span><b>« Impossible de couper l&#x27;élément joint » (1 sur 2)</b><p><span class="cap-l">Ce que ça veut dire :</span> Même message qu&#x27;hier, mais Revit 2024 continue.</p><p><span class="cap-l">Quoi faire :</span> « Détache les éléments ».</p></div></article>
+      <article class="cap"><a href="files/captures/05-str2024-poutre-corrigee.png" target="_blank" rel="noopener" class="cap-img"><img src="files/captures/05-str2024-poutre-corrigee.png" alt="Avertissement : famille « POUTRE_RECT_v2 » corrigée automatiquement" loading="lazy"></a>
+        <div class="cap-b"><span class="pill" style="--pc:var(--muted)">Info</span><b>Avertissement : famille « POUTRE_RECT_v2 » corrigée automatiquement</b><p><span class="cap-l">Ce que ça veut dire :</span> Revit a réparé tout seul une famille de poutre.</p><p><span class="cap-l">Quoi faire :</span> Rien à faire.</p></div></article>
+      <article class="cap"><a href="files/captures/06-str2024-elements-attaches.png" target="_blank" rel="noopener" class="cap-img"><img src="files/captures/06-str2024-elements-attaches.png" alt="« Impossible de laisser les éléments attachés les uns aux autres »" loading="lazy"></a>
+        <div class="cap-b"><span class="pill" style="--pc:var(--doing)">À gérer</span><b>« Impossible de laisser les éléments attachés les uns aux autres »</b><p><span class="cap-l">Ce que ça veut dire :</span> Murs attachés à des dalles ou toits : Revit doit les détacher pour convertir.</p><p><span class="cap-l">Quoi faire :</span> « Détache les éléments » (autant de fois que nécessaire).</p></div></article>
+      <article class="cap"><a href="files/captures/07-str2024-ouverte-analytique.png" target="_blank" rel="noopener" class="cap-img"><img src="files/captures/07-str2024-ouverte-analytique.png" alt="La STR s&#x27;ouvre ✔ (message « modèle analytique structurel »)" loading="lazy"></a>
+        <div class="cap-b"><span class="pill" style="--pc:var(--done)">Bonne solution</span><b>La STR s&#x27;ouvre ✔ (message « modèle analytique structurel »)</b><p><span class="cap-l">Ce que ça veut dire :</span> Le fichier est ouvert. Le message concerne le modèle de calcul des ingénieurs structure, on ne s&#x27;en sert pas.</p><p><span class="cap-l">Quoi faire :</span> Fermer. Puis supprimer la famille « M_Double raccord », purger, et « Enregistrer sous » DCE_STR_MNT_corrige.rvt.</p></div></article>
+    </div></section>
+    <section class="cap-story"><h3><span class="tt-n">C</span>Ouvrir la maquette CVC sur un autre PC</h3><p class="hint" style="margin:0 0 10px">16/10 après-midi, PC du lycée (Revit 2026) : maquette téléchargée depuis le site.</p><div class="cap-grid">
+      <article class="cap"><a href="files/captures/08-cvc-lien-arc-introuvable.png" target="_blank" rel="noopener" class="cap-img"><img src="files/captures/08-cvc-lien-arc-introuvable.png" alt="Lien DCE_ARC_MNT.rvt avec ⚠️" loading="lazy"></a>
+        <div class="cap-b"><span class="pill" style="--pc:var(--doing)">À gérer</span><b>Lien DCE_ARC_MNT.rvt avec ⚠️</b><p><span class="cap-l">Ce que ça veut dire :</span> Le lien garde le chemin de l&#x27;ordinateur d&#x27;Allan (C:\Users\allan\OneDrive…), qui n&#x27;existe pas sur ce PC.</p><p><span class="cap-l">Quoi faire :</span> Il faut rouvrir la maquette détachée, puis « Recharger depuis… ».</p></div></article>
+      <article class="cap"><a href="files/captures/09-cvc-element-non-modifiable.png" target="_blank" rel="noopener" class="cap-img"><img src="files/captures/09-cvc-element-non-modifiable.png" alt="« Élément non modifiable. Il a été supprimé dans le modèle central »" loading="lazy"></a>
+        <div class="cap-b"><span class="pill" style="--pc:var(--danger)">Erreur</span><b>« Élément non modifiable. Il a été supprimé dans le modèle central »</b><p><span class="cap-l">Ce que ça veut dire :</span> La maquette a des sous-projets : ouverte sans détacher, elle croit encore être reliée au PC d&#x27;origine.</p><p><span class="cap-l">Quoi faire :</span> Fermer, puis Fichier → Ouvrir avec « Détacher du fichier central » coché.</p></div></article>
+      <article class="cap"><a href="files/revit-ouvrir-detache.png" target="_blank" rel="noopener" class="cap-img"><img src="files/revit-ouvrir-detache.png" alt="La bonne façon : ouvrir détaché" loading="lazy"></a>
+        <div class="cap-b"><span class="pill" style="--pc:var(--done)">Bonne solution</span><b>La bonne façon : ouvrir détaché</b><p><span class="cap-l">Ce que ça veut dire :</span> ① le fichier, ② la case « Détacher du fichier central », ③ Ouvrir.</p><p><span class="cap-l">Quoi faire :</span> Puis choisir « Détacher et conserver les sous-projets ».</p></div></article>
+      <article class="cap"><a href="files/revit-gerer-liens.png" target="_blank" rel="noopener" class="cap-img"><img src="files/revit-gerer-liens.png" alt="Lien « Introuvable » après détachement" loading="lazy"></a>
+        <div class="cap-b"><span class="pill" style="--pc:var(--doing)">À gérer</span><b>Lien « Introuvable » après détachement</b><p><span class="cap-l">Ce que ça veut dire :</span> Normal : Revit ne trouve toujours pas l&#x27;ARC à l&#x27;ancien chemin.</p><p><span class="cap-l">Quoi faire :</span> ① sélectionner la ligne, ② petite flèche ▾ de Recharger → « Recharger depuis… ».</p></div></article>
+      <article class="cap"><a href="files/captures/11-cvc-recharger-introuvable.png" target="_blank" rel="noopener" class="cap-img"><img src="files/captures/11-cvc-recharger-introuvable.png" alt="« Document lié … introuvable. Le lien va être déchargé »" loading="lazy"></a>
+        <div class="cap-b"><span class="pill" style="--pc:var(--danger)">Erreur</span><b>« Document lié … introuvable. Le lien va être déchargé »</b><p><span class="cap-l">Ce que ça veut dire :</span> On a cliqué sur « Recharger » tout court : il cherche encore l&#x27;ancien chemin.</p><p><span class="cap-l">Quoi faire :</span> Utiliser « Recharger depuis… » (la flèche ▾ ou clic droit sur la ligne).</p></div></article>
+      <article class="cap"><a href="files/captures/12-cvc-liens-imbriques.png" target="_blank" rel="noopener" class="cap-img"><img src="files/captures/12-cvc-liens-imbriques.png" alt="« Liens imbriqués invisibles … dans le lien EXE_RSP_CVC_MNT.rvt »" loading="lazy"></a>
+        <div class="cap-b"><span class="pill" style="--pc:var(--danger)">Erreur</span><b>« Liens imbriqués invisibles … dans le lien EXE_RSP_CVC_MNT.rvt »</b><p><span class="cap-l">Ce que ça veut dire :</span> Mauvais fichier choisi : on a lié la maquette CVC dans elle-même au lieu de l&#x27;ARC.</p><p><span class="cap-l">Quoi faire :</span> Supprimer ce lien, et choisir DCE_ARC_MNT.rvt (174 Mo).</p></div></article>
+      <article class="cap"><a href="files/captures/13-lier-origine-interne.png" target="_blank" rel="noopener" class="cap-img"><img src="files/captures/13-lier-origine-interne.png" alt="Positionnement « Origine interne vers origine interne »" loading="lazy"></a>
+        <div class="cap-b"><span class="pill" style="--pc:var(--danger)">Mauvais choix</span><b>Positionnement « Origine interne vers origine interne »</b><p><span class="cap-l">Ce que ça veut dire :</span> Mauvais choix : l&#x27;ARC serait placée sans tenir compte du calage du projet.</p><p><span class="cap-l">Quoi faire :</span> Changer pour « Automatique - A l&#x27;emplacement partagé ».</p></div></article>
+      <article class="cap"><a href="files/captures/14-lier-point-de-base.png" target="_blank" rel="noopener" class="cap-img"><img src="files/captures/14-lier-point-de-base.png" alt="Positionnement « Point de base du projet vers point de base du projet »" loading="lazy"></a>
+        <div class="cap-b"><span class="pill" style="--pc:var(--danger)">Mauvais choix</span><b>Positionnement « Point de base du projet vers point de base du projet »</b><p><span class="cap-l">Ce que ça veut dire :</span> Mauvais choix aussi.</p><p><span class="cap-l">Quoi faire :</span> Changer pour « Automatique - A l&#x27;emplacement partagé ».</p></div></article>
+      <article class="cap"><a href="files/revit-lier-arc.png" target="_blank" rel="noopener" class="cap-img"><img src="files/revit-lier-arc.png" alt="Le bon positionnement" loading="lazy"></a>
+        <div class="cap-b"><span class="pill" style="--pc:var(--done)">Bonne solution</span><b>Le bon positionnement</b><p><span class="cap-l">Ce que ça veut dire :</span> ① DCE_ARC_MNT, ② « Automatique - A l&#x27;emplacement partagé », ③ Ouvrir.</p><p><span class="cap-l">Quoi faire :</span> L&#x27;ARC revient exactement à sa place.</p></div></article>
+    </div></section>
+    <section class="cap-story"><h3><span class="tt-n">D</span>Lier la STR corrigée</h3><p class="hint" style="margin:0 0 10px">16/10 après-midi : liaison de la structure réparée dans la maquette CVC.</p><div class="cap-grid">
+      <article class="cap"><a href="files/captures/15-str-mnt-2.png" target="_blank" rel="noopener" class="cap-img"><img src="files/captures/15-str-mnt-2.png" alt="Le fichier « DCE_STR_MNT 2 »" loading="lazy"></a>
+        <div class="cap-b"><span class="pill" style="--pc:var(--muted)">Info</span><b>Le fichier « DCE_STR_MNT 2 »</b><p><span class="cap-l">Ce que ça veut dire :</span> C&#x27;est la STR réparée enregistrée sous Revit 2024.</p><p><span class="cap-l">Quoi faire :</span> La renommer DCE_STR_MNT_corrige dans l&#x27;Explorateur Windows (clic droit → Renommer), avant de la lier.</p></div></article>
+      <article class="cap"><a href="files/captures/16-remplacer-fichier.png" target="_blank" rel="noopener" class="cap-img"><img src="files/captures/16-remplacer-fichier.png" alt="« Le fichier DCE_STR_MNT 2.rvt existe déjà. Voulez-vous le remplacer ? »" loading="lazy"></a>
+        <div class="cap-b"><span class="pill" style="--pc:var(--danger)">Mauvais choix</span><b>« Le fichier DCE_STR_MNT 2.rvt existe déjà. Voulez-vous le remplacer ? »</b><p><span class="cap-l">Ce que ça veut dire :</span> Un « Enregistrer sous » allait écraser la STR réparée avec une autre maquette.</p><p><span class="cap-l">Quoi faire :</span> Annuler ! On renomme dans l&#x27;Explorateur, jamais par « Enregistrer sous ».</p></div></article>
+      <article class="cap"><a href="files/revit-site-partagees.png" target="_blank" rel="noopener" class="cap-img"><img src="files/revit-site-partagees.png" alt="Choix du site : PARTAGEES" loading="lazy"></a>
+        <div class="cap-b"><span class="pill" style="--pc:var(--done)">Bonne solution</span><b>Choix du site : PARTAGEES</b><p><span class="cap-l">Ce que ça veut dire :</span> Revit demande où placer la STR. PARTAGEES = les coordonnées communes ARC/STR. ORIGINE la placerait décalée.</p><p><span class="cap-l">Quoi faire :</span> ① PARTAGEES, ② OK. Ensuite chemins en Relatif et enregistrer.</p></div></article>
+    </div></section>
+    <p class="hint">La procédure complète, dans l'ordre, est dans l'onglet <b>Tuto Revit</b>.</p>
   </main>
 
   <main id="viewMine" hidden>
@@ -1765,20 +1834,20 @@ function renderMine(){
 }
 
 function setTab(t){ tab=t; store.set("ehpad-tab",t);
-  $("#tabTasks").setAttribute("aria-selected",t==="tasks"); $("#tabMine").setAttribute("aria-selected",t==="mine"); $("#tabDone").setAttribute("aria-selected",t==="done"); $("#tabIssues").setAttribute("aria-selected",t==="issues"); $("#tabProj").setAttribute("aria-selected",t==="proj"); $("#tabAcc").setAttribute("aria-selected",t==="acc"); $("#tabHours").setAttribute("aria-selected",t==="hours"); $("#tabDocs").setAttribute("aria-selected",t==="docs"); $("#tabRevit").setAttribute("aria-selected",t==="revit"); $("#tabTuto").setAttribute("aria-selected",t==="tuto");
-  $("#viewTasks").hidden=t!=="tasks"; $("#viewMine").hidden=t!=="mine"; $("#viewDone").hidden=t!=="done"; $("#viewIssues").hidden=t!=="issues"; $("#viewProj").hidden=t!=="proj"; $("#viewAcc").hidden=t!=="acc"; $("#viewHours").hidden=t!=="hours"; $("#viewDocs").hidden=t!=="docs"; if(t==="docs") renderDocs(); $("#viewRevit").hidden=t!=="revit"; if(t==="revit") renderRevit(); $("#viewTuto").hidden=t!=="tuto"; $("#taskTools").hidden=t!=="tasks";
+  $("#tabTasks").setAttribute("aria-selected",t==="tasks"); $("#tabMine").setAttribute("aria-selected",t==="mine"); $("#tabDone").setAttribute("aria-selected",t==="done"); $("#tabIssues").setAttribute("aria-selected",t==="issues"); $("#tabProj").setAttribute("aria-selected",t==="proj"); $("#tabAcc").setAttribute("aria-selected",t==="acc"); $("#tabHours").setAttribute("aria-selected",t==="hours"); $("#tabDocs").setAttribute("aria-selected",t==="docs"); $("#tabRevit").setAttribute("aria-selected",t==="revit"); $("#tabTuto").setAttribute("aria-selected",t==="tuto"); $("#tabCaps").setAttribute("aria-selected",t==="caps");
+  $("#viewTasks").hidden=t!=="tasks"; $("#viewMine").hidden=t!=="mine"; $("#viewDone").hidden=t!=="done"; $("#viewIssues").hidden=t!=="issues"; $("#viewProj").hidden=t!=="proj"; $("#viewAcc").hidden=t!=="acc"; $("#viewHours").hidden=t!=="hours"; $("#viewDocs").hidden=t!=="docs"; if(t==="docs") renderDocs(); $("#viewRevit").hidden=t!=="revit"; if(t==="revit") renderRevit(); $("#viewTuto").hidden=t!=="tuto"; $("#viewCaps").hidden=t!=="caps"; $("#taskTools").hidden=t!=="tasks";
   if(t==="hours"){ renderHoursForm(); renderHours(); renderCal(); }
   if(t==="acc") renderAcc();
   if(t==="mine") renderMine();
   if(t==="done") renderDone();
   if(t==="issues"){ renderIssueForm(); renderIssues(); } }
-$("#tabTasks").onclick=()=>setTab("tasks"); $("#tabMine").onclick=()=>setTab("mine"); $("#tabDone").onclick=()=>setTab("done"); $("#tabIssues").onclick=()=>setTab("issues"); $("#tabProj").onclick=()=>setTab("proj"); $("#tabAcc").onclick=()=>setTab("acc"); $("#tabHours").onclick=()=>setTab("hours"); $("#tabDocs").onclick=()=>setTab("docs"); $("#tabRevit").onclick=()=>setTab("revit"); $("#tabTuto").onclick=()=>setTab("tuto"); $("#goTuto").onclick=()=>{ setTab("tuto"); window.scrollTo(0,0); };
+$("#tabTasks").onclick=()=>setTab("tasks"); $("#tabMine").onclick=()=>setTab("mine"); $("#tabDone").onclick=()=>setTab("done"); $("#tabIssues").onclick=()=>setTab("issues"); $("#tabProj").onclick=()=>setTab("proj"); $("#tabAcc").onclick=()=>setTab("acc"); $("#tabHours").onclick=()=>setTab("hours"); $("#tabDocs").onclick=()=>setTab("docs"); $("#tabRevit").onclick=()=>setTab("revit"); $("#tabTuto").onclick=()=>setTab("tuto"); $("#tabCaps").onclick=()=>setTab("caps"); $("#goTuto").onclick=()=>{ setTab("tuto"); window.scrollTo(0,0); };
 
 function renderAll(){ renderBoard(); renderMine(); renderDone(); renderCal(); renderIssueForm(); renderIssues(); renderHoursForm(); renderHours(); renderTaskExtras(); renderDocs(); }
 
 /* ---------- Boot ---------- */
 renderMe(); renderTimeline(); renderFilters(); renderBoard(); renderHours();
-{ const st=store.get("ehpad-tab"); if(location.hash==="#heures") setTab("hours"); else if(location.hash==="#mes-taches") setTab("mine"); else if(location.hash==="#realise") setTab("done"); else if(location.hash==="#problemes") setTab("issues"); else if(location.hash==="#projet") setTab("proj"); else if(location.hash==="#acc") setTab("acc"); else if(location.hash==="#documents") setTab("docs"); else if(location.hash==="#revit") setTab("revit"); else if(location.hash==="#tuto") setTab("tuto"); else setTab(["hours","mine","done","issues","proj","tasks","acc","docs","revit","tuto"].includes(st)?st:"proj"); }
+{ const st=store.get("ehpad-tab"); if(location.hash==="#heures") setTab("hours"); else if(location.hash==="#mes-taches") setTab("mine"); else if(location.hash==="#realise") setTab("done"); else if(location.hash==="#problemes") setTab("issues"); else if(location.hash==="#projet") setTab("proj"); else if(location.hash==="#acc") setTab("acc"); else if(location.hash==="#documents") setTab("docs"); else if(location.hash==="#revit") setTab("revit"); else if(location.hash==="#tuto") setTab("tuto"); else if(location.hash==="#captures") setTab("caps"); else setTab(["hours","mine","done","issues","proj","tasks","acc","docs","revit","tuto","caps"].includes(st)?st:"proj"); }
 
 (async()=>{
   db = await window.claude.use("db");
