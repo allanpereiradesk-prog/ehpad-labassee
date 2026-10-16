@@ -1,0 +1,984 @@
+{
+ "tasks": {
+  "i04": {
+   "assignees": [],
+   "createdAt": "2026-10-15T20:45:00Z",
+   "dce": [
+    {
+     "id": "bf1ed74fd0949900bf74e9c118098c84",
+     "kind": "file",
+     "name": "CCTP lot 12 CVC-DF-GEO-PBS",
+     "type": "application/pdf"
+    },
+    {
+     "id": "bf6b6327f32413104ba82872a84bce25",
+     "kind": "file",
+     "name": "Schéma CVC-S-1 chauffage + ECS + eau glacée",
+     "type": "application/pdf"
+    },
+    {
+     "id": "c4401e3f2a4654cba9f1fde9931d64b8",
+     "kind": "file",
+     "name": "Fiches techniques CVC / PBS",
+     "type": "application/pdf"
+    },
+    {
+     "id": "1e9edc4c7eb8852f9749589ed6c298e5",
+     "kind": "file",
+     "name": "Réseaux sous dalle (GO RT20-04)",
+     "type": "application/pdf"
+    },
+    {
+     "id": "e552db3ee417aa6728ac8ffcecc710b9",
+     "kind": "file",
+     "name": "Plan archi RDC 1/100 (AR01)",
+     "type": "application/pdf"
+    },
+    {
+     "id": "38c501e17d48ae49c673ebac0764dbc8",
+     "kind": "file",
+     "name": "Plan archi R+1 1/100 (AR02)",
+     "type": "application/pdf"
+    },
+    {
+     "kind": "path",
+     "name": "Plans archi et GO en DWG",
+     "path": "DCE / 6 - PIECES GRAPHIQUES/…/DWG"
+    }
+   ],
+   "docs": [],
+   "due": "2027-04-30",
+   "hoursPlanned": 70,
+   "lot": "ecs",
+   "notes": "",
+   "order": 13,
+   "phase": "individuelle",
+   "status": "afaire",
+   "title": "Production d'ECS, distribution EF et ECS avec bouclage"
+  },
+  "i01": {
+   "assignees": [],
+   "createdAt": "2026-10-15T20:45:00Z",
+   "dce": [
+    {
+     "id": "bf1ed74fd0949900bf74e9c118098c84",
+     "kind": "file",
+     "name": "CCTP lot 12 CVC-DF-GEO-PBS",
+     "type": "application/pdf"
+    },
+    {
+     "id": "bf6b6327f32413104ba82872a84bce25",
+     "kind": "file",
+     "name": "Schéma CVC-S-1 chauffage + ECS + eau glacée",
+     "type": "application/pdf"
+    },
+    {
+     "id": "f2f811524bc494c47e44d64ba48de659",
+     "kind": "file",
+     "name": "Rapport TRT GEOSYNERGIE (04/2022)",
+     "type": "application/pdf"
+    },
+    {
+     "id": "1f07bea205a26da010a94f5d8413dbda",
+     "kind": "file",
+     "name": "Scénario 4 – 11 sondes géothermiques",
+     "type": "application/pdf"
+    },
+    {
+     "id": "a8558a87bd258cc05f01b495a7a1df7c",
+     "kind": "file",
+     "name": "PV de réception sonde test",
+     "type": "application/pdf"
+    },
+    {
+     "id": "c4401e3f2a4654cba9f1fde9931d64b8",
+     "kind": "file",
+     "name": "Fiches techniques CVC / PBS",
+     "type": "application/pdf"
+    },
+    {
+     "id": "9186dc9a514d37dbd03149f9db82ce7d",
+     "kind": "file",
+     "name": "Note de calcul RT 2012, E+C- et STD",
+     "type": "application/pdf"
+    },
+    {
+     "kind": "path",
+     "name": "Plans archi et GO en DWG",
+     "path": "DCE / 6 - PIECES GRAPHIQUES/…/DWG"
+    }
+   ],
+   "docs": [],
+   "due": "2027-04-30",
+   "hoursPlanned": 70,
+   "lot": "chaud-froid",
+   "notes": "Modélisation, familles, dimensionnement, équilibrage, notes de calcul.",
+   "order": 10,
+   "phase": "individuelle",
+   "status": "afaire",
+   "title": "Production de chaleur et de froid : PAC géothermiques, chaudières gaz, réseaux hydrauliques"
+  },
+  "i07": {
+   "assignees": [],
+   "createdAt": "2026-10-15T20:45:00Z",
+   "dce": [
+    {
+     "id": "bf1ed74fd0949900bf74e9c118098c84",
+     "kind": "file",
+     "name": "CCTP lot 12 CVC-DF-GEO-PBS",
+     "type": "application/pdf"
+    },
+    {
+     "id": "c4401e3f2a4654cba9f1fde9931d64b8",
+     "kind": "file",
+     "name": "Fiches techniques CVC / PBS",
+     "type": "application/pdf"
+    },
+    {
+     "kind": "path",
+     "name": "DPGF lot 12 CVC-DF-GEO-PBS (.xlsx)",
+     "path": "DCE / 5 - PIECES ECRITES/04 - DPGF"
+    }
+   ],
+   "docs": [],
+   "due": "2027-05-07",
+   "hoursPlanned": 24,
+   "lot": "commun",
+   "notes": "DPGF du lot 12 dans 5 - PIECES ECRITES/04 - DPGF.",
+   "order": 15,
+   "phase": "individuelle",
+   "status": "afaire",
+   "title": "Nomenclatures de quantités + devis, fiches constructeur (URL, PDF), paramètres partagés (main d'œuvre…)"
+  },
+  "c06": {
+   "assignees": [],
+   "createdAt": "2026-10-15T20:45:00Z",
+   "dce": [
+    {
+     "id": "bf1ed74fd0949900bf74e9c118098c84",
+     "kind": "file",
+     "name": "CCTP lot 12 CVC-DF-GEO-PBS",
+     "type": "application/pdf"
+    },
+    {
+     "id": "bf6b6327f32413104ba82872a84bce25",
+     "kind": "file",
+     "name": "Schéma CVC-S-1 chauffage + ECS + eau glacée",
+     "type": "application/pdf"
+    },
+    {
+     "id": "c4401e3f2a4654cba9f1fde9931d64b8",
+     "kind": "file",
+     "name": "Fiches techniques CVC / PBS",
+     "type": "application/pdf"
+    },
+    {
+     "id": "f2f811524bc494c47e44d64ba48de659",
+     "kind": "file",
+     "name": "Rapport TRT GEOSYNERGIE (04/2022)",
+     "type": "application/pdf"
+    },
+    {
+     "id": "1f07bea205a26da010a94f5d8413dbda",
+     "kind": "file",
+     "name": "Scénario 4 – 11 sondes géothermiques",
+     "type": "application/pdf"
+    },
+    {
+     "id": "a8558a87bd258cc05f01b495a7a1df7c",
+     "kind": "file",
+     "name": "PV de réception sonde test",
+     "type": "application/pdf"
+    },
+    {
+     "id": "cf16422e9e5d96158b52e9aa34241682",
+     "kind": "file",
+     "name": "CCAP",
+     "type": "application/pdf"
+    }
+   ],
+   "docs": [],
+   "due": "2026-12-18",
+   "hoursPlanned": 32,
+   "lot": "commun",
+   "notes": "CCTP CVC-DF-GEO-PBS + schéma de principe CVC-S-1 (chauffage, ECS, eau glacée) + rapport TRT GEOSYNERGIE + scénario 11 sondes.",
+   "order": 3,
+   "phase": "commune",
+   "status": "afaire",
+   "title": "Analyse du CCTP lot 12, synoptique et analyse fonctionnelle"
+  },
+  "i03": {
+   "assignees": [],
+   "createdAt": "2026-10-15T20:45:00Z",
+   "dce": [
+    {
+     "id": "bf1ed74fd0949900bf74e9c118098c84",
+     "kind": "file",
+     "name": "CCTP lot 12 CVC-DF-GEO-PBS",
+     "type": "application/pdf"
+    },
+    {
+     "id": "bf6b6327f32413104ba82872a84bce25",
+     "kind": "file",
+     "name": "Schéma CVC-S-1 chauffage + ECS + eau glacée",
+     "type": "application/pdf"
+    },
+    {
+     "id": "c4401e3f2a4654cba9f1fde9931d64b8",
+     "kind": "file",
+     "name": "Fiches techniques CVC / PBS",
+     "type": "application/pdf"
+    },
+    {
+     "id": "e552db3ee417aa6728ac8ffcecc710b9",
+     "kind": "file",
+     "name": "Plan archi RDC 1/100 (AR01)",
+     "type": "application/pdf"
+    },
+    {
+     "id": "38c501e17d48ae49c673ebac0764dbc8",
+     "kind": "file",
+     "name": "Plan archi R+1 1/100 (AR02)",
+     "type": "application/pdf"
+    },
+    {
+     "id": "9186dc9a514d37dbd03149f9db82ce7d",
+     "kind": "file",
+     "name": "Note de calcul RT 2012, E+C- et STD",
+     "type": "application/pdf"
+    },
+    {
+     "kind": "path",
+     "name": "Plans archi et GO en DWG",
+     "path": "DCE / 6 - PIECES GRAPHIQUES/…/DWG"
+    }
+   ],
+   "docs": [],
+   "due": "2027-04-30",
+   "hoursPlanned": 70,
+   "lot": "emetteurs",
+   "notes": "",
+   "order": 12,
+   "phase": "individuelle",
+   "status": "afaire",
+   "title": "Réseaux radiateurs et panneaux rayonnants"
+  },
+  "i09": {
+   "assignees": [],
+   "createdAt": "2026-10-15T20:45:00Z",
+   "dce": [
+    {
+     "id": "fa6a46ebd7e2234b7beb502fc4808eb0",
+     "kind": "file",
+     "name": "Charte de synthèse BIM",
+     "type": "application/pdf"
+    },
+    {
+     "id": "27b37d038376fc7addd309bcf81f0239",
+     "kind": "file",
+     "name": "Convention BIM DCE",
+     "type": "application/pdf"
+    },
+    {
+     "id": "dc16a0beaf042354ee2ba4cfba6b81a7",
+     "kind": "file",
+     "name": "Planning prévisionnel chantier",
+     "type": "application/pdf"
+    }
+   ],
+   "docs": [],
+   "due": "2027-05-12",
+   "hoursPlanned": 16,
+   "lot": "commun",
+   "notes": "",
+   "order": 16,
+   "phase": "individuelle",
+   "status": "afaire",
+   "title": "Synthèse de maquette et planification"
+  },
+  "i05": {
+   "assignees": [],
+   "createdAt": "2026-10-15T20:45:00Z",
+   "dce": [
+    {
+     "id": "58f9906605e238c4a67ec36f0e944d5b",
+     "kind": "file",
+     "name": "Fichier de paramètres partagés Revit (.txt)",
+     "type": "text/plain"
+    },
+    {
+     "id": "27b37d038376fc7addd309bcf81f0239",
+     "kind": "file",
+     "name": "Convention BIM DCE",
+     "type": "application/pdf"
+    },
+    {
+     "id": "fa6a46ebd7e2234b7beb502fc4808eb0",
+     "kind": "file",
+     "name": "Charte de synthèse BIM",
+     "type": "application/pdf"
+    },
+    {
+     "id": "0e643904f734fbc031783802e41a6a33",
+     "kind": "file",
+     "name": "Notice BIM",
+     "type": "application/pdf"
+    },
+    {
+     "kind": "path",
+     "name": "Maquettes Revit ARC, STR, ELE",
+     "path": "DCE / 4 - PIECES BIM/DCE_BIM_MAQUETTE"
+    }
+   ],
+   "docs": [],
+   "due": "2027-04-10",
+   "hoursPlanned": 32,
+   "lot": "commun",
+   "notes": "",
+   "order": 9,
+   "phase": "individuelle",
+   "status": "afaire",
+   "title": "Maquette CVC collaborative : sous-projets, paramètres partagés, filtres, gabarits de projet et de vues"
+  },
+  "j03": {
+   "assignees": [],
+   "createdAt": "2026-10-15T20:45:00Z",
+   "dce": [],
+   "docs": [],
+   "due": "2027-05-28",
+   "hoursPlanned": null,
+   "lot": "rendu",
+   "notes": "Date prévisionnelle : jeudi 28/05/2027.",
+   "order": 20,
+   "phase": "jalon",
+   "status": "afaire",
+   "title": "Soutenance finale (20' de présentation + 20' d'entretien par candidat)"
+  },
+  "c03": {
+   "assignees": [],
+   "createdAt": "2026-10-15T20:45:00Z",
+   "dce": [
+    {
+     "id": "5bde07d654a858f0794ce2de7c219a86",
+     "kind": "file",
+     "name": "Notice architecturale",
+     "type": "application/pdf"
+    },
+    {
+     "id": "e552db3ee417aa6728ac8ffcecc710b9",
+     "kind": "file",
+     "name": "Plan archi RDC 1/100 (AR01)",
+     "type": "application/pdf"
+    },
+    {
+     "id": "38c501e17d48ae49c673ebac0764dbc8",
+     "kind": "file",
+     "name": "Plan archi R+1 1/100 (AR02)",
+     "type": "application/pdf"
+    },
+    {
+     "id": "bd0e2d5b37858c5851ca0387536107fe",
+     "kind": "file",
+     "name": "Coupes et élévations (AR15)",
+     "type": "application/pdf"
+    },
+    {
+     "kind": "path",
+     "name": "Vidéo visite virtuelle (.mp4, 480 Mo)",
+     "path": "DCE / 4 - PIECES BIM/DCE_BIM_VIDEO"
+    },
+    {
+     "kind": "path",
+     "name": "Maquettes Revit ARC, STR, ELE",
+     "path": "DCE / 4 - PIECES BIM/DCE_BIM_MAQUETTE"
+    }
+   ],
+   "docs": [],
+   "due": "2027-01-15",
+   "hoursPlanned": 12,
+   "lot": "commun",
+   "notes": "",
+   "order": 4,
+   "phase": "commune",
+   "status": "afaire",
+   "title": "Visite virtuelle du bâtiment à partir de la maquette (Revit, Enscape…)"
+  },
+  "i08": {
+   "assignees": [],
+   "createdAt": "2026-10-15T20:45:00Z",
+   "dce": [
+    {
+     "id": "fa6a46ebd7e2234b7beb502fc4808eb0",
+     "kind": "file",
+     "name": "Charte de synthèse BIM",
+     "type": "application/pdf"
+    },
+    {
+     "id": "27b37d038376fc7addd309bcf81f0239",
+     "kind": "file",
+     "name": "Convention BIM DCE",
+     "type": "application/pdf"
+    },
+    {
+     "id": "1e9edc4c7eb8852f9749589ed6c298e5",
+     "kind": "file",
+     "name": "Réseaux sous dalle (GO RT20-04)",
+     "type": "application/pdf"
+    },
+    {
+     "id": "0cbc949f4dace8ed7efdf1b57111ee52",
+     "kind": "file",
+     "name": "Faux plafonds RDC (AR16)",
+     "type": "application/pdf"
+    },
+    {
+     "id": "48bd1029f22aa040f650d8918210b75a",
+     "kind": "file",
+     "name": "Faux plafonds R+1 (AR17)",
+     "type": "application/pdf"
+    }
+   ],
+   "docs": [],
+   "due": "2027-05-14",
+   "hoursPlanned": 24,
+   "lot": "commun",
+   "notes": "",
+   "order": 17,
+   "phase": "individuelle",
+   "status": "afaire",
+   "title": "Livrables : feuilles, étiquettes, maquette de réservations"
+  },
+  "c02": {
+   "assignees": [
+    "Allan"
+   ],
+   "createdAt": "2026-10-15T20:45:00Z",
+   "dce": [
+    {
+     "id": "0e643904f734fbc031783802e41a6a33",
+     "kind": "file",
+     "name": "Notice BIM",
+     "type": "application/pdf"
+    },
+    {
+     "id": "27b37d038376fc7addd309bcf81f0239",
+     "kind": "file",
+     "name": "Convention BIM DCE",
+     "type": "application/pdf"
+    },
+    {
+     "id": "fa6a46ebd7e2234b7beb502fc4808eb0",
+     "kind": "file",
+     "name": "Charte de synthèse BIM",
+     "type": "application/pdf"
+    },
+    {
+     "id": "58f9906605e238c4a67ec36f0e944d5b",
+     "kind": "file",
+     "name": "Fichier de paramètres partagés Revit (.txt)",
+     "type": "text/plain"
+    },
+    {
+     "kind": "path",
+     "name": "Maquettes Revit ARC, STR, ELE",
+     "path": "DCE / 4 - PIECES BIM/DCE_BIM_MAQUETTE"
+    },
+    {
+     "kind": "path",
+     "name": "Configuration et mappage IFC",
+     "path": "DCE / 4 - PIECES BIM/DCE_BIM_DOCS CADRE/ANNEXES"
+    }
+   ],
+   "docs": [
+    {
+     "at": "2026-10-15T22:48:00Z",
+     "by": "Allan",
+     "id": "0bfbe7cf7feaa264c612428ea3943d94",
+     "kind": "file",
+     "name": "Point d'avancement 16-10 (PDF)",
+     "type": "application/pdf"
+    }
+   ],
+   "due": "2026-12-11",
+   "hoursPlanned": 16,
+   "lot": "commun",
+   "notes": "Maquettes fournies dans 4 - PIECES BIM : DCE_ARC_MNT.rvt, DCE_STR_MNT.rvt, DCE_ELE_MNT.rvt. Charte : paramètres partagés + mappage IFC dans DCE_BIM_DOCS CADRE/ANNEXES.",
+   "order": 2,
+   "phase": "commune",
+   "report": "Ce que j'ai fait (15-16/10) :\n• Maquette CVC créée dans Revit 2026 : EXE_RSP_CVC_MNT.rvt (gabarit Systèmes FR), sur mon PC dans C:\\Users\\allan\\EHPAD_CVC.\n• Maquette ARC du DCE liée, coordonnées partagées récupérées depuis l'ARC (le 0 du projet = niveau N00, altitude 28,20 m).\n• Niveaux calés sur l'ARC : N00 (0,00), N01 (+3,36), NT1 terrasse technique (+7,02).\n• 85 axes du quadrillage copiés depuis l'ARC.\n• Travail partagé activé avec 7 sous-projets : 00 Niveaux et quadrillages, 01 Production chaud-froid, 02 VMC sanitaires, 03 Radiateurs et panneaux rayonnants, 04 ECS-EF bouclage, 05 Commun, 90 Lien ARC.\n• Paramètres partagés de la charte BIM du DCE chargés : BMG_LOT, BMG_ZONE, BMG_NIVEAU (feuilles + réseaux et équipements CVC/PLB), BMG_ECHELLE, BMG_TYPE, BMG_INDICE (cartouche), IfcExportAs, ZoneName (espaces), SiteName (infos projet).\n• Systèmes ajoutés pour le projet : Eau glacée aller/retour, Eau glycolée aller/retour (géothermie), ECS Bouclage.\n• Filtres de vues par réseau avec couleurs (chauffage aller rouge / retour bleu, eau glacée, eau glycolée vert, ECS magenta, bouclage violet, EF vert, VMC orange, extraction marron, rejet gris).\n• 4 gabarits de vues, un par partie de la fiche (01 Production chaud-froid, 02 VMC sanitaires, 03 Radiateurs et panneaux, 04 ECS-EF bouclage) et 10 vues en plan qui les utilisent (N00, N01, NT1).\n\nReste à faire : la licence Cloud Worksharing (voir Problèmes) pour mettre la maquette sur ACC, et la STR à corriger au lycée.\n\nÀ dire à l'oral : on travaille en BIM niveau 2 comme le demande la convention BIM du projet. Chaque métier a sa maquette, liée aux autres en coordonnées partagées. On a repris les paramètres partagés de la charte, et chaque partie a son sous-projet, son gabarit de vue et ses filtres.",
+   "status": "encours",
+   "title": "Mettre en place la maquette collaborative (ARC, STR, ELE liées)"
+  },
+  "c04": {
+   "assignees": [
+    "Allan"
+   ],
+   "createdAt": "2026-10-15T20:45:00Z",
+   "dce": [
+    {
+     "id": "e552db3ee417aa6728ac8ffcecc710b9",
+     "kind": "file",
+     "name": "Plan archi RDC 1/100 (AR01)",
+     "type": "application/pdf"
+    },
+    {
+     "id": "38c501e17d48ae49c673ebac0764dbc8",
+     "kind": "file",
+     "name": "Plan archi R+1 1/100 (AR02)",
+     "type": "application/pdf"
+    },
+    {
+     "id": "4a66a8f404ba8616d74e46c57a4530a7",
+     "kind": "file",
+     "name": "Façades, coupes, détails (AR11)",
+     "type": "application/pdf"
+    },
+    {
+     "id": "bd0e2d5b37858c5851ca0387536107fe",
+     "kind": "file",
+     "name": "Coupes et élévations (AR15)",
+     "type": "application/pdf"
+    },
+    {
+     "id": "80cf77defa471d597eaa82a5eff2dea5",
+     "kind": "file",
+     "name": "Menuiseries extérieures (AR24)",
+     "type": "application/pdf"
+    },
+    {
+     "id": "1c5ab9c622adeff51be48de9e2e18ac4",
+     "kind": "file",
+     "name": "CCTP lot 04 menuiseries extérieures",
+     "type": "application/pdf"
+    },
+    {
+     "id": "92221cbdfd0e5e40c7d034868fda29ee",
+     "kind": "file",
+     "name": "Tableau des surfaces globales",
+     "type": "application/pdf"
+    },
+    {
+     "id": "e10e29dda36c9ebb7c00da18fff189a4",
+     "kind": "file",
+     "name": "Notice acoustique",
+     "type": "application/pdf"
+    },
+    {
+     "id": "9186dc9a514d37dbd03149f9db82ce7d",
+     "kind": "file",
+     "name": "Note de calcul RT 2012, E+C- et STD",
+     "type": "application/pdf"
+    },
+    {
+     "kind": "path",
+     "name": "Tableau des surfaces (.xlsx)",
+     "path": "DCE / 5 - PIECES ECRITES/02 - SURFACES"
+    },
+    {
+     "kind": "path",
+     "name": "Maquettes Revit ARC, STR, ELE",
+     "path": "DCE / 4 - PIECES BIM/DCE_BIM_MAQUETTE"
+    }
+   ],
+   "docs": [
+    {
+     "at": "2026-10-15T22:48:00Z",
+     "by": "Allan",
+     "id": "0bfbe7cf7feaa264c612428ea3943d94",
+     "kind": "file",
+     "name": "Point d'avancement 16-10 (PDF)",
+     "type": "application/pdf"
+    },
+    {
+     "at": "2026-10-16T01:00:00Z",
+     "by": "Allan",
+     "file": "EHPAD_Pieces_Espaces_Zones_Thermique.xlsx",
+     "kind": "static",
+     "name": "Excel pièces, espaces, zones, parois, baies, ponts thermiques",
+     "path": "docs/EHPAD_Pieces_Espaces_Zones_Thermique.xlsx.b64.txt",
+     "type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    }
+   ],
+   "due": "2027-01-29",
+   "hoursPlanned": 48,
+   "lot": "commun",
+   "notes": "Préparer le bilan thermique (Climabim, STD, calcul réglementaire). Données : notice RT 2012 et NC RT2012 E+C- & STD (annexe 04 du lot 12).",
+   "order": 5,
+   "phase": "commune",
+   "report": "Ce que j'ai fait (16/10) dans la maquette CVC :\n• 320 espaces MEP créés à partir des pièces de l'ARC (145 au N00, 175 au N01), avec le nom et le numéro de la pièce archi. Le service de chaque pièce est repéré dans le paramètre ZoneName.\n• 13 zones CVC créées par niveau et par service : N00 ouvert (725 m²), N00 soins (264 m²), N00 vie (321 m²), N00 logistique (293 m²), N00 technique, N00 et N01 dégagements, N01 ouvert (976 m²), N01 fermé (534 m²)…\n\nÀ vérifier : 16 pièces du N00 n'ont pas eu d'espace (pièces non fermées par des murs dans l'ARC). Les zones « terrasse » et « vide » du N01 ne sont pas chauffées, il faudra les sortir du bilan. Les « désenfumage » sont de petites gaines.\n\nReste à faire : les compositions de parois, les fenêtres, les ponts thermiques et l'occupation, pour le bilan thermique.",
+   "status": "encours",
+   "title": "Paramétrer la maquette archi : pièces, espaces, zones, occupation, parois, fenêtres, ponts thermiques"
+  },
+  "c01": {
+   "assignees": [],
+   "createdAt": "2026-10-15T20:45:00Z",
+   "dce": [
+    {
+     "id": "0e643904f734fbc031783802e41a6a33",
+     "kind": "file",
+     "name": "Notice BIM",
+     "type": "application/pdf"
+    },
+    {
+     "id": "27b37d038376fc7addd309bcf81f0239",
+     "kind": "file",
+     "name": "Convention BIM DCE",
+     "type": "application/pdf"
+    },
+    {
+     "id": "fa6a46ebd7e2234b7beb502fc4808eb0",
+     "kind": "file",
+     "name": "Charte de synthèse BIM",
+     "type": "application/pdf"
+    }
+   ],
+   "docs": [
+    {
+     "at": "2026-10-15T22:48:00Z",
+     "by": "Allan",
+     "id": "0bfbe7cf7feaa264c612428ea3943d94",
+     "kind": "file",
+     "name": "Point d'avancement 16-10 (PDF)",
+     "type": "application/pdf"
+    }
+   ],
+   "due": "2026-11-30",
+   "hoursPlanned": 8,
+   "lot": "commun",
+   "notes": "Fiche de validation : création d'un projet sur une plateforme collaborative. Le dossier ACC est à compléter pour le rendu final.\n\n15/10/26 : le projet ACC existe déjà. Il a été créé par M. Duport (hub jh.duport, région Europe) : « EPHAD dans Les Hauts de France à LA BASSEE (62) », n° 03, type Build. On est tous les 4 administrateurs du projet. Les 7 dossiers (00_CADRE BIM … 06_RENDUS) sont créés, leurs liens sont dans l'onglet ACC du site.\n\nReste à faire : déposer le cadre BIM et les maquettes DCE, et obtenir la licence Cloud Worksharing (voir Problèmes).",
+   "order": 1,
+   "phase": "commune",
+   "status": "encours",
+   "title": "Créer le projet sur la plateforme collaborative (ACC ou autre)"
+  },
+  "j02": {
+   "assignees": [],
+   "createdAt": "2026-10-15T20:45:00Z",
+   "dce": [],
+   "docs": [],
+   "due": "2027-05-26",
+   "hoursPlanned": null,
+   "lot": "rendu",
+   "notes": "Projet traité en phase exécution. Les panneaux PV ne sont pas à traiter.",
+   "order": 19,
+   "phase": "jalon",
+   "status": "afaire",
+   "title": "Rapport PDF (50 pages max hors annexes) + maquette 3D finalisée + dossier ACC"
+  },
+  "i06": {
+   "assignees": [],
+   "createdAt": "2026-10-15T20:45:00Z",
+   "dce": [
+    {
+     "id": "e552db3ee417aa6728ac8ffcecc710b9",
+     "kind": "file",
+     "name": "Plan archi RDC 1/100 (AR01)",
+     "type": "application/pdf"
+    },
+    {
+     "id": "38c501e17d48ae49c673ebac0764dbc8",
+     "kind": "file",
+     "name": "Plan archi R+1 1/100 (AR02)",
+     "type": "application/pdf"
+    },
+    {
+     "id": "0e643904f734fbc031783802e41a6a33",
+     "kind": "file",
+     "name": "Notice BIM",
+     "type": "application/pdf"
+    },
+    {
+     "kind": "path",
+     "name": "Vidéo visite virtuelle (.mp4, 480 Mo)",
+     "path": "DCE / 4 - PIECES BIM/DCE_BIM_VIDEO"
+    }
+   ],
+   "docs": [],
+   "due": "2027-05-07",
+   "hoursPlanned": 8,
+   "lot": "commun",
+   "notes": "",
+   "order": 14,
+   "phase": "individuelle",
+   "status": "afaire",
+   "title": "Visite virtuelle des réseaux CVC et plomberie"
+  },
+  "c00": {
+   "assignees": [
+    "Allan"
+   ],
+   "createdAt": "2026-10-15T19:01:00Z",
+   "dce": [],
+   "docs": [
+    {
+     "at": "2026-10-15T19:01:00Z",
+     "by": "Allan",
+     "kind": "link",
+     "name": "Espace d'équipe EHPAD La Bassée (ce site)",
+     "url": "https://allanpereiradesk-prog.github.io/ehpad-labassee/"
+    },
+    {
+     "at": "2026-10-15T22:48:00Z",
+     "by": "Allan",
+     "id": "0bfbe7cf7feaa264c612428ea3943d94",
+     "kind": "file",
+     "name": "Point d'avancement 16-10 (PDF)",
+     "type": "application/pdf"
+    }
+   ],
+   "doneAt": "2026-10-15",
+   "due": "2026-11-20",
+   "hoursPlanned": null,
+   "lot": "commun",
+   "notes": "Reste à faire : inviter Mouhamed, Yann et Noah en Éditeur (menu Partager du site), se répartir les tâches (cocher son nom dans « Assigné à »), fixer un point d'équipe régulier.\n\nRègles pour tout le monde :\n• Chaque séance de travail → noter ses heures dans l'onglet Heures.\n• Tâche finie → statut « Fait » + remplir « Ce qui a été fait ».\n• Les fichiers de travail (PDF, images) vont dans l'onglet Documents de la tâche ; les .rvt/.xlsx/.dwg en lien OneDrive ou ACC.",
+   "order": 0,
+   "phase": "commune",
+   "report": "Mise en place d'un espace d'équipe en ligne pour organiser le projet tutoré :\n• Tâches de la fiche de validation découpées en 21 étapes numérotées (partie commune, partie individuelle, rendus), avec échéances, lot, heures prévues et personnes assignées.\n• Pour chaque tâche : les pièces du DCE utiles (CCTP lot 12, schéma CVC-S-1, rapport TRT, note RT 2012, plans archi…) et les documents ajoutés par l'équipe.\n• Suivi des heures de chacun (objectif 140 h : 40 h commune + 100 h individuelle), calendrier et tableau de répartition des tâches demandé dans la fiche.\n• Onglet « Réalisé » : compte rendu de chaque tâche terminée pour que tout le monde puisse présenter le travail des autres à la revue de projet et à la soutenance.\n\nÀ dire à l'oral : cet outil complète la plateforme collaborative ACC (qui sert à la maquette) en gérant l'organisation, la traçabilité des heures et la répartition du travail.",
+   "status": "fait",
+   "title": "Organisation du projet : espace d'équipe en ligne, règles de travail, suivi des heures"
+  },
+  "j01": {
+   "assignees": [],
+   "createdAt": "2026-10-15T20:45:00Z",
+   "dce": [],
+   "docs": [],
+   "due": "2027-03-27",
+   "hoursPlanned": null,
+   "lot": "rendu",
+   "notes": "Date prévisionnelle : vendredi 27/03/2027.",
+   "order": 8,
+   "phase": "jalon",
+   "status": "afaire",
+   "title": "Revue de projet (15' de présentation + 15' d'entretien par candidat)"
+  },
+  "c07": {
+   "assignees": [],
+   "createdAt": "2026-10-15T20:45:00Z",
+   "dce": [],
+   "docs": [],
+   "due": "2027-03-12",
+   "hoursPlanned": 4,
+   "lot": "commun",
+   "notes": "Demandé dans la fiche : répartir les 4 parties entre nous avec l'organisation prévue.",
+   "order": 7,
+   "phase": "commune",
+   "status": "afaire",
+   "title": "Tableau de répartition des tâches pour la partie individuelle"
+  },
+  "c05": {
+   "assignees": [],
+   "createdAt": "2026-10-15T20:45:00Z",
+   "dce": [
+    {
+     "id": "9186dc9a514d37dbd03149f9db82ce7d",
+     "kind": "file",
+     "name": "Note de calcul RT 2012, E+C- et STD",
+     "type": "application/pdf"
+    },
+    {
+     "id": "3a49616abb438550836bba41bdb4c4df",
+     "kind": "file",
+     "name": "Notice énergie RSET",
+     "type": "application/pdf"
+    },
+    {
+     "id": "bdf305bc28f3b1c1b3c17230efd202ad",
+     "kind": "file",
+     "name": "Étude E+C- (V1-S01)",
+     "type": "application/pdf"
+    },
+    {
+     "id": "7e62102c34d52d7eb05056276287340f",
+     "kind": "file",
+     "name": "PC 16 – attestation thermique",
+     "type": "application/pdf"
+    },
+    {
+     "id": "92221cbdfd0e5e40c7d034868fda29ee",
+     "kind": "file",
+     "name": "Tableau des surfaces globales",
+     "type": "application/pdf"
+    },
+    {
+     "id": "bf1ed74fd0949900bf74e9c118098c84",
+     "kind": "file",
+     "name": "CCTP lot 12 CVC-DF-GEO-PBS",
+     "type": "application/pdf"
+    }
+   ],
+   "docs": [
+    {
+     "at": "2026-10-16T01:00:00Z",
+     "by": "Allan",
+     "file": "EHPAD_Pieces_Espaces_Zones_Thermique.xlsx",
+     "kind": "static",
+     "name": "Excel pièces, espaces, zones, parois, baies, ponts thermiques",
+     "path": "docs/EHPAD_Pieces_Espaces_Zones_Thermique.xlsx.b64.txt",
+     "type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    }
+   ],
+   "due": "2027-02-19",
+   "hoursPlanned": 40,
+   "lot": "commun",
+   "notes": "",
+   "order": 6,
+   "phase": "commune",
+   "status": "afaire",
+   "title": "Renseigner la maquette et calculer les charges (déperditions et apports)"
+  },
+  "i10": {
+   "assignees": [],
+   "createdAt": "2026-10-15T20:45:00Z",
+   "dce": [
+    {
+     "id": "f6f9149762a2bf26f741a3e3459f0b42",
+     "kind": "file",
+     "name": "Acte d'engagement (AE)",
+     "type": "application/pdf"
+    },
+    {
+     "id": "cf16422e9e5d96158b52e9aa34241682",
+     "kind": "file",
+     "name": "CCAP",
+     "type": "application/pdf"
+    },
+    {
+     "id": "dc16a0beaf042354ee2ba4cfba6b81a7",
+     "kind": "file",
+     "name": "Planning prévisionnel chantier",
+     "type": "application/pdf"
+    },
+    {
+     "kind": "path",
+     "name": "DPGF lot 12 CVC-DF-GEO-PBS (.xlsx)",
+     "path": "DCE / 5 - PIECES ECRITES/04 - DPGF"
+    }
+   ],
+   "docs": [],
+   "due": "2027-05-21",
+   "hoursPlanned": 16,
+   "lot": "commun",
+   "notes": "",
+   "order": 18,
+   "phase": "individuelle",
+   "status": "afaire",
+   "title": "Réalisation d'une offre commerciale"
+  },
+  "i02": {
+   "assignees": [],
+   "createdAt": "2026-10-15T20:45:00Z",
+   "dce": [
+    {
+     "id": "bf1ed74fd0949900bf74e9c118098c84",
+     "kind": "file",
+     "name": "CCTP lot 12 CVC-DF-GEO-PBS",
+     "type": "application/pdf"
+    },
+    {
+     "id": "c4401e3f2a4654cba9f1fde9931d64b8",
+     "kind": "file",
+     "name": "Fiches techniques CVC / PBS",
+     "type": "application/pdf"
+    },
+    {
+     "id": "e552db3ee417aa6728ac8ffcecc710b9",
+     "kind": "file",
+     "name": "Plan archi RDC 1/100 (AR01)",
+     "type": "application/pdf"
+    },
+    {
+     "id": "38c501e17d48ae49c673ebac0764dbc8",
+     "kind": "file",
+     "name": "Plan archi R+1 1/100 (AR02)",
+     "type": "application/pdf"
+    },
+    {
+     "id": "0cbc949f4dace8ed7efdf1b57111ee52",
+     "kind": "file",
+     "name": "Faux plafonds RDC (AR16)",
+     "type": "application/pdf"
+    },
+    {
+     "id": "48bd1029f22aa040f650d8918210b75a",
+     "kind": "file",
+     "name": "Faux plafonds R+1 (AR17)",
+     "type": "application/pdf"
+    },
+    {
+     "id": "e10e29dda36c9ebb7c00da18fff189a4",
+     "kind": "file",
+     "name": "Notice acoustique",
+     "type": "application/pdf"
+    },
+    {
+     "kind": "path",
+     "name": "Plans archi et GO en DWG",
+     "path": "DCE / 6 - PIECES GRAPHIQUES/…/DWG"
+    }
+   ],
+   "docs": [],
+   "due": "2027-04-30",
+   "hoursPlanned": 70,
+   "lot": "vmc",
+   "notes": "",
+   "order": 11,
+   "phase": "individuelle",
+   "status": "afaire",
+   "title": "Ventilation simple flux des sanitaires : éléments et réseaux aérauliques"
+  }
+ },
+ "hours": {
+  "h-allan-20261015": {
+   "at": "2026-10-15T19:08:00Z",
+   "date": "2026-10-15",
+   "hours": 1,
+   "note": "Mise en place du site d'équipe et organisation du projet",
+   "phase": "commune",
+   "taskId": "c00",
+   "who": "Allan"
+  }
+ },
+ "issues": {
+  "iss-acc-licence": {
+   "at": "2026-10-15T21:46:00Z",
+   "detail": "LE PROBLÈME\nQuand je lance « Collaborer dans le cloud » vers ACC > 02_MAQUETTE CVC, Revit refuse : \"You don't have the workshared cloud model entitlement (BIM 360 Docs or Autodesk Docs)\".\nLe projet ACC est sur un compte d'ESSAI de M. Duport, et nos comptes étudiants n'ont pas la licence Cloud Worksharing. Un étudiant ne peut pas la demander lui-même : c'est l'école (le formateur) qui doit nous l'attribuer.\n\nCE QU'IL FAUT DEMANDER À M. DUPORT\n1. Demander l'accès gratuit « Autodesk Construction Cloud for Education » avec son compte enseignant (page autodesk.com/education/edu-software/autodesk-construction-cloud, bouton « Request free access »). Ça remplace le compte d'essai.\n2. Nous inviter tous les 4 (Allan, Mouhamed, Yann, Noah) avec les mêmes adresses que nos comptes Autodesk.\n3. Nous attribuer : Forma Data Management (Autodesk Docs) + Cloud Worksharing (Revit).\n\nCE QUE JE FAIS APRÈS\nDès qu'on a la licence, j'envoie la maquette sur ACC (tout est prêt, c'est une seule opération). Ensuite chacun ouvre la maquette depuis Autodesk Docs dans Revit et travaille dans son sous-projet.\n\nEN ATTENDANT\nOn peut commencer avec des maquettes séparées (une par partie : PROD, VMC, EMET, ECS), toutes liées à l'ARC, déposées dans ACC comme simples fichiers. On ne met PAS de fichier central Revit sur OneDrive/Drive (risque de casser la maquette).\n\nOÙ EN EST LA MAQUETTE\nSur mon PC : C:\\Users\\allan\\EHPAD_CVC\\EXE_RSP_CVC_MNT.rvt — gabarit Systèmes FR, lien ARC en coordonnées partagées, travail partagé activé avec 7 sous-projets (00 Niveaux, 01 Production chaud-froid, 02 VMC, 03 Radiateurs/panneaux, 04 ECS-EF, 05 Commun, 90 Lien ARC).",
+   "kind": "projet",
+   "replies": [],
+   "shots": [],
+   "status": "ouvert",
+   "taskId": "c02",
+   "title": "Pas de licence pour travailler à 4 sur la maquette Revit dans ACC : il faut que M. Duport active l'accès Éducation",
+   "urgent": true,
+   "who": "Allan"
+  },
+  "iss-str-2026": {
+   "at": "2026-10-15T21:33:00Z",
+   "detail": "J'ai essayé de lier DCE_STR_MNT.rvt (Revit 2020, 25 Mo) dans la maquette CVC sous Revit 2026.3, ça ne passe pas :\n1) « Impossible de couper l'élément joint » → contournable avec « Détache les éléments ».\n2) Ensuite : « Une erreur s'est produite dans la famille \"M_Double raccord à 45 degrés - PVC - Nom. 40 - DWV\" et ne peut pas être résolue automatiquement » → Revit annule tout.\n\nJe m'en occupe demain au lycée (Revit 2021 à 2025) :\n- ouvrir DCE_STR_MNT.rvt (option Détacher) ;\n- supprimer / purger la famille « M_Double raccord à 45 degrés - PVC - Nom. 40 - DWV » ;\n- enregistrer sous DCE_STR_MNT_corrige.rvt et le déposer dans ACC > 01_MAQUETTES DCE.\nSi ça ne marche pas : demander à M. Duport un IFC de la structure.\n\nÉtat de la maquette CVC (sur mon PC : C:\\Users\\allan\\EHPAD_CVC\\EXE_RSP_CVC_MNT.rvt) : lien ARC OK, coordonnées partagées récupérées depuis l'ARC. La STR est en attente. L'électricité n'est pas liée : on n'en a pas besoin pour le projet.",
+   "kind": "projet",
+   "replies": [],
+   "shots": [],
+   "status": "ouvert",
+   "taskId": "c02",
+   "title": "La maquette STR du DCE ne s'ouvre pas dans Revit 2026 (famille PVC abîmée)",
+   "urgent": false,
+   "who": "Allan"
+  }
+ },
+ "config": {
+  "acc": {
+   "folders": {
+    "00": "https://acc.autodesk.eu/docs/files/projects/786940ee-d784-4d43-bbeb-fa8432cae07b?folderUrn=urn%3Aadsk.wipemea%3Afs.folder%3Aco.PKjbxXQdS6Sdx8V2xZwXpA&viewModel=detail&moduleId=folders",
+    "01": "https://acc.autodesk.eu/docs/files/projects/786940ee-d784-4d43-bbeb-fa8432cae07b?folderUrn=urn%3Aadsk.wipemea%3Afs.folder%3Aco.HklWtH6pTD2QyQQKflCwuA&viewModel=detail&moduleId=folders",
+    "02": "https://acc.autodesk.eu/docs/files/projects/786940ee-d784-4d43-bbeb-fa8432cae07b?folderUrn=urn%3Aadsk.wipemea%3Afs.folder%3Aco._PEMtmeNSkywzF5OOCXvDQ&viewModel=detail&moduleId=folders",
+    "03": "https://acc.autodesk.eu/docs/files/projects/786940ee-d784-4d43-bbeb-fa8432cae07b?folderUrn=urn%3Aadsk.wipemea%3Afs.folder%3Aco.gYANnhRySheAJ9yfGFZztA&viewModel=detail&moduleId=folders",
+    "04": "https://acc.autodesk.eu/docs/files/projects/786940ee-d784-4d43-bbeb-fa8432cae07b?folderUrn=urn%3Aadsk.wipemea%3Afs.folder%3Aco.5Y5AVizVQneVNLTQT-8NKQ&viewModel=detail&moduleId=folders",
+    "05": "https://acc.autodesk.eu/docs/files/projects/786940ee-d784-4d43-bbeb-fa8432cae07b?folderUrn=urn%3Aadsk.wipemea%3Afs.folder%3Aco.cgjPQdYKTJa7o-V9oxjgjA&viewModel=detail&moduleId=folders",
+    "06": "https://acc.autodesk.eu/docs/files/projects/786940ee-d784-4d43-bbeb-fa8432cae07b?folderUrn=urn%3Aadsk.wipemea%3Afs.folder%3Aco.oYWEYsLwRz2ayq7zC_kgeg&viewModel=detail&moduleId=folders"
+   },
+   "projectUrl": "https://acc.autodesk.eu/build/home/projects/786940ee-d784-4d43-bbeb-fa8432cae07b"
+  },
+  "team": {
+   "emails": []
+  }
+ }
+}
