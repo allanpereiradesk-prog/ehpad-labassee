@@ -1421,10 +1421,10 @@ function renderRevit(){
   svg.querySelectorAll(".sp").forEach(el=>el.addEventListener("click",()=>{ rvSel=list[+el.dataset.k]; renderRevit(); }));
   // legend: zones du niveau
   const zs=new Map(); list.forEach(s=>{ const z=zs.get(s.z)||{sv:s.sv,a:0,n:0}; z.a+=s.a; z.n++; zs.set(s.z,z); });
-  $("#rvLegend").innerHTML=`<div class="label" style="margin:0 0 4px 6px">Zones ${rvLv}</div>`+[...zs.entries()].sort((a,b)=>b[1].a-a[1].a).map(([z,o])=>`<button class="rv-leg" data-z="${esc(z)}" aria-pressed="${rvZone===z}"><i style="background:${RV_COL[o.sv]||"#ccc"}"></i>${esc(RV_LBL[o.sv]||o.sv)}<span class="mono">${o.n} · ${Math.round(o.a)} m²</span></button>`).join("");
+  $("#rvLegend").innerHTML=`<div class="label" style="margin:0 0 4px 6px">Zones ${rvLv}</div>`+[...zs.entries()].sort((a,b)=>b[1].a-a[1].a).map(([z,o])=>`<button class="rv-leg" data-z="${esc(z)}" aria-pressed="${rvZone===z}"><i style="background:${RV_COL[o.sv]||"#ccc"}"></i>${esc(RV_LBL[o.sv]||o.sv)}<span class="mono" title="Nombre d'espaces · surface totale">${o.n} esp. · ${Math.round(o.a)} m²</span></button>`).join("");
   $("#rvLegend").querySelectorAll("[data-z]").forEach(b=>b.onclick=()=>{ rvZone=rvZone===b.dataset.z?null:b.dataset.z; renderRevit(); });
   const s=rvSel&&rvSel.l===rvLv?rvSel:null;
-  $("#rvInfo").innerHTML=s?`<b>${esc(s.n)} · ${esc(s.nm)}</b><br>Zone : ${esc(s.z)}<br><span class="mono">${s.a.toFixed(2)} m² · ${s.v.toFixed(1)} m³</span>${RV_LBL[s.sv]?`<br><span class="hint">${esc(RV_LBL[s.sv])}</span>`:""}`
+  $("#rvInfo").innerHTML=s?`<b>${esc(s.n)} · ${esc(s.nm)}</b><br>Zone : ${esc(s.z)}<br>Surface : <span class="mono">${s.a.toFixed(2)} m²</span><br>Volume : <span class="mono">${s.v.toFixed(1)} m³</span>${RV_LBL[s.sv]?`<br><span class="hint">${esc(RV_LBL[s.sv])}</span>`:""}`
     :`<span class="hint">${rvZone?esc(rvZone)+" : clique à nouveau dans la légende pour tout réafficher.":"Aucune pièce sélectionnée."}</span>`;
 }
 document.querySelectorAll("[data-lv]").forEach(b=>b.onclick=()=>{ rvLv=b.dataset.lv; rvZone=null; document.querySelectorAll("[data-lv]").forEach(x=>x.setAttribute("aria-pressed",x===b)); renderRevit(); rv3dUpdate(); });
