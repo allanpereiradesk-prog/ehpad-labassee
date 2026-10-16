@@ -330,6 +330,11 @@ tfoot td{font-weight:600}
 .rv-k i{width:16px;height:16px;border-radius:4px;flex:none;margin-top:3px}
 .rv-k b{font-size:14.5px}.rv-k p{margin:1px 0 0;font-size:13.5px;color:var(--muted)}
 .rv-units{margin:10px 0 0;padding:8px 12px;border-left:3px solid var(--accent);background:var(--sunk);border-radius:4px;font-size:13.5px}
+.rv-open{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;margin-bottom:12px}
+.rv-open h3{font-size:17px;color:var(--accent)}
+.rv-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.rv-col{border:1px solid var(--line);border-radius:6px;padding:10px 12px;font-size:14px;min-width:0}
+.rv-col ol{margin:6px 0 0;padding-left:18px;display:grid;gap:4px}
 .authbar{display:flex;gap:10px;align-items:center;justify-content:flex-end;flex-wrap:wrap;margin:10px 0 0;font-size:14px}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:7px;font-weight:600;z-index:30;max-width:calc(100% - 32px)}
 @media (prefers-reduced-motion:no-preference){.card{transition:border-color .15s}}
@@ -626,6 +631,28 @@ tfoot td{font-weight:600}
     <section class="rv-dl">
       <div><h3>Le fichier Revit</h3><p class="hint" style="margin:2px 0 0"><span class="mono">EXE_RSP_CVC_MNT.rvt</span> · Revit 2026 · 20,6 Mo, téléchargé en .zip. La maquette archi liée (<span class="mono">DCE_ARC_MNT.rvt</span>) n'est pas dedans : prends-la dans le DCE et remets-la au même endroit, ou recharge le lien dans Revit (Gérer les liens).</p></div>
       <button class="btn primary" id="rvDl">Télécharger la maquette</button>
+    </section>
+    <section class="rv-open">
+      <h3>Ouvrir la maquette sans erreur (« détacher »)</h3>
+      <p class="hint" style="margin:2px 0 10px">La maquette a des sous-projets : elle reste « reliée » au PC où elle a été créée. Si tu l'ouvres directement ailleurs, Revit bloque certaines modifications (ex. « Élément non modifiable. Il a été supprimé dans le modèle central »). Il faut donc l'ouvrir détachée.</p>
+      <div class="rv-steps">
+        <div class="rv-col"><b>1. Préparer le dossier</b><ol>
+          <li>Télécharge la <b>dernière version</b> depuis ACC (ou le bouton ci-dessus).</li>
+          <li>Mets <span class="mono">DCE_ARC_MNT.rvt</span> <b>dans le même dossier</b> que la maquette CVC.</li></ol></div>
+        <div class="rv-col"><b>2. Ouvrir détaché</b><ol>
+          <li>Revit → <b>Fichier → Ouvrir → Projet</b>, sélectionne la maquette <b>sans cliquer sur Ouvrir</b>.</li>
+          <li>En bas, coche <b>« Détacher du fichier central »</b> → Ouvrir.</li>
+          <li>Choisis <b>« Détacher et conserver les sous-projets »</b>.</li></ol></div>
+        <div class="rv-col"><b>3. Remettre le lien ARC</b><ol>
+          <li><b>Gérer → Gérer les liens</b> → sélectionne <span class="mono">DCE_ARC_MNT.rvt</span>.</li>
+          <li>Flèche de <b>Recharger → Recharger depuis…</b> → choisis l'ARC du dossier.</li>
+          <li>Type de chemin : <b>Relatif</b> → OK.</li></ol></div>
+        <div class="rv-col"><b>4. Enregistrer et redéposer</b><ol>
+          <li><b>Fichier → Enregistrer sous → Projet</b>, même nom.</li>
+          <li>Redépose le fichier sur <b>ACC</b> (02_MAQUETTE CVC).</li>
+          <li>Note le dépôt dans l'onglet <b>ACC</b> du site.</li></ol></div>
+      </div>
+      <p class="rv-units" style="margin-top:12px"><b>La règle :</b> ACC est la seule version de référence. On repart toujours de la dernière version d'ACC, et on la redépose après avoir travaillé, que ce soit chez soi ou au lycée. Comme chacun a son fichier (PROD, VMC, CHAUF, PLB), il n'y a jamais deux versions du même fichier. Le détachement ne fait rien perdre : les sous-projets sont conservés.</p>
     </section>
     <section class="rv-plan">
       <div class="rv-tools">
