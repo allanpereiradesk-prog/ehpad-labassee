@@ -4,7 +4,7 @@ service cloud.firestore {
     function mail() { return request.auth != null && request.auth.token.email != null ? request.auth.token.email.lower() : ""; }
     function isAdmin() { return mail() == "allan.pereiradesk@gmail.com"; }
     function isProf() { return exists(/databases/$(database)/documents/config/profs) && mail() in get(/databases/$(database)/documents/config/profs).data.emails; }
-    function isTeam() { return isAdmin() || (!isProf() && mail() in get(/databases/$(database)/documents/config/team).data.emails); }
+    function isTeam() { return isAdmin() || (!isProf() && exists(/databases/$(database)/documents/config/team) && mail() in get(/databases/$(database)/documents/config/team).data.emails); }
 
     // Réglages : lecture publique ; listes équipe/profs = Allan seulement
     match /config/{doc} {
@@ -19,10 +19,18 @@ service cloud.firestore {
       allow update: if resource.data.email == mail() && request.resource.data.email == mail();
       allow delete: if isAdmin() || resource.data.email == mail();
     }
+    // Journal d'activité : tout le monde peut écrire un évènement, seul Allan peut lire/effacer
+    match /logs/{id} {
+      allow read, delete: if isAdmin();
+      allow create: if request.resource.data.keys().hasOnly(["at","type","detail","email","name","device","sid"])
+                    && request.resource.data.type in ["visite","connexion","deconnexion","onglet","modif"]
+                    && request.resource.data.detail is string && request.resource.data.detail.size() <= 300
+                    && (request.resource.data.email == null || request.resource.data.email == mail());
+    }
     // Tout le reste : lecture publique, écriture équipe uniquement (pas les profs)
     match /{col}/{rest=**} {
-      allow read: if col != "echanges";
-      allow write: if col != "config" && col != "echanges" && isTeam();
+      allow read: if col != "echanges" && col != "logs";
+      allow write: if col != "config" && col != "echanges" && col != "logs" && isTeam();
     }
   }
 }

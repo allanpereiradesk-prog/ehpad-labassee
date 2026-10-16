@@ -425,6 +425,21 @@ tfoot td{font-weight:600}
 .ech-post{border-top:1px solid var(--line);padding-top:8px}
 .ech-post.reply{margin-left:14px}
 .ech-reply{display:flex;gap:8px;align-items:flex-end}
+.log-stats{display:flex;gap:10px;flex-wrap:wrap;align-items:stretch;margin:0 0 12px}
+.log-stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:10px 14px;display:grid}
+.log-stat b{font-size:22px}.log-stat span{font-size:13px;color:var(--muted)}
+.log-seen{flex:1;min-width:260px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:10px 14px;display:flex;gap:6px;flex-wrap:wrap;align-items:center;font-size:13px}
+.log-chip{background:var(--bg,#f2f4f6);border:1px solid var(--line);border-radius:12px;padding:2px 8px}
+.log-tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+.log-tools select,.log-tools input[type=search]{font:inherit;font-size:14px;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink)}
+.log-list{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow-x:auto}
+.log-t{width:100%;border-collapse:collapse;font-size:13.5px}
+.log-t th{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);position:sticky;top:0;background:var(--surface)}
+.log-t td{padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+.log-t .nw{white-space:nowrap}.log-d{overflow-wrap:anywhere;min-width:220px}
+.log-k{font-size:12px;font-weight:600;border-radius:4px;padding:1px 6px;background:var(--bg,#eef);white-space:nowrap}
+.lt-modif .log-k{background:color-mix(in srgb,var(--accent) 18%,transparent)}
+.lt-connexion .log-k,.lt-deconnexion .log-k{background:color-mix(in srgb,var(--heat,#c0392b) 18%,transparent)}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:7px;font-weight:600;z-index:30;max-width:calc(100% - 32px)}
 @media (prefers-reduced-motion:no-preference){.card{transition:border-color .15s}}
 </style>
@@ -468,6 +483,7 @@ tfoot td{font-weight:600}
       <button role="tab" id="tabHours" aria-selected="false">Heures</button>
       <button role="tab" id="tabIssues" aria-selected="false">Problèmes <span id="issBadge" class="badge" hidden></span></button>
       <button role="tab" id="tabEch" aria-selected="false">Échanges profs <span id="echBadge" class="badge" hidden></span></button>
+      <button role="tab" id="tabLogs" aria-selected="false" hidden>Logs</button>
     </div>
     <div class="filters" id="taskTools">
       <select id="fPerson" aria-label="Filtrer par personne"></select>
@@ -917,6 +933,22 @@ tfoot td{font-weight:600}
     </div>
   </main>
 
+  <main id="viewLogs" hidden>
+    <section class="rv-head">
+      <div class="label">Réservé à Allan</div>
+      <h2>Journal d'activité</h2>
+      <p>Toutes les visites, connexions, onglets ouverts et modifications faites sur le site, les plus récents en haut (500 derniers évènements).</p>
+    </section>
+    <div id="logStats" class="log-stats"></div>
+    <div class="log-tools">
+      <select id="logType"><option value="">Tous les évènements</option><option value="visite">Visites</option><option value="connexion">Connexions / déconnexions</option><option value="onglet">Onglets ouverts</option><option value="modif">Modifications</option></select>
+      <select id="logWhoSel"><option value="">Tout le monde</option></select>
+      <label class="hint"><input type="checkbox" id="logMe"> masquer mes propres actions</label>
+      <input id="logQ" type="search" placeholder="Rechercher…">
+    </div>
+    <div id="logList" class="log-list"></div>
+  </main>
+
   <main id="viewMine" hidden>
     <div id="mine"></div>
   </main>
@@ -1018,6 +1050,24 @@ function authBar(){
   if(!fbUser){ el.innerHTML=`<span class="hint">Lecture seule.</span> <button class="btn small primary" id="loginBtn">Se connecter avec Google</button>`; document.getElementById("loginBtn").onclick=()=>fauth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).catch(e=>{ if(e.code==="auth/popup-blocked"||e.code==="auth/operation-not-supported-in-this-environment") fauth.signInWithRedirect(new firebase.auth.GoogleAuthProvider()); else if(e.code!=="auth/popup-closed-by-user"&&e.code!=="auth/cancelled-popup-request") alert("Connexion impossible : "+(e.message||e.code)); }); return; }
   el.innerHTML=`<span class="hint">${isTeam()?"Connecté":isProf()?"Connecté (enseignant)":"Connecté (lecture seule)"} : <b>${(fbUser.displayName||fbUser.email).replace(/[<>&"]/g,"")}</b></span> <button class="btn small" id="logoutBtn">Se déconnecter</button>`;
   document.getElementById("logoutBtn").onclick=()=>fauth.signOut();
+}
+
+/* ---------- Journal d'activité (logs) ---------- */
+const LOG_SID=Math.random().toString(36).slice(2,10);
+let logLast="", logOn=false;
+function logWho(){ const m=(fbUser&&fbUser.email||"").toLowerCase(); return {email:m||null,name:m?((PROFS[m]&&PROFS[m].n)||TEAM_NAMES[m]||(fbUser.displayName)||m):"Visiteur anonyme"}; }
+function logDevice(){ const u=navigator.userAgent; const os=/Android/.test(u)?"Android":/iPhone|iPad/.test(u)?"iPhone/iPad":/Windows/.test(u)?"Windows":/Mac/.test(u)?"Mac":/Linux/.test(u)?"Linux":"?"; const br=/Edg\//.test(u)?"Edge":/OPR\//.test(u)?"Opera":/Chrome\//.test(u)?"Chrome":/Firefox\//.test(u)?"Firefox":/Safari\//.test(u)?"Safari":"?"; return br+" · "+os+(innerWidth<700?" (mobile)":""); }
+function logEv(type,detail){
+  if(!fbOk||!logOn) return; const key=type+"|"+detail; if(key===logLast) return; logLast=key;
+  fdb.collection("logs").add({at:new Date().toISOString(),type,detail:String(detail||"").slice(0,300),...logWho(),device:logDevice(),sid:LOG_SID}).catch(()=>{});
+}
+function logSum(d){ if(!d||typeof d!=="object") return ""; const t=d.title||d.name||d.text||d.note||""; const k=Object.keys(d).filter(x=>!/^(at|by|updatedAt|email)$/.test(x)).slice(0,5).join(", "); return (t?" « "+String(t).slice(0,80)+" »":"")+(k?" ["+k+"]":""); }
+if(fbOk){
+  const DR=firebase.firestore.DocumentReference.prototype, CR=firebase.firestore.CollectionReference.prototype;
+  const skip=p=>/^logs\//.test(p)||/\/chunks\//.test(p)||/^config\/(team|profs|migrations)$/.test(p);
+  const verb={set:"enregistre",update:"modifie",delete:"supprime"};
+  for(const op of ["set","update","delete"]){ const o=DR[op]; DR[op]=function(...a){ const r=o.apply(this,a); if(!skip(this.path)) r.then(()=>logEv("modif",`${verb[op]} ${this.path}${op==="delete"?"":logSum(a[0])}`)).catch(()=>{}); return r; }; }
+  const oa=CR.add; CR.add=function(d){ const r=oa.call(this,d); if(this.path!=="logs") r.then(ref=>logEv("modif",`ajoute ${ref.path}${logSum(d)}`)).catch(()=>{}); return r; };
 }
 
 </script>
@@ -1887,6 +1937,30 @@ $("#echChatForm").onsubmit=async e=>{ e.preventDefault(); const ta=$("#echChatIn
 $("#echChatIn").onkeydown=e=>{ if(e.key==="Enter"&&!e.shiftKey){ e.preventDefault(); $("#echChatForm").requestSubmit(); } };
 $("#echNewForm").onsubmit=async e=>{ e.preventDefault(); const ti=$("#echNewT").value.trim(), tx=$("#echNewX").value; if(!ti){ toast("Donne un titre au sujet."); return; } if(await echPost({kind:"topic",title:ti.slice(0,200),text:tx})){ $("#echNewT").value=""; $("#echNewX").value=""; $("#echNew").open=false; } };
 
+/* ---------- Onglet Logs (admin) ---------- */
+let logs=[], logUnsub=null;
+const LOG_LBL={visite:"Visite",connexion:"Connexion",deconnexion:"Déconnexion",onglet:"Onglet",modif:"Modif"};
+function startLogs(){
+  $("#tabLogs").hidden=!isAdmin();
+  if(isAdmin()&&!logUnsub) logUnsub=fdb.collection("logs").orderBy("at","desc").limit(500).onSnapshot(s=>{ logs=s.docs.map(d=>({...d.data(),_id:d.id})); renderLogs(); },e=>{ console.error("logs",e); $("#logList").innerHTML=`<div class="notice warn">Lecture des logs refusée : vérifie que les règles Firebase ont bien été mises à jour.</div>`; });
+  if(!isAdmin()&&logUnsub){ logUnsub(); logUnsub=null; logs=[]; if(tab==="logs") setTab("proj"); }
+}
+function renderLogs(){
+  if(!isAdmin()||$("#viewLogs").hidden) return;
+  const me=(fbUser.email||"").toLowerCase();
+  const who=[...new Set(logs.map(l=>l.name||"?"))].sort(); const ws=$("#logWhoSel"), wv=ws.value;
+  ws.innerHTML=`<option value="">Tout le monde</option>`+who.map(w=>`<option${w===wv?" selected":""}>${esc(w)}</option>`).join("");
+  const today=new Date().toISOString().slice(0,10);
+  const lastSeen={}; logs.forEach(l=>{ const n=l.name||"?"; if(!lastSeen[n]) lastSeen[n]=l.at; });
+  $("#logStats").innerHTML=`<div class="log-stat"><b>${new Set(logs.filter(l=>(l.at||"").startsWith(today)).map(l=>l.sid)).size}</b><span>visites aujourd'hui</span></div>
+    <div class="log-stat"><b>${logs.filter(l=>l.type==="modif"&&(l.at||"").startsWith(today)).length}</b><span>modifs aujourd'hui</span></div>
+    <div class="log-seen"><span class="hint">Dernière activité :</span> ${Object.entries(lastSeen).filter(([n])=>n!=="Visiteur anonyme").map(([n,a])=>`<span class="log-chip">${esc(n)} · ${echTime(a)}</span>`).join(" ")}</div>`;
+  const ty=$("#logType").value, q=$("#logQ").value.trim().toLowerCase(), hideMe=$("#logMe").checked;
+  const f=logs.filter(l=>(!ty||l.type===ty||(ty==="connexion"&&l.type==="deconnexion"))&&(!wv||l.name===wv)&&(!hideMe||l.email!==me)&&(!q||[l.name,l.email,l.detail,l.device].join(" ").toLowerCase().includes(q)));
+  $("#logList").innerHTML=f.length?`<table class="log-t"><thead><tr><th>Quand</th><th>Qui</th><th>Quoi</th><th>Détail</th><th>Appareil</th></tr></thead><tbody>${f.map(l=>`<tr class="lt-${esc(l.type)}"><td class="nw">${echTime(l.at)}</td><td>${esc(l.name||"")}${l.email?`<div class="hint">${esc(l.email)}</div>`:""}</td><td><span class="log-k">${esc(LOG_LBL[l.type]||l.type)}</span></td><td class="log-d">${esc(l.detail||"")}</td><td class="hint nw">${esc(l.device||"")}</td></tr>`).join("")}</tbody></table>`:`<p class="hint">Aucun évènement.</p>`;
+}
+["#logType","#logWhoSel","#logMe"].forEach(s=>$(s).onchange=renderLogs); $("#logQ").oninput=renderLogs;
+
 /* ---------- Tabs ---------- */
 /* ---------- Problèmes ---------- */
 let issues=[];
@@ -2051,21 +2125,21 @@ function renderMine(){
   box.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>openTask(b.dataset.open,"doc"));
 }
 
-function setTab(t){ tab=t; store.set("ehpad-tab",t);
-  $("#tabTasks").setAttribute("aria-selected",t==="tasks"); $("#tabMine").setAttribute("aria-selected",t==="mine"); $("#tabDone").setAttribute("aria-selected",t==="done"); $("#tabIssues").setAttribute("aria-selected",t==="issues"); $("#tabProj").setAttribute("aria-selected",t==="proj"); $("#tabAcc").setAttribute("aria-selected",t==="acc"); $("#tabHours").setAttribute("aria-selected",t==="hours"); $("#tabDocs").setAttribute("aria-selected",t==="docs"); $("#tabRevit").setAttribute("aria-selected",t==="revit"); $("#tabTuto").setAttribute("aria-selected",t==="tuto"); $("#tabCaps").setAttribute("aria-selected",t==="caps"); $("#tabSyn").setAttribute("aria-selected",t==="syn"); $("#tabEch").setAttribute("aria-selected",t==="ech");
-  $("#viewTasks").hidden=t!=="tasks"; $("#viewMine").hidden=t!=="mine"; $("#viewDone").hidden=t!=="done"; $("#viewIssues").hidden=t!=="issues"; $("#viewProj").hidden=t!=="proj"; $("#viewAcc").hidden=t!=="acc"; $("#viewHours").hidden=t!=="hours"; $("#viewDocs").hidden=t!=="docs"; if(t==="docs") renderDocs(); $("#viewRevit").hidden=t!=="revit"; if(t==="revit") renderRevit(); $("#viewTuto").hidden=t!=="tuto"; $("#viewCaps").hidden=t!=="caps"; $("#viewSyn").hidden=t!=="syn"; if(t==="syn") renderSyn(); $("#viewEch").hidden=t!=="ech"; if(t==="ech" && typeof renderEch==="function") renderEch(); $("#taskTools").hidden=t!=="tasks";
+function setTab(t){ if(t==="logs"&&!(typeof isAdmin==="function"&&isAdmin())) t="proj"; tab=t; store.set("ehpad-tab",t); if(typeof logEv==="function") logEv("onglet",t);
+  $("#tabTasks").setAttribute("aria-selected",t==="tasks"); $("#tabMine").setAttribute("aria-selected",t==="mine"); $("#tabDone").setAttribute("aria-selected",t==="done"); $("#tabIssues").setAttribute("aria-selected",t==="issues"); $("#tabProj").setAttribute("aria-selected",t==="proj"); $("#tabAcc").setAttribute("aria-selected",t==="acc"); $("#tabHours").setAttribute("aria-selected",t==="hours"); $("#tabDocs").setAttribute("aria-selected",t==="docs"); $("#tabRevit").setAttribute("aria-selected",t==="revit"); $("#tabTuto").setAttribute("aria-selected",t==="tuto"); $("#tabCaps").setAttribute("aria-selected",t==="caps"); $("#tabSyn").setAttribute("aria-selected",t==="syn"); $("#tabEch").setAttribute("aria-selected",t==="ech"); $("#tabLogs").setAttribute("aria-selected",t==="logs");
+  $("#viewTasks").hidden=t!=="tasks"; $("#viewMine").hidden=t!=="mine"; $("#viewDone").hidden=t!=="done"; $("#viewIssues").hidden=t!=="issues"; $("#viewProj").hidden=t!=="proj"; $("#viewAcc").hidden=t!=="acc"; $("#viewHours").hidden=t!=="hours"; $("#viewDocs").hidden=t!=="docs"; if(t==="docs") renderDocs(); $("#viewRevit").hidden=t!=="revit"; if(t==="revit") renderRevit(); $("#viewTuto").hidden=t!=="tuto"; $("#viewCaps").hidden=t!=="caps"; $("#viewSyn").hidden=t!=="syn"; if(t==="syn") renderSyn(); $("#viewEch").hidden=t!=="ech"; if(t==="ech" && typeof renderEch==="function") renderEch(); $("#viewLogs").hidden=t!=="logs"; if(t==="logs" && typeof renderLogs==="function") renderLogs(); $("#taskTools").hidden=t!=="tasks";
   if(t==="hours"){ renderHoursForm(); renderHours(); renderCal(); }
   if(t==="acc") renderAcc();
   if(t==="mine") renderMine();
   if(t==="done") renderDone();
   if(t==="issues"){ renderIssueForm(); renderIssues(); } }
-$("#tabTasks").onclick=()=>setTab("tasks"); $("#tabMine").onclick=()=>setTab("mine"); $("#tabDone").onclick=()=>setTab("done"); $("#tabIssues").onclick=()=>setTab("issues"); $("#tabProj").onclick=()=>setTab("proj"); $("#tabAcc").onclick=()=>setTab("acc"); $("#tabHours").onclick=()=>setTab("hours"); $("#tabDocs").onclick=()=>setTab("docs"); $("#tabRevit").onclick=()=>setTab("revit"); $("#tabTuto").onclick=()=>setTab("tuto"); $("#tabCaps").onclick=()=>setTab("caps"); $("#tabSyn").onclick=()=>setTab("syn"); $("#tabEch").onclick=()=>setTab("ech"); $("#goTuto").onclick=()=>{ setTab("tuto"); window.scrollTo(0,0); };
+$("#tabTasks").onclick=()=>setTab("tasks"); $("#tabMine").onclick=()=>setTab("mine"); $("#tabDone").onclick=()=>setTab("done"); $("#tabIssues").onclick=()=>setTab("issues"); $("#tabProj").onclick=()=>setTab("proj"); $("#tabAcc").onclick=()=>setTab("acc"); $("#tabHours").onclick=()=>setTab("hours"); $("#tabDocs").onclick=()=>setTab("docs"); $("#tabRevit").onclick=()=>setTab("revit"); $("#tabTuto").onclick=()=>setTab("tuto"); $("#tabCaps").onclick=()=>setTab("caps"); $("#tabSyn").onclick=()=>setTab("syn"); $("#tabEch").onclick=()=>setTab("ech"); $("#tabLogs").onclick=()=>setTab("logs"); $("#goTuto").onclick=()=>{ setTab("tuto"); window.scrollTo(0,0); };
 
 function renderAll(){ renderBoard(); renderMine(); renderDone(); renderCal(); renderIssueForm(); renderIssues(); renderHoursForm(); renderHours(); renderTaskExtras(); renderDocs(); renderSyn(); }
 
 /* ---------- Boot ---------- */
 renderMe(); renderTimeline(); renderFilters(); renderBoard(); renderHours();
-{ const st=store.get("ehpad-tab"); if(location.hash==="#heures") setTab("hours"); else if(location.hash==="#mes-taches") setTab("mine"); else if(location.hash==="#realise") setTab("done"); else if(location.hash==="#problemes") setTab("issues"); else if(location.hash==="#projet") setTab("proj"); else if(location.hash==="#acc") setTab("acc"); else if(location.hash==="#documents") setTab("docs"); else if(location.hash==="#revit") setTab("revit"); else if(location.hash==="#tuto") setTab("tuto"); else if(location.hash==="#captures") setTab("caps"); else if(location.hash==="#synoptiques") setTab("syn"); else if(location.hash==="#echanges") setTab("ech"); else setTab(["hours","mine","done","issues","proj","tasks","acc","docs","revit","tuto","caps","syn","ech"].includes(st)?st:"proj"); }
+{ const st=store.get("ehpad-tab"); if(location.hash==="#heures") setTab("hours"); else if(location.hash==="#mes-taches") setTab("mine"); else if(location.hash==="#realise") setTab("done"); else if(location.hash==="#problemes") setTab("issues"); else if(location.hash==="#projet") setTab("proj"); else if(location.hash==="#acc") setTab("acc"); else if(location.hash==="#documents") setTab("docs"); else if(location.hash==="#revit") setTab("revit"); else if(location.hash==="#tuto") setTab("tuto"); else if(location.hash==="#captures") setTab("caps"); else if(location.hash==="#synoptiques") setTab("syn"); else if(location.hash==="#echanges") setTab("ech"); else if(location.hash==="#logs") setTab("logs"); else setTab(["hours","mine","done","issues","proj","tasks","acc","docs","revit","tuto","caps","syn","ech","logs"].includes(st)?st:"proj"); }
 
 (async()=>{
   db = await window.claude.use("db");
@@ -2080,13 +2154,18 @@ renderMe(); renderTimeline(); renderFilters(); renderBoard(); renderHours();
     if(isAdmin() && teamLoaded){ const want=[...new Set([...teamEmails,...DEFAULT_TEAM])].filter(m=>!PROFS[m]); if(want.length!==teamEmails.length||want.some(m=>!teamEmails.includes(m))) db.doc("config/team").set({emails:want}).catch(e=>console.error(e));
       const pe=Object.keys(PROFS); if(profsLoaded && (profEmails.length!==pe.length||pe.some(m=>!profEmails.includes(m)))) db.doc("config/profs").set({emails:pe}).catch(e=>console.error(e)); }
     if(isProf() && !profLanded){ profLanded=true; setTab("ech"); }
-    startEchanges(); };
+    startEchanges(); startLogs(); };
   let profsLoaded=false, profEmails=[], profLanded=false;
   db.doc("config/profs").onSnapshot(s=>{ profsLoaded=true; profEmails=((s.exists&&s.data().emails)||[]).map(x=>String(x).toLowerCase()); applyAuth(); }, e=>console.error(e));
   let teamLoaded=false;
   db.doc("config/team").onSnapshot(s=>{ teamLoaded=true; teamEmails=((s.exists&&s.data().emails)||[]).map(x=>String(x).toLowerCase()); applyAuth(); }, e=>console.error(e));
   fauth.getRedirectResult().catch(e=>console.error(e));
-  fauth.onAuthStateChanged(u=>{ fbUser=u; applyAuth(); });
+  let authSeen=false, prevMail=null;
+  fauth.onAuthStateChanged(u=>{ fbUser=u; const m=u&&u.email||null;
+    if(!authSeen){ authSeen=true; logOn=true; logEv("visite",(location.hash||"#")+(m?"":" (non connecté)")); }
+    else if(m&&m!==prevMail) logEv("connexion","connexion Google");
+    else if(!m&&prevMail){ logEv("deconnexion","déconnexion de "+prevMail); }
+    prevMail=m; applyAuth(); });
   let seeding=false;
   let migrating=false;
   async function maybeMigrate(){
