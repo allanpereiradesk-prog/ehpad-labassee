@@ -464,11 +464,11 @@ body{margin:0;background:var(--bg)}
 /* Onglets : barre blanche collante, soulignement bleu */
 .bar{position:sticky;top:0;z-index:20;margin:18px 0 0;padding:4px 8px 0;background:var(--surface);border-radius:var(--r) var(--r) 0 0;box-shadow:var(--sh);border-bottom:1px solid var(--line);align-items:flex-end}
 .tabs{background:none;padding:0;gap:0 2px;border-radius:0;align-items:center}
-.tabs button{border-radius:0;padding:12px 8px 10px;font-weight:500;color:var(--muted);border-bottom:3px solid transparent;box-shadow:none;font-size:14.5px}
+.tabs button{border-radius:0;padding:12px 7px 10px;font-weight:500;color:var(--muted);border-bottom:3px solid transparent;box-shadow:none;font-size:14px}
 .tabs button:hover{color:var(--accent)}
 .tabs button[aria-selected="true"]{background:none;box-shadow:none;color:var(--accent);font-weight:600;border-bottom-color:var(--accent)}
 .tabs button[hidden]{display:none}
-.tsep{width:1px;height:20px;background:var(--line);margin:0 3px}
+.tsep{width:1px;height:20px;background:var(--line);margin:0 2px}
 .bar .filters{padding-bottom:8px}
 .crumb{margin:0 0 16px;background:var(--surface);border-radius:0 0 var(--r) var(--r);box-shadow:var(--sh);padding:10px 16px}
 .crumb p{margin:0;color:var(--muted);font-size:14px}
@@ -482,6 +482,60 @@ body{margin:0;background:var(--bg)}
 .btn{border-radius:6px}
 .btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 @media (max-width:760px){.tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;max-width:100%}.tabs button{white-space:nowrap;flex:none}.bar{flex-direction:column;align-items:stretch}.bar .filters{justify-content:flex-start}}
+
+/* ===== Corrections roast ===== */
+/* 1. En-tête complet seulement sur Accueil / Le projet */
+body:not([data-tab="proj"]) .tl{display:none}
+body:not([data-tab="proj"]):not([data-tab="home"]) .sheet-main{padding:16px 22px 14px}
+body:not([data-tab="proj"]):not([data-tab="home"]) .sheet-main>.label,body:not([data-tab="proj"]):not([data-tab="home"]) .sheet-main>p{display:none}
+body:not([data-tab="proj"]):not([data-tab="home"]) .sheet-main h1{font-size:24px;margin:0}
+body:not([data-tab="proj"]):not([data-tab="home"]) .cart{display:flex;flex-wrap:wrap;align-items:center;padding:0 8px}
+body:not([data-tab="proj"]):not([data-tab="home"]) .cart div{border:0;padding:6px 8px}
+body:not([data-tab="proj"]):not([data-tab="home"]) .cart div:nth-child(-n+4){display:none}
+@media (max-width:760px){
+  .sheet-main>p{display:none}
+  .cart div:nth-child(-n+4){display:none}
+  .cart{display:flex;align-items:center;padding:4px 8px}.cart div{border:0;padding:6px 8px}
+  body[data-tab="home"] .tl{display:none}
+}
+/* 6. chiffres dans la police du site, pas en police "code" */
+:root{--mono:var(--body)}
+.mono,.step,.num,td.num,.kpis dd,.pcard .big,.label{font-variant-numeric:tabular-nums}
+.doc .path,code,kbd{font-family:"JetBrains Mono",ui-monospace,Consolas,monospace}
+.step{font-weight:700}
+/* 7. plus de petits titres en MAJUSCULES */
+th,.doc .k,.grp,.cal .wd,.kpis dt,.flab,.fcol h4,.col-h .label{text-transform:none!important;letter-spacing:0!important}
+th,.kpis dt,.flab,.grp{font-size:13px}
+/* 3. tableau */
+.cards .more{align-self:center;margin-top:4px}
+/* 4. textes longs */
+.report.clamp{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.more-link{display:block;text-align:left;border:0;background:none;color:var(--accent);font-weight:600;padding:0;margin:2px 0 6px;cursor:pointer}
+/* 5. Supprimer discret */
+.del-quiet{margin-left:auto;background:none!important;border-color:transparent!important;color:var(--muted)!important;box-shadow:none!important}
+.del-quiet:hover{color:var(--danger)!important;text-decoration:underline}
+/* 8. calendrier semaine */
+.seg2{display:inline-flex;margin-right:8px}.seg2 .btn{border-radius:0}.seg2 .btn:first-child{border-radius:6px 0 0 6px}.seg2 .btn:last-child{border-radius:0 6px 6px 0;margin-left:-1px}
+.seg2 .btn[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.cal.week .day{min-height:120px}
+/* 2. Accueil */
+.h-tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:14px}
+@media (max-width:860px){.h-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.h-tile{background:var(--surface);border:0;border-radius:var(--r);box-shadow:var(--sh);padding:14px 16px;display:grid;gap:2px;text-align:left;color:var(--ink);font:inherit}
+button.h-tile{cursor:pointer}button.h-tile:hover{outline:2px solid color-mix(in srgb,var(--accent) 40%,transparent)}
+.h-tile span{font-size:13px;color:var(--muted);font-weight:600}
+.h-tile b{font-family:var(--display);font-size:30px;line-height:1.1;font-variant-numeric:tabular-nums}
+.h-tile em{font-style:normal;font-size:13px;color:var(--muted)}
+.h-tile.warn b{color:var(--danger)}
+.h-bar{display:block;height:5px;border-radius:3px;background:var(--sunk);margin-top:6px;overflow:hidden}.h-bar i{display:block;height:100%;background:var(--accent)}
+.h-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:860px){.h-grid{grid-template-columns:1fr}}
+.h-box{background:var(--surface);border-radius:var(--r);box-shadow:var(--sh);padding:14px 16px;min-width:0}
+.h-box h3{font-size:17px;margin:0 0 8px}
+.h-row{display:flex;align-items:center;gap:8px;width:100%;text-align:left;border:0;border-top:1px solid var(--line);background:none;padding:8px 2px;font:inherit;color:var(--ink);cursor:pointer;min-width:0}
+.h-row:hover{background:color-mix(in srgb,var(--accent) 6%,transparent)}
+.h-tt{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nw{white-space:nowrap}
 </style>
 
 <div class="wrap">
@@ -510,6 +564,7 @@ body{margin:0;background:var(--bg)}
 
   <div class="bar">
     <div class="tabs" role="tablist" aria-label="Sections du site">
+      <button role="tab" id="tabHome" aria-selected="false">Accueil</button>
       <button role="tab" id="tabProj" aria-selected="false">Le projet</button>
       <button role="tab" id="tabAcc" aria-selected="false">ACC</button>
       <span class="tsep" aria-hidden="true"></span>
@@ -536,6 +591,10 @@ body{margin:0;background:var(--bg)}
   </div>
 
   <div class="crumb"><p id="crumbD"></p></div>
+
+  <main id="viewHome" hidden>
+    <div id="home"></div>
+  </main>
 
   <main id="viewProj" hidden>
     <section class="pj-hero">
@@ -1004,9 +1063,10 @@ body{margin:0;background:var(--bg)}
       <div class="cal-h">
         <h2 id="calTitle" style="margin:0">Calendrier</h2>
         <div class="cal-nav">
-          <button class="btn small" id="calPrev" aria-label="Mois précédent">‹</button>
+          <span class="seg2"><button class="btn small" data-cm="week" aria-pressed="true">Semaine</button><button class="btn small" data-cm="month" aria-pressed="false">Mois</button></span>
+          <button class="btn small" id="calPrev" aria-label="Précédent">‹</button>
           <button class="btn small" id="calToday">Aujourd'hui</button>
-          <button class="btn small" id="calNext" aria-label="Mois suivant">›</button>
+          <button class="btn small" id="calNext" aria-label="Suivant">›</button>
         </div>
       </div>
       <div class="cal-legend" id="calLegend"></div>
@@ -1207,7 +1267,7 @@ function renderBoard(){
   }).sort(byOrder);
   const today=todayISO();
   board.innerHTML = Object.entries(STATUS).map(([k,s])=>{
-    const items=list.filter(t=>(t.status||"afaire")===k);
+    const all=list.filter(t=>(t.status||"afaire")===k); const cut=k==="afaire"&&!boardAll&&all.length>8; const items=cut?all.slice(0,6):all;
     const cards = items.map(t=>{
       const lot=LOTS[t.lot]||LOTS.commun;
       const late = t.due && t.due<today && k!=="fait";
@@ -1218,17 +1278,18 @@ function renderBoard(){
         <div class="card-t">${esc(t.title)}</div>
         <div class="meta">
           ${t.due?`<span class="${late?"late":""} mono">${late?"En retard · ":""}${fmtDate(t.due)}</span>`:""}
-          ${h?`<span class="mono">${fmtH(h)} h${t.hoursPlanned?` / ${t.hoursPlanned}`:""}</span>`:(t.hoursPlanned?`<span class="mono">0 / ${t.hoursPlanned} h</span>`:"")}
+          ${t.hoursPlanned?`<span title="Heures faites / heures prévues">⏱ ${fmtH(h)} h faites / ${t.hoursPlanned} h</span>`:(h?`<span>⏱ ${fmtH(h)} h faites</span>`:"")}
           ${docs?`<span>📎 ${docs}</span>`:""}
           ${openIss(t._id)?`<span class="late" title="Problème signalé">⚠ ${openIss(t._id)}</span>`:""}
           <span class="chips" style="margin-left:auto">${(t.assignees||[]).map(p=>`<span class="chip" style="--pc:${PCOLOR[p]||"var(--muted)"}" title="${esc(p)}">${esc(initials(p))}</span>`).join("")}</span>
         </div></button>`;
     }).join("");
-    return `<section class="col"><div class="col-h"><h2><span class="dot" style="background:${s.c}"></span>${s.name}</h2><span class="mono label">${items.length}</span></div>
-      <div class="cards">${cards || `<div class="empty">${!ready?"Chargement des tâches…":(k==="afaire"&&!tasks.length?"Aucune tâche pour l'instant. Ajoute la première avec « + Nouvelle tâche ».":"Rien ici.")}</div>`}</div></section>`;
+    return `<section class="col"><div class="col-h"><h2><span class="dot" style="background:${s.c}"></span>${s.name}</h2><span class="mono label">${all.length}</span></div>
+      <div class="cards">${cards}${cut?`<button class="btn small more" data-more>Voir les ${all.length-6} autres tâches</button>`:(k==="afaire"&&boardAll&&all.length>8?`<button class="btn small more" data-more>Réduire</button>`:"")}${cards?"":`<div class="empty">${!ready?"Chargement des tâches…":(k==="afaire"&&!tasks.length?"Aucune tâche pour l'instant. Ajoute la première avec « + Nouvelle tâche ».":"Rien ici.")}</div>`}</div></section>`;
   }).join("");
 }
-$("#board").addEventListener("click", e=>{ const c=e.target.closest(".card"); if(c) openTask(c.dataset.id); });
+let boardAll=false;
+$("#board").addEventListener("click", e=>{ if(e.target.closest("[data-more]")){ boardAll=!boardAll; renderBoard(); return; } const c=e.target.closest(".card"); if(c) openTask(c.dataset.id); });
 $("#newTask").addEventListener("click", ()=>openTask(null));
 
 /* ---------- Task modal ---------- */
@@ -1509,11 +1570,16 @@ function renderHours(){
 const pad2=n=>String(n).padStart(2,"0");
 const isoOf=(y,m,d)=>`${y}-${pad2(m+1)}-${pad2(d)}`;
 const MOIS=["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
-let calY, calM, calSel="";
+let calY, calM, calSel="", calMode="week", calWk="";
+const mondayOf=iso=>{ const d=new Date(iso+"T12:00"); d.setDate(d.getDate()-((d.getDay()+6)%7)); return isoOf(d.getFullYear(),d.getMonth(),d.getDate()); };
 { const t=todayISO(); calY=+t.slice(0,4); calM=+t.slice(5,7)-1; }
 function renderCal(){
   if(!$("#cal")) return;
-  $("#calTitle").textContent=`${MOIS[calM][0].toUpperCase()+MOIS[calM].slice(1)} ${calY}`;
+  if(!calWk) calWk=mondayOf(todayISO());
+  document.querySelectorAll("[data-cm]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.cm===calMode));
+  const wk0=new Date(calWk+"T12:00"), wk6=new Date(wk0); wk6.setDate(wk6.getDate()+6);
+  $("#calTitle").textContent= calMode==="week" ? `Semaine du ${wk0.getDate()}${wk0.getMonth()!==wk6.getMonth()?" "+MOIS[wk0.getMonth()]:""} au ${wk6.getDate()} ${MOIS[wk6.getMonth()]}` : `${MOIS[calM][0].toUpperCase()+MOIS[calM].slice(1)} ${calY}`;
+  $("#cal").classList.toggle("week",calMode==="week");
   $("#calLegend").innerHTML=PEOPLE.map(p=>`<span><i class="sw" style="background:${PCOLOR[p]};border-radius:50%"></i>${p}</span>`).join("")+
     `<span><i class="sw" style="background:color-mix(in srgb,var(--accent) 25%,transparent)"></i>Partie commune</span><span><i class="sw" style="background:color-mix(in srgb,var(--heat) 25%,transparent)"></i>Partie individuelle</span>`;
   const first=new Date(calY,calM,1), off=(first.getDay()+6)%7, days=new Date(calY,calM+1,0).getDate();
@@ -1521,10 +1587,10 @@ function renderCal(){
   const ms={}; MILESTONES.forEach(m=>ms[m.d]=m.t);
   const today=todayISO();
   let html=["Lun","Mar","Mer","Jeu","Ven","Sam","Dim"].map(d=>`<div class="wd">${d}</div>`).join("");
-  const cells=Math.ceil((off+days)/7)*7;
+  const cells=calMode==="week"?7:Math.ceil((off+days)/7)*7;
   for(let i=0;i<cells;i++){
-    const dt=new Date(calY,calM,1-off+i); const iso=isoOf(dt.getFullYear(),dt.getMonth(),dt.getDate());
-    const out=dt.getMonth()!==calM;
+    const dt=calMode==="week"?new Date(wk0.getFullYear(),wk0.getMonth(),wk0.getDate()+i):new Date(calY,calM,1-off+i); const iso=isoOf(dt.getFullYear(),dt.getMonth(),dt.getDate());
+    const out=calMode!=="week"&&dt.getMonth()!==calM;
     const es=byDay[iso]||[]; const tot=es.reduce((a,h)=>a+(+h.hours||0),0);
     const per=PEOPLE.map(p=>[p,es.filter(h=>h.who===p).reduce((a,h)=>a+(+h.hours||0),0)]).filter(x=>x[1]);
     const ph = iso>="2026-11-23"&&iso<="2027-03-12"?"pc":(iso>="2027-03-30"&&iso<="2027-05-28"?"pi":"");
@@ -1544,9 +1610,11 @@ function renderCal(){
     return `<tr><td><span class="chip" style="--pc:${PCOLOR[h.who]||"var(--muted)"}">${esc(initials(h.who||"?"))}</span></td><td>${esc(h.who)}</td><td>${t?`<span class="step">${stepNo(t)}</span> `+esc(t.title):"Hors tâche"}${h.note?`<div class="hint">${esc(h.note)}</div>`:""}</td><td class="num">${fmtH(+h.hours)} h</td></tr>`;}).join("")}</tbody></table></div>`
     :`<p class="hint" style="margin:4px 0 0">Aucune heure ce jour-là.</p>`);
 }
-$("#calPrev").onclick=()=>{ calM--; if(calM<0){calM=11;calY--;} renderCal(); };
-$("#calNext").onclick=()=>{ calM++; if(calM>11){calM=0;calY++;} renderCal(); };
-$("#calToday").onclick=()=>{ const t=todayISO(); calY=+t.slice(0,4); calM=+t.slice(5,7)-1; calSel=t; $("#hDate").value=t; renderCal(); };
+const shiftWk=n=>{ const d=new Date(calWk+"T12:00"); d.setDate(d.getDate()+7*n); calWk=isoOf(d.getFullYear(),d.getMonth(),d.getDate()); };
+$("#calPrev").onclick=()=>{ if(calMode==="week") shiftWk(-1); else { calM--; if(calM<0){calM=11;calY--;} } renderCal(); };
+$("#calNext").onclick=()=>{ if(calMode==="week") shiftWk(1); else { calM++; if(calM>11){calM=0;calY++;} } renderCal(); };
+$("#calToday").onclick=()=>{ const t=todayISO(); calY=+t.slice(0,4); calM=+t.slice(5,7)-1; calWk=mondayOf(t); calSel=t; $("#hDate").value=t; renderCal(); };
+document.querySelectorAll("[data-cm]").forEach(b=>b.onclick=()=>{ calMode=b.dataset.cm; if(calMode==="month"){ const d=new Date(calWk+"T12:00"); calY=d.getFullYear(); calM=d.getMonth(); } else calWk=mondayOf(calSel||isoOf(calY,calM,1)); renderCal(); });
 
 /* ---------- ACC ---------- */
 const ACC_FOLDERS=[
@@ -1977,6 +2045,7 @@ function renderEch(){
   $("#echTopics").querySelectorAll("form[data-rt]").forEach(f=>f.onsubmit=async e=>{ e.preventDefault(); const ta=f.querySelector("textarea"); if(await echPost({kind:"reply",topic:f.dataset.rt,text:ta.value})) ta.value=""; });
   document.querySelectorAll("#viewEch [data-edel]").forEach(b=>b.onclick=async()=>{ if(b.dataset.sure){ try{ await fdb.doc("echanges/"+b.dataset.edel).delete(); }catch(e){ toast("Suppression impossible"); } } else { b.dataset.sure=1; b.textContent="Confirmer ?"; setTimeout(()=>{ delete b.dataset.sure; b.textContent="Supprimer"; },3000); } });
   echMarkSeen(); echBadge();
+  if(typeof renderHome==="function") renderHome();
 }
 $("#echChatForm").onsubmit=async e=>{ e.preventDefault(); const ta=$("#echChatIn"); const v=ta.value; ta.value=""; if(!(await echPost({kind:"chat",text:v}))) ta.value=v; };
 $("#echChatIn").onkeydown=e=>{ if(e.key==="Enter"&&!e.shiftKey){ e.preventDefault(); $("#echChatForm").requestSubmit(); } };
@@ -2078,9 +2147,10 @@ function renderIssues(){
         <button class="btn small" data-reply="${esc(i._id)}">Envoyer</button>
         <button class="btn small ${res?"":"primary"}" data-toggle="${esc(i._id)}">${res?"Rouvrir":"Marquer réglé"}</button>
         ${assets?`<span class="btn small filebtn">+ Capture<input type="file" accept="image/png,image/jpeg,image/webp,image/gif" data-addshot="${esc(i._id)}" aria-label="Ajouter une capture"></span>`:""}
-        <button class="btn small danger" data-delete="${esc(i._id)}">Supprimer</button></div>
+        <button class="btn small del-quiet" data-delete="${esc(i._id)}" title="Supprimer ce problème (il faut cliquer 2 fois)">Supprimer</button></div>
     </article>`;
   }).join(""):`<div class="notice">${!ready?"Chargement…":(f==="ouvert"?"Aucun problème en attente. Si quelque chose bloque sur le site ou le projet, signale-le avec le formulaire.":"Rien ici.")}</div>`;
+  clampReports(box);
   box.querySelectorAll("[data-task]").forEach(b=>b.onclick=()=>openTask(b.dataset.task,"det"));
   box.querySelectorAll("[data-reply]").forEach(b=>b.onclick=async()=>{ const id=b.dataset.reply, inp=$("#r_"+CSS.escape(id)); const text=inp.value.trim(); if(!text) return;
     const i=issues.find(x=>x._id===id); b.disabled=true;
@@ -2130,6 +2200,7 @@ function renderDone(){
     <section class="dsec" style="margin-top:16px"><h3>Terminées</h3>${fait.length?fait.map(doneItem).join(""):`<div class="notice">${ready?"Aucune tâche terminée pour l'instant. Quand tu finis une tâche, passe son statut à « Fait » et écris ce que tu as fait : elle apparaîtra ici pour tout le monde.":"Chargement…"}</div>`}</section>
     ${enc.length?`<section class="dsec"><h3>En cours</h3>${enc.map(doneItem).join("")}</section>`:""}`;
   box.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>openTask(b.dataset.open,"det"));
+  if(!box.closest("[hidden]")) clampReports(box);
 }
 
 /* ---------- Mes tâches ---------- */
@@ -2170,23 +2241,57 @@ function renderMine(){
   box.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>openTask(b.dataset.open,"doc"));
 }
 
-const TAB_META={proj:["Projet","Le projet","Le bâtiment, les équipements CVC et le calendrier."],acc:["Projet","ACC","Notre espace Autodesk Construction Cloud et ce qu'on y dépose."],tasks:["Travail","Tâches","Qui fait quoi, et où en est chaque tâche."],mine:["Travail","Mes tâches","Tes tâches à toi. Choisis ton nom dans « Je suis »."],done:["Travail","Réalisé","Ce qui est terminé, avec les livrables."],hours:["Travail","Heures","Les heures passées par chacun."],issues:["Travail","Problèmes","Ce qui bloque, et comment on l'a réglé."],docs:["Fichiers","Documents","Tous les fichiers produits, rangés par tâche."],syn:["Fichiers","Synoptiques","Les schémas de principe : télécharger, modifier, redéposer."],revit:["Fichiers","Revit","La maquette de départ, les zones et les modèles à télécharger."],tuto:["Fichiers","Tuto Revit","Mettre en place les maquettes Revit, étape par étape."],caps:["Fichiers","Captures","Les messages d'erreur Revit expliqués, capture par capture."],ech:["Échanges","Échanges profs","Discuter avec les enseignants : chat et forum."],logs:["Échanges","Logs","Qui s'est connecté et ce qui a été modifié."]};
+const TAB_META={home:["Projet","Accueil","Où on en est : prochaine échéance, tâches en cours, problèmes et messages des profs."],proj:["Projet","Le projet","Le bâtiment, les équipements CVC et le calendrier."],acc:["Projet","ACC","Notre espace Autodesk Construction Cloud et ce qu'on y dépose."],tasks:["Travail","Tâches","Qui fait quoi, et où en est chaque tâche."],mine:["Travail","Mes tâches","Tes tâches à toi. Choisis ton nom dans « Je suis »."],done:["Travail","Réalisé","Ce qui est terminé, avec les livrables."],hours:["Travail","Heures","Les heures passées par chacun."],issues:["Travail","Problèmes","Ce qui bloque, et comment on l'a réglé."],docs:["Fichiers","Documents","Tous les fichiers produits, rangés par tâche."],syn:["Fichiers","Synoptiques","Les schémas de principe : télécharger, modifier, redéposer."],revit:["Fichiers","Revit","La maquette de départ, les zones et les modèles à télécharger."],tuto:["Fichiers","Tuto Revit","Mettre en place les maquettes Revit, étape par étape."],caps:["Fichiers","Captures","Les messages d'erreur Revit expliqués, capture par capture."],ech:["Échanges","Échanges profs","Discuter avec les enseignants : chat et forum."],logs:["Échanges","Logs","Qui s'est connecté et ce qui a été modifié."]};
 function setCrumb(t){ const m=TAB_META[t]; if(!m) return; $("#crumbD").textContent=m[2]; document.body.dataset.tab=t; document.title=m[1]+" · EHPAD La Bassée"; }
 function setTab(t){ if(t==="logs"&&!(typeof isAdmin==="function"&&isAdmin())) t="proj"; tab=t; store.set("ehpad-tab",t); if(typeof logEv==="function") logEv("onglet",t);
-  $("#tabTasks").setAttribute("aria-selected",t==="tasks"); $("#tabMine").setAttribute("aria-selected",t==="mine"); $("#tabDone").setAttribute("aria-selected",t==="done"); $("#tabIssues").setAttribute("aria-selected",t==="issues"); $("#tabProj").setAttribute("aria-selected",t==="proj"); $("#tabAcc").setAttribute("aria-selected",t==="acc"); $("#tabHours").setAttribute("aria-selected",t==="hours"); $("#tabDocs").setAttribute("aria-selected",t==="docs"); $("#tabRevit").setAttribute("aria-selected",t==="revit"); $("#tabTuto").setAttribute("aria-selected",t==="tuto"); $("#tabCaps").setAttribute("aria-selected",t==="caps"); $("#tabSyn").setAttribute("aria-selected",t==="syn"); $("#tabEch").setAttribute("aria-selected",t==="ech"); $("#tabLogs").setAttribute("aria-selected",t==="logs"); setCrumb(t);
-  $("#viewTasks").hidden=t!=="tasks"; $("#viewMine").hidden=t!=="mine"; $("#viewDone").hidden=t!=="done"; $("#viewIssues").hidden=t!=="issues"; $("#viewProj").hidden=t!=="proj"; $("#viewAcc").hidden=t!=="acc"; $("#viewHours").hidden=t!=="hours"; $("#viewDocs").hidden=t!=="docs"; if(t==="docs") renderDocs(); $("#viewRevit").hidden=t!=="revit"; if(t==="revit") renderRevit(); $("#viewTuto").hidden=t!=="tuto"; $("#viewCaps").hidden=t!=="caps"; $("#viewSyn").hidden=t!=="syn"; if(t==="syn") renderSyn(); $("#viewEch").hidden=t!=="ech"; if(t==="ech" && typeof renderEch==="function") renderEch(); $("#viewLogs").hidden=t!=="logs"; if(t==="logs" && typeof renderLogs==="function") renderLogs(); $("#taskTools").hidden=t!=="tasks";
+  $("#tabHome").setAttribute("aria-selected",t==="home"); $("#tabTasks").setAttribute("aria-selected",t==="tasks"); $("#tabMine").setAttribute("aria-selected",t==="mine"); $("#tabDone").setAttribute("aria-selected",t==="done"); $("#tabIssues").setAttribute("aria-selected",t==="issues"); $("#tabProj").setAttribute("aria-selected",t==="proj"); $("#tabAcc").setAttribute("aria-selected",t==="acc"); $("#tabHours").setAttribute("aria-selected",t==="hours"); $("#tabDocs").setAttribute("aria-selected",t==="docs"); $("#tabRevit").setAttribute("aria-selected",t==="revit"); $("#tabTuto").setAttribute("aria-selected",t==="tuto"); $("#tabCaps").setAttribute("aria-selected",t==="caps"); $("#tabSyn").setAttribute("aria-selected",t==="syn"); $("#tabEch").setAttribute("aria-selected",t==="ech"); $("#tabLogs").setAttribute("aria-selected",t==="logs"); setCrumb(t);
+  $("#viewHome").hidden=t!=="home"; if(t==="home") renderHome(); $("#viewTasks").hidden=t!=="tasks"; $("#viewMine").hidden=t!=="mine"; $("#viewDone").hidden=t!=="done"; $("#viewIssues").hidden=t!=="issues"; $("#viewProj").hidden=t!=="proj"; $("#viewAcc").hidden=t!=="acc"; $("#viewHours").hidden=t!=="hours"; $("#viewDocs").hidden=t!=="docs"; if(t==="docs") renderDocs(); $("#viewRevit").hidden=t!=="revit"; if(t==="revit") renderRevit(); $("#viewTuto").hidden=t!=="tuto"; $("#viewCaps").hidden=t!=="caps"; $("#viewSyn").hidden=t!=="syn"; if(t==="syn") renderSyn(); $("#viewEch").hidden=t!=="ech"; if(t==="ech" && typeof renderEch==="function") renderEch(); $("#viewLogs").hidden=t!=="logs"; if(t==="logs" && typeof renderLogs==="function") renderLogs(); $("#taskTools").hidden=t!=="tasks";
   if(t==="hours"){ renderHoursForm(); renderHours(); renderCal(); }
   if(t==="acc") renderAcc();
   if(t==="mine") renderMine();
   if(t==="done") renderDone();
+  if(t==="issues"||t==="done") setTimeout(()=>clampReports(),0);
   if(t==="issues"){ renderIssueForm(); renderIssues(); } }
-$("#tabTasks").onclick=()=>setTab("tasks"); $("#tabMine").onclick=()=>setTab("mine"); $("#tabDone").onclick=()=>setTab("done"); $("#tabIssues").onclick=()=>setTab("issues"); $("#tabProj").onclick=()=>setTab("proj"); $("#tabAcc").onclick=()=>setTab("acc"); $("#tabHours").onclick=()=>setTab("hours"); $("#tabDocs").onclick=()=>setTab("docs"); $("#tabRevit").onclick=()=>setTab("revit"); $("#tabTuto").onclick=()=>setTab("tuto"); $("#tabCaps").onclick=()=>setTab("caps"); $("#tabSyn").onclick=()=>setTab("syn"); $("#tabEch").onclick=()=>setTab("ech"); $("#tabLogs").onclick=()=>setTab("logs"); $("#goTuto").onclick=()=>{ setTab("tuto"); window.scrollTo(0,0); };
+$("#tabHome").onclick=()=>setTab("home"); $("#tabTasks").onclick=()=>setTab("tasks"); $("#tabMine").onclick=()=>setTab("mine"); $("#tabDone").onclick=()=>setTab("done"); $("#tabIssues").onclick=()=>setTab("issues"); $("#tabProj").onclick=()=>setTab("proj"); $("#tabAcc").onclick=()=>setTab("acc"); $("#tabHours").onclick=()=>setTab("hours"); $("#tabDocs").onclick=()=>setTab("docs"); $("#tabRevit").onclick=()=>setTab("revit"); $("#tabTuto").onclick=()=>setTab("tuto"); $("#tabCaps").onclick=()=>setTab("caps"); $("#tabSyn").onclick=()=>setTab("syn"); $("#tabEch").onclick=()=>setTab("ech"); $("#tabLogs").onclick=()=>setTab("logs"); $("#goTuto").onclick=()=>{ setTab("tuto"); window.scrollTo(0,0); };
 
-function renderAll(){ renderBoard(); renderMine(); renderDone(); renderCal(); renderIssueForm(); renderIssues(); renderHoursForm(); renderHours(); renderTaskExtras(); renderDocs(); renderSyn(); }
+/* ---------- Accueil ---------- */
+function renderHome(){
+  const box=$("#home"); if(!box) return;
+  const today=todayISO();
+  const next=MILESTONES.find(m=>new Date(m.d+"T23:59")>=new Date());
+  const days=next?Math.ceil((new Date(next.d)-new Date(today))/864e5):null;
+  const fait=tasks.filter(t=>t.status==="fait").length, enc=tasks.filter(t=>t.status==="encours");
+  const totH=hours.reduce((a,h)=>a+(+h.hours||0),0);
+  const open=issues.filter(i=>i.status!=="resolu").sort((a,b)=>((b.urgent?1:0)-(a.urgent?1:0))||(b.at||"").localeCompare(a.at||""));
+  const soon=tasks.filter(t=>(t.status||"afaire")==="afaire"&&t.due).sort((a,b)=>a.due.localeCompare(b.due)).slice(0,5);
+  const chips=t=>(t.assignees||[]).length?`<span class="chips">${t.assignees.map(p=>`<span class="chip" style="--pc:${PCOLOR[p]||"var(--muted)"}" title="${esc(p)}">${esc(initials(p))}</span>`).join("")}</span>`:`<span class="hint">personne</span>`;
+  const trow=t=>`<button class="h-row" data-task="${esc(t._id)}"><span class="step">${stepNo(t)}</span><span class="h-tt">${esc(t.title)}</span>${t.due?`<span class="hint nw ${t.due<today&&t.status!=="fait"?"late":""}">${fmtDate(t.due)}</span>`:""}${chips(t)}</button>`;
+  const ech=(typeof echMsgs!=="undefined"&&echCan&&echCan())?echMsgs.filter(m=>m.role==="prof").slice(-4).reverse():null;
+  const mine=me?tasks.filter(t=>(t.assignees||[]).includes(me)&&t.status!=="fait").sort(byOrder):[];
+  box.innerHTML=`
+  <div class="h-tiles">
+    <div class="h-tile"><span>Prochain jalon</span><b>${next?(days<=0?"Aujourd'hui":"J-"+days):"–"}</b><em>${next?esc(next.t)+" · "+fmtDate(next.d):"Projet terminé"}</em></div>
+    <button class="h-tile" data-go="tasks"><span>Tâches terminées</span><b>${fait} / ${tasks.length}</b><em>${enc.length} en cours</em></button>
+    <button class="h-tile" data-go="hours"><span>Heures de l'équipe</span><b>${fmtH(totH)} h</b><em>sur ${PEOPLE.length*140} h prévues</em><i class="h-bar"><i style="width:${Math.min(100,totH/(PEOPLE.length*140)*100)}%"></i></i></button>
+    <button class="h-tile ${open.length?"warn":""}" data-go="issues"><span>Problèmes à régler</span><b>${open.length}</b><em>${open.filter(i=>i.urgent).length} urgent${open.filter(i=>i.urgent).length>1?"s":""}</em></button>
+  </div>
+  <div class="h-grid">
+    <section class="h-box"><h3>${me?"Mes tâches en cours":"En cours dans l'équipe"}</h3>
+      ${(me?mine:enc).length?(me?mine:enc).slice(0,6).map(trow).join(""):`<p class="hint">${me?"Aucune tâche ouverte à ton nom.":"Rien en cours pour l'instant."}</p>`}
+      ${!me?`<p class="hint" style="margin:8px 0 0">Choisis ton nom dans « Je suis » pour voir tes tâches ici.</p>`:""}</section>
+    <section class="h-box"><h3>Prochaines échéances</h3>${soon.length?soon.map(trow).join(""):`<p class="hint">Aucune échéance à venir.</p>`}</section>
+    <section class="h-box"><h3>Problèmes à régler</h3>${open.length?open.slice(0,4).map(i=>`<button class="h-row" data-go="issues">${i.urgent?`<span class="pill" style="--pc:var(--danger)">Urgent</span>`:`<span class="pill" style="--pc:var(--doing)">À régler</span>`}<span class="h-tt">${esc(i.title)}</span><span class="hint nw">${esc(i.who||"")}</span></button>`).join(""):`<p class="hint">Rien ne bloque. 👍</p>`}</section>
+    <section class="h-box"><h3>Derniers messages des profs</h3>${ech===null?`<p class="hint">Connecte-toi avec Google pour voir les messages des enseignants.</p>`:ech.length?ech.map(m=>`<button class="h-row" data-go="ech"><b class="nw">${esc(m.name)}</b><span class="h-tt">${esc(m.kind==="topic"?m.title+" : "+m.text:m.text)}</span><span class="hint nw">${echTime(m.at)}</span></button>`).join(""):`<p class="hint">Pas encore de message des profs.</p>`}</section>
+  </div>`;
+  box.querySelectorAll("[data-task]").forEach(b=>b.onclick=()=>openTask(b.dataset.task,"det"));
+  box.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{ setTab(b.dataset.go); window.scrollTo(0,0); });
+}
+function clampReports(root){ (root||document).querySelectorAll(".report:not(.empty):not([data-cl])").forEach(r=>{ r.dataset.cl=1; if(r.closest(".iss-sol")||r.closest(".reply")) return; r.classList.add("clamp"); requestAnimationFrame(()=>{ if(r.scrollHeight>r.clientHeight+4){ const b=document.createElement("button"); b.className="more-link"; b.type="button"; b.textContent="Lire la suite"; b.onclick=()=>{ const o=r.classList.toggle("clamp"); b.textContent=o?"Lire la suite":"Réduire"; }; r.after(b); } else r.classList.remove("clamp"); }); }); }
+function renderAll(){ renderHome(); renderBoard(); renderMine(); renderDone(); renderCal(); renderIssueForm(); renderIssues(); renderHoursForm(); renderHours(); renderTaskExtras(); renderDocs(); renderSyn(); }
 
 /* ---------- Boot ---------- */
 renderMe(); renderTimeline(); renderFilters(); renderBoard(); renderHours();
-{ const st=store.get("ehpad-tab"); if(location.hash==="#heures") setTab("hours"); else if(location.hash==="#mes-taches") setTab("mine"); else if(location.hash==="#realise") setTab("done"); else if(location.hash==="#problemes") setTab("issues"); else if(location.hash==="#projet") setTab("proj"); else if(location.hash==="#acc") setTab("acc"); else if(location.hash==="#documents") setTab("docs"); else if(location.hash==="#revit") setTab("revit"); else if(location.hash==="#tuto") setTab("tuto"); else if(location.hash==="#captures") setTab("caps"); else if(location.hash==="#synoptiques") setTab("syn"); else if(location.hash==="#echanges") setTab("ech"); else if(location.hash==="#logs") setTab("logs"); else setTab(["hours","mine","done","issues","proj","tasks","acc","docs","revit","tuto","caps","syn","ech","logs"].includes(st)?st:"proj"); }
+{ const st=store.get("ehpad-tab"); if(location.hash==="#heures") setTab("hours"); else if(location.hash==="#mes-taches") setTab("mine"); else if(location.hash==="#realise") setTab("done"); else if(location.hash==="#problemes") setTab("issues"); else if(location.hash==="#projet") setTab("proj"); else if(location.hash==="#acc") setTab("acc"); else if(location.hash==="#documents") setTab("docs"); else if(location.hash==="#revit") setTab("revit"); else if(location.hash==="#tuto") setTab("tuto"); else if(location.hash==="#captures") setTab("caps"); else if(location.hash==="#synoptiques") setTab("syn"); else if(location.hash==="#echanges") setTab("ech"); else if(location.hash==="#logs") setTab("logs"); else if(location.hash==="#accueil") setTab("home"); else setTab(["home","hours","mine","done","issues","proj","tasks","acc","docs","revit","tuto","caps","syn","ech","logs"].includes(st)?st:"home"); }
 
 (async()=>{
   db = await window.claude.use("db");
