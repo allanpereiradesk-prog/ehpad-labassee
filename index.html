@@ -335,6 +335,9 @@ tfoot td{font-weight:600}
 .rv-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
 .rv-col{border:1px solid var(--line);border-radius:6px;padding:10px 12px;font-size:14px;min-width:0}
 .rv-col ol{margin:6px 0 0;padding-left:18px;display:grid;gap:4px}
+.rv-shot{margin:12px 0 0;max-width:780px}
+.rv-shot img{width:100%;height:auto;border:1px solid var(--line);border-radius:6px;display:block}
+.rv-shot figcaption{font-size:13px;color:var(--muted);margin-top:4px}
 .authbar{display:flex;gap:10px;align-items:center;justify-content:flex-end;flex-wrap:wrap;margin:10px 0 0;font-size:14px}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:7px;font-weight:600;z-index:30;max-width:calc(100% - 32px)}
 @media (prefers-reduced-motion:no-preference){.card{transition:border-color .15s}}
@@ -652,6 +655,7 @@ tfoot td{font-weight:600}
           <li>Redépose le fichier sur <b>ACC</b> (02_MAQUETTE CVC).</li>
           <li>Note le dépôt dans l'onglet <b>ACC</b> du site.</li></ol></div>
       </div>
+      <figure class="rv-shot"><img src="files/revit-ouvrir-detache.png" alt="Fenêtre Ouvrir de Revit avec la case Détacher du fichier central cochée en bas" loading="lazy"><figcaption>Étape 2 : la case <b>« Détacher du fichier central »</b> est en bas de la fenêtre Ouvrir, dans « Partage du projet ».</figcaption></figure>
       <p class="rv-units" style="margin-top:12px"><b>La règle :</b> ACC est la seule version de référence. On repart toujours de la dernière version d'ACC, et on la redépose après avoir travaillé, que ce soit chez soi ou au lycée. Comme chacun a son fichier (PROD, VMC, CHAUF, PLB), il n'y a jamais deux versions du même fichier. Le détachement ne fait rien perdre : les sous-projets sont conservés.</p>
     </section>
     <section class="rv-plan">
