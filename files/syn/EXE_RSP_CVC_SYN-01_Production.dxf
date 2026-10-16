@@ -493,7 +493,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461330.6405555555
+2461330.6550694443
   9
 $TDUCREATE
  40
@@ -501,7 +501,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461330.6405555555
+2461330.6550694443
   9
 $TDUUPDATE
  40
@@ -553,7 +553,7 @@ $SPLINESEGS
   9
 $HANDSEED
   5
-1EC
+343
   9
 $SURFTAB1
  70
@@ -933,11 +933,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{A0456C86-C3E6-4A15-90F3-6E17EF6197BF}
+{FFB9ACE3-F4A5-4D23-8965-E4F1BC8BA28E}
   9
 $VERSIONGUID
   2
-{EB9B7826-B2CB-4AAC-B66E-D8A21FDC4166}
+{A170FA4B-13FC-4B16-8D7D-1B96C32302D3}
   9
 $EXTNAMES
 290
@@ -1327,9 +1327,9 @@ ISM
   0
 CLASS
   1
-LAYOUT
+ACDBPLACEHOLDER
   2
-AcDbLayout
+AcDbPlaceHolder
   3
 ObjectDBX Classes
  90
@@ -1343,9 +1343,9 @@ ObjectDBX Classes
   0
 CLASS
   1
-ACDBPLACEHOLDER
+LAYOUT
   2
-AcDbPlaceHolder
+AcDbLayout
   3
 ObjectDBX Classes
  90
@@ -3521,7 +3521,7 @@ ACAD
   0
 APPID
   5
-1E9
+340
 330
 3
 100
@@ -3535,7 +3535,7 @@ HATCHBACKGROUNDCOLOR
   0
 APPID
   5
-1EA
+341
 330
 3
 100
@@ -6447,7 +6447,7 @@ AcDbText
  40
 2.2
   1
-Schéma de principe simplifié (synoptique) établi d'après le CCTP lot 12 et le schéma DCE CVC-S-1. Ne remplace pas le schéma d'exécution.
+Schéma de principe (synoptique) établi d'après le CCTP lot 12 et le schéma DCE CVC-S-1. Ne remplace pas le schéma d'exécution.
  11
 20.0
  21
@@ -6477,11 +6477,11 @@ AcDbPolyline
  70
 0
  10
-20.0
+18.0
  20
 85.0
  10
-135.0
+140.0
  20
 85.0
   0
@@ -6497,17 +6497,17 @@ CVC-TEXTE
 100
 AcDbText
  10
-22.0
+20.0
  20
 88.0
  30
 0.0
  40
-1.8
+1.7
   1
 TERRAIN NATUREL
  11
-22.0
+20.0
  21
 88.0
  31
@@ -6515,7 +6515,7 @@ TERRAIN NATUREL
 100
 AcDbText
  73
-2
+1
   0
 LWPOLYLINE
   5
@@ -6531,25 +6531,17 @@ CVC-GLYCOL
 100
 AcDbPolyline
  90
-4
+2
  70
 0
  10
 30.0
  20
-85.0
+94.0
  10
 30.0
  20
-40.0
- 10
-36.0
- 20
-40.0
- 10
-36.0
- 20
-85.0
+42.0
   0
 LWPOLYLINE
   5
@@ -6565,27 +6557,19 @@ CVC-GLYCOL
 100
 AcDbPolyline
  90
-4
+2
  70
 0
  10
-48.0
+36.0
  20
-85.0
+100.0
  10
-48.0
+36.0
  20
-40.0
- 10
-54.0
- 20
-40.0
- 10
-54.0
- 20
-85.0
+42.0
   0
-LWPOLYLINE
+ARC
   5
 BA
 330
@@ -6597,27 +6581,21 @@ CVC-GLYCOL
 370
 35
 100
-AcDbPolyline
- 90
-4
- 70
-0
+AcDbCircle
  10
-66.0
+33.0
  20
-85.0
- 10
-66.0
- 20
-40.0
- 10
-72.0
- 20
-40.0
- 10
-72.0
- 20
-85.0
+42.0
+ 30
+0.0
+ 40
+3.0
+100
+AcDbArc
+ 50
+180.0
+ 51
+360.0
   0
 LWPOLYLINE
   5
@@ -6633,25 +6611,17 @@ CVC-GLYCOL
 100
 AcDbPolyline
  90
-4
+2
  70
 0
  10
-84.0
+48.0
  20
-85.0
+94.0
  10
-84.0
+48.0
  20
-40.0
- 10
-90.0
- 20
-40.0
- 10
-90.0
- 20
-85.0
+42.0
   0
 LWPOLYLINE
   5
@@ -6667,29 +6637,341 @@ CVC-GLYCOL
 100
 AcDbPolyline
  90
-4
+2
+ 70
+0
+ 10
+54.0
+ 20
+100.0
+ 10
+54.0
+ 20
+42.0
+  0
+ARC
+  5
+BD
+330
+17
+100
+AcDbEntity
+  8
+CVC-GLYCOL
+370
+35
+100
+AcDbCircle
+ 10
+51.0
+ 20
+42.0
+ 30
+0.0
+ 40
+3.0
+100
+AcDbArc
+ 50
+180.0
+ 51
+360.0
+  0
+LWPOLYLINE
+  5
+BE
+330
+17
+100
+AcDbEntity
+  8
+CVC-GLYCOL
+370
+35
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+66.0
+ 20
+94.0
+ 10
+66.0
+ 20
+42.0
+  0
+LWPOLYLINE
+  5
+BF
+330
+17
+100
+AcDbEntity
+  8
+CVC-GLYCOL
+370
+35
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+72.0
+ 20
+100.0
+ 10
+72.0
+ 20
+42.0
+  0
+ARC
+  5
+C0
+330
+17
+100
+AcDbEntity
+  8
+CVC-GLYCOL
+370
+35
+100
+AcDbCircle
+ 10
+69.0
+ 20
+42.0
+ 30
+0.0
+ 40
+3.0
+100
+AcDbArc
+ 50
+180.0
+ 51
+360.0
+  0
+LWPOLYLINE
+  5
+C1
+330
+17
+100
+AcDbEntity
+  8
+CVC-GLYCOL
+370
+35
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+84.0
+ 20
+94.0
+ 10
+84.0
+ 20
+42.0
+  0
+LWPOLYLINE
+  5
+C2
+330
+17
+100
+AcDbEntity
+  8
+CVC-GLYCOL
+370
+35
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+90.0
+ 20
+100.0
+ 10
+90.0
+ 20
+42.0
+  0
+ARC
+  5
+C3
+330
+17
+100
+AcDbEntity
+  8
+CVC-GLYCOL
+370
+35
+100
+AcDbCircle
+ 10
+87.0
+ 20
+42.0
+ 30
+0.0
+ 40
+3.0
+100
+AcDbArc
+ 50
+180.0
+ 51
+360.0
+  0
+LWPOLYLINE
+  5
+C4
+330
+17
+100
+AcDbEntity
+  8
+CVC-GLYCOL
+370
+35
+100
+AcDbPolyline
+ 90
+2
  70
 0
  10
 102.0
  20
-85.0
+94.0
  10
 102.0
  20
-40.0
+42.0
+  0
+LWPOLYLINE
+  5
+C5
+330
+17
+100
+AcDbEntity
+  8
+CVC-GLYCOL
+370
+35
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
  10
 108.0
  20
-40.0
+100.0
  10
 108.0
  20
-85.0
+42.0
+  0
+ARC
+  5
+C6
+330
+17
+100
+AcDbEntity
+  8
+CVC-GLYCOL
+370
+35
+100
+AcDbCircle
+ 10
+105.0
+ 20
+42.0
+ 30
+0.0
+ 40
+3.0
+100
+AcDbArc
+ 50
+180.0
+ 51
+360.0
+  0
+LWPOLYLINE
+  5
+C7
+330
+17
+100
+AcDbEntity
+  8
+CVC-GLYCOL
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+30.0
+ 20
+94.0
+ 10
+108.0
+ 20
+94.0
+  0
+LWPOLYLINE
+  5
+C8
+330
+17
+100
+AcDbEntity
+  8
+CVC-GLYCOL
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+36.0
+ 20
+100.0
+ 10
+124.0
+ 20
+100.0
   0
 TEXT
   5
-BD
+C9
 330
 17
 100
@@ -6721,365 +7003,35 @@ AcDbText
   0
 TEXT
   5
-BE
-330
-17
-100
-AcDbEntity
-  8
-CVC-TEXTE
-100
-AcDbText
- 10
-22.0
- 20
-32.0
- 30
-0.0
- 40
-2.0
-  1
-Champ de 11 sondes géothermiques verticales
- 11
-22.0
- 21
-32.0
- 31
-0.0
-100
-AcDbText
- 73
-2
-  0
-TEXT
-  5
-BF
-330
-17
-100
-AcDbEntity
-  8
-CVC-TEXTE
-100
-AcDbText
- 10
-22.0
- 20
-28.9
- 30
-0.0
- 40
-2.0
-  1
-× 150 m (sondes sèches, eau glycolée)
- 11
-22.0
- 21
-28.9
- 31
-0.0
-100
-AcDbText
- 73
-2
-  0
-LWPOLYLINE
-  5
-C0
-330
-17
-100
-AcDbEntity
-  8
-CVC-GLYCOL
-370
-35
-100
-AcDbPolyline
- 90
-4
- 70
-0
- 10
-30.0
- 20
-85.0
- 10
-30.0
- 20
-100.0
- 10
-124.0
- 20
-100.0
- 10
-124.0
- 20
-180.0
-  0
-LWPOLYLINE
-  5
-C1
-330
-17
-100
-AcDbEntity
-  8
-CVC-GLYCOL
-370
-35
-100
-AcDbPolyline
- 90
-3
- 70
-0
- 10
-36.0
- 20
-85.0
- 10
-36.0
- 20
-94.0
- 10
-130.0
- 20
-94.0
-  0
-LWPOLYLINE
-  5
-C2
-330
-17
-100
-AcDbEntity
-  8
-CVC-GLYCOL
-370
-35
-100
-AcDbPolyline
- 90
-2
- 70
-0
- 10
-130.0
- 20
-94.0
- 10
-130.0
- 20
-248.0
-  0
-LWPOLYLINE
-  5
-C3
-330
-17
-100
-AcDbEntity
-  8
-CVC-GLYCOL
-370
-25
-100
-AcDbPolyline
- 90
-2
- 70
-0
- 10
-48.0
- 20
-85.0
- 10
-48.0
- 20
-100.0
-  0
-LWPOLYLINE
-  5
-C4
-330
-17
-100
-AcDbEntity
-  8
-CVC-GLYCOL
-370
-25
-100
-AcDbPolyline
- 90
-2
- 70
-0
- 10
-54.0
- 20
-85.0
- 10
-54.0
- 20
-94.0
-  0
-LWPOLYLINE
-  5
-C5
-330
-17
-100
-AcDbEntity
-  8
-CVC-GLYCOL
-370
-25
-100
-AcDbPolyline
- 90
-2
- 70
-0
- 10
-66.0
- 20
-85.0
- 10
-66.0
- 20
-100.0
-  0
-LWPOLYLINE
-  5
-C6
-330
-17
-100
-AcDbEntity
-  8
-CVC-GLYCOL
-370
-25
-100
-AcDbPolyline
- 90
-2
- 70
-0
- 10
-72.0
- 20
-85.0
- 10
-72.0
- 20
-94.0
-  0
-LWPOLYLINE
-  5
-C7
-330
-17
-100
-AcDbEntity
-  8
-CVC-GLYCOL
-370
-25
-100
-AcDbPolyline
- 90
-2
- 70
-0
- 10
-84.0
- 20
-85.0
- 10
-84.0
- 20
-100.0
-  0
-LWPOLYLINE
-  5
-C8
-330
-17
-100
-AcDbEntity
-  8
-CVC-GLYCOL
-370
-25
-100
-AcDbPolyline
- 90
-2
- 70
-0
- 10
-90.0
- 20
-85.0
- 10
-90.0
- 20
-94.0
-  0
-LWPOLYLINE
-  5
-C9
-330
-17
-100
-AcDbEntity
-  8
-CVC-GLYCOL
-370
-25
-100
-AcDbPolyline
- 90
-2
- 70
-0
- 10
-102.0
- 20
-85.0
- 10
-102.0
- 20
-100.0
-  0
-LWPOLYLINE
-  5
 CA
 330
 17
 100
 AcDbEntity
   8
-CVC-GLYCOL
-370
-25
+CVC-TEXTE
 100
-AcDbPolyline
- 90
+AcDbText
+ 10
+20.0
+ 20
+32.0
+ 30
+0.0
+ 40
+1.9
+  1
+Champ de 11 sondes géothermiques verticales × 150 m
+ 11
+20.0
+ 21
+32.0
+ 31
+0.0
+100
+AcDbText
+ 73
 2
- 70
-0
- 10
-108.0
- 20
-85.0
- 10
-108.0
- 20
-94.0
   0
 TEXT
   5
@@ -7093,19 +7045,19 @@ CVC-TEXTE
 100
 AcDbText
  10
-60.0
+20.0
  20
-108.0
+29.055
  30
 0.0
  40
-1.8
+1.9
   1
-Collecteurs enterrés
+(sondes sèches, eau glycolée) – collecteurs enterrés
  11
-60.0
+20.0
  21
-108.0
+29.055
  31
 0.0
 100
@@ -7123,7 +7075,7 @@ AcDbEntity
   8
 CVC-GLYCOL
 370
-35
+40
 100
 AcDbPolyline
  90
@@ -7133,11 +7085,11 @@ AcDbPolyline
  10
 124.0
  20
-181.0
+100.0
  10
-150.0
+124.0
  20
-181.0
+111.0
   0
 LWPOLYLINE
   5
@@ -7149,7 +7101,7 @@ AcDbEntity
   8
 CVC-GLYCOL
 370
-35
+40
 100
 AcDbPolyline
  90
@@ -7157,13 +7109,13 @@ AcDbPolyline
  70
 0
  10
-130.0
+124.0
  20
-193.0
+117.0
  10
-150.0
+124.0
  20
-193.0
+122.5
   0
 LWPOLYLINE
   5
@@ -7175,7 +7127,7 @@ AcDbEntity
   8
 CVC-GLYCOL
 370
-35
+40
 100
 AcDbPolyline
  90
@@ -7185,11 +7137,11 @@ AcDbPolyline
  10
 124.0
  20
-241.0
+129.5
  10
-150.0
+124.0
  20
-241.0
+142.0
   0
 LWPOLYLINE
   5
@@ -7201,7 +7153,7 @@ AcDbEntity
   8
 CVC-GLYCOL
 370
-35
+40
 100
 AcDbPolyline
  90
@@ -7209,13 +7161,13 @@ AcDbPolyline
  70
 0
  10
-130.0
+124.0
  20
-253.0
- 10
 150.0
+ 10
+124.0
  20
-253.0
+153.0
   0
 LWPOLYLINE
   5
@@ -7227,7 +7179,7 @@ AcDbEntity
   8
 CVC-GLYCOL
 370
-35
+40
 100
 AcDbPolyline
  90
@@ -7237,13 +7189,13 @@ AcDbPolyline
  10
 124.0
  20
-180.0
+159.0
  10
 124.0
  20
-241.0
+165.0
   0
-CIRCLE
+LWPOLYLINE
   5
 D1
 330
@@ -7251,19 +7203,27 @@ D1
 100
 AcDbEntity
   8
-CVC-ACCESSOIRE
+CVC-GLYCOL
 370
-35
+40
 100
-AcDbCircle
+AcDbPolyline
+ 90
+3
+ 70
+0
  10
 124.0
  20
+171.0
+ 10
+124.0
+ 20
+255.0
+ 10
 150.0
- 30
-0.0
- 40
-3.5
+ 20
+255.0
   0
 LWPOLYLINE
   5
@@ -7279,27 +7239,31 @@ CVC-ACCESSOIRE
 100
 AcDbPolyline
  90
-4
+5
  70
 0
  10
-124.0
+126.2
  20
-153.5
+111.0
  10
-121.39003175738148
+121.8
  20
-147.6680339255206
+117.0
  10
-126.60996824261852
+126.2
  20
-147.6680339255206
+117.0
  10
-124.0
+121.8
  20
-153.5
+111.0
+ 10
+126.2
+ 20
+111.0
   0
-TEXT
+LWPOLYLINE
   5
 D3
 330
@@ -7307,33 +7271,25 @@ D3
 100
 AcDbEntity
   8
-CVC-TEXTE
+CVC-ACCESSOIRE
+370
+25
 100
-AcDbText
+AcDbPolyline
+ 90
+2
+ 70
+0
  10
-108.0
+124.0
  20
-150.0
- 30
-0.0
- 40
-1.8
-  1
-Pompes
- 72
-2
- 11
-108.0
- 21
-150.0
- 31
-0.0
-100
-AcDbText
- 73
-2
+122.5
+ 10
+124.0
+ 20
+129.5
   0
-TEXT
+LWPOLYLINE
   5
 D4
 330
@@ -7341,31 +7297,27 @@ D4
 100
 AcDbEntity
   8
-CVC-TEXTE
+CVC-ACCESSOIRE
+370
+25
 100
-AcDbText
+AcDbPolyline
+ 90
+3
+ 70
+0
  10
-108.0
+124.0
  20
-147.21
- 30
-0.0
- 40
-1.8
-  1
-source
- 72
-2
- 11
-108.0
- 21
-147.21
- 31
-0.0
-100
-AcDbText
- 73
-2
+125.0
+ 10
+127.5
+ 20
+128.0
+ 10
+126.0
+ 20
+129.5
   0
 LWPOLYLINE
   5
@@ -7381,29 +7333,17 @@ CVC-ACCESSOIRE
 100
 AcDbPolyline
  90
-5
+2
  70
 0
  10
-121.8
+125.8
  20
-162.8
+122.5
  10
-126.2
+122.2
  20
-167.2
- 10
-121.8
- 20
-167.2
- 10
-126.2
- 20
-162.8
- 10
-121.8
- 20
-162.8
+122.5
   0
 LWPOLYLINE
   5
@@ -7419,31 +7359,19 @@ CVC-ACCESSOIRE
 100
 AcDbPolyline
  90
-5
+2
  70
 0
  10
-127.8
+125.8
  20
-157.8
+129.5
  10
-132.2
+122.2
  20
-162.2
- 10
-127.8
- 20
-162.2
- 10
-132.2
- 20
-157.8
- 10
-127.8
- 20
-157.8
+129.5
   0
-LWPOLYLINE
+CIRCLE
   5
 D7
 330
@@ -7451,37 +7379,21 @@ D7
 100
 AcDbEntity
   8
-CVC-EQUIPEMENT
+CVC-ACCESSOIRE
 370
-25
+35
 100
-AcDbPolyline
- 90
-5
- 70
-0
+AcDbCircle
  10
-92.0
+124.0
  20
-118.0
- 10
-110.0
- 20
-118.0
- 10
-110.0
- 20
-130.0
- 10
-92.0
- 20
-130.0
- 10
-92.0
- 20
-118.0
+146.0
+ 30
+0.0
+ 40
+4.0
   0
-TEXT
+LWPOLYLINE
   5
 D8
 330
@@ -7489,33 +7401,29 @@ D8
 100
 AcDbEntity
   8
-CVC-TEXTE
+CVC-ACCESSOIRE
+370
+25
 100
-AcDbText
+AcDbPolyline
+ 90
+3
+ 70
+0
  10
-101.0
+127.0
  20
-125.248
- 30
-0.0
- 40
-1.6
-  1
-Pot inj.
- 72
-1
- 11
-101.0
- 21
-125.248
- 31
-0.0
-100
-AcDbText
- 73
-2
+143.4
+ 10
+124.0
+ 20
+150.0
+ 10
+121.0
+ 20
+143.4
   0
-TEXT
+LWPOLYLINE
   5
 D9
 330
@@ -7523,31 +7431,31 @@ D9
 100
 AcDbEntity
   8
-CVC-TEXTE
+CVC-ACCESSOIRE
+370
+25
 100
-AcDbText
+AcDbPolyline
+ 90
+4
+ 70
+0
  10
-101.0
+126.2
  20
-122.768
- 30
-0.0
- 40
-1.6
-  1
-glycol
- 72
-1
- 11
-101.0
- 21
-122.768
- 31
-0.0
-100
-AcDbText
- 73
-2
+153.0
+ 10
+124.0
+ 20
+159.0
+ 10
+121.8
+ 20
+153.0
+ 10
+126.2
+ 20
+153.0
   0
 LWPOLYLINE
   5
@@ -7557,9 +7465,9 @@ DA
 100
 AcDbEntity
   8
-CVC-GLYCOL
+CVC-ACCESSOIRE
 370
-18
+25
 100
 AcDbPolyline
  90
@@ -7567,13 +7475,13 @@ AcDbPolyline
  70
 0
  10
-110.0
+126.4
  20
-124.0
+159.0
  10
-124.0
+121.6
  20
-124.0
+159.0
   0
 LWPOLYLINE
   5
@@ -7583,9 +7491,9 @@ DB
 100
 AcDbEntity
   8
-CVC-EQUIPEMENT
+CVC-ACCESSOIRE
 370
-50
+25
 100
 AcDbPolyline
  90
@@ -7593,27 +7501,27 @@ AcDbPolyline
  70
 0
  10
-150.0
+126.2
  20
-175.0
+165.0
  10
-210.0
+121.8
  20
-175.0
+171.0
  10
-210.0
+126.2
  20
-205.0
+171.0
  10
-150.0
+121.8
  20
-205.0
+165.0
  10
-150.0
+126.2
  20
-175.0
+165.0
   0
-TEXT
+LWPOLYLINE
   5
 DC
 330
@@ -7621,33 +7529,25 @@ DC
 100
 AcDbEntity
   8
-CVC-TEXTE
+CVC-ACCESSOIRE
+370
+18
 100
-AcDbText
- 10
-180.0
- 20
-191.56
- 30
-0.0
- 40
-2.0
-  1
-PAC 1 eau / eau
- 72
-1
- 11
-180.0
- 21
-191.56
- 31
-0.0
-100
-AcDbText
- 73
+AcDbPolyline
+ 90
 2
+ 70
+0
+ 10
+124.0
+ 20
+184.0
+ 10
+129.0
+ 20
+184.0
   0
-TEXT
+CIRCLE
   5
 DD
 330
@@ -7655,31 +7555,19 @@ DD
 100
 AcDbEntity
   8
-CVC-TEXTE
+CVC-ACCESSOIRE
+370
+18
 100
-AcDbText
+AcDbCircle
  10
-180.0
+131.0
  20
-188.46
+184.0
  30
 0.0
  40
 2.0
-  1
-WEISHAUPT WWP S 35 IDR
- 72
-1
- 11
-180.0
- 21
-188.46
- 31
-0.0
-100
-AcDbText
- 73
-2
   0
 TEXT
   5
@@ -7689,25 +7577,25 @@ DE
 100
 AcDbEntity
   8
-CVC-TEXTE-PUISS
+CVC-TEXTE
 100
 AcDbText
  10
-180.0
+131.0
  20
-172.0
+184.0
  30
 0.0
  40
 1.5
   1
-≈ 33,7 kW chaud · 40 kW froid · COP 4,6 · R410A
+T
  72
 1
  11
-180.0
+131.0
  21
-172.0
+184.0
  31
 0.0
 100
@@ -7723,39 +7611,9 @@ DF
 100
 AcDbEntity
   8
-CVC-CH-ALLER
+CVC-ACCESSOIRE
 370
-40
-100
-AcDbPolyline
- 90
-3
- 70
-0
- 10
-210.0
- 20
-197.0
- 10
-240.0
- 20
-197.0
- 10
-240.0
- 20
-199.0
-  0
-LWPOLYLINE
-  5
-E0
-330
-17
-100
-AcDbEntity
-  8
-CVC-CH-RETOUR
-370
-40
+18
 100
 AcDbPolyline
  90
@@ -7763,15 +7621,37 @@ AcDbPolyline
  70
 0
  10
-210.0
+124.0
  20
-183.0
+192.0
  10
-248.0
+129.0
  20
-183.0
+192.0
   0
-LWPOLYLINE
+CIRCLE
+  5
+E0
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbCircle
+ 10
+131.0
+ 20
+192.0
+ 30
+0.0
+ 40
+2.0
+  0
+TEXT
   5
 E1
 330
@@ -7779,35 +7659,31 @@ E1
 100
 AcDbEntity
   8
-CVC-EQUIPEMENT
-370
-50
+CVC-TEXTE
 100
-AcDbPolyline
- 90
-5
- 70
-0
+AcDbText
  10
-150.0
+131.0
  20
-235.0
- 10
-210.0
- 20
-235.0
- 10
-210.0
- 20
-265.0
- 10
-150.0
- 20
-265.0
- 10
-150.0
- 20
-235.0
+192.0
+ 30
+0.0
+ 40
+1.5
+  1
+P
+ 72
+1
+ 11
+131.0
+ 21
+192.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
   0
 TEXT
   5
@@ -7821,21 +7697,21 @@ CVC-TEXTE
 100
 AcDbText
  10
-180.0
+116.0
  20
-251.56
+146.0
  30
 0.0
  40
-2.0
+1.6
   1
-PAC 2 eau / eau
+Pompes
  72
-1
+2
  11
-180.0
+116.0
  21
-251.56
+146.0
  31
 0.0
 100
@@ -7855,21 +7731,21 @@ CVC-TEXTE
 100
 AcDbText
  10
-180.0
+116.0
  20
-248.46
+143.52
  30
 0.0
  40
-2.0
+1.6
   1
-WEISHAUPT WWP S 35 IDR
+source
  72
-1
+2
  11
-180.0
+116.0
  21
-248.46
+143.52
  31
 0.0
 100
@@ -7877,7 +7753,7 @@ AcDbText
  73
 2
   0
-TEXT
+LWPOLYLINE
   5
 E4
 330
@@ -7885,31 +7761,23 @@ E4
 100
 AcDbEntity
   8
-CVC-TEXTE-PUISS
+CVC-GLYCOL
+370
+40
 100
-AcDbText
- 10
-180.0
- 20
-232.0
- 30
-0.0
- 40
-1.5
-  1
-≈ 33,7 kW chaud · 40 kW froid · COP 4,6 · R410A
- 72
-1
- 11
-180.0
- 21
-232.0
- 31
-0.0
-100
-AcDbText
- 73
+AcDbPolyline
+ 90
 2
+ 70
+0
+ 10
+124.0
+ 20
+195.0
+ 10
+134.0
+ 20
+195.0
   0
 LWPOLYLINE
   5
@@ -7919,27 +7787,23 @@ E5
 100
 AcDbEntity
   8
-CVC-CH-ALLER
+CVC-GLYCOL
 370
 40
 100
 AcDbPolyline
  90
-3
+2
  70
 0
  10
-210.0
+140.0
  20
-257.0
+195.0
  10
-240.0
+150.0
  20
-257.0
- 10
-240.0
- 20
-259.0
+195.0
   0
 LWPOLYLINE
   5
@@ -7949,7 +7813,75 @@ E6
 100
 AcDbEntity
   8
-CVC-CH-RETOUR
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+134.0
+ 20
+192.8
+ 10
+140.0
+ 20
+197.2
+ 10
+140.0
+ 20
+192.8
+ 10
+134.0
+ 20
+197.2
+ 10
+134.0
+ 20
+192.8
+  0
+LWPOLYLINE
+  5
+E7
+330
+17
+100
+AcDbEntity
+  8
+CVC-GLYCOL
+370
+40
+100
+AcDbPolyline
+ 90
+3
+ 70
+0
+ 10
+150.0
+ 20
+245.0
+ 10
+136.0
+ 20
+245.0
+ 10
+136.0
+ 20
+232.0
+  0
+LWPOLYLINE
+  5
+E8
+330
+17
+100
+AcDbEntity
+  8
+CVC-GLYCOL
 370
 40
 100
@@ -7959,77 +7891,13 @@ AcDbPolyline
  70
 0
  10
-210.0
+136.0
  20
-243.0
+226.0
  10
-248.0
+136.0
  20
-243.0
-  0
-TEXT
-  5
-E7
-330
-17
-100
-AcDbEntity
-  8
-CVC-TEXTE
-100
-AcDbText
- 10
-150.0
- 20
-276.0
- 30
-0.0
- 40
-1.7
-  1
-Côté source (glycol)
- 11
-150.0
- 21
-276.0
- 31
-0.0
-100
-AcDbText
- 73
-2
-  0
-TEXT
-  5
-E8
-330
-17
-100
-AcDbEntity
-  8
-CVC-TEXTE
-100
-AcDbText
- 10
-212.0
- 20
-276.0
- 30
-0.0
- 40
-1.7
-  1
-Côté utilisation
- 11
-212.0
- 21
-276.0
- 31
-0.0
-100
-AcDbText
- 73
-2
+152.0
   0
 LWPOLYLINE
   5
@@ -8039,23 +7907,27 @@ E9
 100
 AcDbEntity
   8
-CVC-CH-ALLER
+CVC-GLYCOL
 370
 40
 100
 AcDbPolyline
  90
-2
+3
  70
 0
  10
-240.0
+136.0
  20
-197.0
+146.0
  10
-240.0
+136.0
  20
-257.0
+94.0
+ 10
+108.0
+ 20
+94.0
   0
 LWPOLYLINE
   5
@@ -8065,23 +7937,35 @@ EA
 100
 AcDbEntity
   8
-CVC-CH-ALLER
+CVC-ACCESSOIRE
 370
-40
+25
 100
 AcDbPolyline
  90
-2
+5
  70
 0
  10
-240.0
+133.8
  20
-227.0
+232.0
  10
-262.0
+138.2
  20
-227.0
+226.0
+ 10
+133.8
+ 20
+226.0
+ 10
+138.2
+ 20
+232.0
+ 10
+133.8
+ 20
+232.0
   0
 LWPOLYLINE
   5
@@ -8091,9 +7975,9 @@ EB
 100
 AcDbEntity
   8
-CVC-CH-RETOUR
+CVC-ACCESSOIRE
 370
-40
+18
 100
 AcDbPolyline
  90
@@ -8101,219 +7985,17 @@ AcDbPolyline
  70
 0
  10
-248.0
+136.0
  20
-183.0
+199.0
  10
-248.0
+141.0
  20
-243.0
-  0
-LWPOLYLINE
-  5
-EC
-330
-17
-100
-AcDbEntity
-  8
-CVC-CH-RETOUR
-370
-40
-100
-AcDbPolyline
- 90
-2
- 70
-0
- 10
-248.0
- 20
-190.0
- 10
-262.0
- 20
-190.0
-  0
-LWPOLYLINE
-  5
-ED
-330
-17
-100
-AcDbEntity
-  8
-CVC-EQUIPEMENT
-370
-50
-100
-AcDbPolyline
- 90
-2
- 70
-0
- 10
-262.0
- 20
-187.0
- 10
-262.0
- 20
-233.0
-  0
-LWPOLYLINE
-  5
-EE
-330
-17
-100
-AcDbEntity
-  8
-CVC-EQUIPEMENT
-370
-50
-100
-AcDbPolyline
- 90
-2
- 70
-0
- 10
-286.0
- 20
-187.0
- 10
-286.0
- 20
-233.0
-  0
-ARC
-  5
-EF
-330
-17
-100
-AcDbEntity
-  8
-CVC-EQUIPEMENT
-370
-50
-100
-AcDbCircle
- 10
-274.0
- 20
-233.0
- 30
-0.0
- 40
-12.0
-100
-AcDbArc
- 50
-0.0
- 51
-180.0
-  0
-ARC
-  5
-F0
-330
-17
-100
-AcDbEntity
-  8
-CVC-EQUIPEMENT
-370
-50
-100
-AcDbCircle
- 10
-274.0
- 20
-187.0
- 30
-0.0
- 40
-12.0
-100
-AcDbArc
- 50
-180.0
- 51
-360.0
-  0
-TEXT
-  5
-F1
-330
-17
-100
-AcDbEntity
-  8
-CVC-TEXTE
-100
-AcDbText
- 10
-274.0
- 20
-210.0
- 30
-0.0
- 40
-2.2
-  1
-Ballon
- 72
-1
- 11
-274.0
- 21
-210.0
- 31
-0.0
-100
-AcDbText
- 73
-2
-  0
-TEXT
-  5
-F2
-330
-17
-100
-AcDbEntity
-  8
-CVC-TEXTE
-100
-AcDbText
- 10
-274.0
- 20
-206.59
- 30
-0.0
- 40
-2.2
-  1
-tampon
- 72
-1
- 11
-274.0
- 21
-206.59
- 31
-0.0
-100
-AcDbText
- 73
-2
+199.0
   0
 CIRCLE
   5
-F3
+EC
 330
 17
 100
@@ -8325,13 +8007,247 @@ CVC-ACCESSOIRE
 100
 AcDbCircle
  10
-292.0
+143.0
  20
-225.0
+199.0
  30
 0.0
  40
 2.0
+  0
+TEXT
+  5
+ED
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+143.0
+ 20
+199.0
+ 30
+0.0
+ 40
+1.5
+  1
+T
+ 72
+1
+ 11
+143.0
+ 21
+199.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+LWPOLYLINE
+  5
+EE
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+133.8
+ 20
+152.0
+ 10
+138.2
+ 20
+146.0
+ 10
+133.8
+ 20
+146.0
+ 10
+138.2
+ 20
+152.0
+ 10
+133.8
+ 20
+152.0
+  0
+LWPOLYLINE
+  5
+EF
+330
+17
+100
+AcDbEntity
+  8
+CVC-GLYCOL
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+150.0
+ 20
+185.0
+ 10
+146.0
+ 20
+185.0
+  0
+LWPOLYLINE
+  5
+F0
+330
+17
+100
+AcDbEntity
+  8
+CVC-GLYCOL
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+140.0
+ 20
+185.0
+ 10
+136.0
+ 20
+185.0
+  0
+LWPOLYLINE
+  5
+F1
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+146.0
+ 20
+187.2
+ 10
+140.0
+ 20
+182.8
+ 10
+140.0
+ 20
+187.2
+ 10
+146.0
+ 20
+182.8
+ 10
+146.0
+ 20
+187.2
+  0
+LWPOLYLINE
+  5
+F2
+330
+17
+100
+AcDbEntity
+  8
+CVC-EQUIPEMENT
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+96.0
+ 20
+120.0
+ 10
+114.0
+ 20
+120.0
+ 10
+114.0
+ 20
+132.0
+ 10
+96.0
+ 20
+132.0
+ 10
+96.0
+ 20
+120.0
+  0
+TEXT
+  5
+F3
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+105.0
+ 20
+126.0
+ 30
+0.0
+ 40
+1.5
+  1
+Pot inj.
+ 72
+1
+ 11
+105.0
+ 21
+126.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
   0
 TEXT
   5
@@ -8345,21 +8261,21 @@ CVC-TEXTE
 100
 AcDbText
  10
-292.0
+105.0
  20
-225.0
+123.675
  30
 0.0
  40
-1.6
+1.5
   1
-T
+glycol
  72
 1
  11
-292.0
+105.0
  21
-225.0
+123.675
  31
 0.0
 100
@@ -8375,9 +8291,9 @@ F5
 100
 AcDbEntity
   8
-CVC-CH-ALLER
+CVC-GLYCOL
 370
-40
+18
 100
 AcDbPolyline
  90
@@ -8385,13 +8301,13 @@ AcDbPolyline
  70
 0
  10
-286.0
+114.0
  20
-232.0
+126.0
  10
-330.0
+124.0
  20
-232.0
+126.0
   0
 LWPOLYLINE
   5
@@ -8401,25 +8317,37 @@ F6
 100
 AcDbEntity
   8
-CVC-CH-RETOUR
+CVC-EQUIPEMENT
 370
-40
+50
 100
 AcDbPolyline
  90
-2
+5
  70
 0
  10
-286.0
+150.0
  20
-188.0
+175.0
  10
-330.0
+210.0
  20
-188.0
+175.0
+ 10
+210.0
+ 20
+205.0
+ 10
+150.0
+ 20
+205.0
+ 10
+150.0
+ 20
+175.0
   0
-CIRCLE
+LWPOLYLINE
   5
 F7
 330
@@ -8427,19 +8355,23 @@ F7
 100
 AcDbEntity
   8
-CVC-ACCESSOIRE
+CVC-EQUIPEMENT
 370
-35
+25
 100
-AcDbCircle
+AcDbPolyline
+ 90
+2
+ 70
+0
  10
-305.0
+164.0
  20
-232.0
- 30
-0.0
- 40
-3.5
+175.0
+ 10
+164.0
+ 20
+205.0
   0
 LWPOLYLINE
   5
@@ -8449,31 +8381,23 @@ F8
 100
 AcDbEntity
   8
-CVC-ACCESSOIRE
+CVC-EQUIPEMENT
 370
 25
 100
 AcDbPolyline
  90
-4
+2
  70
 0
  10
-308.5
+196.0
  20
-232.0
+175.0
  10
-302.6680339255206
+196.0
  20
-234.60996824261852
- 10
-302.6680339255206
- 20
-229.39003175738148
- 10
-308.5
- 20
-232.0
+205.0
   0
 LWPOLYLINE
   5
@@ -8483,35 +8407,23 @@ F9
 100
 AcDbEntity
   8
-CVC-ACCESSOIRE
+CVC-EQUIPEMENT
 370
-25
+18
 100
 AcDbPolyline
  90
-5
+2
  70
 0
  10
-315.8
+153.0
  20
-229.8
+180.0
  10
-320.2
+161.0
  20
-234.2
- 10
-320.2
- 20
-229.8
- 10
-315.8
- 20
-234.2
- 10
-315.8
- 20
-229.8
+183.0
   0
 LWPOLYLINE
   5
@@ -8521,35 +8433,23 @@ FA
 100
 AcDbEntity
   8
-CVC-ACCESSOIRE
+CVC-EQUIPEMENT
 370
-25
+18
 100
 AcDbPolyline
  90
-5
+2
  70
 0
  10
-315.8
+199.0
  20
-185.8
+183.0
  10
-320.2
+207.0
  20
-190.2
- 10
-320.2
- 20
-185.8
- 10
-315.8
- 20
-190.2
- 10
-315.8
- 20
-185.8
+180.0
   0
 LWPOLYLINE
   5
@@ -8561,7 +8461,7 @@ AcDbEntity
   8
 CVC-EQUIPEMENT
 370
-50
+18
 100
 AcDbPolyline
  90
@@ -8569,13 +8469,13 @@ AcDbPolyline
  70
 0
  10
-330.0
+153.0
  20
-173.0
+186.66666666666666
  10
-330.0
+161.0
  20
-247.0
+189.66666666666666
   0
 LWPOLYLINE
   5
@@ -8587,7 +8487,7 @@ AcDbEntity
   8
 CVC-EQUIPEMENT
 370
-50
+18
 100
 AcDbPolyline
  90
@@ -8595,15 +8495,15 @@ AcDbPolyline
  70
 0
  10
-346.0
+199.0
  20
-173.0
+189.66666666666666
  10
-346.0
+207.0
  20
-247.0
+186.66666666666666
   0
-ARC
+LWPOLYLINE
   5
 FD
 330
@@ -8613,25 +8513,23 @@ AcDbEntity
   8
 CVC-EQUIPEMENT
 370
-50
+18
 100
-AcDbCircle
+AcDbPolyline
+ 90
+2
+ 70
+0
  10
-338.0
+153.0
  20
-247.0
- 30
-0.0
- 40
-8.0
-100
-AcDbArc
- 50
-0.0
- 51
-180.0
+193.33333333333334
+ 10
+161.0
+ 20
+196.33333333333334
   0
-ARC
+LWPOLYLINE
   5
 FE
 330
@@ -8641,25 +8539,23 @@ AcDbEntity
   8
 CVC-EQUIPEMENT
 370
-50
+18
 100
-AcDbCircle
+AcDbPolyline
+ 90
+2
+ 70
+0
  10
-338.0
+199.0
  20
-173.0
- 30
-0.0
- 40
-8.0
-100
-AcDbArc
- 50
-180.0
- 51
-360.0
+196.33333333333334
+ 10
+207.0
+ 20
+193.33333333333334
   0
-TEXT
+LWPOLYLINE
   5
 FF
 330
@@ -8667,33 +8563,25 @@ FF
 100
 AcDbEntity
   8
-CVC-TEXTE
+CVC-EQUIPEMENT
+370
+18
 100
-AcDbText
- 10
-338.0
- 20
-210.0
- 30
-0.0
- 40
-2.2
-  1
-B
- 72
-1
- 11
-338.0
- 21
-210.0
- 31
-0.0
-100
-AcDbText
- 73
+AcDbPolyline
+ 90
 2
+ 70
+0
+ 10
+153.0
+ 20
+200.0
+ 10
+161.0
+ 20
+203.0
   0
-TEXT
+LWPOLYLINE
   5
 100
 330
@@ -8701,33 +8589,25 @@ TEXT
 100
 AcDbEntity
   8
-CVC-TEXTE
+CVC-EQUIPEMENT
+370
+18
 100
-AcDbText
- 10
-338.0
- 20
-206.59
- 30
-0.0
- 40
-2.2
-  1
-D
- 72
-1
- 11
-338.0
- 21
-206.59
- 31
-0.0
-100
-AcDbText
- 73
+AcDbPolyline
+ 90
 2
+ 70
+0
+ 10
+199.0
+ 20
+203.0
+ 10
+207.0
+ 20
+200.0
   0
-TEXT
+CIRCLE
   5
 101
 330
@@ -8735,33 +8615,21 @@ TEXT
 100
 AcDbEntity
   8
-CVC-TEXTE
+CVC-EQUIPEMENT
+370
+35
 100
-AcDbText
+AcDbCircle
  10
-338.0
+180.0
  20
-203.18
+190.0
  30
 0.0
  40
-2.2
-  1
- 
- 72
-1
- 11
-338.0
- 21
-203.18
- 31
-0.0
-100
-AcDbText
- 73
-2
+6.0
   0
-TEXT
+LWPOLYLINE
   5
 102
 330
@@ -8769,31 +8637,23 @@ TEXT
 100
 AcDbEntity
   8
-CVC-TEXTE
+CVC-EQUIPEMENT
+370
+18
 100
-AcDbText
- 10
-338.0
- 20
-199.77
- 30
-0.0
- 40
-2.2
-  1
-P
- 72
-1
- 11
-338.0
- 21
-199.77
- 31
-0.0
-100
-AcDbText
- 73
+AcDbPolyline
+ 90
 2
+ 70
+0
+ 10
+176.0
+ 20
+186.0
+ 10
+184.0
+ 20
+194.0
   0
 TEXT
   5
@@ -8807,27 +8667,27 @@ CVC-TEXTE
 100
 AcDbText
  10
-338.0
+157.0
  20
-196.35999999999999
+173.0
  30
 0.0
  40
-2.2
+1.3
   1
-A
+Évap.
  72
 1
  11
-338.0
+157.0
  21
-196.35999999999999
+173.0
  31
 0.0
 100
 AcDbText
  73
-2
+3
   0
 TEXT
   5
@@ -8841,27 +8701,27 @@ CVC-TEXTE
 100
 AcDbText
  10
-338.0
+203.0
  20
-192.95
+173.0
  30
 0.0
  40
-2.2
+1.3
   1
-C
+Cond.
  72
 1
  11
-338.0
+203.0
  21
-192.95
+173.0
  31
 0.0
 100
 AcDbText
  73
-2
+3
   0
 TEXT
   5
@@ -8875,21 +8735,21 @@ CVC-TEXTE
 100
 AcDbText
  10
-338.0
+180.0
  20
-262.0
+211.0
  30
 0.0
  40
-1.8
+2.0
   1
-Bouteille de
+PAC 1 eau / eau – WEISHAUPT WWP S 35 IDR
  72
 1
  11
-338.0
+180.0
  21
-262.0
+211.0
  31
 0.0
 100
@@ -8905,25 +8765,25 @@ TEXT
 100
 AcDbEntity
   8
-CVC-TEXTE
+CVC-TEXTE-PUISS
 100
 AcDbText
  10
-338.0
+180.0
  20
-259.21
+207.0
  30
 0.0
  40
-1.8
+1.45
   1
-découplage PAC
+≈ 33,7 kW chaud · 40 kW froid · COP 4,6 · R410A
  72
 1
  11
-338.0
+180.0
  21
-259.21
+207.0
  31
 0.0
 100
@@ -8939,27 +8799,35 @@ LWPOLYLINE
 100
 AcDbEntity
   8
-CVC-GAZ
+CVC-EQUIPEMENT
 370
-40
+50
 100
 AcDbPolyline
  90
-3
+5
  70
 0
  10
-20.0
+150.0
  20
-510.0
+235.0
  10
-120.0
+210.0
  20
-510.0
+235.0
  10
-120.0
+210.0
  20
-477.0
+265.0
+ 10
+150.0
+ 20
+265.0
+ 10
+150.0
+ 20
+235.0
   0
 LWPOLYLINE
   5
@@ -8969,33 +8837,25 @@ LWPOLYLINE
 100
 AcDbEntity
   8
-CVC-GAZ
+CVC-EQUIPEMENT
 370
-40
+25
 100
 AcDbPolyline
  90
-4
+2
  70
 0
  10
-120.0
+164.0
  20
-510.0
+235.0
  10
-120.0
+164.0
  20
-537.0
- 10
-140.0
- 20
-537.0
- 10
-140.0
- 20
-517.0
+265.0
   0
-TEXT
+LWPOLYLINE
   5
 109
 330
@@ -9003,29 +8863,23 @@ TEXT
 100
 AcDbEntity
   8
-CVC-TEXTE
+CVC-EQUIPEMENT
+370
+25
 100
-AcDbText
- 10
-22.0
- 20
-514.0
- 30
-0.0
- 40
-1.8
-  1
-Arrivée gaz (poste de coupure en limite de propriété)
- 11
-22.0
- 21
-514.0
- 31
-0.0
-100
-AcDbText
- 73
+AcDbPolyline
+ 90
 2
+ 70
+0
+ 10
+196.0
+ 20
+235.0
+ 10
+196.0
+ 20
+265.0
   0
 LWPOLYLINE
   5
@@ -9035,37 +8889,25 @@ LWPOLYLINE
 100
 AcDbEntity
   8
-CVC-ACCESSOIRE
+CVC-EQUIPEMENT
 370
-25
+18
 100
 AcDbPolyline
  90
-5
+2
  70
 0
  10
-57.8
+153.0
  20
-507.8
+240.0
  10
-62.2
+161.0
  20
-512.2
- 10
-62.2
- 20
-507.8
- 10
-57.8
- 20
-512.2
- 10
-57.8
- 20
-507.8
+243.0
   0
-TEXT
+LWPOLYLINE
   5
 10B
 330
@@ -9073,31 +8915,23 @@ TEXT
 100
 AcDbEntity
   8
-CVC-TEXTE
+CVC-EQUIPEMENT
+370
+18
 100
-AcDbText
+AcDbPolyline
+ 90
+2
+ 70
+0
  10
-60.0
+199.0
  20
-505.0
- 30
-0.0
- 40
-1.6
-  1
-Coupure gaz
- 72
-1
- 11
-60.0
- 21
-505.0
- 31
-0.0
-100
-AcDbText
- 73
-3
+243.0
+ 10
+207.0
+ 20
+240.0
   0
 LWPOLYLINE
   5
@@ -9109,35 +8943,23 @@ AcDbEntity
   8
 CVC-EQUIPEMENT
 370
-50
+18
 100
 AcDbPolyline
  90
-5
+2
  70
 0
  10
-150.0
+153.0
  20
-385.0
+246.66666666666666
  10
-212.0
+161.0
  20
-385.0
- 10
-212.0
- 20
-417.0
- 10
-150.0
- 20
-417.0
- 10
-150.0
- 20
-385.0
+249.66666666666666
   0
-TEXT
+LWPOLYLINE
   5
 10D
 330
@@ -9145,33 +8967,25 @@ TEXT
 100
 AcDbEntity
   8
-CVC-TEXTE
+CVC-EQUIPEMENT
+370
+18
 100
-AcDbText
- 10
-181.0
- 20
-402.56
- 30
-0.0
- 40
-2.0
-  1
-CHAUDIÈRE 1
- 72
-1
- 11
-181.0
- 21
-402.56
- 31
-0.0
-100
-AcDbText
- 73
+AcDbPolyline
+ 90
 2
+ 70
+0
+ 10
+199.0
+ 20
+249.66666666666666
+ 10
+207.0
+ 20
+246.66666666666666
   0
-TEXT
+LWPOLYLINE
   5
 10E
 330
@@ -9179,33 +8993,25 @@ TEXT
 100
 AcDbEntity
   8
-CVC-TEXTE
+CVC-EQUIPEMENT
+370
+18
 100
-AcDbText
- 10
-181.0
- 20
-399.46
- 30
-0.0
- 40
-2.0
-  1
-GAZ À CONDENSATION
- 72
-1
- 11
-181.0
- 21
-399.46
- 31
-0.0
-100
-AcDbText
- 73
+AcDbPolyline
+ 90
 2
+ 70
+0
+ 10
+153.0
+ 20
+253.33333333333334
+ 10
+161.0
+ 20
+256.33333333333337
   0
-TEXT
+LWPOLYLINE
   5
 10F
 330
@@ -9213,31 +9019,23 @@ TEXT
 100
 AcDbEntity
   8
-CVC-TEXTE-PUISS
+CVC-EQUIPEMENT
+370
+18
 100
-AcDbText
- 10
-181.0
- 20
-382.0
- 30
-0.0
- 40
-1.5
-  1
-60 kW (modulante 7 – 62 kW à 50/30 °C)
- 72
-1
- 11
-181.0
- 21
-382.0
- 31
-0.0
-100
-AcDbText
- 73
+AcDbPolyline
+ 90
 2
+ 70
+0
+ 10
+199.0
+ 20
+256.33333333333337
+ 10
+207.0
+ 20
+253.33333333333334
   0
 LWPOLYLINE
   5
@@ -9247,9 +9045,9 @@ LWPOLYLINE
 100
 AcDbEntity
   8
-CVC-GAZ
+CVC-EQUIPEMENT
 370
-35
+18
 100
 AcDbPolyline
  90
@@ -9257,13 +9055,13 @@ AcDbPolyline
  70
 0
  10
-120.0
+153.0
  20
-401.0
+260.0
  10
-150.0
+161.0
  20
-401.0
+263.0
   0
 LWPOLYLINE
   5
@@ -9273,9 +9071,9 @@ LWPOLYLINE
 100
 AcDbEntity
   8
-CVC-CH-ALLER
+CVC-EQUIPEMENT
 370
-40
+18
 100
 AcDbPolyline
  90
@@ -9283,15 +9081,15 @@ AcDbPolyline
  70
 0
  10
-212.0
+199.0
  20
-409.0
+263.0
  10
-300.0
+207.0
  20
-409.0
+260.0
   0
-LWPOLYLINE
+CIRCLE
   5
 112
 330
@@ -9299,25 +9097,21 @@ LWPOLYLINE
 100
 AcDbEntity
   8
-CVC-CH-RETOUR
+CVC-EQUIPEMENT
 370
-40
+35
 100
-AcDbPolyline
- 90
-2
- 70
-0
+AcDbCircle
  10
-212.0
+180.0
  20
-393.0
- 10
-308.0
- 20
-393.0
+250.0
+ 30
+0.0
+ 40
+6.0
   0
-CIRCLE
+LWPOLYLINE
   5
 113
 330
@@ -9325,21 +9119,25 @@ CIRCLE
 100
 AcDbEntity
   8
-CVC-ACCESSOIRE
+CVC-EQUIPEMENT
 370
-35
+18
 100
-AcDbCircle
+AcDbPolyline
+ 90
+2
+ 70
+0
  10
-260.0
+176.0
  20
-393.0
- 30
-0.0
- 40
-3.5
+246.0
+ 10
+184.0
+ 20
+254.0
   0
-LWPOLYLINE
+TEXT
   5
 114
 330
@@ -9347,33 +9145,33 @@ LWPOLYLINE
 100
 AcDbEntity
   8
-CVC-ACCESSOIRE
-370
-25
+CVC-TEXTE
 100
-AcDbPolyline
- 90
-4
- 70
-0
+AcDbText
  10
-256.5
+157.0
  20
-393.0
- 10
-262.3319660744794
- 20
-390.3900317573815
- 10
-262.3319660744794
- 20
-395.6099682426185
- 10
-256.5
- 20
-393.0
+233.0
+ 30
+0.0
+ 40
+1.3
+  1
+Évap.
+ 72
+1
+ 11
+157.0
+ 21
+233.0
+ 31
+0.0
+100
+AcDbText
+ 73
+3
   0
-LWPOLYLINE
+TEXT
   5
 115
 330
@@ -9381,37 +9179,33 @@ LWPOLYLINE
 100
 AcDbEntity
   8
-CVC-ACCESSOIRE
-370
-25
+CVC-TEXTE
 100
-AcDbPolyline
- 90
-5
- 70
-0
+AcDbText
  10
-282.8
+203.0
  20
-390.8
- 10
-287.2
- 20
-395.2
- 10
-287.2
- 20
-390.8
- 10
-282.8
- 20
-395.2
- 10
-282.8
- 20
-390.8
+233.0
+ 30
+0.0
+ 40
+1.3
+  1
+Cond.
+ 72
+1
+ 11
+203.0
+ 21
+233.0
+ 31
+0.0
+100
+AcDbText
+ 73
+3
   0
-LWPOLYLINE
+TEXT
   5
 116
 330
@@ -9419,35 +9213,31 @@ LWPOLYLINE
 100
 AcDbEntity
   8
-CVC-EQUIPEMENT
-370
-50
+CVC-TEXTE
 100
-AcDbPolyline
- 90
-5
- 70
-0
+AcDbText
  10
-150.0
+180.0
  20
-445.0
- 10
-212.0
- 20
-445.0
- 10
-212.0
- 20
-477.0
- 10
-150.0
- 20
-477.0
- 10
-150.0
- 20
-445.0
+271.0
+ 30
+0.0
+ 40
+2.0
+  1
+PAC 2 eau / eau – WEISHAUPT WWP S 35 IDR
+ 72
+1
+ 11
+180.0
+ 21
+271.0
+ 31
+0.0
+100
+AcDbText
+ 73
+1
   0
 TEXT
   5
@@ -9457,129 +9247,35 @@ TEXT
 100
 AcDbEntity
   8
-CVC-TEXTE
-100
-AcDbText
- 10
-181.0
- 20
-462.56
- 30
-0.0
- 40
-2.0
-  1
-CHAUDIÈRE 2
- 72
-1
- 11
-181.0
- 21
-462.56
- 31
-0.0
-100
-AcDbText
- 73
-2
-  0
-TEXT
-  5
-118
-330
-17
-100
-AcDbEntity
-  8
-CVC-TEXTE
-100
-AcDbText
- 10
-181.0
- 20
-459.46
- 30
-0.0
- 40
-2.0
-  1
-GAZ À CONDENSATION
- 72
-1
- 11
-181.0
- 21
-459.46
- 31
-0.0
-100
-AcDbText
- 73
-2
-  0
-TEXT
-  5
-119
-330
-17
-100
-AcDbEntity
-  8
 CVC-TEXTE-PUISS
 100
 AcDbText
  10
-181.0
+180.0
  20
-442.0
+267.0
  30
 0.0
  40
-1.5
+1.45
   1
-60 kW (modulante 7 – 62 kW à 50/30 °C)
+≈ 33,7 kW chaud · 40 kW froid · COP 4,6 · R410A
  72
 1
  11
-181.0
+180.0
  21
-442.0
+267.0
  31
 0.0
 100
 AcDbText
  73
-2
+1
   0
 LWPOLYLINE
   5
-11A
-330
-17
-100
-AcDbEntity
-  8
-CVC-GAZ
-370
-35
-100
-AcDbPolyline
- 90
-2
- 70
-0
- 10
-140.0
- 20
-461.0
- 10
-150.0
- 20
-461.0
-  0
-LWPOLYLINE
-  5
-11B
+118
 330
 17
 100
@@ -9595,23 +9291,23 @@ AcDbPolyline
  70
 0
  10
-212.0
+210.0
  20
-469.0
+195.0
  10
-300.0
+215.0
  20
-469.0
+195.0
   0
 LWPOLYLINE
   5
-11C
+119
 330
 17
 100
 AcDbEntity
   8
-CVC-CH-RETOUR
+CVC-CH-ALLER
 370
 40
 100
@@ -9621,73 +9317,17 @@ AcDbPolyline
  70
 0
  10
-212.0
+221.0
  20
-453.0
+195.0
  10
-308.0
+232.0
  20
-453.0
-  0
-CIRCLE
-  5
-11D
-330
-17
-100
-AcDbEntity
-  8
-CVC-ACCESSOIRE
-370
-35
-100
-AcDbCircle
- 10
-260.0
- 20
-453.0
- 30
-0.0
- 40
-3.5
+195.0
   0
 LWPOLYLINE
   5
-11E
-330
-17
-100
-AcDbEntity
-  8
-CVC-ACCESSOIRE
-370
-25
-100
-AcDbPolyline
- 90
-4
- 70
-0
- 10
-256.5
- 20
-453.0
- 10
-262.3319660744794
- 20
-450.3900317573815
- 10
-262.3319660744794
- 20
-455.6099682426185
- 10
-256.5
- 20
-453.0
-  0
-LWPOLYLINE
-  5
-11F
+11A
 330
 17
 100
@@ -9703,37 +9343,37 @@ AcDbPolyline
  70
 0
  10
-282.8
+215.0
  20
-450.8
+192.8
  10
-287.2
+221.0
  20
-455.2
+197.2
  10
-287.2
+221.0
  20
-450.8
+192.8
  10
-282.8
+215.0
  20
-455.2
+197.2
  10
-282.8
+215.0
  20
-450.8
+192.8
   0
 LWPOLYLINE
   5
-120
+11B
 330
 17
 100
 AcDbEntity
   8
-CVC-GAZ
+CVC-ACCESSOIRE
 370
-35
+18
 100
 AcDbPolyline
  90
@@ -9741,47 +9381,73 @@ AcDbPolyline
  70
 0
  10
-140.0
+225.0
  20
-517.0
+195.0
  10
-140.0
+225.0
  20
-461.0
+200.0
   0
-LWPOLYLINE
+CIRCLE
   5
-121
+11C
 330
 17
 100
 AcDbEntity
   8
-CVC-GAZ
+CVC-ACCESSOIRE
 370
-35
+18
 100
-AcDbPolyline
- 90
-3
- 70
-0
+AcDbCircle
  10
-120.0
+225.0
  20
-477.0
+202.0
+ 30
+0.0
+ 40
+2.0
+  0
+TEXT
+  5
+11D
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
  10
-120.0
+225.0
  20
-401.0
- 10
-150.0
- 20
-401.0
+202.0
+ 30
+0.0
+ 40
+1.5
+  1
+T
+ 72
+1
+ 11
+225.0
+ 21
+202.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
   0
 LWPOLYLINE
   5
-122
+11E
 330
 17
 100
@@ -9793,31 +9459,27 @@ CVC-CH-ALLER
 100
 AcDbPolyline
  90
-3
+2
  70
 0
  10
-300.0
+210.0
  20
-409.0
+255.0
  10
-300.0
+215.0
  20
-469.0
- 10
-330.0
- 20
-469.0
+255.0
   0
 LWPOLYLINE
   5
-123
+11F
 330
 17
 100
 AcDbEntity
   8
-CVC-CH-RETOUR
+CVC-CH-ALLER
 370
 40
 100
@@ -9827,13 +9489,133 @@ AcDbPolyline
  70
 0
  10
-308.0
+221.0
  20
-393.0
+255.0
  10
-308.0
+232.0
  20
-453.0
+255.0
+  0
+LWPOLYLINE
+  5
+120
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+215.0
+ 20
+252.8
+ 10
+221.0
+ 20
+257.2
+ 10
+221.0
+ 20
+252.8
+ 10
+215.0
+ 20
+257.2
+ 10
+215.0
+ 20
+252.8
+  0
+LWPOLYLINE
+  5
+121
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+225.0
+ 20
+255.0
+ 10
+225.0
+ 20
+260.0
+  0
+CIRCLE
+  5
+122
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbCircle
+ 10
+225.0
+ 20
+262.0
+ 30
+0.0
+ 40
+2.0
+  0
+TEXT
+  5
+123
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+225.0
+ 20
+262.0
+ 30
+0.0
+ 40
+1.5
+  1
+T
+ 72
+1
+ 11
+225.0
+ 21
+262.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
   0
 LWPOLYLINE
   5
@@ -9853,17 +9635,171 @@ AcDbPolyline
  70
 0
  10
-308.0
+244.0
  20
-401.0
+185.0
  10
-330.0
+235.0
  20
-401.0
+185.0
+  0
+LWPOLYLINE
+  5
+125
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+229.0
+ 20
+185.0
+ 10
+223.0
+ 20
+185.0
+  0
+LWPOLYLINE
+  5
+126
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+217.0
+ 20
+185.0
+ 10
+210.0
+ 20
+185.0
+  0
+LWPOLYLINE
+  5
+127
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+235.0
+ 20
+187.2
+ 10
+229.0
+ 20
+182.8
+ 10
+229.0
+ 20
+187.2
+ 10
+235.0
+ 20
+182.8
+ 10
+235.0
+ 20
+187.2
+  0
+LWPOLYLINE
+  5
+128
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+232.0
+ 20
+185.0
+ 10
+232.0
+ 20
+180.5
+  0
+LWPOLYLINE
+  5
+129
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+234.0
+ 20
+180.5
+ 10
+230.0
+ 20
+180.5
+ 10
+230.0
+ 20
+177.5
+ 10
+234.0
+ 20
+177.5
+ 10
+234.0
+ 20
+180.5
   0
 TEXT
   5
-125
+12A
 330
 17
 100
@@ -9873,19 +9809,2709 @@ CVC-TEXTE
 100
 AcDbText
  10
+232.0
+ 20
+179.0
+ 30
+0.0
+ 40
+1.4
+  1
+M
+ 72
+1
+ 11
+232.0
+ 21
+179.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+LWPOLYLINE
+  5
+12B
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+223.0
+ 20
+187.2
+ 10
+217.0
+ 20
+182.8
+ 10
+217.0
+ 20
+187.2
+ 10
+223.0
+ 20
+182.8
+ 10
+223.0
+ 20
+187.2
+  0
+LWPOLYLINE
+  5
+12C
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+244.0
+ 20
+245.0
+ 10
+235.0
+ 20
+245.0
+  0
+LWPOLYLINE
+  5
+12D
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+229.0
+ 20
+245.0
+ 10
+223.0
+ 20
+245.0
+  0
+LWPOLYLINE
+  5
+12E
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+217.0
+ 20
+245.0
+ 10
+210.0
+ 20
+245.0
+  0
+LWPOLYLINE
+  5
+12F
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+235.0
+ 20
+247.2
+ 10
+229.0
+ 20
+242.8
+ 10
+229.0
+ 20
+247.2
+ 10
+235.0
+ 20
+242.8
+ 10
+235.0
+ 20
+247.2
+  0
+LWPOLYLINE
+  5
+130
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+232.0
+ 20
+245.0
+ 10
+232.0
+ 20
+240.5
+  0
+LWPOLYLINE
+  5
+131
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+234.0
+ 20
+240.5
+ 10
+230.0
+ 20
+240.5
+ 10
+230.0
+ 20
+237.5
+ 10
+234.0
+ 20
+237.5
+ 10
+234.0
+ 20
+240.5
+  0
+TEXT
+  5
+132
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+232.0
+ 20
+239.0
+ 30
+0.0
+ 40
+1.4
+  1
+M
+ 72
+1
+ 11
+232.0
+ 21
+239.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+LWPOLYLINE
+  5
+133
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+223.0
+ 20
+247.2
+ 10
+217.0
+ 20
+242.8
+ 10
+217.0
+ 20
+247.2
+ 10
+223.0
+ 20
+242.8
+ 10
+223.0
+ 20
+247.2
+  0
+LWPOLYLINE
+  5
+134
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-ALLER
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+232.0
+ 20
+195.0
+ 10
+232.0
+ 20
+255.0
+  0
+LWPOLYLINE
+  5
+135
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+244.0
+ 20
+185.0
+ 10
+244.0
+ 20
+245.0
+  0
+LWPOLYLINE
+  5
+136
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-ALLER
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+232.0
+ 20
+225.0
+ 10
+244.0
+ 20
+225.0
+  0
+LWPOLYLINE
+  5
+137
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-ALLER
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+250.0
+ 20
+225.0
+ 10
+262.0
+ 20
+225.0
+  0
+LWPOLYLINE
+  5
+138
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+244.0
+ 20
+222.8
+ 10
+250.0
+ 20
+227.2
+ 10
+250.0
+ 20
+222.8
+ 10
+244.0
+ 20
+227.2
+ 10
+244.0
+ 20
+222.8
+  0
+LWPOLYLINE
+  5
+139
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+262.0
+ 20
+190.0
+ 10
+256.0
+ 20
+190.0
+  0
+LWPOLYLINE
+  5
+13A
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+250.0
+ 20
+190.0
+ 10
+244.0
+ 20
+190.0
+  0
+LWPOLYLINE
+  5
+13B
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+256.0
+ 20
+192.2
+ 10
+250.0
+ 20
+187.8
+ 10
+250.0
+ 20
+192.2
+ 10
+256.0
+ 20
+187.8
+ 10
+256.0
+ 20
+192.2
+  0
+LWPOLYLINE
+  5
+13C
+330
+17
+100
+AcDbEntity
+  8
+CVC-EQUIPEMENT
+370
+50
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+262.0
+ 20
+187.0
+ 10
+262.0
+ 20
+233.0
+  0
+LWPOLYLINE
+  5
+13D
+330
+17
+100
+AcDbEntity
+  8
+CVC-EQUIPEMENT
+370
+50
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+286.0
+ 20
+187.0
+ 10
+286.0
+ 20
+233.0
+  0
+ARC
+  5
+13E
+330
+17
+100
+AcDbEntity
+  8
+CVC-EQUIPEMENT
+370
+50
+100
+AcDbCircle
+ 10
+274.0
+ 20
+233.0
+ 30
+0.0
+ 40
+12.0
+100
+AcDbArc
+ 50
+0.0
+ 51
+180.0
+  0
+ARC
+  5
+13F
+330
+17
+100
+AcDbEntity
+  8
+CVC-EQUIPEMENT
+370
+50
+100
+AcDbCircle
+ 10
+274.0
+ 20
+187.0
+ 30
+0.0
+ 40
+12.0
+100
+AcDbArc
+ 50
+180.0
+ 51
+360.0
+  0
+TEXT
+  5
+140
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+274.0
+ 20
+210.0
+ 30
+0.0
+ 40
+2.2
+  1
+
+ 72
+1
+ 11
+274.0
+ 21
+210.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+LWPOLYLINE
+  5
+141
+330
+17
+100
+AcDbEntity
+  8
+CVC-EQUIPEMENT
+370
+13
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+265.0
+ 20
+218.4
+ 10
+283.0
+ 20
+218.4
+  0
+LWPOLYLINE
+  5
+142
+330
+17
+100
+AcDbEntity
+  8
+CVC-EQUIPEMENT
+370
+13
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+265.0
+ 20
+205.8
+ 10
+283.0
+ 20
+205.8
+  0
+LWPOLYLINE
+  5
+143
+330
+17
+100
+AcDbEntity
+  8
+CVC-EQUIPEMENT
+370
+13
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+265.0
+ 20
+193.20000000000002
+ 10
+283.0
+ 20
+193.20000000000002
+  0
+TEXT
+  5
+144
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+274.0
+ 20
+232.4
+ 30
+0.0
+ 40
+1.9
+  1
+Ballon
+ 72
+1
+ 11
+274.0
+ 21
+232.4
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+TEXT
+  5
+145
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+274.0
+ 20
+229.455
+ 30
+0.0
+ 40
+1.9
+  1
+tampon
+ 72
+1
+ 11
+274.0
+ 21
+229.455
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+LWPOLYLINE
+  5
+146
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-ALLER
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+286.0
+ 20
+232.0
+ 10
+291.0
+ 20
+232.0
+  0
+LWPOLYLINE
+  5
+147
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-ALLER
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+297.0
+ 20
+232.0
+ 10
+302.0
+ 20
+232.0
+  0
+LWPOLYLINE
+  5
+148
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-ALLER
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+310.0
+ 20
+232.0
+ 10
+313.0
+ 20
+232.0
+  0
+LWPOLYLINE
+  5
+149
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-ALLER
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+319.0
+ 20
+232.0
+ 10
+321.0
+ 20
+232.0
+  0
+LWPOLYLINE
+  5
+14A
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-ALLER
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+327.0
+ 20
+232.0
+ 10
+330.0
+ 20
+232.0
+  0
+LWPOLYLINE
+  5
+14B
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+291.0
+ 20
+229.8
+ 10
+297.0
+ 20
+234.2
+ 10
+297.0
+ 20
+229.8
+ 10
+291.0
+ 20
+234.2
+ 10
+291.0
+ 20
+229.8
+  0
+CIRCLE
+  5
+14C
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+35
+100
+AcDbCircle
+ 10
+306.0
+ 20
+232.0
+ 30
+0.0
+ 40
+4.0
+  0
+LWPOLYLINE
+  5
+14D
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+3
+ 70
+0
+ 10
+303.4
+ 20
+229.0
+ 10
+310.0
+ 20
+232.0
+ 10
+303.4
+ 20
+235.0
+  0
+LWPOLYLINE
+  5
+14E
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+4
+ 70
+0
+ 10
+313.0
+ 20
+229.8
+ 10
+319.0
+ 20
+232.0
+ 10
+313.0
+ 20
+234.2
+ 10
+313.0
+ 20
+229.8
+  0
+LWPOLYLINE
+  5
+14F
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+319.0
+ 20
+229.6
+ 10
+319.0
+ 20
+234.4
+  0
+LWPOLYLINE
+  5
+150
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+321.0
+ 20
+229.8
+ 10
+327.0
+ 20
+234.2
+ 10
+327.0
+ 20
+229.8
+ 10
+321.0
+ 20
+234.2
+ 10
+321.0
+ 20
+229.8
+  0
+LWPOLYLINE
+  5
+151
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+330.0
+ 20
+188.0
+ 10
+323.0
+ 20
+188.0
+  0
+LWPOLYLINE
+  5
+152
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+317.0
+ 20
+188.0
+ 10
+286.0
+ 20
+188.0
+  0
+LWPOLYLINE
+  5
+153
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+323.0
+ 20
+190.2
+ 10
+317.0
+ 20
+185.8
+ 10
+317.0
+ 20
+190.2
+ 10
+323.0
+ 20
+185.8
+ 10
+323.0
+ 20
+190.2
+  0
+LWPOLYLINE
+  5
+154
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+300.0
+ 20
+188.0
+ 10
+300.0
+ 20
+183.0
+  0
+CIRCLE
+  5
+155
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbCircle
+ 10
+300.0
+ 20
 181.0
+ 30
+0.0
+ 40
+2.0
+  0
+TEXT
+  5
+156
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+300.0
+ 20
+181.0
+ 30
+0.0
+ 40
+1.5
+  1
+T
+ 72
+1
+ 11
+300.0
+ 21
+181.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+LWPOLYLINE
+  5
+157
+330
+17
+100
+AcDbEntity
+  8
+CVC-EQUIPEMENT
+370
+50
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+330.0
+ 20
+173.0
+ 10
+330.0
+ 20
+247.0
+  0
+LWPOLYLINE
+  5
+158
+330
+17
+100
+AcDbEntity
+  8
+CVC-EQUIPEMENT
+370
+50
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+346.0
+ 20
+173.0
+ 10
+346.0
+ 20
+247.0
+  0
+ARC
+  5
+159
+330
+17
+100
+AcDbEntity
+  8
+CVC-EQUIPEMENT
+370
+50
+100
+AcDbCircle
+ 10
+338.0
+ 20
+247.0
+ 30
+0.0
+ 40
+8.0
+100
+AcDbArc
+ 50
+0.0
+ 51
+180.0
+  0
+ARC
+  5
+15A
+330
+17
+100
+AcDbEntity
+  8
+CVC-EQUIPEMENT
+370
+50
+100
+AcDbCircle
+ 10
+338.0
+ 20
+173.0
+ 30
+0.0
+ 40
+8.0
+100
+AcDbArc
+ 50
+180.0
+ 51
+360.0
+  0
+TEXT
+  5
+15B
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+338.0
+ 20
+210.0
+ 30
+0.0
+ 40
+2.2
+  1
+
+ 72
+1
+ 11
+338.0
+ 21
+210.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+LWPOLYLINE
+  5
+15C
+330
+17
+100
+AcDbEntity
+  8
+CVC-EQUIPEMENT
+370
+25
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+338.0
+ 20
+255.0
+ 10
+338.0
+ 20
+261.0
+  0
+LWPOLYLINE
+  5
+15D
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+4
+ 70
+0
+ 10
+336.0
+ 20
+261.0
+ 10
+340.0
+ 20
+261.0
+ 10
+338.0
+ 20
+264.0
+ 10
+336.0
+ 20
+261.0
+  0
+LWPOLYLINE
+  5
+15E
+330
+17
+100
+AcDbEntity
+  8
+CVC-EQUIPEMENT
+370
+25
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+338.0
+ 20
+165.0
+ 10
+338.0
+ 20
+159.0
+  0
+LWPOLYLINE
+  5
+15F
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+336.0
+ 20
+159.0
+ 10
+340.0
+ 20
+159.0
+  0
+TEXT
+  5
+160
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+338.0
+ 20
+157.0
+ 30
+0.0
+ 40
+1.3
+  1
+Vidange
+ 72
+1
+ 11
+338.0
+ 21
+157.0
+ 31
+0.0
+100
+AcDbText
+ 73
+3
+  0
+TEXT
+  5
+161
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+338.0
+ 20
+210.0
+ 30
+0.0
+ 40
+2.0
+  1
+BOUTEILLE DE DÉCOUPLAGE
+ 50
+90.0
+ 72
+1
+ 11
+338.0
+ 21
+210.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+TEXT
+  5
+162
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+352.0
+ 20
+210.0
+ 30
+0.0
+ 40
+1.7
+  1
+Bouteille de
+ 11
+352.0
+ 21
+210.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+TEXT
+  5
+163
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+352.0
+ 20
+207.365
+ 30
+0.0
+ 40
+1.7
+  1
+découplage
+ 11
+352.0
+ 21
+207.365
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+TEXT
+  5
+164
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+352.0
+ 20
+204.73
+ 30
+0.0
+ 40
+1.7
+  1
+PAC
+ 11
+352.0
+ 21
+204.73
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+LWPOLYLINE
+  5
+165
+330
+17
+100
+AcDbEntity
+  8
+CVC-GAZ
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+20.0
+ 20
+520.0
+ 10
+42.0
+ 20
+520.0
+  0
+LWPOLYLINE
+  5
+166
+330
+17
+100
+AcDbEntity
+  8
+CVC-GAZ
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+48.0
+ 20
+520.0
+ 10
+61.5
+ 20
+520.0
+  0
+LWPOLYLINE
+  5
+167
+330
+17
+100
+AcDbEntity
+  8
+CVC-GAZ
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+68.5
+ 20
+520.0
+ 10
+76.5
+ 20
+520.0
+  0
+LWPOLYLINE
+  5
+168
+330
+17
+100
+AcDbEntity
+  8
+CVC-GAZ
+370
+40
+100
+AcDbPolyline
+ 90
+4
+ 70
+0
+ 10
+83.5
+ 20
+520.0
+ 10
+120.0
+ 20
+520.0
+ 10
+120.0
+ 20
+401.0
+ 10
+140.0
+ 20
+401.0
+  0
+LWPOLYLINE
+  5
+169
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+42.0
+ 20
+517.8
+ 10
+48.0
+ 20
+522.2
+ 10
+48.0
+ 20
+517.8
+ 10
+42.0
+ 20
+522.2
+ 10
+42.0
+ 20
+517.8
+  0
+TEXT
+  5
+16A
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+45.0
+ 20
+514.0
+ 30
+0.0
+ 40
+1.5
+  1
+Coupure gaz
+ 72
+1
+ 11
+45.0
+ 21
+514.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+LWPOLYLINE
+  5
+16B
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+61.5
+ 20
+520.0
+ 10
+68.5
+ 20
+520.0
+  0
+LWPOLYLINE
+  5
+16C
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+3
+ 70
+0
+ 10
+64.0
+ 20
+520.0
+ 10
+67.0
+ 20
+516.5
+ 10
+68.5
+ 20
+518.0
+  0
+LWPOLYLINE
+  5
+16D
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+61.5
+ 20
+518.2
+ 10
+61.5
+ 20
+521.8
+  0
+LWPOLYLINE
+  5
+16E
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+68.5
+ 20
+518.2
+ 10
+68.5
+ 20
+521.8
+  0
+LWPOLYLINE
+  5
+16F
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+76.5
+ 20
+517.8
+ 10
+83.5
+ 20
+519.0
+ 10
+83.5
+ 20
+521.0
+ 10
+76.5
+ 20
+522.2
+ 10
+76.5
+ 20
+517.8
+  0
+LWPOLYLINE
+  5
+170
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+80.0
+ 20
+521.6
+ 10
+80.0
+ 20
+524.5
+  0
+LWPOLYLINE
+  5
+171
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+78.5
+ 20
+524.5
+ 10
+81.5
+ 20
+524.5
+  0
+TEXT
+  5
+172
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+80.0
+ 20
+514.0
+ 30
+0.0
+ 40
+1.5
+  1
+Détendeur
+ 72
+1
+ 11
+80.0
+ 21
+514.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+LWPOLYLINE
+  5
+173
+330
+17
+100
+AcDbEntity
+  8
+CVC-GAZ
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+120.0
+ 20
+461.0
+ 10
+127.0
+ 20
+461.0
+  0
+LWPOLYLINE
+  5
+174
+330
+17
+100
+AcDbEntity
+  8
+CVC-GAZ
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+133.0
+ 20
+461.0
+ 10
+140.0
+ 20
+461.0
+  0
+LWPOLYLINE
+  5
+175
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+127.0
+ 20
+458.8
+ 10
+133.0
+ 20
+463.2
+ 10
+133.0
+ 20
+458.8
+ 10
+127.0
+ 20
+463.2
+ 10
+127.0
+ 20
+458.8
+  0
+TEXT
+  5
+176
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+22.0
+ 20
+524.0
+ 30
+0.0
+ 40
+1.7
+  1
+Arrivée gaz – poste de coupure en limite de propriété
+ 11
+22.0
+ 21
+524.0
+ 31
+0.0
+100
+AcDbText
+ 73
+1
+  0
+LWPOLYLINE
+  5
+177
+330
+17
+100
+AcDbEntity
+  8
+CVC-EQUIPEMENT
+370
+50
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+150.0
+ 20
+385.0
+ 10
+212.0
+ 20
+385.0
+ 10
+212.0
+ 20
+417.0
+ 10
+150.0
+ 20
+417.0
+ 10
+150.0
+ 20
+385.0
+  0
+LWPOLYLINE
+  5
+178
+330
+17
+100
+AcDbEntity
+  8
+CVC-EQUIPEMENT
+370
+35
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+140.0
+ 20
+394.0
+ 10
+150.0
+ 20
+394.0
+ 10
+150.0
+ 20
+408.0
+ 10
+140.0
+ 20
+408.0
+ 10
+140.0
+ 20
+394.0
+  0
+LWPOLYLINE
+  5
+179
+330
+17
+100
+AcDbEntity
+  8
+CVC-EQUIPEMENT
+370
+25
+100
+AcDbPolyline
+ 90
+3
+ 70
+0
+ 10
+142.0
+ 20
+397.0
+ 10
+148.0
+ 20
+401.0
+ 10
+142.0
+ 20
+405.0
+  0
+LWPOLYLINE
+  5
+17A
+330
+17
+100
+AcDbEntity
+  8
+CVC-EQUIPEMENT
+370
+35
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+198.0
+ 20
+417.0
+ 10
+198.0
+ 20
+425.0
+  0
+LWPOLYLINE
+  5
+17B
+330
+17
+100
+AcDbEntity
+  8
+CVC-EQUIPEMENT
+370
+35
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+204.0
+ 20
+417.0
+ 10
+204.0
+ 20
+425.0
+  0
+TEXT
+  5
+17C
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+201.0
+ 20
+427.0
+ 30
+0.0
+ 40
+1.4
+  1
+Fumées
+ 72
+1
+ 11
+201.0
+ 21
+427.0
+ 31
+0.0
+100
+AcDbText
+ 73
+1
+  0
+LWPOLYLINE
+  5
+17D
+330
+17
+100
+AcDbEntity
+  8
+CVC-EQUIPEMENT
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+156.0
+ 20
+390.0
+ 10
+156.0
+ 20
+412.0
+  0
+LWPOLYLINE
+  5
+17E
+330
+17
+100
+AcDbEntity
+  8
+CVC-EQUIPEMENT
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+161.0
+ 20
+390.0
+ 10
+161.0
+ 20
+412.0
+  0
+LWPOLYLINE
+  5
+17F
+330
+17
+100
+AcDbEntity
+  8
+CVC-EQUIPEMENT
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+166.0
+ 20
+390.0
+ 10
+166.0
+ 20
+412.0
+  0
+TEXT
+  5
+180
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+189.0
+ 20
+404.0
+ 30
+0.0
+ 40
+2.0
+  1
+CHAUDIÈRE 1
+ 72
+1
+ 11
+189.0
+ 21
+404.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+TEXT
+  5
+181
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+189.0
+ 20
+400.9
+ 30
+0.0
+ 40
+2.0
+  1
+GAZ À CONDENSATION
+ 72
+1
+ 11
+189.0
+ 21
+400.9
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+TEXT
+  5
+182
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE-PUISS
+100
+AcDbText
+ 10
+189.0
+ 20
+397.0
+ 30
+0.0
+ 40
+1.5
+  1
+60 kW · modulante 7–62 kW (50/30 °C)
+ 72
+1
+ 11
+189.0
+ 21
+397.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+LWPOLYLINE
+  5
+183
+330
+17
+100
+AcDbEntity
+  8
+CVC-EQUIPEMENT
+370
+25
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+187.0
+ 20
+385.0
+ 10
+187.0
+ 20
+379.0
+  0
+TEXT
+  5
+184
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+187.0
  20
 378.0
  30
 0.0
  40
-1.6
+1.3
   1
-Cascade, permutation de priorité toutes les 1000 h
+Condensats → neutralisation
  72
 1
  11
-181.0
+187.0
  21
 378.0
  31
@@ -9897,7 +12523,2091 @@ AcDbText
   0
 LWPOLYLINE
   5
-126
+185
+330
+17
+100
+AcDbEntity
+  8
+CVC-EQUIPEMENT
+370
+50
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+150.0
+ 20
+445.0
+ 10
+212.0
+ 20
+445.0
+ 10
+212.0
+ 20
+477.0
+ 10
+150.0
+ 20
+477.0
+ 10
+150.0
+ 20
+445.0
+  0
+LWPOLYLINE
+  5
+186
+330
+17
+100
+AcDbEntity
+  8
+CVC-EQUIPEMENT
+370
+35
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+140.0
+ 20
+454.0
+ 10
+150.0
+ 20
+454.0
+ 10
+150.0
+ 20
+468.0
+ 10
+140.0
+ 20
+468.0
+ 10
+140.0
+ 20
+454.0
+  0
+LWPOLYLINE
+  5
+187
+330
+17
+100
+AcDbEntity
+  8
+CVC-EQUIPEMENT
+370
+25
+100
+AcDbPolyline
+ 90
+3
+ 70
+0
+ 10
+142.0
+ 20
+457.0
+ 10
+148.0
+ 20
+461.0
+ 10
+142.0
+ 20
+465.0
+  0
+LWPOLYLINE
+  5
+188
+330
+17
+100
+AcDbEntity
+  8
+CVC-EQUIPEMENT
+370
+35
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+198.0
+ 20
+477.0
+ 10
+198.0
+ 20
+485.0
+  0
+LWPOLYLINE
+  5
+189
+330
+17
+100
+AcDbEntity
+  8
+CVC-EQUIPEMENT
+370
+35
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+204.0
+ 20
+477.0
+ 10
+204.0
+ 20
+485.0
+  0
+TEXT
+  5
+18A
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+201.0
+ 20
+487.0
+ 30
+0.0
+ 40
+1.4
+  1
+Fumées
+ 72
+1
+ 11
+201.0
+ 21
+487.0
+ 31
+0.0
+100
+AcDbText
+ 73
+1
+  0
+LWPOLYLINE
+  5
+18B
+330
+17
+100
+AcDbEntity
+  8
+CVC-EQUIPEMENT
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+156.0
+ 20
+450.0
+ 10
+156.0
+ 20
+472.0
+  0
+LWPOLYLINE
+  5
+18C
+330
+17
+100
+AcDbEntity
+  8
+CVC-EQUIPEMENT
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+161.0
+ 20
+450.0
+ 10
+161.0
+ 20
+472.0
+  0
+LWPOLYLINE
+  5
+18D
+330
+17
+100
+AcDbEntity
+  8
+CVC-EQUIPEMENT
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+166.0
+ 20
+450.0
+ 10
+166.0
+ 20
+472.0
+  0
+TEXT
+  5
+18E
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+189.0
+ 20
+464.0
+ 30
+0.0
+ 40
+2.0
+  1
+CHAUDIÈRE 2
+ 72
+1
+ 11
+189.0
+ 21
+464.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+TEXT
+  5
+18F
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+189.0
+ 20
+460.9
+ 30
+0.0
+ 40
+2.0
+  1
+GAZ À CONDENSATION
+ 72
+1
+ 11
+189.0
+ 21
+460.9
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+TEXT
+  5
+190
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE-PUISS
+100
+AcDbText
+ 10
+189.0
+ 20
+457.0
+ 30
+0.0
+ 40
+1.5
+  1
+60 kW · modulante 7–62 kW (50/30 °C)
+ 72
+1
+ 11
+189.0
+ 21
+457.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+LWPOLYLINE
+  5
+191
+330
+17
+100
+AcDbEntity
+  8
+CVC-EQUIPEMENT
+370
+25
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+187.0
+ 20
+445.0
+ 10
+187.0
+ 20
+439.0
+  0
+TEXT
+  5
+192
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+187.0
+ 20
+438.0
+ 30
+0.0
+ 40
+1.3
+  1
+Condensats → neutralisation
+ 72
+1
+ 11
+187.0
+ 21
+438.0
+ 31
+0.0
+100
+AcDbText
+ 73
+3
+  0
+LWPOLYLINE
+  5
+193
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-ALLER
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+212.0
+ 20
+409.0
+ 10
+231.0
+ 20
+409.0
+  0
+LWPOLYLINE
+  5
+194
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-ALLER
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+237.0
+ 20
+409.0
+ 10
+300.0
+ 20
+409.0
+  0
+LWPOLYLINE
+  5
+195
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+224.0
+ 20
+409.0
+ 10
+224.0
+ 20
+414.0
+  0
+CIRCLE
+  5
+196
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbCircle
+ 10
+224.0
+ 20
+416.0
+ 30
+0.0
+ 40
+2.0
+  0
+TEXT
+  5
+197
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+224.0
+ 20
+416.0
+ 30
+0.0
+ 40
+1.5
+  1
+T
+ 72
+1
+ 11
+224.0
+ 21
+416.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+LWPOLYLINE
+  5
+198
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+231.0
+ 20
+406.8
+ 10
+237.0
+ 20
+411.2
+ 10
+237.0
+ 20
+406.8
+ 10
+231.0
+ 20
+411.2
+ 10
+231.0
+ 20
+406.8
+  0
+LWPOLYLINE
+  5
+199
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+282.0
+ 20
+409.0
+ 10
+282.0
+ 20
+414.0
+  0
+CIRCLE
+  5
+19A
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbCircle
+ 10
+282.0
+ 20
+416.0
+ 30
+0.0
+ 40
+2.0
+  0
+TEXT
+  5
+19B
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+282.0
+ 20
+416.0
+ 30
+0.0
+ 40
+1.5
+  1
+P
+ 72
+1
+ 11
+282.0
+ 21
+416.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+LWPOLYLINE
+  5
+19C
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-ALLER
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+212.0
+ 20
+469.0
+ 10
+231.0
+ 20
+469.0
+  0
+LWPOLYLINE
+  5
+19D
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-ALLER
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+237.0
+ 20
+469.0
+ 10
+300.0
+ 20
+469.0
+  0
+LWPOLYLINE
+  5
+19E
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+224.0
+ 20
+469.0
+ 10
+224.0
+ 20
+474.0
+  0
+CIRCLE
+  5
+19F
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbCircle
+ 10
+224.0
+ 20
+476.0
+ 30
+0.0
+ 40
+2.0
+  0
+TEXT
+  5
+1A0
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+224.0
+ 20
+476.0
+ 30
+0.0
+ 40
+1.5
+  1
+T
+ 72
+1
+ 11
+224.0
+ 21
+476.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+LWPOLYLINE
+  5
+1A1
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+231.0
+ 20
+466.8
+ 10
+237.0
+ 20
+471.2
+ 10
+237.0
+ 20
+466.8
+ 10
+231.0
+ 20
+471.2
+ 10
+231.0
+ 20
+466.8
+  0
+LWPOLYLINE
+  5
+1A2
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-ALLER
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+300.0
+ 20
+409.0
+ 10
+300.0
+ 20
+469.0
+  0
+LWPOLYLINE
+  5
+1A3
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-ALLER
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+300.0
+ 20
+469.0
+ 10
+315.0
+ 20
+469.0
+  0
+LWPOLYLINE
+  5
+1A4
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-ALLER
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+321.0
+ 20
+469.0
+ 10
+330.0
+ 20
+469.0
+  0
+LWPOLYLINE
+  5
+1A5
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+315.0
+ 20
+466.8
+ 10
+321.0
+ 20
+471.2
+ 10
+321.0
+ 20
+466.8
+ 10
+315.0
+ 20
+471.2
+ 10
+315.0
+ 20
+466.8
+  0
+LWPOLYLINE
+  5
+1A6
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+308.0
+ 20
+393.0
+ 10
+297.0
+ 20
+393.0
+  0
+LWPOLYLINE
+  5
+1A7
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+291.0
+ 20
+393.0
+ 10
+281.0
+ 20
+393.0
+  0
+LWPOLYLINE
+  5
+1A8
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+275.0
+ 20
+393.0
+ 10
+268.0
+ 20
+393.0
+  0
+LWPOLYLINE
+  5
+1A9
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+260.0
+ 20
+393.0
+ 10
+251.0
+ 20
+393.0
+  0
+LWPOLYLINE
+  5
+1AA
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+245.0
+ 20
+393.0
+ 10
+231.0
+ 20
+393.0
+  0
+LWPOLYLINE
+  5
+1AB
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+225.0
+ 20
+393.0
+ 10
+212.0
+ 20
+393.0
+  0
+LWPOLYLINE
+  5
+1AC
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+297.0
+ 20
+395.2
+ 10
+291.0
+ 20
+390.8
+ 10
+291.0
+ 20
+395.2
+ 10
+297.0
+ 20
+390.8
+ 10
+297.0
+ 20
+395.2
+  0
+LWPOLYLINE
+  5
+1AD
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+4
+ 70
+0
+ 10
+281.0
+ 20
+395.2
+ 10
+275.0
+ 20
+393.0
+ 10
+281.0
+ 20
+390.8
+ 10
+281.0
+ 20
+395.2
+  0
+LWPOLYLINE
+  5
+1AE
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+275.0
+ 20
+395.4
+ 10
+275.0
+ 20
+390.6
+  0
+CIRCLE
+  5
+1AF
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+35
+100
+AcDbCircle
+ 10
+264.0
+ 20
+393.0
+ 30
+0.0
+ 40
+4.0
+  0
+LWPOLYLINE
+  5
+1B0
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+3
+ 70
+0
+ 10
+266.6
+ 20
+396.0
+ 10
+260.0
+ 20
+393.0
+ 10
+266.6
+ 20
+390.0
+  0
+LWPOLYLINE
+  5
+1B1
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+251.0
+ 20
+395.2
+ 10
+245.0
+ 20
+390.8
+ 10
+245.0
+ 20
+395.2
+ 10
+251.0
+ 20
+390.8
+ 10
+251.0
+ 20
+395.2
+  0
+LWPOLYLINE
+  5
+1B2
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+248.0
+ 20
+393.0
+ 10
+248.0
+ 20
+388.5
+  0
+LWPOLYLINE
+  5
+1B3
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+250.0
+ 20
+388.5
+ 10
+246.0
+ 20
+388.5
+ 10
+246.0
+ 20
+385.5
+ 10
+250.0
+ 20
+385.5
+ 10
+250.0
+ 20
+388.5
+  0
+TEXT
+  5
+1B4
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+248.0
+ 20
+387.0
+ 30
+0.0
+ 40
+1.4
+  1
+M
+ 72
+1
+ 11
+248.0
+ 21
+387.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+TEXT
+  5
+1B5
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+248.0
+ 20
+399.0
+ 30
+0.0
+ 40
+1.5
+  1
+Isolement motorisé
+ 72
+1
+ 11
+248.0
+ 21
+399.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+LWPOLYLINE
+  5
+1B6
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+231.0
+ 20
+395.2
+ 10
+225.0
+ 20
+390.8
+ 10
+225.0
+ 20
+395.2
+ 10
+231.0
+ 20
+390.8
+ 10
+231.0
+ 20
+395.2
+  0
+LWPOLYLINE
+  5
+1B7
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+308.0
+ 20
+453.0
+ 10
+297.0
+ 20
+453.0
+  0
+LWPOLYLINE
+  5
+1B8
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+291.0
+ 20
+453.0
+ 10
+281.0
+ 20
+453.0
+  0
+LWPOLYLINE
+  5
+1B9
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+275.0
+ 20
+453.0
+ 10
+268.0
+ 20
+453.0
+  0
+LWPOLYLINE
+  5
+1BA
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+260.0
+ 20
+453.0
+ 10
+251.0
+ 20
+453.0
+  0
+LWPOLYLINE
+  5
+1BB
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+245.0
+ 20
+453.0
+ 10
+231.0
+ 20
+453.0
+  0
+LWPOLYLINE
+  5
+1BC
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+225.0
+ 20
+453.0
+ 10
+212.0
+ 20
+453.0
+  0
+LWPOLYLINE
+  5
+1BD
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+297.0
+ 20
+455.2
+ 10
+291.0
+ 20
+450.8
+ 10
+291.0
+ 20
+455.2
+ 10
+297.0
+ 20
+450.8
+ 10
+297.0
+ 20
+455.2
+  0
+LWPOLYLINE
+  5
+1BE
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+4
+ 70
+0
+ 10
+281.0
+ 20
+455.2
+ 10
+275.0
+ 20
+453.0
+ 10
+281.0
+ 20
+450.8
+ 10
+281.0
+ 20
+455.2
+  0
+LWPOLYLINE
+  5
+1BF
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+275.0
+ 20
+455.4
+ 10
+275.0
+ 20
+450.6
+  0
+CIRCLE
+  5
+1C0
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+35
+100
+AcDbCircle
+ 10
+264.0
+ 20
+453.0
+ 30
+0.0
+ 40
+4.0
+  0
+LWPOLYLINE
+  5
+1C1
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+3
+ 70
+0
+ 10
+266.6
+ 20
+456.0
+ 10
+260.0
+ 20
+453.0
+ 10
+266.6
+ 20
+450.0
+  0
+LWPOLYLINE
+  5
+1C2
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+251.0
+ 20
+455.2
+ 10
+245.0
+ 20
+450.8
+ 10
+245.0
+ 20
+455.2
+ 10
+251.0
+ 20
+450.8
+ 10
+251.0
+ 20
+455.2
+  0
+LWPOLYLINE
+  5
+1C3
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+248.0
+ 20
+453.0
+ 10
+248.0
+ 20
+448.5
+  0
+LWPOLYLINE
+  5
+1C4
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+250.0
+ 20
+448.5
+ 10
+246.0
+ 20
+448.5
+ 10
+246.0
+ 20
+445.5
+ 10
+250.0
+ 20
+445.5
+ 10
+250.0
+ 20
+448.5
+  0
+TEXT
+  5
+1C5
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+248.0
+ 20
+447.0
+ 30
+0.0
+ 40
+1.4
+  1
+M
+ 72
+1
+ 11
+248.0
+ 21
+447.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+LWPOLYLINE
+  5
+1C6
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+231.0
+ 20
+455.2
+ 10
+225.0
+ 20
+450.8
+ 10
+225.0
+ 20
+455.2
+ 10
+231.0
+ 20
+450.8
+ 10
+231.0
+ 20
+455.2
+  0
+LWPOLYLINE
+  5
+1C7
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+308.0
+ 20
+393.0
+ 10
+308.0
+ 20
+453.0
+  0
+LWPOLYLINE
+  5
+1C8
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+330.0
+ 20
+401.0
+ 10
+322.0
+ 20
+401.0
+  0
+LWPOLYLINE
+  5
+1C9
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+316.0
+ 20
+401.0
+ 10
+308.0
+ 20
+401.0
+  0
+LWPOLYLINE
+  5
+1CA
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+322.0
+ 20
+403.2
+ 10
+316.0
+ 20
+398.8
+ 10
+316.0
+ 20
+403.2
+ 10
+322.0
+ 20
+398.8
+ 10
+322.0
+ 20
+403.2
+  0
+LWPOLYLINE
+  5
+1CB
 330
 17
 100
@@ -9923,7 +14633,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-127
+1CC
 330
 17
 100
@@ -9949,7 +14659,7 @@ AcDbPolyline
   0
 ARC
   5
-128
+1CD
 330
 17
 100
@@ -9977,7 +14687,7 @@ AcDbArc
   0
 ARC
   5
-129
+1CE
 330
 17
 100
@@ -10005,7 +14715,7 @@ AcDbArc
   0
 TEXT
   5
-12A
+1CF
 330
 17
 100
@@ -10023,251 +14733,13 @@ AcDbText
  40
 2.2
   1
-B
+
  72
 1
  11
 338.0
  21
 430.0
- 31
-0.0
-100
-AcDbText
- 73
-2
-  0
-TEXT
-  5
-12B
-330
-17
-100
-AcDbEntity
-  8
-CVC-TEXTE
-100
-AcDbText
- 10
-338.0
- 20
-426.59
- 30
-0.0
- 40
-2.2
-  1
-D
- 72
-1
- 11
-338.0
- 21
-426.59
- 31
-0.0
-100
-AcDbText
- 73
-2
-  0
-TEXT
-  5
-12C
-330
-17
-100
-AcDbEntity
-  8
-CVC-TEXTE
-100
-AcDbText
- 10
-338.0
- 20
-423.18
- 30
-0.0
- 40
-2.2
-  1
- 
- 72
-1
- 11
-338.0
- 21
-423.18
- 31
-0.0
-100
-AcDbText
- 73
-2
-  0
-TEXT
-  5
-12D
-330
-17
-100
-AcDbEntity
-  8
-CVC-TEXTE
-100
-AcDbText
- 10
-338.0
- 20
-419.77
- 30
-0.0
- 40
-2.2
-  1
-C
- 72
-1
- 11
-338.0
- 21
-419.77
- 31
-0.0
-100
-AcDbText
- 73
-2
-  0
-TEXT
-  5
-12E
-330
-17
-100
-AcDbEntity
-  8
-CVC-TEXTE
-100
-AcDbText
- 10
-338.0
- 20
-416.36
- 30
-0.0
- 40
-2.2
-  1
-H
- 72
-1
- 11
-338.0
- 21
-416.36
- 31
-0.0
-100
-AcDbText
- 73
-2
-  0
-TEXT
-  5
-12F
-330
-17
-100
-AcDbEntity
-  8
-CVC-TEXTE
-100
-AcDbText
- 10
-338.0
- 20
-487.0
- 30
-0.0
- 40
-1.8
-  1
-Bouteille de découplage
- 72
-1
- 11
-338.0
- 21
-487.0
- 31
-0.0
-100
-AcDbText
- 73
-1
-  0
-TEXT
-  5
-130
-330
-17
-100
-AcDbEntity
-  8
-CVC-TEXTE
-100
-AcDbText
- 10
-338.0
- 20
-484.21
- 30
-0.0
- 40
-1.8
-  1
-hydraulique chaudières
- 72
-1
- 11
-338.0
- 21
-484.21
- 31
-0.0
-100
-AcDbText
- 73
-1
-  0
-TEXT
-  5
-131
-330
-17
-100
-AcDbEntity
-  8
-CVC-TEXTE
-100
-AcDbText
- 10
-250.0
- 20
-365.0
- 30
-0.0
- 40
-1.6
-  1
-Désemboueur · vase d'expansion · pot d'injection · remplissage eau adoucie 7 °TH
- 72
-1
- 11
-250.0
- 21
-365.0
  31
 0.0
 100
@@ -10277,7 +14749,1749 @@ AcDbText
   0
 LWPOLYLINE
   5
-132
+1D0
+330
+17
+100
+AcDbEntity
+  8
+CVC-EQUIPEMENT
+370
+25
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+338.0
+ 20
+480.0
+ 10
+338.0
+ 20
+486.0
+  0
+LWPOLYLINE
+  5
+1D1
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+4
+ 70
+0
+ 10
+336.0
+ 20
+486.0
+ 10
+340.0
+ 20
+486.0
+ 10
+338.0
+ 20
+489.0
+ 10
+336.0
+ 20
+486.0
+  0
+LWPOLYLINE
+  5
+1D2
+330
+17
+100
+AcDbEntity
+  8
+CVC-EQUIPEMENT
+370
+25
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+338.0
+ 20
+380.0
+ 10
+338.0
+ 20
+374.0
+  0
+LWPOLYLINE
+  5
+1D3
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+336.0
+ 20
+374.0
+ 10
+340.0
+ 20
+374.0
+  0
+TEXT
+  5
+1D4
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+338.0
+ 20
+372.0
+ 30
+0.0
+ 40
+1.3
+  1
+Vidange
+ 72
+1
+ 11
+338.0
+ 21
+372.0
+ 31
+0.0
+100
+AcDbText
+ 73
+3
+  0
+TEXT
+  5
+1D5
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+338.0
+ 20
+430.0
+ 30
+0.0
+ 40
+2.0
+  1
+BOUTEILLE DE DÉCOUPLAGE
+ 50
+90.0
+ 72
+1
+ 11
+338.0
+ 21
+430.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+TEXT
+  5
+1D6
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+352.0
+ 20
+436.0
+ 30
+0.0
+ 40
+1.7
+  1
+Bouteille de
+ 11
+352.0
+ 21
+436.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+TEXT
+  5
+1D7
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+352.0
+ 20
+433.365
+ 30
+0.0
+ 40
+1.7
+  1
+découplage
+ 11
+352.0
+ 21
+433.365
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+TEXT
+  5
+1D8
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+352.0
+ 20
+430.73
+ 30
+0.0
+ 40
+1.7
+  1
+hydraulique
+ 11
+352.0
+ 21
+430.73
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+TEXT
+  5
+1D9
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+352.0
+ 20
+428.095
+ 30
+0.0
+ 40
+1.7
+  1
+chaudières
+ 11
+352.0
+ 21
+428.095
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+TEXT
+  5
+1DA
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+181.0
+ 20
+374.0
+ 30
+0.0
+ 40
+1.5
+  1
+Cascade, permutation de priorité toutes les 1000 h
+ 72
+1
+ 11
+181.0
+ 21
+374.0
+ 31
+0.0
+100
+AcDbText
+ 73
+3
+  0
+LWPOLYLINE
+  5
+1DB
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+25
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+280.0
+ 20
+393.0
+ 10
+280.0
+ 20
+360.0
+  0
+LWPOLYLINE
+  5
+1DC
+330
+17
+100
+AcDbEntity
+  8
+CVC-EQUIPEMENT
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+274.0
+ 20
+348.0
+ 10
+286.0
+ 20
+348.0
+ 10
+286.0
+ 20
+360.0
+ 10
+274.0
+ 20
+360.0
+ 10
+274.0
+ 20
+348.0
+  0
+TEXT
+  5
+1DD
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+280.0
+ 20
+354.0
+ 30
+0.0
+ 40
+1.3
+  1
+Désemb.
+ 72
+1
+ 11
+280.0
+ 21
+354.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+CIRCLE
+  5
+1DE
+330
+17
+100
+AcDbEntity
+  8
+CVC-EQUIPEMENT
+370
+35
+100
+AcDbCircle
+ 10
+250.0
+ 20
+350.0
+ 30
+0.0
+ 40
+5.0
+  0
+LWPOLYLINE
+  5
+1DF
+330
+17
+100
+AcDbEntity
+  8
+CVC-EQUIPEMENT
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+245.0
+ 20
+350.0
+ 10
+255.0
+ 20
+350.0
+  0
+LWPOLYLINE
+  5
+1E0
+330
+17
+100
+AcDbEntity
+  8
+CVC-EQUIPEMENT
+370
+25
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+250.0
+ 20
+355.0
+ 10
+250.0
+ 20
+360.0
+  0
+TEXT
+  5
+1E1
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+257.0
+ 20
+350.0
+ 30
+0.0
+ 40
+1.5
+  1
+Vase d'expansion
+ 11
+257.0
+ 21
+350.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+LWPOLYLINE
+  5
+1E2
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+25
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+250.0
+ 20
+360.0
+ 10
+250.0
+ 20
+393.0
+  0
+LWPOLYLINE
+  5
+1E3
+330
+17
+100
+AcDbEntity
+  8
+PBS-EF
+370
+25
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+150.0
+ 20
+345.0
+ 10
+166.5
+ 20
+345.0
+  0
+LWPOLYLINE
+  5
+1E4
+330
+17
+100
+AcDbEntity
+  8
+PBS-EF
+370
+25
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+173.5
+ 20
+345.0
+ 10
+181.0
+ 20
+345.0
+  0
+LWPOLYLINE
+  5
+1E5
+330
+17
+100
+AcDbEntity
+  8
+PBS-EF
+370
+25
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+189.0
+ 20
+345.0
+ 10
+202.0
+ 20
+345.0
+  0
+LWPOLYLINE
+  5
+1E6
+330
+17
+100
+AcDbEntity
+  8
+PBS-EF
+370
+25
+100
+AcDbPolyline
+ 90
+3
+ 70
+0
+ 10
+208.0
+ 20
+345.0
+ 10
+240.0
+ 20
+345.0
+ 10
+240.0
+ 20
+393.0
+  0
+CIRCLE
+  5
+1E7
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbCircle
+ 10
+170.0
+ 20
+345.0
+ 30
+0.0
+ 40
+3.5
+  0
+TEXT
+  5
+1E8
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+170.0
+ 20
+345.0
+ 30
+0.0
+ 40
+1.8
+  1
+C
+ 72
+1
+ 11
+170.0
+ 21
+345.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+LWPOLYLINE
+  5
+1E9
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+181.0
+ 20
+342.5
+ 10
+189.0
+ 20
+342.5
+ 10
+189.0
+ 20
+347.5
+ 10
+181.0
+ 20
+347.5
+ 10
+181.0
+ 20
+342.5
+  0
+LWPOLYLINE
+  5
+1EA
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+181.0
+ 20
+345.0
+ 10
+189.0
+ 20
+345.0
+  0
+TEXT
+  5
+1EB
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+185.0
+ 20
+344.9
+ 30
+0.0
+ 40
+1.2
+  1
+BA
+ 72
+1
+ 11
+185.0
+ 21
+344.9
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+LWPOLYLINE
+  5
+1EC
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+202.0
+ 20
+342.8
+ 10
+208.0
+ 20
+347.2
+ 10
+208.0
+ 20
+342.8
+ 10
+202.0
+ 20
+347.2
+ 10
+202.0
+ 20
+342.8
+  0
+TEXT
+  5
+1ED
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+150.0
+ 20
+348.0
+ 30
+0.0
+ 40
+1.5
+  1
+Remplissage eau adoucie 7 °TH (voir SYN-02)
+ 11
+150.0
+ 21
+348.0
+ 31
+0.0
+100
+AcDbText
+ 73
+1
+  0
+LWPOLYLINE
+  5
+1EE
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-ALLER
+370
+50
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+346.0
+ 20
+470.0
+ 10
+363.0
+ 20
+470.0
+  0
+LWPOLYLINE
+  5
+1EF
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-ALLER
+370
+50
+100
+AcDbPolyline
+ 90
+3
+ 70
+0
+ 10
+369.0
+ 20
+470.0
+ 10
+372.0
+ 20
+470.0
+ 10
+372.0
+ 20
+419.0
+  0
+LWPOLYLINE
+  5
+1F0
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-ALLER
+370
+50
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+372.0
+ 20
+413.0
+ 10
+372.0
+ 20
+318.0
+  0
+LWPOLYLINE
+  5
+1F1
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+363.0
+ 20
+467.8
+ 10
+369.0
+ 20
+472.2
+ 10
+369.0
+ 20
+467.8
+ 10
+363.0
+ 20
+472.2
+ 10
+363.0
+ 20
+467.8
+  0
+LWPOLYLINE
+  5
+1F2
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+369.8
+ 20
+419.0
+ 10
+374.2
+ 20
+413.0
+ 10
+369.8
+ 20
+413.0
+ 10
+374.2
+ 20
+419.0
+ 10
+369.8
+ 20
+419.0
+  0
+LWPOLYLINE
+  5
+1F3
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+4
+ 70
+0
+ 10
+372.0
+ 20
+416.0
+ 10
+369.0
+ 20
+418.2
+ 10
+369.0
+ 20
+413.8
+ 10
+372.0
+ 20
+416.0
+  0
+LWPOLYLINE
+  5
+1F4
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+372.0
+ 20
+416.0
+ 10
+376.5
+ 20
+416.0
+  0
+LWPOLYLINE
+  5
+1F5
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+376.5
+ 20
+418.0
+ 10
+376.5
+ 20
+414.0
+ 10
+379.5
+ 20
+414.0
+ 10
+379.5
+ 20
+418.0
+ 10
+376.5
+ 20
+418.0
+  0
+TEXT
+  5
+1F6
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+378.0
+ 20
+416.0
+ 30
+0.0
+ 40
+1.4
+  1
+M
+ 72
+1
+ 11
+378.0
+ 21
+416.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+TEXT
+  5
+1F7
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+378.0
+ 20
+416.0
+ 30
+0.0
+ 40
+1.5
+  1
+Sélection chaud.
+ 72
+1
+ 11
+378.0
+ 21
+416.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+LWPOLYLINE
+  5
+1F8
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+50
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+380.0
+ 20
+306.0
+ 10
+380.0
+ 20
+363.0
+  0
+LWPOLYLINE
+  5
+1F9
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+50
+100
+AcDbPolyline
+ 90
+3
+ 70
+0
+ 10
+380.0
+ 20
+369.0
+ 10
+380.0
+ 20
+390.0
+ 10
+346.0
+ 20
+390.0
+  0
+LWPOLYLINE
+  5
+1FA
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+382.2
+ 20
+363.0
+ 10
+377.8
+ 20
+369.0
+ 10
+382.2
+ 20
+369.0
+ 10
+377.8
+ 20
+363.0
+ 10
+382.2
+ 20
+363.0
+  0
+LWPOLYLINE
+  5
+1FB
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-ALLER
+370
+50
+100
+AcDbPolyline
+ 90
+3
+ 70
+0
+ 10
+346.0
+ 20
+240.0
+ 10
+355.0
+ 20
+240.0
+ 10
+355.0
+ 20
+258.0
+  0
+LWPOLYLINE
+  5
+1FC
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-ALLER
+370
+50
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+355.0
+ 20
+264.0
+ 10
+355.0
+ 20
+283.0
+  0
+LWPOLYLINE
+  5
+1FD
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-ALLER
+370
+50
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+355.0
+ 20
+289.0
+ 10
+355.0
+ 20
+318.0
+  0
+LWPOLYLINE
+  5
+1FE
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+357.2
+ 20
+258.0
+ 10
+352.8
+ 20
+264.0
+ 10
+357.2
+ 20
+264.0
+ 10
+352.8
+ 20
+258.0
+ 10
+357.2
+ 20
+258.0
+  0
+LWPOLYLINE
+  5
+1FF
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+4
+ 70
+0
+ 10
+355.0
+ 20
+261.0
+ 10
+358.0
+ 20
+258.8
+ 10
+358.0
+ 20
+263.2
+ 10
+355.0
+ 20
+261.0
+  0
+LWPOLYLINE
+  5
+200
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+355.0
+ 20
+261.0
+ 10
+350.5
+ 20
+261.0
+  0
+LWPOLYLINE
+  5
+201
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+350.5
+ 20
+259.0
+ 10
+350.5
+ 20
+263.0
+ 10
+347.5
+ 20
+263.0
+ 10
+347.5
+ 20
+259.0
+ 10
+350.5
+ 20
+259.0
+  0
+TEXT
+  5
+202
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+349.0
+ 20
+261.0
+ 30
+0.0
+ 40
+1.4
+  1
+M
+ 72
+1
+ 11
+349.0
+ 21
+261.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+TEXT
+  5
+203
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+349.0
+ 20
+261.0
+ 30
+0.0
+ 40
+1.5
+  1
+Sélection PAC
+ 72
+1
+ 11
+349.0
+ 21
+261.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+LWPOLYLINE
+  5
+204
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+357.2
+ 20
+283.0
+ 10
+352.8
+ 20
+289.0
+ 10
+357.2
+ 20
+289.0
+ 10
+352.8
+ 20
+283.0
+ 10
+357.2
+ 20
+283.0
+  0
+LWPOLYLINE
+  5
+205
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+50
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+362.0
+ 20
+306.0
+ 10
+362.0
+ 20
+219.0
+  0
+LWPOLYLINE
+  5
+206
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+50
+100
+AcDbPolyline
+ 90
+3
+ 70
+0
+ 10
+362.0
+ 20
+213.0
+ 10
+362.0
+ 20
+180.0
+ 10
+346.0
+ 20
+180.0
+  0
+LWPOLYLINE
+  5
+207
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+359.8
+ 20
+219.0
+ 10
+364.2
+ 20
+213.0
+ 10
+359.8
+ 20
+213.0
+ 10
+364.2
+ 20
+219.0
+ 10
+359.8
+ 20
+219.0
+  0
+LWPOLYLINE
+  5
+208
 330
 17
 100
@@ -10297,13 +16511,13 @@ AcDbPolyline
  20
 318.0
  10
-800.0
+805.0
  20
 318.0
   0
 LWPOLYLINE
   5
-133
+209
 330
 17
 100
@@ -10323,13 +16537,13 @@ AcDbPolyline
  20
 306.0
  10
-800.0
+805.0
  20
 306.0
   0
 TEXT
   5
-134
+20A
 330
 17
 100
@@ -10339,7 +16553,7 @@ CVC-TEXTE
 100
 AcDbText
  10
-800.0
+805.0
  20
 321.0
  30
@@ -10351,7 +16565,7 @@ Collecteur départ
  72
 2
  11
-800.0
+805.0
  21
 321.0
  31
@@ -10363,7 +16577,7 @@ AcDbText
   0
 TEXT
   5
-135
+20B
 330
 17
 100
@@ -10373,7 +16587,7 @@ CVC-TEXTE
 100
 AcDbText
  10
-800.0
+805.0
  20
 303.0
  30
@@ -10385,7 +16599,7 @@ Collecteur retour
  72
 2
  11
-800.0
+805.0
  21
 303.0
  31
@@ -10397,501 +16611,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-136
-330
-17
-100
-AcDbEntity
-  8
-CVC-CH-ALLER
-370
-50
-100
-AcDbPolyline
- 90
-3
- 70
-0
- 10
-346.0
- 20
-240.0
- 10
-355.0
- 20
-240.0
- 10
-355.0
- 20
-318.0
-  0
-LWPOLYLINE
-  5
-137
-330
-17
-100
-AcDbEntity
-  8
-CVC-CH-RETOUR
-370
-50
-100
-AcDbPolyline
- 90
-3
- 70
-0
- 10
-346.0
- 20
-180.0
- 10
-362.0
- 20
-180.0
- 10
-362.0
- 20
-306.0
-  0
-LWPOLYLINE
-  5
-138
-330
-17
-100
-AcDbEntity
-  8
-CVC-ACCESSOIRE
-370
-25
-100
-AcDbPolyline
- 90
-5
- 70
-0
- 10
-352.8
- 20
-277.8
- 10
-357.2
- 20
-282.2
- 10
-352.8
- 20
-282.2
- 10
-357.2
- 20
-277.8
- 10
-352.8
- 20
-277.8
-  0
-LWPOLYLINE
-  5
-139
-330
-17
-100
-AcDbEntity
-  8
-CVC-ACCESSOIRE
-370
-25
-100
-AcDbPolyline
- 90
-4
- 70
-0
- 10
-355.0
- 20
-280.0
- 10
-359.18
- 20
-277.8
- 10
-359.18
- 20
-282.2
- 10
-355.0
- 20
-280.0
-  0
-LWPOLYLINE
-  5
-13A
-330
-17
-100
-AcDbEntity
-  8
-CVC-ACCESSOIRE
-370
-18
-100
-AcDbPolyline
- 90
-5
- 70
-0
- 10
-353.4
- 20
-282.7
- 10
-356.59999999999997
- 20
-282.7
- 10
-356.59999999999997
- 20
-285.09999999999997
- 10
-353.4
- 20
-285.09999999999997
- 10
-353.4
- 20
-282.7
-  0
-LWPOLYLINE
-  5
-13B
-330
-17
-100
-AcDbEntity
-  8
-CVC-ACCESSOIRE
-370
-18
-100
-AcDbPolyline
- 90
-2
- 70
-0
- 10
-355.0
- 20
-282.2
- 10
-355.0
- 20
-282.7
-  0
-TEXT
-  5
-13C
-330
-17
-100
-AcDbEntity
-  8
-CVC-TEXTE
-100
-AcDbText
- 10
-351.5
- 20
-280.0
- 30
-0.0
- 40
-1.6
-  1
-Sélection PAC
- 72
-2
- 11
-351.5
- 21
-280.0
- 31
-0.0
-100
-AcDbText
- 73
-2
-  0
-LWPOLYLINE
-  5
-13D
-330
-17
-100
-AcDbEntity
-  8
-CVC-CH-ALLER
-370
-50
-100
-AcDbPolyline
- 90
-3
- 70
-0
- 10
-346.0
- 20
-470.0
- 10
-372.0
- 20
-470.0
- 10
-372.0
- 20
-318.0
-  0
-LWPOLYLINE
-  5
-13E
-330
-17
-100
-AcDbEntity
-  8
-CVC-CH-RETOUR
-370
-50
-100
-AcDbPolyline
- 90
-3
- 70
-0
- 10
-346.0
- 20
-390.0
- 10
-380.0
- 20
-390.0
- 10
-380.0
- 20
-306.0
-  0
-LWPOLYLINE
-  5
-13F
-330
-17
-100
-AcDbEntity
-  8
-CVC-ACCESSOIRE
-370
-25
-100
-AcDbPolyline
- 90
-5
- 70
-0
- 10
-369.8
- 20
-347.8
- 10
-374.2
- 20
-352.2
- 10
-369.8
- 20
-352.2
- 10
-374.2
- 20
-347.8
- 10
-369.8
- 20
-347.8
-  0
-LWPOLYLINE
-  5
-140
-330
-17
-100
-AcDbEntity
-  8
-CVC-ACCESSOIRE
-370
-25
-100
-AcDbPolyline
- 90
-4
- 70
-0
- 10
-372.0
- 20
-350.0
- 10
-376.18
- 20
-347.8
- 10
-376.18
- 20
-352.2
- 10
-372.0
- 20
-350.0
-  0
-LWPOLYLINE
-  5
-141
-330
-17
-100
-AcDbEntity
-  8
-CVC-ACCESSOIRE
-370
-18
-100
-AcDbPolyline
- 90
-5
- 70
-0
- 10
-370.4
- 20
-352.7
- 10
-373.59999999999997
- 20
-352.7
- 10
-373.59999999999997
- 20
-355.09999999999997
- 10
-370.4
- 20
-355.09999999999997
- 10
-370.4
- 20
-352.7
-  0
-LWPOLYLINE
-  5
-142
-330
-17
-100
-AcDbEntity
-  8
-CVC-ACCESSOIRE
-370
-18
-100
-AcDbPolyline
- 90
-2
- 70
-0
- 10
-372.0
- 20
-352.2
- 10
-372.0
- 20
-352.7
-  0
-TEXT
-  5
-143
-330
-17
-100
-AcDbEntity
-  8
-CVC-TEXTE
-100
-AcDbText
- 10
-368.0
- 20
-356.0
- 30
-0.0
- 40
-1.6
-  1
-Sélection
- 72
-2
- 11
-368.0
- 21
-356.0
- 31
-0.0
-100
-AcDbText
- 73
-2
-  0
-TEXT
-  5
-144
-330
-17
-100
-AcDbEntity
-  8
-CVC-TEXTE
-100
-AcDbText
- 10
-368.0
- 20
-353.52
- 30
-0.0
- 40
-1.6
-  1
-chaudières
- 72
-2
- 11
-368.0
- 21
-353.52
- 31
-0.0
-100
-AcDbText
- 73
-2
-  0
-LWPOLYLINE
-  5
-145
+20C
 330
 17
 100
@@ -10913,17 +16633,17 @@ AcDbPolyline
  10
 470.0
  20
-440.0
+323.0
   0
 LWPOLYLINE
   5
-146
+20D
 330
 17
 100
 AcDbEntity
   8
-CVC-CH-RETOUR
+CVC-CH-ALLER
 370
 40
 100
@@ -10933,89 +16653,95 @@ AcDbPolyline
  70
 0
  10
-484.0
+470.0
  20
-306.0
+329.0
  10
-484.0
+470.0
  20
-440.0
+366.0
   0
-SOLID
+LWPOLYLINE
   5
-147
+20E
 330
 17
 100
 AcDbEntity
   8
 CVC-CH-ALLER
+370
+40
 100
-AcDbTrace
+AcDbPolyline
+ 90
+2
+ 70
+0
  10
 470.0
  20
-437.0
- 30
-0.0
- 11
-468.52083608390757
- 21
-433.8279227453717
- 31
-0.0
- 12
-471.47916391609243
- 22
-433.8279227453717
- 32
-0.0
- 13
-471.47916391609243
- 23
-433.8279227453717
- 33
-0.0
+374.0
+ 10
+470.0
+ 20
+377.0
   0
-SOLID
+LWPOLYLINE
   5
-148
+20F
 330
 17
 100
 AcDbEntity
   8
-CVC-CH-RETOUR
+CVC-CH-ALLER
+370
+40
 100
-AcDbTrace
+AcDbPolyline
+ 90
+2
+ 70
+0
  10
-484.0
+470.0
  20
-312.0
- 30
-0.0
- 11
-485.47916391609243
- 21
-315.1720772546283
- 31
-0.0
- 12
-482.52083608390757
- 22
-315.1720772546283
- 32
-0.0
- 13
-482.52083608390757
- 23
-315.1720772546283
- 33
-0.0
+383.0
+ 10
+470.0
+ 20
+405.0
   0
 LWPOLYLINE
   5
-149
+210
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-ALLER
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+470.0
+ 20
+411.0
+ 10
+470.0
+ 20
+440.0
+  0
+LWPOLYLINE
+  5
+211
 330
 17
 100
@@ -11031,67 +16757,29 @@ AcDbPolyline
  70
 0
  10
+472.2
+ 20
+323.0
+ 10
 467.8
  20
-323.8
+329.0
  10
 472.2
  20
-328.2
+329.0
  10
 467.8
  20
-328.2
+323.0
  10
 472.2
  20
-323.8
- 10
-467.8
- 20
-323.8
-  0
-LWPOLYLINE
-  5
-14A
-330
-17
-100
-AcDbEntity
-  8
-CVC-ACCESSOIRE
-370
-25
-100
-AcDbPolyline
- 90
-5
- 70
-0
- 10
-481.8
- 20
-323.8
- 10
-486.2
- 20
-328.2
- 10
-481.8
- 20
-328.2
- 10
-486.2
- 20
-323.8
- 10
-481.8
- 20
-323.8
+323.0
   0
 CIRCLE
   5
-14B
+212
 330
 17
 100
@@ -11109,11 +16797,41 @@ AcDbCircle
  30
 0.0
  40
-3.5
+4.0
   0
 LWPOLYLINE
   5
-14C
+213
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+3
+ 70
+0
+ 10
+473.0
+ 20
+367.4
+ 10
+470.0
+ 20
+374.0
+ 10
+467.0
+ 20
+367.4
+  0
+LWPOLYLINE
+  5
+214
 330
 17
 100
@@ -11129,93 +16847,77 @@ AcDbPolyline
  70
 0
  10
-470.0
+472.2
  20
-373.5
- 10
-467.3900317573815
- 20
-367.6680339255206
- 10
-472.6099682426185
- 20
-367.6680339255206
+377.0
  10
 470.0
  20
-373.5
+383.0
+ 10
+467.8
+ 20
+377.0
+ 10
+472.2
+ 20
+377.0
   0
-TEXT
+LWPOLYLINE
   5
-14D
+215
 330
 17
 100
 AcDbEntity
   8
-CVC-TEXTE
+CVC-ACCESSOIRE
+370
+25
 100
-AcDbText
+AcDbPolyline
+ 90
+2
+ 70
+0
  10
-465.0
+472.4
  20
-370.0
- 30
-0.0
- 40
-1.5
-  1
-Pompes
- 72
-2
- 11
-465.0
- 21
-370.0
- 31
-0.0
-100
-AcDbText
- 73
-2
+383.0
+ 10
+467.6
+ 20
+383.0
   0
-TEXT
+LWPOLYLINE
   5
-14E
+216
 330
 17
 100
 AcDbEntity
   8
-CVC-TEXTE
+CVC-ACCESSOIRE
+370
+18
 100
-AcDbText
+AcDbPolyline
+ 90
+2
+ 70
+0
  10
-465.0
+470.0
  20
-367.675
- 30
-0.0
- 40
-1.5
-  1
-jumelées
- 72
-2
- 11
-465.0
- 21
-367.675
- 31
-0.0
-100
-AcDbText
- 73
-2
+398.0
+ 10
+475.0
+ 20
+398.0
   0
 CIRCLE
   5
-14F
+217
 330
 17
 100
@@ -11227,9 +16929,9 @@ CVC-ACCESSOIRE
 100
 AcDbCircle
  10
-464.0
+477.0
  20
-395.0
+398.0
  30
 0.0
  40
@@ -11237,7 +16939,7 @@ AcDbCircle
   0
 TEXT
   5
-150
+218
 330
 17
 100
@@ -11247,77 +16949,21 @@ CVC-TEXTE
 100
 AcDbText
  10
-464.0
+477.0
  20
-395.0
+398.0
  30
 0.0
  40
-1.6
+1.5
   1
 T
  72
 1
  11
-464.0
+477.0
  21
-395.0
- 31
-0.0
-100
-AcDbText
- 73
-2
-  0
-CIRCLE
-  5
-151
-330
-17
-100
-AcDbEntity
-  8
-CVC-ACCESSOIRE
-370
-18
-100
-AcDbCircle
- 10
-490.0
- 20
-395.0
- 30
-0.0
- 40
-2.0
-  0
-TEXT
-  5
-152
-330
-17
-100
-AcDbEntity
-  8
-CVC-TEXTE
-100
-AcDbText
- 10
-490.0
- 20
-395.0
- 30
-0.0
- 40
-1.6
-  1
-T
- 72
-1
- 11
-490.0
- 21
-395.0
+398.0
  31
 0.0
 100
@@ -11327,7 +16973,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-153
+219
 330
 17
 100
@@ -11343,29 +16989,151 @@ AcDbPolyline
  70
 0
  10
-481.8
+472.2
  20
-357.8
+405.0
  10
-486.2
+467.8
  20
-362.2
+411.0
  10
-481.8
+472.2
  20
-362.2
+411.0
  10
-486.2
+467.8
  20
-357.8
+405.0
  10
-481.8
+472.2
  20
-357.8
+405.0
+  0
+SOLID
+  5
+21A
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-ALLER
+100
+AcDbTrace
+ 10
+470.0
+ 20
+440.0
+ 30
+0.0
+ 11
+468.52083608390757
+ 21
+436.8279227453717
+ 31
+0.0
+ 12
+471.47916391609243
+ 22
+436.8279227453717
+ 32
+0.0
+ 13
+471.47916391609243
+ 23
+436.8279227453717
+ 33
+0.0
+  0
+LWPOLYLINE
+  5
+21B
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-ALLER
+370
+30
+100
+AcDbPolyline
+ 90
+4
+ 70
+0
+ 10
+470.0
+ 20
+362.0
+ 10
+460.0
+ 20
+362.0
+ 10
+460.0
+ 20
+378.0
+ 10
+470.0
+ 20
+378.0
+  0
+CIRCLE
+  5
+21C
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+35
+100
+AcDbCircle
+ 10
+460.0
+ 20
+370.0
+ 30
+0.0
+ 40
+4.0
+  0
+LWPOLYLINE
+  5
+21D
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+3
+ 70
+0
+ 10
+463.0
+ 20
+367.4
+ 10
+460.0
+ 20
+374.0
+ 10
+457.0
+ 20
+367.4
   0
 TEXT
   5
-154
+21E
 330
 17
 100
@@ -11375,19 +17143,55 @@ CVC-TEXTE
 100
 AcDbText
  10
-487.0
+454.0
  20
-356.0
+370.0
  30
 0.0
  40
 1.5
   1
-TA
+Pompes jumelées
+ 72
+2
  11
-487.0
+454.0
  21
-356.0
+370.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+TEXT
+  5
+21F
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+454.0
+ 20
+367.675
+ 30
+0.0
+ 40
+1.5
+  1
+débit variable
+ 72
+2
+ 11
+454.0
+ 21
+367.675
  31
 0.0
 100
@@ -11397,7 +17201,429 @@ AcDbText
   0
 LWPOLYLINE
   5
-155
+220
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+490.0
+ 20
+440.0
+ 10
+490.0
+ 20
+429.0
+  0
+LWPOLYLINE
+  5
+221
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+490.0
+ 20
+423.0
+ 10
+490.0
+ 20
+373.0
+  0
+LWPOLYLINE
+  5
+222
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+490.0
+ 20
+367.0
+ 10
+490.0
+ 20
+325.0
+  0
+LWPOLYLINE
+  5
+223
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+490.0
+ 20
+319.0
+ 10
+490.0
+ 20
+306.0
+  0
+LWPOLYLINE
+  5
+224
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+487.8
+ 20
+429.0
+ 10
+492.2
+ 20
+423.0
+ 10
+487.8
+ 20
+423.0
+ 10
+492.2
+ 20
+429.0
+ 10
+487.8
+ 20
+429.0
+  0
+LWPOLYLINE
+  5
+225
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+490.0
+ 20
+410.0
+ 10
+495.0
+ 20
+410.0
+  0
+CIRCLE
+  5
+226
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbCircle
+ 10
+497.0
+ 20
+410.0
+ 30
+0.0
+ 40
+2.0
+  0
+TEXT
+  5
+227
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+497.0
+ 20
+410.0
+ 30
+0.0
+ 40
+1.5
+  1
+T
+ 72
+1
+ 11
+497.0
+ 21
+410.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+LWPOLYLINE
+  5
+228
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+487.8
+ 20
+373.0
+ 10
+492.2
+ 20
+367.0
+ 10
+487.8
+ 20
+367.0
+ 10
+492.2
+ 20
+373.0
+ 10
+487.8
+ 20
+373.0
+  0
+LWPOLYLINE
+  5
+229
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+486.5
+ 20
+373.5
+ 10
+493.5
+ 20
+366.5
+  0
+LWPOLYLINE
+  5
+22A
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+493.5
+ 20
+366.5
+ 10
+493.4
+ 20
+368.0
+  0
+TEXT
+  5
+22B
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+496.0
+ 20
+370.0
+ 30
+0.0
+ 40
+1.5
+  1
+TA
+ 72
+1
+ 11
+496.0
+ 21
+370.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+LWPOLYLINE
+  5
+22C
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+487.8
+ 20
+325.0
+ 10
+492.2
+ 20
+319.0
+ 10
+487.8
+ 20
+319.0
+ 10
+492.2
+ 20
+325.0
+ 10
+487.8
+ 20
+325.0
+  0
+SOLID
+  5
+22D
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+100
+AcDbTrace
+ 10
+490.0
+ 20
+306.0
+ 30
+0.0
+ 11
+491.47916391609243
+ 21
+309.1720772546283
+ 31
+0.0
+ 12
+488.52083608390757
+ 22
+309.1720772546283
+ 32
+0.0
+ 13
+488.52083608390757
+ 23
+309.1720772546283
+ 33
+0.0
+  0
+LWPOLYLINE
+  5
+22E
 330
 17
 100
@@ -11417,11 +17643,11 @@ AcDbPolyline
  20
 440.0
  10
-494.0
+500.0
  20
 440.0
  10
-494.0
+500.0
  20
 468.0
  10
@@ -11435,7 +17661,7 @@ AcDbPolyline
   0
 TEXT
   5
-156
+22F
 330
 17
 100
@@ -11445,7 +17671,7 @@ CVC-TEXTE
 100
 AcDbText
  10
-477.0
+480.0
  20
 454.0
  30
@@ -11457,7 +17683,7 @@ Ballon
  72
 1
  11
-477.0
+480.0
  21
 454.0
  31
@@ -11469,7 +17695,7 @@ AcDbText
   0
 TEXT
   5
-157
+230
 330
 17
 100
@@ -11479,7 +17705,7 @@ CVC-TEXTE
 100
 AcDbText
  10
-477.0
+480.0
  20
 451.21
  30
@@ -11491,7 +17717,7 @@ primaire
  72
 1
  11
-477.0
+480.0
  21
 451.21
  31
@@ -11503,7 +17729,7 @@ AcDbText
   0
 TEXT
   5
-158
+231
 330
 17
 100
@@ -11513,9 +17739,9 @@ CVC-TEXTE
 100
 AcDbText
  10
-477.0
+480.0
  20
-478.0
+476.0
  30
 0.0
  40
@@ -11525,9 +17751,9 @@ Vers ballon primaire ECS
  72
 1
  11
-477.0
+480.0
  21
-478.0
+476.0
  31
 0.0
 100
@@ -11537,7 +17763,7 @@ AcDbText
   0
 TEXT
   5
-159
+232
 330
 17
 100
@@ -11547,21 +17773,21 @@ CVC-TEXTE
 100
 AcDbText
  10
-477.0
+480.0
  20
-475.52
+473.52
  30
 0.0
  40
 1.6
   1
-et échangeur (voir SYN-02)
+(voir SYN-02)
  72
 1
  11
-477.0
+480.0
  21
-475.52
+473.52
  31
 0.0
 100
@@ -11571,7 +17797,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-15A
+233
 330
 17
 100
@@ -11591,11 +17817,11 @@ AcDbPolyline
  20
 500.0
  10
-498.0
+504.0
  20
 500.0
  10
-498.0
+504.0
  20
 518.0
  10
@@ -11609,7 +17835,7 @@ AcDbPolyline
   0
 TEXT
   5
-15B
+234
 330
 17
 100
@@ -11619,7 +17845,7 @@ CVC-TEXTE
 100
 AcDbText
  10
-477.0
+480.0
  20
 514.0
  30
@@ -11631,7 +17857,7 @@ C1 · ECS PRIMAIRE
  72
 1
  11
-477.0
+480.0
  21
 514.0
  31
@@ -11643,7 +17869,7 @@ AcDbText
   0
 TEXT
   5
-15C
+235
 330
 17
 100
@@ -11653,7 +17879,7 @@ CVC-TEXTE
 100
 AcDbText
  10
-477.0
+480.0
  20
 507.5
  30
@@ -11665,7 +17891,7 @@ Température constante
  72
 1
  11
-477.0
+480.0
  21
 507.5
  31
@@ -11677,7 +17903,7 @@ AcDbText
   0
 TEXT
   5
-15D
+236
 330
 17
 100
@@ -11687,19 +17913,19 @@ CVC-TEXTE-PUISS
 100
 AcDbText
  10
-488.0
+496.0
  20
-415.0
+410.0
  30
 0.0
  40
 1.6
   1
-Lot PBS / CVC
+Prestation lot PBS / CVC
  11
-488.0
+496.0
  21
-415.0
+410.0
  31
 0.0
 100
@@ -11709,7 +17935,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-15E
+237
 330
 17
 100
@@ -11731,11 +17957,11 @@ AcDbPolyline
  10
 565.0
  20
-440.0
+323.0
   0
 LWPOLYLINE
   5
-15F
+238
 330
 17
 100
@@ -11751,89 +17977,95 @@ AcDbPolyline
  70
 0
  10
-579.0
+565.0
  20
-306.0
- 10
-579.0
- 20
-440.0
-  0
-SOLID
-  5
-160
-330
-17
-100
-AcDbEntity
-  8
-CVC-EG-CHANGEOVER
-100
-AcDbTrace
+329.0
  10
 565.0
  20
-437.0
- 30
-0.0
- 11
-563.5208360839075
- 21
-433.8279227453717
- 31
-0.0
- 12
-566.4791639160925
- 22
-433.8279227453717
- 32
-0.0
- 13
-566.4791639160925
- 23
-433.8279227453717
- 33
-0.0
+366.0
   0
-SOLID
+LWPOLYLINE
   5
-161
+239
 330
 17
 100
 AcDbEntity
   8
 CVC-EG-CHANGEOVER
+370
+40
 100
-AcDbTrace
+AcDbPolyline
+ 90
+2
+ 70
+0
  10
-579.0
+565.0
  20
-312.0
- 30
-0.0
- 11
-580.4791639160925
- 21
-315.1720772546283
- 31
-0.0
- 12
-577.5208360839075
- 22
-315.1720772546283
- 32
-0.0
- 13
-577.5208360839075
- 23
-315.1720772546283
- 33
-0.0
+374.0
+ 10
+565.0
+ 20
+377.0
   0
 LWPOLYLINE
   5
-162
+23A
+330
+17
+100
+AcDbEntity
+  8
+CVC-EG-CHANGEOVER
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+565.0
+ 20
+383.0
+ 10
+565.0
+ 20
+405.0
+  0
+LWPOLYLINE
+  5
+23B
+330
+17
+100
+AcDbEntity
+  8
+CVC-EG-CHANGEOVER
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+565.0
+ 20
+411.0
+ 10
+565.0
+ 20
+440.0
+  0
+LWPOLYLINE
+  5
+23C
 330
 17
 100
@@ -11849,67 +18081,29 @@ AcDbPolyline
  70
 0
  10
+567.2
+ 20
+323.0
+ 10
 562.8
  20
-323.8
+329.0
  10
 567.2
  20
-328.2
+329.0
  10
 562.8
  20
-328.2
+323.0
  10
 567.2
  20
-323.8
- 10
-562.8
- 20
-323.8
-  0
-LWPOLYLINE
-  5
-163
-330
-17
-100
-AcDbEntity
-  8
-CVC-ACCESSOIRE
-370
-25
-100
-AcDbPolyline
- 90
-5
- 70
-0
- 10
-576.8
- 20
-323.8
- 10
-581.2
- 20
-328.2
- 10
-576.8
- 20
-328.2
- 10
-581.2
- 20
-323.8
- 10
-576.8
- 20
-323.8
+323.0
   0
 CIRCLE
   5
-164
+23D
 330
 17
 100
@@ -11927,11 +18121,41 @@ AcDbCircle
  30
 0.0
  40
-3.5
+4.0
   0
 LWPOLYLINE
   5
-165
+23E
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+3
+ 70
+0
+ 10
+568.0
+ 20
+367.4
+ 10
+565.0
+ 20
+374.0
+ 10
+562.0
+ 20
+367.4
+  0
+LWPOLYLINE
+  5
+23F
 330
 17
 100
@@ -11947,93 +18171,77 @@ AcDbPolyline
  70
 0
  10
-565.0
+567.2
  20
-373.5
- 10
-562.3900317573815
- 20
-367.6680339255206
- 10
-567.6099682426185
- 20
-367.6680339255206
+377.0
  10
 565.0
  20
-373.5
+383.0
+ 10
+562.8
+ 20
+377.0
+ 10
+567.2
+ 20
+377.0
   0
-TEXT
+LWPOLYLINE
   5
-166
+240
 330
 17
 100
 AcDbEntity
   8
-CVC-TEXTE
+CVC-ACCESSOIRE
+370
+25
 100
-AcDbText
+AcDbPolyline
+ 90
+2
+ 70
+0
  10
-560.0
+567.4
  20
-370.0
- 30
-0.0
- 40
-1.5
-  1
-Pompes
- 72
-2
- 11
-560.0
- 21
-370.0
- 31
-0.0
-100
-AcDbText
- 73
-2
+383.0
+ 10
+562.6
+ 20
+383.0
   0
-TEXT
+LWPOLYLINE
   5
-167
+241
 330
 17
 100
 AcDbEntity
   8
-CVC-TEXTE
+CVC-ACCESSOIRE
+370
+18
 100
-AcDbText
+AcDbPolyline
+ 90
+2
+ 70
+0
  10
-560.0
+565.0
  20
-367.675
- 30
-0.0
- 40
-1.5
-  1
-jumelées
- 72
-2
- 11
-560.0
- 21
-367.675
- 31
-0.0
-100
-AcDbText
- 73
-2
+398.0
+ 10
+570.0
+ 20
+398.0
   0
 CIRCLE
   5
-168
+242
 330
 17
 100
@@ -12045,9 +18253,9 @@ CVC-ACCESSOIRE
 100
 AcDbCircle
  10
-559.0
+572.0
  20
-395.0
+398.0
  30
 0.0
  40
@@ -12055,7 +18263,7 @@ AcDbCircle
   0
 TEXT
   5
-169
+243
 330
 17
 100
@@ -12065,77 +18273,21 @@ CVC-TEXTE
 100
 AcDbText
  10
-559.0
+572.0
  20
-395.0
+398.0
  30
 0.0
  40
-1.6
+1.5
   1
 T
  72
 1
  11
-559.0
+572.0
  21
-395.0
- 31
-0.0
-100
-AcDbText
- 73
-2
-  0
-CIRCLE
-  5
-16A
-330
-17
-100
-AcDbEntity
-  8
-CVC-ACCESSOIRE
-370
-18
-100
-AcDbCircle
- 10
-585.0
- 20
-395.0
- 30
-0.0
- 40
-2.0
-  0
-TEXT
-  5
-16B
-330
-17
-100
-AcDbEntity
-  8
-CVC-TEXTE
-100
-AcDbText
- 10
-585.0
- 20
-395.0
- 30
-0.0
- 40
-1.6
-  1
-T
- 72
-1
- 11
-585.0
- 21
-395.0
+398.0
  31
 0.0
 100
@@ -12145,7 +18297,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-16C
+244
 330
 17
 100
@@ -12161,29 +18313,151 @@ AcDbPolyline
  70
 0
  10
-576.8
+567.2
  20
-357.8
+405.0
  10
-581.2
+562.8
  20
-362.2
+411.0
  10
-576.8
+567.2
  20
-362.2
+411.0
  10
-581.2
+562.8
  20
-357.8
+405.0
  10
-576.8
+567.2
  20
-357.8
+405.0
+  0
+SOLID
+  5
+245
+330
+17
+100
+AcDbEntity
+  8
+CVC-EG-CHANGEOVER
+100
+AcDbTrace
+ 10
+565.0
+ 20
+440.0
+ 30
+0.0
+ 11
+563.5208360839075
+ 21
+436.8279227453717
+ 31
+0.0
+ 12
+566.4791639160925
+ 22
+436.8279227453717
+ 32
+0.0
+ 13
+566.4791639160925
+ 23
+436.8279227453717
+ 33
+0.0
+  0
+LWPOLYLINE
+  5
+246
+330
+17
+100
+AcDbEntity
+  8
+CVC-EG-CHANGEOVER
+370
+30
+100
+AcDbPolyline
+ 90
+4
+ 70
+0
+ 10
+565.0
+ 20
+362.0
+ 10
+555.0
+ 20
+362.0
+ 10
+555.0
+ 20
+378.0
+ 10
+565.0
+ 20
+378.0
+  0
+CIRCLE
+  5
+247
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+35
+100
+AcDbCircle
+ 10
+555.0
+ 20
+370.0
+ 30
+0.0
+ 40
+4.0
+  0
+LWPOLYLINE
+  5
+248
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+3
+ 70
+0
+ 10
+558.0
+ 20
+367.4
+ 10
+555.0
+ 20
+374.0
+ 10
+552.0
+ 20
+367.4
   0
 TEXT
   5
-16D
+249
 330
 17
 100
@@ -12193,19 +18467,55 @@ CVC-TEXTE
 100
 AcDbText
  10
-582.0
+549.0
  20
-356.0
+370.0
  30
 0.0
  40
 1.5
   1
-TA
+Pompes jumelées
+ 72
+2
  11
-582.0
+549.0
  21
-356.0
+370.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+TEXT
+  5
+24A
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+549.0
+ 20
+367.675
+ 30
+0.0
+ 40
+1.5
+  1
+débit variable
+ 72
+2
+ 11
+549.0
+ 21
+367.675
  31
 0.0
 100
@@ -12215,7 +18525,429 @@ AcDbText
   0
 LWPOLYLINE
   5
-16E
+24B
+330
+17
+100
+AcDbEntity
+  8
+CVC-EG-CHANGEOVER
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+585.0
+ 20
+440.0
+ 10
+585.0
+ 20
+429.0
+  0
+LWPOLYLINE
+  5
+24C
+330
+17
+100
+AcDbEntity
+  8
+CVC-EG-CHANGEOVER
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+585.0
+ 20
+423.0
+ 10
+585.0
+ 20
+373.0
+  0
+LWPOLYLINE
+  5
+24D
+330
+17
+100
+AcDbEntity
+  8
+CVC-EG-CHANGEOVER
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+585.0
+ 20
+367.0
+ 10
+585.0
+ 20
+325.0
+  0
+LWPOLYLINE
+  5
+24E
+330
+17
+100
+AcDbEntity
+  8
+CVC-EG-CHANGEOVER
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+585.0
+ 20
+319.0
+ 10
+585.0
+ 20
+306.0
+  0
+LWPOLYLINE
+  5
+24F
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+582.8
+ 20
+429.0
+ 10
+587.2
+ 20
+423.0
+ 10
+582.8
+ 20
+423.0
+ 10
+587.2
+ 20
+429.0
+ 10
+582.8
+ 20
+429.0
+  0
+LWPOLYLINE
+  5
+250
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+585.0
+ 20
+410.0
+ 10
+590.0
+ 20
+410.0
+  0
+CIRCLE
+  5
+251
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbCircle
+ 10
+592.0
+ 20
+410.0
+ 30
+0.0
+ 40
+2.0
+  0
+TEXT
+  5
+252
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+592.0
+ 20
+410.0
+ 30
+0.0
+ 40
+1.5
+  1
+T
+ 72
+1
+ 11
+592.0
+ 21
+410.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+LWPOLYLINE
+  5
+253
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+582.8
+ 20
+373.0
+ 10
+587.2
+ 20
+367.0
+ 10
+582.8
+ 20
+367.0
+ 10
+587.2
+ 20
+373.0
+ 10
+582.8
+ 20
+373.0
+  0
+LWPOLYLINE
+  5
+254
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+581.5
+ 20
+373.5
+ 10
+588.5
+ 20
+366.5
+  0
+LWPOLYLINE
+  5
+255
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+588.5
+ 20
+366.5
+ 10
+588.4
+ 20
+368.0
+  0
+TEXT
+  5
+256
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+591.0
+ 20
+370.0
+ 30
+0.0
+ 40
+1.5
+  1
+TA
+ 72
+1
+ 11
+591.0
+ 21
+370.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+LWPOLYLINE
+  5
+257
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+582.8
+ 20
+325.0
+ 10
+587.2
+ 20
+319.0
+ 10
+582.8
+ 20
+319.0
+ 10
+587.2
+ 20
+325.0
+ 10
+582.8
+ 20
+325.0
+  0
+SOLID
+  5
+258
+330
+17
+100
+AcDbEntity
+  8
+CVC-EG-CHANGEOVER
+100
+AcDbTrace
+ 10
+585.0
+ 20
+306.0
+ 30
+0.0
+ 11
+586.4791639160925
+ 21
+309.1720772546283
+ 31
+0.0
+ 12
+583.5208360839075
+ 22
+309.1720772546283
+ 32
+0.0
+ 13
+583.5208360839075
+ 23
+309.1720772546283
+ 33
+0.0
+  0
+LWPOLYLINE
+  5
+259
 330
 17
 100
@@ -12235,11 +18967,11 @@ AcDbPolyline
  20
 440.0
  10
-589.0
+595.0
  20
 440.0
  10
-589.0
+595.0
  20
 468.0
  10
@@ -12253,7 +18985,7 @@ AcDbPolyline
   0
 TEXT
   5
-16F
+25A
 330
 17
 100
@@ -12263,7 +18995,7 @@ CVC-TEXTE
 100
 AcDbText
  10
-572.0
+575.0
  20
 454.0
  30
@@ -12275,7 +19007,7 @@ CTA
  72
 1
  11
-572.0
+575.0
  21
 454.0
  31
@@ -12287,7 +19019,7 @@ AcDbText
   0
 TEXT
   5
-170
+25B
 330
 17
 100
@@ -12297,7 +19029,7 @@ CVC-TEXTE
 100
 AcDbText
  10
-572.0
+575.0
  20
 451.21
  30
@@ -12309,7 +19041,7 @@ double flux
  72
 1
  11
-572.0
+575.0
  21
 451.21
  31
@@ -12321,7 +19053,7 @@ AcDbText
   0
 TEXT
   5
-171
+25C
 330
 17
 100
@@ -12331,9 +19063,9 @@ CVC-TEXTE
 100
 AcDbText
  10
-572.0
+575.0
  20
-478.0
+476.0
  30
 0.0
  40
@@ -12343,9 +19075,9 @@ Vers batteries des CTA 1 à 5
  72
 1
  11
-572.0
+575.0
  21
-478.0
+476.0
  31
 0.0
 100
@@ -12355,7 +19087,7 @@ AcDbText
   0
 TEXT
   5
-172
+25D
 330
 17
 100
@@ -12365,21 +19097,21 @@ CVC-TEXTE
 100
 AcDbText
  10
-572.0
+575.0
  20
-475.52
+473.52
  30
 0.0
  40
 1.6
   1
-et batteries terminales (voir SYN-03)
+et batteries terminales (SYN-03)
  72
 1
  11
-572.0
+575.0
  21
-475.52
+473.52
  31
 0.0
 100
@@ -12389,7 +19121,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-173
+25E
 330
 17
 100
@@ -12409,11 +19141,11 @@ AcDbPolyline
  20
 500.0
  10
-593.0
+599.0
  20
 500.0
  10
-593.0
+599.0
  20
 518.0
  10
@@ -12427,7 +19159,7 @@ AcDbPolyline
   0
 TEXT
   5
-174
+25F
 330
 17
 100
@@ -12437,7 +19169,7 @@ CVC-TEXTE
 100
 AcDbText
  10
-572.0
+575.0
  20
 514.0
  30
@@ -12449,7 +19181,7 @@ C2 · CTA + BATTERIES
  72
 1
  11
-572.0
+575.0
  21
 514.0
  31
@@ -12461,7 +19193,7 @@ AcDbText
   0
 TEXT
   5
-175
+260
 330
 17
 100
@@ -12471,7 +19203,7 @@ CVC-TEXTE
 100
 AcDbText
  10
-572.0
+575.0
  20
 507.5
  30
@@ -12483,7 +19215,7 @@ Température constante
  72
 1
  11
-572.0
+575.0
  21
 507.5
  31
@@ -12495,7 +19227,7 @@ AcDbText
   0
 TEXT
   5
-176
+261
 330
 17
 100
@@ -12505,7 +19237,7 @@ CVC-TEXTE
 100
 AcDbText
  10
-572.0
+575.0
  20
 505.175
  30
@@ -12517,7 +19249,7 @@ CHANGE-OVER chaud / froid
  72
 1
  11
-572.0
+575.0
  21
 505.175
  31
@@ -12529,7 +19261,7 @@ AcDbText
   0
 TEXT
   5
-177
+262
 330
 17
 100
@@ -12539,9 +19271,9 @@ CVC-TEXTE-PUISS
 100
 AcDbText
  10
-583.0
+591.0
  20
-415.0
+410.0
  30
 0.0
  40
@@ -12549,9 +19281,9 @@ AcDbText
   1
 Été : eau glacée 9/14 °C
  11
-583.0
+591.0
  21
-415.0
+410.0
  31
 0.0
 100
@@ -12561,7 +19293,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-178
+263
 330
 17
 100
@@ -12583,11 +19315,771 @@ AcDbPolyline
  10
 660.0
  20
+323.0
+  0
+LWPOLYLINE
+  5
+264
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-ALLER
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+660.0
+ 20
+329.0
+ 10
+660.0
+ 20
+339.0
+  0
+LWPOLYLINE
+  5
+265
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-ALLER
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+660.0
+ 20
+345.0
+ 10
+660.0
+ 20
+366.0
+  0
+LWPOLYLINE
+  5
+266
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-ALLER
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+660.0
+ 20
+374.0
+ 10
+660.0
+ 20
+377.0
+  0
+LWPOLYLINE
+  5
+267
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-ALLER
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+660.0
+ 20
+383.0
+ 10
+660.0
+ 20
+405.0
+  0
+LWPOLYLINE
+  5
+268
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-ALLER
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+660.0
+ 20
+411.0
+ 10
+660.0
+ 20
 440.0
   0
 LWPOLYLINE
   5
-179
+269
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+662.2
+ 20
+323.0
+ 10
+657.8
+ 20
+329.0
+ 10
+662.2
+ 20
+329.0
+ 10
+657.8
+ 20
+323.0
+ 10
+662.2
+ 20
+323.0
+  0
+LWPOLYLINE
+  5
+26A
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+662.2
+ 20
+339.0
+ 10
+657.8
+ 20
+345.0
+ 10
+662.2
+ 20
+345.0
+ 10
+657.8
+ 20
+339.0
+ 10
+662.2
+ 20
+339.0
+  0
+LWPOLYLINE
+  5
+26B
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+4
+ 70
+0
+ 10
+660.0
+ 20
+342.0
+ 10
+663.0
+ 20
+339.8
+ 10
+663.0
+ 20
+344.2
+ 10
+660.0
+ 20
+342.0
+  0
+LWPOLYLINE
+  5
+26C
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+660.0
+ 20
+342.0
+ 10
+655.5
+ 20
+342.0
+  0
+LWPOLYLINE
+  5
+26D
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+655.5
+ 20
+340.0
+ 10
+655.5
+ 20
+344.0
+ 10
+652.5
+ 20
+344.0
+ 10
+652.5
+ 20
+340.0
+ 10
+655.5
+ 20
+340.0
+  0
+TEXT
+  5
+26E
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+654.0
+ 20
+342.0
+ 30
+0.0
+ 40
+1.4
+  1
+M
+ 72
+1
+ 11
+654.0
+ 21
+342.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+CIRCLE
+  5
+26F
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+35
+100
+AcDbCircle
+ 10
+660.0
+ 20
+370.0
+ 30
+0.0
+ 40
+4.0
+  0
+LWPOLYLINE
+  5
+270
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+3
+ 70
+0
+ 10
+663.0
+ 20
+367.4
+ 10
+660.0
+ 20
+374.0
+ 10
+657.0
+ 20
+367.4
+  0
+LWPOLYLINE
+  5
+271
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+4
+ 70
+0
+ 10
+662.2
+ 20
+377.0
+ 10
+660.0
+ 20
+383.0
+ 10
+657.8
+ 20
+377.0
+ 10
+662.2
+ 20
+377.0
+  0
+LWPOLYLINE
+  5
+272
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+662.4
+ 20
+383.0
+ 10
+657.6
+ 20
+383.0
+  0
+LWPOLYLINE
+  5
+273
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+660.0
+ 20
+398.0
+ 10
+665.0
+ 20
+398.0
+  0
+CIRCLE
+  5
+274
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbCircle
+ 10
+667.0
+ 20
+398.0
+ 30
+0.0
+ 40
+2.0
+  0
+TEXT
+  5
+275
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+667.0
+ 20
+398.0
+ 30
+0.0
+ 40
+1.5
+  1
+T
+ 72
+1
+ 11
+667.0
+ 21
+398.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+LWPOLYLINE
+  5
+276
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+662.2
+ 20
+405.0
+ 10
+657.8
+ 20
+411.0
+ 10
+662.2
+ 20
+411.0
+ 10
+657.8
+ 20
+405.0
+ 10
+662.2
+ 20
+405.0
+  0
+SOLID
+  5
+277
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-ALLER
+100
+AcDbTrace
+ 10
+660.0
+ 20
+440.0
+ 30
+0.0
+ 11
+658.5208360839075
+ 21
+436.8279227453717
+ 31
+0.0
+ 12
+661.4791639160925
+ 22
+436.8279227453717
+ 32
+0.0
+ 13
+661.4791639160925
+ 23
+436.8279227453717
+ 33
+0.0
+  0
+LWPOLYLINE
+  5
+278
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-ALLER
+370
+30
+100
+AcDbPolyline
+ 90
+4
+ 70
+0
+ 10
+660.0
+ 20
+362.0
+ 10
+650.0
+ 20
+362.0
+ 10
+650.0
+ 20
+378.0
+ 10
+660.0
+ 20
+378.0
+  0
+CIRCLE
+  5
+279
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+35
+100
+AcDbCircle
+ 10
+650.0
+ 20
+370.0
+ 30
+0.0
+ 40
+4.0
+  0
+LWPOLYLINE
+  5
+27A
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+3
+ 70
+0
+ 10
+653.0
+ 20
+367.4
+ 10
+650.0
+ 20
+374.0
+ 10
+647.0
+ 20
+367.4
+  0
+TEXT
+  5
+27B
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+644.0
+ 20
+370.0
+ 30
+0.0
+ 40
+1.5
+  1
+Pompes jumelées
+ 72
+2
+ 11
+644.0
+ 21
+370.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+TEXT
+  5
+27C
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+644.0
+ 20
+367.675
+ 30
+0.0
+ 40
+1.5
+  1
+débit variable
+ 72
+2
+ 11
+644.0
+ 21
+367.675
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+LWPOLYLINE
+  5
+27D
 330
 17
 100
@@ -12603,335 +20095,17 @@ AcDbPolyline
  70
 0
  10
-674.0
- 20
-306.0
- 10
-674.0
+680.0
  20
 440.0
-  0
-SOLID
-  5
-17A
-330
-17
-100
-AcDbEntity
-  8
-CVC-CH-ALLER
-100
-AcDbTrace
  10
-660.0
+680.0
  20
-437.0
- 30
-0.0
- 11
-658.5208360839075
- 21
-433.8279227453717
- 31
-0.0
- 12
-661.4791639160925
- 22
-433.8279227453717
- 32
-0.0
- 13
-661.4791639160925
- 23
-433.8279227453717
- 33
-0.0
-  0
-SOLID
-  5
-17B
-330
-17
-100
-AcDbEntity
-  8
-CVC-CH-RETOUR
-100
-AcDbTrace
- 10
-674.0
- 20
-312.0
- 30
-0.0
- 11
-675.4791639160925
- 21
-315.1720772546283
- 31
-0.0
- 12
-672.5208360839075
- 22
-315.1720772546283
- 32
-0.0
- 13
-672.5208360839075
- 23
-315.1720772546283
- 33
-0.0
+429.0
   0
 LWPOLYLINE
   5
-17C
-330
-17
-100
-AcDbEntity
-  8
-CVC-ACCESSOIRE
-370
-25
-100
-AcDbPolyline
- 90
-5
- 70
-0
- 10
-657.8
- 20
-323.8
- 10
-662.2
- 20
-328.2
- 10
-657.8
- 20
-328.2
- 10
-662.2
- 20
-323.8
- 10
-657.8
- 20
-323.8
-  0
-LWPOLYLINE
-  5
-17D
-330
-17
-100
-AcDbEntity
-  8
-CVC-ACCESSOIRE
-370
-25
-100
-AcDbPolyline
- 90
-5
- 70
-0
- 10
-671.8
- 20
-323.8
- 10
-676.2
- 20
-328.2
- 10
-671.8
- 20
-328.2
- 10
-676.2
- 20
-323.8
- 10
-671.8
- 20
-323.8
-  0
-LWPOLYLINE
-  5
-17E
-330
-17
-100
-AcDbEntity
-  8
-CVC-ACCESSOIRE
-370
-25
-100
-AcDbPolyline
- 90
-5
- 70
-0
- 10
-657.8
- 20
-339.8
- 10
-662.2
- 20
-344.2
- 10
-657.8
- 20
-344.2
- 10
-662.2
- 20
-339.8
- 10
-657.8
- 20
-339.8
-  0
-LWPOLYLINE
-  5
-17F
-330
-17
-100
-AcDbEntity
-  8
-CVC-ACCESSOIRE
-370
-25
-100
-AcDbPolyline
- 90
-4
- 70
-0
- 10
-660.0
- 20
-342.0
- 10
-664.18
- 20
-339.8
- 10
-664.18
- 20
-344.2
- 10
-660.0
- 20
-342.0
-  0
-LWPOLYLINE
-  5
-180
-330
-17
-100
-AcDbEntity
-  8
-CVC-ACCESSOIRE
-370
-18
-100
-AcDbPolyline
- 90
-5
- 70
-0
- 10
-658.4
- 20
-344.7
- 10
-661.6
- 20
-344.7
- 10
-661.6
- 20
-347.09999999999997
- 10
-658.4
- 20
-347.09999999999997
- 10
-658.4
- 20
-344.7
-  0
-LWPOLYLINE
-  5
-181
-330
-17
-100
-AcDbEntity
-  8
-CVC-ACCESSOIRE
-370
-18
-100
-AcDbPolyline
- 90
-2
- 70
-0
- 10
-660.0
- 20
-344.2
- 10
-660.0
- 20
-344.7
-  0
-TEXT
-  5
-182
-330
-17
-100
-AcDbEntity
-  8
-CVC-TEXTE
-100
-AcDbText
- 10
-656.5
- 20
-342.0
- 30
-0.0
- 40
-1.6
-  1
-V3V
- 72
-2
- 11
-656.5
- 21
-342.0
- 31
-0.0
-100
-AcDbText
- 73
-2
-  0
-LWPOLYLINE
-  5
-183
+27E
 330
 17
 100
@@ -12939,7 +20113,7 @@ AcDbEntity
   8
 CVC-CH-RETOUR
 370
-25
+40
 100
 AcDbPolyline
  90
@@ -12947,17 +20121,69 @@ AcDbPolyline
  70
 0
  10
-660.0
+680.0
  20
-342.0
+423.0
  10
-674.0
+680.0
  20
-342.0
+373.0
   0
 LWPOLYLINE
   5
-184
+27F
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+680.0
+ 20
+367.0
+ 10
+680.0
+ 20
+325.0
+  0
+LWPOLYLINE
+  5
+280
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+680.0
+ 20
+319.0
+ 10
+680.0
+ 20
+306.0
+  0
+LWPOLYLINE
+  5
+281
 330
 17
 100
@@ -12973,51 +20199,29 @@ AcDbPolyline
  70
 0
  10
-664.8
+677.8
  20
-339.8
+429.0
  10
-669.2
+682.2
  20
-344.2
+423.0
  10
-669.2
+677.8
  20
-339.8
+423.0
  10
-664.8
+682.2
  20
-344.2
+429.0
  10
-664.8
+677.8
  20
-339.8
-  0
-CIRCLE
-  5
-185
-330
-17
-100
-AcDbEntity
-  8
-CVC-ACCESSOIRE
-370
-35
-100
-AcDbCircle
- 10
-660.0
- 20
-370.0
- 30
-0.0
- 40
-3.5
+429.0
   0
 LWPOLYLINE
   5
-186
+282
 330
 17
 100
@@ -13025,101 +20229,25 @@ AcDbEntity
   8
 CVC-ACCESSOIRE
 370
-25
+18
 100
 AcDbPolyline
  90
-4
+2
  70
 0
  10
-660.0
+680.0
  20
-373.5
+410.0
  10
-657.3900317573815
+685.0
  20
-367.6680339255206
- 10
-662.6099682426185
- 20
-367.6680339255206
- 10
-660.0
- 20
-373.5
-  0
-TEXT
-  5
-187
-330
-17
-100
-AcDbEntity
-  8
-CVC-TEXTE
-100
-AcDbText
- 10
-655.0
- 20
-370.0
- 30
-0.0
- 40
-1.5
-  1
-Pompes
- 72
-2
- 11
-655.0
- 21
-370.0
- 31
-0.0
-100
-AcDbText
- 73
-2
-  0
-TEXT
-  5
-188
-330
-17
-100
-AcDbEntity
-  8
-CVC-TEXTE
-100
-AcDbText
- 10
-655.0
- 20
-367.675
- 30
-0.0
- 40
-1.5
-  1
-jumelées
- 72
-2
- 11
-655.0
- 21
-367.675
- 31
-0.0
-100
-AcDbText
- 73
-2
+410.0
   0
 CIRCLE
   5
-189
+283
 330
 17
 100
@@ -13131,9 +20259,9 @@ CVC-ACCESSOIRE
 100
 AcDbCircle
  10
-654.0
+687.0
  20
-395.0
+410.0
  30
 0.0
  40
@@ -13141,7 +20269,7 @@ AcDbCircle
   0
 TEXT
   5
-18A
+284
 330
 17
 100
@@ -13151,77 +20279,21 @@ CVC-TEXTE
 100
 AcDbText
  10
-654.0
+687.0
  20
-395.0
+410.0
  30
 0.0
  40
-1.6
+1.5
   1
 T
  72
 1
  11
-654.0
+687.0
  21
-395.0
- 31
-0.0
-100
-AcDbText
- 73
-2
-  0
-CIRCLE
-  5
-18B
-330
-17
-100
-AcDbEntity
-  8
-CVC-ACCESSOIRE
-370
-18
-100
-AcDbCircle
- 10
-680.0
- 20
-395.0
- 30
-0.0
- 40
-2.0
-  0
-TEXT
-  5
-18C
-330
-17
-100
-AcDbEntity
-  8
-CVC-TEXTE
-100
-AcDbText
- 10
-680.0
- 20
-395.0
- 30
-0.0
- 40
-1.6
-  1
-T
- 72
-1
- 11
-680.0
- 21
-395.0
+410.0
  31
 0.0
 100
@@ -13231,7 +20303,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-18D
+285
 330
 17
 100
@@ -13247,29 +20319,81 @@ AcDbPolyline
  70
 0
  10
-671.8
+677.8
  20
-357.8
+373.0
  10
-676.2
+682.2
  20
-362.2
+367.0
  10
-671.8
+677.8
  20
-362.2
+367.0
  10
-676.2
+682.2
  20
-357.8
+373.0
  10
-671.8
+677.8
  20
-357.8
+373.0
+  0
+LWPOLYLINE
+  5
+286
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+676.5
+ 20
+373.5
+ 10
+683.5
+ 20
+366.5
+  0
+LWPOLYLINE
+  5
+287
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+683.5
+ 20
+366.5
+ 10
+683.4
+ 20
+368.0
   0
 TEXT
   5
-18E
+288
 330
 17
 100
@@ -13279,19 +20403,21 @@ CVC-TEXTE
 100
 AcDbText
  10
-677.0
+686.0
  20
-356.0
+370.0
  30
 0.0
  40
 1.5
   1
 TA
+ 72
+1
  11
-677.0
+686.0
  21
-356.0
+370.0
  31
 0.0
 100
@@ -13301,7 +20427,223 @@ AcDbText
   0
 LWPOLYLINE
   5
-18F
+289
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+677.8
+ 20
+325.0
+ 10
+682.2
+ 20
+319.0
+ 10
+677.8
+ 20
+319.0
+ 10
+682.2
+ 20
+325.0
+ 10
+677.8
+ 20
+325.0
+  0
+SOLID
+  5
+28A
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+100
+AcDbTrace
+ 10
+680.0
+ 20
+306.0
+ 30
+0.0
+ 11
+681.4791639160925
+ 21
+309.1720772546283
+ 31
+0.0
+ 12
+678.5208360839075
+ 22
+309.1720772546283
+ 32
+0.0
+ 13
+678.5208360839075
+ 23
+309.1720772546283
+ 33
+0.0
+  0
+LWPOLYLINE
+  5
+28B
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+25
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+663.0
+ 20
+342.0
+ 10
+668.0
+ 20
+342.0
+  0
+LWPOLYLINE
+  5
+28C
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+25
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+674.0
+ 20
+342.0
+ 10
+680.0
+ 20
+342.0
+  0
+LWPOLYLINE
+  5
+28D
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+668.0
+ 20
+339.8
+ 10
+674.0
+ 20
+344.2
+ 10
+674.0
+ 20
+339.8
+ 10
+668.0
+ 20
+344.2
+ 10
+668.0
+ 20
+339.8
+  0
+LWPOLYLINE
+  5
+28E
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+667.5
+ 20
+338.5
+ 10
+674.5
+ 20
+345.5
+  0
+LWPOLYLINE
+  5
+28F
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+674.5
+ 20
+345.5
+ 10
+673.0
+ 20
+345.4
+  0
+LWPOLYLINE
+  5
+290
 330
 17
 100
@@ -13321,11 +20663,11 @@ AcDbPolyline
  20
 440.0
  10
-684.0
+690.0
  20
 440.0
  10
-684.0
+690.0
  20
 468.0
  10
@@ -13339,7 +20681,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-190
+291
 330
 17
 100
@@ -13355,17 +20697,17 @@ AcDbPolyline
  70
 0
  10
-655.0
+656.0
  20
 445.0
  10
-655.0
+656.0
  20
 463.0
   0
 LWPOLYLINE
   5
-191
+292
 330
 17
 100
@@ -13381,17 +20723,17 @@ AcDbPolyline
  70
 0
  10
-658.5
+659.5
  20
 445.0
  10
-658.5
+659.5
  20
 463.0
   0
 LWPOLYLINE
   5
-192
+293
 330
 17
 100
@@ -13407,17 +20749,17 @@ AcDbPolyline
  70
 0
  10
-662.0
+663.0
  20
 445.0
  10
-662.0
+663.0
  20
 463.0
   0
 LWPOLYLINE
   5
-193
+294
 330
 17
 100
@@ -13433,17 +20775,17 @@ AcDbPolyline
  70
 0
  10
-665.5
+666.5
  20
 445.0
  10
-665.5
+666.5
  20
 463.0
   0
 LWPOLYLINE
   5
-194
+295
 330
 17
 100
@@ -13459,17 +20801,17 @@ AcDbPolyline
  70
 0
  10
-669.0
+670.0
  20
 445.0
  10
-669.0
+670.0
  20
 463.0
   0
 LWPOLYLINE
   5
-195
+296
 330
 17
 100
@@ -13485,17 +20827,17 @@ AcDbPolyline
  70
 0
  10
-672.5
+673.5
  20
 445.0
  10
-672.5
+673.5
  20
 463.0
   0
 LWPOLYLINE
   5
-196
+297
 330
 17
 100
@@ -13511,17 +20853,43 @@ AcDbPolyline
  70
 0
  10
-676.0
+677.0
  20
 445.0
  10
-676.0
+677.0
+ 20
+463.0
+  0
+LWPOLYLINE
+  5
+298
+330
+17
+100
+AcDbEntity
+  8
+CVC-EQUIPEMENT
+370
+25
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+680.5
+ 20
+445.0
+ 10
+680.5
  20
 463.0
   0
 TEXT
   5
-197
+299
 330
 17
 100
@@ -13531,9 +20899,9 @@ CVC-TEXTE
 100
 AcDbText
  10
-667.0
+670.0
  20
-478.0
+476.0
  30
 0.0
  40
@@ -13543,9 +20911,9 @@ Radiateurs des chambres
  72
 1
  11
-667.0
+670.0
  21
-478.0
+476.0
  31
 0.0
 100
@@ -13555,7 +20923,7 @@ AcDbText
   0
 TEXT
   5
-198
+29A
 330
 17
 100
@@ -13565,9 +20933,9 @@ CVC-TEXTE
 100
 AcDbText
  10
-667.0
+670.0
  20
-475.52
+473.52
  30
 0.0
  40
@@ -13577,9 +20945,9 @@ AcDbText
  72
 1
  11
-667.0
+670.0
  21
-475.52
+473.52
  31
 0.0
 100
@@ -13589,7 +20957,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-199
+29B
 330
 17
 100
@@ -13609,11 +20977,11 @@ AcDbPolyline
  20
 500.0
  10
-688.0
+694.0
  20
 500.0
  10
-688.0
+694.0
  20
 518.0
  10
@@ -13627,7 +20995,7 @@ AcDbPolyline
   0
 TEXT
   5
-19A
+29C
 330
 17
 100
@@ -13637,7 +21005,7 @@ CVC-TEXTE
 100
 AcDbText
  10
-667.0
+670.0
  20
 514.0
  30
@@ -13649,7 +21017,7 @@ C3 · HÉBERGEMENT
  72
 1
  11
-667.0
+670.0
  21
 514.0
  31
@@ -13661,7 +21029,7 @@ AcDbText
   0
 TEXT
   5
-19B
+29D
 330
 17
 100
@@ -13671,7 +21039,7 @@ CVC-TEXTE
 100
 AcDbText
  10
-667.0
+670.0
  20
 507.5
  30
@@ -13683,7 +21051,7 @@ Régulé (loi d'eau)
  72
 1
  11
-667.0
+670.0
  21
 507.5
  31
@@ -13695,7 +21063,7 @@ AcDbText
   0
 TEXT
   5
-19C
+29E
 330
 17
 100
@@ -13705,7 +21073,7 @@ CVC-TEXTE
 100
 AcDbText
  10
-667.0
+670.0
  20
 505.175
  30
@@ -13717,7 +21085,7 @@ AcDbText
  72
 1
  11
-667.0
+670.0
  21
 505.175
  31
@@ -13729,7 +21097,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-19D
+29F
 330
 17
 100
@@ -13751,11 +21119,771 @@ AcDbPolyline
  10
 755.0
  20
+323.0
+  0
+LWPOLYLINE
+  5
+2A0
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-ALLER
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+755.0
+ 20
+329.0
+ 10
+755.0
+ 20
+339.0
+  0
+LWPOLYLINE
+  5
+2A1
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-ALLER
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+755.0
+ 20
+345.0
+ 10
+755.0
+ 20
+366.0
+  0
+LWPOLYLINE
+  5
+2A2
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-ALLER
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+755.0
+ 20
+374.0
+ 10
+755.0
+ 20
+377.0
+  0
+LWPOLYLINE
+  5
+2A3
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-ALLER
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+755.0
+ 20
+383.0
+ 10
+755.0
+ 20
+405.0
+  0
+LWPOLYLINE
+  5
+2A4
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-ALLER
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+755.0
+ 20
+411.0
+ 10
+755.0
+ 20
 440.0
   0
 LWPOLYLINE
   5
-19E
+2A5
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+757.2
+ 20
+323.0
+ 10
+752.8
+ 20
+329.0
+ 10
+757.2
+ 20
+329.0
+ 10
+752.8
+ 20
+323.0
+ 10
+757.2
+ 20
+323.0
+  0
+LWPOLYLINE
+  5
+2A6
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+757.2
+ 20
+339.0
+ 10
+752.8
+ 20
+345.0
+ 10
+757.2
+ 20
+345.0
+ 10
+752.8
+ 20
+339.0
+ 10
+757.2
+ 20
+339.0
+  0
+LWPOLYLINE
+  5
+2A7
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+4
+ 70
+0
+ 10
+755.0
+ 20
+342.0
+ 10
+758.0
+ 20
+339.8
+ 10
+758.0
+ 20
+344.2
+ 10
+755.0
+ 20
+342.0
+  0
+LWPOLYLINE
+  5
+2A8
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+755.0
+ 20
+342.0
+ 10
+750.5
+ 20
+342.0
+  0
+LWPOLYLINE
+  5
+2A9
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+750.5
+ 20
+340.0
+ 10
+750.5
+ 20
+344.0
+ 10
+747.5
+ 20
+344.0
+ 10
+747.5
+ 20
+340.0
+ 10
+750.5
+ 20
+340.0
+  0
+TEXT
+  5
+2AA
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+749.0
+ 20
+342.0
+ 30
+0.0
+ 40
+1.4
+  1
+M
+ 72
+1
+ 11
+749.0
+ 21
+342.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+CIRCLE
+  5
+2AB
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+35
+100
+AcDbCircle
+ 10
+755.0
+ 20
+370.0
+ 30
+0.0
+ 40
+4.0
+  0
+LWPOLYLINE
+  5
+2AC
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+3
+ 70
+0
+ 10
+758.0
+ 20
+367.4
+ 10
+755.0
+ 20
+374.0
+ 10
+752.0
+ 20
+367.4
+  0
+LWPOLYLINE
+  5
+2AD
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+4
+ 70
+0
+ 10
+757.2
+ 20
+377.0
+ 10
+755.0
+ 20
+383.0
+ 10
+752.8
+ 20
+377.0
+ 10
+757.2
+ 20
+377.0
+  0
+LWPOLYLINE
+  5
+2AE
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+757.4
+ 20
+383.0
+ 10
+752.6
+ 20
+383.0
+  0
+LWPOLYLINE
+  5
+2AF
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+755.0
+ 20
+398.0
+ 10
+760.0
+ 20
+398.0
+  0
+CIRCLE
+  5
+2B0
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbCircle
+ 10
+762.0
+ 20
+398.0
+ 30
+0.0
+ 40
+2.0
+  0
+TEXT
+  5
+2B1
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+762.0
+ 20
+398.0
+ 30
+0.0
+ 40
+1.5
+  1
+T
+ 72
+1
+ 11
+762.0
+ 21
+398.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+LWPOLYLINE
+  5
+2B2
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+757.2
+ 20
+405.0
+ 10
+752.8
+ 20
+411.0
+ 10
+757.2
+ 20
+411.0
+ 10
+752.8
+ 20
+405.0
+ 10
+757.2
+ 20
+405.0
+  0
+SOLID
+  5
+2B3
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-ALLER
+100
+AcDbTrace
+ 10
+755.0
+ 20
+440.0
+ 30
+0.0
+ 11
+753.5208360839075
+ 21
+436.8279227453717
+ 31
+0.0
+ 12
+756.4791639160925
+ 22
+436.8279227453717
+ 32
+0.0
+ 13
+756.4791639160925
+ 23
+436.8279227453717
+ 33
+0.0
+  0
+LWPOLYLINE
+  5
+2B4
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-ALLER
+370
+30
+100
+AcDbPolyline
+ 90
+4
+ 70
+0
+ 10
+755.0
+ 20
+362.0
+ 10
+745.0
+ 20
+362.0
+ 10
+745.0
+ 20
+378.0
+ 10
+755.0
+ 20
+378.0
+  0
+CIRCLE
+  5
+2B5
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+35
+100
+AcDbCircle
+ 10
+745.0
+ 20
+370.0
+ 30
+0.0
+ 40
+4.0
+  0
+LWPOLYLINE
+  5
+2B6
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+3
+ 70
+0
+ 10
+748.0
+ 20
+367.4
+ 10
+745.0
+ 20
+374.0
+ 10
+742.0
+ 20
+367.4
+  0
+TEXT
+  5
+2B7
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+739.0
+ 20
+370.0
+ 30
+0.0
+ 40
+1.5
+  1
+Pompes jumelées
+ 72
+2
+ 11
+739.0
+ 21
+370.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+TEXT
+  5
+2B8
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+739.0
+ 20
+367.675
+ 30
+0.0
+ 40
+1.5
+  1
+débit variable
+ 72
+2
+ 11
+739.0
+ 21
+367.675
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+LWPOLYLINE
+  5
+2B9
 330
 17
 100
@@ -13771,335 +21899,17 @@ AcDbPolyline
  70
 0
  10
-769.0
- 20
-306.0
- 10
-769.0
+775.0
  20
 440.0
-  0
-SOLID
-  5
-19F
-330
-17
-100
-AcDbEntity
-  8
-CVC-CH-ALLER
-100
-AcDbTrace
  10
-755.0
+775.0
  20
-437.0
- 30
-0.0
- 11
-753.5208360839075
- 21
-433.8279227453717
- 31
-0.0
- 12
-756.4791639160925
- 22
-433.8279227453717
- 32
-0.0
- 13
-756.4791639160925
- 23
-433.8279227453717
- 33
-0.0
-  0
-SOLID
-  5
-1A0
-330
-17
-100
-AcDbEntity
-  8
-CVC-CH-RETOUR
-100
-AcDbTrace
- 10
-769.0
- 20
-312.0
- 30
-0.0
- 11
-770.4791639160925
- 21
-315.1720772546283
- 31
-0.0
- 12
-767.5208360839075
- 22
-315.1720772546283
- 32
-0.0
- 13
-767.5208360839075
- 23
-315.1720772546283
- 33
-0.0
+429.0
   0
 LWPOLYLINE
   5
-1A1
-330
-17
-100
-AcDbEntity
-  8
-CVC-ACCESSOIRE
-370
-25
-100
-AcDbPolyline
- 90
-5
- 70
-0
- 10
-752.8
- 20
-323.8
- 10
-757.2
- 20
-328.2
- 10
-752.8
- 20
-328.2
- 10
-757.2
- 20
-323.8
- 10
-752.8
- 20
-323.8
-  0
-LWPOLYLINE
-  5
-1A2
-330
-17
-100
-AcDbEntity
-  8
-CVC-ACCESSOIRE
-370
-25
-100
-AcDbPolyline
- 90
-5
- 70
-0
- 10
-766.8
- 20
-323.8
- 10
-771.2
- 20
-328.2
- 10
-766.8
- 20
-328.2
- 10
-771.2
- 20
-323.8
- 10
-766.8
- 20
-323.8
-  0
-LWPOLYLINE
-  5
-1A3
-330
-17
-100
-AcDbEntity
-  8
-CVC-ACCESSOIRE
-370
-25
-100
-AcDbPolyline
- 90
-5
- 70
-0
- 10
-752.8
- 20
-339.8
- 10
-757.2
- 20
-344.2
- 10
-752.8
- 20
-344.2
- 10
-757.2
- 20
-339.8
- 10
-752.8
- 20
-339.8
-  0
-LWPOLYLINE
-  5
-1A4
-330
-17
-100
-AcDbEntity
-  8
-CVC-ACCESSOIRE
-370
-25
-100
-AcDbPolyline
- 90
-4
- 70
-0
- 10
-755.0
- 20
-342.0
- 10
-759.18
- 20
-339.8
- 10
-759.18
- 20
-344.2
- 10
-755.0
- 20
-342.0
-  0
-LWPOLYLINE
-  5
-1A5
-330
-17
-100
-AcDbEntity
-  8
-CVC-ACCESSOIRE
-370
-18
-100
-AcDbPolyline
- 90
-5
- 70
-0
- 10
-753.4
- 20
-344.7
- 10
-756.6
- 20
-344.7
- 10
-756.6
- 20
-347.09999999999997
- 10
-753.4
- 20
-347.09999999999997
- 10
-753.4
- 20
-344.7
-  0
-LWPOLYLINE
-  5
-1A6
-330
-17
-100
-AcDbEntity
-  8
-CVC-ACCESSOIRE
-370
-18
-100
-AcDbPolyline
- 90
-2
- 70
-0
- 10
-755.0
- 20
-344.2
- 10
-755.0
- 20
-344.7
-  0
-TEXT
-  5
-1A7
-330
-17
-100
-AcDbEntity
-  8
-CVC-TEXTE
-100
-AcDbText
- 10
-751.5
- 20
-342.0
- 30
-0.0
- 40
-1.6
-  1
-V3V
- 72
-2
- 11
-751.5
- 21
-342.0
- 31
-0.0
-100
-AcDbText
- 73
-2
-  0
-LWPOLYLINE
-  5
-1A8
+2BA
 330
 17
 100
@@ -14107,7 +21917,7 @@ AcDbEntity
   8
 CVC-CH-RETOUR
 370
-25
+40
 100
 AcDbPolyline
  90
@@ -14115,17 +21925,69 @@ AcDbPolyline
  70
 0
  10
-755.0
+775.0
  20
-342.0
+423.0
  10
-769.0
+775.0
  20
-342.0
+373.0
   0
 LWPOLYLINE
   5
-1A9
+2BB
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+775.0
+ 20
+367.0
+ 10
+775.0
+ 20
+325.0
+  0
+LWPOLYLINE
+  5
+2BC
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+775.0
+ 20
+319.0
+ 10
+775.0
+ 20
+306.0
+  0
+LWPOLYLINE
+  5
+2BD
 330
 17
 100
@@ -14141,51 +22003,29 @@ AcDbPolyline
  70
 0
  10
-759.8
+772.8
  20
-339.8
+429.0
  10
-764.2
+777.2
  20
-344.2
+423.0
  10
-764.2
+772.8
  20
-339.8
+423.0
  10
-759.8
+777.2
  20
-344.2
+429.0
  10
-759.8
+772.8
  20
-339.8
-  0
-CIRCLE
-  5
-1AA
-330
-17
-100
-AcDbEntity
-  8
-CVC-ACCESSOIRE
-370
-35
-100
-AcDbCircle
- 10
-755.0
- 20
-370.0
- 30
-0.0
- 40
-3.5
+429.0
   0
 LWPOLYLINE
   5
-1AB
+2BE
 330
 17
 100
@@ -14193,101 +22033,25 @@ AcDbEntity
   8
 CVC-ACCESSOIRE
 370
-25
+18
 100
 AcDbPolyline
  90
-4
+2
  70
 0
  10
-755.0
+775.0
  20
-373.5
+410.0
  10
-752.3900317573815
+780.0
  20
-367.6680339255206
- 10
-757.6099682426185
- 20
-367.6680339255206
- 10
-755.0
- 20
-373.5
-  0
-TEXT
-  5
-1AC
-330
-17
-100
-AcDbEntity
-  8
-CVC-TEXTE
-100
-AcDbText
- 10
-750.0
- 20
-370.0
- 30
-0.0
- 40
-1.5
-  1
-Pompes
- 72
-2
- 11
-750.0
- 21
-370.0
- 31
-0.0
-100
-AcDbText
- 73
-2
-  0
-TEXT
-  5
-1AD
-330
-17
-100
-AcDbEntity
-  8
-CVC-TEXTE
-100
-AcDbText
- 10
-750.0
- 20
-367.675
- 30
-0.0
- 40
-1.5
-  1
-jumelées
- 72
-2
- 11
-750.0
- 21
-367.675
- 31
-0.0
-100
-AcDbText
- 73
-2
+410.0
   0
 CIRCLE
   5
-1AE
+2BF
 330
 17
 100
@@ -14299,9 +22063,9 @@ CVC-ACCESSOIRE
 100
 AcDbCircle
  10
-749.0
+782.0
  20
-395.0
+410.0
  30
 0.0
  40
@@ -14309,7 +22073,7 @@ AcDbCircle
   0
 TEXT
   5
-1AF
+2C0
 330
 17
 100
@@ -14319,77 +22083,21 @@ CVC-TEXTE
 100
 AcDbText
  10
-749.0
+782.0
  20
-395.0
+410.0
  30
 0.0
  40
-1.6
+1.5
   1
 T
  72
 1
  11
-749.0
+782.0
  21
-395.0
- 31
-0.0
-100
-AcDbText
- 73
-2
-  0
-CIRCLE
-  5
-1B0
-330
-17
-100
-AcDbEntity
-  8
-CVC-ACCESSOIRE
-370
-18
-100
-AcDbCircle
- 10
-775.0
- 20
-395.0
- 30
-0.0
- 40
-2.0
-  0
-TEXT
-  5
-1B1
-330
-17
-100
-AcDbEntity
-  8
-CVC-TEXTE
-100
-AcDbText
- 10
-775.0
- 20
-395.0
- 30
-0.0
- 40
-1.6
-  1
-T
- 72
-1
- 11
-775.0
- 21
-395.0
+410.0
  31
 0.0
 100
@@ -14399,7 +22107,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-1B2
+2C1
 330
 17
 100
@@ -14415,29 +22123,81 @@ AcDbPolyline
  70
 0
  10
-766.8
+772.8
  20
-357.8
+373.0
  10
-771.2
+777.2
  20
-362.2
+367.0
  10
-766.8
+772.8
  20
-362.2
+367.0
  10
-771.2
+777.2
  20
-357.8
+373.0
  10
-766.8
+772.8
  20
-357.8
+373.0
+  0
+LWPOLYLINE
+  5
+2C2
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+771.5
+ 20
+373.5
+ 10
+778.5
+ 20
+366.5
+  0
+LWPOLYLINE
+  5
+2C3
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+778.5
+ 20
+366.5
+ 10
+778.4
+ 20
+368.0
   0
 TEXT
   5
-1B3
+2C4
 330
 17
 100
@@ -14447,19 +22207,21 @@ CVC-TEXTE
 100
 AcDbText
  10
-772.0
+781.0
  20
-356.0
+370.0
  30
 0.0
  40
 1.5
   1
 TA
+ 72
+1
  11
-772.0
+781.0
  21
-356.0
+370.0
  31
 0.0
 100
@@ -14469,7 +22231,223 @@ AcDbText
   0
 LWPOLYLINE
   5
-1B4
+2C5
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+772.8
+ 20
+325.0
+ 10
+777.2
+ 20
+319.0
+ 10
+772.8
+ 20
+319.0
+ 10
+777.2
+ 20
+325.0
+ 10
+772.8
+ 20
+325.0
+  0
+SOLID
+  5
+2C6
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+100
+AcDbTrace
+ 10
+775.0
+ 20
+306.0
+ 30
+0.0
+ 11
+776.4791639160925
+ 21
+309.1720772546283
+ 31
+0.0
+ 12
+773.5208360839075
+ 22
+309.1720772546283
+ 32
+0.0
+ 13
+773.5208360839075
+ 23
+309.1720772546283
+ 33
+0.0
+  0
+LWPOLYLINE
+  5
+2C7
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+25
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+758.0
+ 20
+342.0
+ 10
+763.0
+ 20
+342.0
+  0
+LWPOLYLINE
+  5
+2C8
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+25
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+769.0
+ 20
+342.0
+ 10
+775.0
+ 20
+342.0
+  0
+LWPOLYLINE
+  5
+2C9
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+763.0
+ 20
+339.8
+ 10
+769.0
+ 20
+344.2
+ 10
+769.0
+ 20
+339.8
+ 10
+763.0
+ 20
+344.2
+ 10
+763.0
+ 20
+339.8
+  0
+LWPOLYLINE
+  5
+2CA
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+762.5
+ 20
+338.5
+ 10
+769.5
+ 20
+345.5
+  0
+LWPOLYLINE
+  5
+2CB
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+769.5
+ 20
+345.5
+ 10
+768.0
+ 20
+345.4
+  0
+LWPOLYLINE
+  5
+2CC
 330
 17
 100
@@ -14489,11 +22467,11 @@ AcDbPolyline
  20
 440.0
  10
-779.0
+785.0
  20
 440.0
  10
-779.0
+785.0
  20
 468.0
  10
@@ -14507,7 +22485,7 @@ AcDbPolyline
   0
 LWPOLYLINE
   5
-1B5
+2CD
 330
 17
 100
@@ -14523,17 +22501,17 @@ AcDbPolyline
  70
 0
  10
-748.0
+749.0
  20
 444.0
  10
-776.0
+781.0
  20
 444.0
   0
 LWPOLYLINE
   5
-1B6
+2CE
 330
 17
 100
@@ -14549,17 +22527,17 @@ AcDbPolyline
  70
 0
  10
-748.0
+749.0
  20
-448.5
+449.0
  10
-776.0
+781.0
  20
-448.5
+449.0
   0
 LWPOLYLINE
   5
-1B7
+2CF
 330
 17
 100
@@ -14575,17 +22553,17 @@ AcDbPolyline
  70
 0
  10
-748.0
+749.0
  20
-453.0
+454.0
  10
-776.0
+781.0
  20
-453.0
+454.0
   0
 LWPOLYLINE
   5
-1B8
+2D0
 330
 17
 100
@@ -14601,17 +22579,17 @@ AcDbPolyline
  70
 0
  10
-748.0
+749.0
  20
-457.5
+459.0
  10
-776.0
+781.0
  20
-457.5
+459.0
   0
 LWPOLYLINE
   5
-1B9
+2D1
 330
 17
 100
@@ -14627,17 +22605,17 @@ AcDbPolyline
  70
 0
  10
-748.0
+749.0
  20
-462.0
+464.0
  10
-776.0
+781.0
  20
-462.0
+464.0
   0
 TEXT
   5
-1BA
+2D2
 330
 17
 100
@@ -14647,9 +22625,9 @@ CVC-TEXTE
 100
 AcDbText
  10
-762.0
+765.0
  20
-478.0
+476.0
  30
 0.0
  40
@@ -14659,9 +22637,9 @@ Radiateurs + panneaux
  72
 1
  11
-762.0
+765.0
  21
-478.0
+476.0
  31
 0.0
 100
@@ -14671,7 +22649,7 @@ AcDbText
   0
 TEXT
   5
-1BB
+2D3
 330
 17
 100
@@ -14681,9 +22659,9 @@ CVC-TEXTE
 100
 AcDbText
  10
-762.0
+765.0
  20
-475.52
+473.52
  30
 0.0
  40
@@ -14693,9 +22671,9 @@ rayonnants (hall, admin, service)
  72
 1
  11
-762.0
+765.0
  21
-475.52
+473.52
  31
 0.0
 100
@@ -14705,7 +22683,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-1BC
+2D4
 330
 17
 100
@@ -14725,11 +22703,11 @@ AcDbPolyline
  20
 500.0
  10
-783.0
+789.0
  20
 500.0
  10
-783.0
+789.0
  20
 518.0
  10
@@ -14743,7 +22721,7 @@ AcDbPolyline
   0
 TEXT
   5
-1BD
+2D5
 330
 17
 100
@@ -14753,7 +22731,7 @@ CVC-TEXTE
 100
 AcDbText
  10
-762.0
+765.0
  20
 514.0
  30
@@ -14765,7 +22743,7 @@ C4 · LOCAUX COMMUNS
  72
 1
  11
-762.0
+765.0
  21
 514.0
  31
@@ -14777,7 +22755,7 @@ AcDbText
   0
 TEXT
   5
-1BE
+2D6
 330
 17
 100
@@ -14787,7 +22765,7 @@ CVC-TEXTE
 100
 AcDbText
  10
-762.0
+765.0
  20
 507.5
  30
@@ -14799,7 +22777,7 @@ Régulé (loi d'eau)
  72
 1
  11
-762.0
+765.0
  21
 507.5
  31
@@ -14811,7 +22789,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-1BF
+2D7
 330
 17
 100
@@ -14819,37 +22797,33 @@ AcDbEntity
   8
 CVC-CH-ALLER
 370
-35
+40
 100
 AcDbPolyline
  90
-3
+2
  70
 0
  10
-240.0
+232.0
  20
-197.0
+195.0
  10
-240.0
+232.0
  20
-150.0
- 10
-800.0
- 20
-150.0
+178.0
   0
 LWPOLYLINE
   5
-1C0
+2D8
 330
 17
 100
 AcDbEntity
   8
-CVC-CH-RETOUR
+CVC-CH-ALLER
 370
-35
+40
 100
 AcDbPolyline
  90
@@ -14857,57 +22831,149 @@ AcDbPolyline
  70
 0
  10
-248.0
+232.0
  20
-183.0
+172.0
  10
-248.0
+232.0
  20
-140.0
+118.0
  10
-800.0
+262.0
  20
-140.0
+118.0
   0
-SOLID
+LWPOLYLINE
   5
-1C1
+2D9
 330
 17
 100
 AcDbEntity
   8
 CVC-CH-ALLER
+370
+40
 100
-AcDbTrace
+AcDbPolyline
+ 90
+2
+ 70
+0
  10
-800.0
+268.0
  20
-150.0
- 30
-0.0
- 11
-796.8279227453718
- 21
-151.47916391609246
- 31
-0.0
- 12
-796.8279227453718
- 22
-148.52083608390754
- 32
-0.0
- 13
-796.8279227453718
- 23
-148.52083608390754
- 33
-0.0
+118.0
+ 10
+805.0
+ 20
+118.0
+  0
+LWPOLYLINE
+  5
+2DA
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+229.8
+ 20
+178.0
+ 10
+234.2
+ 20
+172.0
+ 10
+229.8
+ 20
+172.0
+ 10
+234.2
+ 20
+178.0
+ 10
+229.8
+ 20
+178.0
+  0
+LWPOLYLINE
+  5
+2DB
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+232.0
+ 20
+175.0
+ 10
+236.5
+ 20
+175.0
+  0
+LWPOLYLINE
+  5
+2DC
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+236.5
+ 20
+177.0
+ 10
+236.5
+ 20
+173.0
+ 10
+239.5
+ 20
+173.0
+ 10
+239.5
+ 20
+177.0
+ 10
+236.5
+ 20
+177.0
   0
 TEXT
   5
-1C2
+2DD
 330
 17
 100
@@ -14917,21 +22983,21 @@ CVC-TEXTE
 100
 AcDbText
  10
-796.0
+238.0
  20
-154.0
+175.0
  30
 0.0
  40
-1.8
+1.4
   1
-Préchauffage ECS par PAC → ballon de préchauffage 2000 L (voir SYN-02)
+M
  72
-2
+1
  11
-796.0
+238.0
  21
-154.0
+175.0
  31
 0.0
 100
@@ -14941,7 +23007,243 @@ AcDbText
   0
 TEXT
   5
-1C3
+2DE
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+226.0
+ 20
+175.0
+ 30
+0.0
+ 40
+1.5
+  1
+V2V
+ 72
+1
+ 11
+226.0
+ 21
+175.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+LWPOLYLINE
+  5
+2DF
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+262.0
+ 20
+115.8
+ 10
+268.0
+ 20
+120.2
+ 10
+268.0
+ 20
+115.8
+ 10
+262.0
+ 20
+120.2
+ 10
+262.0
+ 20
+115.8
+  0
+SOLID
+  5
+2E0
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-ALLER
+100
+AcDbTrace
+ 10
+805.0
+ 20
+118.0
+ 30
+0.0
+ 11
+801.8279227453718
+ 21
+119.47916391609245
+ 31
+0.0
+ 12
+801.8279227453718
+ 22
+116.52083608390755
+ 32
+0.0
+ 13
+801.8279227453718
+ 23
+116.52083608390755
+ 33
+0.0
+  0
+LWPOLYLINE
+  5
+2E1
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+40
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+805.0
+ 20
+108.0
+ 10
+308.0
+ 20
+108.0
+  0
+LWPOLYLINE
+  5
+2E2
+330
+17
+100
+AcDbEntity
+  8
+CVC-CH-RETOUR
+370
+40
+100
+AcDbPolyline
+ 90
+3
+ 70
+0
+ 10
+302.0
+ 20
+108.0
+ 10
+244.0
+ 20
+108.0
+ 10
+244.0
+ 20
+185.0
+  0
+LWPOLYLINE
+  5
+2E3
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+308.0
+ 20
+110.2
+ 10
+302.0
+ 20
+105.8
+ 10
+302.0
+ 20
+110.2
+ 10
+308.0
+ 20
+105.8
+ 10
+308.0
+ 20
+110.2
+  0
+TEXT
+  5
+2E4
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+800.0
+ 20
+122.0
+ 30
+0.0
+ 40
+1.8
+  1
+Préchauffage ECS par PAC → ballon de préchauffage 2000 L (voir SYN-02)
+ 72
+2
+ 11
+800.0
+ 21
+122.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+TEXT
+  5
+2E5
 330
 17
 100
@@ -14973,7 +23275,7 @@ AcDbText
   0
 TEXT
   5
-1C4
+2E6
 330
 17
 100
@@ -15005,7 +23307,7 @@ AcDbText
   0
 TEXT
   5
-1C5
+2E7
 330
 17
 100
@@ -15037,7 +23339,7 @@ AcDbText
   0
 TEXT
   5
-1C6
+2E8
 330
 17
 100
@@ -15069,7 +23371,7 @@ AcDbText
   0
 TEXT
   5
-1C7
+2E9
 330
 17
 100
@@ -15101,7 +23403,7 @@ AcDbText
   0
 TEXT
   5
-1C8
+2EA
 330
 17
 100
@@ -15133,7 +23435,7 @@ AcDbText
   0
 TEXT
   5
-1C9
+2EB
 330
 17
 100
@@ -15151,7 +23453,7 @@ AcDbText
  40
 1.9
   1
-• Chaque circuit : vannes d'isolement, thermomètres départ/retour, vanne de réglage TA,
+• Chaque circuit : vannes d'isolement, thermomètres, vanne de réglage TA, pompes jumelées
  11
 430.0
  21
@@ -15165,7 +23467,7 @@ AcDbText
   0
 TEXT
   5
-1CA
+2EC
 330
 17
 100
@@ -15183,7 +23485,7 @@ AcDbText
  40
 1.9
   1
-   pompes jumelées à débit variable (permutation auto), purgeurs auto + manuel.
+   à débit variable (permutation automatique), purgeurs automatique + manuel.
  11
 430.0
  21
@@ -15197,7 +23499,7 @@ AcDbText
   0
 TEXT
   5
-1CB
+2ED
 330
 17
 100
@@ -15229,7 +23531,7 @@ AcDbText
   0
 TEXT
   5
-1CC
+2EE
 330
 17
 100
@@ -15261,7 +23563,7 @@ AcDbText
   0
 TEXT
   5
-1CD
+2EF
 330
 17
 100
@@ -15279,7 +23581,7 @@ AcDbText
  40
 1.9
   1
-• ECS : 100 kW (stockage primaire 1500 à 2000 L, échangeur 280 kW)
+• ECS : 100 kW (stockage primaire 1500 à 2000 L)
  11
 430.0
  21
@@ -15293,7 +23595,7 @@ AcDbText
   0
 TEXT
   5
-1CE
+2F0
 330
 17
 100
@@ -15325,7 +23627,7 @@ AcDbText
   0
 TEXT
   5
-1CF
+2F1
 330
 17
 100
@@ -15343,7 +23645,7 @@ AcDbText
  40
 1.9
   1
-• Production installée : PAC 2 × ≈ 35 kW chaud / 2 × 40 kW froid + chaudières 2 × 60 kW
+• Installé : PAC 2 × ≈ 35 kW chaud / 2 × 40 kW froid + chaudières 2 × 60 kW
  11
 430.0
  21
@@ -15357,7 +23659,7 @@ AcDbText
   0
 TEXT
   5
-1D0
+2F2
 330
 17
 100
@@ -15369,7 +23671,7 @@ AcDbText
  10
 430.0
  20
-185.0
+190.0
  30
 0.0
  40
@@ -15379,7 +23681,7 @@ LÉGENDE
  11
 430.0
  21
-185.0
+190.0
  31
 0.0
 100
@@ -15389,7 +23691,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-1D1
+2F3
 330
 17
 100
@@ -15407,15 +23709,15 @@ AcDbPolyline
  10
 430.0
  20
-179.0
+184.0
  10
 442.0
  20
-179.0
+184.0
   0
 TEXT
   5
-1D2
+2F4
 330
 17
 100
@@ -15427,7 +23729,7 @@ AcDbText
  10
 446.0
  20
-179.0
+184.0
  30
 0.0
  40
@@ -15437,7 +23739,7 @@ Eau chaude – départ
  11
 446.0
  21
-179.0
+184.0
  31
 0.0
 100
@@ -15447,7 +23749,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-1D3
+2F5
 330
 17
 100
@@ -15465,15 +23767,15 @@ AcDbPolyline
  10
 430.0
  20
-173.5
+178.5
  10
 442.0
  20
-173.5
+178.5
   0
 TEXT
   5
-1D4
+2F6
 330
 17
 100
@@ -15485,7 +23787,7 @@ AcDbText
  10
 446.0
  20
-173.5
+178.5
  30
 0.0
  40
@@ -15495,7 +23797,7 @@ Eau chaude – retour
  11
 446.0
  21
-173.5
+178.5
  31
 0.0
 100
@@ -15505,7 +23807,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-1D5
+2F7
 330
 17
 100
@@ -15523,15 +23825,15 @@ AcDbPolyline
  10
 430.0
  20
-168.0
+173.0
  10
 442.0
  20
-168.0
+173.0
   0
 TEXT
   5
-1D6
+2F8
 330
 17
 100
@@ -15543,7 +23845,7 @@ AcDbText
  10
 446.0
  20
-168.0
+173.0
  30
 0.0
  40
@@ -15553,7 +23855,7 @@ Change-over chaud / eau glacée
  11
 446.0
  21
-168.0
+173.0
  31
 0.0
 100
@@ -15563,7 +23865,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-1D7
+2F9
 330
 17
 100
@@ -15581,15 +23883,15 @@ AcDbPolyline
  10
 430.0
  20
-162.5
+167.5
  10
 442.0
  20
-162.5
+167.5
   0
 TEXT
   5
-1D8
+2FA
 330
 17
 100
@@ -15601,7 +23903,7 @@ AcDbText
  10
 446.0
  20
-162.5
+167.5
  30
 0.0
  40
@@ -15611,7 +23913,7 @@ Eau glycolée (géothermie)
  11
 446.0
  21
-162.5
+167.5
  31
 0.0
 100
@@ -15621,7 +23923,7 @@ AcDbText
   0
 LWPOLYLINE
   5
-1D9
+2FB
 330
 17
 100
@@ -15639,15 +23941,15 @@ AcDbPolyline
  10
 430.0
  20
-157.0
+162.0
  10
 442.0
  20
-157.0
+162.0
   0
 TEXT
   5
-1DA
+2FC
 330
 17
 100
@@ -15659,7 +23961,7 @@ AcDbText
  10
 446.0
  20
-157.0
+162.0
  30
 0.0
  40
@@ -15669,7 +23971,65 @@ Gaz
  11
 446.0
  21
-157.0
+162.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+LWPOLYLINE
+  5
+2FD
+330
+17
+100
+AcDbEntity
+  8
+PBS-EF
+370
+50
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+430.0
+ 20
+156.5
+ 10
+442.0
+ 20
+156.5
+  0
+TEXT
+  5
+2FE
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+446.0
+ 20
+156.5
+ 30
+0.0
+ 40
+2.0
+  1
+Eau froide adoucie (remplissage)
+ 11
+446.0
+ 21
+156.5
  31
 0.0
 100
@@ -15679,7 +24039,7 @@ AcDbText
   0
 TEXT
   5
-1DB
+2FF
 330
 17
 100
@@ -15691,7 +24051,7 @@ AcDbText
  10
 560.0
  20
-185.0
+190.0
  30
 0.0
  40
@@ -15701,7 +24061,7 @@ SYMBOLES
  11
 560.0
  21
-185.0
+190.0
  31
 0.0
 100
@@ -15709,9 +24069,1167 @@ AcDbText
  73
 2
   0
+LWPOLYLINE
+  5
+300
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+560.0
+ 20
+180.0
+ 10
+565.0
+ 20
+180.0
+  0
+LWPOLYLINE
+  5
+301
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+571.0
+ 20
+180.0
+ 10
+576.0
+ 20
+180.0
+  0
+LWPOLYLINE
+  5
+302
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+565.0
+ 20
+177.8
+ 10
+571.0
+ 20
+182.2
+ 10
+571.0
+ 20
+177.8
+ 10
+565.0
+ 20
+182.2
+ 10
+565.0
+ 20
+177.8
+  0
+TEXT
+  5
+303
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+580.0
+ 20
+180.0
+ 30
+0.0
+ 40
+1.9
+  1
+Vanne d'isolement
+ 11
+580.0
+ 21
+180.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+LWPOLYLINE
+  5
+304
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+560.0
+ 20
+169.0
+ 10
+565.0
+ 20
+169.0
+  0
+LWPOLYLINE
+  5
+305
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+571.0
+ 20
+169.0
+ 10
+576.0
+ 20
+169.0
+  0
+LWPOLYLINE
+  5
+306
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+565.0
+ 20
+166.8
+ 10
+571.0
+ 20
+171.2
+ 10
+571.0
+ 20
+166.8
+ 10
+565.0
+ 20
+171.2
+ 10
+565.0
+ 20
+166.8
+  0
+LWPOLYLINE
+  5
+307
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+568.0
+ 20
+169.0
+ 10
+568.0
+ 20
+173.5
+  0
+LWPOLYLINE
+  5
+308
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+566.0
+ 20
+173.5
+ 10
+570.0
+ 20
+173.5
+ 10
+570.0
+ 20
+176.5
+ 10
+566.0
+ 20
+176.5
+ 10
+566.0
+ 20
+173.5
+  0
+TEXT
+  5
+309
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+568.0
+ 20
+175.0
+ 30
+0.0
+ 40
+1.4
+  1
+M
+ 72
+1
+ 11
+568.0
+ 21
+175.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+TEXT
+  5
+30A
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+580.0
+ 20
+169.0
+ 30
+0.0
+ 40
+1.9
+  1
+Vanne motorisée 2 voies
+ 11
+580.0
+ 21
+169.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+LWPOLYLINE
+  5
+30B
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+560.0
+ 20
+158.0
+ 10
+565.0
+ 20
+158.0
+  0
+LWPOLYLINE
+  5
+30C
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+571.0
+ 20
+158.0
+ 10
+576.0
+ 20
+158.0
+  0
+LWPOLYLINE
+  5
+30D
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+565.0
+ 20
+155.8
+ 10
+571.0
+ 20
+160.2
+ 10
+571.0
+ 20
+155.8
+ 10
+565.0
+ 20
+160.2
+ 10
+565.0
+ 20
+155.8
+  0
+LWPOLYLINE
+  5
+30E
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+4
+ 70
+0
+ 10
+568.0
+ 20
+158.0
+ 10
+565.8
+ 20
+155.0
+ 10
+570.2
+ 20
+155.0
+ 10
+568.0
+ 20
+158.0
+  0
+LWPOLYLINE
+  5
+30F
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+568.0
+ 20
+158.0
+ 10
+568.0
+ 20
+162.5
+  0
+LWPOLYLINE
+  5
+310
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+566.0
+ 20
+162.5
+ 10
+570.0
+ 20
+162.5
+ 10
+570.0
+ 20
+165.5
+ 10
+566.0
+ 20
+165.5
+ 10
+566.0
+ 20
+162.5
+  0
+TEXT
+  5
+311
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+568.0
+ 20
+164.0
+ 30
+0.0
+ 40
+1.4
+  1
+M
+ 72
+1
+ 11
+568.0
+ 21
+164.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+TEXT
+  5
+312
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+580.0
+ 20
+158.0
+ 30
+0.0
+ 40
+1.9
+  1
+Vanne 3 voies motorisée
+ 11
+580.0
+ 21
+158.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+LWPOLYLINE
+  5
+313
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+560.0
+ 20
+147.0
+ 10
+565.0
+ 20
+147.0
+  0
+LWPOLYLINE
+  5
+314
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+571.0
+ 20
+147.0
+ 10
+576.0
+ 20
+147.0
+  0
+LWPOLYLINE
+  5
+315
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+565.0
+ 20
+144.8
+ 10
+571.0
+ 20
+149.2
+ 10
+571.0
+ 20
+144.8
+ 10
+565.0
+ 20
+149.2
+ 10
+565.0
+ 20
+144.8
+  0
+LWPOLYLINE
+  5
+316
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+564.5
+ 20
+143.5
+ 10
+571.5
+ 20
+150.5
+  0
+LWPOLYLINE
+  5
+317
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+571.5
+ 20
+150.5
+ 10
+570.0
+ 20
+150.4
+  0
+TEXT
+  5
+318
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+580.0
+ 20
+147.0
+ 30
+0.0
+ 40
+1.9
+  1
+Vanne de réglage (TA)
+ 11
+580.0
+ 21
+147.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+LWPOLYLINE
+  5
+319
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+560.0
+ 20
+136.0
+ 10
+565.0
+ 20
+136.0
+  0
+LWPOLYLINE
+  5
+31A
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+571.0
+ 20
+136.0
+ 10
+576.0
+ 20
+136.0
+  0
+LWPOLYLINE
+  5
+31B
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+4
+ 70
+0
+ 10
+565.0
+ 20
+133.8
+ 10
+571.0
+ 20
+136.0
+ 10
+565.0
+ 20
+138.2
+ 10
+565.0
+ 20
+133.8
+  0
+LWPOLYLINE
+  5
+31C
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+571.0
+ 20
+133.6
+ 10
+571.0
+ 20
+138.4
+  0
+TEXT
+  5
+31D
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+580.0
+ 20
+136.0
+ 30
+0.0
+ 40
+1.9
+  1
+Clapet anti-retour
+ 11
+580.0
+ 21
+136.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+LWPOLYLINE
+  5
+31E
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+560.0
+ 20
+125.0
+ 10
+564.5
+ 20
+125.0
+  0
+LWPOLYLINE
+  5
+31F
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+571.5
+ 20
+125.0
+ 10
+576.0
+ 20
+125.0
+  0
+LWPOLYLINE
+  5
+320
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+564.5
+ 20
+125.0
+ 10
+571.5
+ 20
+125.0
+  0
+LWPOLYLINE
+  5
+321
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+3
+ 70
+0
+ 10
+567.0
+ 20
+125.0
+ 10
+570.0
+ 20
+121.5
+ 10
+571.5
+ 20
+123.0
+  0
+LWPOLYLINE
+  5
+322
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+564.5
+ 20
+123.2
+ 10
+564.5
+ 20
+126.8
+  0
+LWPOLYLINE
+  5
+323
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+571.5
+ 20
+123.2
+ 10
+571.5
+ 20
+126.8
+  0
+TEXT
+  5
+324
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+580.0
+ 20
+125.0
+ 30
+0.0
+ 40
+1.9
+  1
+Filtre à tamis
+ 11
+580.0
+ 21
+125.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+LWPOLYLINE
+  5
+325
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+680.0
+ 20
+180.0
+ 10
+684.0
+ 20
+180.0
+  0
+LWPOLYLINE
+  5
+326
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+692.0
+ 20
+180.0
+ 10
+696.0
+ 20
+180.0
+  0
 CIRCLE
   5
-1DC
+327
 330
 17
 100
@@ -15723,51 +25241,327 @@ CVC-ACCESSOIRE
 100
 AcDbCircle
  10
-565.0
+688.0
  20
-179.0
+180.0
+ 30
+0.0
+ 40
+4.0
+  0
+LWPOLYLINE
+  5
+328
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+3
+ 70
+0
+ 10
+685.4
+ 20
+177.0
+ 10
+692.0
+ 20
+180.0
+ 10
+685.4
+ 20
+183.0
+  0
+TEXT
+  5
+329
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+700.0
+ 20
+180.0
+ 30
+0.0
+ 40
+1.9
+  1
+Pompe (sens du flux)
+ 11
+700.0
+ 21
+180.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+LWPOLYLINE
+  5
+32A
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+680.0
+ 20
+169.0
+ 10
+684.5
+ 20
+169.0
+  0
+LWPOLYLINE
+  5
+32B
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+691.5
+ 20
+169.0
+ 10
+696.0
+ 20
+169.0
+  0
+LWPOLYLINE
+  5
+32C
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
+5
+ 70
+0
+ 10
+684.5
+ 20
+166.8
+ 10
+691.5
+ 20
+168.0
+ 10
+691.5
+ 20
+170.0
+ 10
+684.5
+ 20
+171.2
+ 10
+684.5
+ 20
+166.8
+  0
+LWPOLYLINE
+  5
+32D
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+688.0
+ 20
+170.6
+ 10
+688.0
+ 20
+173.5
+  0
+LWPOLYLINE
+  5
+32E
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+686.5
+ 20
+173.5
+ 10
+689.5
+ 20
+173.5
+  0
+TEXT
+  5
+32F
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+700.0
+ 20
+169.0
+ 30
+0.0
+ 40
+1.9
+  1
+Détendeur / réducteur
+ 11
+700.0
+ 21
+169.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+LWPOLYLINE
+  5
+330
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+680.0
+ 20
+158.0
+ 10
+684.5
+ 20
+158.0
+  0
+LWPOLYLINE
+  5
+331
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+691.5
+ 20
+158.0
+ 10
+696.0
+ 20
+158.0
+  0
+CIRCLE
+  5
+332
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbCircle
+ 10
+688.0
+ 20
+158.0
  30
 0.0
  40
 3.5
   0
-LWPOLYLINE
-  5
-1DD
-330
-17
-100
-AcDbEntity
-  8
-CVC-ACCESSOIRE
-370
-25
-100
-AcDbPolyline
- 90
-4
- 70
-0
- 10
-568.5
- 20
-179.0
- 10
-562.6680339255206
- 20
-181.60996824261852
- 10
-562.6680339255206
- 20
-176.39003175738148
- 10
-568.5
- 20
-179.0
-  0
 TEXT
   5
-1DE
+333
 330
 17
 100
@@ -15777,19 +25571,21 @@ CVC-TEXTE
 100
 AcDbText
  10
-576.0
+688.0
  20
-179.0
+158.0
  30
 0.0
  40
-2.0
+1.8
   1
-Pompe (sens du flux)
+C
+ 72
+1
  11
-576.0
+688.0
  21
-179.0
+158.0
  31
 0.0
 100
@@ -15797,47 +25593,9 @@ AcDbText
  73
 2
   0
-LWPOLYLINE
-  5
-1DF
-330
-17
-100
-AcDbEntity
-  8
-CVC-ACCESSOIRE
-370
-25
-100
-AcDbPolyline
- 90
-5
- 70
-0
- 10
-562.8
- 20
-171.3
- 10
-567.2
- 20
-175.7
- 10
-567.2
- 20
-171.3
- 10
-562.8
- 20
-175.7
- 10
-562.8
- 20
-171.3
-  0
 TEXT
   5
-1E0
+334
 330
 17
 100
@@ -15847,19 +25605,19 @@ CVC-TEXTE
 100
 AcDbText
  10
-576.0
+700.0
  20
-173.5
+158.0
  30
 0.0
  40
-2.0
+1.9
   1
-Vanne d'isolement
+Compteur
  11
-576.0
+700.0
  21
-173.5
+158.0
  31
 0.0
 100
@@ -15869,117 +25627,97 @@ AcDbText
   0
 LWPOLYLINE
   5
-1E1
+335
 330
 17
 100
 AcDbEntity
   8
-CVC-ACCESSOIRE
-370
-25
-100
-AcDbPolyline
- 90
-5
- 70
-0
- 10
-561.8
- 20
-165.8
- 10
-566.2
- 20
-170.2
- 10
-561.8
- 20
-170.2
- 10
-566.2
- 20
-165.8
- 10
-561.8
- 20
-165.8
-  0
-LWPOLYLINE
-  5
-1E2
-330
-17
-100
-AcDbEntity
-  8
-CVC-ACCESSOIRE
-370
-25
-100
-AcDbPolyline
- 90
-4
- 70
-0
- 10
-564.0
- 20
-168.0
- 10
-568.18
- 20
-165.8
- 10
-568.18
- 20
-170.2
- 10
-564.0
- 20
-168.0
-  0
-LWPOLYLINE
-  5
-1E3
-330
-17
-100
-AcDbEntity
-  8
-CVC-ACCESSOIRE
+CVC-TEXTE
 370
 18
 100
 AcDbPolyline
  90
+2
+ 70
+0
+ 10
+680.0
+ 20
+147.0
+ 10
+684.0
+ 20
+147.0
+  0
+LWPOLYLINE
+  5
+336
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+692.0
+ 20
+147.0
+ 10
+696.0
+ 20
+147.0
+  0
+LWPOLYLINE
+  5
+337
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+25
+100
+AcDbPolyline
+ 90
 5
  70
 0
  10
-562.4
+684.0
  20
-170.7
+144.5
  10
-565.6
+692.0
  20
-170.7
+144.5
  10
-565.6
+692.0
  20
-173.1
+149.5
  10
-562.4
+684.0
  20
-173.1
+149.5
  10
-562.4
+684.0
  20
-170.7
+144.5
   0
 LWPOLYLINE
   5
-1E4
+338
 330
 17
 100
@@ -15995,17 +25733,17 @@ AcDbPolyline
  70
 0
  10
-564.0
+684.0
  20
-170.2
+147.0
  10
-564.0
+692.0
  20
-170.7
+147.0
   0
 TEXT
   5
-1E5
+339
 330
 17
 100
@@ -16015,29 +25753,115 @@ CVC-TEXTE
 100
 AcDbText
  10
-576.0
+688.0
  20
-168.0
+146.9
  30
 0.0
  40
-2.0
+1.2
   1
-Vanne 3 voies motorisée
+BA
+ 72
+1
  11
-576.0
+688.0
  21
-168.0
+146.9
  31
 0.0
 100
 AcDbText
  73
 2
+  0
+TEXT
+  5
+33A
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+700.0
+ 20
+147.0
+ 30
+0.0
+ 40
+1.9
+  1
+Disconnecteur
+ 11
+700.0
+ 21
+147.0
+ 31
+0.0
+100
+AcDbText
+ 73
+2
+  0
+LWPOLYLINE
+  5
+33B
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+680.0
+ 20
+136.0
+ 10
+696.0
+ 20
+136.0
+  0
+LWPOLYLINE
+  5
+33C
+330
+17
+100
+AcDbEntity
+  8
+CVC-ACCESSOIRE
+370
+18
+100
+AcDbPolyline
+ 90
+2
+ 70
+0
+ 10
+688.0
+ 20
+136.0
+ 10
+688.0
+ 20
+141.0
   0
 CIRCLE
   5
-1E6
+33D
 330
 17
 100
@@ -16049,9 +25873,9 @@ CVC-ACCESSOIRE
 100
 AcDbCircle
  10
-565.0
+688.0
  20
-162.5
+143.0
  30
 0.0
  40
@@ -16059,7 +25883,7 @@ AcDbCircle
   0
 TEXT
   5
-1E7
+33E
 330
 17
 100
@@ -16069,21 +25893,21 @@ CVC-TEXTE
 100
 AcDbText
  10
-565.0
+688.0
  20
-162.5
+143.0
  30
 0.0
  40
-1.6
+1.5
   1
 T
  72
 1
  11
-565.0
+688.0
  21
-162.5
+143.0
  31
 0.0
 100
@@ -16093,7 +25917,7 @@ AcDbText
   0
 TEXT
   5
-1E8
+33F
 330
 17
 100
@@ -16103,19 +25927,19 @@ CVC-TEXTE
 100
 AcDbText
  10
-576.0
+700.0
  20
-162.5
+136.0
  30
 0.0
  40
-2.0
+1.9
   1
-Thermomètre / sonde
+Thermomètre (T) / manomètre (P)
  11
-576.0
+700.0
  21
-162.5
+136.0
  31
 0.0
 100
@@ -17213,7 +27037,7 @@ CREATED_BY_EZDXF
   3
 WRITTEN_BY_EZDXF
 350
-1EB
+342
   0
 DICTIONARYVAR
   5
@@ -17225,7 +27049,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-10-16T13:22:24.740059+00:00
+1.4.5 @ 2026-10-16T13:43:18.701717+00:00
   0
 VISUALSTYLE
   5
@@ -23779,7 +33603,7 @@ strokes_ogs.tif
   0
 DICTIONARYVAR
   5
-1EB
+342
 330
 2D
 100
@@ -23787,7 +33611,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-10-16T13:22:24.756515+00:00
+1.4.5 @ 2026-10-16T13:43:18.731176+00:00
   0
 ENDSEC
   0
