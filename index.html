@@ -600,6 +600,10 @@ button.h-tile{cursor:pointer}button.h-tile:hover{outline:2px solid color-mix(in 
 .eqi-c{margin:0;padding-left:18px;display:grid;gap:3px}
 @media (max-width:600px){.eqi-r{grid-template-columns:1fr;gap:2px}}
 .fam-placed{margin-top:4px;font-size:12.5px}.linklike{background:none;border:0;padding:0;color:var(--accent);text-decoration:underline;cursor:pointer;font:inherit;font-weight:600}
+.impl-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.impl-f{margin:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface)}
+.impl-f img{display:block;width:100%;height:auto;background:#fff;cursor:zoom-in}
+.impl-f figcaption{display:grid;gap:3px;padding:10px 12px;font-size:13.5px}.impl-a{display:flex;gap:14px;margin-top:4px}.impl-a a{font-weight:600;color:var(--accent);text-decoration:none}.impl-a a:hover{text-decoration:underline}
 </style>
 
 <div class="wrap">
@@ -908,6 +912,10 @@ button.h-tile{cursor:pointer}button.h-tile:hover{outline:2px solid color-mix(in 
       </div>
     </section>
     <section class="rv-open rv-pointer"><div><h3>Familles Revit des équipements</h3><p class="hint" style="margin:2px 0 0">Les 18 familles des équipements du CCTP (chaudières, PAC, CTA, radiateurs…) sont dans l'onglet <b>Familles</b>, à télécharger.</p></div><button class="btn primary" id="goFam">Voir les familles</button></section>
+    <section class="rv-fam" id="implantation"><h3>Implantation des équipements</h3>
+      <p class="hint" style="margin:2px 0 12px">Vue de dessus. Les CTA sont placées en toiture R+1 au-dessus de la zone qu'elles desservent (CCTP § 4.10.2 et § 4.11.2), sur une partie plate du toit : hors toits en tuiles, panneaux solaires, édicules et blocs de l'architecte, avec 0,80 m de dégagement pour l'entretien. <b>Implantation proposée, à valider.</b> Pour les infos de chaque CTA, clique dessus dans la vue <button class="linklike" id="goBat">Bâtiment complet</button>.</p>
+      <div class="impl-g"><figure class="impl-f"><a href="files/implantation/implantation_cta_toiture.png" target="_blank" rel="noopener" title="Ouvrir en grand"><img src="files/implantation/implantation_cta_toiture.png" alt="Les 5 CTA en toiture" loading="lazy"></a><figcaption><b>Les 5 CTA en toiture</b><span class="hint">× = centre de la zone desservie ; aile Nord à gauche, aile Sud à droite</span><span class="impl-a"><a href="files/implantation/implantation_cta_toiture.png" target="_blank" rel="noopener">Ouvrir en grand ↗</a><a href="files/implantation/implantation_cta_toiture.png" download="implantation_cta_toiture.png">⬇ PNG</a></span></figcaption></figure><figure class="impl-f"><a href="files/implantation/implantation_principe.png" target="_blank" rel="noopener" title="Ouvrir en grand"><img src="files/implantation/implantation_principe.png" alt="Où va chaque installation" loading="lazy"></a><figcaption><b>Où va chaque installation</b><span class="hint">Chaufferie et local PAC au RDC, rideau d'air dans le sas, CTA et caissons en toiture</span><span class="impl-a"><a href="files/implantation/implantation_principe.png" target="_blank" rel="noopener">Ouvrir en grand ↗</a><a href="files/implantation/implantation_principe.png" download="implantation_principe.png">⬇ PNG</a></span></figcaption></figure></div>
+    </section>
     <section class="rv-dl rv-dl3">
       <h3>Les fichiers à télécharger</h3>
       <div class="dl-files">
@@ -2657,7 +2665,7 @@ function setTab(t){ if(t==="logs"&&!(typeof isAdmin==="function"&&isAdmin())) t=
   if(t==="done") renderDone();
   if(t==="issues"||t==="done") setTimeout(()=>clampReports(),0);
   if(t==="issues"){ renderIssueForm(); renderIssues(); } }
-$("#tabHome").onclick=()=>setTab("home"); $("#tabTasks").onclick=()=>setTab("tasks"); $("#tabMine").onclick=()=>setTab("mine"); $("#tabDone").onclick=()=>setTab("done"); $("#tabIssues").onclick=()=>setTab("issues"); $("#tabProj").onclick=()=>setTab("proj"); $("#tabAcc").onclick=()=>setTab("acc"); $("#tabHours").onclick=()=>setTab("hours"); $("#tabDocs").onclick=()=>setTab("docs"); $("#tabRevit").onclick=()=>setTab("revit"); $("#tabTuto").onclick=()=>setTab("tuto"); $("#tabCaps").onclick=()=>setTab("caps"); $("#tabSyn").onclick=()=>setTab("syn"); $("#tabFam").onclick=()=>setTab("fam"); $("#goFam").onclick=()=>{ setTab("fam"); window.scrollTo(0,0); }; $("#tabEch").onclick=()=>setTab("ech"); $("#tabLogs").onclick=()=>setTab("logs"); $("#goTuto").onclick=()=>{ setTab("tuto"); window.scrollTo(0,0); };
+$("#tabHome").onclick=()=>setTab("home"); $("#tabTasks").onclick=()=>setTab("tasks"); $("#tabMine").onclick=()=>setTab("mine"); $("#tabDone").onclick=()=>setTab("done"); $("#tabIssues").onclick=()=>setTab("issues"); $("#tabProj").onclick=()=>setTab("proj"); $("#tabAcc").onclick=()=>setTab("acc"); $("#tabHours").onclick=()=>setTab("hours"); $("#tabDocs").onclick=()=>setTab("docs"); $("#tabRevit").onclick=()=>setTab("revit"); $("#tabTuto").onclick=()=>setTab("tuto"); $("#tabCaps").onclick=()=>setTab("caps"); $("#tabSyn").onclick=()=>setTab("syn"); $("#tabFam").onclick=()=>setTab("fam"); $("#goFam").onclick=()=>{ setTab("fam"); window.scrollTo(0,0); }; $("#goBat").onclick=()=>{ const b=document.querySelector('[data-vw="bat"]'); if(b) b.click(); setTimeout(()=>$("#rvBat").scrollIntoView({behavior:"smooth",block:"start"}),100); }; $("#tabEch").onclick=()=>setTab("ech"); $("#tabLogs").onclick=()=>setTab("logs"); $("#goTuto").onclick=()=>{ setTab("tuto"); window.scrollTo(0,0); };
 
 /* ---------- Accueil ---------- */
 function renderHome(){
