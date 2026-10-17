@@ -353,5 +353,152 @@
    ],
    "at": "2026-10-17T16:34:00Z"
   }
+ },
+ {
+  "id": "2026-10-17-q-rideau-air-v2",
+  "doc": "echanges/q-2026-10-17-rideau-air",
+  "data": {
+   "title": "Rideau d'air : quelle taille de porte est la bonne ?",
+   "text": "Bonjour,\n\nLe CCTP prévoit des portes de 1,80 × 2,00 m et un rideau d'air de 2,00 m (§ 4.9).\nMais sur le plan de l'architecte, les portes automatiques du sas font 2,90 × 2,30 m.\nLe rideau doit couvrir toute la largeur de la porte (§ 4.9.3).\n\nQuelle porte est la bonne ? Si c'est 2,90 m, on prend un rideau plus long ou 2 rideaux ?\n\nMerci,\nAllan"
+  }
+ },
+ {
+  "id": "2026-10-17-c00-gaines-docs",
+  "doc": "tasks/c00",
+  "union": {
+   "docs": [
+    {
+     "name": "Point d'avancement 17-10 (PDF)",
+     "at": "2026-10-17T22:45:00Z",
+     "by": "Allan",
+     "file": "CR_Avancement_CVC_2026-10-17.pdf",
+     "kind": "static",
+     "path": "docs/CR_Avancement_CVC_2026-10-17.pdf.b64.txt",
+     "type": "application/pdf"
+    },
+    {
+     "name": "Point d'avancement 17-10 (Word)",
+     "at": "2026-10-17T22:45:00Z",
+     "by": "Allan",
+     "file": "CR_Avancement_CVC_2026-10-17.docx",
+     "kind": "static",
+     "path": "docs/CR_Avancement_CVC_2026-10-17.docx.b64.txt",
+     "type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    }
+   ]
+  }
+ },
+ {
+  "id": "2026-10-17-c05-gaines-docs",
+  "doc": "tasks/c05",
+  "union": {
+   "docs": [
+    {
+     "name": "Excel dimensionnement des gaines de ventilation (CCTP § 2.2.5)",
+     "at": "2026-10-17T22:45:00Z",
+     "by": "Allan",
+     "file": "EHPAD_Dimensionnement_Gaines.xlsx",
+     "kind": "static",
+     "path": "docs/EHPAD_Dimensionnement_Gaines.xlsx.b64.txt",
+     "type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    },
+    {
+     "name": "Plan des réseaux de soufflage (sections)",
+     "at": "2026-10-17T22:45:00Z",
+     "by": "Allan",
+     "file": "reseaux.png",
+     "kind": "static",
+     "path": "files/gaines/reseaux.png",
+     "type": "image/png"
+    },
+    {
+     "name": "Point d'avancement 17-10 (PDF)",
+     "at": "2026-10-17T22:45:00Z",
+     "by": "Allan",
+     "file": "CR_Avancement_CVC_2026-10-17.pdf",
+     "kind": "static",
+     "path": "docs/CR_Avancement_CVC_2026-10-17.pdf.b64.txt",
+     "type": "application/pdf"
+    }
+   ]
+  }
+ },
+ {
+  "id": "2026-10-17-i05-gaines-docs",
+  "doc": "tasks/i05",
+  "union": {
+   "docs": [
+    {
+     "name": "Excel dimensionnement des gaines de ventilation (CCTP § 2.2.5)",
+     "at": "2026-10-17T22:45:00Z",
+     "by": "Allan",
+     "file": "EHPAD_Dimensionnement_Gaines.xlsx",
+     "kind": "static",
+     "path": "docs/EHPAD_Dimensionnement_Gaines.xlsx.b64.txt",
+     "type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    },
+    {
+     "name": "Plan des réseaux de soufflage (sections)",
+     "at": "2026-10-17T22:45:00Z",
+     "by": "Allan",
+     "file": "reseaux.png",
+     "kind": "static",
+     "path": "files/gaines/reseaux.png",
+     "type": "image/png"
+    },
+    {
+     "name": "Excel nomenclature des équipements + quantités de gaines + conflits",
+     "at": "2026-10-17T22:45:00Z",
+     "by": "Allan",
+     "file": "EHPAD_Nomenclature_Equipements_Conflits.xlsx",
+     "kind": "static",
+     "path": "docs/EHPAD_Nomenclature_Equipements_Conflits.xlsx.b64.txt",
+     "type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    }
+   ]
+  }
+ },
+ {
+  "id": "2026-10-17-i07-gaines-docs",
+  "doc": "tasks/i07",
+  "union": {
+   "docs": [
+    {
+     "name": "Excel nomenclature des équipements + quantités de gaines + conflits",
+     "at": "2026-10-17T22:45:00Z",
+     "by": "Allan",
+     "file": "EHPAD_Nomenclature_Equipements_Conflits.xlsx",
+     "kind": "static",
+     "path": "docs/EHPAD_Nomenclature_Equipements_Conflits.xlsx.b64.txt",
+     "type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    }
+   ]
+  }
+ },
+ {
+  "id": "2026-10-17-i09-gaines-docs",
+  "doc": "tasks/i09",
+  "union": {
+   "docs": [
+    {
+     "name": "Excel nomenclature des équipements + quantités de gaines + conflits",
+     "at": "2026-10-17T22:45:00Z",
+     "by": "Allan",
+     "file": "EHPAD_Nomenclature_Equipements_Conflits.xlsx",
+     "kind": "static",
+     "path": "docs/EHPAD_Nomenclature_Equipements_Conflits.xlsx.b64.txt",
+     "type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    },
+    {
+     "name": "Point d'avancement 17-10 (PDF)",
+     "at": "2026-10-17T22:45:00Z",
+     "by": "Allan",
+     "file": "CR_Avancement_CVC_2026-10-17.pdf",
+     "kind": "static",
+     "path": "docs/CR_Avancement_CVC_2026-10-17.pdf.b64.txt",
+     "type": "application/pdf"
+    }
+   ]
+  }
  }
 ]
