@@ -213,5 +213,145 @@
   "data": {
    "text": "Bonjour,\n\nPour les débits de ventilation (tâche 05), certaines valeurs ne sont pas dans le dossier. On a supposé :\n• Occupation : 1 personne pour 2 m² en salle à manger, 3 m² en salon, 8 m² en bureau\n• Office : 30 repas\n• Ménage, déchets, linge sale : 30 m³/h extraits\n\nCes valeurs vous conviennent ? Le détail est dans l'onglet Documents : Excel « débits de ventilation » (tâche 06, calcul des charges).\n\nMerci,\nAllan"
   }
+ },
+ {
+  "id": "2026-10-17-q-rideau-air",
+  "doc": "echanges/q-2026-10-17-rideau-air",
+  "set": {
+   "kind": "topic",
+   "space": "tous",
+   "email": "allan.pereiradesk@gmail.com",
+   "name": "Allan",
+   "role": "equipe",
+   "title": "Rideau d'air : 2,00 m pour une porte de 2,90 m ?",
+   "text": "Bonjour,\n\nLe CCTP prévoit un rideau d'air Biddle SR M-200 de 2,00 m sur le sas d'entrée.\nMais les portes automatiques du sas font 2,90 m de large.\n\nOn prend un rideau plus long, 2 rideaux, ou on garde 2,00 m ?\n\nMerci,\nAllan",
+   "docs": [
+    {
+     "l": "CCTP § 4.9 (p. 58)",
+     "u": "files/dce/cctp.pdf#page=58"
+    },
+    {
+     "l": "Plan RDC AR01 : sas",
+     "u": "files/dce/ar01.pdf"
+    },
+    {
+     "l": "Plan annoté du sas",
+     "u": "files/implantation/sas_entree_rideau_air.png"
+    },
+    {
+     "l": "Onglet Implantation",
+     "u": "tab:impl"
+    }
+   ],
+   "at": "2026-10-17T16:30:00Z"
+  }
+ },
+ {
+  "id": "2026-10-17-q-chaudiere-socle",
+  "doc": "echanges/q-2026-10-17-chaudiere-socle",
+  "set": {
+   "kind": "topic",
+   "space": "tous",
+   "email": "allan.pereiradesk@gmail.com",
+   "name": "Allan",
+   "role": "equipe",
+   "title": "Chaudières : socle béton ou fixation murale ?",
+   "text": "Bonjour,\n\nLe CCTP dit que les chaudières sont posées sur un socle béton de 10 cm.\nMais la Weishaupt WTC-GW 60-B H demandée est une chaudière murale.\n\nOn l'a accrochée au mur. C'est bon, ou il faut un socle ?\n\nMerci,\nAllan",
+   "docs": [
+    {
+     "l": "CCTP § 4.3.1 (p. 47)",
+     "u": "files/dce/cctp.pdf#page=47"
+    },
+    {
+     "l": "Plan de la chaufferie",
+     "u": "files/implantation/implantation_chaufferie.png"
+    }
+   ],
+   "at": "2026-10-17T16:31:00Z"
+  }
+ },
+ {
+  "id": "2026-10-17-q-plans-toiture",
+  "doc": "echanges/q-2026-10-17-plans-toiture",
+  "set": {
+   "kind": "topic",
+   "space": "tous",
+   "email": "allan.pereiradesk@gmail.com",
+   "name": "Allan",
+   "role": "equipe",
+   "title": "Il nous manque les plans de toiture CVC 03 et DSF 03",
+   "text": "Bonjour,\n\nLe CCTP cite les plans « CVC 03 – ventilation toiture » et « DSF 03 – désenfumage toiture ».\nIls ne sont pas dans notre dossier DCE.\n\nSans eux, on ne connaît pas le nombre de caissons de désenfumage et de VMC. Vous pouvez nous les envoyer ?\n\nMerci,\nAllan",
+   "docs": [
+    {
+     "l": "CCTP liste des plans (p. 9)",
+     "u": "files/dce/cctp.pdf#page=9"
+    },
+    {
+     "l": "Plan de toiture",
+     "u": "files/implantation/implantation_cta_toiture.png"
+    }
+   ],
+   "at": "2026-10-17T16:32:00Z"
+  }
+ },
+ {
+  "id": "2026-10-17-q-local-pac",
+  "doc": "echanges/q-2026-10-17-local-pac",
+  "set": {
+   "kind": "topic",
+   "space": "tous",
+   "email": "allan.pereiradesk@gmail.com",
+   "name": "Allan",
+   "role": "equipe",
+   "title": "2 PAC dans le local PAC de 5,2 m² : ça suffit ?",
+   "text": "Bonjour,\n\nL'architecte prévoit un local « pac » de 5,23 m² à côté de la chaufferie.\nLes 2 PAC Weishaupt WWP S 35 rentrent, mais il ne reste qu'1 m devant. Leurs dimensions sont estimées (pas trouvées chez le fabricant).\n\nC'est suffisant, ou il faut les mettre dans la chaufferie ?\n\nMerci,\nAllan",
+   "docs": [
+    {
+     "l": "Plan RDC AR01 : local pac",
+     "u": "files/dce/ar01.pdf"
+    },
+    {
+     "l": "CCTP § 4.6 (p. 51)",
+     "u": "files/dce/cctp.pdf#page=51"
+    },
+    {
+     "l": "Plan de la chaufferie",
+     "u": "files/implantation/implantation_chaufferie.png"
+    }
+   ],
+   "at": "2026-10-17T16:33:00Z"
+  }
+ },
+ {
+  "id": "2026-10-17-q-emplacement-cta",
+  "doc": "echanges/q-2026-10-17-emplacement-cta",
+  "set": {
+   "kind": "topic",
+   "space": "tous",
+   "email": "allan.pereiradesk@gmail.com",
+   "name": "Allan",
+   "role": "equipe",
+   "title": "Nos emplacements de CTA en toiture vous conviennent ?",
+   "text": "Bonjour,\n\nLe CCTP dit seulement « CTA en toiture » et « une centrale par aile ».\nOn a mis chaque CTA au-dessus de la zone qu'elle dessert, sur la partie libre du toit (hors panneaux solaires et toits en tuiles).\n\nÇa vous va ?\n\nMerci,\nAllan",
+   "docs": [
+    {
+     "l": "CCTP § 4.10.2 (p. 59-60)",
+     "u": "files/dce/cctp.pdf#page=59"
+    },
+    {
+     "l": "CCTP § 4.11.2 (p. 62-63)",
+     "u": "files/dce/cctp.pdf#page=62"
+    },
+    {
+     "l": "Plan de toiture",
+     "u": "files/implantation/implantation_cta_toiture.png"
+    },
+    {
+     "l": "Onglet Implantation",
+     "u": "tab:impl"
+    }
+   ],
+   "at": "2026-10-17T16:34:00Z"
+  }
  }
 ]

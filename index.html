@@ -436,6 +436,8 @@ tfoot td{font-weight:600}
 .ech-post{border-top:1px solid var(--line);padding-top:8px}
 .ech-post.reply{margin-left:14px}
 .ech-reply{display:flex;gap:8px;align-items:flex-end}
+
+.ech-docs{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:8px}.ech-doc{display:inline-flex;align-items:center;gap:4px;font-size:13px;font-weight:600;padding:3px 9px;border:1px solid var(--line);border-radius:14px;background:var(--surface);color:var(--accent);text-decoration:none;cursor:pointer;font-family:inherit}.ech-doc:hover{border-color:var(--accent)}
 .log-stats{display:flex;gap:10px;flex-wrap:wrap;align-items:stretch;margin:0 0 12px}
 .log-stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:10px 14px;display:grid}
 .log-stat b{font-size:22px}.log-stat span{font-size:13px;color:var(--muted)}
@@ -2402,9 +2404,10 @@ function renderEch(){
   const open=new Set([...document.querySelectorAll("#echTopics details[open]")].map(d=>d.dataset.tid));
   $("#echTopics").innerHTML=topics.length?topics.sort((a,b)=>last(b).localeCompare(last(a))).map(t=>{ const rs=replies.filter(r=>r.topic===t._id);
     return `<details class="ech-topic${t.role==="prof"?" prof":""}" data-tid="${esc(t._id)}"${open.has(t._id)?" open":""}><summary><span class="ech-tt">${esc(t.title||"Sans titre")}</span><span class="hint">${esc(t.name||"")}${t.role==="prof"?" (enseignant)":""} · ${echTime(t.at)} · ${rs.length} réponse${rs.length>1?"s":""}</span></summary>
-      <div class="ech-tb"><div class="ech-post"><div class="ech-mh">${echWho(t)} <span class="hint">${echTime(t.at)}</span> ${echDel(t)}</div><div class="ech-mt">${echText(t.text)}</div></div>
+      <div class="ech-tb"><div class="ech-post"><div class="ech-mh">${echWho(t)} <span class="hint">${echTime(t.at)}</span> ${echDel(t)}</div><div class="ech-mt">${echText(t.text)}</div>${(t.docs&&t.docs.length)?`<div class="ech-docs"><span class="hint">Documents :</span> ${t.docs.map(d=>/^tab:/.test(d.u)?`<button type="button" class="ech-doc" data-etab="${esc(d.u.slice(4))}">↪ ${esc(d.l)}</button>`:`<a class="ech-doc" href="${esc(d.u)}" target="_blank" rel="noopener">📄 ${esc(d.l)}</a>`).join("")}</div>`:""}</div>
       ${rs.map(r=>`<div class="ech-post reply${r.role==="prof"?" prof":""}"><div class="ech-mh">${echWho(r)} <span class="hint">${echTime(r.at)}</span> ${echDel(r)}</div><div class="ech-mt">${echText(r.text)}</div></div>`).join("")}
       <form class="ech-reply" data-rt="${esc(t._id)}"><textarea rows="2" maxlength="4000" placeholder="Répondre…" required></textarea><button class="btn small primary">Répondre</button></form></div></details>`; }).join(""):`<p class="hint">Aucun sujet pour l'instant. Un sujet, c'est une remarque ou une suggestion qui doit rester visible (ex. « Dimensionnement des CTA », « Synoptique SYN-02 »).</p>`;
+  $("#echTopics").querySelectorAll("[data-etab]").forEach(x=>x.onclick=()=>{ setTab(x.dataset.etab); window.scrollTo(0,0); });
   $("#echTopics").querySelectorAll("form[data-rt]").forEach(f=>f.onsubmit=async e=>{ e.preventDefault(); const ta=f.querySelector("textarea"); if(await echPost({kind:"reply",topic:f.dataset.rt,text:ta.value})) ta.value=""; });
   document.querySelectorAll("#viewEch [data-edel]").forEach(b=>b.onclick=async()=>{ if(b.dataset.sure){ try{ await fdb.doc("echanges/"+b.dataset.edel).delete(); }catch(e){ toast("Suppression impossible"); } } else { b.dataset.sure=1; b.textContent="Confirmer ?"; setTimeout(()=>{ delete b.dataset.sure; b.textContent="Supprimer"; },3000); } });
   echMarkSeen(); echBadge();
