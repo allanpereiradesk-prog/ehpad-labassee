@@ -602,6 +602,7 @@ button.h-tile{cursor:pointer}button.h-tile:hover{outline:2px solid color-mix(in 
 .dv-ck li{margin:3px 0;font-size:14px}
 #devisPrint{display:none}
 @media print{body.dv-printing>*:not(#devisPrint){display:none!important}body.dv-printing #devisPrint{display:block;color:#000;background:#fff;font:11pt/1.35 Arial,sans-serif}#devisPrint table{width:100%;border-collapse:collapse}#devisPrint th,#devisPrint td{border-bottom:1px solid #bbb;padding:4px 6px;text-align:left;vertical-align:top}#devisPrint .n{text-align:right;white-space:nowrap}#devisPrint .ch td{background:#eee;font-weight:bold}#devisPrint .hd{display:flex;justify-content:space-between;gap:20px;margin-bottom:16px}#devisPrint .tt{margin:14px 0 0 auto;width:300px}#devisPrint .sig{margin-top:30px;display:flex;justify-content:space-between}#devisPrint h1{font-size:18pt;margin:0 0 6px}@page{size:A4;margin:14mm}}
+#filmCv{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#000;z-index:5;cursor:pointer}.film-ctl{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
 .gai-ctl{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;font-size:14px}.gai-leg{display:flex;flex-wrap:wrap;gap:4px 10px}.gai-leg label{display:inline-flex;gap:5px;align-items:center;cursor:pointer}
 .fam-act{display:flex;gap:10px;align-items:center;white-space:nowrap}.fam-3d{padding:4px 10px;font-size:13px}
 .f3d-dlg{border:0;border-radius:12px;padding:0;width:min(900px,96vw);box-shadow:0 20px 60px rgba(0,0,0,.3);background:var(--surface);color:inherit}.f3d-dlg::backdrop{background:rgba(15,23,42,.45)}
@@ -2528,7 +2529,7 @@ async function rvBatInit(){
       lst.innerHTML=EQ.length?grp.map(([t,f])=>{ const L=EQ.filter(e=>!/^Socle/.test(e.mark||"")&&f(e)); return L.length?`<div class="bat-eqg"><span class="hint">${t} :</span> `+L.map(e=>`<button class="btn small" data-eqgo="${esc(e.id)}" title="${esc(e.type)}">${esc(e.mark||e.type)}</button>`).join(" ")+`</div>`:""; }).join(""):"";
       lst.querySelectorAll("[data-eqgo]").forEach(b=>b.onclick=()=>rvBatFocus(b.dataset.eqgo)); }
     rvBatApply(); rvBatResize(); new ResizeObserver(rvBatResize).observe(cv);
-    (function loop(){ if(!document.body.contains(ren.domElement)) return; requestAnimationFrame(loop); if($("#rvBat").hidden||$("#viewRevit").hidden) return; ctl.update(); ren.render(scene,cam); })();
+    (function loop(){ if(!document.body.contains(ren.domElement)) return; requestAnimationFrame(loop); if(RB&&RB.film) return; if($("#rvBat").hidden||$("#viewRevit").hidden) return; ctl.update(); ren.render(scene,cam); })();
   }catch(e){ console.error(e); cv.innerHTML=`<p class="hint" style="padding:12px">Vue du bâtiment indisponible (${esc(e.message||String(e))}).</p>`; }
 }
 
@@ -2581,6 +2582,91 @@ function gaiInfo(g,GA){
     </div></div>`;
   const b=info.querySelector("[data-gocta]"); if(b) b.onclick=()=>{ const e=RB.EQ.find(x=>x.mark===g.net); if(e) rvBatFocus(e.id); };
 }
+/* ---------- Film de présentation : caméra animée sur la maquette ---------- */
+const FILM={};
+function filmSetup(){
+  const R=RB, V=THREE.Vector3, L=R.layers;
+  const box=new THREE.Box3().setFromObject(L.arc), C=box.getCenter(new V()), S=box.getSize(new V()), D=Math.max(S.x,S.y);
+  const eqC=e=>new V((e.bb[0][0]+e.bb[1][0])/2-R.cx,(e.bb[0][1]+e.bb[1][1])/2-R.cy,(e.bb[0][2]+e.bb[1][2])/2);
+  const ctas=R.EQ.filter(e=>/^CTA \d$/.test(e.mark||"")).sort((a,b)=>a.mark.localeCompare(b.mark,"fr",{numeric:true}));
+  const ch=R.EQ.filter(e=>e.lv==="N00"&&!/^Socle/.test(e.mark||""));
+  const mean=a=>a.length?a.reduce((s,x)=>s.add(x),new V()).multiplyScalar(1/a.length):C.clone();
+  const chC=mean(ch.map(eqC)), roofC=mean(ctas.map(eqC));
+  const orbit=(c,r,h,a0,a1)=>t=>{ const a=(a0+(a1-a0)*t)*Math.PI/180; return {p:new V(c.x+r*Math.cos(a),c.y+r*Math.sin(a),c.z+h),t:c.clone()}; };
+  // gaines : distance à leur CTA, pour les faire « pousser » depuis la machine
+  const ctaPos={}; ctas.forEach(e=>ctaPos[e.mark]=eqC(e));
+  let dmax=1; L.gai.children.forEach(m=>{ m.geometry.computeBoundingSphere(); const c=ctaPos[m.userData.gai.net]; m.userData.fd=c?m.geometry.boundingSphere.center.distanceTo(c):0; dmax=Math.max(dmax,m.userData.fd); });
+  const debit=e=>{ const m=(e.cctp||"").match(/[\d\s\u00a0]+m3\/h/); return m?m[0].trim().replace("m3/h","m³/h"):""; };
+  const SC=[];
+  SC.push({d:9,cap:["EHPAD 81 lits · La Bassée","Lot 12 CVC-PBS · projet tutoré N°3 · Licence BIM-CVC"],lay:{arc:1,str:1,pv:1,eq:0,gai:0},cam:orbit(C,D*1.1,D*.62,-150,-112),fadeIn:1});
+  SC.push({d:9,cap:["La structure","Poteaux, poutres et dalles de la maquette STR"],lay:{arc:0,str:1,pv:0,eq:0,gai:0},fadeFrom:{arc:1},cam:orbit(C,D*.8,D*.3,-112,-62)});
+  SC.push({d:6,cap:["5 CTA double flux en toiture","Toiture-terrasse à +7,02 m, sur socles béton"],lay:{arc:1,str:1,pv:1,eq:1,gai:0},cam:t=>({p:new V(roofC.x-D*.22-6*t,roofC.y-D*.34,roofC.z+D*.3),t:roofC.clone()})});
+  ctas.forEach((e,i)=>{ const c=eqC(e), a0=-130+i*8;
+    SC.push({d:4.6,cap:[e.mark+" · "+debit(e),`${e.fab||""} ${e.mod||""}`+(e.mark==="CTA 5"?" · décalée de 1,7 m pour dégager la porte de la terrasse":"")],lay:{arc:1,str:1,pv:1,eq:1,gai:0},sel:e,label:e,cam:orbit(c,15,9,a0,a0+18)}); });
+  SC.push({d:12,cap:["Les réseaux de ventilation","Une couleur par CTA · teinte foncée = soufflage, claire = reprise"],lay:{arc:.05,str:0,pv:0,eq:1,gai:1},grow:1,cam:orbit(C,D*.7,D*.45,-135,-55)});
+  SC.push({d:9,cap:["Dans les plénums","Gaines rigides au-dessus des faux plafonds, à angle droit"],lay:{arc:1,str:1,pv:0,eq:1,gai:1},clip:3.15,cam:orbit(C,D*.5,D*.38,-55,-10)});
+  SC.push({d:9,cap:["La chaufferie au RDC","PAC géothermiques, chaudières gaz, ballons et échangeur ECS"],lay:{arc:1,str:1,pv:0,eq:1,gai:0},clip:2.7,cam:orbit(chC,11,8,-150,-85)});
+  SC.push({d:8,cap:["EHPAD La Bassée · lot CVC","Allan · Mouhamed · Yann · Noah — Licence BIM-CVC, Lycée Raspail – CNAM"],lay:{arc:1,str:1,pv:1,eq:1,gai:1},cam:orbit(C,D*1.05,D*.65,-60,-25),fadeOut:1.8});
+  let t0=0; SC.forEach(s=>{ s.t0=t0; t0+=s.d; }); FILM.total=t0; FILM.SC=SC; FILM.dmax=dmax;
+}
+function filmLayer(k,a){ const g=RB.layers[k]; if(!g) return; g.visible=a>0.01;
+  g.traverse(m=>{ if(!m.material||m.userData.gai) return; const M=m.material; if(M.userData.op0===undefined){ M.userData.op0=M.opacity; M.userData.tr0=M.transparent; M.userData.dw0=M.depthWrite; }
+    const op=M.userData.op0*a; M.opacity=op; M.transparent=M.userData.tr0||a<0.999; M.depthWrite=a>=0.999?M.userData.dw0:false; }); }
+function filmRestore(){ const L=RB.layers; Object.keys(L).forEach(k=>L[k].traverse(m=>{ const M=m.material; if(M&&M.userData.op0!==undefined){ M.opacity=M.userData.op0; M.transparent=M.userData.tr0; M.depthWrite=M.userData.dw0; } }));
+  L.gai.children.forEach(m=>m.scale.set(1,1,1)); }
+const ease=t=>t<0?0:t>1?1:t*t*(3-2*t);
+function filmFrame(now){
+  if(!FILM.on) return; const T=(now-FILM.start)/1000;
+  if(T>=FILM.total){ filmStop(); return; }
+  requestAnimationFrame(filmFrame); filmDraw(T); }
+function filmDraw(T){
+  const R=RB, SC=FILM.SC; let i=SC.findIndex(s=>T<s.t0+s.d); if(i<0) i=SC.length-1; const s=SC[i], lt=T-s.t0, u=lt/s.d;
+  if(FILM.cur!==i){ FILM.cur=i; FILM.from={p:R.cam.position.clone(),t:FILM.tgt?FILM.tgt.clone():R.ctl.target.clone()}; R.clip.constant=s.clip||999; R.eqSel(s.sel?s.sel.id:null); }
+  // calques
+  Object.entries(s.lay).forEach(([k,a])=>{ const f=s.fadeFrom&&s.fadeFrom[k]; filmLayer(k,f!==undefined?f+(a-f)*ease(lt/2.2):a); });
+  ["ceil","esp"].forEach(k=>filmLayer(k,0));
+  R.layers.gai.children.forEach(m=>{ const g=m.userData.gai; m.material.color.setHex(gaiColor(g)); m.visible=s.lay.gai>0&&(!s.grow||m.userData.fd<=FILM.dmax*ease(u/0.75)); });
+  // caméra
+  const P=s.cam(u), k=FILM.cur===0?1:ease(lt/1.8), pos=FILM.from.p.clone().lerp(P.p,k), tgt=FILM.from.t.clone().lerp(P.t,k);
+  R.cam.position.copy(pos); R.cam.lookAt(tgt); FILM.tgt=tgt;
+  R.ren.render(R.scene,R.cam);
+  // image finale : 3D + titres
+  const cv=FILM.cv, x=cv.getContext("2d"), W=cv.width, H=cv.height, z=H/720;
+  x.drawImage(R.ren.domElement,0,0,W,H);
+  if(s.label){ const e=s.label, v=new THREE.Vector3((e.bb[0][0]+e.bb[1][0])/2-R.cx,(e.bb[0][1]+e.bb[1][1])/2-R.cy,e.bb[1][2]).project(R.cam);
+    const px=(v.x+1)/2*W, py=(1-v.y)/2*H, al=ease((lt-.8)/.6)*(1-ease((lt-s.d+.5)/.4));
+    if(al>0&&v.z<1){ x.save(); x.globalAlpha=al; const col=CTA_COL[e.mark]||"#fff"; x.strokeStyle="#fff"; x.lineWidth=2*z; x.beginPath(); x.moveTo(px,py); x.lineTo(px+40*z,py-60*z); x.stroke();
+      x.font=`600 ${22*z}px system-ui,sans-serif`; const tw=x.measureText(e.mark).width; x.fillStyle=col; x.fillRect(px+40*z,py-82*z,tw+24*z,34*z); x.fillStyle="#fff"; x.fillText(e.mark,px+52*z,py-58*z); x.restore(); } }
+  const ca=ease(lt/.7)*(1-ease((lt-s.d+.7)/.7));
+  if(ca>0){ x.save(); x.globalAlpha=ca; const g=x.createLinearGradient(0,H*.68,0,H); g.addColorStop(0,"rgba(0,0,0,0)"); g.addColorStop(1,"rgba(0,0,0,.72)"); x.fillStyle=g; x.fillRect(0,H*.6,W,H*.4);
+    x.fillStyle="#fff"; x.font=`700 ${40*z}px system-ui,sans-serif`; x.fillText(s.cap[0],56*z,H-86*z);
+    x.font=`400 ${21*z}px system-ui,sans-serif`; x.fillStyle="rgba(255,255,255,.88)"; x.fillText(s.cap[1],56*z,H-50*z);
+    x.fillStyle=s.sel?(CTA_COL[s.sel.mark]||"#0aa"):"#2f9fd8"; x.fillRect(56*z,H-142*z,64*z,5*z); x.restore(); }
+  x.save(); x.font=`500 ${15*z}px system-ui,sans-serif`; x.fillStyle="rgba(255,255,255,.75)"; x.textAlign="right"; x.fillText("EHPAD La Bassée · lot 12 CVC",W-30*z,36*z); x.restore();
+  x.fillStyle="rgba(255,255,255,.35)"; x.fillRect(0,H-4*z,W*T/FILM.total,4*z);
+  let blk=0; if(s.fadeIn) blk=1-ease(lt/1.2); if(s.fadeOut) blk=Math.max(blk,ease((lt-s.d+s.fadeOut)/s.fadeOut)); if(blk>0){ x.fillStyle=`rgba(0,0,0,${blk})`; x.fillRect(0,0,W,H); }
+}
+function filmStart(rec,big){
+  if(!RB){ toast("Ouvre d'abord la vue « Bâtiment 3D »."); return; } if(FILM.on){ filmStop(); return; }
+  const R=RB; filmSetup(); FILM.state={clip:R.clip.constant,vis:Object.fromEntries(Object.entries(R.layers).map(([k,g])=>[k,g.visible])),p:R.cam.position.clone(),t:R.ctl.target.clone()};
+  const W=rec||big?1920:1280, H=rec||big?1080:720; R.ren.setPixelRatio(1); R.ren.setSize(W,H,false); R.cam.aspect=W/H; R.cam.updateProjectionMatrix();
+  const cv=document.createElement("canvas"); cv.id="filmCv"; cv.width=W; cv.height=H; cv.title="Cliquer pour arrêter"; cv.onclick=()=>filmStop(); $("#rvBatCv").appendChild(cv); FILM.cv=cv;
+  R.ctl.enabled=false; R.film=true; FILM.on=true; FILM.cur=-1; FILM.tgt=null; GAI.mode="cta";
+  document.querySelector("[data-film]").textContent="■ Arrêter le film"; $("#filmMsg").textContent=rec?"Enregistrement en cours… ne change pas d'onglet.":"";
+  if(rec){ try{ const types=["video/mp4;codecs=avc1","video/webm;codecs=vp9","video/webm"], mt=types.find(t=>window.MediaRecorder&&MediaRecorder.isTypeSupported(t));
+      if(!mt) throw new Error("enregistrement vidéo non pris en charge par ce navigateur");
+      const mr=new MediaRecorder(cv.captureStream(30),{mimeType:mt,videoBitsPerSecond:12e6}), parts=[]; mr.ondataavailable=e=>e.data.size&&parts.push(e.data);
+      mr.onstop=()=>{ const ext=mt.startsWith("video/mp4")?"mp4":"webm", a=document.createElement("a"); a.href=URL.createObjectURL(new Blob(parts,{type:mt.split(";")[0]})); a.download="EHPAD_La_Bassee_film_CVC."+ext; document.body.appendChild(a); a.click(); a.remove(); $("#filmMsg").textContent=`Vidéo téléchargée (.${ext}).`; };
+      mr.start(1000); FILM.mr=mr; }catch(e){ toast(e.message); } }
+  FILM.start=performance.now(); if(!big) requestAnimationFrame(filmFrame);
+}
+window.filmOffline={ start(){ filmStart(false,true); FILM.on=false; return FILM.total; }, frame(T){ filmDraw(T); return FILM.cv.toDataURL("image/jpeg",0.92); }, stop(){ FILM.on=true; filmStop(); } };
+function filmStop(){ if(!FILM.on) return; const R=RB; FILM.on=false; if(FILM.mr&&FILM.mr.state!=="inactive") FILM.mr.stop(); FILM.mr=null;
+  filmRestore(); if(FILM.cv) FILM.cv.remove(); FILM.cv=null; R.film=false; R.ctl.enabled=true; R.eqSel(null);
+  R.ren.setPixelRatio(Math.min(devicePixelRatio||1,2)); R.cam.position.copy(FILM.state.p); R.ctl.target.copy(FILM.state.t); R.ctl.update();
+  rvBatApply(); gaiApply(); rvBatResize(); const b=document.querySelector("[data-film]"); if(b) b.textContent="▶ Film de présentation"; }
+document.addEventListener("click",e=>{ const b=e.target.closest("[data-film],[data-filmrec]"); if(!b) return; if(b.hasAttribute("data-filmrec")&&FILM.on) return; filmStart(b.hasAttribute("data-filmrec")); });
+
 /* gaines : couleur par CTA ou par réseau, filtre soufflage / reprise */
 const GAI={mode:"cta",sys:"",off:new Set(),ant:true};
 const hexMix=(h,w,t)=>{ const a=parseInt(h.slice(1),16), r=a>>16, g=a>>8&255, b=a&255, k=w?255:0; return Math.round(r+(k-r)*t)<<16|Math.round(g+(k-g)*t)<<8|Math.round(b+(k-b)*t); };
@@ -2620,7 +2706,7 @@ function rvBatApply(){ if(!RB) return;
 (function(){
   const t=$("#rvBatTools"); if(!t) return;
   t.innerHTML=`<div class="bat-lay">${BAT_LAYERS.map(([k,l,on])=>`<label><input type="checkbox" data-blay="${k}" ${on?"checked":""}> ${l}</label>`).join("")}</div>
-    <div class="seg" role="group" aria-label="Coupe"><button data-bcut="" aria-pressed="true">Entier</button><button data-bcut="1.5" aria-pressed="false">Coupe RDC</button><button data-bcut="2.7" aria-pressed="false">Chaufferie</button><button data-bcut="3.15" aria-pressed="false">Plénum RDC</button><button data-bcut="4.9" aria-pressed="false">Coupe étage</button><button data-bcut="6.5" aria-pressed="false">Plénum étage</button></div><div class="gai-ctl" id="gaiCtl" hidden></div>`;
+    <div class="seg" role="group" aria-label="Coupe"><button data-bcut="" aria-pressed="true">Entier</button><button data-bcut="1.5" aria-pressed="false">Coupe RDC</button><button data-bcut="2.7" aria-pressed="false">Chaufferie</button><button data-bcut="3.15" aria-pressed="false">Plénum RDC</button><button data-bcut="4.9" aria-pressed="false">Coupe étage</button><button data-bcut="6.5" aria-pressed="false">Plénum étage</button></div><div class="gai-ctl" id="gaiCtl" hidden></div><div class="film-ctl"><button class="btn small primary" data-film>▶ Film de présentation</button><button class="btn small" data-filmrec>⏺ Enregistrer le film en vidéo</button><span class="hint" id="filmMsg"></span></div>`;
   t.querySelectorAll("[data-blay]").forEach(c=>c.onchange=rvBatApply);
   t.querySelectorAll("[data-bcut]").forEach(b=>b.onclick=()=>{ t.querySelectorAll("[data-bcut]").forEach(x=>x.setAttribute("aria-pressed",x===b)); rvBatApply(); });
 })();

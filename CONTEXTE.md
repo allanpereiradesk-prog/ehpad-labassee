@@ -132,3 +132,4 @@ Les exports du 18/10 sont dans `exports-revit/` (voir son README, partie « Dép
     - Réservations : l'onglet lit les **86** réservations dans `exports-revit/` (antennes pas encore comptées) ;
     - court métrage : chiffres v13 (766 gaines, 774 raccords, 218 bouches, 86 réservations).
   - **Point ouvert** : le SYN-03 B indique 69 Pa pour la CTA 5, la v13 donne **71 Pa** → à corriger dans un indice C.
+  - **Film de présentation** dans la vue 3D (Revit › Bâtiment 3D) : boutons « ▶ Film de présentation » et « Enregistrer le film en vidéo » (MP4 si le navigateur le permet, sinon WebM, en 1920 × 1080). Environ 85 s : vue d'ensemble, structure, les 5 CTA une par une, réseaux qui partent de chaque CTA, plénums, chaufferie, générique. Les scènes sont dans `filmSetup()` (`index.html`) ; `window.filmOffline` sert à rendre le film image par image.
