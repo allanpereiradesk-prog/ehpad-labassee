@@ -121,3 +121,4 @@ Les exports du 18/10 sont dans `exports-revit/` (voir son README, partie « Dép
     - onglets : `aria-controls`, flèches gauche/droite, Début, Fin ; l'onglet ouvert reste visible sur téléphone ;
     - fenêtres (tâche, aperçu) : le focus entre dedans, y reste avec Tab, et revient au bouton à la fermeture ;
     - **règle** : garder ces contrastes. Ne pas remettre `#0696d7` en couleur de texte ou de bouton (il sert seulement pour les décors, via `--supply`).
+  - **Court métrage de l'accueil** (bloc `.film`, au-dessus de `#home`, script « Court métrage » en fin de fichier) : 9 scènes, environ 55 s, images de `files/`. Les textes et chiffres sont dans le tableau `SCENES`, à mettre à jour si le réseau change (chiffres du réseau v13 : 766 gaines, 774 raccords, 218 bouches, 86 réservations). Il ne démarre qu'au clic, se met en pause quand on quitte l'accueil, et reste fixe si l'ordinateur demande moins d'animations.
