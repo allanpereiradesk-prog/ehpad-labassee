@@ -75,3 +75,23 @@ La CTA 5 était devant la porte de la terrasse. Je l'ai décalée de 1,7 m vers 
 - Tous les fichiers de ce dossier sont à jour (réseau v12) : `gaines.json`, `equip.json`, `reseaux.png`, `reservations.json` (**83** réservations : 55 murs, 14 trémies, 14 poutres), Excel.
 - Nouvelle image `cta5_porte_terrasse.png` : avant / après autour de la porte. Elle peut aller dans l'onglet Implantation, à la fiche de la CTA 5.
 - Pertes de charge CTA 5 : 69 Pa (au lieu de 71). Section de départ inchangée : 850 × 350.
+
+## Dépôt du 18/10 (nuit) — bouches de ventilation
+
+Maquette : 218 bouches posées avec leur débit, 190 raccordées en gaine rigide (piquage + coudes à angle carré).
+
+| Fichier | Contenu |
+|---|---|
+| `bouches.json` | **Nouveau.** 218 bouches : `id` (repère B…), `cta`, `fonction` (Soufflage / Reprise / Extraction), `lv`, `num`, `local`, `q` (m³/h), `pose` (mural / plafond), `col` (L x H mm), `x, y, z` (m), `raccordee` (true/false), `remarque` (pourquoi l'antenne n'est pas faite). |
+| `EHPAD_Bouches_Ventilation.xlsx` | **Nouveau.** Liste des bouches, débit, vitesse au col, synthèse par CTA, bouches non posées. |
+| `plan_bouches.png` | **Nouveau.** Plan RDC + étage : gaines, antennes, bouches (carré rouge vide = bouche posée, antenne à faire). |
+| `gaines.json` | Gaines principales **+ antennes** (1 540 objets). Nouveaux champs : `ant` (true pour une antenne), `bouche` (repère de la bouche desservie). |
+| `reservations.json` | 86 réservations des gaines principales (les traversées des antennes ne sont pas encore listées). |
+| `EHPAD_Dimensionnement_Gaines.xlsx`, `reseaux.png`, `equip.json` | Mis à jour (réseau v13). |
+
+Changements du réseau principal pour laisser passer les antennes :
+- CTA 3 et CTA 4 (étage) : soufflage et reprise écartés dans le couloir (1,0 m et 0,7 m entre axes).
+- CTA 5 RDC : la reprise passe au-dessus du faux plafond des bureaux côté sud (y = 34,4 m) ; le couloir garde seulement le soufflage.
+- Pertes de charge : CTA1 36 Pa, CTA2 37 Pa, CTA3 30 Pa, CTA4 25 Pa, CTA5 71 Pa.
+
+Pour le site : un onglet ou une section « Bouches » (tableau filtrable par CTA / niveau / fonction + le plan), et dans la 3D les antennes peuvent avoir un trait plus fin.

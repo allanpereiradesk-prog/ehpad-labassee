@@ -78,6 +78,8 @@ Dimensionnement :
 - gaine au départ CTA 5 : 850 × 350 (au lieu de 700 × 400) ;
 - pertes de charge réseau principal : CTA1 36 Pa, CTA2 37 Pa, CTA3 30 Pa, CTA4 25 Pa, CTA5 69 Pa.
 
+Bouches (18/10, nuit) : **218 bouches posées** avec leur débit (81 grilles murales de chambre 90 m³/h, 81 extractions de salle de bains 90 m³/h, 56 bouches plafond CTA 5), **190 raccordées** en gaine rigide (coudes « Angle carré rectangulaire - Joint coulissant » chargés par Allan). Liste : `exports-revit/bouches.json` et `EHPAD_Bouches_Ventilation.xlsx`. Réseau principal modifié : CTA 3/4 écartées, reprise CTA 5 RDC au-dessus des bureaux côté sud.
+
 Réservations (détection du 18/10, `exports-revit/reservations.json`) : 83 au total.
 - 55 traversées de murs (15 dans des murs béton, à valider) ;
 - 14 trémies dans les dalles (descentes verticales) ;
