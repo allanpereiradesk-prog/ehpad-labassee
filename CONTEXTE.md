@@ -112,3 +112,10 @@ Les exports du 18/10 sont dans `exports-revit/` (voir son README, partie « Dép
     - Réservations : 83 (55 murs, 14 trémies, 14 poutres) ;
     - Implantation : fiche CTA 5 avec la phrase sur le décalage et l'image `files/implantation/cta5_porte_terrasse.png` (champs `note`, `img` dans `IMPL_ITEMS`) ;
     - SYN-03 B : CTA 5 en x -68,93 / y 39,2, perte de charge 69 Pa, réseau v12, 15 traversées de murs béton à faire valider.
+  - **Design et accessibilité (bloc « Design v4 » en fin de CSS + dernier `<script>`)** :
+    - couleurs assombries pour un contraste suffisant (accent `#0670a3`, « en cours » `#8a560a`) : l'audit axe-core passe de 600+ erreurs à 0, en clair et en sombre ;
+    - mode sombre réparé (la palette claire v3 l'écrasait) + bouton « Affichage » Auto / Clair / Sombre dans l'en-tête (`localStorage` `ehpad-theme`) ;
+    - un seul `<main id="contenu">`, les vues sont des `<section role="tabpanel">`, la barre d'onglets est un `<nav>`, lien « Aller au contenu » ;
+    - onglets : `aria-controls`, flèches gauche/droite, Début, Fin ; l'onglet ouvert reste visible sur téléphone ;
+    - fenêtres (tâche, aperçu) : le focus entre dedans, y reste avec Tab, et revient au bouton à la fermeture ;
+    - **règle** : garder ces contrastes. Ne pas remettre `#0696d7` en couleur de texte ou de bouton (il sert seulement pour les décors, via `--supply`).
