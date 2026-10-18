@@ -3276,7 +3276,7 @@ function renderAll(){ renderHome(); renderBoard(); renderMine(); renderDone(); r
 
 /* ---------- Boot ---------- */
 renderMe(); renderTimeline(); renderFilters(); renderBoard(); renderHours();
-{ const st=store.get("ehpad-tab"); if(location.hash==="#heures") setTab("hours"); else if(location.hash==="#mes-taches") setTab("mine"); else if(location.hash==="#realise") setTab("done"); else if(location.hash==="#problemes") setTab("issues"); else if(location.hash==="#projet") setTab("proj"); else if(location.hash==="#acc") setTab("acc"); else if(location.hash==="#documents") setTab("docs"); else if(location.hash==="#revit") setTab("revit"); else if(location.hash==="#tuto") setTab("tuto"); else if(location.hash==="#captures") setTab("caps"); else if(location.hash==="#synoptiques") setTab("syn"); else if(location.hash==="#reservations") setTab("resa"); else if(location.hash==="#devis") setTab("devis"); else if(location.hash==="#familles") setTab("fam"); else if(location.hash==="#implantation") setTab("impl"); else if(location.hash==="#echanges") setTab("ech"); else if(location.hash==="#logs") setTab("logs"); else if(location.hash==="#accueil") setTab("home"); else setTab("home"); } // sans lien direct (#...), on arrive toujours sur l'Accueil
+{ if(location.hash) history.replaceState(null,"",location.pathname+location.search); setTab("home"); } // à chaque ouverture ou actualisation : l'Accueil, et l'adresse sans #onglet
 
 (async()=>{
   db = await window.claude.use("db");
@@ -3470,6 +3470,5 @@ TAB_META.bouches=["Fichiers","Bouches","Les bouches de ventilation : débits, CT
     if(on){ setCrumb("bouches"); store.set("ehpad-tab","bouches"); renderBouches(); } };
   tb.onclick=()=>setTab("bouches");
   let st=null; try{ st=store.get("ehpad-tab"); }catch(e){}
-  if(location.hash==="#bouches") setTab("bouches");
 }
 </script>
