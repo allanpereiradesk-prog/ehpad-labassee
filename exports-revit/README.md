@@ -50,3 +50,20 @@ Liste d'objets, un par gaine ou raccord :
 - `rid` : ID Revit de l'élément traversé ou de la gaine (facultatif).
 
 Après un dépôt, dis à Allan de prévenir le Claude « site ».
+
+## Dépôt du 18/10 (Claude « Revit »)
+
+Maquette `EXE_RSP_CVC_MNT_v3.rvt`, réseau v11, enregistrée.
+
+| Fichier | Contenu |
+|---|---|
+| `gaines.json` | 256 objets (124 gaines + 132 raccords). `net` est renseigné partout, raccords compris. `sys` vaut `Soufflage` ou `Reprise`. |
+| `equip.json` | 30 équipements, CTA à leur nouvelle place (même format que `files/b3d/equip.json`). |
+| `reseaux.png` | Plan des réseaux (étage + toiture, RDC). |
+| `reservations.json` | 78 réservations au format ci-dessus. En plus : `x, y, z` (m, repère partagé), `gaine` (taille de la gaine), `maquette` (lien ARC ou STR). Trou = gaine + 100 mm. |
+| `EHPAD_Dimensionnement_Gaines.xlsx` | Excel de dimensionnement à jour (à mettre aussi dans `files/gaines/` et `docs/` en `.b64.txt`). |
+
+Changements par rapport au tracé v10 :
+- CTA 5 : gaines remontées au-dessus du faux plafond (axe 2,765 m au RDC, 6,09 m à l'étage), tronc RDC en 350 mm de haut, départ 850 × 350.
+- Reprise CTA 1 décalée de 5 cm.
+- Pertes de charge inchangées à 1 Pa près (CTA 5 : 71 Pa). Le bloc du SYN-03 B reste juste, sauf la section de départ CTA 5 (850 × 350).

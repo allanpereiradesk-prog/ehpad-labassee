@@ -65,22 +65,24 @@ Pour échanger, on passe par ce dépôt. Le Claude Revit dépose ses fichiers da
 | CTA 4 | VIM CAD HR OPTIMAL C4 | x -30,8 / y 40,3 | descente directe |
 | CTA 5 | VIM CAD O-INTEGRAL | x -69,2 / y 40,9 (terrasse libre) | réseau toiture à 90°, puis le RDC ; l'étage est alimenté depuis le RDC par le local linge sale |
 
-Réseau v10 dans Revit :
-- 122 gaines et 130 raccords, tous les raccords sont faits ;
-- les CTA, les socles et les gaines en toiture sont dégagés des tuiles, des PV, des édicules et des acrotères.
+Réseau **v11** dans Revit (18/10, maquette enregistrée) :
+- 124 gaines et 132 raccords, tous les raccords sont faits ;
+- les CTA, les socles et les gaines en toiture sont dégagés des tuiles, des PV, des édicules et des acrotères ;
+- CTA 5 : axe des gaines remonté à 2,765 m (RDC) et 6,09 m (étage), tronc RDC en 350 mm de haut → plus aucun contact avec le faux plafond ;
+- reprise CTA 1 décalée de 5 cm (x -39,35), elle ne touche plus la cloison du local ménage.
 
 Dimensionnement :
-- vitesses selon le tableau du CCTP §2.2.5 ;
-- hauteur des gaines : 250 mm jusqu'à 2 000 m³/h, 300 mm au-delà, 400 mm au-delà de 4 000 m³/h (CTA 5) ;
+- vitesses selon le tableau du CCTP §2.2.5, plafonnées à 6 m/s pour la CTA 5 (sinon la gaine serait plus étroite en amont qu'en aval) ;
+- hauteur des gaines : 250 mm jusqu'à 2 000 m³/h, 300 mm au-delà, 350 mm au-delà de 4 000 m³/h (CTA 5) ;
+- gaine au départ CTA 5 : 850 × 350 (au lieu de 700 × 400) ;
 - pertes de charge réseau principal : CTA1 36 Pa, CTA2 37 Pa, CTA3 30 Pa, CTA4 25 Pa, CTA5 71 Pa.
 
-Reste à faire côté Revit :
-- remonter les gaines de la CTA 5 qui touchent le faux plafond ;
-- décaler de 5 cm la reprise de la CTA 1 contre la cloison du local ménage ;
-- relancer la détection de conflits ;
-- lister les réservations : 51 traversées de murs, 20 trémies, quelques poutres à faire valider par le BE structure.
+Réservations (détection du 18/10, `exports-revit/reservations.json`) : 78 au total.
+- 50 traversées de murs (13 dans des murs béton, à valider) ;
+- 14 trémies dans les dalles (descentes verticales) ;
+- 14 passages dans des poutres (tous sur la CTA 5, hall / salle à manger), à faire valider par le BE structure.
 
-**Attention :** `files/b3d/gaines.json`, `equip.json` et `files/gaines/reseaux.png` correspondent encore à **l'ancien tracé** (avant le 18/10). Le Claude Revit déposera les nouvelles versions dans `exports-revit/`. Il faudra ensuite les recopier dans `files/b3d/` et `files/gaines/`.
+Les exports du 18/10 sont dans `exports-revit/` (voir son README, partie « Dépôt du 18/10 »).
 
 ## 6. Format des exports Revit → site
 
