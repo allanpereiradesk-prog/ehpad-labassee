@@ -63,22 +63,23 @@ Pour échanger, on passe par ce dépôt. Le Claude Revit dépose ses fichiers da
 | CTA 2 | VIM CAD HR OPTIMAL C4 | x -30,6 / y 62,7 | bureau |
 | CTA 3 | VIM CAD HR OPTIMAL C4 | x -41,95 / y 39,8 (au centre, hors structure et tuiles) | descente directe dans la circulation |
 | CTA 4 | VIM CAD HR OPTIMAL C4 | x -30,8 / y 40,3 | descente directe |
-| CTA 5 | VIM CAD O-INTEGRAL | x -69,2 / y 40,9 (terrasse libre) | réseau toiture à 90°, puis le RDC ; l'étage est alimenté depuis le RDC par le local linge sale |
+| CTA 5 | VIM CAD O-INTEGRAL | x -68,9 / y 39,2 (terrasse libre, décalée le 18/10 pour dégager la porte de la terrasse) | réseau toiture à 90°, puis le RDC ; l'étage est alimenté depuis le RDC par le local linge sale |
 
-Réseau **v11** dans Revit (18/10, maquette enregistrée) :
+Réseau **v12** dans Revit (18/10, maquette enregistrée) :
 - 124 gaines et 132 raccords, tous les raccords sont faits ;
 - les CTA, les socles et les gaines en toiture sont dégagés des tuiles, des PV, des édicules et des acrotères ;
 - CTA 5 : axe des gaines remonté à 2,765 m (RDC) et 6,09 m (étage), tronc RDC en 350 mm de haut → plus aucun contact avec le faux plafond ;
-- reprise CTA 1 décalée de 5 cm (x -39,35), elle ne touche plus la cloison du local ménage.
+- reprise CTA 1 décalée de 5 cm (x -39,35), elle ne touche plus la cloison du local ménage ;
+- CTA 5 décalée de 1,7 m vers le sud : elle était devant la porte de la terrasse. Passage libre d'environ 1,6 m devant la porte. Descentes CTA 5 déplacées à y 38,0 (toujours dans le local ménage du RDC).
 
 Dimensionnement :
 - vitesses selon le tableau du CCTP §2.2.5, plafonnées à 6 m/s pour la CTA 5 (sinon la gaine serait plus étroite en amont qu'en aval) ;
 - hauteur des gaines : 250 mm jusqu'à 2 000 m³/h, 300 mm au-delà, 350 mm au-delà de 4 000 m³/h (CTA 5) ;
 - gaine au départ CTA 5 : 850 × 350 (au lieu de 700 × 400) ;
-- pertes de charge réseau principal : CTA1 36 Pa, CTA2 37 Pa, CTA3 30 Pa, CTA4 25 Pa, CTA5 71 Pa.
+- pertes de charge réseau principal : CTA1 36 Pa, CTA2 37 Pa, CTA3 30 Pa, CTA4 25 Pa, CTA5 69 Pa.
 
-Réservations (détection du 18/10, `exports-revit/reservations.json`) : 78 au total.
-- 50 traversées de murs (13 dans des murs béton, à valider) ;
+Réservations (détection du 18/10, `exports-revit/reservations.json`) : 83 au total.
+- 55 traversées de murs (15 dans des murs béton, à valider) ;
 - 14 trémies dans les dalles (descentes verticales) ;
 - 14 passages dans des poutres (tous sur la CTA 5, hall / salle à manger), à faire valider par le BE structure.
 

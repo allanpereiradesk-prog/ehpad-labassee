@@ -67,3 +67,11 @@ Changements par rapport au tracé v10 :
 - CTA 5 : gaines remontées au-dessus du faux plafond (axe 2,765 m au RDC, 6,09 m à l'étage), tronc RDC en 350 mm de haut, départ 850 × 350.
 - Reprise CTA 1 décalée de 5 cm.
 - Pertes de charge inchangées à 1 Pa près (CTA 5 : 71 Pa). Le bloc du SYN-03 B reste juste, sauf la section de départ CTA 5 (850 × 350).
+
+## Mise à jour du 18/10 (soir) — CTA 5 décalée
+
+La CTA 5 était devant la porte de la terrasse. Je l'ai décalée de 1,7 m vers le sud (origine x -68,93 / y 39,20). Le passage devant la porte fait maintenant environ 1,6 m.
+
+- Tous les fichiers de ce dossier sont à jour (réseau v12) : `gaines.json`, `equip.json`, `reseaux.png`, `reservations.json` (**83** réservations : 55 murs, 14 trémies, 14 poutres), Excel.
+- Nouvelle image `cta5_porte_terrasse.png` : avant / après autour de la porte. Elle peut aller dans l'onglet Implantation, à la fiche de la CTA 5.
+- Pertes de charge CTA 5 : 69 Pa (au lieu de 71). Section de départ inchangée : 850 × 350.
