@@ -777,9 +777,9 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
 
   <section id="viewHome" hidden>
     <section class="hv" aria-labelledby="hvT">
-      <div class="hv-h"><h2 id="hvT">Le projet en vidéo</h2><span class="hint">Film 3D de notre maquette · environ 1 min 25</span></div>
-      <video class="hv-v" controls preload="none" playsinline poster="files/film/affiche.jpg"><source src="files/film/EHPAD_La_Bassee_film_CVC.mp4" type="video/mp4">Ton navigateur ne lit pas la vidéo : <a href="files/film/EHPAD_La_Bassee_film_CVC.mp4" download>télécharge-la</a>.</video>
-      <div class="hv-b"><button type="button" class="btn small" id="hv3d">Voir le film en 3D interactive</button><a class="btn small" href="files/film/EHPAD_La_Bassee_film_CVC.mp4" download>Télécharger la vidéo (MP4)</a></div>
+      <div class="hv-h"><h2 id="hvT">Le projet en vidéo</h2><span class="hint">Présentation en motion design · environ 2 min 15</span></div>
+      <video class="hv-v" controls preload="none" playsinline poster="files/film/affiche_presentation.jpg"><source src="files/film/EHPAD_La_Bassee_Lot12_presentation.mp4" type="video/mp4">Ton navigateur ne lit pas la vidéo : <a href="files/film/EHPAD_La_Bassee_Lot12_presentation.mp4" download>télécharge-la</a>.</video>
+      <div class="hv-b"><button type="button" class="btn small" id="hv3d">Voir le film en 3D interactive</button><a class="btn small" href="files/film/EHPAD_La_Bassee_Lot12_presentation.mp4" download>Télécharger la vidéo (MP4)</a></div>
     </section>
     <div id="home"></div>
   </section>
@@ -3410,7 +3410,7 @@ renderMe(); renderTimeline(); renderFilters(); renderBoard(); renderHours();
 
 <script>
 /* ---------- Accueil : vidéo du film 3D ---------- */
-fetch("files/film/EHPAD_La_Bassee_film_CVC.mp4",{method:"HEAD",cache:"no-store"}).then(r=>{ if(r.ok) return; throw 0; }).catch(()=>{ const v=document.querySelector(".hv-v"); if(!v) return;
+fetch("files/film/EHPAD_La_Bassee_Lot12_presentation.mp4",{method:"HEAD",cache:"no-store"}).then(r=>{ if(r.ok) return; throw 0; }).catch(()=>{ const v=document.querySelector(".hv-v"); if(!v) return;
   v.outerHTML=`<div class="hv-v hv-wait"><p><b>La vidéo est en préparation.</b><br>En attendant, lance le film directement sur la maquette 3D.</p><button type="button" class="btn primary" id="hv3db">▶ Voir le film en 3D</button></div>`;
   $("#hv3db").onclick=()=>$("#hv3d").click(); document.querySelectorAll('.hv-b a[download]').forEach(x=>x.hidden=true); });
 $("#hv3d").onclick=()=>{ const v=document.querySelector("video.hv-v"); if(v) v.pause(); setTab("revit"); const b=document.querySelector('[data-vw="bat"]'); if(b) b.click();
