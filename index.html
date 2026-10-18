@@ -3276,7 +3276,7 @@ function renderAll(){ renderHome(); renderBoard(); renderMine(); renderDone(); r
 
 /* ---------- Boot ---------- */
 renderMe(); renderTimeline(); renderFilters(); renderBoard(); renderHours();
-{ const st=store.get("ehpad-tab"); if(location.hash==="#heures") setTab("hours"); else if(location.hash==="#mes-taches") setTab("mine"); else if(location.hash==="#realise") setTab("done"); else if(location.hash==="#problemes") setTab("issues"); else if(location.hash==="#projet") setTab("proj"); else if(location.hash==="#acc") setTab("acc"); else if(location.hash==="#documents") setTab("docs"); else if(location.hash==="#revit") setTab("revit"); else if(location.hash==="#tuto") setTab("tuto"); else if(location.hash==="#captures") setTab("caps"); else if(location.hash==="#synoptiques") setTab("syn"); else if(location.hash==="#reservations") setTab("resa"); else if(location.hash==="#devis") setTab("devis"); else if(location.hash==="#familles") setTab("fam"); else if(location.hash==="#implantation") setTab("impl"); else if(location.hash==="#echanges") setTab("ech"); else if(location.hash==="#logs") setTab("logs"); else if(location.hash==="#accueil") setTab("home"); else setTab(["home","hours","mine","done","issues","proj","tasks","acc","docs","revit","tuto","caps","syn","resa","devis","fam","impl","ech","logs","bouches"].includes(st)?st:"home"); }
+{ const st=store.get("ehpad-tab"); if(location.hash==="#heures") setTab("hours"); else if(location.hash==="#mes-taches") setTab("mine"); else if(location.hash==="#realise") setTab("done"); else if(location.hash==="#problemes") setTab("issues"); else if(location.hash==="#projet") setTab("proj"); else if(location.hash==="#acc") setTab("acc"); else if(location.hash==="#documents") setTab("docs"); else if(location.hash==="#revit") setTab("revit"); else if(location.hash==="#tuto") setTab("tuto"); else if(location.hash==="#captures") setTab("caps"); else if(location.hash==="#synoptiques") setTab("syn"); else if(location.hash==="#reservations") setTab("resa"); else if(location.hash==="#devis") setTab("devis"); else if(location.hash==="#familles") setTab("fam"); else if(location.hash==="#implantation") setTab("impl"); else if(location.hash==="#echanges") setTab("ech"); else if(location.hash==="#logs") setTab("logs"); else if(location.hash==="#accueil") setTab("home"); else setTab("home"); } // sans lien direct (#...), on arrive toujours sur l'Accueil
 
 (async()=>{
   db = await window.claude.use("db");
@@ -3290,7 +3290,7 @@ renderMe(); renderTimeline(); renderFilters(); renderBoard(); renderHours();
     $("#newTask").disabled=!writeOk; if(ready) renderAll(); maybeSeed(); maybeMigrate();
     if(isAdmin() && teamLoaded){ const want=[...new Set([...teamEmails,...DEFAULT_TEAM])].filter(m=>!PROFS[m]); if(want.length!==teamEmails.length||want.some(m=>!teamEmails.includes(m))) db.doc("config/team").set({emails:want}).catch(e=>console.error(e));
       const pe=Object.keys(PROFS); if(profsLoaded && (profEmails.length!==pe.length||pe.some(m=>!profEmails.includes(m)))) db.doc("config/profs").set({emails:pe}).catch(e=>console.error(e)); }
-    if(isProf() && !profLanded){ profLanded=true; setTab("ech"); }
+    if(isProf() && !profLanded){ profLanded=true; } // tout le monde arrive sur l'Accueil, profs compris
     startEchanges(); startLogs(); startChat(); };
   let profsLoaded=false, profEmails=[], profLanded=false;
   db.doc("config/profs").onSnapshot(s=>{ profsLoaded=true; profEmails=((s.exists&&s.data().emails)||[]).map(x=>String(x).toLowerCase()); applyAuth(); }, e=>console.error(e));
@@ -3470,6 +3470,6 @@ TAB_META.bouches=["Fichiers","Bouches","Les bouches de ventilation : débits, CT
     if(on){ setCrumb("bouches"); store.set("ehpad-tab","bouches"); renderBouches(); } };
   tb.onclick=()=>setTab("bouches");
   let st=null; try{ st=store.get("ehpad-tab"); }catch(e){}
-  if(location.hash==="#bouches"||(!location.hash&&st==="bouches")) setTab("bouches");
+  if(location.hash==="#bouches") setTab("bouches");
 }
 </script>
