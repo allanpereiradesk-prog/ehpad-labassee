@@ -553,7 +553,7 @@ $SPLINESEGS
   9
 $HANDSEED
   5
-295
+296
   9
 $SURFTAB1
  70
@@ -19037,7 +19037,7 @@ AcDbText
  40
 3.0
   1
-3 · IMPLANTATION ET RÉSEAUX (état du 18/10/2026, réseau Revit v10)
+3 · IMPLANTATION ET RÉSEAUX (état du 18/10/2026, réseau Revit v11)
 100
 AcDbText
   0
@@ -20181,7 +20181,7 @@ AcDbText
  40
 1.5
   1
-• Réseau v10 dans Revit : 122 gaines et 130 raccords, tous raccordés.
+• Réseau v11 dans Revit : 124 gaines et 132 raccords, tous raccordés. CTA 5 : gaines au-dessus du faux plafond (axe 2,765 m RDC, 6,09 m étage).
 100
 AcDbText
   0
@@ -20229,7 +20229,7 @@ AcDbText
  40
 1.5
   1
-• Vitesses : tableau du CCTP §2.2.5. Hauteur de gaine : 250 mm jusqu'à 2 000 m³/h, 300 mm au-delà, 400 mm au-delà de 4 000 m³/h.
+• Vitesses : tableau du CCTP §2.2.5. Hauteur de gaine : 250 mm jusqu'à 2 000 m³/h, 300 mm au-delà, 350 mm au-delà de 4 000 m³/h.
 100
 AcDbText
   0
@@ -20253,13 +20253,37 @@ AcDbText
  40
 1.5
   1
-• Points ouverts : remonter les gaines CTA 5 sous le faux plafond, décaler la reprise CTA 1 de 5 cm, relancer les conflits, réservations.
+• Départ CTA 5 : gaine 850 × 350 mm (vitesse plafonnée à 6 m/s pour garder des sections décroissantes vers l'aval).
 100
 AcDbText
   0
 TEXT
   5
 292
+330
+17
+100
+AcDbEntity
+  8
+CVC-TEXTE
+100
+AcDbText
+ 10
+512
+ 20
+286.9999999999999
+ 30
+0.0
+ 40
+1.5
+  1
+• Points ouverts : relancer la détection de conflits ; faire valider par le BE structure les 13 traversées de murs béton et les 14 passages de poutres (CTA 5).
+100
+AcDbText
+  0
+TEXT
+  5
+293
 330
 17
 100
@@ -20283,7 +20307,7 @@ AcDbText
   0
 TEXT
   5
-293
+294
 330
 17
 100
@@ -20307,7 +20331,7 @@ AcDbText
   0
 TEXT
   5
-294
+295
 330
 17
 100
@@ -20325,7 +20349,7 @@ AcDbText
  40
 1.8
   1
-B · 18/10/2026 · Ajout du bloc 3 : implantation des CTA, descentes et pertes de charge (réseau Revit v10).
+B · 18/10/2026 · Ajout du bloc 3 : implantation des CTA, descentes, pertes de charge et départ CTA 5 850 × 350 (réseau Revit v11).
 100
 AcDbText
   0

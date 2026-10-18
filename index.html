@@ -2136,9 +2136,9 @@ async function rv3dInit(){
 function rv3dResize(){ if(!R3) return; const box=$("#rv3d"); const w=box.clientWidth, h=box.clientHeight||w*.75; if(!w) return; R3.ren.setSize(w,h,false); R3.cam.aspect=w/h; R3.cam.updateProjectionMatrix(); }
 function rv3dUpdate(){ if(!R3) return; R3.groups.N01.visible=rvLv==="N01"; }
 /* ---------- Bâtiment complet (ARC + STR + espaces) ---------- */
-let RB=null; const BAT_V="2026-10-16c", EQ_V="6";
+let RB=null; const BAT_V="2026-10-16c", EQ_V="7";
 const BAT_COL={"Murs":0xe9e3d8,"Sols":0xcfc7ba,"Toitures":0xa99a8c,"Fenêtres":0x8fc3dd,"Portes":0xa9825a,"Meneaux":0x7d8a92,"Escaliers":0xc9c2b6,"Garde-corps":0x6d7a83,"Poteaux":0xd9d4cb,"Plafonds":0xf4f1ea,"Divers":0xbdbdbd,"Panneaux solaires":0x2f4f7f};
-const GAI_V="1", BAT_STR=0xa3abb2, BAT_LAYERS=[["arc","Architecture",true],["ceil","Plafonds",false],["str","Structure",true],["pv","Panneaux solaires",true],["esp","Espaces CVC (zones)",false],["eq","Équipements CVC",true],["gai","Gaines de ventilation",true]];
+const GAI_V="2", BAT_STR=0xa3abb2, BAT_LAYERS=[["arc","Architecture",true],["ceil","Plafonds",false],["str","Structure",true],["pv","Panneaux solaires",true],["esp","Espaces CVC (zones)",false],["eq","Équipements CVC",true],["gai","Gaines de ventilation",true]];
 function batLayerOf(g){ return g.layer==="str"?"str":g.cat==="Plafonds"?"ceil":g.cat==="Panneaux solaires"?"pv":"arc"; }
 async function batLoadBin(){
   if("DecompressionStream" in window){ try{ const r=await fetch("files/b3d/building.bin.gz?v="+BAT_V); if(r.ok){ const s=r.body.pipeThrough(new DecompressionStream("gzip")); return await new Response(s).arrayBuffer(); } }catch(e){} }
@@ -2528,7 +2528,7 @@ async function renderResa(){
   document.querySelectorAll("#resaF select").forEach(sel=>{ const k=sel.dataset.rf; sel.innerHTML=`<option value="">${lab[k]}</option>`+uniq(k).map(v=>`<option value="${esc(v)}"${resaF[k]===v?" selected":""}>${esc(k==="lv"?resaLv(v):v)}</option>`).join(""); });
   if(!all.length){
     $("#resaSum").innerHTML="";
-    $("#resaBody").innerHTML=`<tr><td colspan="7"><div class="notice">Pas encore de données. La liste sortira de la maquette Revit (fichier <code>exports-revit/reservations.json</code>). Prévu d'après le dernier point : <b>51 traversées de murs</b>, <b>20 trémies</b> et quelques passages dans les poutres.</div></td></tr>`;
+    $("#resaBody").innerHTML=`<tr><td colspan="7"><div class="notice">Pas encore de données. La liste sortira de la maquette Revit (fichier <code>exports-revit/reservations.json</code>). D'après la détection du 18/10 : <b>50 traversées de murs</b>, <b>14 trémies</b> et <b>14 passages dans des poutres</b>.</div></td></tr>`;
     $("#resaSrc").textContent=""; return; }
   const cnt=f=>all.filter(f).length, types=uniq("type");
   $("#resaSum").innerHTML=`<div class="k"><b>${all.length}</b><span>réservations</span></div>`+types.map(t=>`<div class="k"><b>${cnt(x=>x.type===t)}</b><span>${esc(t)}</span></div>`).join("")

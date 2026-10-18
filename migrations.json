@@ -510,7 +510,7 @@
      "indice": "B",
      "at": "2026-10-18T15:00:00Z",
      "by": "Allan",
-     "note": "Ajout du bloc 3 : implantation des 5 CTA en toiture, descentes et pertes de charge (réseau Revit v10)",
+     "note": "Ajout du bloc 3 : implantation des 5 CTA en toiture, descentes, pertes de charge et départ CTA 5 en 850 × 350 (réseau Revit v11)",
      "dxf": {
       "path": "files/syn/EXE_RSP_CVC_SYN-03_Ventilation_B.dxf",
       "name": "EXE_RSP_CVC_SYN-03_B.dxf"

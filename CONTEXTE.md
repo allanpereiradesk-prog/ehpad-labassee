@@ -99,4 +99,10 @@ Les exports du 18/10 sont dans `exports-revit/` (voir son README, partie « Dép
   - Nouvel onglet **Réservations** (`#reservations`) : tableau, filtres et export CSV. Il attend `exports-revit/reservations.json`.
   - Dans la **3D**, les gaines sont colorées par CTA, avec un filtre Tout / Soufflage / Reprise et une case par CTA.
   - Nouvel onglet **Devis** (`#devis`, tâches i07/i10). Le brouillon est partagé dans Firestore (`devis/brouillon`) : réglages, lignes par chapitre du CCTP, déboursé sec × K, totaux, contrôle, CSV et aperçu à imprimer. Le bouton « Mettre à jour les quantités » reprend `equip.json` et `gaines.json` sans toucher aux prix. Aucun prix n'est inventé : les prix restent vides tant qu'on ne les a pas trouvés.
-  - Il faudra **changer `GAI_V` et `EQ_V`** dans `index.html` quand on intégrera les nouveaux `gaines.json` et `equip.json`, sinon le navigateur garde l'ancienne version en cache.
+  - Règle : à chaque nouveau `gaines.json` ou `equip.json`, **changer `GAI_V` et `EQ_V`** dans `index.html`, sinon le navigateur garde l'ancienne version en cache.
+  - **Intégration des exports Revit du 18/10 (réseau v11)** :
+    - `gaines.json` et `equip.json` recopiés dans `files/b3d/` (`GAI_V` = 2, `EQ_V` = 7) ;
+    - `reseaux.png` et l'Excel de dimensionnement recopiés dans `files/gaines/` (plus `docs/*.b64.txt` à jour) ;
+    - l'onglet Réservations lit les 78 réservations dans `exports-revit/` ;
+    - SYN-03 B mis à jour : réseau v11, départ CTA 5 en 850 × 350, hauteur 350 mm au-delà de 4 000 m³/h, nouveaux points ouverts.
+    - Dans le Devis, cliquer sur « Mettre à jour les quantités » pour reprendre les longueurs v11.
