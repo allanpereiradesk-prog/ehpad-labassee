@@ -602,7 +602,8 @@ button.h-tile{cursor:pointer}button.h-tile:hover{outline:2px solid color-mix(in 
 .dv-ck li{margin:3px 0;font-size:14px}
 #devisPrint{display:none}
 @media print{body.dv-printing>*:not(#devisPrint){display:none!important}body.dv-printing #devisPrint{display:block;color:#000;background:#fff;font:11pt/1.35 Arial,sans-serif}#devisPrint table{width:100%;border-collapse:collapse}#devisPrint th,#devisPrint td{border-bottom:1px solid #bbb;padding:4px 6px;text-align:left;vertical-align:top}#devisPrint .n{text-align:right;white-space:nowrap}#devisPrint .ch td{background:#eee;font-weight:bold}#devisPrint .hd{display:flex;justify-content:space-between;gap:20px;margin-bottom:16px}#devisPrint .tt{margin:14px 0 0 auto;width:300px}#devisPrint .sig{margin-top:30px;display:flex;justify-content:space-between}#devisPrint h1{font-size:18pt;margin:0 0 6px}@page{size:A4;margin:14mm}}
-#filmCv{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#000;z-index:5;cursor:pointer}.film-ctl{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
+#filmCv{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#000;z-index:5;cursor:pointer}.f3d-ctl{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
+.hv{background:var(--surface);border-radius:var(--r);box-shadow:var(--sh);padding:14px 16px;margin:0 0 14px}.hv-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;margin:0 0 10px}.hv-h h2{margin:0;font-size:18px}.hv-v{display:block;width:100%;aspect-ratio:16/9;background:#000;border-radius:6px}.hv-b{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .gai-ctl{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;font-size:14px}.gai-leg{display:flex;flex-wrap:wrap;gap:4px 10px}.gai-leg label{display:inline-flex;gap:5px;align-items:center;cursor:pointer}
 .fam-act{display:flex;gap:10px;align-items:center;white-space:nowrap}.fam-3d{padding:4px 10px;font-size:13px}
 .f3d-dlg{border:0;border-radius:12px;padding:0;width:min(900px,96vw);box-shadow:0 20px 60px rgba(0,0,0,.3);background:var(--surface);color:inherit}.f3d-dlg::backdrop{background:rgba(15,23,42,.45)}
@@ -699,69 +700,6 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
 .toast{box-shadow:0 8px 24px rgb(0 0 0 / .25);border-radius:10px}
 /* Images */
 
-/* ===== Court métrage de l'accueil ===== */
-.film{background:var(--surface);border-radius:var(--r);box-shadow:var(--sh);padding:14px 16px 12px;margin:0 0 14px}
-.film-h{display:flex;justify-content:space-between;align-items:baseline;gap:6px 14px;flex-wrap:wrap;margin-bottom:10px}
-.film-h h2{font-size:19px}
-.film-stage{position:relative;aspect-ratio:16/9;border-radius:8px;overflow:hidden;background:#0d1419;color:#fff;container-type:inline-size;isolation:isolate}
-@media (max-width:600px){.film-stage{aspect-ratio:4/5}}
-.fs{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .7s,visibility 0s .7s}
-.fs.on{opacity:1;visibility:visible;transition:opacity .7s}
-.fs-bg{position:absolute;inset:0;overflow:hidden}
-.fs-bg img{width:100%;height:100%;object-fit:cover;display:block;transform-origin:var(--o,50% 50%)}
-.fs.photo .fs-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgb(8 14 18 / .15) 30%,rgb(8 14 18 / .82))}
-.fs.on .fs-bg img{animation:kb var(--d,6s) linear both}
-@keyframes kb{from{transform:scale(1.02)}to{transform:scale(1.14) translate(var(--tx,0),var(--ty,0))}}
-.fs-txt{position:absolute;left:5cqw;right:5cqw;bottom:6cqw;display:grid;gap:1cqw;max-width:62cqw}
-.fs-k{font-size:clamp(11px,1.6cqw,15px);font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#9fd6ef}
-.fs-t{font-family:var(--display);font-size:clamp(22px,5.2cqw,54px);line-height:1.02;font-weight:700;margin:0;text-wrap:balance}
-.fs-p{font-size:clamp(13px,2cqw,19px);line-height:1.4;margin:0;color:#e6eef2;max-width:52ch}
-.fs.on .fs-txt>*{animation:up .7s both}.fs.on .fs-txt>*:nth-child(2){animation-delay:.15s}.fs.on .fs-txt>*:nth-child(3){animation-delay:.3s}.fs.on .fs-txt>*:nth-child(4){animation-delay:.45s}
-@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-/* Scènes « plan » : image claire à droite, texte à gauche */
-.fs.plan{background:linear-gradient(135deg,#0d1b24,#13303f)}
-.fs.plan .fs-bg{left:42%;top:5%;right:3%;bottom:5%;border-radius:6px;background:#fff}
-.fs.plan .fs-bg img{object-fit:contain}
-.fs.plan .fs-txt{top:0;bottom:0;align-content:center;max-width:36%}
-@container (max-width:560px){.fs.plan .fs-bg{left:5%;right:5%;top:4%;bottom:46%}.fs.plan .fs-txt{top:auto;bottom:5cqw;max-width:none}}
-/* Chiffres */
-.fs-stats{display:flex;flex-wrap:wrap;gap:1.4cqw 3cqw;margin-top:1cqw}
-.fs-stats div{display:grid}
-.fs-stats b{font-family:var(--display);font-size:clamp(20px,4.4cqw,46px);line-height:1;font-variant-numeric:tabular-nums;color:#fff}
-.fs-stats span{font-size:clamp(11px,1.5cqw,15px);color:#b9cbd4}
-.fs.data{background:radial-gradient(120% 90% at 85% 10%,#16465c,#0d1419 60%)}
-.fs.data .fs-txt{max-width:none;top:0;bottom:0;align-content:center}
-.fs.data .fs-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:3cqw 6cqw;max-width:70cqw}
-/* Schéma énergie */
-.fs-flow{display:flex;align-items:center;gap:1.2cqw;flex-wrap:wrap;margin-top:1.4cqw}
-.fs-flow i{font-style:normal;color:#9fd6ef;font-size:clamp(16px,3cqw,30px)}
-.fs-flow span{border:1px solid rgb(255 255 255 / .28);background:rgb(255 255 255 / .07);border-radius:8px;padding:1cqw 1.6cqw;font-size:clamp(12px,1.9cqw,18px);font-weight:600}
-.fs-flow span small{display:block;font-weight:400;color:#b9cbd4;font-size:.8em}
-.fs.on .fs-flow>*{animation:up .6s both}
-.fs.on .fs-flow>*:nth-child(2){animation-delay:.6s}.fs.on .fs-flow>*:nth-child(3){animation-delay:1s}.fs.on .fs-flow>*:nth-child(4){animation-delay:1.6s}.fs.on .fs-flow>*:nth-child(5){animation-delay:2s}
-/* Liseré aller / retour en bas de l'écran */
-.film-stage::after{content:"";position:absolute;left:0;right:0;bottom:0;height:4px;background:linear-gradient(90deg,var(--return) 0 50%,var(--supply) 50% 100%);z-index:3}
-.film-stage.paused .fs *,.film-stage.paused .fs{animation-play-state:paused!important}
-/* Bouton de départ */
-.film-big{position:absolute;inset:0;z-index:4;display:grid;place-content:center;justify-items:center;gap:10px;border:0;color:#fff;background:linear-gradient(180deg,rgb(8 14 18 / .1),rgb(8 14 18 / .55));font:inherit;cursor:pointer}
-.film-big span{display:grid;place-items:center;width:clamp(56px,10cqw,88px);aspect-ratio:1;border-radius:50%;background:var(--accent);color:var(--accent-ink);font-size:clamp(22px,4cqw,34px);padding-left:.2em;box-shadow:0 8px 30px rgb(0 0 0 / .4);transition:transform .2s}
-.film-big:hover span,.film-big:focus-visible span{transform:scale(1.08)}
-.film-big b{font-size:clamp(14px,2.2cqw,20px);text-shadow:0 1px 6px rgb(0 0 0 / .6)}
-.film-big:focus-visible{outline:3px solid #fff;outline-offset:-6px}
-/* Commandes */
-.film-ctl{display:flex;align-items:center;gap:8px;margin-top:10px}
-.film-b{border:1px solid var(--line);background:var(--surface);border-radius:999px;min-width:36px;min-height:36px;padding:0 12px;font-weight:700;font-size:15px}
-.film-b:hover{border-color:var(--accent);color:var(--accent)}
-.film-play{min-width:96px}
-.film-prog{flex:1;display:flex;gap:4px;min-width:0}
-.film-prog button{flex:1;min-width:0;height:24px;border:0;background:none;padding:0;display:grid;align-items:center;cursor:pointer}
-.film-prog button i{display:block;height:5px;border-radius:3px;background:var(--sunk);overflow:hidden}
-.film-prog button i b{display:block;height:100%;width:0;background:var(--accent)}
-.film-prog button:hover i{background:color-mix(in srgb,var(--accent) 22%,var(--sunk))}
-.film-time{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;min-width:74px;text-align:right}
-@media (max-width:600px){.film-time{display:none}}
-@media (prefers-reduced-motion:reduce){.fs.on .fs-bg img,.fs.on .fs-txt>*,.fs.on .fs-flow>*{animation:none!important}}
-
 /* ===== Bouches ===== */
 .bo-top{display:grid;gap:14px;margin:0 0 14px}
 .bo-plan img{max-height:none}
@@ -837,18 +775,10 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
   <div class="crumb"><p id="crumbD"></p></div>
 
   <section id="viewHome" hidden>
-    <section class="film" aria-labelledby="filmT">
-      <div class="film-h"><h2 id="filmT">Le projet en une minute</h2><span class="hint">Court métrage · 9 scènes · environ 55 s</span></div>
-      <div class="film-stage" id="filmStage" aria-roledescription="diaporama" aria-label="Court métrage du projet">
-        <button type="button" class="film-big" id="filmBig"><span aria-hidden="true">▶</span><b>Lancer le film</b></button>
-      </div>
-      <div class="film-ctl">
-        <button type="button" class="film-b" id="filmPrev" aria-label="Scène précédente">‹</button>
-        <button type="button" class="film-b film-play" id="filmPlay">Lecture</button>
-        <button type="button" class="film-b" id="filmNext" aria-label="Scène suivante">›</button>
-        <div class="film-prog" id="filmProg"></div>
-        <span class="film-time" id="filmTime" aria-hidden="true">0:00</span>
-      </div>
+    <section class="hv" aria-labelledby="hvT">
+      <div class="hv-h"><h2 id="hvT">Le projet en vidéo</h2><span class="hint">Film 3D de notre maquette · environ 1 min 25</span></div>
+      <video class="hv-v" controls preload="none" playsinline poster="files/film/affiche.jpg"><source src="files/film/EHPAD_La_Bassee_film_CVC.mp4" type="video/mp4">Ton navigateur ne lit pas la vidéo : <a href="files/film/EHPAD_La_Bassee_film_CVC.mp4" download>télécharge-la</a>.</video>
+      <div class="hv-b"><button type="button" class="btn small" id="hv3d">Voir le film en 3D interactive</button><a class="btn small" href="files/film/EHPAD_La_Bassee_film_CVC.mp4" download>Télécharger la vidéo (MP4)</a></div>
     </section>
     <div id="home"></div>
   </section>
@@ -2706,7 +2636,7 @@ function rvBatApply(){ if(!RB) return;
 (function(){
   const t=$("#rvBatTools"); if(!t) return;
   t.innerHTML=`<div class="bat-lay">${BAT_LAYERS.map(([k,l,on])=>`<label><input type="checkbox" data-blay="${k}" ${on?"checked":""}> ${l}</label>`).join("")}</div>
-    <div class="seg" role="group" aria-label="Coupe"><button data-bcut="" aria-pressed="true">Entier</button><button data-bcut="1.5" aria-pressed="false">Coupe RDC</button><button data-bcut="2.7" aria-pressed="false">Chaufferie</button><button data-bcut="3.15" aria-pressed="false">Plénum RDC</button><button data-bcut="4.9" aria-pressed="false">Coupe étage</button><button data-bcut="6.5" aria-pressed="false">Plénum étage</button></div><div class="gai-ctl" id="gaiCtl" hidden></div><div class="film-ctl"><button class="btn small primary" data-film>▶ Film de présentation</button><button class="btn small" data-filmrec>⏺ Enregistrer le film en vidéo</button><span class="hint" id="filmMsg"></span></div>`;
+    <div class="seg" role="group" aria-label="Coupe"><button data-bcut="" aria-pressed="true">Entier</button><button data-bcut="1.5" aria-pressed="false">Coupe RDC</button><button data-bcut="2.7" aria-pressed="false">Chaufferie</button><button data-bcut="3.15" aria-pressed="false">Plénum RDC</button><button data-bcut="4.9" aria-pressed="false">Coupe étage</button><button data-bcut="6.5" aria-pressed="false">Plénum étage</button></div><div class="gai-ctl" id="gaiCtl" hidden></div><div class="f3d-ctl"><button class="btn small primary" data-film>▶ Film de présentation</button><button class="btn small" data-filmrec>⏺ Enregistrer le film en vidéo</button><span class="hint" id="filmMsg"></span></div>`;
   t.querySelectorAll("[data-blay]").forEach(c=>c.onchange=rvBatApply);
   t.querySelectorAll("[data-bcut]").forEach(b=>b.onclick=()=>{ t.querySelectorAll("[data-bcut]").forEach(x=>x.setAttribute("aria-pressed",x===b)); rvBatApply(); });
 })();
@@ -3478,95 +3408,10 @@ renderMe(); renderTimeline(); renderFilters(); renderBoard(); renderHours();
 </script>
 
 <script>
-/* ---------- Court métrage de l'accueil ---------- */
-(function(){
-  const IMG="files/";
-  const SCENES=[
-    {cls:"photo",img:IMG+"3123751c84d97ff990b116a61db62f13.jpg",o:"60% 40%",k:"Projet tutoré N°3 · Licence BIM-CVC",t:"EHPAD La Bassée",p:"Le lot CVC et plomberie d'un EHPAD neuf, entièrement maquetté sous Revit 2026.",d:6},
-    {cls:"photo",img:IMG+"f109fc362936815e947e3f35ad3b9f5e.jpg",o:"30% 60%",k:"Le bâtiment",t:"Un EHPAD neuf près de Lens",stats:[["81","lits"],["≈ 4 000 m²","de surface"],["2","niveaux : RDC + étage"]],d:6},
-    {cls:"data",k:"L'énergie",t:"Chauffer et rafraîchir avec le sol",flow:[["11 sondes","150 m sous la voirie"],["2 PAC géothermiques","chaud et froid"],["2 chaudières gaz","en appoint et pour l'ECS"]],d:7},
-    {cls:"plan",img:IMG+"implantation/implantation_cta_toiture.png",o:"40% 50%",k:"L'air neuf",t:"5 CTA double flux en toiture",p:"Chacune est posée au-dessus de la zone qu'elle dessert.",d:6},
-    {cls:"plan",img:IMG+"gaines/reseaux.png",o:"50% 30%",k:"Les réseaux",t:"766 gaines, 774 raccords",p:"Réseau v13 : 218 bouches posées avec leur débit, gaines rigides et angles droits, par les couloirs et les gaines techniques.",d:6},
-    {cls:"data",k:"Les chiffres",t:"Le projet en quatre nombres",stats:[["320","espaces en 13 zones"],["86","réservations dans les murs, dalles et poutres"],["8 800 m³/h","pour la CTA 5, la plus grosse"],["218","bouches de ventilation posées"]],count:true,d:7},
-    {cls:"plan",img:IMG+"syn/apercu-SYN-03-B.jpg",o:"30% 40%",k:"Les documents",t:"3 synoptiques de principe",p:"Production, eau froide et ECS, ventilation : à télécharger, modifier et redéposer sur le site.",d:6},
-    {cls:"photo",img:IMG+"9440fcd110d41a3b8948855d5a7628da.jpg",o:"50% 50%",k:"Le confort",t:"Pensé pour les résidents",p:"90 m³/h d'air neuf par chambre, des radiateurs dans les chambres et des panneaux rayonnants dans le hall.",d:6},
-    {cls:"photo",img:IMG+"6cd0163b4f49205eb641a9633dc49272.jpg",o:"50% 40%",k:"L'équipe",t:"Allan · Mouhamed · Yann · Noah",p:"Soutenance le 28 mai 2027.",d:5}
-  ];
-  const stage=$("#filmStage"), prog=$("#filmProg"), playB=$("#filmPlay"), big=$("#filmBig"), timeEl=$("#filmTime");
-  if(!stage) return;
-  const total=SCENES.reduce((a,x)=>a+x.d,0);
-  const fmt=s=>Math.floor(s/60)+":"+String(Math.floor(s%60)).padStart(2,"0");
-  stage.insertAdjacentHTML("afterbegin",SCENES.map((x,i)=>`<div class="fs ${x.cls}" role="group" aria-roledescription="scène" aria-label="Scène ${i+1} sur ${SCENES.length} : ${esc(x.k)}" style="--d:${x.d}s;--o:${x.o||"50% 50%"}" aria-hidden="true">
-    ${x.img?`<div class="fs-bg"><img src="${x.img}" alt="" loading="lazy" decoding="async"></div>`:""}
-    <div class="fs-txt"><span class="fs-k">${esc(x.k)}</span><h3 class="fs-t">${esc(x.t)}</h3>
-      ${x.p?`<p class="fs-p">${esc(x.p)}</p>`:""}
-      ${x.stats?`<div class="fs-stats">${x.stats.map(s=>`<div><b${x.count?` data-n="${esc(s[0])}"`:""}>${esc(s[0])}</b><span>${esc(s[1])}</span></div>`).join("")}</div>`:""}
-      ${x.flow?`<div class="fs-flow">${x.flow.map((f,j)=>(j?`<i aria-hidden="true">→</i>`:"")+`<span>${esc(f[0])}<small>${esc(f[1])}</small></span>`).join("")}</div>`:""}
-    </div></div>`).join(""));
-  const els=[...stage.querySelectorAll(".fs")];
-  prog.innerHTML=SCENES.map((x,i)=>`<button type="button" aria-label="Aller à la scène ${i+1} : ${esc(x.k)}"><i><b></b></i></button>`).join("");
-  const bars=[...prog.querySelectorAll("b")];
-  let cur=0, t=0, playing=false, last=0, raf=0;
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  // Compteurs qui défilent pour la scène des chiffres
-  function countUp(el){
-    if(reduce) return;
-    el.querySelectorAll("[data-n]").forEach(b=>{
-      const txt=b.dataset.n, m=txt.match(/[\d\s]+/); if(!m) return;
-      const end=+m[0].replace(/\s/g,""), t0=performance.now();
-      const step=now=>{ if(!els[cur].contains(b)) { b.textContent=txt; return; }
-        const k=Math.min(1,(now-t0)/1400), v=Math.round(end*(1-Math.pow(1-k,3)));
-        b.textContent=txt.replace(m[0],v.toLocaleString("fr-FR").replace(/ | /g," ")+(m[0].endsWith(" ")?" ":""));
-        if(k<1) requestAnimationFrame(step); };
-      requestAnimationFrame(step);
-    });
-  }
-  function show(i,restart){
-    cur=(i+SCENES.length)%SCENES.length; t=0;
-    els.forEach((e,j)=>{ const on=j===cur; e.setAttribute("aria-hidden",!on);
-      if(on&&restart){ e.classList.remove("on"); void e.offsetWidth; }
-      e.classList.toggle("on",on); });
-    bars.forEach((b,j)=>b.style.width=j<cur?"100%":"0");
-    if(SCENES[cur].count) countUp(els[cur]);
-    draw();
-  }
-  function draw(){
-    bars[cur].style.width=Math.min(100,t/SCENES[cur].d*100)+"%";
-    const done=SCENES.slice(0,cur).reduce((a,x)=>a+x.d,0)+t;
-    timeEl.textContent=fmt(done)+" / "+fmt(total);
-  }
-  function tick(now){
-    if(!playing) return;
-    t+=(now-last)/1000; last=now;
-    if(t>=SCENES[cur].d){
-      if(cur===SCENES.length-1){ t=SCENES[cur].d; draw(); pause(); return; }
-      show(cur+1,true);
-    } else draw();
-    raf=requestAnimationFrame(tick);
-  }
-  function play(){
-    if(cur===SCENES.length-1&&t>=SCENES[cur].d) show(0,true);
-    if(!els.some(e=>e.classList.contains("on"))) show(cur,true);
-    playing=true; big.hidden=true; stage.classList.remove("paused");
-    playB.textContent="Pause"; last=performance.now(); cancelAnimationFrame(raf); raf=requestAnimationFrame(tick);
-  }
-  function pause(){
-    playing=false; cancelAnimationFrame(raf); stage.classList.add("paused");
-    playB.textContent=(cur===SCENES.length-1&&t>=SCENES[cur].d)?"Revoir":"Lecture";
-  }
-  big.onclick=()=>{ play(); playB.focus(); };
-  playB.onclick=()=>playing?pause():play();
-  $("#filmPrev").onclick=()=>{ show(cur-1,true); if(!playing){ big.hidden=true; stage.classList.remove("paused"); } };
-  $("#filmNext").onclick=()=>{ show(cur+1,true); if(!playing){ big.hidden=true; stage.classList.remove("paused"); } };
-  prog.querySelectorAll("button").forEach((b,i)=>b.onclick=()=>{ show(i,true); if(!playing){ big.hidden=true; stage.classList.remove("paused"); } });
-  stage.addEventListener("keydown",e=>{ if(e.key==="ArrowRight") $("#filmNext").click(); else if(e.key==="ArrowLeft") $("#filmPrev").click(); });
-  // On met en pause quand on quitte l'accueil ou l'onglet du navigateur
-  const _setTab=setTab; setTab=function(x){ _setTab(x); if(x!=="home"&&playing) pause(); };
-  document.addEventListener("visibilitychange",()=>{ if(document.hidden&&playing) pause(); });
-  // Image de départ : première scène, sans animation
-  els[0].classList.add("on"); els[0].setAttribute("aria-hidden","false"); stage.classList.add("paused"); draw();
-})();
+/* ---------- Accueil : vidéo du film 3D ---------- */
+$("#hv3d").onclick=()=>{ const v=document.querySelector(".hv-v"); if(v) v.pause(); setTab("revit"); const b=document.querySelector('[data-vw="bat"]'); if(b) b.click();
+  const go=()=>{ if(RB){ $("#rvBat").scrollIntoView({behavior:"smooth",block:"start"}); filmStart(false); } else setTimeout(go,300); }; go(); };
+document.addEventListener("click",e=>{ if(!e.target.closest("[role=tab]")) return; const v=document.querySelector(".hv-v"); if(v&&!v.paused) v.pause(); });
 </script>
 
 <script>
