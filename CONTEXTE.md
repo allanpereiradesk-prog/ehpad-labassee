@@ -87,3 +87,13 @@ Reste à faire côté Revit :
 - `gaines.json` : liste d'objets `{id, k:"gaine"|"raccord", sys:"Soufflage"|"Reprise"|..., net:"CTA n", W, H, L, lv, q, vit, tr, part, v:[x,y,z,...]}`. `v` contient les sommets des triangles, en mètres, repère partagé.
 - `equip.json` : liste d'objets `{id, type, mark, fab, fam, mod, cctp, verif, com, src, space, desc, off, ...}`.
 - Les fichiers Excel et Word vont aussi dans `docs/` en version `.b64.txt` si le site les sert depuis là.
+- `reservations.json` : format détaillé dans `exports-revit/README.md`. Le site le lit directement dans `exports-revit/`.
+- Pour la couleur par CTA dans la 3D, mettre `net` (`"CTA 1"`…) **aussi sur les raccords**.
+
+## 7. Journal du Claude « site »
+
+- **18/10** :
+  - Synoptique **SYN-03 indice B**, publié par `migrations.json` (fichiers `files/syn/*_B.*`). Ajout du bloc « 3 · Implantation et réseaux » : position des CTA, descentes, pertes de charge.
+  - Nouvel onglet **Réservations** (`#reservations`) : tableau, filtres et export CSV. Il attend `exports-revit/reservations.json`.
+  - Dans la **3D**, les gaines sont colorées par CTA, avec un filtre Tout / Soufflage / Reprise et une case par CTA.
+  - Il faudra **changer `GAI_V` et `EQ_V`** dans `index.html` quand on intégrera les nouveaux `gaines.json` et `equip.json`, sinon le navigateur garde l'ancienne version en cache.

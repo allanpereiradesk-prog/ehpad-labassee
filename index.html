@@ -585,6 +585,10 @@ button.h-tile{cursor:pointer}button.h-tile:hover{outline:2px solid color-mix(in 
 .h-tt{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .nw{white-space:nowrap}
 .fam-t{width:100%;border-collapse:collapse;font-size:13.5px}.fam-t th{text-align:left;font-weight:600;color:var(--muted);padding:8px;border-bottom:1px solid var(--line)}.fam-t td{padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:top}.fam-t .nw{white-space:nowrap}.fam-t .hint{font-size:12.5px}.fam-dl{white-space:nowrap;font-weight:600;color:var(--accent);text-decoration:none}.fam-dl:hover{text-decoration:underline}.rv-pointer{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.resa-sum{display:flex;flex-wrap:wrap;gap:10px;margin:4px 0 14px}.resa-sum .k{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:8px 12px;min-width:120px}.resa-sum .k b{display:block;font-size:22px;font-variant-numeric:tabular-nums}.resa-sum .k span{font-size:13px;color:var(--muted)}
+.resa-f{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 10px}.resa-f select,.resa-f input{max-width:100%}.resa-f input{flex:1 1 180px}
+.resa-t td{font-size:14px}.resa-t .num{font-variant-numeric:tabular-nums;white-space:nowrap}.resa-t .cta{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}.resa-t .cta i,.gai-leg i{width:10px;height:10px;border-radius:2px;display:inline-block;background:var(--cc)}
+.gai-ctl{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;font-size:14px}.gai-leg{display:flex;flex-wrap:wrap;gap:4px 10px}.gai-leg label{display:inline-flex;gap:5px;align-items:center;cursor:pointer}
 .fam-act{display:flex;gap:10px;align-items:center;white-space:nowrap}.fam-3d{padding:4px 10px;font-size:13px}
 .f3d-dlg{border:0;border-radius:12px;padding:0;width:min(900px,96vw);box-shadow:0 20px 60px rgba(0,0,0,.3);background:var(--surface);color:inherit}.f3d-dlg::backdrop{background:rgba(15,23,42,.45)}
 .f3d-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line)}
@@ -656,6 +660,7 @@ button.h-tile{cursor:pointer}button.h-tile:hover{outline:2px solid color-mix(in 
       <span class="tsep" aria-hidden="true"></span>
       <button role="tab" id="tabDocs" aria-selected="false">Documents</button>
       <button role="tab" id="tabSyn" aria-selected="false">Synoptiques</button>
+      <button role="tab" id="tabResa" aria-selected="false">Réservations</button>
       <button role="tab" id="tabFam" aria-selected="false">Familles</button>
       <button role="tab" id="tabImpl" aria-selected="false">Implantation</button>
       <button role="tab" id="tabRevit" aria-selected="false">Revit</button>
@@ -1094,6 +1099,25 @@ button.h-tile{cursor:pointer}button.h-tile:hover{outline:2px solid color-mix(in 
       <p>Les schémas de principe de l'installation. Pour en modifier un : <b>télécharge le DXF</b>, ouvre-le dans AutoCAD, fais tes changements, puis <b>« Déposer une nouvelle version »</b> avec le DXF (ou DWG) et son PDF. L'indice passe à la lettre suivante (A → B → C…) et les anciennes versions restent dans l'historique.</p>
     </section>
     <div id="synList" class="syn-list"></div>
+  </main>
+
+  <main id="viewResa" hidden>
+    <section class="rv-head">
+      <div class="label">Lot 12 CVC · ventilation</div>
+      <h2>Réservations</h2>
+      <p>Les trous à prévoir pour faire passer mes gaines : <b>traversées de murs</b>, <b>trémies</b> dans les planchers et passages dans les <b>poutres</b>. La liste vient de la maquette Revit. Les passages dans les poutres sont à faire valider par le <b>BE structure</b>.</p>
+    </section>
+    <div id="resaSum" class="resa-sum"></div>
+    <div class="resa-f" id="resaF">
+      <select data-rf="type" aria-label="Filtrer par type"></select>
+      <select data-rf="lv" aria-label="Filtrer par niveau"></select>
+      <select data-rf="cta" aria-label="Filtrer par CTA"></select>
+      <select data-rf="statut" aria-label="Filtrer par statut"></select>
+      <input type="search" data-rf="q" placeholder="Chercher (mur, local, ID…)" aria-label="Chercher">
+      <button class="btn small" id="resaCsv">Télécharger en CSV</button>
+    </div>
+    <div class="tbl-wrap"><table class="fam-t resa-t"><thead><tr><th>N°</th><th>Type</th><th>Niveau</th><th>Élément traversé</th><th>Dimensions</th><th>CTA</th><th>Statut</th></tr></thead><tbody id="resaBody"></tbody></table></div>
+    <p class="hint" id="resaSrc"></p>
   </main>
 
   <main id="viewFam" hidden>
@@ -2215,10 +2239,16 @@ async function rvBatInit(){
       layers.eq.add(grp); eqMeshes[e.id]=grp; });
     // gaines de ventilation (réseaux principaux tracés dans Revit)
     const GA=await fetch("files/b3d/gaines.json?v="+GAI_V).then(r=>r.ok?r.json():[]).catch(()=>[]);
-    GA.forEach(g=>{ const pos=new Float32Array(g.t.length*3); for(let i=0;i<g.t.length;i++){ const j=g.t[i]*3; pos[i*3]=g.v[j]-cx; pos[i*3+1]=g.v[j+1]-cy; pos[i*3+2]=g.v[j+2]; }
+    // raccords sans CTA : on prend la CTA de la gaine la plus proche (même réseau)
+    const gTris=g=>{ if(g.t) return {v:g.v,t:g.t}; const t=[]; for(let i=0;i<g.v.length/3;i++) t.push(i); return {v:g.v,t}; };
+    const gCtr=g=>{ let x=0,y=0,z=0,n=g.v.length/3; for(let i=0;i<g.v.length;i+=3){ x+=g.v[i]; y+=g.v[i+1]; z+=g.v[i+2]; } return [x/n,y/n,z/n]; };
+    GA.filter(g=>!g.net).forEach(r=>{ const c=gCtr(r); let best=null, bd=1e9;
+      GA.forEach(g=>{ if(!g.net||g.sys!==r.sys) return; for(let i=0;i<g.v.length;i+=3){ const d=(g.v[i]-c[0])**2+(g.v[i+1]-c[1])**2+(g.v[i+2]-c[2])**2; if(d<bd){ bd=d; best=g; } } });
+      if(best){ r.net=best.net; r.netAuto=true; } });
+    GA.forEach(g=>{ const T=gTris(g); const pos=new Float32Array(T.t.length*3); for(let i=0;i<T.t.length;i++){ const j=T.t[i]*3; pos[i*3]=T.v[j]-cx; pos[i*3+1]=T.v[j+1]-cy; pos[i*3+2]=T.v[j+2]; }
       const geo=new THREE.BufferGeometry(); geo.setAttribute("position",new THREE.BufferAttribute(pos,3)); geo.computeVertexNormals();
-      const col=g.sys==="Reprise"?(g.k==="raccord"?0xc8661a:0xe8892f):(g.k==="raccord"?0x1f5fa8:0x3b82d6);
-      const m=new THREE.Mesh(geo,new THREE.MeshLambertMaterial({color:col,side:THREE.DoubleSide,clippingPlanes:[clip]})); m.userData={gai:g}; layers.gai.add(m); pick.push(m); });
+      const m=new THREE.Mesh(geo,new THREE.MeshLambertMaterial({color:gaiColor(g),side:THREE.DoubleSide,clippingPlanes:[clip]})); m.userData={gai:g}; layers.gai.add(m); pick.push(m); });
+    gaiCtlInit(GA);
     const gaiSel=g=>{ layers.gai.children.forEach(m=>m.material.emissive.setHex(g&&m.userData.gai.net===g.net&&m.userData.gai.sys===g.sys?(m.userData.gai===g?0x664400:0x1a1a1a):0)); };
     const eqSel=id=>{ Object.entries(eqMeshes).forEach(([k,g])=>g.children.forEach(m=>m.material.emissive.setHex(k===String(id)?0x8a6a00:0x000000))); };
     const ctl=new THREE.OrbitControls(cam,ren.domElement); ctl.target.set(0,8,3); ctl.enableDamping=true; ctl.maxPolarAngle=Math.PI*0.49; ctl.update();
@@ -2226,7 +2256,7 @@ async function rvBatInit(){
     ren.domElement.addEventListener("pointerdown",e=>{ down=[e.clientX,e.clientY]; });
     ren.domElement.addEventListener("pointerup",e=>{ if(!down||Math.hypot(e.clientX-down[0],e.clientY-down[1])>5) return; const r=ren.domElement.getBoundingClientRect();
       mv.set(((e.clientX-r.left)/r.width)*2-1,-((e.clientY-r.top)/r.height)*2+1); ray.setFromCamera(mv,cam);
-      const vis=pick.filter(m=>m.parent.visible);
+      const vis=pick.filter(m=>m.visible&&m.parent.visible);
       const hit=ray.intersectObjects(vis).find(h=>h.point.z<=clip.constant+0.001);
       const info=$("#rvBatInfo");
       if(!hit){ eqSel(null); gaiSel(null); info.innerHTML=`<span class="hint">Clique un élément pour savoir ce que c'est.</span>`; return; }
@@ -2292,6 +2322,27 @@ function gaiInfo(g,GA){
     </div></div>`;
   const b=info.querySelector("[data-gocta]"); if(b) b.onclick=()=>{ const e=RB.EQ.find(x=>x.mark===g.net); if(e) rvBatFocus(e.id); };
 }
+/* gaines : couleur par CTA ou par réseau, filtre soufflage / reprise */
+const GAI={mode:"cta",sys:"",off:new Set()};
+const hexMix=(h,w,t)=>{ const a=parseInt(h.slice(1),16), r=a>>16, g=a>>8&255, b=a&255, k=w?255:0; return Math.round(r+(k-r)*t)<<16|Math.round(g+(k-g)*t)<<8|Math.round(b+(k-b)*t); };
+function gaiColor(g){
+  if(GAI.mode==="sys") return g.sys==="Reprise"?(g.k==="raccord"?0xc8661a:0xe8892f):(g.k==="raccord"?0x1f5fa8:0x3b82d6);
+  const base=CTA_COL[g.net]||"#8a949c"; let c=g.sys==="Reprise"?hexMix(base,true,.45):parseInt(base.slice(1),16);
+  if(g.k==="raccord") c=hexMix("#"+c.toString(16).padStart(6,"0"),false,.18); return c; }
+function gaiApply(){ if(!RB) return; RB.layers.gai.children.forEach(m=>{ const g=m.userData.gai; m.material.color.setHex(gaiColor(g)); m.visible=(!GAI.sys||g.sys===GAI.sys)&&!GAI.off.has(g.net||""); });
+  const box=$("#gaiCtl"); if(box) box.querySelectorAll(".gai-leg i").forEach(i=>{ const n=i.dataset.net; i.style.setProperty("--cc",GAI.mode==="cta"?(CTA_COL[n]||"#8a949c"):"#3b82d6"); }); }
+function gaiCtlInit(GA){ const box=$("#gaiCtl"); if(!box) return; if(!GA.length){ box.hidden=true; return; }
+  const nets=[...new Set(GA.map(g=>g.net||""))].filter(Boolean).sort((a,b)=>a.localeCompare(b,"fr",{numeric:true}));
+  box.innerHTML=`<span class="hint">Gaines :</span>
+    <div class="seg" role="group" aria-label="Couleur des gaines"><button data-gmode="cta" aria-pressed="true">Couleur par CTA</button><button data-gmode="sys" aria-pressed="false">Soufflage / reprise</button></div>
+    <div class="seg" role="group" aria-label="Réseau affiché"><button data-gsys="" aria-pressed="true">Tout</button><button data-gsys="Soufflage" aria-pressed="false">Soufflage</button><button data-gsys="Reprise" aria-pressed="false">Reprise</button></div>
+    <div class="gai-leg">${nets.map(n=>`<label><input type="checkbox" data-gnet="${esc(n)}" checked><i data-net="${esc(n)}"></i>${esc(n)}</label>`).join("")}</div>
+    <span class="hint" id="gaiHint">Teinte foncée = soufflage, claire = reprise.</span>`;
+  box.hidden=false;
+  box.querySelectorAll("[data-gmode]").forEach(b=>b.onclick=()=>{ GAI.mode=b.dataset.gmode; box.querySelectorAll("[data-gmode]").forEach(x=>x.setAttribute("aria-pressed",x===b)); $("#gaiHint").textContent=GAI.mode==="cta"?"Teinte foncée = soufflage, claire = reprise.":"Bleu = soufflage, orange = reprise."; gaiApply(); });
+  box.querySelectorAll("[data-gsys]").forEach(b=>b.onclick=()=>{ GAI.sys=b.dataset.gsys; box.querySelectorAll("[data-gsys]").forEach(x=>x.setAttribute("aria-pressed",x===b)); gaiApply(); });
+  box.querySelectorAll("[data-gnet]").forEach(c=>c.onchange=()=>{ if(c.checked) GAI.off.delete(c.dataset.gnet); else GAI.off.add(c.dataset.gnet); gaiApply(); });
+  setTimeout(gaiApply,0); }
 function rvBatFocus(id){ if(!RB) return; const e=RB.EQ.find(x=>String(x.id)===String(id)); if(!e) return;
   const c=[(e.bb[0][0]+e.bb[1][0])/2-RB.cx,(e.bb[0][1]+e.bb[1][1])/2-RB.cy,(e.bb[0][2]+e.bb[1][2])/2];
   RB.layers.eq.visible=true; const cb=document.querySelector('[data-blay="eq"]'); if(cb) cb.checked=true;
@@ -2307,7 +2358,7 @@ function rvBatApply(){ if(!RB) return;
 (function(){
   const t=$("#rvBatTools"); if(!t) return;
   t.innerHTML=`<div class="bat-lay">${BAT_LAYERS.map(([k,l,on])=>`<label><input type="checkbox" data-blay="${k}" ${on?"checked":""}> ${l}</label>`).join("")}</div>
-    <div class="seg" role="group" aria-label="Coupe"><button data-bcut="" aria-pressed="true">Entier</button><button data-bcut="1.5" aria-pressed="false">Coupe RDC</button><button data-bcut="2.7" aria-pressed="false">Chaufferie</button><button data-bcut="3.15" aria-pressed="false">Plénum RDC</button><button data-bcut="4.9" aria-pressed="false">Coupe étage</button><button data-bcut="6.5" aria-pressed="false">Plénum étage</button></div>`;
+    <div class="seg" role="group" aria-label="Coupe"><button data-bcut="" aria-pressed="true">Entier</button><button data-bcut="1.5" aria-pressed="false">Coupe RDC</button><button data-bcut="2.7" aria-pressed="false">Chaufferie</button><button data-bcut="3.15" aria-pressed="false">Plénum RDC</button><button data-bcut="4.9" aria-pressed="false">Coupe étage</button><button data-bcut="6.5" aria-pressed="false">Plénum étage</button></div><div class="gai-ctl" id="gaiCtl" hidden></div>`;
   t.querySelectorAll("[data-blay]").forEach(c=>c.onchange=rvBatApply);
   t.querySelectorAll("[data-bcut]").forEach(b=>b.onclick=()=>{ t.querySelectorAll("[data-bcut]").forEach(x=>x.setAttribute("aria-pressed",x===b)); rvBatApply(); });
 })();
@@ -2354,7 +2405,7 @@ function renderSyn(){
       <div class="syn-h"><span class="syn-id">${esc(s._id)}</span><div><h3>${esc(s.title||"")}</h3><p class="hint" style="margin:2px 0 0">${esc(s.desc||"")}</p></div>
         <span class="syn-ind">Indice <b>${esc(v.indice||"–")}</b></span></div>
       ${s.preview?`<button class="syn-prev" data-sview='${esc(JSON.stringify(v.pdf||{}))}' title="Ouvrir le PDF"><img src="${esc(s.preview)}" alt="Aperçu de ${esc(s._id)}" loading="lazy"></button>`:""}
-      <div class="syn-meta hint">Version ${esc(v.indice||"")} · ${esc(v.by||"")} · ${v.at?fmtDate(v.at.slice(0,10)):""}${v.note?" · "+esc(v.note):""}${s.preview&&(s.versions||[]).length>1?" · l'aperçu image montre l'indice A, ouvre le PDF pour la dernière version":""}</div>
+      <div class="syn-meta hint">Version ${esc(v.indice||"")} · ${esc(v.by||"")} · ${v.at?fmtDate(v.at.slice(0,10)):""}${v.note?" · "+esc(v.note):""}${s.preview&&(s.versions||[]).length>1&&(s.previewIndice||"A")!==v.indice?` · l'aperçu image montre l'indice ${esc(s.previewIndice||"A")}, ouvre le PDF pour la dernière version`:""}</div>
       <div class="syn-btns">${synViewBtn(v.pdf)}${synFileBtn(v.dxf,"Télécharger le DXF (AutoCAD)")}${synFileBtn(v.pdf,"Télécharger le PDF")}</div>
       <details class="syn-up"><summary>Déposer une nouvelle version (indice ${nextIndice(s)})</summary>
         <div class="dadd-b">
@@ -2383,6 +2434,50 @@ function renderSyn(){
   });
 }
 document.querySelectorAll("[data-dm]").forEach(b=>b.onclick=()=>{ docsMode=b.dataset.dm; document.querySelectorAll("[data-dm]").forEach(x=>x.setAttribute("aria-pressed",x===b)); renderDocs(); });
+
+/* ---------- Réservations (données déposées par le compte Revit) ---------- */
+const CTA_COL={"CTA 1":"#2f6fd6","CTA 2":"#1f9d55","CTA 3":"#e07b00","CTA 4":"#8e44c9","CTA 5":"#d33a3a"};
+const RESA_SRC=["files/reservations/reservations.json","exports-revit/reservations.json"];
+const RESA_ST={"à faire":"var(--todo)","à valider":"var(--doing)","validée":"var(--done)","refusée":"var(--danger)"};
+const RESA_LV={N00:"RDC",N01:"Étage",NT1:"Toiture"};
+let resa=null, resaMeta={}, resaF={type:"",lv:"",cta:"",statut:"",q:""};
+async function loadResa(){
+  for(const u of RESA_SRC){ try{ const r=await fetch(u+"?t="+Date.now(),{cache:"no-store"}); if(!r.ok) continue; const j=await r.json();
+    resa=(Array.isArray(j)?j:(j.items||[])).map((x,i)=>({...x,id:x.id||("R-"+String(i+1).padStart(3,"0"))})); resaMeta={src:u,maj:Array.isArray(j)?"":(j.maj||"")}; return; }catch(e){} }
+  resa=[]; resaMeta={}; }
+const resaLv=v=>RESA_LV[v]||v||"";
+const resaDim=x=>x.D?`Ø ${Number(x.D).toLocaleString("fr-FR")} mm`:(x.W&&x.H?`${Number(x.W).toLocaleString("fr-FR")} × ${Number(x.H).toLocaleString("fr-FR")} mm`:"");
+const resaSt=x=>String(x.statut||"à faire").toLowerCase();
+function resaRows(){ const q=resaF.q.trim().toLowerCase();
+  return (resa||[]).filter(x=>(!resaF.type||x.type===resaF.type)&&(!resaF.lv||x.lv===resaF.lv)&&(!resaF.cta||x.cta===resaF.cta)&&(!resaF.statut||resaSt(x)===resaF.statut)
+    &&(!q||[x.id,x.type,x.elem,x.local,x.rid,x.com,x.sys].join(" ").toLowerCase().includes(q))); }
+async function renderResa(){
+  if(resa===null){ $("#resaBody").innerHTML=`<tr><td colspan="7" class="hint">Chargement…</td></tr>`; await loadResa(); }
+  const all=resa, uniq=k=>[...new Set(all.map(x=>k==="statut"?resaSt(x):x[k]).filter(Boolean))].sort((a,b)=>String(a).localeCompare(String(b),"fr"));
+  const lab={type:"Tous les types",lv:"Tous les niveaux",cta:"Toutes les CTA",statut:"Tous les statuts"};
+  document.querySelectorAll("#resaF select").forEach(sel=>{ const k=sel.dataset.rf; sel.innerHTML=`<option value="">${lab[k]}</option>`+uniq(k).map(v=>`<option value="${esc(v)}"${resaF[k]===v?" selected":""}>${esc(k==="lv"?resaLv(v):v)}</option>`).join(""); });
+  if(!all.length){
+    $("#resaSum").innerHTML="";
+    $("#resaBody").innerHTML=`<tr><td colspan="7"><div class="notice">Pas encore de données. La liste sortira de la maquette Revit (fichier <code>exports-revit/reservations.json</code>). Prévu d'après le dernier point : <b>51 traversées de murs</b>, <b>20 trémies</b> et quelques passages dans les poutres.</div></td></tr>`;
+    $("#resaSrc").textContent=""; return; }
+  const cnt=f=>all.filter(f).length, types=uniq("type");
+  $("#resaSum").innerHTML=`<div class="k"><b>${all.length}</b><span>réservations</span></div>`+types.map(t=>`<div class="k"><b>${cnt(x=>x.type===t)}</b><span>${esc(t)}</span></div>`).join("")
+    +`<div class="k"><b>${cnt(x=>resaSt(x)==="à valider")}</b><span>à faire valider</span></div><div class="k"><b>${cnt(x=>resaSt(x)==="validée")}</b><span>validées</span></div>`;
+  const rows=resaRows();
+  $("#resaBody").innerHTML=rows.length?rows.map(x=>`<tr><td class="nw">${esc(x.id)}</td><td>${esc(x.type||"")}</td><td class="nw">${esc(resaLv(x.lv))}</td>
+    <td>${esc(x.elem||"")}${x.local?`<div class="hint">${esc(x.local)}</div>`:""}${x.com?`<div class="hint">${esc(x.com)}</div>`:""}</td>
+    <td class="num">${esc(resaDim(x))}${x.sys?`<div class="hint">${esc(x.sys)}</div>`:""}</td>
+    <td>${x.cta?`<span class="cta" style="--cc:${CTA_COL[x.cta]||"#888"}"><i></i>${esc(x.cta)}</span>`:""}</td>
+    <td><span class="pill" style="--pc:${RESA_ST[resaSt(x)]||"var(--todo)"}">${esc(resaSt(x))}</span>${x.rid?`<div class="hint">ID Revit ${esc(x.rid)}</div>`:""}</td></tr>`).join("")
+    :`<tr><td colspan="7" class="hint">Aucune réservation avec ces filtres.</td></tr>`;
+  $("#resaSrc").textContent=`${rows.length} sur ${all.length} affichées · source : ${resaMeta.src||""}${resaMeta.maj?" · mise à jour du "+fmtDate(resaMeta.maj):""}`;
+}
+document.querySelectorAll("#resaF [data-rf]").forEach(el=>el.addEventListener(el.tagName==="INPUT"?"input":"change",()=>{ resaF[el.dataset.rf]=el.value; renderResa(); }));
+$("#resaCsv").onclick=()=>{ const rows=resaRows(); if(!rows.length){ toast("Rien à exporter."); return; }
+  const c=v=>`"${String(v??"").replace(/"/g,'""')}"`;
+  const csv="﻿"+[["N°","Type","Niveau","Élément traversé","Local","Largeur (mm)","Hauteur (mm)","Diamètre (mm)","CTA","Réseau","Statut","ID Revit","Commentaire"].map(c).join(";")]
+    .concat(rows.map(x=>[x.id,x.type,resaLv(x.lv),x.elem,x.local,x.W,x.H,x.D,x.cta,x.sys,resaSt(x),x.rid,x.com].map(c).join(";"))).join("\r\n");
+  const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"})); a.download="EHPAD_Reservations_CVC.csv"; document.body.appendChild(a); a.click(); a.remove(); };
 
 /* ---------- Échanges avec les enseignants ---------- */
 const ECH_SPACES=[{k:"tous",n:"Tous",d:"Espace commun : ce qui concerne tous les enseignants."},...Object.entries(PROFS).map(([m,p])=>({k:p.k,n:p.n,d:`Espace entre l'équipe et ${p.n}.`,m}))];
@@ -2733,6 +2828,10 @@ function setTab(t){ if(t==="logs"&&!(typeof isAdmin==="function"&&isAdmin())) t=
   if(t==="issues"){ renderIssueForm(); renderIssues(); } }
 $("#tabHome").onclick=()=>setTab("home"); $("#tabTasks").onclick=()=>setTab("tasks"); $("#tabMine").onclick=()=>setTab("mine"); $("#tabDone").onclick=()=>setTab("done"); $("#tabIssues").onclick=()=>setTab("issues"); $("#tabProj").onclick=()=>setTab("proj"); $("#tabAcc").onclick=()=>setTab("acc"); $("#tabHours").onclick=()=>setTab("hours"); $("#tabDocs").onclick=()=>setTab("docs"); $("#tabRevit").onclick=()=>setTab("revit"); $("#tabTuto").onclick=()=>setTab("tuto"); $("#tabCaps").onclick=()=>setTab("caps"); $("#tabSyn").onclick=()=>setTab("syn"); $("#tabFam").onclick=()=>setTab("fam"); $("#tabImpl").onclick=()=>setTab("impl"); $("#goImpl").onclick=()=>{ setTab("impl"); window.scrollTo(0,0); }; $("#goFam").onclick=()=>{ setTab("fam"); window.scrollTo(0,0); }; if($("#goBat")) $("#goBat").onclick=()=>{ const b=document.querySelector('[data-vw="bat"]'); if(b) b.click(); setTimeout(()=>$("#rvBat").scrollIntoView({behavior:"smooth",block:"start"}),100); }; $("#tabEch").onclick=()=>setTab("ech"); $("#tabLogs").onclick=()=>setTab("logs"); $("#goTuto").onclick=()=>{ setTab("tuto"); window.scrollTo(0,0); };
 
+TAB_META.resa=["Fichiers","Réservations","Les trous à prévoir pour les gaines : murs, trémies, poutres."];
+{ const _setTab=setTab; setTab=function(t){ _setTab(t); const on=t==="resa"; $("#viewResa").hidden=!on; $("#tabResa").setAttribute("aria-selected",on); if(on) renderResa(); }; }
+$("#tabResa").onclick=()=>setTab("resa");
+
 /* ---------- Accueil ---------- */
 function renderHome(){
   const box=$("#home"); if(!box) return;
@@ -2775,7 +2874,7 @@ function renderAll(){ renderHome(); renderBoard(); renderMine(); renderDone(); r
 
 /* ---------- Boot ---------- */
 renderMe(); renderTimeline(); renderFilters(); renderBoard(); renderHours();
-{ const st=store.get("ehpad-tab"); if(location.hash==="#heures") setTab("hours"); else if(location.hash==="#mes-taches") setTab("mine"); else if(location.hash==="#realise") setTab("done"); else if(location.hash==="#problemes") setTab("issues"); else if(location.hash==="#projet") setTab("proj"); else if(location.hash==="#acc") setTab("acc"); else if(location.hash==="#documents") setTab("docs"); else if(location.hash==="#revit") setTab("revit"); else if(location.hash==="#tuto") setTab("tuto"); else if(location.hash==="#captures") setTab("caps"); else if(location.hash==="#synoptiques") setTab("syn"); else if(location.hash==="#familles") setTab("fam"); else if(location.hash==="#implantation") setTab("impl"); else if(location.hash==="#echanges") setTab("ech"); else if(location.hash==="#logs") setTab("logs"); else if(location.hash==="#accueil") setTab("home"); else setTab(["home","hours","mine","done","issues","proj","tasks","acc","docs","revit","tuto","caps","syn","fam","impl","ech","logs"].includes(st)?st:"home"); }
+{ const st=store.get("ehpad-tab"); if(location.hash==="#heures") setTab("hours"); else if(location.hash==="#mes-taches") setTab("mine"); else if(location.hash==="#realise") setTab("done"); else if(location.hash==="#problemes") setTab("issues"); else if(location.hash==="#projet") setTab("proj"); else if(location.hash==="#acc") setTab("acc"); else if(location.hash==="#documents") setTab("docs"); else if(location.hash==="#revit") setTab("revit"); else if(location.hash==="#tuto") setTab("tuto"); else if(location.hash==="#captures") setTab("caps"); else if(location.hash==="#synoptiques") setTab("syn"); else if(location.hash==="#reservations") setTab("resa"); else if(location.hash==="#familles") setTab("fam"); else if(location.hash==="#implantation") setTab("impl"); else if(location.hash==="#echanges") setTab("ech"); else if(location.hash==="#logs") setTab("logs"); else if(location.hash==="#accueil") setTab("home"); else setTab(["home","hours","mine","done","issues","proj","tasks","acc","docs","revit","tuto","caps","syn","resa","fam","impl","ech","logs"].includes(st)?st:"home"); }
 
 (async()=>{
   db = await window.claude.use("db");

@@ -500,5 +500,36 @@
     }
    ]
   }
+ },
+ {
+  "id": "2026-10-18-syn-03-B",
+  "doc": "synoptiques/SYN-03",
+  "union": {
+   "versions": [
+    {
+     "indice": "B",
+     "at": "2026-10-18T15:00:00Z",
+     "by": "Allan",
+     "note": "Ajout du bloc 3 : implantation des 5 CTA en toiture, descentes et pertes de charge (réseau Revit v10)",
+     "dxf": {
+      "path": "files/syn/EXE_RSP_CVC_SYN-03_Ventilation_B.dxf",
+      "name": "EXE_RSP_CVC_SYN-03_B.dxf"
+     },
+     "pdf": {
+      "path": "files/syn/EXE_RSP_CVC_SYN-03_Ventilation_B.pdf",
+      "name": "EXE_RSP_CVC_SYN-03_B.pdf",
+      "type": "application/pdf"
+     }
+    }
+   ]
+  }
+ },
+ {
+  "id": "2026-10-18-syn-03-B-apercu",
+  "doc": "synoptiques/SYN-03",
+  "data": {
+   "preview": "files/syn/apercu-SYN-03-B.jpg",
+   "previewIndice": "B"
+  }
  }
 ]
