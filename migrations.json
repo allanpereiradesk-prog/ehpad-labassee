@@ -531,5 +531,57 @@
    "preview": "files/syn/apercu-SYN-03-B.jpg",
    "previewIndice": "B"
   }
+ },
+ {
+  "id": "2026-10-19-i05-bouches-docs",
+  "doc": "tasks/i05",
+  "union": {
+   "docs": [
+    {
+     "name": "Excel des bouches de ventilation : débits, vitesse au col, synthèse par CTA",
+     "at": "2026-10-19T00:30:00Z",
+     "by": "Allan",
+     "file": "EHPAD_Bouches_Ventilation.xlsx",
+     "kind": "static",
+     "path": "docs/EHPAD_Bouches_Ventilation.xlsx.b64.txt",
+     "type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    },
+    {
+     "name": "Plan des bouches et des antennes (RDC + étage)",
+     "at": "2026-10-19T00:30:00Z",
+     "by": "Allan",
+     "file": "plan_bouches.png",
+     "kind": "static",
+     "path": "files/bouches/plan_bouches.png",
+     "type": "image/png"
+    }
+   ]
+  }
+ },
+ {
+  "id": "2026-10-19-i02-bouches-docs",
+  "doc": "tasks/i02",
+  "union": {
+   "docs": [
+    {
+     "name": "Excel des bouches de ventilation : débits, vitesse au col, synthèse par CTA",
+     "at": "2026-10-19T00:30:00Z",
+     "by": "Allan",
+     "file": "EHPAD_Bouches_Ventilation.xlsx",
+     "kind": "static",
+     "path": "docs/EHPAD_Bouches_Ventilation.xlsx.b64.txt",
+     "type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    },
+    {
+     "name": "Plan des bouches et des antennes (RDC + étage)",
+     "at": "2026-10-19T00:30:00Z",
+     "by": "Allan",
+     "file": "plan_bouches.png",
+     "kind": "static",
+     "path": "files/bouches/plan_bouches.png",
+     "type": "image/png"
+    }
+   ]
+  }
  }
 ]

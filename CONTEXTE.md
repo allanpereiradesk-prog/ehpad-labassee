@@ -122,3 +122,13 @@ Les exports du 18/10 sont dans `exports-revit/` (voir son README, partie « Dép
     - fenêtres (tâche, aperçu) : le focus entre dedans, y reste avec Tab, et revient au bouton à la fermeture ;
     - **règle** : garder ces contrastes. Ne pas remettre `#0696d7` en couleur de texte ou de bouton (il sert seulement pour les décors, via `--supply`).
   - **Court métrage de l'accueil** (bloc `.film`, au-dessus de `#home`, script « Court métrage » en fin de fichier) : 9 scènes, environ 55 s, images de `files/`. Les textes et chiffres sont dans le tableau `SCENES`, à mettre à jour si le réseau change (chiffres du réseau v13 : 766 gaines, 774 raccords, 218 bouches, 86 réservations). Il ne démarre qu'au clic, se met en pause quand on quitte l'accueil, et reste fixe si l'ordinateur demande moins d'animations.
+- **19/10** :
+  - **Intégration du dépôt du 18/10 (nuit), réseau v13, bouches de ventilation** :
+    - `gaines.json` (1 540 objets, antennes comprises) et `equip.json` recopiés dans `files/b3d/` (`GAI_V` = 4, `EQ_V` = 9) ; `reseaux.png` et l'Excel de dimensionnement recopiés dans `files/gaines/` (+ `docs/*.b64.txt`) ;
+    - `bouches.json`, `EHPAD_Bouches_Ventilation.xlsx` et `plan_bouches.png` copiés dans `files/bouches/` ; Excel + plan ajoutés aux documents des tâches i05 et i02 (`migrations.json`) ;
+    - nouvel onglet **Bouches** (`#bouches`) : chiffres clés, débits par CTA, plan, tableau filtrable (CTA, niveau, fonction, antenne faite / à faire), vitesse au col calculée, export CSV ;
+    - **3D** : antennes en teinte plus claire, case « Antennes vers les bouches » ; la fiche d'une antenne affiche sa bouche (local, débit, col) ;
+    - **Devis** : « Mettre à jour les quantités » ajoute une ligne par type de bouche (fonction, pose, col) ;
+    - Réservations : l'onglet lit les **86** réservations dans `exports-revit/` (antennes pas encore comptées) ;
+    - court métrage : chiffres v13 (766 gaines, 774 raccords, 218 bouches, 86 réservations).
+  - **Point ouvert** : le SYN-03 B indique 69 Pa pour la CTA 5, la v13 donne **71 Pa** → à corriger dans un indice C.

@@ -639,8 +639,8 @@ button.h-tile{cursor:pointer}button.h-tile:hover{outline:2px solid color-mix(in 
 /* ===== Design v4 : accessibilité et finitions ===== */
 /* Outils d'accessibilité */
 .sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
-.skip{position:fixed;left:12px;top:-60px;z-index:100;background:var(--accent);color:var(--accent-ink);padding:10px 16px;border-radius:8px;font-weight:700;text-decoration:none;box-shadow:var(--sh)}
-.skip:focus{top:12px}
+.skip{position:fixed;left:12px;top:12px;transform:translateY(-200%);z-index:100;background:var(--accent);color:var(--accent-ink);padding:10px 16px;border-radius:8px;font-weight:700;text-decoration:none;box-shadow:var(--sh)}
+.skip:focus{transform:none}
 #contenu:focus{outline:none}
 :focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:4px}
 .tabs button:focus-visible{outline-offset:-3px}
@@ -760,6 +760,14 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
 .film-time{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;min-width:74px;text-align:right}
 @media (max-width:600px){.film-time{display:none}}
 @media (prefers-reduced-motion:reduce){.fs.on .fs-bg img,.fs.on .fs-txt>*,.fs.on .fs-flow>*{animation:none!important}}
+
+/* ===== Bouches ===== */
+.bo-top{display:grid;gap:14px;margin:0 0 14px}
+.bo-plan img{max-height:none}
+.resa-f select,.resa-f input{border:1px solid var(--line);border-radius:6px;padding:6px 9px;min-height:36px;font-size:14px}
+.bo-plan figcaption .hint{display:block}
+#boCta td,#boCta th{font-size:13.5px}
+.gai-ant{display:inline-flex;gap:6px;align-items:center;cursor:pointer}
 </style>
 
 <a class="skip" href="#contenu">Aller au contenu</a>
@@ -806,6 +814,7 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
       <button role="tab" id="tabDocs" aria-selected="false">Documents</button>
       <button role="tab" id="tabSyn" aria-selected="false">Synoptiques</button>
       <button role="tab" id="tabResa" aria-selected="false">Réservations</button>
+      <button role="tab" id="tabBouches" aria-selected="false">Bouches</button>
       <button role="tab" id="tabDevis" aria-selected="false">Devis</button>
       <button role="tab" id="tabFam" aria-selected="false">Familles</button>
       <button role="tab" id="tabImpl" aria-selected="false">Implantation</button>
@@ -1336,6 +1345,31 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
     </div>
     <div class="tbl-wrap"><table class="fam-t resa-t"><thead><tr><th>N°</th><th>Type</th><th>Niveau</th><th>Élément traversé</th><th>Dimensions</th><th>CTA</th><th>Statut</th></tr></thead><tbody id="resaBody"></tbody></table></div>
     <p class="hint" id="resaSrc"></p>
+  </section>
+
+  <section id="viewBouches" hidden>
+    <section class="rv-head">
+      <div class="label">Lot 12 CVC · ventilation · réseau v13</div>
+      <h2>Bouches de ventilation</h2>
+      <p>Les bouches que j'ai posées dans la maquette Revit, avec leur débit. Une <b>antenne</b> est la petite gaine qui relie le réseau principal à la bouche. Quand l'antenne n'est pas encore faite, la colonne « Antenne » dit pourquoi.</p>
+    </section>
+    <div id="boSum" class="resa-sum"></div>
+    <div class="bo-top">
+      <section class="panel"><h2>Débits par CTA</h2><div class="tbl-wrap"><table class="fam-t" id="boCta"></table></div></section>
+      <figure class="impl-f bo-plan"><a href="files/bouches/plan_bouches.png" target="_blank" rel="noopener"><img src="files/bouches/plan_bouches.png" alt="Plan du RDC et de l'étage : gaines principales, antennes et bouches. Un carré rouge vide est une bouche posée dont l'antenne reste à faire." loading="lazy"></a>
+        <figcaption><b>Plan des bouches et des antennes</b><span class="hint">Carré rouge vide = bouche posée, antenne à faire. Clique pour agrandir.</span>
+          <span class="impl-a"><a href="files/bouches/plan_bouches.png" download>Télécharger le plan</a><a href="files/bouches/EHPAD_Bouches_Ventilation.xlsx" download>Télécharger l'Excel</a></span></figcaption></figure>
+    </div>
+    <div class="resa-f" id="boF">
+      <select data-bf="cta" aria-label="Filtrer par CTA"></select>
+      <select data-bf="lv" aria-label="Filtrer par niveau"></select>
+      <select data-bf="fonction" aria-label="Filtrer par fonction"></select>
+      <select data-bf="rac" aria-label="Filtrer par antenne"><option value="">Antenne : toutes</option><option value="1">Antenne faite</option><option value="0">Antenne à faire</option></select>
+      <input type="search" data-bf="q" placeholder="Chercher (repère, local, n° de pièce…)" aria-label="Chercher une bouche">
+      <button class="btn small" id="boCsv">Télécharger en CSV</button>
+    </div>
+    <div class="tbl-wrap"><table class="fam-t resa-t"><thead><tr><th>Repère</th><th>Local</th><th>Niveau</th><th>Fonction</th><th class="num">Débit</th><th>Bouche</th><th>CTA</th><th>Antenne</th></tr></thead><tbody id="boBody"></tbody></table></div>
+    <p class="hint" id="boSrc"></p>
   </section>
 
   <section id="viewFam" hidden>
@@ -2285,9 +2319,9 @@ async function rv3dInit(){
 function rv3dResize(){ if(!R3) return; const box=$("#rv3d"); const w=box.clientWidth, h=box.clientHeight||w*.75; if(!w) return; R3.ren.setSize(w,h,false); R3.cam.aspect=w/h; R3.cam.updateProjectionMatrix(); }
 function rv3dUpdate(){ if(!R3) return; R3.groups.N01.visible=rvLv==="N01"; }
 /* ---------- Bâtiment complet (ARC + STR + espaces) ---------- */
-let RB=null; const BAT_V="2026-10-16c", EQ_V="8";
+let RB=null; const BAT_V="2026-10-16c", EQ_V="9";
 const BAT_COL={"Murs":0xe9e3d8,"Sols":0xcfc7ba,"Toitures":0xa99a8c,"Fenêtres":0x8fc3dd,"Portes":0xa9825a,"Meneaux":0x7d8a92,"Escaliers":0xc9c2b6,"Garde-corps":0x6d7a83,"Poteaux":0xd9d4cb,"Plafonds":0xf4f1ea,"Divers":0xbdbdbd,"Panneaux solaires":0x2f4f7f};
-const GAI_V="3", BAT_STR=0xa3abb2, BAT_LAYERS=[["arc","Architecture",true],["ceil","Plafonds",false],["str","Structure",true],["pv","Panneaux solaires",true],["esp","Espaces CVC (zones)",false],["eq","Équipements CVC",true],["gai","Gaines de ventilation",true]];
+const GAI_V="4", BAT_STR=0xa3abb2, BAT_LAYERS=[["arc","Architecture",true],["ceil","Plafonds",false],["str","Structure",true],["pv","Panneaux solaires",true],["esp","Espaces CVC (zones)",false],["eq","Équipements CVC",true],["gai","Gaines de ventilation",true]];
 function batLayerOf(g){ return g.layer==="str"?"str":g.cat==="Plafonds"?"ceil":g.cat==="Panneaux solaires"?"pv":"arc"; }
 async function batLoadBin(){
   if("DecompressionStream" in window){ try{ const r=await fetch("files/b3d/building.bin.gz?v="+BAT_V); if(r.ok){ const s=r.body.pipeThrough(new DecompressionStream("gzip")); return await new Response(s).arrayBuffer(); } }catch(e){} }
@@ -2524,11 +2558,15 @@ function eqInfo(e){
 }
 function gaiInfo(g,GA){
   const info=$("#rvBatInfo"), f=n=>n==null?"":String(n).replace(".",","), row=(k,v)=>v?`<div class="eqi-r"><span>${k}</span><div>${v}</div></div>`:"";
-  const same=GA.filter(x=>x.net===g.net&&x.sys===g.sys&&x.k==="gaine"), Ltot=same.reduce((a,x)=>a+(x.L||0),0);
+  const same=GA.filter(x=>x.net===g.net&&x.sys===g.sys&&x.k==="gaine"&&!x.ant), Ltot=same.reduce((a,x)=>a+(x.L||0),0);
+  const bo=g.ant&&g.bouche&&BOUCHES?BOUCHES.find(b=>b.id===g.bouche):null;
+  if(g.ant&&g.bouche&&!BOUCHES) loadBouches().then(()=>{ if($("#rvBatInfo").dataset.gid===String(g.id)) gaiInfo(g,GA); });
+  info.dataset.gid=String(g.id);
   const lvN={N00:"RDC (plénum, axe à 2,86 m)",N01:"Étage (plénum, axe à 6,22 m)",NT1:"Toiture"}[g.lv]||g.lv;
   const vmax=q=>[[300,3],[550,3.5],[800,4],[1500,4.5],[2000,5],[4000,5.5],[6000,6],[12000,6.5],[18500,7],[25000,7.5],[1e12,10]].find(a=>q<=a[0])[1];
-  info.innerHTML=`<div class="eqi"><div class="eqi-h"><div><b>${g.k==="raccord"?"Raccord de gaine":"Gaine rectangulaire"+(g.W?` ${g.W} × ${g.H} mm`:"")}</b> · ${esc(g.sys)} · ${esc(g.net)}
-      <div class="hint">Réseau principal tracé dans Revit à partir du calcul de dimensionnement (CCTP § 2.2.5)</div></div>
+  info.innerHTML=`<div class="eqi"><div class="eqi-h"><div><b>${g.ant?(g.k==="raccord"?"Raccord d'antenne":"Antenne"+(g.W?` ${g.W} × ${g.H} mm`:""))+(g.bouche?` vers la bouche ${esc(g.bouche)}`:""):(g.k==="raccord"?"Raccord de gaine":"Gaine rectangulaire"+(g.W?` ${g.W} × ${g.H} mm`:""))}</b> · ${esc(g.sys)} · ${esc(g.net)}
+      <div class="hint">${g.ant?"Petite gaine qui relie le réseau principal à une bouche.":"Réseau principal tracé dans Revit à partir du calcul de dimensionnement (CCTP § 2.2.5)"}</div>
+      ${bo?`<div class="hint">Bouche ${esc(bo.id)} : ${esc(bo.local||"")}${bo.num?` (${esc(bo.num)})`:""} · ${esc(bo.fonction)} ${bo.q} m³/h · ${esc(bo.pose||"")} ${esc(bo.col||"")} mm</div>`:""}</div>
       <div class="eqi-b"><a class="btn small" href="files/gaines/EHPAD_Dimensionnement_Gaines.xlsx" download>Excel du calcul</a><button class="btn small" data-gocta>Voir la ${esc(g.net)}</button></div></div>
     <div class="eqi-g">
       ${row("Partie du réseau",esc(g.part))}
@@ -2544,13 +2582,14 @@ function gaiInfo(g,GA){
   const b=info.querySelector("[data-gocta]"); if(b) b.onclick=()=>{ const e=RB.EQ.find(x=>x.mark===g.net); if(e) rvBatFocus(e.id); };
 }
 /* gaines : couleur par CTA ou par réseau, filtre soufflage / reprise */
-const GAI={mode:"cta",sys:"",off:new Set()};
+const GAI={mode:"cta",sys:"",off:new Set(),ant:true};
 const hexMix=(h,w,t)=>{ const a=parseInt(h.slice(1),16), r=a>>16, g=a>>8&255, b=a&255, k=w?255:0; return Math.round(r+(k-r)*t)<<16|Math.round(g+(k-g)*t)<<8|Math.round(b+(k-b)*t); };
 function gaiColor(g){
   if(GAI.mode==="sys") return g.sys==="Reprise"?(g.k==="raccord"?0xc8661a:0xe8892f):(g.k==="raccord"?0x1f5fa8:0x3b82d6);
   const base=CTA_COL[g.net]||"#8a949c"; let c=g.sys==="Reprise"?hexMix(base,true,.45):parseInt(base.slice(1),16);
-  if(g.k==="raccord") c=hexMix("#"+c.toString(16).padStart(6,"0"),false,.18); return c; }
-function gaiApply(){ if(!RB) return; RB.layers.gai.children.forEach(m=>{ const g=m.userData.gai; m.material.color.setHex(gaiColor(g)); m.visible=(!GAI.sys||g.sys===GAI.sys)&&!GAI.off.has(g.net||""); });
+  if(g.k==="raccord") c=hexMix("#"+c.toString(16).padStart(6,"0"),false,.18);
+  if(g.ant) c=hexMix("#"+c.toString(16).padStart(6,"0"),true,.35); return c; }
+function gaiApply(){ if(!RB) return; RB.layers.gai.children.forEach(m=>{ const g=m.userData.gai; m.material.color.setHex(gaiColor(g)); m.visible=(!GAI.sys||g.sys===GAI.sys)&&!GAI.off.has(g.net||"")&&(GAI.ant||!g.ant); });
   const box=$("#gaiCtl"); if(box) box.querySelectorAll(".gai-leg i").forEach(i=>{ const n=i.dataset.net; i.style.setProperty("--cc",GAI.mode==="cta"?(CTA_COL[n]||"#8a949c"):"#3b82d6"); }); }
 function gaiCtlInit(GA){ const box=$("#gaiCtl"); if(!box) return; if(!GA.length){ box.hidden=true; return; }
   const nets=[...new Set(GA.map(g=>g.net||""))].filter(Boolean).sort((a,b)=>a.localeCompare(b,"fr",{numeric:true}));
@@ -2558,10 +2597,12 @@ function gaiCtlInit(GA){ const box=$("#gaiCtl"); if(!box) return; if(!GA.length)
     <div class="seg" role="group" aria-label="Couleur des gaines"><button data-gmode="cta" aria-pressed="true">Couleur par CTA</button><button data-gmode="sys" aria-pressed="false">Soufflage / reprise</button></div>
     <div class="seg" role="group" aria-label="Réseau affiché"><button data-gsys="" aria-pressed="true">Tout</button><button data-gsys="Soufflage" aria-pressed="false">Soufflage</button><button data-gsys="Reprise" aria-pressed="false">Reprise</button></div>
     <div class="gai-leg">${nets.map(n=>`<label><input type="checkbox" data-gnet="${esc(n)}" checked><i data-net="${esc(n)}"></i>${esc(n)}</label>`).join("")}</div>
+    ${GA.some(g=>g.ant)?`<label class="gai-ant"><input type="checkbox" data-gant checked>Antennes vers les bouches <span class="hint">(${GA.filter(g=>g.ant&&g.k==="gaine").length} gaines, teinte plus claire)</span></label>`:""}
     <span class="hint" id="gaiHint">Teinte foncée = soufflage, claire = reprise.</span>`;
   box.hidden=false;
   box.querySelectorAll("[data-gmode]").forEach(b=>b.onclick=()=>{ GAI.mode=b.dataset.gmode; box.querySelectorAll("[data-gmode]").forEach(x=>x.setAttribute("aria-pressed",x===b)); $("#gaiHint").textContent=GAI.mode==="cta"?"Teinte foncée = soufflage, claire = reprise.":"Bleu = soufflage, orange = reprise."; gaiApply(); });
   box.querySelectorAll("[data-gsys]").forEach(b=>b.onclick=()=>{ GAI.sys=b.dataset.gsys; box.querySelectorAll("[data-gsys]").forEach(x=>x.setAttribute("aria-pressed",x===b)); gaiApply(); });
+  const ga=box.querySelector("[data-gant]"); if(ga) ga.onchange=()=>{ GAI.ant=ga.checked; gaiApply(); };
   box.querySelectorAll("[data-gnet]").forEach(c=>c.onchange=()=>{ if(c.checked) GAI.off.delete(c.dataset.gnet); else GAI.off.add(c.dataset.gnet); gaiApply(); });
   setTimeout(gaiApply,0); }
 function rvBatFocus(id){ if(!RB) return; const e=RB.EQ.find(x=>String(x.id)===String(id)); if(!e) return;
@@ -2733,6 +2774,9 @@ async function dvModel(){
   const sec={}; GA.filter(g=>g.k==="gaine").forEach(g=>{ const k=g.W+" × "+g.H; sec[k]=(sec[k]||0)+(g.L||0); });
   Object.entries(sec).sort((a,b)=>{ const [aw,ah]=a[0].split(" × ").map(Number),[bw,bh]=b[0].split(" × ").map(Number); return aw*ah-bw*bh; }).forEach(([k,L])=>{ out["ga:"+k]={auto:"ga:"+k,ch:"vent",u:"ml",q:Math.ceil(L*10)/10,des:`Gaine ${k} mm · rectangulaire rigide, acier galvanisé`}; });
   const nr=GA.filter(g=>g.k==="raccord").length; if(nr) out["ra:racc"]={auto:"ra:racc",ch:"vent",u:"U",q:nr,des:"Raccords de gaine (coudes, tés, réductions)"};
+  // bouches posées dans Revit (réseau v13) : une ligne par fonction, pose et taille de col
+  const BO=await loadBouches().catch(()=>[]);
+  BO.forEach(b=>{ const k="bo:"+b.fonction+"|"+b.pose+"|"+b.col; const o=out[k]||(out[k]={auto:k,ch:b.fonction==="Extraction"?"vmc":"vent",u:"U",q:0,des:`Bouche ${String(b.fonction||"").toLowerCase()} ${b.pose||""}${b.col?` ${b.col} mm`:""} · avec plénum et registre de réglage`}); o.q++; });
   return out; }
 async function dvImport(first){
   if(!writeOk){ toast("Connecte-toi avec Google (en haut) pour modifier le devis."); return; }
@@ -3215,7 +3259,7 @@ function renderAll(){ renderHome(); renderBoard(); renderMine(); renderDone(); r
 
 /* ---------- Boot ---------- */
 renderMe(); renderTimeline(); renderFilters(); renderBoard(); renderHours();
-{ const st=store.get("ehpad-tab"); if(location.hash==="#heures") setTab("hours"); else if(location.hash==="#mes-taches") setTab("mine"); else if(location.hash==="#realise") setTab("done"); else if(location.hash==="#problemes") setTab("issues"); else if(location.hash==="#projet") setTab("proj"); else if(location.hash==="#acc") setTab("acc"); else if(location.hash==="#documents") setTab("docs"); else if(location.hash==="#revit") setTab("revit"); else if(location.hash==="#tuto") setTab("tuto"); else if(location.hash==="#captures") setTab("caps"); else if(location.hash==="#synoptiques") setTab("syn"); else if(location.hash==="#reservations") setTab("resa"); else if(location.hash==="#devis") setTab("devis"); else if(location.hash==="#familles") setTab("fam"); else if(location.hash==="#implantation") setTab("impl"); else if(location.hash==="#echanges") setTab("ech"); else if(location.hash==="#logs") setTab("logs"); else if(location.hash==="#accueil") setTab("home"); else setTab(["home","hours","mine","done","issues","proj","tasks","acc","docs","revit","tuto","caps","syn","resa","devis","fam","impl","ech","logs"].includes(st)?st:"home"); }
+{ const st=store.get("ehpad-tab"); if(location.hash==="#heures") setTab("hours"); else if(location.hash==="#mes-taches") setTab("mine"); else if(location.hash==="#realise") setTab("done"); else if(location.hash==="#problemes") setTab("issues"); else if(location.hash==="#projet") setTab("proj"); else if(location.hash==="#acc") setTab("acc"); else if(location.hash==="#documents") setTab("docs"); else if(location.hash==="#revit") setTab("revit"); else if(location.hash==="#tuto") setTab("tuto"); else if(location.hash==="#captures") setTab("caps"); else if(location.hash==="#synoptiques") setTab("syn"); else if(location.hash==="#reservations") setTab("resa"); else if(location.hash==="#devis") setTab("devis"); else if(location.hash==="#familles") setTab("fam"); else if(location.hash==="#implantation") setTab("impl"); else if(location.hash==="#echanges") setTab("ech"); else if(location.hash==="#logs") setTab("logs"); else if(location.hash==="#accueil") setTab("home"); else setTab(["home","hours","mine","done","issues","proj","tasks","acc","docs","revit","tuto","caps","syn","resa","devis","fam","impl","ech","logs","bouches"].includes(st)?st:"home"); }
 
 (async()=>{
   db = await window.claude.use("db");
@@ -3437,4 +3481,60 @@ renderMe(); renderTimeline(); renderFilters(); renderBoard(); renderHours();
   // Image de départ : première scène, sans animation
   els[0].classList.add("on"); els[0].setAttribute("aria-hidden","false"); stage.classList.add("paused"); draw();
 })();
+</script>
+
+<script>
+/* ---------- Bouches de ventilation (réseau v13, dépôt du Claude « Revit ») ---------- */
+let BOUCHES=null, boMeta={}, boF={cta:"",lv:"",fonction:"",rac:"",q:""};
+const BO_SRC=["files/bouches/bouches.json","exports-revit/bouches.json"];
+async function loadBouches(){
+  if(BOUCHES) return BOUCHES;
+  for(const u of BO_SRC){ try{ const r=await fetch(u,{cache:"no-cache"}); if(!r.ok) continue; const j=await r.json();
+    BOUCHES=Array.isArray(j)?j:(j.items||[]); boMeta={src:u}; return BOUCHES; }catch(e){} }
+  BOUCHES=[]; return BOUCHES; }
+const boNum=n=>Number(n||0).toLocaleString("fr-FR");
+// Vitesse au col : débit / section libre du col (L x H en mm)
+const boVit=b=>{ const m=String(b.col||"").match(/(\d+)\s*[x×]\s*(\d+)/); if(!m||!b.q) return null; return b.q/3600/(m[1]*m[2]/1e6); };
+const BO_FC={Soufflage:"var(--accent)",Reprise:"var(--heat)",Extraction:"var(--p3)"};
+function boRows(){ const q=boF.q.trim().toLowerCase();
+  return BOUCHES.filter(b=>(!boF.cta||b.cta===boF.cta)&&(!boF.lv||b.lv===boF.lv)&&(!boF.fonction||b.fonction===boF.fonction)&&(!boF.rac||String(+!!b.raccordee)===boF.rac)
+    &&(!q||[b.id,b.local,b.num,b.type,b.remarque,b.rid].join(" ").toLowerCase().includes(q))); }
+async function renderBouches(){
+  if(!BOUCHES){ $("#boBody").innerHTML=`<tr><td colspan="8" class="hint">Chargement…</td></tr>`; await loadBouches(); }
+  const all=BOUCHES, uniq=k=>[...new Set(all.map(x=>x[k]).filter(Boolean))].sort((a,b)=>String(a).localeCompare(String(b),"fr",{numeric:true}));
+  const lab={cta:"Toutes les CTA",lv:"Tous les niveaux",fonction:"Toutes les fonctions"};
+  document.querySelectorAll("#boF select[data-bf]").forEach(sel=>{ const k=sel.dataset.bf; if(k==="rac") return;
+    sel.innerHTML=`<option value="">${lab[k]}</option>`+uniq(k).map(v=>`<option value="${esc(v)}"${boF[k]===v?" selected":""}>${esc(k==="lv"?resaLv(v):v)}</option>`).join(""); });
+  if(!all.length){ $("#boSum").innerHTML=""; $("#boCta").innerHTML=""; $("#boBody").innerHTML=`<tr><td colspan="8"><div class="notice">Pas encore de bouches. La liste sortira de la maquette Revit (<code>exports-revit/bouches.json</code>).</div></td></tr>`; return; }
+  const cnt=f=>all.filter(f).length, sumQ=f=>all.filter(f).reduce((a,b)=>a+(+b.q||0),0), fns=["Soufflage","Reprise","Extraction"];
+  $("#boSum").innerHTML=`<div class="k"><b>${all.length}</b><span>bouches posées</span></div><div class="k"><b>${cnt(b=>b.raccordee)}</b><span>avec antenne</span></div><div class="k"><b>${cnt(b=>!b.raccordee)}</b><span>antenne à faire</span></div>`
+    +fns.map(f=>`<div class="k"><b>${boNum(sumQ(b=>b.fonction===f))}</b><span>m³/h ${f.toLowerCase()} (${cnt(b=>b.fonction===f)} bouches)</span></div>`).join("");
+  const ctas=uniq("cta");
+  $("#boCta").innerHTML=`<thead><tr><th>CTA</th>${fns.map(f=>`<th class="num">${f}</th>`).join("")}<th class="num">Antennes</th></tr></thead><tbody>`
+    +ctas.map(c=>`<tr><td><span class="cta" style="--cc:${CTA_COL[c]||"#888"}"><i></i>${esc(c)}</span></td>${fns.map(f=>{ const n=cnt(b=>b.cta===c&&b.fonction===f); return `<td class="num">${n?`${boNum(sumQ(b=>b.cta===c&&b.fonction===f))} m³/h<div class="hint">${n} bouche${n>1?"s":""}</div>`:"–"}</td>`; }).join("")}<td class="num">${cnt(b=>b.cta===c&&b.raccordee)} / ${cnt(b=>b.cta===c)}</td></tr>`).join("")+"</tbody>";
+  const rows=boRows();
+  $("#boBody").innerHTML=rows.length?rows.map(b=>{ const v=boVit(b); return `<tr><td class="nw">${esc(b.id)}</td><td>${esc(b.local||"")}${b.num?`<div class="hint">${esc(b.num)}</div>`:""}</td><td class="nw">${esc(resaLv(b.lv))}</td>
+    <td><span class="pill" style="--pc:${BO_FC[b.fonction]||"var(--todo)"}">${esc(b.fonction||"")}</span></td>
+    <td class="num">${boNum(b.q)} m³/h${v?`<div class="hint">${v.toFixed(1).replace(".",",")} m/s au col</div>`:""}</td>
+    <td>${esc(b.pose||"")}${b.col?`<div class="hint">col ${esc(b.col)} mm</div>`:""}</td>
+    <td>${b.cta?`<span class="cta" style="--cc:${CTA_COL[b.cta]||"#888"}"><i></i>${esc(b.cta)}</span>`:""}</td>
+    <td>${b.raccordee?`<span class="pill" style="--pc:var(--done)">faite</span>`:`<span class="pill" style="--pc:var(--doing)">à faire</span>`}${b.remarque?`<div class="hint">${esc(b.remarque)}</div>`:""}</td></tr>`; }).join("")
+    :`<tr><td colspan="8" class="hint">Aucune bouche avec ces filtres.</td></tr>`;
+  $("#boSrc").textContent=`${rows.length} sur ${all.length} affichées · source : ${boMeta.src||""}`;
+}
+document.querySelectorAll("#boF [data-bf]").forEach(el=>el.addEventListener(el.tagName==="INPUT"?"input":"change",()=>{ boF[el.dataset.bf]=el.value; renderBouches(); }));
+$("#boCsv").onclick=()=>{ const rows=boRows(); if(!rows.length){ toast("Rien à exporter."); return; }
+  const c=v=>`"${String(v??"").replace(/"/g,'""')}"`;
+  const csv="﻿"+[["Repère","Local","N° pièce","Niveau","Fonction","Débit (m³/h)","Vitesse au col (m/s)","Pose","Col (mm)","CTA","Antenne","Remarque","ID Revit"].map(c).join(";")]
+    .concat(rows.map(b=>{ const v=boVit(b); return [b.id,b.local,b.num,resaLv(b.lv),b.fonction,b.q,v?v.toFixed(2).replace(".",","):"",b.pose,b.col,b.cta,b.raccordee?"faite":"à faire",b.remarque,b.rid].map(c).join(";"); })).join("\r\n");
+  const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"})); a.download="EHPAD_Bouches_Ventilation.csv"; document.body.appendChild(a); a.click(); a.remove(); };
+TAB_META.bouches=["Fichiers","Bouches","Les bouches de ventilation : débits, CTA, antennes faites ou à faire."];
+{ const tb=$("#tabBouches"), vw=$("#viewBouches");
+  tb.setAttribute("aria-controls","viewBouches"); vw.setAttribute("role","tabpanel"); vw.setAttribute("aria-labelledby","tabBouches");
+  const _setTab=setTab; setTab=function(t){ _setTab(t); const on=t==="bouches"; vw.hidden=!on; tb.setAttribute("aria-selected",on); tb.tabIndex=on?0:-1;
+    if(on){ setCrumb("bouches"); store.set("ehpad-tab","bouches"); renderBouches(); } };
+  tb.onclick=()=>setTab("bouches");
+  let st=null; try{ st=store.get("ehpad-tab"); }catch(e){}
+  if(location.hash==="#bouches"||(!location.hash&&st==="bouches")) setTab("bouches");
+}
 </script>

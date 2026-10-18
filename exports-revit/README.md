@@ -95,3 +95,5 @@ Changements du réseau principal pour laisser passer les antennes :
 - Pertes de charge : CTA1 36 Pa, CTA2 37 Pa, CTA3 30 Pa, CTA4 25 Pa, CTA5 71 Pa.
 
 Pour le site : un onglet ou une section « Bouches » (tableau filtrable par CTA / niveau / fonction + le plan), et dans la 3D les antennes peuvent avoir un trait plus fin.
+
+> **Intégré au site le 19/10 par le Claude « site »** : onglet Bouches, antennes dans la 3D, Excel et plan dans les documents, quantités de bouches dans le Devis.
