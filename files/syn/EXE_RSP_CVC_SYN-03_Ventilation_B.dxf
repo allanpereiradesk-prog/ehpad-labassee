@@ -19037,7 +19037,7 @@ AcDbText
  40
 3.0
   1
-3 · IMPLANTATION ET RÉSEAUX (état du 18/10/2026, réseau Revit v11)
+3 · IMPLANTATION ET RÉSEAUX (état du 18/10/2026, réseau Revit v12)
 100
 AcDbText
   0
@@ -20009,7 +20009,7 @@ AcDbText
  40
 1.55
   1
--69,2 / 40,9
+-68,93 / 39,2
 100
 AcDbText
   0
@@ -20057,7 +20057,7 @@ AcDbText
  40
 1.55
   1
-71 Pa
+69 Pa
 100
 AcDbText
   0
@@ -20181,7 +20181,7 @@ AcDbText
  40
 1.5
   1
-• Réseau v11 dans Revit : 124 gaines et 132 raccords, tous raccordés. CTA 5 : gaines au-dessus du faux plafond (axe 2,765 m RDC, 6,09 m étage).
+• Réseau v12 dans Revit : 124 gaines et 132 raccords, tous raccordés. CTA 5 : gaines au-dessus du faux plafond (axe 2,765 m RDC, 6,09 m étage).
 100
 AcDbText
   0
@@ -20253,7 +20253,7 @@ AcDbText
  40
 1.5
   1
-• Départ CTA 5 : gaine 850 × 350 mm (vitesse plafonnée à 6 m/s pour garder des sections décroissantes vers l'aval).
+• Départ CTA 5 : gaine 850 × 350 mm (vitesse plafonnée à 6 m/s). CTA 5 décalée de 1,7 m vers le sud pour dégager la porte de la terrasse.
 100
 AcDbText
   0
@@ -20277,7 +20277,7 @@ AcDbText
  40
 1.5
   1
-• Points ouverts : relancer la détection de conflits ; faire valider par le BE structure les 13 traversées de murs béton et les 14 passages de poutres (CTA 5).
+• Points ouverts : relancer la détection de conflits ; faire valider par le BE structure les 15 traversées de murs béton et les 14 passages de poutres (CTA 5).
 100
 AcDbText
   0
@@ -20349,7 +20349,7 @@ AcDbText
  40
 1.8
   1
-B · 18/10/2026 · Ajout du bloc 3 : implantation des CTA, descentes, pertes de charge et départ CTA 5 850 × 350 (réseau Revit v11).
+B · 18/10/2026 · Ajout du bloc 3 : implantation des CTA, descentes, pertes de charge et départ CTA 5 850 × 350 (réseau Revit v12).
 100
 AcDbText
   0

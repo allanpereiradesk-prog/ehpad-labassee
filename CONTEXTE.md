@@ -107,3 +107,8 @@ Les exports du 18/10 sont dans `exports-revit/` (voir son README, partie « Dép
     - l'onglet Réservations lit les 78 réservations dans `exports-revit/` ;
     - SYN-03 B mis à jour : réseau v11, départ CTA 5 en 850 × 350, hauteur 350 mm au-delà de 4 000 m³/h, nouveaux points ouverts.
     - Dans le Devis, cliquer sur « Mettre à jour les quantités » pour reprendre les longueurs v11.
+  - **Intégration du 18/10 (soir), réseau v12, CTA 5 décalée de 1,7 m vers le sud** :
+    - `gaines.json` et `equip.json` recopiés (`GAI_V` = 3, `EQ_V` = 8), ainsi que `reseaux.png` et l'Excel (avec `docs/*.b64.txt`) ;
+    - Réservations : 83 (55 murs, 14 trémies, 14 poutres) ;
+    - Implantation : fiche CTA 5 avec la phrase sur le décalage et l'image `files/implantation/cta5_porte_terrasse.png` (champs `note`, `img` dans `IMPL_ITEMS`) ;
+    - SYN-03 B : CTA 5 en x -68,93 / y 39,2, perte de charge 69 Pa, réseau v12, 15 traversées de murs béton à faire valider.
