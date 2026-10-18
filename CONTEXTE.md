@@ -1,0 +1,89 @@
+# CONTEXTE — EHPAD La Bassée (projet tutoré N°3, Licence BIM-CVC)
+
+À lire en premier par tout Claude qui travaille sur ce dépôt.
+Dernière mise à jour : 18/10/2026.
+
+## 1. Le projet
+
+- Lot CVC + plomberie d'un EHPAD à La Bassée (Hauts-de-France). Maquette sous **Revit 2026 uniquement**.
+- Équipe : **Allan** (propriétaire du dépôt), Mouhamed, Yann, Noah.
+- Profs : M. Duport, Samy El Hendi, Gilles Cambillau. Ils ont un accès en lecture au site, plus le chat et le forum pour leurs remarques.
+- Maquette de travail : `EXE_RSP_CVC_MNT_v3.rvt` (fichier partagé, workshared). Elle lie l'ARC (`DCE_ARC_MNT`) et la STR corrigée (`DCE_STR_MNT_corrige`) sur le site **PARTAGEES**.
+- L'électricité est hors périmètre.
+
+## 2. Qui fait quoi (deux Claude, un seul utilisateur)
+
+Allan utilise deux comptes Claude, et les deux, c'est lui.
+
+| Claude | Rôle | Ne touche pas à |
+|---|---|---|
+| Claude « Revit » | Maquette Revit (via le connecteur Revit MCP sur le PC d'Allan), calculs, Excel, CR. Dépose ses exports dans `exports-revit/`. | `index.html`, la mise en page du site |
+| Claude « site » | `index.html`, `seed.json`, `migrations.json`, `firestore.rules`, intégration des exports sur le site | La maquette Revit |
+
+Pour échanger, on passe par ce dépôt. Le Claude Revit dépose ses fichiers dans `exports-revit/` avec un `README.md` qui dit quoi en faire. Le Claude site les intègre.
+
+## 3. Règles à respecter
+
+- **Langue** : français, phrases simples et courtes.
+- **Textes du site** : à la première personne, au nom d'Allan (« j'ai placé », « mon compte »). Jamais « Allan a fait ».
+- **Firestore** : Allan colle lui-même les règles dans la console Firebase. On met à jour `firestore.rules` et on lui dit de les coller.
+- **Identifiants** : Claude ne saisit jamais de mot de passe ni d'identifiant.
+- **ACC de M. Duport** : demander à Allan avant toute action.
+- **Revit** :
+  - uniquement par le connecteur MCP ;
+  - jamais de prise de contrôle de l'écran ;
+  - ne jamais lancer ni relancer Revit, c'est Allan qui le fait ;
+  - rappeler à Allan de faire Ctrl+S puis « Synchroniser avec le fichier central ».
+- **Gaines** :
+  - **gaines rigides uniquement, jamais de flexibles** ;
+  - angles droits ;
+  - rien au-dessus des panneaux photovoltaïques ni hors du bâtiment ;
+  - passage par les gaines techniques et les circulations.
+
+## 4. Structure du dépôt
+
+- `index.html` : tout le site (onglets tâches, heures, problèmes, documents, Revit, Tuto Revit, Captures, Implantation, Forum, 3D).
+- `seed.json` : données initiales. `migrations.json` : mises à jour Firestore appliquées au chargement (`doc`, `data` / `union`).
+- `firestore.rules` : règles Firebase. Connexion Google : écriture pour l'équipe, lecture pour les profs.
+- `docs/*.b64.txt` : Word, Excel et PDF encodés en base64.
+- `files/` :
+  - `b3d/` : 3D du site — `building.*` (bâtiment), `equip.json` (équipements cliquables), `gaines.json` (gaines cliquables) ;
+  - `familles/` : familles .rfa CVC + `geo.json` ;
+  - `gaines/` : Excel dimensionnement, nomenclature/conflits, CR du 17/10, `reseaux.png` ;
+  - `implantation/`, `syn/` (synoptiques PDF/DXF), `dce/`, `captures/` (captures du Tuto Revit).
+- `maquettes/` : fichiers Revit à télécharger.
+
+## 5. État de la ventilation (18/10)
+
+5 CTA double flux en toiture-terrasse (niveau 7,02 m) :
+
+| CTA | Modèle | Implantation (repère projet) | Descente |
+|---|---|---|---|
+| CTA 1 | VIM CAD HR OPTIMAL C4 | x -38,55 / y 62,7 | gaine technique du local ménage |
+| CTA 2 | VIM CAD HR OPTIMAL C4 | x -30,6 / y 62,7 | bureau |
+| CTA 3 | VIM CAD HR OPTIMAL C4 | x -41,95 / y 39,8 (au centre, hors structure et tuiles) | descente directe dans la circulation |
+| CTA 4 | VIM CAD HR OPTIMAL C4 | x -30,8 / y 40,3 | descente directe |
+| CTA 5 | VIM CAD O-INTEGRAL | x -69,2 / y 40,9 (terrasse libre) | réseau toiture à 90°, puis le RDC ; l'étage est alimenté depuis le RDC par le local linge sale |
+
+Réseau v10 dans Revit :
+- 122 gaines et 130 raccords, tous les raccords sont faits ;
+- les CTA, les socles et les gaines en toiture sont dégagés des tuiles, des PV, des édicules et des acrotères.
+
+Dimensionnement :
+- vitesses selon le tableau du CCTP §2.2.5 ;
+- hauteur des gaines : 250 mm jusqu'à 2 000 m³/h, 300 mm au-delà, 400 mm au-delà de 4 000 m³/h (CTA 5) ;
+- pertes de charge réseau principal : CTA1 36 Pa, CTA2 37 Pa, CTA3 30 Pa, CTA4 25 Pa, CTA5 71 Pa.
+
+Reste à faire côté Revit :
+- remonter les gaines de la CTA 5 qui touchent le faux plafond ;
+- décaler de 5 cm la reprise de la CTA 1 contre la cloison du local ménage ;
+- relancer la détection de conflits ;
+- lister les réservations : 51 traversées de murs, 20 trémies, quelques poutres à faire valider par le BE structure.
+
+**Attention :** `files/b3d/gaines.json`, `equip.json` et `files/gaines/reseaux.png` correspondent encore à **l'ancien tracé** (avant le 18/10). Le Claude Revit déposera les nouvelles versions dans `exports-revit/`. Il faudra ensuite les recopier dans `files/b3d/` et `files/gaines/`.
+
+## 6. Format des exports Revit → site
+
+- `gaines.json` : liste d'objets `{id, k:"gaine"|"raccord", sys:"Soufflage"|"Reprise"|..., net:"CTA n", W, H, L, lv, q, vit, tr, part, v:[x,y,z,...]}`. `v` contient les sommets des triangles, en mètres, repère partagé.
+- `equip.json` : liste d'objets `{id, type, mark, fab, fam, mod, cctp, verif, com, src, space, desc, off, ...}`.
+- Les fichiers Excel et Word vont aussi dans `docs/` en version `.b64.txt` si le site les sert depuis là.
