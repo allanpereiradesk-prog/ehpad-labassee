@@ -78,7 +78,7 @@ Dimensionnement :
 - gaine au départ CTA 5 : 850 × 350 (au lieu de 700 × 400) ;
 - pertes de charge réseau principal : CTA1 36 Pa, CTA2 37 Pa, CTA3 30 Pa, CTA4 25 Pa, CTA5 69 Pa.
 
-Bouches (19/10) : **270 bouches**, les 244 locaux ventilés du dossier sont conformes en débit (contrôle `exports-revit/controle_dce.json`). Ajout de 46 bouches VMC sanitaires (CCTP § 4.12) et 6 bouches CTA 5. Modèles du CCTP dans les types Revit (GADD F, ALYZE S, DCFD-F, DATP). Reste : réseau VMC (caissons + gaines), 29 bouches CTA à raccorder. Compte rendu : `exports-revit/CR_bouches_2026-10-19.md`.
+Bouches (19/10) : **270 bouches**, les 244 locaux ventilés du dossier sont conformes en débit (contrôle `exports-revit/controle_dce.json`). Ajout de 46 bouches VMC sanitaires (CCTP § 4.12) et 6 bouches CTA 5. Modèles du CCTP dans les types Revit (GADD F, ALYZE S, DCFD-F, DATP). Reste : réseau VMC (caissons + gaines), 31 bouches CTA à raccorder. Compte rendu : `exports-revit/CR_bouches_2026-10-19.md`.
 
 Bouches (18/10, nuit) : **218 bouches posées** avec leur débit (81 grilles murales de chambre 90 m³/h, 81 extractions de salle de bains 90 m³/h, 56 bouches plafond CTA 5), **190 raccordées** en gaine rigide (coudes « Angle carré rectangulaire - Joint coulissant » chargés par Allan). Liste : `exports-revit/bouches.json` et `EHPAD_Bouches_Ventilation.xlsx`. Réseau principal modifié : CTA 3/4 écartées, reprise CTA 5 RDC au-dessus des bureaux côté sud.
 

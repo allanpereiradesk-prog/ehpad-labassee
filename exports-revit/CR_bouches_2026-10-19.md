@@ -46,7 +46,7 @@ Le fabricant, le modèle et la référence CCTP sont renseignés dans les types 
 
 - **Réseau VMC sanitaires** : les 46 bouches sont posées, mais il manque les caissons d'extraction en toiture et les gaines.
 - **Compensation** des offices et de la tisanerie (450 m³/h) : bouches de transfert à prévoir (CCTP § 4.12.6).
-- **29 bouches CTA à raccorder** : surtout la salle à manger du RDC, où il n'y a pas la place de passer entre les deux gaines, et les salons de l'étage.
+- **31 bouches CTA à raccorder** : surtout la salle à manger du RDC, où il n'y a pas la place de passer entre les deux gaines, et les salons de l'étage.
 
 ## Fichiers (dossier `exports-revit/`)
 
