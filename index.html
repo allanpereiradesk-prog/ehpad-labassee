@@ -3527,11 +3527,11 @@ async function stkSeed(){
   const items=[], by={};
   const catOf=f=>/CTA/.test(f)?"vent":/PAC|Chaudiere|Ballon-tampon/.test(f)?"prod":/Vase|Circulateur/.test(f)?"hyd":/PLB_|Preparateur|Ballon_/.test(f)?"plb":/Rideau/.test(f)?"emet":"div";
   EQ.filter(e=>!/^Socle/.test(e.mark||"")).forEach(e=>{ const k=(e.fam||"")+"|"+(/CTA/.test(e.fam||"")?"":e.type); const d=e.bb?[0,1,2].map(i=>Math.round((e.bb[1][i]-e.bb[0][i])*1000)):[600,600,600];
-    const o=by[k]||(by[k]={id:stkKey(),des:`${e.desc||e.type}`,cat:catOf(e.fam||""),fab:`${e.fab||""} ${e.mod||""}`.trim(),u:"U",q:0,need:0,dims:[Math.max(d[0],d[1]),Math.min(d[0],d[1]),d[2]],pl:"auto",note:e.cctp||"",marks:[],src:"projet"}); o.q++; o.need++; if(e.mark) o.marks.push(e.mark); });
+    const o=by[k]||(by[k]={id:stkKey(),fam:e.fam||"",des:`${e.desc||e.type}`,cat:catOf(e.fam||""),fab:`${e.fab||""} ${e.mod||""}`.trim(),u:"U",q:0,need:0,dims:[Math.max(d[0],d[1]),Math.min(d[0],d[1]),d[2]],pl:"auto",note:e.cctp||"",marks:[],src:"projet"}); o.q++; o.need++; if(e.mark) o.marks.push(e.mark); });
   Object.values(by).forEach(o=>{ o.note=[o.marks.join(", "),o.q>1&&/CTA/.test(o.des+o.fab)?"":o.note].filter(Boolean).join(" · "); delete o.marks; items.push(o); });
   const bl=Array.isArray(BO)?BO:(BO.items||[]), bb={};
   bl.forEach(b=>{ const k=b.fonction+"|"+b.pose+"|"+b.col; const [L,H]=String(b.col||"200x60").split(/x/i).map(Number);
-    const o=bb[k]||(bb[k]={id:stkKey(),des:`Bouche de ${String(b.fonction).toLowerCase()} ${b.pose}, col ${String(b.col).replace("x"," × ")} mm`,cat:"bouch",fab:"VIM (CCTP § 4.10.5)",u:"U",q:0,need:0,dims:[(L||200)+120,(H||60)+180,260],pl:"rack",note:"Dimensions : carton estimé.",src:"projet"}); o.q++; o.need++; });
+    const o=bb[k]||(bb[k]={id:stkKey(),des:`Bouche de ${String(b.fonction).toLowerCase()} ${b.pose}, col ${String(b.col).replace("x"," × ")} mm`,cat:"bouch",col:[L||200,H||60],fab:"VIM (CCTP § 4.10.5)",u:"U",q:0,need:0,dims:[(L||200)+100,(H||60)+100,60],pl:"rack",note:"Grille avec cadre : col + 50 mm de chaque côté (estimé).",src:"projet"}); o.q++; o.need++; });
   Object.values(bb).sort((a,b)=>b.q-a.q).forEach(o=>items.push(o));
   return {items,log:[]};
 }
@@ -3586,14 +3586,35 @@ async function stkInit3d(){
   ren.domElement.addEventListener("pointerdown",e=>{ down=[e.clientX,e.clientY]; });
   ren.domElement.addEventListener("pointerup",e=>{ if(!down||Math.hypot(e.clientX-down[0],e.clientY-down[1])>5) return; const r=ren.domElement.getBoundingClientRect();
     mv.set(((e.clientX-r.left)/r.width)*2-1,-((e.clientY-r.top)/r.height)*2+1); ray.setFromCamera(mv,cam);
-    const hit=ray.intersectObjects(items.children,false)[0]; stkSelect(hit?hit.object.userData.id:null,false); });
+    const hit=ray.intersectObjects(items.children,true).find(h=>h.object.userData.id); stkSelect(hit?hit.object.userData.id:null,false); });
   stk3={scene,cam,ren,ctl,racks,items}; new ResizeObserver(stkResize).observe(box); stkResize();
   (function loop(){ if(!document.body.contains(ren.domElement)) return; requestAnimationFrame(loop); if($("#viewStock").hidden) return; ctl.update(); ren.render(scene,cam); })();
 }
 function stkResize(){ if(!stk3) return; const c=$("#stkCv"), w=c.clientWidth, h=c.clientHeight||w*.62; if(!w) return; stk3.ren.setSize(w,h,false); stk3.cam.aspect=w/h; stk3.cam.updateProjectionMatrix(); }
+// ---- formes 3D : familles de la maquette (equip.json) et grilles de bouches ----
+let STK_EQ=null; const STK_TPL={};
+async function stkLoadEq(){ if(!STK_EQ) STK_EQ=await fetch("files/b3d/equip.json?v="+EQ_V).then(r=>r.ok?r.json():[]).catch(()=>[]); return STK_EQ; }
+function stkFix(it){ // anciens enregistrements : retrouver la famille et la forme des bouches
+  if(!it.fam&&STK_EQ){ const e=STK_EQ.find(e=>`${e.fab||""} ${e.mod||""}`.trim()===it.fab&&!/^Socle/.test(e.mark||"")); if(e) it.fam=e.fam; }
+  if(it.cat==="bouch"&&!it.col){ const m=String(it.des).match(/col (\d+) × (\d+)/); if(m){ it.col=[+m[1],+m[2]]; it.dims=[+m[1]+100,+m[2]+100,60]; } } }
+function stkTplFam(fam){ if(STK_TPL[fam]!==undefined) return STK_TPL[fam]; const e=(STK_EQ||[]).find(x=>x.fam===fam); if(!e||!e.m){ return STK_TPL[fam]=null; }
+  const b=e.bb, cx=(b[0][0]+b[1][0])/2, cy=(b[0][1]+b[1][1])/2, z0=b[0][2], sx=b[1][0]-b[0][0], sy=b[1][1]-b[0][1], rot=sx<sy;
+  const parts=e.m.map(M=>{ const pos=new Float32Array(M.t.length*3); for(let i=0;i<M.t.length;i++){ const j=M.t[i]*3; let x=M.v[j]-cx, y=M.v[j+1]-cy; if(rot){ const t=x; x=-y; y=t; } pos[i*3]=x; pos[i*3+1]=y; pos[i*3+2]=M.v[j+2]-z0; }
+    const g=new THREE.BufferGeometry(); g.setAttribute("position",new THREE.BufferAttribute(pos,3)); g.computeVertexNormals(); return {g,col:parseInt(M.col,16)}; });
+  return STK_TPL[fam]={parts,size:rot?[sy,sx,b[1][2]-z0]:[sx,sy,b[1][2]-z0]}; }
+function stkBoxes(list){ // fusionne des pavés [L,P,H,x,y,z] en une géométrie
+  const pos=[], nor=[]; list.forEach(([w,d,h,x,y,z])=>{ const g=new THREE.BoxGeometry(w,d,h).toNonIndexed(); g.translate(x,y,z); pos.push(...g.attributes.position.array); nor.push(...g.attributes.normal.array); g.dispose(); });
+  const g=new THREE.BufferGeometry(); g.setAttribute("position",new THREE.Float32BufferAttribute(pos,3)); g.setAttribute("normal",new THREE.Float32BufferAttribute(nor,3)); return g; }
+function stkTplGrille(L,H){ const k="g"+L+"x"+H; if(STK_TPL[k]) return STK_TPL[k]; const W=(L+100)/1000, D=(H+100)/1000, f=0.05, e=0.035, parts=[];
+  const frame=stkBoxes([[W,f,e,0,-D/2+f/2,e/2],[W,f,e,0,D/2-f/2,e/2],[f,D-2*f,e,-W/2+f/2,0,e/2],[f,D-2*f,e,W/2-f/2,0,e/2]]);
+  const n=Math.max(2,Math.round((D-2*f)/0.022)), bl=[]; for(let i=0;i<n;i++) bl.push([W-2*f,0.006,0.03,0,-D/2+f+(i+.5)*(D-2*f)/n,0.017]);
+  parts.push({g:frame,col:0xe8ecef},{g:stkBoxes(bl),col:0xb9c2c9},{g:stkBoxes([[(L)/1000,(H)/1000,0.03,0,0,-0.015+0.035]]),col:0x5d666d});
+  return STK_TPL[k]={parts,size:[W,D,e+0.02]}; }
+function stkTpl(it){ if(it.cat==="bouch"&&it.col) return stkTplGrille(it.col[0],it.col[1]); return it.fam?stkTplFam(it.fam):null; }
 function stkBuild(){
   if(!stk3||!STK) return; const {racks,items}=stk3, L=stkLayout(STK.items), R=STK_RACK;
-  const clear=g=>{ while(g.children.length){ const o=g.children.pop(); o.geometry&&o.geometry.dispose(); if(o.material){ (o.material.map&&o.material.map.dispose()); o.material.dispose(); } } };
+  const shared=new Set(); Object.values(STK_TPL).forEach(t=>t&&t.parts.forEach(p=>shared.add(p.g)));
+  const clear=g=>{ while(g.children.length){ const o=g.children.pop(); o.traverse(c=>{ if(c.geometry&&!shared.has(c.geometry)) c.geometry.dispose(); if(c.material){ c.material.map&&c.material.map.dispose(); c.material.dispose(); } }); } };
   clear(racks); clear(items);
   const up=new THREE.MeshLambertMaterial({color:0x1f5fa8}), beam=new THREE.MeshLambertMaterial({color:0xe07b00}), deck=new THREE.MeshLambertMaterial({color:0xc9ced2});
   for(let row=0;row<L._rows;row++){ const y=R.y0+row*(R.depth*2+R.aisle), bayW=R.len/R.bays, top=R.levels[R.levels.length-1]+1.2;
@@ -3601,17 +3622,25 @@ function stkBuild(){
     R.levels.forEach(z=>{ for(const yy of [y,y+R.depth]){ const m=new THREE.Mesh(new THREE.BoxGeometry(R.len,0.06,0.1),beam); m.position.set(R.x0+R.len/2,yy,z); racks.add(m); }
       const d=new THREE.Mesh(new THREE.BoxGeometry(R.len,R.depth,0.03),deck); d.position.set(R.x0+R.len/2,y+R.depth/2,z+0.02); racks.add(d); });
     const lb=stkLabel("Rayonnage "+String.fromCharCode(66+row),"#fff","rgba(31,95,168,.95)"); lb.position.set(R.x0-0.6,y+R.depth/2,top+0.3); racks.add(lb); }
-  STK.items.forEach(it=>{ const P=L[it.id]; if(!P) return; const col=new THREE.Color((STK_CAT[it.cat]||STK_CAT.div)[1]);
+  STK.items.forEach(it=>{ const P=L[it.id]; if(!P) return; const col=new THREE.Color((STK_CAT[it.cat]||STK_CAT.div)[1]), T=stkTpl(it);
+    if(T){ // vraie forme : famille Revit ou grille de bouche
+      const mats=T.parts.map(pt=>new THREE.MeshLambertMaterial({color:pt.col,transparent:P.empty,opacity:P.empty?0.25:1,side:THREE.DoubleSide}));
+      const sc=Math.min(1,P.size[0]/T.size[0],P.size[1]/T.size[1],P.size[2]/T.size[2]);
+      P.pos.forEach(p=>{ const g=new THREE.Group(); g.position.set(p[0],p[1],p[2]-P.size[2]/2); g.scale.setScalar(sc); g.userData={id:it.id};
+        T.parts.forEach((pt,i)=>{ const m=new THREE.Mesh(pt.g,mats[i]); m.userData={id:it.id}; g.add(m); }); items.add(g); });
+      // pastille de couleur de la catégorie sous l'objet
+      const tag=new THREE.MeshLambertMaterial({color:col}); P.pos.forEach(p=>{ if(P.zone!=="sol") return; const t=new THREE.Mesh(new THREE.PlaneGeometry(P.size[0]+0.2,P.size[1]+0.2),tag); t.position.set(p[0],p[1],0.004); t.userData={id:it.id}; items.add(t); });
+    } else {
     const mat=new THREE.MeshLambertMaterial({color:col,transparent:P.empty,opacity:P.empty?0.25:1});
     const geo=new THREE.BoxGeometry(P.size[0]*0.98,P.size[1]*0.98,P.size[2]*0.98);
     P.pos.forEach(p=>{ const m=new THREE.Mesh(geo,mat); m.position.set(p[0],p[1],p[2]); m.userData={id:it.id}; items.add(m);
-      const e=new THREE.LineSegments(new THREE.EdgesGeometry(geo),new THREE.LineBasicMaterial({color:0x1b2831,transparent:true,opacity:.35})); m.add(e); });
+      const e=new THREE.LineSegments(new THREE.EdgesGeometry(geo),new THREE.LineBasicMaterial({color:0x1b2831,transparent:true,opacity:.35})); m.add(e); }); }
     if(P.zone==="sol"||P.full){ const t=stkLabel((it.des.length>28?it.des.slice(0,27)+"…":it.des)+" · "+fmtQ(it.q)+(it.u&&it.u!=="U"?" "+it.u:""),"#1b2831"); const p=P.pos[P.pos.length-1];
       t.position.set(p[0],p[1],p[2]+P.size[2]/2+0.45); t.scale.multiplyScalar(0.8); t.userData={id:it.id}; items.add(t); } });
   stkHighlight();
 }
 const fmtQ=n=>stkN(n).toLocaleString("fr-FR",{maximumFractionDigits:2});
-function stkHighlight(){ if(!stk3) return; stk3.items.children.forEach(m=>{ if(m.isMesh&&m.material.emissive) m.material.emissive.setHex(m.userData.id===stkSel?0x6a5200:0); }); }
+function stkHighlight(){ if(!stk3) return; stk3.items.traverse(m=>{ if(m.isMesh&&m.material.emissive) m.material.emissive.setHex(m.userData.id===stkSel?0x6a5200:0); }); }
 // ---- interface ----
 function stkSelect(id,focus=true){ stkSel=id; stkHighlight(); stkRenderList(); stkRenderInfo();
   if(focus&&id&&stk3){ const L=stkLayout(STK.items)[id]; if(L&&L.pos[0]){ const p=L.pos[0]; stk3.ctl.target.set(p[0],p[1],p[2]); stk3.cam.position.set(p[0]-6,p[1]-7,p[2]+5); stk3.ctl.update(); } } }
@@ -3644,7 +3673,7 @@ function stkLog(it,dq,act){ (STK.log=STK.log||[]).unshift({at:new Date().toISOSt
 function stkMove(id,dq,act){ if(!writeOk){ toast("Connecte-toi avec Google pour modifier le stock."); return; } const it=STK.items.find(i=>i.id===id); if(!it||!dq) return;
   const nq=Math.max(0,stkN(it.q)+dq); stkLog(it,nq-stkN(it.q),act||(dq>0?"entrée":"sortie")); it.q=nq; stkSave(); stkRender(); }
 function stkRenderLog(){ const L=STK.log||[]; $("#stkLog").innerHTML=L.length?`<table>${L.slice(0,40).map(l=>`<tr><td class="nw">${new Date(l.at).toLocaleString("fr-FR",{dateStyle:"short",timeStyle:"short"})}</td><td>${esc(l.by||"")}</td><td>${esc(l.act)} <b>${l.dq>0?"+":""}${fmtQ(l.dq)}</b> · ${esc(l.des)}</td></tr>`).join("")}</table>`:`<p class="hint">Aucun mouvement pour l'instant.</p>`; }
-function stkRender(){ stkRenderSum(); stkRenderList(); stkRenderInfo(); stkRenderLog(); stkBuild(); }
+function stkRender(){ STK.items.forEach(stkFix); stkRenderSum(); stkRenderList(); stkRenderInfo(); stkRenderLog(); stkBuild(); }
 function stkSave(){ if(!writeOk||!db) return; stkLocalAt=Date.now(); clearTimeout(stkSaveT); $("#stkSaved").textContent="Enregistrement…";
   stkSaveT=setTimeout(async()=>{ try{ await db.doc("stock/depot").set({items:STK.items,log:STK.log||[],at:new Date().toISOString(),by:me||(fbUser&&fbUser.displayName)||""}); stkLocalAt=Date.now(); stkSeeded=false; $("#stkSaved").textContent="Enregistré"; }catch(e){ fail(e,"Stock"); $("#stkSaved").textContent="Non enregistré"; } },500); }
 async function stockOpen(){
@@ -3652,6 +3681,7 @@ async function stockOpen(){
   $("#saCat").innerHTML=Object.entries(STK_CAT).map(([k,[n]])=>`<option value="${k}"${k==="div"?" selected":""}>${esc(n)}</option>`).join("");
   $("#stkAddBox").hidden=!writeOk;
   try{ await stkInit3d(); }catch(e){ $("#stkCv").innerHTML=`<p class="hint" style="padding:12px">3D indisponible (${esc(e.message||e)}).</p>`; }
+  await stkLoadEq();
   if(!STK){ STK=await stkSeed(); stkSeeded=true; stkRender(); $("#stkSaved").textContent="Stock de départ repris du projet (enregistré à la première modification)."; }
   if(db&&!stkUnsub) stkUnsub=db.doc("stock/depot").onSnapshot(s=>{ if(Date.now()-stkLocalAt<3000) return; if(!s.exists) return; const d=s.data(); STK={items:d.items||[],log:d.log||[]}; stkSeeded=false;
     $("#stkSaved").textContent=d.at?`Dernière modif : ${d.by||""} · ${new Date(d.at).toLocaleString("fr-FR",{dateStyle:"short",timeStyle:"short"})}`:""; if(!$("#viewStock").hidden) stkRender(); }, e=>console.error(e));
