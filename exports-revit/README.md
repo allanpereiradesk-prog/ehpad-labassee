@@ -97,3 +97,13 @@ Changements du réseau principal pour laisser passer les antennes :
 Pour le site : un onglet ou une section « Bouches » (tableau filtrable par CTA / niveau / fonction + le plan), et dans la 3D les antennes peuvent avoir un trait plus fin.
 
 > **Intégré au site le 19/10 par le Claude « site »** : onglet Bouches, antennes dans la 3D, Excel et plan dans les documents, quantités de bouches dans le Devis.
+
+## Dépôt du 19/10 — bouches conformes au DCE
+
+Lire **`CR_bouches_2026-10-19.md`** (compte rendu à publier sur le site, déjà écrit à la 1re personne au nom d'Allan).
+
+Pour le site :
+1. Mettre à jour la section « Bouches » avec `bouches.json` (270 bouches, nouveaux champs `modele`, `produit`, `ref_cctp`, `cle`). Les bouches VMC ont `cta` = `"VMC sanitaires"`.
+2. Ajouter un tableau « Contrôle DCE » depuis `controle_dce.json` (244 locaux, tous conformes en débit).
+3. Publier le compte rendu (onglet Comptes rendus ou Avancement) et mettre l'Excel à jour dans `files/gaines/` et `docs/`.
+4. Remplacer `plan_bouches.png`.
