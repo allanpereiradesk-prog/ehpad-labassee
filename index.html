@@ -637,6 +637,12 @@ tr.cmdk-hit td{background:color-mix(in srgb,var(--accent) 16%,transparent);trans
 .fg-chip{border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:1px 8px;font-size:12px;cursor:pointer;color:inherit}.fg-chip:hover{border-color:var(--accent)}.fg-chip.on{border-color:var(--done);cursor:default}
 .fg-miss{border:1px solid var(--danger);background:color-mix(in srgb,var(--danger) 8%,transparent);border-radius:8px;padding:10px 12px;font-size:14px}.fg-okb{border:1px solid var(--done);background:color-mix(in srgb,var(--done) 9%,transparent);border-radius:8px;padding:10px 12px;font-size:14px}.fg-res{font-size:14px;line-height:1.9}
 .fg-ct{min-width:820px}.fg-ct input,.fg-ct select{width:100%;min-width:60px;box-sizing:border-box}.fg-ct td{padding:4px}.fg-ct .fg-sz{white-space:nowrap}.fg-ct .fg-sz input{width:70px;min-width:0}.fg-ct tr.miss td{background:color-mix(in srgb,var(--danger) 8%,transparent)}.fg-chk{display:flex;gap:6px;align-items:center;margin-top:10px;font-size:14px}.fg-how{font-size:14px;padding-left:20px}
+.fg-tuto{margin-top:22px;scroll-margin-top:110px}.fg-tuto-h{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:16px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;margin-bottom:12px}@media (max-width:820px){.fg-tuto-h{grid-template-columns:1fr}}.fg-tuto-h h2{margin:2px 0 6px}
+.fg-prog{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px;display:grid;gap:6px}.fg-prog b{font-size:24px;font-variant-numeric:tabular-nums}.fg-prog span{color:var(--muted);font-size:13px}.fg-bar{height:8px;border-radius:99px;background:var(--sunk);overflow:hidden}.fg-bar i{display:block;height:100%;width:0;background:var(--done);transition:width .3s}
+.fg-st h3{display:flex;gap:10px;align-items:center}.fg-done{margin-left:auto;display:inline-flex;gap:6px;align-items:center;font-size:13.5px;font-weight:600;color:var(--muted);cursor:pointer;border:1px solid var(--line);border-radius:999px;padding:3px 10px;background:var(--bg)}.fg-st.ok{border-color:var(--done);background:color-mix(in srgb,var(--done) 5%,var(--surface))}.fg-st.ok .fg-done{color:var(--done);border-color:var(--done)}.fg-st.ok .tt-n{background:var(--done)}
+.fg-fig{margin:0}.fg-fig svg{display:block;width:100%;height:auto;border-radius:8px;border:1px solid var(--line)}.fg-fig figcaption{font-size:12.5px;color:var(--muted);margin-top:4px}.fg-warn{border-left:3px solid var(--doing);background:color-mix(in srgb,var(--doing) 8%,transparent);padding:8px 10px;border-radius:4px;font-size:14px}.fg-check li{margin:4px 0}.fg-tlink{margin:10px 0 0}
+@media print{body.fg-printing>*{display:none!important}body.fg-printing #fgPrintBox{display:block!important}#fgPrintBox .fg-done,#fgPrintBox .fg-prog button{display:none!important}#fgPrintBox .tt-step{break-inside:avoid}}
+#fgPrintBox{display:none}
 .hv-wait{display:grid;place-content:center;justify-items:center;gap:12px;text-align:center;color:#fff;padding:20px}.hv-wait p{margin:0}
 .hv-b{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .gai-ctl{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;font-size:14px}.gai-leg{display:flex;flex-wrap:wrap;gap:4px 10px}.gai-leg label{display:inline-flex;gap:5px;align-items:center;cursor:pointer}
@@ -1336,8 +1342,160 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
           <ol class="fg-how"><li>Ouvre ton projet dans <b>Revit 2026</b>.</li><li>Onglet <b>Gérer › Dynamo</b>, puis <b>Ouvrir</b> le fichier .dyn.</li><li>Clique sur <b>Exécuter</b> (en bas à gauche).</li><li>Le résultat s'affiche sous le nœud Python : chemin de la famille, raccords créés.</li></ol>
           <p class="hint">Si Dynamo n'ouvre pas le .dyn : crée un nœud « Python Script », colle le contenu du <button type="button" class="linklike" id="fgPy">script .py</button> et exécute. Pour le compte Claude « Revit » : <button type="button" class="linklike" id="fgJson">fiche JSON</button>.</p>
           <p class="hint">La famille est simple : une enveloppe aux bonnes dimensions, les vrais raccords et les paramètres du CCTP. Les dimensions ne sont pas pilotées par des paramètres.</p>
-        </div></section>
+        </div>
+        <p class="fg-tlink"><a class="btn small" href="#fgTuto">📘 Tuto pas à pas pour les collègues</a></p></section>
     </div>
+    <section class="fg-tuto" id="fgTuto" aria-labelledby="fgTutoT">
+      <div class="fg-tuto-h"><div><div class="label">Tuto · Revit 2026 + Dynamo</div><h2 id="fgTutoT">Utiliser le script Dynamo, étape par étape</h2>
+        <p>À suivre dans l'ordre, sans sauter d'étape. Coche chaque étape quand elle est faite : ta progression reste sur ton ordinateur. Compte 5 minutes la première fois. Les cadres rouges numérotés ①②③ montrent où cliquer (dessins simplifiés : ton écran peut être un peu différent).</p></div>
+        <div class="fg-prog"><b id="fgProgN">0 / 9</b><span>étapes faites</span><div class="fg-bar"><i id="fgProgB"></i></div><button type="button" class="btn small" id="fgTutoReset">Tout décocher</button> <button type="button" class="btn small" id="fgTutoPrint">Imprimer le tuto</button></div></div>
+
+      <ol class="tt-toc"><li><a href="#fgt1">Avant de commencer</a></li><li><a href="#fgt2">Télécharger le script</a></li><li><a href="#fgt3">Ouvrir Dynamo</a></li><li><a href="#fgt4">Ouvrir le fichier .dyn</a></li><li><a href="#fgt5">Exécuter</a></li><li><a href="#fgt6">Lire le résultat</a></li><li><a href="#fgt7">Placer la famille</a></li><li><a href="#fgt8">Vérifier la famille</a></li><li><a href="#fgt9">Partager avec l'équipe</a></li><li><a href="#fgt10">Erreurs fréquentes</a></li><li><a href="#fgt11">Plan B : le fichier .py</a></li></ol>
+
+      <section class="tt-step fg-st" id="fgt1"><h3><span class="tt-n">1</span>Avant de commencer <label class="fg-done"><input type="checkbox" data-step="1"> Fait</label></h3>
+        <ul class="fg-check">
+          <li><b>Revit 2026</b> est ouvert avec <b>ton projet</b> (un fichier .rvt), pas une famille .rfa : sinon la famille est créée mais ne peut pas être chargée.</li>
+          <li><b>Enregistre ton projet</b> (Ctrl + S). Si c'est la maquette partagée : travaille sur ta copie locale, comme d'habitude.</li>
+          <li>Si Dynamo est déjà ouvert sur un autre script, <b>ferme ce script</b> (Fichier › Fermer) pour repartir propre.</li>
+          <li>Garde la <b>fiche technique</b> à portée de main pour vérifier à la fin.</li>
+        </ul></section>
+
+      <section class="tt-step fg-st" id="fgt2"><h3><span class="tt-n">2</span>Télécharger le script depuis le site <label class="fg-done"><input type="checkbox" data-step="2"> Fait</label></h3>
+        <ol>
+          <li>Plus haut sur cette page : dépose la fiche technique, puis <b>complète tout ce qui est en rouge</b>.</li>
+          <li>Regarde l'<b>aperçu 3D</b> : les raccords sont-ils sur la bonne face, à peu près au bon endroit ?</li>
+          <li>Clique sur <b>« Télécharger le script Dynamo (.dyn) »</b>. Le fichier arrive dans ton dossier <span class="mono">Téléchargements</span>, avec le nom de la future famille (ex. <span class="mono">CVC_PAC_Weishaupt_WWP-S-35-IDR.dyn</span>).</li>
+        </ol>
+        <p class="fg-warn">Un script = une famille. Pour un autre équipement, refais la fiche et télécharge un nouveau script.</p></section>
+
+      <section class="tt-step fg-st" id="fgt3"><h3><span class="tt-n">3</span>Ouvrir Dynamo dans Revit <label class="fg-done"><input type="checkbox" data-step="3"> Fait</label></h3>
+        <div class="tt-grid"><ol>
+          <li>Dans le ruban de Revit, clique sur l'onglet <b>Gérer</b> ①.</li>
+          <li>Tout à droite, panneau <b>Programmation visuelle</b> : clique sur <b>Dynamo</b> ②.</li>
+          <li>La première ouverture peut prendre <b>30 secondes à 1 minute</b>. Ne clique pas deux fois.</li>
+          <li>Ne prends pas « Lecteur Dynamo » : il ne montre pas le résultat.</li></ol>
+          <figure class="fg-fig"><svg viewBox="0 0 640 210" role="img" aria-label="Ruban Revit : onglet Gérer encadré (1), bouton Dynamo du panneau Programmation visuelle encadré (2)">
+            <rect width="640" height="210" fill="#f3f4f6"/><rect width="640" height="30" fill="#2b3a4a"/>
+            <g font-family="Segoe UI,Arial" font-size="11" fill="#d7dee5"><text x="10" y="19" fill="#fff">Fichier</text><text x="58" y="19">Architecture</text><text x="132" y="19">Structure</text><text x="193" y="19">Systèmes</text><text x="252" y="19">Insérer</text><text x="302" y="19">Annoter</text><text x="355" y="19">Analyser</text><text x="412" y="19">Collaborer</text><text x="478" y="19">Vue</text><rect x="505" y="5" width="46" height="22" rx="3" fill="#f3f4f6"/><text x="512" y="20" fill="#1b2831" font-weight="700">Gérer</text><text x="560" y="19">Compléments</text></g>
+            <rect x="0" y="30" width="640" height="120" fill="#fbfbfc" stroke="#d6dbe0"/>
+            <g font-family="Segoe UI,Arial" font-size="10" fill="#334155" text-anchor="middle">
+              <rect x="20" y="45" width="40" height="40" rx="4" fill="#dbe4ec"/><text x="40" y="100">Matériaux</text>
+              <rect x="80" y="45" width="40" height="40" rx="4" fill="#dbe4ec"/><text x="100" y="100">Styles</text>
+              <rect x="140" y="45" width="40" height="40" rx="4" fill="#dbe4ec"/><text x="160" y="100">Paramètres</text>
+              <rect x="200" y="45" width="40" height="40" rx="4" fill="#dbe4ec"/><text x="220" y="100">Unités</text>
+              <rect x="300" y="45" width="40" height="40" rx="4" fill="#dbe4ec"/><text x="320" y="100">Phases</text>
+              <rect x="360" y="45" width="40" height="40" rx="4" fill="#dbe4ec"/><text x="380" y="100">Sélection</text>
+              <line x1="455" y1="38" x2="455" y2="145" stroke="#d6dbe0"/>
+              <rect x="475" y="45" width="44" height="44" rx="6" fill="#4a8a3f"/><path d="M487 79 l10-24 l10 24 z" fill="#fff"/><text x="497" y="102" font-weight="700" fill="#1b2831">Dynamo</text>
+              <rect x="545" y="45" width="44" height="44" rx="6" fill="#7aa36f"/><path d="M560 57 l14 10 l-14 10 z" fill="#fff"/><text x="567" y="102">Lecteur Dynamo</text>
+              <text x="530" y="140" fill="#6b7a86">Programmation visuelle</text></g>
+            <rect x="501" y="2" width="54" height="28" rx="4" fill="none" stroke="#e11d48" stroke-width="3"/><circle cx="560" cy="44" r="0"/>
+            <circle cx="566" cy="16" r="10" fill="#e11d48"/><text x="566" y="20" font-family="Arial" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">1</text>
+            <rect x="468" y="40" width="58" height="68" rx="5" fill="none" stroke="#e11d48" stroke-width="3"/>
+            <circle cx="458" cy="118" r="10" fill="#e11d48"/><text x="458" y="122" font-family="Arial" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">2</text>
+            <text x="20" y="185" font-family="Segoe UI,Arial" font-size="12" fill="#334155">① Onglet « Gérer »   ② « Dynamo » (pas « Lecteur Dynamo »)</text>
+          </svg><figcaption>Le ruban de Revit 2026 (dessin simplifié).</figcaption></figure></div></section>
+
+      <section class="tt-step fg-st" id="fgt4"><h3><span class="tt-n">4</span>Ouvrir le fichier .dyn <label class="fg-done"><input type="checkbox" data-step="4"> Fait</label></h3>
+        <div class="tt-grid"><ol>
+          <li>Sur l'écran d'accueil de Dynamo, clique sur <b>Ouvrir</b> ① (ou Ctrl + O).</li>
+          <li>Va dans <span class="mono">Téléchargements</span> et choisis le fichier <b>.dyn</b> ②, puis <b>Ouvrir</b>.</li>
+          <li>Tu vois <b>deux nœuds reliés</b> : « Chemin du gabarit » (vide) et « Créer la famille … » (le nœud Python). <b>Ne les modifie pas.</b></li>
+          <li>Si Dynamo affiche un message sur le <b>moteur Python</b> (CPython3 / PythonNet3) : accepte la proposition. Voir aussi les <a href="#fgt10">erreurs fréquentes</a>.</li></ol>
+          <figure class="fg-fig"><svg viewBox="0 0 640 230" role="img" aria-label="Écran d'accueil de Dynamo : bouton Ouvrir encadré (1) et fichier .dyn sélectionné dans la fenêtre Ouvrir (2)">
+            <rect width="640" height="230" fill="#2a2f35"/><rect width="150" height="230" fill="#22262b"/>
+            <g font-family="Segoe UI,Arial" font-size="12" fill="#d7dee5"><text x="18" y="34" font-size="15" fill="#fff" font-weight="700">Dynamo</text><text x="18" y="66">Nouveau</text><text x="18" y="92" fill="#fff" font-weight="700">Ouvrir</text><text x="18" y="118">Fichiers récents</text><text x="18" y="144">Exemples</text></g>
+            <rect x="10" y="76" width="120" height="24" rx="4" fill="none" stroke="#e11d48" stroke-width="3"/><circle cx="138" cy="74" r="10" fill="#e11d48"/><text x="138" y="78" font-family="Arial" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">1</text>
+            <rect x="200" y="30" width="410" height="180" rx="6" fill="#f5f6f8"/><rect x="200" y="30" width="410" height="26" rx="6" fill="#e3e7eb"/>
+            <g font-family="Segoe UI,Arial" font-size="11" fill="#1b2831"><text x="212" y="47" font-weight="700">Ouvrir</text><text x="212" y="76" fill="#6b7a86">Téléchargements</text>
+              <rect x="212" y="86" width="384" height="22" fill="#cfe3f7"/><text x="220" y="101">CVC_PAC_Weishaupt_WWP-S-35-IDR.dyn</text>
+              <text x="220" y="126" fill="#6b7a86">fiche_technique_pac.pdf</text><text x="220" y="148" fill="#6b7a86">EHPAD_Reservations_CVC.csv</text>
+              <rect x="520" y="178" width="76" height="22" rx="3" fill="#1f5fa8"/><text x="558" y="193" fill="#fff" text-anchor="middle">Ouvrir</text></g>
+            <rect x="208" y="82" width="392" height="30" rx="3" fill="none" stroke="#e11d48" stroke-width="3"/><circle cx="604" cy="80" r="10" fill="#e11d48"/><text x="604" y="84" font-family="Arial" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">2</text>
+          </svg><figcaption>L'accueil de Dynamo et la fenêtre « Ouvrir » (dessin simplifié).</figcaption></figure></div></section>
+
+      <section class="tt-step fg-st" id="fgt5"><h3><span class="tt-n">5</span>Exécuter le script <label class="fg-done"><input type="checkbox" data-step="5"> Fait</label></h3>
+        <div class="tt-grid"><ol>
+          <li>En bas à gauche de Dynamo, vérifie que le mode est <b>Manuel</b> ① (si c'est « Automatique », ça marche aussi, le script part tout seul).</li>
+          <li>Clique sur <b>Exécuter</b> ② <b>une seule fois</b>.</li>
+          <li>Attends : 5 à 20 secondes. Revit peut sembler figé, c'est normal (il crée la famille en arrière-plan).</li>
+          <li>Pas besoin de remplir « Chemin du gabarit » : le script le trouve tout seul. On ne le remplit que s'il affiche « Gabarit introuvable ».</li></ol>
+          <figure class="fg-fig"><svg viewBox="0 0 640 250" role="img" aria-label="Espace de travail Dynamo : nœud chaîne relié au nœud Python, mode Manuel encadré (1), bouton Exécuter encadré (2), bulle de résultat sous le nœud Python (3)">
+            <rect width="640" height="250" fill="#ececec"/>
+            <g font-family="Segoe UI,Arial" font-size="11">
+              <rect x="30" y="50" width="190" height="62" rx="3" fill="#fff" stroke="#9aa3ab"/><rect x="30" y="50" width="190" height="20" fill="#3c3c3c"/><text x="38" y="64" fill="#fff">Chemin du gabarit (vide = auto…</text><rect x="40" y="80" width="150" height="20" fill="#f3f3f3" stroke="#cfd4d8"/><circle cx="220" cy="90" r="4" fill="#6b7a86"/>
+              <rect x="300" y="40" width="250" height="80" rx="3" fill="#fff" stroke="#9aa3ab"/><rect x="300" y="40" width="250" height="20" fill="#3c3c3c"/><text x="308" y="54" fill="#fff">Créer la famille CVC_PAC_Weishaupt…</text><text x="312" y="86" fill="#334155">IN[0]</text><text x="512" y="86" fill="#334155">OUT</text><circle cx="300" cy="82" r="4" fill="#6b7a86"/>
+              <path d="M220 90 C260 90 260 82 300 82" stroke="#6b7a86" stroke-width="2" fill="none"/>
+              <rect x="300" y="126" width="300" height="40" rx="3" fill="#fff" stroke="#c9ced3"/><text x="308" y="142" fill="#1b2831">Famille créée : C:\Users\…\Documents\Familles_EHPAD\</text><text x="308" y="158" fill="#1b2831">CVC_PAC_…rfa (4 raccord(s)). Famille chargée…</text>
+              <rect x="0" y="212" width="640" height="38" fill="#2a2f35"/><rect x="12" y="220" width="96" height="22" rx="3" fill="#3f454c"/><text x="22" y="235" fill="#fff">Manuel  ▾</text><rect x="118" y="220" width="80" height="22" rx="3" fill="#4a8a3f"/><text x="158" y="235" fill="#fff" text-anchor="middle" font-weight="700">Exécuter</text></g>
+            <rect x="8" y="216" width="104" height="30" rx="4" fill="none" stroke="#e11d48" stroke-width="3"/><circle cx="60" cy="204" r="10" fill="#e11d48"/><text x="60" y="208" font-family="Arial" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">1</text>
+            <rect x="114" y="216" width="88" height="30" rx="4" fill="none" stroke="#e11d48" stroke-width="3"/><circle cx="210" cy="204" r="10" fill="#e11d48"/><text x="210" y="208" font-family="Arial" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">2</text>
+            <rect x="295" y="121" width="310" height="50" rx="4" fill="none" stroke="#e11d48" stroke-width="3"/><circle cx="612" cy="120" r="10" fill="#e11d48"/><text x="612" y="124" font-family="Arial" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">3</text>
+          </svg><figcaption>① le mode, ② Exécuter, ③ le résultat sous le nœud Python (dessin simplifié).</figcaption></figure></div></section>
+
+      <section class="tt-step fg-st" id="fgt6"><h3><span class="tt-n">6</span>Lire le résultat <label class="fg-done"><input type="checkbox" data-step="6"> Fait</label></h3>
+        <ul>
+          <li>Passe la souris sous le nœud Python (ou clique dessus) : une <b>bulle</b> affiche le résultat ③. Clique sur la punaise de la bulle pour la garder ouverte.</li>
+          <li>✅ <b>« Famille créée : … .rfa (4 raccord(s)). Famille chargée dans le projet. »</b> : c'est bon, passe à l'étape 7.</li>
+          <li>⚠️ <b>« Raccords en erreur : … »</b> : la famille est créée mais un raccord manque. Le plus souvent, son décalage le fait sortir de la face. Corrige-le sur le site, retélécharge, réexécute.</li>
+          <li>❌ <b>« Gabarit introuvable »</b> ou <b>« Erreur : … »</b> : va aux <a href="#fgt10">erreurs fréquentes</a>. Si ça ne règle rien, fais une capture de la bulle et envoie-la à Allan.</li>
+          <li>Le fichier est enregistré ici : <span class="mono">C:\Users\<i>ton nom</i>\Documents\Familles_EHPAD\</span></li>
+        </ul></section>
+
+      <section class="tt-step fg-st" id="fgt7"><h3><span class="tt-n">7</span>Placer la famille dans le projet <label class="fg-done"><input type="checkbox" data-step="7"> Fait</label></h3>
+        <div class="tt-grid"><ol>
+          <li>Ferme Dynamo (ou mets-le de côté) et reviens dans Revit, sur une <b>vue en plan</b> du bon niveau.</li>
+          <li>Onglet <b>Systèmes</b> ① → <b>Équipement mécanique</b> ②.</li>
+          <li>Dans le sélecteur de type, choisis la nouvelle famille ③ (son nom commence par <span class="mono">CVC_</span> ou <span class="mono">PLB_</span>).</li>
+          <li>Clique dans le plan pour la poser, Échap pour finir. Barre d'espace avant de cliquer = rotation de 90°.</li>
+          <li>Si elle n'est pas dans la liste : <b>Insérer › Charger la famille</b> et prends le .rfa dans <span class="mono">Documents\Familles_EHPAD</span>.</li></ol>
+          <figure class="fg-fig"><svg viewBox="0 0 640 200" role="img" aria-label="Ruban Revit : onglet Systèmes encadré (1), bouton Équipement mécanique encadré (2), sélecteur de type avec la nouvelle famille encadré (3)">
+            <rect width="640" height="200" fill="#f3f4f6"/><rect width="640" height="30" fill="#2b3a4a"/>
+            <g font-family="Segoe UI,Arial" font-size="11" fill="#d7dee5"><text x="10" y="19" fill="#fff">Fichier</text><text x="58" y="19">Architecture</text><text x="132" y="19">Structure</text><rect x="186" y="5" width="60" height="22" rx="3" fill="#f3f4f6"/><text x="193" y="20" fill="#1b2831" font-weight="700">Systèmes</text><text x="256" y="19">Insérer</text><text x="306" y="19">Annoter</text><text x="360" y="19">Vue</text><text x="392" y="19">Gérer</text></g>
+            <rect x="0" y="30" width="640" height="80" fill="#fbfbfc" stroke="#d6dbe0"/>
+            <g font-family="Segoe UI,Arial" font-size="10" fill="#334155" text-anchor="middle"><rect x="20" y="40" width="36" height="36" rx="4" fill="#dbe4ec"/><text x="38" y="92">Gaine</text><rect x="70" y="40" width="36" height="36" rx="4" fill="#dbe4ec"/><text x="88" y="92">Bouche</text><rect x="130" y="40" width="40" height="36" rx="4" fill="#c4573a"/><text x="150" y="92" font-weight="700" fill="#1b2831">Équipement</text><text x="150" y="104" font-weight="700" fill="#1b2831">mécanique</text><rect x="200" y="40" width="36" height="36" rx="4" fill="#dbe4ec"/><text x="218" y="92">Canalisation</text></g>
+            <rect x="182" y="2" width="68" height="28" rx="4" fill="none" stroke="#e11d48" stroke-width="3"/><circle cx="256" cy="14" r="10" fill="#e11d48"/><text x="256" y="18" font-family="Arial" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">1</text>
+            <rect x="120" y="35" width="62" height="74" rx="5" fill="none" stroke="#e11d48" stroke-width="3"/><circle cx="188" cy="40" r="10" fill="#e11d48"/><text x="188" y="44" font-family="Arial" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">2</text>
+            <rect x="20" y="124" width="300" height="60" rx="3" fill="#fff" stroke="#c9ced3"/><g font-family="Segoe UI,Arial" font-size="11"><text x="30" y="142" fill="#6b7a86">Propriétés</text><rect x="28" y="150" width="284" height="26" fill="#eef2f5" stroke="#c9ced3"/><text x="36" y="160" fill="#1b2831" font-weight="700">CVC_PAC_Weishaupt_WWP-S-35-IDR</text><text x="36" y="172" fill="#334155">WWP S 35 IDR</text></g>
+            <rect x="22" y="146" width="296" height="34" rx="4" fill="none" stroke="#e11d48" stroke-width="3"/><circle cx="326" cy="146" r="10" fill="#e11d48"/><text x="326" y="150" font-family="Arial" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">3</text>
+          </svg><figcaption>Poser la famille (dessin simplifié).</figcaption></figure></div></section>
+
+      <section class="tt-step fg-st" id="fgt8"><h3><span class="tt-n">8</span>Vérifier la famille <label class="fg-done"><input type="checkbox" data-step="8"> Fait</label></h3>
+        <ul class="fg-check">
+          <li><b>Dimensions</b> : mesure-la (cotation alignée) et compare à la fiche technique.</li>
+          <li><b>Raccords</b> : sélectionne la famille, des petits <b>+</b> apparaissent sur chaque raccord. Dessine une gaine ou un tuyau depuis chacun : le bon réseau (soufflage, aller chauffage…) et la bonne taille doivent sortir.</li>
+          <li>Si une gaine rectangulaire sort <b>tournée</b> (largeur et hauteur inversées) : sélectionne la famille › <b>Modifier la famille</b>, clique sur le raccord et inverse Largeur / Hauteur dans ses propriétés, puis <b>Charger dans le projet</b>.</li>
+          <li><b>Paramètres</b> : bouton <b>Modifier le type</b> › tu dois voir Fabricant, Modèle, Référence CCTP, Débit nominal, Puissance nominale, Poids, Source, À vérifier.</li>
+          <li>Quand tout est vérifié, vide le paramètre <b>« À vérifier »</b> (ou écris ce qui reste à contrôler).</li>
+        </ul></section>
+
+      <section class="tt-step fg-st" id="fgt9"><h3><span class="tt-n">9</span>Partager avec l'équipe <label class="fg-done"><input type="checkbox" data-step="9"> Fait</label></h3>
+        <ul>
+          <li><b>Enregistre ton projet</b> (Ctrl + S) puis, si c'est la maquette partagée, <b>Synchroniser avec le fichier central</b>.</li>
+          <li>Dépose le <b>.rfa</b> (dans <span class="mono">Documents\Familles_EHPAD</span>) sur <b>ACC</b>, dans le dossier des familles, et préviens l'équipe dans l'onglet <b>Échanges</b> ou le chat.</li>
+          <li>Garde la fiche technique PDF avec : elle sert de justificatif dans le rapport.</li>
+        </ul></section>
+
+      <section class="tt-step" id="fgt10"><h3><span class="tt-n">!</span>Erreurs fréquentes</h3>
+        <div class="tbl-wrap"><table class="fam-t"><thead><tr><th>Ce que je vois</th><th>Ce que je fais</th></tr></thead><tbody>
+          <tr><td><b>« Gabarit de famille introuvable »</b></td><td>Dans le nœud <b>Chemin du gabarit</b>, colle le chemin du gabarit, par exemple <span class="mono">C:\ProgramData\Autodesk\RVT 2026\Family Templates\French\Équipement de génie climatique métrique.rft</span> (vérifie-le dans l'Explorateur : le dossier peut s'appeler <span class="mono">English</span>, le fichier <span class="mono">Metric Mechanical Equipment.rft</span>). Puis Exécuter.</td></tr>
+          <tr><td>Message sur le <b>moteur Python</b> (CPython3, PythonNet3), ou nœud en <b>jaune / rouge</b> avec « engine »</td><td>Double-clique sur le nœud Python : en bas à gauche de l'éditeur, choisis le moteur proposé (<b>PythonNet3</b>, sinon <b>CPython3</b>), clique sur <b>Enregistrer les modifications</b>, puis Exécuter.</td></tr>
+          <tr><td>Je clique sur Exécuter et <b>rien ne se passe</b></td><td>Vérifie que le nœud n'est pas <b>gelé</b> (clic droit › décoche « Geler »). Si le script a déjà tourné sans changement, Dynamo ne le relance pas : modifie le nœud « Chemin du gabarit » (tape un espace puis efface-le) et réexécute.</td></tr>
+          <tr><td>« (déjà chargée : recharge-la si besoin) »</td><td>Une famille du même nom est déjà dans le projet. Pour la remplacer : <b>Insérer › Charger la famille</b> › le .rfa › <b>« Remplacer la version existante et ses valeurs de paramètres »</b>.</td></tr>
+          <tr><td>« Raccords en erreur : … face introuvable »</td><td>Le décalage du raccord le fait sortir de sa face (décalage plus grand que la moitié de la face). Corrige le décalage sur le site, retélécharge le .dyn.</td></tr>
+          <tr><td>« Chargement impossible »</td><td>Le projet est peut-être en lecture seule ou une commande est en cours dans Revit (Échap deux fois). Charge le .rfa à la main : Insérer › Charger la famille.</td></tr>
+          <tr><td>« Erreur : Traceback … »</td><td>Fais une capture de toute la bulle et envoie-la à Allan : il fera corriger le générateur.</td></tr>
+        </tbody></table></div></section>
+
+      <section class="tt-step" id="fgt11"><h3><span class="tt-n">B</span>Plan B : si Dynamo n'ouvre pas le .dyn</h3>
+        <ol>
+          <li>Télécharge le <b>script .py</b> (lien sous le bouton du .dyn) et ouvre-le avec le Bloc-notes : sélectionne tout (Ctrl + A), copie (Ctrl + C).</li>
+          <li>Dans Dynamo : <b>Nouveau</b>, puis clic droit dans la zone vide, tape <b>Python Script</b> et pose le nœud.</li>
+          <li>Clique sur le <b>−</b> du nœud pour enlever l'entrée <span class="mono">IN[0]</span> (sinon le nœud attend une entrée et ne tourne pas).</li>
+          <li>Double-clique sur le nœud, efface le texte, colle le script (Ctrl + V), clique sur <b>Enregistrer les modifications</b>.</li>
+          <li>Reprends à l'<a href="#fgt5">étape 5</a> : Exécuter.</li>
+        </ol></section>
+    </section>
   </section>
 
   <section id="viewStock" hidden>
@@ -3869,6 +4027,7 @@ async function cmdkIndex(){
   add("Action","Voir l'air circuler dans les gaines","3D · particules soufflage, reprise, extraction",()=>batGo(()=>{ const c=$("#airOn"); if(c&&!c.checked){ c.checked=true; c.onchange({target:c}); } }),"particules animation");
   add("Action","Écorché 3D : écarter les niveaux","3D · RDC, étage et toiture séparés",()=>batGo(()=>RB.explodeTo(6)),"eclate niveaux");
   add("Action","Changer le thème (clair / sombre)","Affichage",()=>{ const b=$("#themeBtn"); if(b) b.click(); },"theme sombre clair");
+  add("Action","Tuto : utiliser le script Dynamo","Création de famille · étape par étape pour les collègues",()=>{ setTab("famgen"); setTimeout(()=>{ const t=$("#fgTuto"); if(t) t.scrollIntoView({behavior:"smooth",block:"start"}); },200); },"dynamo tutoriel famille revit script");
   Object.entries(TAB_META).forEach(([k,m])=>{ if(k==="logs"&&!(typeof isAdmin==="function"&&isAdmin())) return; add("Onglet",m[1],m[2],()=>setTab(k)); });
   (typeof tasks!=="undefined"?tasks:[]).forEach(t=>add("Tâche",t.title||t._id,`${t._id} · ${t.status==="fait"?"fait":t.status==="encours"?"en cours":"à faire"}${t.due?" · pour le "+fmtDate(t.due):""}`,()=>{ setTab("tasks"); openTask(t._id); }));
   const [EQ,BO,DC]=await Promise.all([fetch("files/b3d/equip.json?v="+EQ_V).then(r=>r.ok?r.json():[]).catch(()=>[]),fetch("files/bouches/bouches.json").then(r=>r.ok?r.json():[]).catch(()=>[]),fetch("files/bouches/controle_dce.json").then(r=>r.ok?r.json():[]).catch(()=>[])]);
@@ -4371,4 +4530,19 @@ TAB_META.famgen=["Fichiers","Création de famille","Une fiche technique PDF → 
     if(on){ setCrumb("famgen"); store.set("ehpad-tab","famgen"); if(FG.d) fgPreview(); } };
   tb.onclick=()=>setTab("famgen");
 }
+</script>
+
+<script>
+/* ---------- Tuto Dynamo : étapes cochées (sur cet ordinateur), impression ---------- */
+{ const KEY="ehpad-fg-tuto", get=()=>{ try{ return JSON.parse(localStorage.getItem(KEY)||"{}"); }catch(e){ return {}; } }, set=v=>{ try{ localStorage.setItem(KEY,JSON.stringify(v)); }catch(e){} };
+  const boxes=[...document.querySelectorAll("#fgTuto [data-step]")];
+  const upd=()=>{ const st=get(); let n=0; boxes.forEach(b=>{ b.checked=!!st[b.dataset.step]; b.closest(".fg-st").classList.toggle("ok",b.checked); if(b.checked) n++; });
+    $("#fgProgN").textContent=`${n} / ${boxes.length}`; $("#fgProgB").style.width=(100*n/boxes.length)+"%"; };
+  boxes.forEach(b=>b.onchange=()=>{ const st=get(); st[b.dataset.step]=b.checked; set(st); upd();
+    if(b.checked){ const nx=document.getElementById("fgt"+(+b.dataset.step+1)); if(nx&&+b.dataset.step<boxes.length) setTimeout(()=>nx.scrollIntoView({behavior:"smooth",block:"start"}),250); } });
+  $("#fgTutoReset").onclick=()=>{ set({}); upd(); };
+  $("#fgTutoPrint").onclick=()=>{ let pb=$("#fgPrintBox"); if(!pb){ pb=document.createElement("div"); pb.id="fgPrintBox"; document.body.appendChild(pb); } pb.innerHTML=$("#fgTuto").outerHTML.replace(/id="/g,'data-id="');
+    document.body.classList.add("fg-printing"); const done=()=>{ document.body.classList.remove("fg-printing"); window.removeEventListener("afterprint",done); }; window.addEventListener("afterprint",done); window.print(); };
+  document.querySelectorAll('#viewFamGen a[href^="#fg"]').forEach(a=>a.onclick=e=>{ e.preventDefault(); const t=document.getElementById(a.getAttribute("href").slice(1)); if(t) t.scrollIntoView({behavior:"smooth",block:"start"}); });
+  upd(); }
 </script>
