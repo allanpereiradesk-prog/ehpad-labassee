@@ -1677,7 +1677,7 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
         <div class="field"><label for="enEta">Récupération de chaleur des CTA (%)</label><input id="enEta" type="number" step="1" min="0" max="95" data-en="eta"></div>
         <button class="btn small" type="button" id="enReset" style="align-self:end">Revenir aux valeurs de départ</button>
       </div>
-      <p class="hint">-9 °C : température de base habituelle dans le Nord, <b>à vérifier</b> dans la note de calcul. 75 % de récupération : <b>valeur d'attente</b>, à remplacer par la fiche VIM des CAD HR OPTIMAL et CAD O INTEGRAL. Ces réglages restent sur cet ordinateur.</p>
+      <p class="hint">Valeurs de départ prises dans le <b>CCTP lot 12</b> : 21 °C dedans (§ 2.2.2, « locaux en règle générale » ; salles de bain 24 °C, stockages 16 °C), -9 °C dehors (§ 2.2.1, zone H1), 80 % de récupération (§ 4.10.2 et 4.11.2 : « haute efficacité (80 % et plus) », plaques &gt; 80 % sur les CTA 1 à 4, roue &gt; 85 % sur la CTA 5). Ces réglages restent sur cet ordinateur.</p>
     </section>
     <div class="en-g2">
       <section class="panel" aria-labelledby="enBesT">
@@ -1703,7 +1703,7 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
       <section class="panel" aria-labelledby="enVenT">
         <h2 id="enVenT">Ventilation : débits et chaleur perdue par l'air</h2>
         <div class="tbl-wrap"><table class="fam-t resa-t" id="enVen"></table></div>
-        <p class="hint">Pertes de charge : réseau principal seulement (sans la CTA, ses filtres ni les bouches). La CTA 5 est à débit variable et s'arrête la nuit : le chiffre ci-dessus est le cas le plus défavorable.</p>
+        <p class="hint">Pertes de charge : réseau principal seulement (sans la CTA, ses filtres ni les bouches). La CTA 5 est à débit variable et s'arrête la nuit : le chiffre ci-dessus est le cas le plus défavorable. VMC : l'air extrait arrive des CTA par détalonnage ou bouches de transfert (CCTP § 4.12.6), seule la part de chaleur non récupérée est comptée.</p>
       </section>
     </div>
     <div class="en-g2">
@@ -4902,18 +4902,19 @@ TAB_META.jeu=["Équipe","Jeu","Réservé à l'équipe : chasse aux conflits dans
 
 <script>
 /* ---------- Tableau de bord énergie (#energie) : files/energie/energie.json + hypothèses modifiables ---------- */
-const EN_DEF={ti:20,te:-9,eta:75};
+const EN_DEF={ti:21,te:-9,eta:80};
 let EN=null, enHyp={...EN_DEF}, enEnvV="parois";
-try{ const s=JSON.parse(store.get("ehpad-energie")||"null"); if(s) enHyp={...EN_DEF,...s}; }catch(e){}
+try{ const s=JSON.parse(store.get("ehpad-energie-v2")||"null"); if(s) enHyp={...EN_DEF,...s}; }catch(e){}
 const enF=(v,d=0)=>(+v||0).toLocaleString("fr-FR",{minimumFractionDigits:d,maximumFractionDigits:d});
 async function enLoad(){ if(EN) return EN;
-  EN=await fetch("files/energie/energie.json?v=1").then(r=>r.ok?r.json():null).catch(()=>null); return EN; }
+  EN=await fetch("files/energie/energie.json?v=2").then(r=>r.ok?r.json():null).catch(()=>null); return EN; }
 function enCalc(){
   const D=EN, dT=enHyp.ti-enHyp.te, eta=Math.min(.95,Math.max(0,enHyp.eta/100));
   const Henv=D.H.parois+D.H.baies+D.H.ponts;
   const cta=D.ventilation.filter(v=>v.type==="double flux"), vmc=D.ventilation.filter(v=>v.type==="simple flux");
   const qC=cta.reduce((a,v)=>a+(v.q||0),0), qV=vmc.reduce((a,v)=>a+(v.q||0),0);
-  const HvC=0.34*qC*(1-eta), HvV=0.34*qV, G=Henv+HvC+HvV;
+  /* L'air extrait par les VMC est compensé par l'air soufflé des CTA (CCTP § 4.12.6) : cet air est déjà compté dans le débit des CTA, mais il ne repasse pas par l'échangeur → seule la récupération perdue (η × q VMC) s'ajoute. */
+  const HvC=0.34*qC*(1-eta), HvV=0.34*qV*eta, G=Henv+HvC+HvV;
   const chaud=D.production.reduce((a,p)=>a+p.chaud,0), froid=D.production.reduce((a,p)=>a+p.froid,0);
   const pac=D.production.filter(p=>/^PAC/.test(p.mark)).reduce((a,p)=>a+p.chaud,0);
   const Pb=G*dT/1000, Tb=enHyp.ti-pac*1000/G;
@@ -4940,12 +4941,12 @@ function enChart(c){
   g+=fill+`<line x1="${x(t0)}" x2="${x(t1)}" y1="${y(c.chaud)}" y2="${y(c.chaud)}" class="en-l en-l-tot"/>`
     +`<line x1="${x(t0)}" x2="${x(t1)}" y1="${y(c.pac)}" y2="${y(c.pac)}" class="en-l en-l-pac"/>`
     +`<line x1="${x(t0)}" x2="${x(t1)}" y1="${y(need(t0))}" y2="${y(0)}" class="en-l en-l-need"/>`
-    +`<text x="${x(t1)-4}" y="${y(c.chaud)-6}" text-anchor="end" class="en-dl">PAC + chaudières ${c.chaud} kW</text>`
-    +`<text x="${x(t1)-4}" y="${y(c.pac)-6}" text-anchor="end" class="en-dl">PAC seules ${c.pac} kW</text>`
+    +`<text x="${x(t1)-4}" y="${y(c.chaud)-6}" text-anchor="end" class="en-dl">PAC + chaudières ${enF(c.chaud,1)} kW</text>`
+    +`<text x="${x(t1)-4}" y="${y(c.pac)-6}" text-anchor="end" class="en-dl">PAC seules ${enF(c.pac,1)} kW</text>`
     +`<text x="${x(t0)+8}" y="${y(need(t0))+4}" class="en-dl">besoin ${enF(c.Pb)} kW</text>`;
   if(c.Tb>t0&&c.Tb<t1) g+=`<circle cx="${x(c.Tb)}" cy="${y(c.pac)}" r="5" class="en-pt"/>`;
   g+=`<g class="en-hov" hidden><line class="en-cross" y1="${m.t}" y2="${H-m.b}"/><circle r="5" class="en-pt"/></g><rect class="en-hit" x="${m.l}" y="${m.t}" width="${W-m.l-m.r}" height="${H-m.t-m.b}"/>`;
-  box.innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Besoin de chauffage de ${enF(c.Pb)} kW à ${enHyp.te} °C, puissance installée ${c.chaud} kW dont ${c.pac} kW de PAC">${g}</svg><div class="en-tip" hidden></div>`;
+  box.innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Besoin de chauffage de ${enF(c.Pb)} kW à ${enHyp.te} °C, puissance installée ${enF(c.chaud,1)} kW dont ${enF(c.pac,1)} kW de PAC">${g}</svg><div class="en-tip" hidden></div>`;
   const svg=box.querySelector("svg"), hov=svg.querySelector(".en-hov"), tip=box.querySelector(".en-tip");
   svg.querySelector(".en-hit").addEventListener("pointermove",e=>{
     const r=svg.getBoundingClientRect(), sx=(e.clientX-r.left)/r.width*W;
@@ -4957,13 +4958,13 @@ function enChart(c){
   });
   svg.querySelector(".en-hit").addEventListener("pointerleave",()=>{ hov.hidden=true; tip.hidden=true; });
   $("#enLeg").innerHTML=`<span><i class="en-k en-k-need"></i>Besoin (enveloppe + air)</span><span><i class="en-k en-k-pac"></i>PAC géothermiques</span><span><i class="en-k en-k-tot"></i>PAC + chaudières gaz</span><span><i class="en-k en-k-app"></i>Appoint par les chaudières</span>`;
-  $("#enBiv").innerHTML=c.Tb>enHyp.te?`Les 2 PAC suffisent tant qu'il fait plus de <b>${enF(c.Tb,1)} °C</b> dehors. En dessous, les chaudières gaz prennent le relais (point de bivalence). La puissance des PAC baisse un peu quand le sol se refroidit : à vérifier sur la fiche Weishaupt.`:`Avec ces hypothèses, les PAC couvrent seules le besoin même à ${enHyp.te} °C.`;
+  $("#enBiv").innerHTML=c.Tb>enHyp.te?`Les 2 PAC suffisent tant qu'il fait plus de <b>${enF(c.Tb,1)} °C</b> dehors. En dessous, les chaudières gaz prennent le relais (point de bivalence). Calcul avec 33,7 kW par PAC (CCTP § 4.6.2, eau glycolée 0 °C / départ 35 °C). Plus l'eau de chauffage est chaude, moins la PAC donne : 30,3 kW à départ 55 °C (B0/W55), température prévue par la loi d’eau des radiateurs à -9 °C (§ 4.4.2.2).`:`Avec ces hypothèses, les PAC couvrent seules le besoin même à ${enHyp.te} °C.`;
 }
 function enEnv(){
   const D=EN; let it;
   if(enEnvV==="parois") it=D.parois.map(p=>({l:p.libelle,s:`U ${enF(p.U,2)} · ${enF(p.S)} m²${p.b<1?" · b "+enF(p.b,2):""}`,v:p.H}));
   else if(enEnvV==="baies"){ const o={}; D.baies.forEach(b=>{ const k=b.orient; o[k]=o[k]||{H:0,S:0,n:0}; o[k].H+=b.H; o[k].S+=b.S; o[k].n++; });
-    it=Object.entries(o).map(([k,v])=>({l:k,s:`${v.n} fenêtres · ${enF(v.S)} m² · Uw 1,3`,v:v.H})); }
+    it=Object.entries(o).map(([k,v])=>({l:k,s:`${v.n} fenêtres · ${enF(v.S)} m² · Uw moyen ${enF(v.H/v.S,2)}`,v:v.H})); }
   else { const o={}; D.ponts.forEach(p=>{ const k=p.type; o[k]=o[k]||{H:0,L:0}; o[k].H+=p.H; o[k].L+=p.L; });
     it=Object.entries(o).map(([k,v])=>({l:k,s:`${enF(v.L)} m de jonction`,v:v.H})); }
   it.sort((a,b)=>b.v-a.v);
@@ -4977,24 +4978,24 @@ async function renderEnergie(){
   const D=EN, c=enCalc(), marge=(c.chaud/c.Pb-1)*100;
   $("#enSum").innerHTML=[
     [enF(c.Pb)+" kW",`besoin de chauffage à ${enHyp.te} °C`],
-    [c.chaud+" kW",`chaud installé (${marge>=0?"marge "+enF(marge)+" %":"manque "+enF(-marge)+" %"})`],
+    [enF(c.chaud,1)+" kW",`chaud installé (${marge>=0?"marge "+enF(marge)+" %":"manque "+enF(-marge)+" %"} sur le chauffage seul, ECS en plus)`],
     [enF(c.Pb*1000/D.surf_chauffee)+" W/m²",`pour ${enF(D.surf_chauffee)} m² chauffés`],
     [enF(c.Tb,1)+" °C","les PAC suffisent au-dessus"],
     [enF(c.Henv)+" W/K","déperditions de l'enveloppe"],
     [enF(c.qC+c.qV)+" m³/h",`d'air (${enF(c.qC)} double flux, ${enF(c.qV)} VMC)`],
-    [enF(D.rt.bbio,1)+" pts","Bbio (conforme, étude RT2012)"],
-    [enF(D.rt.cep,1),"Cep en kWh ep/m².an (conforme)"],
+    [enF(D.rt.bbio,1)+" pts",`Bbio (max ${enF(D.rt.bbio_max,1)} : conforme)`],
+    [enF(D.rt.cep,1),`Cep en kWh ep/m² SRT.an (max ${enF(D.rt.cep_max,1)} : conforme)`],
   ].map(([b,s])=>`<div class="k"><b>${b}</b><span>${s}</span></div>`).join("");
   enChart(c);
   const dep=[{l:"Murs, toiture, sols, portes",s:"enveloppe",v:D.H.parois*c.dT/1000},{l:"Fenêtres",s:"enveloppe",v:D.H.baies*c.dT/1000},{l:"Ponts thermiques",s:"enveloppe",v:D.H.ponts*c.dT/1000},
-    {l:"Air neuf des CTA",s:`double flux, après ${enHyp.eta} % récupérés`,v:c.HvC*c.dT/1000},{l:"Air extrait par la VMC",s:"simple flux, sans récupération",v:c.HvV*c.dT/1000}].sort((a,b)=>b.v-a.v);
+    {l:"Air neuf des CTA",s:`double flux, après ${enHyp.eta} % récupérés`,v:c.HvC*c.dT/1000},{l:"Air extrait par la VMC",s:"air des CTA qui ne repasse pas par l'échangeur",v:c.HvV*c.dT/1000}].sort((a,b)=>b.v-a.v);
   enBars($("#enDep"),dep,"kW",1);
-  $("#enDepN").innerHTML=`Total : <b>${enF(c.Pb,1)} kW</b> pour ${c.dT} °C d'écart. Enveloppe : H × ΔT. Air : 0,34 × débit × (1 − récupération) × ΔT. Les infiltrations et la relance du matin ne sont pas comptées.`;
+  $("#enDepN").innerHTML=`Total : <b>${enF(c.Pb,1)} kW</b> pour ${c.dT} °C d'écart. Enveloppe : H × ΔT. Air des CTA : 0,34 × débit × (1 − récupération) × ΔT. Air VMC : compensé par les CTA (CCTP § 4.12.6), on compte seulement la chaleur qui n'est pas récupérée : 0,34 × débit × récupération × ΔT. Les infiltrations et la relance du matin ne sont pas comptées. Pour comparer, le CCTP § 4.1 estime ~60 kW pour l'enveloppe et ~25 kW pour l'air des CTA, soit 85 kW (sans la VMC).`;
   $("#enProd").innerHTML=`<thead><tr><th>Repère</th><th>Équipement</th><th class="num">Chaud</th><th class="num">Froid</th><th>Énergie</th></tr></thead><tbody>`
-    +D.production.map(p=>`<tr><td class="nw"><b>${esc(p.mark)}</b></td><td>${esc(p.equip)}<div class="hint">${esc(p.src)}</div></td><td class="num">${p.chaud} kW</td><td class="num">${p.froid?p.froid+" kW":"–"}</td><td>${esc(p.energie)}</td></tr>`).join("")
-    +`<tr class="en-tot"><td colspan="2"><b>Total</b></td><td class="num"><b>${c.chaud} kW</b></td><td class="num"><b>${c.froid} kW</b></td><td></td></tr></tbody>`;
-  $("#enEcs").innerHTML=`Eau chaude sanitaire : ${esc(D.ecs.equip)}, <b>${D.ecs.P} kW</b>, régime ${esc(D.ecs.regime)} (${esc(D.ecs.src)}). ${esc(D.ecs.note)}.`;
-  const vRow=v=>{ const h=0.34*v.q*(v.type==="double flux"?(1-c.eta):1); return `<tr${v.type==="simple flux"?` title="${esc(v.note)}"`:""}><td class="nw"><span class="cta" style="--cc:${CTA_COL[v.mark]||"#888"}"><i></i>${esc(v.mark)}</span></td><td>${esc(v.mod)}<div class="hint">${esc(v.type)}${v.recup?" · "+esc(v.recup):""}</div></td><td class="num">${enF(v.q)} m³/h</td><td class="num">${v.pdc!=null?v.pdc+" Pa":"–"}</td><td class="num">${enF(h*c.dT/1000,1)} kW</td></tr>`; };
+    +D.production.map(p=>`<tr><td class="nw"><b>${esc(p.mark)}</b></td><td>${esc(p.equip)}<div class="hint">${esc(p.src)}</div></td><td class="num">${enF(p.chaud,1)} kW</td><td class="num">${p.froid?enF(p.froid,1)+" kW":"–"}</td><td>${esc(p.energie)}</td></tr>`).join("")
+    +`<tr class="en-tot"><td colspan="2"><b>Total</b></td><td class="num"><b>${enF(c.chaud,1)} kW</b></td><td class="num"><b>${enF(c.froid,1)} kW</b></td><td></td></tr></tbody>`;
+  $("#enEcs").innerHTML=`Eau chaude sanitaire : ${esc(D.ecs.equip)}, <b>${D.ecs.P} kW</b>, régime ${esc(D.ecs.regime)} (${esc(D.ecs.src)}). ${esc(D.ecs.note)}. La puissance installée doit aussi couvrir l'ECS : chauffage au plus froid + ECS = <b>${enF(c.Pb+D.ecs.P)} kW</b> pour ${enF(c.chaud,1)} kW installés ; avec la priorité ECS prévue au CCTP § 4.1 (50 % de l'appel, soit ${enF(D.ecs.P/2)} kW) : <b>${enF(c.Pb+D.ecs.P/2)} kW</b>.`;
+  const vRow=v=>{ const h=0.34*v.q*(v.type==="double flux"?(1-c.eta):c.eta); return `<tr${v.type==="simple flux"?` title="${esc(v.note)}"`:""}><td class="nw"><span class="cta" style="--cc:${CTA_COL[v.mark]||"#888"}"><i></i>${esc(v.mark)}</span></td><td>${esc(v.mod)}<div class="hint">${esc(v.type)}${v.recup?" · "+esc(v.recup):""}</div></td><td class="num">${enF(v.q)} m³/h</td><td class="num">${v.pdc!=null?v.pdc+" Pa":"–"}</td><td class="num">${enF(h*c.dT/1000,1)} kW</td></tr>`; };
   $("#enVen").innerHTML=`<thead><tr><th>Réseau</th><th>Appareil</th><th class="num">Débit</th><th class="num">Pertes de charge</th><th class="num">Chaleur perdue</th></tr></thead><tbody>`
     +c.cta.map(vRow).join("")+c.vmc.map(vRow).join("")
     +`<tr class="en-tot"><td colspan="2"><b>Total</b></td><td class="num"><b>${enF(c.qC+c.qV)} m³/h</b></td><td></td><td class="num"><b>${enF((c.HvC+c.HvV)*c.dT/1000,1)} kW</b></td></tr></tbody>`;
@@ -5006,8 +5007,8 @@ async function renderEnergie(){
   $("#enSrc").textContent=`Sources : ${D.src}. Mise à jour du ${D.maj.split("-").reverse().join("/")}.`;
 }
 document.querySelectorAll("#viewEnergie [data-en]").forEach(i=>i.addEventListener("input",()=>{ const v=parseFloat(i.value); if(!isFinite(v)) return;
-  enHyp[i.dataset.en]=v; if(enHyp.te>=enHyp.ti) return; store.set("ehpad-energie",JSON.stringify(enHyp)); if(EN) renderEnergie(); }));
-$("#enReset").onclick=()=>{ enHyp={...EN_DEF}; store.set("ehpad-energie",JSON.stringify(enHyp)); renderEnergie(); };
+  enHyp[i.dataset.en]=v; if(enHyp.te>=enHyp.ti) return; store.set("ehpad-energie-v2",JSON.stringify(enHyp)); if(EN) renderEnergie(); }));
+$("#enReset").onclick=()=>{ enHyp={...EN_DEF}; store.set("ehpad-energie-v2",JSON.stringify(enHyp)); renderEnergie(); };
 document.querySelectorAll(".en-seg [data-ev]").forEach(b=>b.onclick=()=>{ enEnvV=b.dataset.ev; enEnv(); });
 TAB_META.energie=["Fichiers","Énergie","Déperditions, besoin de chauffage, puissances installées et ventilation."];
 { const tb=$("#tabEnergie"), vw=$("#viewEnergie");

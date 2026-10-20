@@ -1,6 +1,6 @@
 {
  "maj": "2026-10-20",
- "src": "EHPAD_Pieces_Espaces_Zones_Thermique.xlsx (étude RT2012 Pleiades du DCE + maquette du 16/10), equip.json réseau v13/VMC du 20/10, CCTP lot 12",
+ "src": "EHPAD_Pieces_Espaces_Zones_Thermique.xlsx (étude RT2012 Pleiades du DCE + maquette du 16/10), equip.json réseau v13/VMC du 20/10, CCTP lot 12 ; hypothèses et puissances vérifiées dans le CCTP lot 12 (§ 2.2, 4.1, 4.6.2, 4.12.6) et le RSET (Bbio max, Cep max)",
  "surf_chauffee": 4336.77,
  "vol_chauffe": 12094.1,
  "surf_espaces": 4681.29,
@@ -8,7 +8,10 @@
   "bbio": 121.8,
   "cep": 111.5,
   "psi": 0.08,
-  "psi_max": 0.28
+  "psi_max": 0.28,
+  "bbio_max": 138.8,
+  "cep_max": 148.1,
+  "srt": 4370.4
  },
  "H": {
   "parois": 898.22,
@@ -807,18 +810,18 @@
   {
    "mark": "PAC 1",
    "equip": "PAC géothermique Weishaupt WWP S 35 IDR",
-   "chaud": 35,
-   "froid": 40,
+   "chaud": 33.7,
+   "froid": 40.1,
    "energie": "électricité",
-   "src": "CCTP § 4.6"
+   "src": "CCTP § 4.6.2 (33,7 kW à B0/W35, COP 4,6 ; 40,1 kW froid à B20/W9)"
   },
   {
    "mark": "PAC 2",
    "equip": "PAC géothermique Weishaupt WWP S 35 IDR",
-   "chaud": 35,
-   "froid": 40,
+   "chaud": 33.7,
+   "froid": 40.1,
    "energie": "électricité",
-   "src": "CCTP § 4.6"
+   "src": "CCTP § 4.6.2 (33,7 kW à B0/W35, COP 4,6 ; 40,1 kW froid à B20/W9)"
   },
   {
    "mark": "CH 1",
@@ -826,7 +829,7 @@
    "chaud": 60,
    "froid": 0,
    "energie": "gaz naturel",
-   "src": "CCTP § 4.3.1"
+   "src": "CCTP § 4.3.1 (59,1 kW en 80/60, 62,2 kW en 50/30)"
   },
   {
    "mark": "CH 2",
@@ -834,7 +837,7 @@
    "chaud": 60,
    "froid": 0,
    "energie": "gaz naturel",
-   "src": "CCTP § 4.3.1"
+   "src": "CCTP § 4.3.1 (59,1 kW en 80/60, 62,2 kW en 50/30)"
   }
  ],
  "ecs": {
