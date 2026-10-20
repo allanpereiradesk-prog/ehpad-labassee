@@ -614,6 +614,19 @@ button.h-tile{cursor:pointer}button.h-tile:hover{outline:2px solid color-mix(in 
 .stk-add summary,.stk-log summary{cursor:pointer;font-weight:600}.stk-form{display:grid;gap:8px;margin-top:8px}.stk-form label{display:grid;gap:3px;font-size:13px;color:var(--muted)}.stk-form input,.stk-form select,.stk-sh input,.stk-sh select{width:100%;min-width:0;box-sizing:border-box}.stk-sh select{width:auto;max-width:45%}.stk-row{display:flex;gap:6px}.stk-row label{flex:1;min-width:0}
 .stk-log table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:6px}.stk-log td{padding:4px;border-bottom:1px solid var(--line);vertical-align:top}
 .bo-cr{margin:12px 0}.bo-cr summary{cursor:pointer;display:flex;gap:10px;align-items:center;flex-wrap:wrap}.bo-cr-b{max-width:900px;font-size:14.5px;line-height:1.5}.bo-cr-b h1{display:none}.bo-cr-b h2{font-size:16px;margin:16px 0 6px}.bo-cr-b table{border-collapse:collapse;font-size:13.5px;margin:6px 0}.bo-cr-b th,.bo-cr-b td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left}.bo-dce{margin-top:18px}.dce-t{table-layout:fixed;min-width:820px}.dce-t td{overflow-wrap:anywhere}.bo-dce h2{margin:0 0 4px}
+.wow-ctl{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;width:100%;padding-top:6px;border-top:1px dashed var(--line)}.wow-ctl label{display:inline-flex;gap:6px;align-items:center;font-size:14px;cursor:pointer}.wow-air i{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--cc);margin:0 3px 0 6px}.wow-ex input[type=range]{width:160px}.wow-ex output{min-width:44px;font-variant-numeric:tabular-nums}
+#cmdk{position:fixed;inset:0;z-index:100;background:rgb(10 20 28 / .45);backdrop-filter:blur(3px);display:flex;justify-content:center;align-items:flex-start;padding:12vh 16px 16px}
+.cmdk-box{width:min(680px,100%);max-height:72vh;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:0 24px 70px rgb(0 0 0 / .35);overflow:hidden;animation:cmdkIn .14s ease-out}
+@keyframes cmdkIn{from{transform:translateY(-8px) scale(.98);opacity:0}}@media (prefers-reduced-motion:reduce){.cmdk-box{animation:none}}
+.cmdk-in{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line)}.cmdk-in span{font-size:22px;color:var(--muted)}.cmdk-in input{flex:1;min-width:0;border:0;outline:0;background:transparent;font-size:18px;color:var(--ink);padding:4px 0}
+#cmdkL{list-style:none;margin:0;padding:6px;overflow:auto}#cmdkL li[data-i]{display:grid;grid-template-columns:104px 1fr 20px;gap:10px;align-items:center;padding:8px 10px;border-radius:8px;cursor:pointer}#cmdkL li[aria-selected=true]{background:color-mix(in srgb,var(--accent) 14%,transparent)}
+.cmdk-x b{display:block;font-weight:600;font-size:14.5px}.cmdk-x small{display:block;color:var(--muted);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.cmdk-x mark{background:color-mix(in srgb,var(--accent) 28%,transparent);color:inherit;border-radius:2px}
+.cmdk-go{color:var(--muted);opacity:0}#cmdkL li[aria-selected=true] .cmdk-go{opacity:1}.cmdk-e{padding:18px;color:var(--muted)}
+.cmdk-t{font-size:11.5px;font-weight:700;text-align:center;padding:3px 6px;border-radius:999px;background:var(--sunk);color:var(--muted)}.cmdk-t.t-action{background:#1f5fa8;color:#fff}.cmdk-t.t-onglet{background:#334155;color:#fff}.cmdk-t.t-equipement{background:#d33a3a;color:#fff}.cmdk-t.t-bouche{background:#0e7490;color:#fff}.cmdk-t.t-local{background:#15803d;color:#fff}.cmdk-t.t-reservation{background:#a16207;color:#fff}.cmdk-t.t-tache{background:#7c3aed;color:#fff}
+.cmdk-f{display:flex;gap:14px;flex-wrap:wrap;padding:8px 14px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+#cmdk kbd,.cmdk-btn kbd{font:600 11px var(--mono,monospace);border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:1px 5px;background:var(--bg);color:var(--muted)}
+.cmdk-btn{display:inline-flex;gap:5px;align-items:center;border:1px solid var(--line);border-radius:999px;background:var(--surface);padding:4px 10px;cursor:pointer;font-size:13px}.cmdk-btn:hover{border-color:var(--accent)}.cmdk-btn span{margin-right:4px}
+tr.cmdk-hit td{background:color-mix(in srgb,var(--accent) 16%,transparent);transition:background 1s}
 .hv-wait{display:grid;place-content:center;justify-items:center;gap:12px;text-align:center;color:#fff;padding:20px}.hv-wait p{margin:0}
 .hv-b{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .gai-ctl{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;font-size:14px}.gai-leg{display:flex;flex-wrap:wrap;gap:4px 10px}.gai-leg label{display:inline-flex;gap:5px;align-items:center;cursor:pointer}
@@ -2514,12 +2527,12 @@ async function rvBatInit(){
       if(u.space){ const s=u.space; info.innerHTML=`<b>Espace ${esc(s.n)} · ${esc(s.nm)}</b> · zone ${esc(s.z)} · ${s.a.toFixed(1)} m²`; return; }
       const fi=hit.faceIndex; let el=null; for(const e of u.els){ if(fi>=e[1]&&fi<e[1]+e[2]){ el=e; break; } }
       info.innerHTML=`<b>${esc(u.cat)}</b> · ${esc(el?meta.names[el[0]]:"")} <span class="hint">· maquette ${u.layer==="str"?"structure":"architecte"}${el?" · ID Revit "+el[3]:""}</span>`; });
-    RB={scene,cam,ren,ctl,layers,clip,EQ,eqSel,cx,cy};
+    RB={scene,cam,ren,ctl,layers,clip,EQ,eqSel,cx,cy}; if(typeof batEnhance==="function") batEnhance();
     const lst=$("#rvBatEq"); if(lst){ const grp=[["Toiture",e=>e.lv==="NT1"],["Terrasse basse (R+1)",e=>e.lv==="N01"],["RDC (chaufferie, local PAC, sas)",e=>e.lv==="N00"]];
       lst.innerHTML=EQ.length?grp.map(([t,f])=>{ const L=EQ.filter(e=>!/^Socle/.test(e.mark||"")&&f(e)); return L.length?`<div class="bat-eqg"><span class="hint">${t} :</span> `+L.map(e=>`<button class="btn small" data-eqgo="${esc(e.id)}" title="${esc(e.type)}">${esc(e.mark||e.type)}</button>`).join(" ")+`</div>`:""; }).join(""):"";
       lst.querySelectorAll("[data-eqgo]").forEach(b=>b.onclick=()=>rvBatFocus(b.dataset.eqgo)); }
     rvBatApply(); rvBatResize(); new ResizeObserver(rvBatResize).observe(cv);
-    (function loop(){ if(!document.body.contains(ren.domElement)) return; requestAnimationFrame(loop); if(RB&&RB.film) return; if($("#rvBat").hidden||$("#viewRevit").hidden) return; ctl.update(); ren.render(scene,cam); })();
+    (function loop(){ if(!document.body.contains(ren.domElement)) return; requestAnimationFrame(loop); if(RB&&RB.film) return; if($("#rvBat").hidden||$("#viewRevit").hidden) return; ctl.update(); if(RB&&RB.tick) RB.tick(); ren.render(scene,cam); })();
   }catch(e){ console.error(e); cv.innerHTML=`<p class="hint" style="padding:12px">Vue du bâtiment indisponible (${esc(e.message||String(e))}).</p>`; }
 }
 
@@ -3742,4 +3755,117 @@ TAB_META.stock=["Travail","Stock","Le dépôt en 3D : ce qu'on a en stock, ce qu
     if(on){ setCrumb("stock"); store.set("ehpad-tab","stock"); stockOpen(); } };
   tb.onclick=()=>setTab("stock");
 }
+</script>
+
+<script>
+/* ========== 3D : écorché par niveau + air qui circule dans les gaines ========== */
+const EXPL={value:0};
+const BAT_LV=z=>z<3.0?0:z<6.8?1:2;
+function batLvlAttr(m){ const g=m.geometry; if(!g||!g.attributes||!g.attributes.position||g.attributes.lvl) return;
+  const p=g.attributes.position.array, n=p.length/3, a=new Float32Array(n), oz=(m.parent&&m.parent.isGroup?m.parent.position.z:0)+m.position.z;
+  if(g.index){ g.computeBoundingBox(); a.fill(BAT_LV(oz+g.boundingBox.min.z+0.1)); }
+  else for(let t=0;t<n;t+=3){ const c=oz+((p[t*3+2]+p[t*3+5]+p[(t+2)*3+2])||0)/3, l=BAT_LV(c); a[t]=a[t+1]=a[t+2]=l; }
+  g.setAttribute("lvl",new THREE.BufferAttribute(a,1)); }
+function batPatchMat(M){ if(!M||M.userData.expl) return; M.userData.expl=true;
+  const prev=M.onBeforeCompile;
+  M.onBeforeCompile=(sh,r)=>{ if(prev) prev(sh,r); sh.uniforms.uExplode=EXPL;
+    sh.vertexShader="attribute float lvl;\nuniform float uExplode;\n"+sh.vertexShader.replace("#include <begin_vertex>","#include <begin_vertex>\ntransformed.z += uExplode*lvl;"); };
+  M.customProgramCacheKey=()=>"expl"; M.needsUpdate=true; }
+function batEnhance(){
+  const R=RB; if(!R||R.enh) return; R.enh=true;
+  R.scene.traverse(o=>{ if(o.isMesh){ batLvlAttr(o); batPatchMat(o.material); } });
+  // ---- particules d'air ----
+  const ctaC={}; R.EQ.forEach(e=>{ if(e.bb&&/^(CTA|VMC) \d$/.test(e.mark||"")) ctaC[e.mark]=new THREE.Vector3((e.bb[0][0]+e.bb[1][0])/2-R.cx,(e.bb[0][1]+e.bb[1][1])/2-R.cy,(e.bb[0][2]+e.bb[1][2])/2); });
+  const SEG=[]; R.layers.gai.children.forEach(m=>{ const g=m.userData.gai; if(!g||g.k!=="gaine") return; m.geometry.computeBoundingBox(); const b=m.geometry.boundingBox, s=new THREE.Vector3(); b.getSize(s);
+    const ax=s.x>=s.y&&s.x>=s.z?"x":s.y>=s.z?"y":"z", L=s[ax]; if(L<0.25) return; const c=new THREE.Vector3(); b.getCenter(c);
+    const A=c.clone(), B=c.clone(); A[ax]=b.min[ax]; B[ax]=b.max[ax];
+    const C=ctaC[g.net]; let from=A, to=B; if(C){ const nearA=A.distanceTo(C)<B.distanceTo(C); const out=g.sys==="Soufflage"; if(nearA!==out){ from=B; to=A; } }
+    SEG.push({m,g,from,to,L,lvl:BAT_LV(c.z),v:Math.max(0.6,(g.vit||(g.ant?2.5:4))*0.45)}); });
+  const P=[]; SEG.forEach((s,i)=>{ const n=Math.max(1,Math.round(s.L/1.1)); for(let k=0;k<n;k++) P.push({s:i,ph:(k+Math.random()*0.5)/n}); });
+  const pos=new Float32Array(P.length*3), col=new Float32Array(P.length*3);
+  const COLS={Soufflage:new THREE.Color(0x3fa9ff),Reprise:new THREE.Color(0xff9a3c),Extraction:new THREE.Color(0x46c47a)};
+  P.forEach((p,i)=>{ const c=COLS[SEG[p.s].g.sys]||COLS.Soufflage; col[i*3]=c.r; col[i*3+1]=c.g; col[i*3+2]=c.b; });
+  const geo=new THREE.BufferGeometry(); geo.setAttribute("position",new THREE.BufferAttribute(pos,3)); geo.setAttribute("color",new THREE.BufferAttribute(col,3));
+  const cv=document.createElement("canvas"); cv.width=cv.height=64; const x=cv.getContext("2d"), gr=x.createRadialGradient(32,32,0,32,32,32); gr.addColorStop(0,"rgba(255,255,255,1)"); gr.addColorStop(.45,"rgba(255,255,255,.85)"); gr.addColorStop(1,"rgba(255,255,255,0)"); x.fillStyle=gr; x.fillRect(0,0,64,64);
+  const mat=new THREE.PointsMaterial({size:0.42,map:new THREE.CanvasTexture(cv),vertexColors:true,transparent:true,depthWrite:false,sizeAttenuation:true,clippingPlanes:[R.clip]});
+  const pts=new THREE.Points(geo,mat); pts.visible=false; pts.frustumCulled=false; pts.renderOrder=5; R.scene.add(pts);
+  // gaines en verre quand l'air circule, pour voir les particules dedans
+  const glassDucts=on=>R.layers.gai.children.forEach(m=>{ const M=m.material; if(M.userData.a0===undefined){ M.userData.a0=[M.transparent,M.opacity,M.depthWrite]; }
+    if(on){ M.transparent=true; M.opacity=0.28; M.depthWrite=false; } else { [M.transparent,M.opacity,M.depthWrite]=M.userData.a0; } M.needsUpdate=true; });
+  let last=performance.now();
+  R.tick=()=>{ const now=performance.now(), dt=Math.min(0.1,(now-last)/1000); last=now; if(!pts.visible) return;
+    const gv=R.layers.gai.visible;
+    P.forEach((p,i)=>{ const s=SEG[p.s]; p.ph=(p.ph+dt*s.v/s.L)%1; const on=gv&&s.m.visible;
+      if(!on){ pos[i*3+2]=-999; return; } pos[i*3]=s.from.x+(s.to.x-s.from.x)*p.ph; pos[i*3+1]=s.from.y+(s.to.y-s.from.y)*p.ph; pos[i*3+2]=s.from.z+(s.to.z-s.from.z)*p.ph+EXPL.value*s.lvl; });
+    geo.attributes.position.needsUpdate=true; };
+  // ---- commandes ----
+  const t=$("#rvBatTools"); if(!t) return;
+  const d=document.createElement("div"); d.className="wow-ctl";
+  d.innerHTML=`<label class="wow-air"><input type="checkbox" id="airOn"> <b>Air en mouvement</b> <span class="hint">(${P.length.toLocaleString("fr-FR")} particules : <i style="--cc:#3fa9ff"></i>soufflage <i style="--cc:#ff9a3c"></i>reprise <i style="--cc:#46c47a"></i>extraction)</span></label>
+    <label class="wow-ex"><b>Écorché</b> <span class="hint">écarter les niveaux</span><input type="range" id="explR" min="0" max="8" step="0.1" value="0" aria-label="Écarter les niveaux"><output id="explO">0 m</output></label>`;
+  t.appendChild(d);
+  $("#airOn").onchange=e=>{ pts.visible=e.target.checked; glassDucts(pts.visible); if(pts.visible){ last=performance.now(); if(!R.layers.gai.visible){ const c=document.querySelector('[data-blay="gai"]'); if(c){ c.checked=true; rvBatApply(); } } } };
+  const ex=$("#explR"); let anim=null;
+  ex.oninput=()=>{ EXPL.value=+ex.value; $("#explO").textContent=String(ex.value).replace(".",",")+" m"; };
+  R.explodeTo=(v,ms=1200)=>{ cancelAnimationFrame(anim); const v0=EXPL.value, t0=performance.now(); const step=n=>{ const k=Math.min(1,(n-t0)/ms), e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2; EXPL.value=v0+(v-v0)*e; ex.value=EXPL.value; $("#explO").textContent=EXPL.value.toFixed(1).replace(".",",")+" m"; if(k<1) anim=requestAnimationFrame(step); }; anim=requestAnimationFrame(step); };
+  const bx=document.createElement("button"); bx.className="btn small"; bx.textContent="Éclater / regrouper"; bx.onclick=()=>R.explodeTo(EXPL.value>0.5?0:6); d.querySelector(".wow-ex").appendChild(bx);
+}
+
+/* ========== Palette de recherche (Ctrl + K) ========== */
+const CMDK={idx:null,sel:0,res:[]};
+const cmdNorm=s=>String(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
+function cmdkUI(){
+  if($("#cmdk")) return;
+  document.body.insertAdjacentHTML("beforeend",`<div id="cmdk" hidden><div class="cmdk-box" role="dialog" aria-modal="true" aria-label="Rechercher dans le site">
+    <div class="cmdk-in"><span aria-hidden="true">⌕</span><input id="cmdkQ" type="text" autocomplete="off" spellcheck="false" placeholder="Chercher une bouche, un local, une CTA, une tâche, un onglet…" aria-label="Rechercher" role="combobox" aria-expanded="true" aria-controls="cmdkL"><kbd>Échap</kbd></div>
+    <ul id="cmdkL" role="listbox"></ul>
+    <div class="cmdk-f"><span><kbd>↑</kbd><kbd>↓</kbd> choisir</span><span><kbd>Entrée</kbd> ouvrir</span><span><kbd>Ctrl</kbd><kbd>K</kbd> ouvrir / fermer</span></div></div></div>`);
+  const box=$("#cmdk"); box.onclick=e=>{ if(e.target===box) cmdkClose(); };
+  const q=$("#cmdkQ"); q.oninput=()=>{ CMDK.sel=0; cmdkRender(); };
+  q.onkeydown=e=>{ if(e.key==="ArrowDown"){ e.preventDefault(); CMDK.sel=Math.min(CMDK.res.length-1,CMDK.sel+1); cmdkMark(); }
+    else if(e.key==="ArrowUp"){ e.preventDefault(); CMDK.sel=Math.max(0,CMDK.sel-1); cmdkMark(); }
+    else if(e.key==="Enter"){ e.preventDefault(); const r=CMDK.res[CMDK.sel]; if(r) cmdkGo(r); }
+    else if(e.key==="Escape"){ e.preventDefault(); cmdkClose(); } };
+}
+async function cmdkIndex(){
+  const I=[], add=(t,label,sub,go,kw="")=>I.push({t,label,sub,go,h:cmdNorm(label),s:cmdNorm(sub+" "+kw)});
+  add("Action","Lancer le film 3D du projet","Caméra animée sur la maquette",()=>{ const b=$("#hv3d"); if(b) b.click(); },"video presentation");
+  add("Action","Voir l'air circuler dans les gaines","3D · particules soufflage, reprise, extraction",()=>batGo(()=>{ const c=$("#airOn"); if(c&&!c.checked){ c.checked=true; c.onchange({target:c}); } }),"particules animation");
+  add("Action","Écorché 3D : écarter les niveaux","3D · RDC, étage et toiture séparés",()=>batGo(()=>RB.explodeTo(6)),"eclate niveaux");
+  add("Action","Changer le thème (clair / sombre)","Affichage",()=>{ const b=$("#themeBtn"); if(b) b.click(); },"theme sombre clair");
+  Object.entries(TAB_META).forEach(([k,m])=>{ if(k==="logs"&&!(typeof isAdmin==="function"&&isAdmin())) return; add("Onglet",m[1],m[2],()=>setTab(k)); });
+  (typeof tasks!=="undefined"?tasks:[]).forEach(t=>add("Tâche",t.title||t._id,`${t._id} · ${t.status==="fait"?"fait":t.status==="encours"?"en cours":"à faire"}${t.due?" · pour le "+fmtDate(t.due):""}`,()=>{ setTab("tasks"); openTask(t._id); }));
+  const [EQ,BO,DC]=await Promise.all([fetch("files/b3d/equip.json?v="+EQ_V).then(r=>r.ok?r.json():[]).catch(()=>[]),fetch("files/bouches/bouches.json").then(r=>r.ok?r.json():[]).catch(()=>[]),fetch("files/bouches/controle_dce.json").then(r=>r.ok?r.json():[]).catch(()=>[])]);
+  EQ.filter(e=>!/^Socle/.test(e.mark||"")).forEach(e=>add("Équipement",`${e.mark} · ${e.type}`,`${e.fab||""} ${e.mod||""} · ${e.cctp||""}`,()=>rvShowEq(e.id),`${e.desc||""} ${e.fam||""}`));
+  (Array.isArray(BO)?BO:BO.items||[]).forEach(b=>add("Bouche",`${b.id} · ${b.local||""}`,`${b.fonction} ${b.q} m³/h · ${b.reseau||b.cta} · ${b.num||""} · ${resaLv(b.lv)}`,()=>cmdBouche(b.id),`${b.modele||""} ${b.produit||""}`));
+  DC.forEach(c=>add("Local",`${c.nom} (${c.num})`,`${c.res} · ${resaLv(c.lv)} · ${(c.bouches||[]).length} bouche(s)${c.rem?" · "+c.rem:""}`,()=>cmdLocal(c.num)));
+  try{ if(typeof loadResa==="function"&&resa===null) await loadResa(); (resa||[]).forEach(r=>add("Réservation",`${r.id} · ${r.type}`,`${r.elem||""} · ${r.cta||""} · ${resaLv(r.lv)} · ${resaDim(r)}`,()=>cmdResa(r.id),`${r.local||""} ${r.gaine||""}`)); }catch(e){}
+  if(typeof IMPL_ITEMS!=="undefined") IMPL_ITEMS.forEach(i=>add("Implantation",i.n,i.g,()=>setTab("impl"),(i.why||[]).join(" ")));
+  CMDK.idx=I; }
+function batGo(f){ setTab("revit"); const b=document.querySelector('[data-vw="bat"]'); if(b) b.click(); const go=()=>{ if(RB&&RB.enh){ $("#rvBat").scrollIntoView({behavior:"smooth",block:"start"}); f(); } else setTimeout(go,300); }; go(); }
+async function cmdBouche(id){ await loadBouches(); boF.q=id; const i=document.querySelector('#boF [data-bf="q"]'); if(i) i.value=id; setTab("bouches"); setTimeout(()=>{ const tr=[...document.querySelectorAll("#boBody tr")].find(r=>r.firstElementChild&&r.firstElementChild.textContent.trim()===id); if(tr){ tr.scrollIntoView({behavior:"smooth",block:"center"}); tr.classList.add("cmdk-hit"); } },400); }
+function cmdLocal(num){ dceF.q=num; const i=document.querySelector('#dceF [data-df="q"]'); if(i) i.value=num; setTab("bouches"); setTimeout(()=>{ const s=document.querySelector(".bo-dce"); if(s) s.scrollIntoView({behavior:"smooth",block:"start"}); },500); }
+function cmdResa(id){ resaF.q=id; const i=document.querySelector('#resaF [data-rf="q"]'); if(i) i.value=id; setTab("resa"); setTimeout(()=>{ const tr=document.querySelector("#resaBody tr"); if(tr) tr.scrollIntoView({behavior:"smooth",block:"center"}); },400); }
+function cmdkRender(){
+  const raw=$("#cmdkQ").value.trim(), W=cmdNorm(raw).split(/\s+/).filter(Boolean), L=$("#cmdkL");
+  if(!CMDK.idx){ L.innerHTML=`<li class="cmdk-e">Chargement…</li>`; return; }
+  let R;
+  if(!W.length) R=CMDK.idx.filter(x=>x.t==="Action"||x.t==="Onglet").map(x=>({...x,sc:0}));
+  else R=CMDK.idx.map(x=>{ let sc=0; for(const w of W){ if(x.h.startsWith(w)||x.h.includes(" "+w)) sc+=3; else if(x.h.includes(w)) sc+=2; else if(x.s.includes(w)) sc+=1; else return null; } return {...x,sc:sc+(x.t==="Onglet"||x.t==="Action"?0.5:0)}; }).filter(Boolean).sort((a,b)=>b.sc-a.sc).slice(0,60);
+  const ORD=["Action","Onglet","Équipement","Local","Bouche","Réservation","Tâche","Implantation"];
+  if(W.length) R.sort((a,b)=>(b.sc-a.sc)||ORD.indexOf(a.t)-ORD.indexOf(b.t));
+  CMDK.res=R; CMDK.sel=Math.min(CMDK.sel,Math.max(0,R.length-1));
+  const hl=s=>{ let h=esc(s); W.forEach(w=>{ if(w.length<2) return; const i=cmdNorm(s).indexOf(w); if(i<0) return; const a=esc(s.slice(0,i)), b=esc(s.slice(i,i+w.length)), c=esc(s.slice(i+w.length)); h=a+"<mark>"+b+"</mark>"+c; }); return h; };
+  L.innerHTML=R.length?R.map((x,i)=>`<li role="option" id="cmdk${i}" data-i="${i}" aria-selected="${i===CMDK.sel}"><span class="cmdk-t t-${cmdNorm(x.t).replace(/[^a-z]/g,"")}">${esc(x.t)}</span><span class="cmdk-x"><b>${hl(x.label)}</b><small>${esc(x.sub)}</small></span><span class="cmdk-go" aria-hidden="true">↵</span></li>`).join("")
+    :`<li class="cmdk-e">Rien trouvé pour « ${esc(raw)} ».</li>`;
+  L.querySelectorAll("li[data-i]").forEach(li=>{ li.onclick=()=>cmdkGo(CMDK.res[+li.dataset.i]); li.onmousemove=()=>{ if(CMDK.sel!==+li.dataset.i){ CMDK.sel=+li.dataset.i; cmdkMark(false); } }; });
+  cmdkMark(); }
+function cmdkMark(scroll=true){ document.querySelectorAll("#cmdkL li[data-i]").forEach(li=>li.setAttribute("aria-selected",+li.dataset.i===CMDK.sel)); const a=$("#cmdk"+CMDK.sel); $("#cmdkQ").setAttribute("aria-activedescendant",a?a.id:""); if(a&&scroll) a.scrollIntoView({block:"nearest"}); }
+async function cmdkOpen(){ cmdkUI(); const box=$("#cmdk"); CMDK.prev=document.activeElement; box.hidden=false; const q=$("#cmdkQ"); q.value=""; CMDK.sel=0; cmdkRender(); q.focus();
+  if(!CMDK.idx){ await cmdkIndex(); cmdkRender(); } }
+function cmdkClose(){ const b=$("#cmdk"); if(b) b.hidden=true; if(CMDK.prev&&CMDK.prev.focus) CMDK.prev.focus(); }
+function cmdkGo(r){ cmdkClose(); try{ r.go(); }catch(e){ console.error(e); } }
+document.addEventListener("keydown",e=>{ if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"){ e.preventDefault(); const b=$("#cmdk"); if(b&&!b.hidden) cmdkClose(); else cmdkOpen(); }
+  else if(e.key==="/"&&!/input|textarea|select/i.test((document.activeElement||{}).tagName||"")&&!document.activeElement.isContentEditable){ e.preventDefault(); cmdkOpen(); } });
+{ const cart=document.querySelector("header.sheet .cart"); if(cart){ cart.insertAdjacentHTML("beforeend",`<div>Recherche</div><div><button type="button" class="cmdk-btn" id="cmdkBtn"><span>Tout chercher</span><kbd>Ctrl</kbd><kbd>K</kbd></button></div>`); $("#cmdkBtn").onclick=cmdkOpen; } }
 </script>
