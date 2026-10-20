@@ -617,5 +617,31 @@
     }
    ]
   }
+ },
+ {
+  "id": "2026-10-20-i02-cr-vmc",
+  "doc": "tasks/i02",
+  "union": {
+   "docs": [
+    {
+     "name": "Compte rendu du 20/10 : réseau VMC simple flux (PDF)",
+     "at": "2026-10-20T19:00:00Z",
+     "by": "Allan",
+     "file": "CR_vmc_2026-10-20.pdf",
+     "kind": "static",
+     "path": "docs/CR_vmc_2026-10-20.pdf.b64.txt",
+     "type": "application/pdf"
+    },
+    {
+     "name": "Plan des 6 réseaux VMC (RDC, R+1, toiture)",
+     "at": "2026-10-20T19:00:00Z",
+     "by": "Allan",
+     "file": "reseau_vmc.png",
+     "kind": "static",
+     "path": "files/bouches/reseau_vmc.png",
+     "type": "image/png"
+    }
+   ]
+  }
  }
 ]

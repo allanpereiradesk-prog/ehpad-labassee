@@ -1,0 +1,84 @@
+<h1>Compte rendu — réseau VMC simple flux (20/10/2026)</h1>
+<p><strong>Auteur :</strong> Allan · <strong>Maquette :</strong> EXE_RSP_CVC_MNT_v3.rvt (enregistrée, à synchroniser avec le fichier central)</p>
+<h2>Ce que j'ai fait</h2>
+<p>J'ai dessiné le réseau VMC simple flux des locaux sanitaires et des offices (CCTP lot 12 § 4.12). <strong>Les 46 bouches VMC sont maintenant raccordées</strong>, en gaine rigide uniquement (pas de flexible), avec des angles droits.</p>
+<p>Le réseau est découpé en 6 caissons C4, un par zone, pour éviter de longues gaines qui traversent tout le bâtiment :</p>
+<table>
+<thead>
+<tr>
+<th>Caisson</th>
+<th>Zone desservie</th>
+<th>Débit (m³/h)</th>
+<th>Bouches</th>
+<th>Montée</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VMC 1</td>
+<td>Nord : offices, tisanerie, sanitaires, lingerie, ménage (RDC + R+1)</td>
+<td>1 785</td>
+<td>20</td>
+<td>lingerie sale</td>
+</tr>
+<tr>
+<td>VMC 2</td>
+<td>Ouest RDC : vestiaires, douches, WC, ménage</td>
+<td>315</td>
+<td>8</td>
+<td>WC du RDC (bout du couloir à l'étage)</td>
+</tr>
+<tr>
+<td>VMC 3</td>
+<td>Centre ouest : déchets, sanitaires, ménage, lingerie</td>
+<td>255</td>
+<td>7</td>
+<td>gaine technique existante (« df »)</td>
+</tr>
+<tr>
+<td>VMC 4</td>
+<td>Centre est : office R+1, sanitaires, WC résidents, ménage RDC</td>
+<td>630</td>
+<td>8</td>
+<td>local ménage RDC / office R+1</td>
+</tr>
+<tr>
+<td>VMC 5</td>
+<td>Sud RDC : local déchets, nettoyage matériel</td>
+<td>60</td>
+<td>2</td>
+<td>caisson sur la terrasse basse du RDC</td>
+</tr>
+<tr>
+<td>VMC 6</td>
+<td>Sanitaire R+1 de l'aile est (bouche isolée)</td>
+<td>45</td>
+<td>1</td>
+<td>caisson dans les combles</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td></td>
+<td><strong>3 090</strong></td>
+<td><strong>46</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Chaque réseau : caisson → gaine en toiture → montée verticale → collecteur au plafond de chaque niveau → antenne 200 × 60 vers chaque bouche (piquage + coudes à angle carré).</p>
+<h2>Vérifications</h2>
+<ul>
+<li><strong>Rejets à plus de 8 m des prises d'air neuf des CTA</strong> (CCTP § 4.12) : vérifié pour les 5 caissons en terrasse (le plus proche : 9,4 m, VMC 2 / CTA 5).</li>
+<li><strong>Vitesses</strong> : toutes les gaines respectent le tableau du CCTP § 2.2.5, sauf la manchette Ø315 de 50 cm au caisson VMC 1 (6,4 m/s). Pour 1 785 m³/h, il faudra prendre un caisson avec un piquage plus gros (taille à confirmer sur la fiche VIM).</li>
+<li><strong>Poutres</strong> : aucune gaine VMC ne traverse une poutre. Deux bouches de l'office et de la tisanerie nord ont été décalées à cause d'une poutre en biais. Pour l'office R+1, le collecteur passe sous une poutre 20 × 50.</li>
+<li><strong>Croisements</strong> : là où la VMC croise les antennes des CTA, elle passe au-dessus (R+1, axe à 6,22 m) ou en dessous (RDC, axe à 2,755 m), sans contact. Pour aller aux WC résidents du RDC, le collecteur passe au-dessus des troncs de la CTA 5 (axe à 2,99 m).</li>
+<li><strong>Bouches déplacées</strong> (dans le même local) : 18 bouches, parce qu'elles étaient juste sous une gaine CTA, une poutre ou une montée. Voir la remarque dans <code>bouches.json</code>.</li>
+</ul>
+<h2>Réservations</h2>
+<p>La détection est refaite : <strong>156 réservations</strong> au total, dont <strong>70 pour la VMC</strong> (61 traversées de murs et 9 trémies). Je n'ai pas trouvé de trémie au droit des montées VMC 1 et VMC 4 au plancher haut du RDC : il y a peut-être déjà une ouverture, à vérifier sur les plans de structure.</p>
+<h2>Ce qui reste</h2>
+<ul>
+<li><strong>Compensation</strong> : les offices et la tisanerie (450 m³/h chacun) ont besoin de grilles de transfert, en porte ou en cloison. Ailleurs, il suffit de détalonner les portes (moins de 120 m³/h). Les grilles ne sont pas dessinées : elles sont à commander avec les menuiseries.</li>
+<li><strong>Caissons</strong> : VMC 2 est posé en rive de terrasse, contre l'acrotère, à caler. VMC 6 est dans les combles, il faut une sortie de toiture pour le rejet.</li>
+<li><strong>CTA</strong> : 31 bouches restent à raccorder, surtout dans la salle à manger du RDC et les salons de l'étage.</li>
+</ul>

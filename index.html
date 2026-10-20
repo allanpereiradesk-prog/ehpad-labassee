@@ -1324,11 +1324,13 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
 
   <section id="viewBouches" hidden>
     <section class="rv-head">
-      <div class="label">Lot 12 CVC · ventilation · bouches conformes au DCE (19/10)</div>
+      <div class="label">Lot 12 CVC · ventilation · bouches conformes au DCE, réseau VMC (20/10)</div>
       <h2>Bouches de ventilation</h2>
       <p>Les bouches que j'ai posées dans la maquette Revit, avec leur débit. Une <b>antenne</b> est la petite gaine qui relie le réseau principal à la bouche. Quand l'antenne n'est pas encore faite, la colonne « Antenne » dit pourquoi. Plus bas, le <b>contrôle DCE</b> compare, local par local, le débit du dossier et celui de la maquette.</p>
     </section>
-    <details class="panel bo-cr"><summary><b>Compte rendu du 19/10/2026 : bouches conformes au DCE</b><span class="hint">270 bouches · 244 locaux conformes · 31 bouches CTA à raccorder · cliquer pour lire</span> <a class="btn small" href="files/bouches/CR_bouches_2026-10-19.pdf" download>PDF</a></summary><div id="boCr" class="bo-cr-b"><p class="hint">Chargement…</p></div></details>
+    <details class="panel bo-cr"><summary><b>Compte rendu du 20/10/2026 : réseau VMC simple flux</b><span class="hint">6 caissons C4 · 46 bouches VMC raccordées · 70 réservations · cliquer pour lire</span> <a class="btn small" href="files/bouches/CR_vmc_2026-10-20.pdf" download>PDF</a></summary><div class="bo-cr-b" data-cr="files/bouches/CR_vmc_2026-10-20.html"><p class="hint">Chargement…</p></div>
+      <figure class="impl-f"><a href="files/bouches/reseau_vmc.png" target="_blank" rel="noopener"><img src="files/bouches/reseau_vmc.png" alt="Plan des 6 réseaux VMC simple flux : RDC, R+1 et toiture" loading="lazy"></a><figcaption><b>Plan des 6 réseaux VMC</b><span class="hint">RDC, R+1 et toiture. Clique pour agrandir.</span><span class="impl-a"><a href="files/bouches/reseau_vmc.png" download>Télécharger le plan</a><a href="files/gaines/EHPAD_Dimensionnement_Gaines.xlsx" download>Excel des gaines (onglet « Réseaux VMC »)</a></span></figcaption></figure></details>
+    <details class="panel bo-cr"><summary><b>Compte rendu du 19/10/2026 : bouches conformes au DCE</b><span class="hint">270 bouches · 244 locaux conformes · 31 bouches CTA à raccorder · cliquer pour lire</span> <a class="btn small" href="files/bouches/CR_bouches_2026-10-19.pdf" download>PDF</a></summary><div class="bo-cr-b" data-cr="files/bouches/CR_bouches_2026-10-19.html"><p class="hint">Chargement…</p></div></details>
     <div id="boSum" class="resa-sum"></div>
     <div class="bo-top">
       <section class="panel"><h2>Débits par CTA</h2><div class="tbl-wrap"><table class="fam-t" id="boCta"></table></div></section>
@@ -2308,9 +2310,9 @@ async function rv3dInit(){
 function rv3dResize(){ if(!R3) return; const box=$("#rv3d"); const w=box.clientWidth, h=box.clientHeight||w*.75; if(!w) return; R3.ren.setSize(w,h,false); R3.cam.aspect=w/h; R3.cam.updateProjectionMatrix(); }
 function rv3dUpdate(){ if(!R3) return; R3.groups.N01.visible=rvLv==="N01"; }
 /* ---------- Bâtiment complet (ARC + STR + espaces) ---------- */
-let RB=null; const BAT_V="2026-10-16c", EQ_V="9";
+let RB=null; const BAT_V="2026-10-16c", EQ_V="10";
 const BAT_COL={"Murs":0xe9e3d8,"Sols":0xcfc7ba,"Toitures":0xa99a8c,"Fenêtres":0x8fc3dd,"Portes":0xa9825a,"Meneaux":0x7d8a92,"Escaliers":0xc9c2b6,"Garde-corps":0x6d7a83,"Poteaux":0xd9d4cb,"Plafonds":0xf4f1ea,"Divers":0xbdbdbd,"Panneaux solaires":0x2f4f7f};
-const GAI_V="4", BAT_STR=0xa3abb2, BAT_LAYERS=[["arc","Architecture",true],["ceil","Plafonds",false],["str","Structure",true],["pv","Panneaux solaires",true],["esp","Espaces CVC (zones)",false],["eq","Équipements CVC",true],["gai","Gaines de ventilation",true]];
+const GAI_V="5", BAT_STR=0xa3abb2, BAT_LAYERS=[["arc","Architecture",true],["ceil","Plafonds",false],["str","Structure",true],["pv","Panneaux solaires",true],["esp","Espaces CVC (zones)",false],["eq","Équipements CVC",true],["gai","Gaines de ventilation",true]];
 function batLayerOf(g){ return g.layer==="str"?"str":g.cat==="Plafonds"?"ceil":g.cat==="Panneaux solaires"?"pv":"arc"; }
 async function batLoadBin(){
   if("DecompressionStream" in window){ try{ const r=await fetch("files/b3d/building.bin.gz?v="+BAT_V); if(r.ok){ const s=r.body.pipeThrough(new DecompressionStream("gzip")); return await new Response(s).arrayBuffer(); } }catch(e){} }
@@ -2513,7 +2515,7 @@ async function rvBatInit(){
       const fi=hit.faceIndex; let el=null; for(const e of u.els){ if(fi>=e[1]&&fi<e[1]+e[2]){ el=e; break; } }
       info.innerHTML=`<b>${esc(u.cat)}</b> · ${esc(el?meta.names[el[0]]:"")} <span class="hint">· maquette ${u.layer==="str"?"structure":"architecte"}${el?" · ID Revit "+el[3]:""}</span>`; });
     RB={scene,cam,ren,ctl,layers,clip,EQ,eqSel,cx,cy};
-    const lst=$("#rvBatEq"); if(lst){ const grp=[["Toiture",e=>e.lv==="NT1"],["RDC (chaufferie, local PAC, sas)",e=>e.lv==="N00"]];
+    const lst=$("#rvBatEq"); if(lst){ const grp=[["Toiture",e=>e.lv==="NT1"],["Terrasse basse (R+1)",e=>e.lv==="N01"],["RDC (chaufferie, local PAC, sas)",e=>e.lv==="N00"]];
       lst.innerHTML=EQ.length?grp.map(([t,f])=>{ const L=EQ.filter(e=>!/^Socle/.test(e.mark||"")&&f(e)); return L.length?`<div class="bat-eqg"><span class="hint">${t} :</span> `+L.map(e=>`<button class="btn small" data-eqgo="${esc(e.id)}" title="${esc(e.type)}">${esc(e.mark||e.type)}</button>`).join(" ")+`</div>`:""; }).join(""):"";
       lst.querySelectorAll("[data-eqgo]").forEach(b=>b.onclick=()=>rvBatFocus(b.dataset.eqgo)); }
     rvBatApply(); rvBatResize(); new ResizeObserver(rvBatResize).observe(cv);
@@ -2659,22 +2661,22 @@ document.addEventListener("click",e=>{ const b=e.target.closest("[data-film],[da
 const GAI={mode:"cta",sys:"",off:new Set(),ant:true};
 const hexMix=(h,w,t)=>{ const a=parseInt(h.slice(1),16), r=a>>16, g=a>>8&255, b=a&255, k=w?255:0; return Math.round(r+(k-r)*t)<<16|Math.round(g+(k-g)*t)<<8|Math.round(b+(k-b)*t); };
 function gaiColor(g){
-  if(GAI.mode==="sys") return g.sys==="Reprise"?(g.k==="raccord"?0xc8661a:0xe8892f):(g.k==="raccord"?0x1f5fa8:0x3b82d6);
+  if(GAI.mode==="sys") return g.sys==="Extraction"?(g.k==="raccord"?0x2f7d4f:0x46a36b):g.sys==="Reprise"?(g.k==="raccord"?0xc8661a:0xe8892f):(g.k==="raccord"?0x1f5fa8:0x3b82d6);
   const base=CTA_COL[g.net]||"#8a949c"; let c=g.sys==="Reprise"?hexMix(base,true,.45):parseInt(base.slice(1),16);
   if(g.k==="raccord") c=hexMix("#"+c.toString(16).padStart(6,"0"),false,.18);
   if(g.ant) c=hexMix("#"+c.toString(16).padStart(6,"0"),true,.35); return c; }
 function gaiApply(){ if(!RB) return; RB.layers.gai.children.forEach(m=>{ const g=m.userData.gai; m.material.color.setHex(gaiColor(g)); m.visible=(!GAI.sys||g.sys===GAI.sys)&&!GAI.off.has(g.net||"")&&(GAI.ant||!g.ant); });
-  const box=$("#gaiCtl"); if(box) box.querySelectorAll(".gai-leg i").forEach(i=>{ const n=i.dataset.net; i.style.setProperty("--cc",GAI.mode==="cta"?(CTA_COL[n]||"#8a949c"):"#3b82d6"); }); }
+  const box=$("#gaiCtl"); if(box) box.querySelectorAll(".gai-leg i").forEach(i=>{ const n=i.dataset.net; i.style.setProperty("--cc",GAI.mode==="cta"?(CTA_COL[n]||"#8a949c"):(/^VMC/.test(n)?"#46a36b":"#3b82d6")); }); }
 function gaiCtlInit(GA){ const box=$("#gaiCtl"); if(!box) return; if(!GA.length){ box.hidden=true; return; }
   const nets=[...new Set(GA.map(g=>g.net||""))].filter(Boolean).sort((a,b)=>a.localeCompare(b,"fr",{numeric:true}));
   box.innerHTML=`<span class="hint">Gaines :</span>
     <div class="seg" role="group" aria-label="Couleur des gaines"><button data-gmode="cta" aria-pressed="true">Couleur par CTA</button><button data-gmode="sys" aria-pressed="false">Soufflage / reprise</button></div>
-    <div class="seg" role="group" aria-label="Réseau affiché"><button data-gsys="" aria-pressed="true">Tout</button><button data-gsys="Soufflage" aria-pressed="false">Soufflage</button><button data-gsys="Reprise" aria-pressed="false">Reprise</button></div>
+    <div class="seg" role="group" aria-label="Réseau affiché"><button data-gsys="" aria-pressed="true">Tout</button><button data-gsys="Soufflage" aria-pressed="false">Soufflage</button><button data-gsys="Reprise" aria-pressed="false">Reprise</button>${GA.some(g=>g.sys==="Extraction")?`<button data-gsys="Extraction" aria-pressed="false">Extraction (VMC)</button>`:""}</div>
     <div class="gai-leg">${nets.map(n=>`<label><input type="checkbox" data-gnet="${esc(n)}" checked><i data-net="${esc(n)}"></i>${esc(n)}</label>`).join("")}</div>
     ${GA.some(g=>g.ant)?`<label class="gai-ant"><input type="checkbox" data-gant checked>Antennes vers les bouches <span class="hint">(${GA.filter(g=>g.ant&&g.k==="gaine").length} gaines, teinte plus claire)</span></label>`:""}
-    <span class="hint" id="gaiHint">Teinte foncée = soufflage, claire = reprise.</span>`;
+    <span class="hint" id="gaiHint">Teinte foncée = soufflage, claire = reprise. VMC : une couleur par caisson.</span>`;
   box.hidden=false;
-  box.querySelectorAll("[data-gmode]").forEach(b=>b.onclick=()=>{ GAI.mode=b.dataset.gmode; box.querySelectorAll("[data-gmode]").forEach(x=>x.setAttribute("aria-pressed",x===b)); $("#gaiHint").textContent=GAI.mode==="cta"?"Teinte foncée = soufflage, claire = reprise.":"Bleu = soufflage, orange = reprise."; gaiApply(); });
+  box.querySelectorAll("[data-gmode]").forEach(b=>b.onclick=()=>{ GAI.mode=b.dataset.gmode; box.querySelectorAll("[data-gmode]").forEach(x=>x.setAttribute("aria-pressed",x===b)); $("#gaiHint").textContent=GAI.mode==="cta"?"Teinte foncée = soufflage, claire = reprise. VMC : une couleur par caisson.":"Bleu = soufflage, orange = reprise, vert = extraction (VMC)."; gaiApply(); });
   box.querySelectorAll("[data-gsys]").forEach(b=>b.onclick=()=>{ GAI.sys=b.dataset.gsys; box.querySelectorAll("[data-gsys]").forEach(x=>x.setAttribute("aria-pressed",x===b)); gaiApply(); });
   const ga=box.querySelector("[data-gant]"); if(ga) ga.onchange=()=>{ GAI.ant=ga.checked; gaiApply(); };
   box.querySelectorAll("[data-gnet]").forEach(c=>c.onchange=()=>{ if(c.checked) GAI.off.delete(c.dataset.gnet); else GAI.off.add(c.dataset.gnet); gaiApply(); });
@@ -2772,7 +2774,7 @@ function renderSyn(){
 document.querySelectorAll("[data-dm]").forEach(b=>b.onclick=()=>{ docsMode=b.dataset.dm; document.querySelectorAll("[data-dm]").forEach(x=>x.setAttribute("aria-pressed",x===b)); renderDocs(); });
 
 /* ---------- Réservations (données déposées par le compte Revit) ---------- */
-const CTA_COL={"CTA 1":"#2f6fd6","CTA 2":"#1f9d55","CTA 3":"#e07b00","CTA 4":"#8e44c9","CTA 5":"#d33a3a","VMC sanitaires":"#6b7a86"};
+const CTA_COL={"CTA 1":"#2f6fd6","CTA 2":"#1f9d55","CTA 3":"#e07b00","CTA 4":"#8e44c9","CTA 5":"#d33a3a","VMC sanitaires":"#6b7a86","VMC 1":"#0f766e","VMC 2":"#65a30d","VMC 3":"#a16207","VMC 4":"#be185d","VMC 5":"#4338ca","VMC 6":"#57534e"};
 const RESA_SRC=["files/reservations/reservations.json","exports-revit/reservations.json"];
 const RESA_ST={"à faire":"var(--todo)","à valider":"var(--doing)","validée":"var(--done)","refusée":"var(--danger)"};
 const RESA_LV={N00:"RDC",N01:"Étage",NT1:"Toiture"};
@@ -2794,7 +2796,7 @@ async function renderResa(){
   document.querySelectorAll("#resaF select").forEach(sel=>{ const k=sel.dataset.rf; sel.innerHTML=`<option value="">${lab[k]}</option>`+uniq(k).map(v=>`<option value="${esc(v)}"${resaF[k]===v?" selected":""}>${esc(k==="lv"?resaLv(v):v)}</option>`).join(""); });
   if(!all.length){
     $("#resaSum").innerHTML="";
-    $("#resaBody").innerHTML=`<tr><td colspan="7"><div class="notice">Pas encore de données. La liste sortira de la maquette Revit (fichier <code>exports-revit/reservations.json</code>). D'après la détection du 18/10 : <b>55 traversées de murs</b>, <b>14 trémies</b> et <b>14 passages dans des poutres</b>.</div></td></tr>`;
+    $("#resaBody").innerHTML=`<tr><td colspan="7"><div class="notice">Pas encore de données. La liste sortira de la maquette Revit (fichier <code>exports-revit/reservations.json</code>). D'après la détection du 20/10 : <b>119 traversées de murs</b>, <b>23 trémies</b> et <b>14 passages dans des poutres</b> (dont 70 pour la VMC).</div></td></tr>`;
     $("#resaSrc").textContent=""; return; }
   const cnt=f=>all.filter(f).length, types=uniq("type");
   $("#resaSum").innerHTML=`<div class="k"><b>${all.length}</b><span>réservations</span></div>`+types.map(t=>`<div class="k"><b>${cnt(x=>x.type===t)}</b><span>${esc(t)}</span></div>`).join("")
@@ -2821,7 +2823,7 @@ const DV_U=["U","ml","m²","kg","ens","forfait","h"], DV_ST=["à chiffrer","prix
 const DV_TPL=[["vent","Supports et suspentes de gaines","ens"],["vent","Bouches et diffuseurs de soufflage / reprise (VIM)","U"],["vent","Registres de réglage","U"],["vent","Clapets coupe-feu","U"],["vent","Calorifuge des gaines en toiture","m²"],["vent","Levage des CTA en toiture (camion-grue)","forfait",1],
   ["hyd","Tuyauteries chauffage / eau glacée (d'après la nomenclature Revit)","ml"],["hyd","Calorifuge des tuyauteries","ml"],["hyd","Vannes d'équilibrage TA STA","U"],
   ["emet","Radiateurs Finimetal Reggane 3000","U"],["emet","Panneaux rayonnants Zehnder Carboline","U"],["emet","Robinets thermostatiques Danfoss","U"],
-  ["vmc","Caisson d'extraction C4 (200 °C ½ h)","U"],["vmc","Bouches d'extraction des sanitaires","U"],["vmc","Conduits VMC","ml"],
+  ["vmc","Bouches d'extraction des sanitaires","U"],["vmc","Conduits VMC","ml"],
   ["desf","Caissons de désenfumage Aldes Cyclone F400","U"],["desf","Grilles et volets de désenfumage","U"],
   ["ecs","Réseaux EF, ECS et bouclage","ml"],["ecs","Appareils sanitaires et robinetterie","U"],
   ["reg","Régulation des CTA et de la production, raccordement à la GTB","forfait",1],
@@ -2838,7 +2840,7 @@ function dvTotals(){ const by={}; let ht=0; (DV.lines||[]).forEach(l=>{ const t=
   const tva=dvNum((DV.params||{}).tva); return {by,ht,tvaR:tva==null?20:tva,tva:ht*(tva==null?20:tva)/100,ttc:ht*(1+(tva==null?20:tva)/100)}; }
 async function dvModel(){
   const [EQ,GA]=await Promise.all([fetch("files/b3d/equip.json?v="+EQ_V).then(r=>r.ok?r.json():[]).catch(()=>[]),fetch("files/b3d/gaines.json?v="+GAI_V).then(r=>r.ok?r.json():[]).catch(()=>[])]);
-  const chOf=f=>/^CVC_CTA/.test(f)?"vent":/^CVC_(PAC|Chaudiere|Ballon-tampon|Vase|Circulateur)/.test(f)?"prod":/^(PLB_|CVC_Preparateur|CVC_Ballon_)/.test(f)?"ecs":/Rideau/.test(f)?"emet":"prod";
+  const chOf=f=>/Caisson-VMC/.test(f)?"vmc":/^CVC_CTA/.test(f)?"vent":/^CVC_(PAC|Chaudiere|Ballon-tampon|Vase|Circulateur)/.test(f)?"prod":/^(PLB_|CVC_Preparateur|CVC_Ballon_)/.test(f)?"ecs":/Rideau/.test(f)?"emet":"prod";
   const out={}, isSoc=e=>/^Socle/.test(e.mark||"")||/Socle/.test(e.fam||"");
   EQ.filter(e=>!isSoc(e)).forEach(e=>{ const k="eq:"+e.fam+"|"+e.cctp; const o=out[k]||(out[k]={auto:k,ch:chOf(e.fam||""),u:"U",q:0,marks:[],des:`${e.desc||e.type} · ${e.fab||""} ${e.mod||""}`.trim()+(e.cctp?` · ${e.cctp}`:"")}); o.q++; if(e.mark) o.marks.push(e.mark); });
   Object.values(out).forEach(o=>{ if(o.marks.length) o.des+=` (${o.marks.join(", ")})`; delete o.marks; });
@@ -3509,7 +3511,7 @@ async function renderBouches(){
     <td><span class="pill" style="--pc:${BO_FC[b.fonction]||"var(--todo)"}">${esc(b.fonction||"")}</span></td>
     <td class="num">${boNum(b.q)} m³/h${v?`<div class="hint">${v.toFixed(1).replace(".",",")} m/s au col</div>`:""}</td>
     <td>${b.modele?`<b>${esc(b.modele)}</b><div class="hint">${esc(b.produit||"")}${b.ref_cctp?" · "+esc(b.ref_cctp):""}</div>`:""}<div class="hint">${esc(b.pose||"")}${b.col?` · col ${esc(b.col)} mm`:""}</div></td>
-    <td>${b.cta?`<span class="cta" style="--cc:${CTA_COL[b.cta]||"#888"}"><i></i>${esc(b.cta)}</span>`:""}</td>
+    <td>${b.cta?`<span class="cta" style="--cc:${CTA_COL[b.reseau||b.cta]||"#888"}"><i></i>${esc(b.reseau&&b.reseau!==b.cta?b.reseau:b.cta)}</span>`:""}${b.reseau&&b.reseau!==b.cta?`<div class="hint">${esc(b.cta)}</div>`:""}</td>
     <td>${b.raccordee?`<span class="pill" style="--pc:var(--done)">faite</span>`:`<span class="pill" style="--pc:var(--doing)">à faire</span>`}${b.remarque?`<div class="hint">${esc(b.remarque)}</div>`:""}</td></tr>`; }).join("")
     :`<tr><td colspan="8" class="hint">Aucune bouche avec ces filtres.</td></tr>`;
   $("#boSrc").textContent=`${rows.length} sur ${all.length} affichées · source : ${boMeta.src||""}`;
@@ -3522,7 +3524,7 @@ $("#boCsv").onclick=()=>{ const rows=boRows(); if(!rows.length){ toast("Rien à 
   const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"})); a.download="EHPAD_Bouches_Ventilation.csv"; document.body.appendChild(a); a.click(); a.remove(); };
 /* contrôle DCE (controle_dce.json) et compte rendu */
 let DCE=null, dceF={lv:"",res:"",st:"",q:""}, boCrOk=false;
-async function boLoadCr(){ if(boCrOk) return; try{ const r=await fetch("files/bouches/CR_bouches_2026-10-19.html"); if(r.ok){ $("#boCr").innerHTML=await r.text(); boCrOk=true; } }catch(e){ $("#boCr").innerHTML=`<p class="hint">Compte rendu indisponible.</p>`; } }
+async function boLoadCr(){ if(boCrOk) return; boCrOk=true; document.querySelectorAll("[data-cr]").forEach(async el=>{ try{ const r=await fetch(el.dataset.cr); el.innerHTML=r.ok?await r.text():`<p class="hint">Compte rendu indisponible.</p>`; }catch(e){ el.innerHTML=`<p class="hint">Compte rendu indisponible.</p>`; } }); }
 const dceQ=n=>n?boNum(Math.round(n)):"–";
 function dceRows(){ const q=dceF.q.trim().toLowerCase();
   return DCE.filter(c=>(!dceF.lv||c.lv===dceF.lv)&&(!dceF.res||c.res===dceF.res)&&(!dceF.st||(dceF.st==="ok"?c.ok:dceF.st==="nok"?!c.ok:dceF.st==="rac"?/raccorder/.test(c.rem||""):!(c.bouches||[]).length))
@@ -3568,7 +3570,7 @@ const stkN=v=>{ const n=parseFloat(String(v??"").replace(",",".")); return isFin
 async function stkSeed(){
   const [EQ,BO]=await Promise.all([fetch("files/b3d/equip.json?v="+EQ_V).then(r=>r.ok?r.json():[]).catch(()=>[]),fetch("files/bouches/bouches.json").then(r=>r.ok?r.json():[]).catch(()=>[])]);
   const items=[], by={};
-  const catOf=f=>/CTA/.test(f)?"vent":/PAC|Chaudiere|Ballon-tampon/.test(f)?"prod":/Vase|Circulateur/.test(f)?"hyd":/PLB_|Preparateur|Ballon_/.test(f)?"plb":/Rideau/.test(f)?"emet":"div";
+  const catOf=f=>/CTA|Caisson-VMC/.test(f)?"vent":/PAC|Chaudiere|Ballon-tampon/.test(f)?"prod":/Vase|Circulateur/.test(f)?"hyd":/PLB_|Preparateur|Ballon_/.test(f)?"plb":/Rideau/.test(f)?"emet":"div";
   EQ.filter(e=>!/^Socle/.test(e.mark||"")).forEach(e=>{ const k=(e.fam||"")+"|"+(/CTA/.test(e.fam||"")?"":e.type); const d=e.bb?[0,1,2].map(i=>Math.round((e.bb[1][i]-e.bb[0][i])*1000)):[600,600,600];
     const o=by[k]||(by[k]={id:stkKey(),fam:e.fam||"",des:`${e.desc||e.type}`,cat:catOf(e.fam||""),fab:`${e.fab||""} ${e.mod||""}`.trim(),u:"U",q:0,need:0,dims:[Math.max(d[0],d[1]),Math.min(d[0],d[1]),d[2]],pl:"auto",note:e.cctp||"",marks:[],src:"projet"}); o.q++; o.need++; if(e.mark) o.marks.push(e.mark); });
   Object.values(by).forEach(o=>{ o.note=[o.marks.join(", "),o.q>1&&/CTA/.test(o.des+o.fab)?"":o.note].filter(Boolean).join(" · "); delete o.marks; items.push(o); });
