@@ -817,6 +817,7 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
     <div class="tabs" role="tablist" aria-label="Sections du site">
       <button role="tab" id="tabHome" aria-selected="false">Accueil</button>
       <button role="tab" id="tabProj" aria-selected="false">Le projet</button>
+      <button role="tab" id="tabKpi" aria-selected="false">KPI</button>
       <button role="tab" id="tabAcc" aria-selected="false">ACC</button>
       <span class="tsep" aria-hidden="true"></span>
       <button role="tab" id="tabTasks" aria-selected="true">Tâches</button>
@@ -1719,6 +1720,23 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
       </section>
     </div>
     <p class="hint" id="enSrc"></p>
+  </section>
+
+  <section id="viewKpi" hidden>
+    <section class="rv-head">
+      <div class="label">Pilotage du projet · calculé en direct (tâches, heures, maquette, énergie)</div>
+      <h2>KPI du projet</h2>
+      <p>Nos <b>indicateurs clés</b> : un chiffre, une <b>cible</b>, et une couleur pour savoir tout de suite si on est dans les clous (<span class="kpi-dot" style="--kc:var(--done)"></span> bon, <span class="kpi-dot" style="--kc:var(--doing)"></span> à surveiller, <span class="kpi-dot" style="--kc:var(--danger)"></span> en retard ou hors cible). Tout se recalcule tout seul quand on met à jour les tâches, les heures, les problèmes ou la maquette. Clique sur une carte pour ouvrir l'onglet d'où vient le chiffre.</p>
+    </section>
+    <div id="kpiTop" class="kpi-top"></div>
+    <section class="panel" aria-labelledby="kpiHT" style="margin-top:14px">
+      <h2 id="kpiHT">Heures : prévu au planning et réalisé</h2>
+      <p class="hint">Le prévu suit la fiche de validation : 40 h par personne entre le 23/11/2026 et le 12/03/2027 (partie commune), puis 100 h entre le 30/03 et le 28/05/2027 (partie individuelle). Passe la souris sur la courbe.</p>
+      <div class="en-chart" id="kpiChart"></div>
+      <div class="en-leg" id="kpiLeg"></div>
+    </section>
+    <div id="kpiGroups"></div>
+    <p class="hint" id="kpiSrc"></p>
   </section>
 
   <section id="viewRse" hidden>
@@ -5141,6 +5159,127 @@ TAB_META.rse=["Fichiers","RSE et normes","Les textes à respecter, ce qu'ils imp
   tb.onclick=()=>setTab("rse");
 }
 if(typeof CMDK!=="undefined"){ const _ix2=cmdkIndex; cmdkIndex=async function(){ await _ix2(); CMDK.idx.unshift({t:"Onglet",label:"RSE et normes",sub:"Réglementation du lot 12, F-gas, BACS, légionelle, acoustique, démarche RSE",go:()=>setTab("rse"),h:cmdNorm("RSE et normes"),s:cmdNorm("rse normes reglementation dtu f-gas bacs legionelle acoustique erp hqe")}); }; }
+/* ---------- Onglet KPI (#kpi) : indicateurs calculés en direct ---------- */
+const KPI_PLAN=[{a:"2026-11-23",b:"2027-03-12",h:40},{a:"2027-03-30",b:"2027-05-28",h:100}];
+const kpiDay=s=>new Date(s+"T12:00");
+function kpiPlanned(d){ /* heures prévues cumulées pour toute l'équipe à la date d (ISO) */
+  let h=0; for(const p of KPI_PLAN){ const t=(kpiDay(d)-kpiDay(p.a))/(kpiDay(p.b)-kpiDay(p.a)); h+=p.h*Math.min(1,Math.max(0,t)); } return h*PEOPLE.length; }
+let KPI_CACHE=null;
+async function kpiLoad(){
+  if(KPI_CACHE) return KPI_CACHE;
+  const j=u=>fetch(u,{cache:"no-cache"}).then(r=>r.ok?r.json():null).catch(()=>null);
+  const [bo,dce,res,eq]=await Promise.all([j("files/bouches/bouches.json"),j("files/bouches/controle_dce.json"),j("exports-revit/reservations.json"),j("files/b3d/equip.json")]);
+  let dv=null; try{ if(db){ const s=await db.doc("devis/brouillon").get(); dv=s.exists?s.data():null; } }catch(e){}
+  if(!EN) await enLoad();
+  KPI_CACHE={bo:bo||[],dce:dce||[],res:(res&&(res.items||res))||[],eq:eq||[],dv}; return KPI_CACHE;
+}
+const kpiCol=s=>s==="ok"?"var(--done)":s==="warn"?"var(--doing)":s==="bad"?"var(--danger)":"var(--todo)";
+function kpiCard(k){
+  const pct=k.pct==null?null:Math.max(0,Math.min(100,k.pct));
+  return `<button class="kpi-c" ${k.go?`data-kgo="${k.go}"`:""} style="--kc:${kpiCol(k.s)}" title="${esc(k.how)}">
+    <span class="kpi-n">${esc(k.n)}</span>
+    <b class="kpi-v">${k.v}</b>
+    <span class="kpi-t">Cible : ${esc(k.t)}</span>
+    ${pct==null?"":`<i class="kpi-bar"><i style="width:${pct.toFixed(1)}%"></i>${k.mark!=null?`<s style="left:${Math.max(0,Math.min(100,k.mark)).toFixed(1)}%"></s>`:""}</i>`}
+    <span class="kpi-h">${esc(k.how)}</span></button>`;
+}
+function kpiChart(){
+  const box=$("#kpiChart"), W=640, H=240, m={l:46,r:16,t:14,b:30};
+  const d0="2026-10-15", d1="2027-05-28", today=todayISO();
+  const tot=KPI_PLAN.reduce((a,p)=>a+p.h,0)*PEOPLE.length, ymax=Math.ceil(tot/100)*100;
+  const x=d=>m.l+(kpiDay(d)-kpiDay(d0))/(kpiDay(d1)-kpiDay(d0))*(W-m.l-m.r), y=v=>H-m.b-v/ymax*(H-m.t-m.b);
+  const days=[]; for(let t=kpiDay(d0);t<=kpiDay(d1);t=new Date(+t+7*864e5)) days.push(t.toISOString().slice(0,10)); days.push(d1);
+  const real=d=>hours.filter(h=>(h.date||"")<=d).reduce((a,h)=>a+(+h.hours||0),0);
+  let g="";
+  for(let v=0;v<=ymax;v+=100) g+=`<line x1="${m.l}" x2="${W-m.r}" y1="${y(v)}" y2="${y(v)}" class="en-grid"/><text x="${m.l-6}" y="${y(v)+4}" text-anchor="end" class="en-ax">${v}</text>`;
+  ["2026-11-01","2026-12-01","2027-01-01","2027-02-01","2027-03-01","2027-04-01","2027-05-01"].forEach(d=>{ g+=`<text x="${x(d)}" y="${H-m.b+16}" text-anchor="middle" class="en-ax">${new Date(d).toLocaleDateString("fr-FR",{month:"short"})}</text>`; });
+  g+=`<text x="${m.l+4}" y="${m.t+10}" class="en-ax">heures</text>`;
+  g+=`<polyline class="en-l en-l-pac" fill="none" points="${days.map(d=>`${x(d).toFixed(1)},${y(kpiPlanned(d)).toFixed(1)}`).join(" ")}"/>`;
+  const rd=days.filter(d=>d<=today).concat(today<=d1?[today]:[]);
+  if(rd.length) g+=`<polyline class="en-l en-l-need" fill="none" points="${rd.map(d=>`${x(d).toFixed(1)},${y(real(d)).toFixed(1)}`).join(" ")}"/>`;
+  if(today>=d0&&today<=d1) g+=`<line x1="${x(today)}" x2="${x(today)}" y1="${m.t}" y2="${H-m.b}" class="en-grid" style="stroke-dasharray:3 3"/><text x="${x(today)+4}" y="${m.t+26}" class="en-ax">aujourd'hui</text>`;
+  g+=`<g class="en-hov" hidden><line class="en-cross" y1="${m.t}" y2="${H-m.b}"/></g><rect class="en-hit" x="${m.l}" y="${m.t}" width="${W-m.l-m.r}" height="${H-m.t-m.b}"/>`;
+  box.innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Heures prévues et réalisées par l'équipe">${g}</svg><div class="en-tip" hidden></div>`;
+  const svg=box.querySelector("svg"), hov=svg.querySelector(".en-hov"), tip=box.querySelector(".en-tip");
+  svg.querySelector(".en-hit").addEventListener("pointermove",e=>{ const r=svg.getBoundingClientRect(), sx=(e.clientX-r.left)/r.width*W;
+    const t=new Date(+kpiDay(d0)+(sx-m.l)/(W-m.l-m.r)*(kpiDay(d1)-kpiDay(d0))).toISOString().slice(0,10);
+    hov.hidden=false; const l=hov.querySelector("line"); l.setAttribute("x1",x(t)); l.setAttribute("x2",x(t));
+    tip.hidden=false; tip.innerHTML=`<b>${fmtDate(t)}</b><span>Prévu : ${fmtH(Math.round(kpiPlanned(t)))} h</span>${t<=today?`<span>Fait : ${fmtH(real(t))} h</span>`:""}`;
+    tip.style.left=Math.min(r.width-170,Math.max(0,x(t)/W*r.width+10))+"px"; tip.style.top="10px"; });
+  svg.querySelector(".en-hit").addEventListener("pointerleave",()=>{ hov.hidden=true; tip.hidden=true; });
+  $("#kpiLeg").innerHTML=`<span><i class="en-k en-k-pac"></i>Prévu (fiche de validation)</span><span><i class="en-k en-k-need"></i>Fait (onglet Heures)</span>`;
+}
+async function renderKpi(){
+  $("#kpiTop").innerHTML=`<p class="hint">Chargement…</p>`;
+  const D=await kpiLoad(), today=todayISO();
+  const ratio=(a,b)=>b?a/b*100:0, f0=v=>enF(v,0), f1=v=>enF(v,1);
+  /* --- pilotage --- */
+  const T=tasks.filter(t=>t.phase!=="jalon"), fait=T.filter(t=>t.status==="fait").length;
+  const late=tasks.filter(t=>t.due&&t.due<today&&t.status!=="fait");
+  const totH=hours.reduce((a,h)=>a+(+h.hours||0),0), planH=kpiPlanned(today), allH=KPI_PLAN.reduce((a,p)=>a+p.h,0)*PEOPLE.length;
+  const perP=PEOPLE.map(p=>hours.filter(h=>h.who===p).reduce((a,h)=>a+(+h.hours||0),0)), avg=totH/PEOPLE.length;
+  const ecart=avg?Math.max(...perP.map(v=>Math.abs(v-avg)))/avg*100:0;
+  const openI=issues.filter(i=>i.status!=="resolu"), urg=openI.filter(i=>i.urgent).length;
+  const resI=issues.filter(i=>i.status==="resolu"&&i.at&&i.resolvedAt), delai=resI.length?resI.reduce((a,i)=>a+(new Date(i.resolvedAt)-new Date(i.at))/864e5,0)/resI.length:null;
+  const next=MILESTONES.find(m=>new Date(m.d+"T23:59")>=new Date()), jn=next?Math.ceil((new Date(next.d)-new Date(today))/864e5):null;
+  const noOwner=T.filter(t=>t.status!=="fait"&&!(t.assignees||[]).length).length;
+  const pil=[
+    {n:"Tâches terminées",v:`${fait} / ${T.length}`,t:"100 % au 28/05/2027",pct:ratio(fait,T.length),s:fait===T.length?"ok":"todo",go:"tasks",how:"Tâches au statut « Fait » (hors rendus et oraux) / toutes les tâches."},
+    {n:"Tâches en retard",v:late.length,t:"0",s:late.length?"bad":"ok",go:"tasks",how:"Tâches non faites dont la date limite est passée."},
+    {n:"Heures réalisées",v:`${fmtH(totH)} h`,t:`${f0(planH)} h aujourd'hui · ${allH} h au total`,pct:ratio(totH,allH),mark:ratio(planH,allH),s:planH<1?"todo":totH>=planH*0.9?"ok":totH>=planH*0.7?"warn":"bad",go:"hours",how:"Somme de l'onglet Heures, comparée au prévu du planning (trait noir sur la barre)."},
+    {n:"Équilibre des heures",v:avg?`± ${f0(ecart)} %`:"–",t:"écart ≤ 20 % entre nous",s:(!avg||planH<20)?"todo":ecart<=20?"ok":ecart<=35?"warn":"bad",go:"hours",how:`Plus grand écart à la moyenne (jugé à partir de 20 h prévues). ${PEOPLE.map((p,i)=>p+" "+fmtH(perP[i])+" h").join(" · ")}.`},
+    {n:"Problèmes ouverts",v:openI.length,t:"0 urgent, ≤ 3 ouverts",s:urg?"bad":openI.length>3?"warn":"ok",go:"issues",how:`${urg} urgent(s). Problèmes au statut différent de « Résolu ».`},
+    {n:"Délai de résolution",v:delai==null?"–":`${f1(delai)} j`,t:"≤ 7 jours",s:delai==null?"todo":delai<=7?"ok":delai<=14?"warn":"bad",go:"issues",how:"Temps moyen entre l'ouverture et la résolution d'un problème."},
+    {n:"Tâches sans responsable",v:noOwner,t:"0",s:noOwner?"warn":"ok",go:"tasks",how:"Tâches non terminées où personne n'est coché dans « Assigné à »."},
+    {n:"Prochain jalon",v:next?(jn<=0?"Aujourd'hui":"J-"+jn):"–",t:next?`${next.t} · ${fmtDate(next.d)}`:"",s:"todo",go:"home",how:"Jalons de la fiche de validation."}
+  ];
+  /* --- maquette --- */
+  const bo=D.bo, boOk=bo.filter(b=>b.raccordee).length;
+  const dce=D.dce.filter(r=>r.nb>0||r.ok!==undefined), dceOk=D.dce.filter(r=>r.ok).length;
+  const rs=D.res, rsV=rs.filter(r=>String(r.statut||"").toLowerCase()==="validée").length;
+  const eqV=D.eq.filter(e=>e.verif).length;
+  const L=(D.dv&&D.dv.lines)||[], lC=L.filter(l=>(l.st||"à chiffrer")!=="à chiffrer").length;
+  const maq=[
+    {n:"Bouches raccordées",v:`${boOk} / ${bo.length}`,t:"100 %",pct:ratio(boOk,bo.length),s:boOk===bo.length?"ok":ratio(boOk,bo.length)>=80?"warn":"bad",go:"bouches",how:"Bouches de la maquette dont l'antenne est faite (export Revit)."},
+    {n:"Locaux conformes au DCE",v:`${f0(ratio(dceOk,D.dce.length))} %`,t:"100 %",pct:ratio(dceOk,D.dce.length),s:dceOk===D.dce.length?"ok":"bad",go:"bouches",how:`${dceOk} locaux sur ${D.dce.length} : débit de la maquette = débit du dossier DCE.`},
+    {n:"Réservations validées",v:`${rsV} / ${rs.length}`,t:"100 % avant la synthèse",pct:ratio(rsV,rs.length),s:rsV===rs.length&&rs.length?"ok":rsV?"warn":"todo",go:"resa",how:"Réservations au statut « validée » (BE structure)."},
+    {n:"Équipements à vérifier",v:`${eqV} / ${D.eq.length}`,t:"0 avant le rendu",pct:ratio(D.eq.length-eqV,D.eq.length),s:eqV?"warn":"ok",go:"impl",how:"Équipements posés dans la maquette qui ont encore une remarque « À vérifier »."},
+    {n:"Devis chiffré",v:L.length?`${f0(ratio(lC,L.length))} %`:"pas commencé",t:"100 % des lignes",pct:L.length?ratio(lC,L.length):0,s:!L.length?"todo":lC===L.length?"ok":"warn",go:"devis",how:L.length?`${lC} lignes sur ${L.length} avec un prix trouvé ou vérifié.`:"Le devis n'est pas encore créé (onglet Devis)."}
+  ];
+  /* --- bâtiment --- */
+  const c=enCalc(), R=EN.rt, pacs=EN.production.filter(p=>/^PAC/.test(p.mark));
+  const tco2=pacs.length*8*2088/1000, wm2=c.Pb*1000/EN.surf_chauffee, marge=(c.chaud/(c.Pb+EN.ecs.P/2)-1)*100;
+  const bat=[
+    {n:"Bbio",v:f1(R.bbio),t:`≤ ${f1(R.bbio_max)} (RT 2012)`,pct:ratio(R.bbio,R.bbio_max),s:R.bbio<=R.bbio_max?"ok":"bad",go:"energie",how:`${f0(100-ratio(R.bbio,R.bbio_max))} % de marge sous le maximum (RSET).`},
+    {n:"Cep",v:`${f1(R.cep)} kWh ep/m²`,t:`≤ ${f1(R.cep_max)}`,pct:ratio(R.cep,R.cep_max),s:R.cep<=R.cep_max?"ok":"bad",go:"energie",how:`${f0(100-ratio(R.cep,R.cep_max))} % de marge sous le maximum (RSET).`},
+    {n:"Besoin de chauffage",v:`${f0(wm2)} W/m²`,t:"≤ 35 W/m² (bâtiment RT 2012)",pct:ratio(wm2,35),s:wm2<=35?"ok":"warn",go:"energie",how:`${f0(c.Pb)} kW à ${enHyp.te} °C pour ${f0(EN.surf_chauffee)} m² chauffés (onglet Énergie). Cible : ordre de grandeur, choix équipe.`},
+    {n:"Les PAC suffisent seules",v:`dès ${f1(c.Tb)} °C`,t:"≤ 5 °C (gaz en appoint seulement)",s:c.Tb<=5?"ok":"warn",go:"energie",how:"Point de bivalence : au-dessus de cette température, la géothermie couvre tout le chauffage. Cible : choix équipe."},
+    {n:"Marge de puissance chaude",v:`${marge>=0?"+":""}${f0(marge)} %`,t:"≥ 0 % (chauffage + ECS en priorité)",s:marge>=10?"ok":marge>=0?"warn":"bad",go:"energie",how:`${f1(c.chaud)} kW installés pour ${f0(c.Pb)} kW de chauffage + ${f0(EN.ecs.P/2)} kW d'ECS (priorité ECS, CCTP § 4.1).`},
+    {n:"Fluides frigorigènes",v:`${f1(tco2)} t éq. CO₂`,t:"le plus bas possible (F-gas)",s:"warn",go:"rse",how:"2 PAC × 8 kg de R410A × PRG 2 088. Au-dessus de 5 t : contrôle d'étanchéité chaque année."}
+  ];
+  /* --- conformité --- */
+  const nOk=RSE_NORMES.filter(x=>x.st==="ok"||x.st==="prev").length, nF=RSE_NORMES.filter(x=>x.st==="faire").length;
+  const c08=tasks.find(t=>t._id==="c08");
+  const conf=[
+    {n:"Textes respectés",v:`${nOk} / ${RSE_NORMES.length}`,t:"100 % au rendu",pct:ratio(nOk,RSE_NORMES.length),s:nOk===RSE_NORMES.length?"ok":"warn",go:"rse",how:`${RSE_NORMES.length-nOk-nF} à vérifier, ${nF} à faire (onglet RSE et normes).`},
+    {n:"Corrections DCE",v:c08?STATUS[c08.status||"afaire"].name:"–",t:"Fait avant le 06/11/2026",s:!c08?"todo":c08.status==="fait"?"ok":c08.due&&c08.due<today?"bad":"warn",go:"tasks",how:"Tâche « Corrections après la vérification du DCE »."}
+  ];
+  const top=[pil[0],pil[2],maq[0],bat[4]];
+  $("#kpiTop").innerHTML=top.map(kpiCard).join("");
+  const grp=(t,a)=>`<section class="kpi-g"><h2>${t}</h2><div class="kpi-grid">${a.map(kpiCard).join("")}</div></section>`;
+  $("#kpiGroups").innerHTML=grp("📋 Pilotage de l'équipe",pil)+grp("🧱 Avancement de la maquette",maq)+grp("⚡ Performance du bâtiment",bat)+grp("✅ Conformité",conf);
+  document.querySelectorAll("#viewKpi [data-kgo]").forEach(b=>b.onclick=()=>setTab(b.dataset.kgo));
+  kpiChart();
+  $("#kpiSrc").textContent=`Sources : tâches, heures et problèmes en direct (Firebase), bouches.json, controle_dce.json, reservations.json, equip.json, energie.json, devis. Calculé le ${new Date().toLocaleString("fr-FR",{dateStyle:"short",timeStyle:"short"})}.`;
+}
+TAB_META.kpi=["Projet","KPI","Nos indicateurs clés : heures, tâches, maquette, énergie et conformité, avec leurs cibles."];
+{ const tb=$("#tabKpi"), vw=$("#viewKpi");
+  tb.setAttribute("aria-controls","viewKpi"); vw.setAttribute("role","tabpanel"); vw.setAttribute("aria-labelledby","tabKpi");
+  const _setTab=setTab; setTab=function(t){ _setTab(t); const on=t==="kpi"; vw.hidden=!on; tb.setAttribute("aria-selected",on); tb.tabIndex=on?0:-1;
+    if(on){ setCrumb("kpi"); KPI_CACHE=null; renderKpi(); } };
+  tb.onclick=()=>setTab("kpi");
+}
+if(typeof CMDK!=="undefined"){ const _ix3=cmdkIndex; cmdkIndex=async function(){ await _ix3(); CMDK.idx.unshift({t:"Onglet",label:"KPI du projet",sub:"Indicateurs clés : heures, tâches, maquette, énergie, conformité",go:()=>setTab("kpi"),h:cmdNorm("KPI du projet"),s:cmdNorm("kpi indicateurs tableau de bord heures avancement")}); }; }
 </script>
 <style>
 .en-sum .k{min-width:150px}
@@ -5180,6 +5319,16 @@ if(typeof CMDK!=="undefined"){ const _ix2=cmdkIndex; cmdkIndex=async function(){
 #viewEnergie .fam-t .num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
 #viewEnergie .en-tot td{border-top:2px solid var(--line)}
 #viewEnergie .en-nc td{color:var(--muted)}
+.kpi-top,.kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr));gap:12px}
+.kpi-g{margin-top:18px}.kpi-g h2{font-size:17px;margin:0 0 10px}
+.kpi-c{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;gap:4px;background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--kc);border-radius:var(--r);padding:12px 14px;min-width:0}
+.kpi-c:hover,.kpi-c:focus-visible{box-shadow:var(--sh);outline:2px solid transparent}.kpi-c:focus-visible{outline-color:var(--accent)}
+.kpi-n{font-size:13px;color:var(--muted);font-weight:600}.kpi-v{font-size:24px;font-variant-numeric:tabular-nums;color:var(--ink);line-height:1.15}
+.kpi-t{font-size:12.5px;color:var(--kc);font-weight:600}.kpi-h{font-size:12px;color:var(--muted);line-height:1.35}
+.kpi-bar{position:relative;display:block;height:6px;border-radius:3px;background:var(--line);margin:4px 0 2px}.kpi-bar>i{display:block;height:100%;border-radius:3px;background:var(--kc)}
+.kpi-bar s{position:absolute;top:-3px;width:2px;height:12px;background:var(--ink);text-decoration:none}
+.kpi-top .kpi-c{padding:14px 16px}.kpi-top .kpi-v{font-size:30px}
+.kpi-dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--kc);vertical-align:middle}
 .rse-seg{margin:0 0 10px;flex-wrap:wrap}.rse-t td{vertical-align:top}.rse-t td:nth-child(2),.rse-t td:nth-child(3){min-width:220px}.rse-l{margin:0;padding-left:18px;display:grid;gap:8px}.rse-l li{line-height:1.45}#viewRse .src-b{display:inline-block;margin-top:4px}
 @media (max-width:560px){.en-bar{grid-template-columns:1fr auto}.en-bar-t{grid-column:1/-1;order:3}}
 </style>
