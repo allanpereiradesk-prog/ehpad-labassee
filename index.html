@@ -613,6 +613,7 @@ button.h-tile{cursor:pointer}button.h-tile:hover{outline:2px solid color-mix(in 
 .stk-q{display:flex;align-items:center;gap:4px}.stk-q b{min-width:34px;text-align:center;font-variant-numeric:tabular-nums}.stk-q button{width:28px;height:28px;padding:0;border:1px solid var(--line);border-radius:6px;background:var(--surface);font-weight:700;cursor:pointer}.stk-q button:hover{border-color:var(--accent);color:var(--accent)}
 .stk-add summary,.stk-log summary{cursor:pointer;font-weight:600}.stk-form{display:grid;gap:8px;margin-top:8px}.stk-form label{display:grid;gap:3px;font-size:13px;color:var(--muted)}.stk-form input,.stk-form select,.stk-sh input,.stk-sh select{width:100%;min-width:0;box-sizing:border-box}.stk-sh select{width:auto;max-width:45%}.stk-row{display:flex;gap:6px}.stk-row label{flex:1;min-width:0}
 .stk-log table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:6px}.stk-log td{padding:4px;border-bottom:1px solid var(--line);vertical-align:top}
+.bo-cr{margin:12px 0}.bo-cr summary{cursor:pointer;display:flex;gap:10px;align-items:center;flex-wrap:wrap}.bo-cr-b{max-width:900px;font-size:14.5px;line-height:1.5}.bo-cr-b h1{display:none}.bo-cr-b h2{font-size:16px;margin:16px 0 6px}.bo-cr-b table{border-collapse:collapse;font-size:13.5px;margin:6px 0}.bo-cr-b th,.bo-cr-b td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left}.bo-dce{margin-top:18px}.dce-t{table-layout:fixed;min-width:820px}.dce-t td{overflow-wrap:anywhere}.bo-dce h2{margin:0 0 4px}
 .hv-wait{display:grid;place-content:center;justify-items:center;gap:12px;text-align:center;color:#fff;padding:20px}.hv-wait p{margin:0}
 .hv-b{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .gai-ctl{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;font-size:14px}.gai-leg{display:flex;flex-wrap:wrap;gap:4px 10px}.gai-leg label{display:inline-flex;gap:5px;align-items:center;cursor:pointer}
@@ -1323,10 +1324,11 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
 
   <section id="viewBouches" hidden>
     <section class="rv-head">
-      <div class="label">Lot 12 CVC · ventilation · réseau v13</div>
+      <div class="label">Lot 12 CVC · ventilation · bouches conformes au DCE (19/10)</div>
       <h2>Bouches de ventilation</h2>
-      <p>Les bouches que j'ai posées dans la maquette Revit, avec leur débit. Une <b>antenne</b> est la petite gaine qui relie le réseau principal à la bouche. Quand l'antenne n'est pas encore faite, la colonne « Antenne » dit pourquoi.</p>
+      <p>Les bouches que j'ai posées dans la maquette Revit, avec leur débit. Une <b>antenne</b> est la petite gaine qui relie le réseau principal à la bouche. Quand l'antenne n'est pas encore faite, la colonne « Antenne » dit pourquoi. Plus bas, le <b>contrôle DCE</b> compare, local par local, le débit du dossier et celui de la maquette.</p>
     </section>
+    <details class="panel bo-cr"><summary><b>Compte rendu du 19/10/2026 : bouches conformes au DCE</b><span class="hint">270 bouches · 244 locaux conformes · 31 bouches CTA à raccorder · cliquer pour lire</span> <a class="btn small" href="files/bouches/CR_bouches_2026-10-19.pdf" download>PDF</a></summary><div id="boCr" class="bo-cr-b"><p class="hint">Chargement…</p></div></details>
     <div id="boSum" class="resa-sum"></div>
     <div class="bo-top">
       <section class="panel"><h2>Débits par CTA</h2><div class="tbl-wrap"><table class="fam-t" id="boCta"></table></div></section>
@@ -1344,6 +1346,19 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
     </div>
     <div class="tbl-wrap"><table class="fam-t resa-t"><thead><tr><th>Repère</th><th>Local</th><th>Niveau</th><th>Fonction</th><th class="num">Débit</th><th>Bouche</th><th>CTA</th><th>Antenne</th></tr></thead><tbody id="boBody"></tbody></table></div>
     <p class="hint" id="boSrc"></p>
+    <section class="panel bo-dce"><h2>Contrôle DCE : débits par local</h2>
+      <p class="hint">Chaque local ventilé du dossier DCE (fichier « Débits par local ») comparé à la maquette : débit du dossier, débits des bouches posées, nombre de bouches et bouches encore à raccorder.</p>
+      <div id="dceSum" class="resa-sum"></div>
+      <div class="resa-f" id="dceF">
+        <select data-df="lv" aria-label="Filtrer par niveau"></select>
+        <select data-df="res" aria-label="Filtrer par réseau"></select>
+        <select data-df="st" aria-label="Filtrer par état"><option value="">Tous les locaux</option><option value="ok">Conformes</option><option value="nok">Non conformes</option><option value="rac">Bouches à raccorder</option><option value="tr">Sans bouche (transfert d'air)</option></select>
+        <input type="search" data-df="q" placeholder="Chercher (local, n° de pièce, bouche…)" aria-label="Chercher un local">
+        <button class="btn small" id="dceCsv">Télécharger en CSV</button>
+      </div>
+      <div class="tbl-wrap"><table class="fam-t resa-t dce-t"><colgroup><col style="width:17%"><col style="width:7%"><col style="width:15%"><col style="width:11%"><col style="width:13%"><col style="width:13%"><col style="width:24%"></colgroup><thead><tr><th>Local</th><th>Niveau</th><th>Réseau</th><th class="num">Dossier DCE</th><th class="num">Maquette</th><th class="num">Bouches</th><th>Contrôle</th></tr></thead><tbody id="dceBody"></tbody></table></div>
+      <p class="hint" id="dceSrc"></p>
+    </section>
   </section>
 
   <section id="viewFam" hidden>
@@ -2757,7 +2772,7 @@ function renderSyn(){
 document.querySelectorAll("[data-dm]").forEach(b=>b.onclick=()=>{ docsMode=b.dataset.dm; document.querySelectorAll("[data-dm]").forEach(x=>x.setAttribute("aria-pressed",x===b)); renderDocs(); });
 
 /* ---------- Réservations (données déposées par le compte Revit) ---------- */
-const CTA_COL={"CTA 1":"#2f6fd6","CTA 2":"#1f9d55","CTA 3":"#e07b00","CTA 4":"#8e44c9","CTA 5":"#d33a3a"};
+const CTA_COL={"CTA 1":"#2f6fd6","CTA 2":"#1f9d55","CTA 3":"#e07b00","CTA 4":"#8e44c9","CTA 5":"#d33a3a","VMC sanitaires":"#6b7a86"};
 const RESA_SRC=["files/reservations/reservations.json","exports-revit/reservations.json"];
 const RESA_ST={"à faire":"var(--todo)","à valider":"var(--doing)","validée":"var(--done)","refusée":"var(--danger)"};
 const RESA_LV={N00:"RDC",N01:"Étage",NT1:"Toiture"};
@@ -3475,7 +3490,7 @@ const boVit=b=>{ const m=String(b.col||"").match(/(\d+)\s*[x×]\s*(\d+)/); if(!m
 const BO_FC={Soufflage:"var(--accent)",Reprise:"var(--heat)",Extraction:"var(--p3)"};
 function boRows(){ const q=boF.q.trim().toLowerCase();
   return BOUCHES.filter(b=>(!boF.cta||b.cta===boF.cta)&&(!boF.lv||b.lv===boF.lv)&&(!boF.fonction||b.fonction===boF.fonction)&&(!boF.rac||String(+!!b.raccordee)===boF.rac)
-    &&(!q||[b.id,b.local,b.num,b.type,b.remarque,b.rid].join(" ").toLowerCase().includes(q))); }
+    &&(!q||[b.id,b.local,b.num,b.type,b.remarque,b.rid,b.modele,b.produit,b.cle].join(" ").toLowerCase().includes(q))); }
 async function renderBouches(){
   if(!BOUCHES){ $("#boBody").innerHTML=`<tr><td colspan="8" class="hint">Chargement…</td></tr>`; await loadBouches(); }
   const all=BOUCHES, uniq=k=>[...new Set(all.map(x=>x[k]).filter(Boolean))].sort((a,b)=>String(a).localeCompare(String(b),"fr",{numeric:true}));
@@ -3493,7 +3508,7 @@ async function renderBouches(){
   $("#boBody").innerHTML=rows.length?rows.map(b=>{ const v=boVit(b); return `<tr><td class="nw">${esc(b.id)}</td><td>${esc(b.local||"")}${b.num?`<div class="hint">${esc(b.num)}</div>`:""}</td><td class="nw">${esc(resaLv(b.lv))}</td>
     <td><span class="pill" style="--pc:${BO_FC[b.fonction]||"var(--todo)"}">${esc(b.fonction||"")}</span></td>
     <td class="num">${boNum(b.q)} m³/h${v?`<div class="hint">${v.toFixed(1).replace(".",",")} m/s au col</div>`:""}</td>
-    <td>${esc(b.pose||"")}${b.col?`<div class="hint">col ${esc(b.col)} mm</div>`:""}</td>
+    <td>${b.modele?`<b>${esc(b.modele)}</b><div class="hint">${esc(b.produit||"")}${b.ref_cctp?" · "+esc(b.ref_cctp):""}</div>`:""}<div class="hint">${esc(b.pose||"")}${b.col?` · col ${esc(b.col)} mm`:""}</div></td>
     <td>${b.cta?`<span class="cta" style="--cc:${CTA_COL[b.cta]||"#888"}"><i></i>${esc(b.cta)}</span>`:""}</td>
     <td>${b.raccordee?`<span class="pill" style="--pc:var(--done)">faite</span>`:`<span class="pill" style="--pc:var(--doing)">à faire</span>`}${b.remarque?`<div class="hint">${esc(b.remarque)}</div>`:""}</td></tr>`; }).join("")
     :`<tr><td colspan="8" class="hint">Aucune bouche avec ces filtres.</td></tr>`;
@@ -3502,14 +3517,42 @@ async function renderBouches(){
 document.querySelectorAll("#boF [data-bf]").forEach(el=>el.addEventListener(el.tagName==="INPUT"?"input":"change",()=>{ boF[el.dataset.bf]=el.value; renderBouches(); }));
 $("#boCsv").onclick=()=>{ const rows=boRows(); if(!rows.length){ toast("Rien à exporter."); return; }
   const c=v=>`"${String(v??"").replace(/"/g,'""')}"`;
-  const csv="﻿"+[["Repère","Local","N° pièce","Niveau","Fonction","Débit (m³/h)","Vitesse au col (m/s)","Pose","Col (mm)","CTA","Antenne","Remarque","ID Revit"].map(c).join(";")]
-    .concat(rows.map(b=>{ const v=boVit(b); return [b.id,b.local,b.num,resaLv(b.lv),b.fonction,b.q,v?v.toFixed(2).replace(".",","):"",b.pose,b.col,b.cta,b.raccordee?"faite":"à faire",b.remarque,b.rid].map(c).join(";"); })).join("\r\n");
+  const csv="﻿"+[["Repère","Local","N° pièce","Niveau","Fonction","Débit (m³/h)","Vitesse au col (m/s)","Modèle","Produit","Réf. CCTP","Pose","Col (mm)","CTA","Antenne","Remarque","ID Revit"].map(c).join(";")]
+    .concat(rows.map(b=>{ const v=boVit(b); return [b.id,b.local,b.num,resaLv(b.lv),b.fonction,b.q,v?v.toFixed(2).replace(".",","):"",b.modele,b.produit,b.ref_cctp,b.pose,b.col,b.cta,b.raccordee?"faite":"à faire",b.remarque,b.rid].map(c).join(";"); })).join("\r\n");
   const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"})); a.download="EHPAD_Bouches_Ventilation.csv"; document.body.appendChild(a); a.click(); a.remove(); };
+/* contrôle DCE (controle_dce.json) et compte rendu */
+let DCE=null, dceF={lv:"",res:"",st:"",q:""}, boCrOk=false;
+async function boLoadCr(){ if(boCrOk) return; try{ const r=await fetch("files/bouches/CR_bouches_2026-10-19.html"); if(r.ok){ $("#boCr").innerHTML=await r.text(); boCrOk=true; } }catch(e){ $("#boCr").innerHTML=`<p class="hint">Compte rendu indisponible.</p>`; } }
+const dceQ=n=>n?boNum(Math.round(n)):"–";
+function dceRows(){ const q=dceF.q.trim().toLowerCase();
+  return DCE.filter(c=>(!dceF.lv||c.lv===dceF.lv)&&(!dceF.res||c.res===dceF.res)&&(!dceF.st||(dceF.st==="ok"?c.ok:dceF.st==="nok"?!c.ok:dceF.st==="rac"?/raccorder/.test(c.rem||""):!(c.bouches||[]).length))
+    &&(!q||[c.num,c.nom,c.typ,c.rem,(c.bouches||[]).join(" "),c.cle].join(" ").toLowerCase().includes(q))); }
+async function renderDce(){
+  if(!DCE){ $("#dceBody").innerHTML=`<tr><td colspan="7" class="hint">Chargement…</td></tr>`; try{ const r=await fetch("files/bouches/controle_dce.json",{cache:"no-cache"}); DCE=r.ok?await r.json():[]; }catch(e){ DCE=[]; } }
+  const all=DCE, uniq=k=>[...new Set(all.map(x=>x[k]).filter(Boolean))].sort((a,b)=>String(a).localeCompare(String(b),"fr",{numeric:true}));
+  const lab={lv:"Tous les niveaux",res:"Tous les réseaux"};
+  document.querySelectorAll("#dceF select[data-df]").forEach(sel=>{ const k=sel.dataset.df; if(k==="st") return; sel.innerHTML=`<option value="">${lab[k]}</option>`+uniq(k).map(v=>`<option value="${esc(v)}"${dceF[k]===v?" selected":""}>${esc(k==="lv"?resaLv(v):v)}</option>`).join(""); });
+  if(!all.length){ $("#dceSum").innerHTML=""; $("#dceBody").innerHTML=`<tr><td colspan="7" class="hint">Contrôle pas encore disponible.</td></tr>`; return; }
+  const cnt=f=>all.filter(f).length;
+  $("#dceSum").innerHTML=`<div class="k"><b>${all.length}</b><span>locaux ventilés du dossier</span></div><div class="k"><b>${cnt(c=>c.ok)}</b><span>conformes en débit</span></div><div class="k"><b>${cnt(c=>/raccorder/.test(c.rem||""))}</b><span>locaux avec bouches à raccorder</span></div><div class="k"><b>${cnt(c=>!(c.bouches||[]).length)}</b><span>sans bouche (transfert d'air)</span></div>`;
+  const rows=dceRows(), fl=(a,b,c)=>[["S",a],["R",b],["E",c]].filter(x=>x[1]).map(x=>`${x[0]} ${dceQ(x[1])}`).join(" · ")||"–";
+  $("#dceBody").innerHTML=rows.length?rows.map(c=>`<tr><td><b>${esc(c.nom||"")}</b><div class="hint">${esc(c.num||"")}</div></td><td class="nw">${esc(resaLv(c.lv))}</td><td>${esc(c.res||"")}</td>
+    <td class="num">${fl(c.dos_s,0,c.dos_e)}${c.dos_s||c.dos_e?`<div class="hint">m³/h</div>`:""}</td><td class="num">${fl(c.rv_s,c.rv_r,c.rv_e)}${c.rv_s||c.rv_r||c.rv_e?`<div class="hint">m³/h</div>`:""}</td>
+    <td class="num">${(c.bouches||[]).length}${c.nb!=null&&(c.bouches||[]).length?`<div class="hint">${c.nb_ok||0} raccordée${(c.nb_ok||0)>1?"s":""}</div>`:""}${(c.bouches||[]).length?`<div class="hint">${esc(c.bouches.join(", "))}</div>`:""}</td>
+    <td>${c.ok?`<span class="pill" style="--pc:var(--done)">conforme</span>`:`<span class="pill" style="--pc:var(--danger)">écart</span>`}${c.rem?`<div class="hint">${esc(c.rem)}</div>`:""}</td></tr>`).join("")
+    :`<tr><td colspan="7" class="hint">Aucun local avec ces filtres.</td></tr>`;
+  $("#dceSrc").textContent=`${rows.length} sur ${all.length} locaux affichés · S = soufflage, R = reprise, E = extraction · source : files/bouches/controle_dce.json (dépôt du 19/10)`;
+}
+document.querySelectorAll("#dceF [data-df]").forEach(el=>el.addEventListener(el.tagName==="INPUT"?"input":"change",()=>{ dceF[el.dataset.df]=el.value; renderDce(); }));
+$("#dceCsv").onclick=()=>{ const rows=dceRows(); if(!rows.length){ toast("Rien à exporter."); return; } const c=v=>`"${String(v??"").replace(/"/g,'""')}"`;
+  const csv="\ufeff"+[["N° pièce","Local","Niveau","Réseau","Dossier soufflage","Dossier extraction","Maquette soufflage","Maquette reprise","Maquette extraction","Bouches","Raccordées","Conforme","Remarque"].map(c).join(";")]
+    .concat(rows.map(x=>[x.num,x.nom,resaLv(x.lv),x.res,x.dos_s,x.dos_e,x.rv_s,x.rv_r,x.rv_e,(x.bouches||[]).join(" "),x.nb_ok,x.ok?"oui":"non",x.rem].map(c).join(";"))).join("\r\n");
+  const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"})); a.download="EHPAD_Controle_DCE_bouches.csv"; document.body.appendChild(a); a.click(); a.remove(); };
 TAB_META.bouches=["Fichiers","Bouches","Les bouches de ventilation : débits, CTA, antennes faites ou à faire."];
 { const tb=$("#tabBouches"), vw=$("#viewBouches");
   tb.setAttribute("aria-controls","viewBouches"); vw.setAttribute("role","tabpanel"); vw.setAttribute("aria-labelledby","tabBouches");
   const _setTab=setTab; setTab=function(t){ _setTab(t); const on=t==="bouches"; vw.hidden=!on; tb.setAttribute("aria-selected",on); tb.tabIndex=on?0:-1;
-    if(on){ setCrumb("bouches"); store.set("ehpad-tab","bouches"); renderBouches(); } };
+    if(on){ setCrumb("bouches"); store.set("ehpad-tab","bouches"); renderBouches(); renderDce(); boLoadCr(); } };
   tb.onclick=()=>setTab("bouches");
   let st=null; try{ st=store.get("ehpad-tab"); }catch(e){}
 }

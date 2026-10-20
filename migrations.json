@@ -583,5 +583,39 @@
     }
    ]
   }
+ },
+ {
+  "id": "2026-10-20-i02-cr-bouches",
+  "doc": "tasks/i02",
+  "union": {
+   "docs": [
+    {
+     "name": "Compte rendu du 19/10 : bouches conformes au DCE (PDF)",
+     "at": "2026-10-19T20:00:00Z",
+     "by": "Allan",
+     "file": "CR_bouches_2026-10-19.pdf",
+     "kind": "static",
+     "path": "docs/CR_bouches_2026-10-19.pdf.b64.txt",
+     "type": "application/pdf"
+    }
+   ]
+  }
+ },
+ {
+  "id": "2026-10-20-i05-cr-bouches",
+  "doc": "tasks/i05",
+  "union": {
+   "docs": [
+    {
+     "name": "Compte rendu du 19/10 : bouches conformes au DCE (PDF)",
+     "at": "2026-10-19T20:00:00Z",
+     "by": "Allan",
+     "file": "CR_bouches_2026-10-19.pdf",
+     "kind": "static",
+     "path": "docs/CR_bouches_2026-10-19.pdf.b64.txt",
+     "type": "application/pdf"
+    }
+   ]
+  }
  }
 ]

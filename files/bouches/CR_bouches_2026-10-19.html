@@ -1,0 +1,79 @@
+<h1>Compte rendu — bouches de ventilation conformes au DCE (19/10/2026)</h1>
+<h2>Ce que j'ai fait</h2>
+<p>J'ai comparé chaque bouche de la maquette Revit au dossier DCE :</p>
+<ul>
+<li>le <strong>CCTP lot 12</strong> (§ 4.10 chambres, § 4.11 locaux communs, § 4.12 VMC sanitaires) ;</li>
+<li>le fichier <strong>« Débits par local »</strong> (débits du dossier pour les 244 locaux ventilés).</li>
+</ul>
+<p>Résultat : <strong>les 244 locaux ventilés du dossier ont leurs bouches, au bon débit.</strong> Le contrôle local par local est dans l'onglet « Contrôle DCE » de <code>EHPAD_Bouches_Ventilation.xlsx</code>.</p>
+<h2>Ce qui manquait et que j'ai ajouté</h2>
+<ul>
+<li><strong>46 bouches d'extraction VMC</strong> des sanitaires, offices, ménage, déchets, linge sale (CCTP § 4.12) : 3 090 m³/h. WC 30 m³/h, douches et vestiaires 45 m³/h, locaux pollués 30 m³/h, offices et tisanerie 450 m³/h (3 bouches chacun).</li>
+<li><strong>6 bouches CTA 5</strong> qui n'étaient pas posées : reprise de la coiffure, reprise de la salle à manger de l'étage (2), soufflage et reprise de la détente, 2e bouche de soufflage du salon de l'étage.</li>
+<li>Une bouche était dans le mauvais salon : je l'ai déplacée.</li>
+</ul>
+<h2>Modèles des bouches (comme le CCTP)</h2>
+<table>
+<thead>
+<tr>
+<th>Où</th>
+<th>Bouche</th>
+<th>Modèle CCTP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Chambres (81)</td>
+<td>Grille murale de soufflage 90 m³/h</td>
+<td>VIM GADD F (§ 4.10.6)</td>
+</tr>
+<tr>
+<td>Salles de bains (81)</td>
+<td>Bouche d'extraction autoréglable 90 m³/h</td>
+<td>VIM ALYZE S (§ 4.10.6)</td>
+</tr>
+<tr>
+<td>Locaux communs, soufflage (31)</td>
+<td>Diffuseur plafond tourbillonnaire</td>
+<td>VIM DCFD-F (§ 4.11.7)</td>
+</tr>
+<tr>
+<td>Locaux communs, reprise (31)</td>
+<td>Grille plafond à quadrillage</td>
+<td>VIM DATP (§ 4.11.8)</td>
+</tr>
+<tr>
+<td>Sanitaires, offices… (46)</td>
+<td>Bouche d'extraction VMC autoréglable</td>
+<td>VIM ALYZE S (§ 4.12.5)</td>
+</tr>
+</tbody>
+</table>
+<p>Le fabricant, le modèle et la référence CCTP sont renseignés dans les types Revit.</p>
+<h2>Chiffres</h2>
+<ul>
+<li><strong>270 bouches</strong> dans la maquette, <strong>193 raccordées</strong> au réseau.</li>
+<li>CTA 1 à 4 : la somme des bouches tombe juste sur le débit de chaque CTA.</li>
+<li>CTA 5 : 6 027 m³/h au soufflage (le CCTP dit 8 800 m³/h, écart déjà connu).</li>
+</ul>
+<h2>Écarts avec le CCTP (assumés)</h2>
+<ol>
+<li><strong>Flexibles</strong> : le CCTP raccorde les bouches par 50 cm de flexible phonique. Dans la maquette, je raccorde en <strong>gaine rigide</strong> jusqu'à la bouche (choix de l'équipe).</li>
+<li><strong>Régulateurs de débit constant</strong> à chaque bouche de soufflage : pas modélisés.</li>
+<li><strong>Bouches des salles de bains</strong> : le CCTP les met au lot cabine préfabriquée. Je les ai quand même modélisées pour le calcul.</li>
+<li><strong>Débit CTA 5</strong> (8 800 m³/h au CCTP, 6 027 m³/h chez nous) et <strong>CTA 2</strong> (2 330 au CCTP, 2 430 chez nous) : à trancher avec le prof.</li>
+<li><strong>Petits stocks</strong> (&lt; 25 m³/h) : pas de bouche, transfert d'air par la porte.</li>
+</ol>
+<h2>Ce qui reste à faire</h2>
+<ul>
+<li><strong>Réseau VMC sanitaires</strong> : les 46 bouches sont posées, mais il manque les caissons d'extraction en toiture et les gaines.</li>
+<li><strong>Compensation</strong> des offices et de la tisanerie (450 m³/h) : bouches de transfert à prévoir (CCTP § 4.12.6).</li>
+<li><strong>31 bouches CTA à raccorder</strong> : surtout la salle à manger du RDC, où il n'y a pas la place de passer entre les deux gaines, et les salons de l'étage.</li>
+</ul>
+<h2>Fichiers (dans les documents du site)</h2>
+<ul>
+<li><code>bouches.json</code> : 270 bouches. Champs : <code>id</code>, <code>cta</code>, <code>fonction</code>, <code>lv</code>, <code>num</code>, <code>local</code>, <code>q</code>, <code>pose</code>, <code>col</code>, <code>modele</code>, <code>produit</code>, <code>ref_cctp</code>, <code>x</code>, <code>y</code>, <code>z</code>, <code>raccordee</code>, <code>remarque</code>, <code>cle</code> (local).</li>
+<li><code>controle_dce.json</code> : 244 locaux, avec débit du dossier et débit de la maquette (<code>dos_s</code>, <code>dos_e</code>, <code>rv_s</code>, <code>rv_r</code>, <code>rv_e</code>, <code>ok</code>, <code>rem</code>, <code>bouches</code>).</li>
+<li><code>EHPAD_Bouches_Ventilation.xlsx</code> : onglets Synthèse, Bouches, Contrôle DCE, Écarts au CCTP, Hypothèses.</li>
+<li><code>plan_bouches.png</code> : plan RDC + étage.</li>
+</ul>
