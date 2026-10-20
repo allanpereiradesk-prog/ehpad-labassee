@@ -643,6 +643,30 @@ tr.cmdk-hit td{background:color-mix(in srgb,var(--accent) 16%,transparent);trans
 .fg-fig{margin:0}.fg-fig svg{display:block;width:100%;height:auto;border-radius:8px;border:1px solid var(--line)}.fg-fig figcaption{font-size:12.5px;color:var(--muted);margin-top:4px}.fg-warn{border-left:3px solid var(--doing);background:color-mix(in srgb,var(--doing) 8%,transparent);padding:8px 10px;border-radius:4px;font-size:14px}.fg-check li{margin:4px 0}.fg-tlink{margin:10px 0 0}
 @media print{body.fg-printing>*{display:none!important}body.fg-printing #fgPrintBox{display:block!important}#fgPrintBox .fg-done,#fgPrintBox .fg-prog button{display:none!important}#fgPrintBox .tt-step{break-inside:avoid}}
 #fgPrintBox{display:none}
+body.mq-on{overflow:hidden}
+.mq{position:fixed;inset:0;z-index:60;background:radial-gradient(120% 90% at 30% 20%,#eef3f7,#d6dee5);font-family:inherit}
+:root[data-theme="dark"] .mq{background:radial-gradient(120% 90% at 30% 20%,#25323c,#121a20)}@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .mq{background:radial-gradient(120% 90% at 30% 20%,#25323c,#121a20)}}
+.mq-stage{position:absolute;inset:0}.mq-stage #rvBatCv{position:absolute!important;inset:0;width:100%!important;height:100%!important;aspect-ratio:auto!important;max-height:none!important;border-radius:0!important}
+.mq-load{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;gap:12px;color:#334155;font-weight:600}.mq-spin{width:34px;height:34px;border-radius:50%;border:3px solid rgb(51 65 85 / .2);border-top-color:#1f5fa8;animation:mqspin 1s linear infinite}@keyframes mqspin{to{transform:rotate(360deg)}}
+.mq-top{position:absolute;top:16px;left:16px;display:flex;gap:10px;align-items:center;z-index:3}
+.mq-title{display:grid;padding:8px 14px;border-radius:14px;background:rgb(255 255 255 / .78);backdrop-filter:blur(14px);box-shadow:0 6px 24px rgb(15 23 42 / .14);border:1px solid rgb(255 255 255 / .6)}.mq-title b{font-size:15px;color:#0f172a}.mq-title span{font-size:12px;color:#475569}
+.mq-btn{display:inline-flex;gap:6px;align-items:center;border:1px solid rgb(255 255 255 / .65);background:rgb(255 255 255 / .8);backdrop-filter:blur(14px);color:#0f172a;border-radius:12px;padding:9px 13px;font:600 14px/1 inherit;cursor:pointer;box-shadow:0 6px 24px rgb(15 23 42 / .12);transition:transform .12s,background .12s}
+.mq-btn:hover{transform:translateY(-1px);background:#fff}.mq-btn[aria-pressed="true"]{background:#1f5fa8;color:#fff;border-color:#1f5fa8}.mq-btn span{font-size:12.5px;font-weight:600}
+.mq-dock{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);display:flex;gap:6px;padding:6px;border-radius:18px;background:rgb(255 255 255 / .55);backdrop-filter:blur(16px);box-shadow:0 10px 40px rgb(15 23 42 / .18);border:1px solid rgb(255 255 255 / .6);z-index:3;max-width:calc(100vw - 32px);overflow-x:auto}
+.mq-dock .mq-btn{box-shadow:none;flex-direction:column;gap:2px;padding:8px 12px;font-size:17px;min-width:64px}
+.mq-panel{position:absolute;top:16px;right:16px;bottom:16px;width:min(390px,calc(100vw - 32px));display:flex;flex-direction:column;border-radius:22px;background:rgb(255 255 255 / .86);backdrop-filter:blur(18px) saturate(1.2);box-shadow:0 18px 60px rgb(15 23 42 / .22);border:1px solid rgb(255 255 255 / .7);z-index:4;transition:transform .35s cubic-bezier(.2,.8,.2,1);color:#0f172a}
+.mq-panel.closed{transform:translateX(calc(100% + 16px))}
+.mq-toggle{position:absolute;left:-40px;top:50%;transform:translateY(-50%);width:32px;height:64px;border-radius:14px 0 0 14px;border:1px solid rgb(255 255 255 / .7);border-right:0;background:rgb(255 255 255 / .86);backdrop-filter:blur(18px);cursor:pointer;box-shadow:-6px 6px 20px rgb(15 23 42 / .12);font-size:20px;color:#0f172a}
+.mq-panel.closed .mq-toggle span{display:inline-block;transform:rotate(180deg)}
+.mq-tabs{display:flex;gap:4px;margin:12px 12px 0;padding:4px;border-radius:14px;background:rgb(15 23 42 / .06)}.mq-tabs button{flex:1;border:0;background:transparent;border-radius:10px;padding:8px 6px;font:600 13.5px inherit;color:#475569;cursor:pointer}.mq-tabs button[aria-selected="true"]{background:#fff;color:#0f172a;box-shadow:0 2px 8px rgb(15 23 42 / .1)}
+.mq-body{flex:1;overflow:auto;padding:12px 14px 16px}
+.mq-body .bat-tools{display:flex;flex-direction:column;align-items:stretch;gap:12px;background:none;border:0;padding:0}.mq-body .bat-lay{display:grid;grid-template-columns:1fr 1fr;gap:6px}.mq-body .bat-lay label{background:rgb(15 23 42 / .04);border-radius:10px;padding:7px 9px}.mq-body .seg{display:flex;flex-wrap:wrap;border-radius:10px}.mq-body .seg button{flex:1 1 auto;font-size:12.5px;padding:6px 8px}
+.mq-body .gai-ctl,.mq-body .f3d-ctl,.mq-body .wow-ctl{flex-direction:column;align-items:stretch;border-top:1px solid rgb(15 23 42 / .08);padding-top:10px;gap:8px}.mq-body .gai-leg{display:grid;grid-template-columns:1fr 1fr 1fr}.mq-body .wow-ex input[type=range]{flex:1}
+.mq-body .bat-info{border:0;padding:0;background:none;font-size:14px}.mq-body .eqi-h{flex-direction:column;align-items:stretch}.mq-body .eqi-r{grid-template-columns:1fr;gap:2px}.mq-body .eqi-r>span{font-size:12px;color:#64748b;text-transform:none}
+.mq-body .bat-eq{display:grid;gap:10px}.mq-body .bat-eqg{display:flex;flex-wrap:wrap;gap:6px}
+.mq-empty{display:grid;gap:10px;justify-items:center;text-align:center;color:#475569;padding:30px 10px}.mq-empty b{font-size:15px;color:#0f172a}.mq-empty i{font-style:normal;font-size:34px}
+.mq-hint{position:absolute;left:16px;bottom:22px;font-size:12px;color:#334155;background:rgb(255 255 255 / .6);backdrop-filter:blur(10px);padding:6px 10px;border-radius:10px;z-index:2}
+@media (max-width:760px){.mq-panel{top:auto;left:8px;right:8px;bottom:84px;width:auto;height:46vh;border-radius:20px}.mq-panel.closed{transform:translateY(calc(100% + 90px))}.mq-toggle{left:50%;top:-34px;transform:translateX(-50%);width:64px;height:30px;border-radius:14px 14px 0 0;border:1px solid rgb(255 255 255 / .7);border-bottom:0}.mq-toggle span{display:inline-block;transform:rotate(90deg)}.mq-panel.closed .mq-toggle span{transform:rotate(-90deg)}.mq-hint{display:none}.mq-dock .mq-btn span{display:none}.mq-dock .mq-btn{min-width:46px}}
 .hv-wait{display:grid;place-content:center;justify-items:center;gap:12px;text-align:center;color:#fff;padding:20px}.hv-wait p{margin:0}
 .hv-b{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .gai-ctl{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;font-size:14px}.gai-leg{display:flex;flex-wrap:wrap;gap:4px 10px}.gai-leg label{display:inline-flex;gap:5px;align-items:center;cursor:pointer}
@@ -800,6 +824,7 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
       <button role="tab" id="tabFam" aria-selected="false">Familles</button>
       <button role="tab" id="tabFamGen" aria-selected="false">Création de famille</button>
       <button role="tab" id="tabImpl" aria-selected="false">Implantation</button>
+      <button role="tab" id="tabMaq" aria-selected="false">Maquette 3D</button>
       <button role="tab" id="tabRevit" aria-selected="false">Revit</button>
       <button role="tab" id="tabTuto" aria-selected="false">Tuto Revit</button>
       <button role="tab" id="tabCaps" aria-selected="false">Captures</button>
@@ -1496,6 +1521,38 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
           <li>Reprends à l'<a href="#fgt5">étape 5</a> : Exécuter.</li>
         </ol></section>
     </section>
+  </section>
+
+  <section id="viewMaq" hidden>
+    <div class="mq" id="mq">
+      <div class="mq-stage" id="mqStage"><div class="mq-load" id="mqLoad"><span class="mq-spin"></span>Chargement de la maquette…</div></div>
+      <div class="mq-top">
+        <button type="button" class="mq-btn" id="mqBack" title="Revenir au site">← Site</button>
+        <div class="mq-title"><b>EHPAD La Bassée</b><span>Maquette CVC · lot 12</span></div>
+      </div>
+      <div class="mq-dock" role="toolbar" aria-label="Outils de la maquette">
+        <button type="button" class="mq-btn" data-mq-act="home" title="Vue d'ensemble">⌂<span>Vue</span></button>
+        <button type="button" class="mq-btn" data-mq-act="air" aria-pressed="false" title="Air en mouvement">≋<span>Air</span></button>
+        <button type="button" class="mq-btn" data-mq-act="expl" aria-pressed="false" title="Écarter les niveaux">⇕<span>Écorché</span></button>
+        <button type="button" class="mq-btn" data-mq-act="film" title="Film de présentation">▶<span>Film</span></button>
+        <button type="button" class="mq-btn" data-mq-act="search" title="Rechercher (Ctrl + K)">⌕<span>Chercher</span></button>
+        <button type="button" class="mq-btn" data-mq-act="fs" title="Plein écran">⛶<span>Plein écran</span></button>
+      </div>
+      <aside class="mq-panel" id="mqPanel" aria-label="Panneau de la maquette">
+        <button type="button" class="mq-toggle" id="mqToggle" aria-expanded="true" aria-controls="mqPanel" title="Replier / déplier le panneau"><span>›</span></button>
+        <div class="mq-tabs" role="tablist" aria-label="Panneau">
+          <button type="button" role="tab" data-mq-tab="sel" aria-selected="true">Sélection</button>
+          <button type="button" role="tab" data-mq-tab="aff" aria-selected="false">Affichage</button>
+          <button type="button" role="tab" data-mq-tab="eq" aria-selected="false">Équipements</button>
+        </div>
+        <div class="mq-body">
+          <section data-mq-pane="sel" id="mqSel"></section>
+          <section data-mq-pane="aff" id="mqAff" hidden></section>
+          <section data-mq-pane="eq" id="mqEq" hidden></section>
+        </div>
+      </aside>
+      <div class="mq-hint" id="mqHint">Clic : infos · Glisser : tourner · Clic droit : déplacer · Molette : zoom</div>
+    </div>
   </section>
 
   <section id="viewStock" hidden>
@@ -2726,7 +2783,7 @@ async function rvBatInit(){
       lst.innerHTML=EQ.length?grp.map(([t,f])=>{ const L=EQ.filter(e=>!/^Socle/.test(e.mark||"")&&f(e)); return L.length?`<div class="bat-eqg"><span class="hint">${t} :</span> `+L.map(e=>`<button class="btn small" data-eqgo="${esc(e.id)}" title="${esc(e.type)}">${esc(e.mark||e.type)}</button>`).join(" ")+`</div>`:""; }).join(""):"";
       lst.querySelectorAll("[data-eqgo]").forEach(b=>b.onclick=()=>rvBatFocus(b.dataset.eqgo)); }
     rvBatApply(); rvBatResize(); new ResizeObserver(rvBatResize).observe(cv);
-    (function loop(){ if(!document.body.contains(ren.domElement)) return; requestAnimationFrame(loop); if(RB&&RB.film) return; if($("#rvBat").hidden||$("#viewRevit").hidden) return; ctl.update(); if(RB&&RB.tick) RB.tick(); ren.render(scene,cam); })();
+    (function loop(){ if(!document.body.contains(ren.domElement)) return; requestAnimationFrame(loop); if(RB&&RB.film) return; if(!(typeof MQ!=="undefined"&&MQ.on)&&($("#rvBat").hidden||$("#viewRevit").hidden)) return; ctl.update(); if(RB&&RB.tick) RB.tick(); ren.render(scene,cam); })();
   }catch(e){ console.error(e); cv.innerHTML=`<p class="hint" style="padding:12px">Vue du bâtiment indisponible (${esc(e.message||String(e))}).</p>`; }
 }
 
@@ -4545,4 +4602,50 @@ TAB_META.famgen=["Fichiers","Création de famille","Une fiche technique PDF → 
     document.body.classList.add("fg-printing"); const done=()=>{ document.body.classList.remove("fg-printing"); window.removeEventListener("afterprint",done); }; window.addEventListener("afterprint",done); window.print(); };
   document.querySelectorAll('#viewFamGen a[href^="#fg"]').forEach(a=>a.onclick=e=>{ e.preventDefault(); const t=document.getElementById(a.getAttribute("href").slice(1)); if(t) t.scrollIntoView({behavior:"smooth",block:"start"}); });
   upd(); }
+</script>
+
+<script>
+/* ========== Onglet « Maquette 3D » : la 3D en plein écran, panneau latéral repliable ========== */
+const MQ={on:false,ph:{},prev:"home"};
+const MQ_MOVE=[["rvBatCv","mqStage"],["rvBatTools","mqAff"],["rvBatEq","mqEq"],["rvBatInfo","mqSel"]];
+function mqTab(k){ document.querySelectorAll("[data-mq-tab]").forEach(b=>b.setAttribute("aria-selected",b.dataset.mqTab===k)); document.querySelectorAll("[data-mq-pane]").forEach(p=>p.hidden=p.dataset.mqPane!==k); }
+function mqPanel(open){ const p=$("#mqPanel"); p.classList.toggle("closed",!open); $("#mqToggle").setAttribute("aria-expanded",open); try{ localStorage.setItem("ehpad-mq-panel",open?"1":"0"); }catch(e){} }
+async function mqEnter(){
+  if(MQ.on) return; MQ.on=true; document.body.classList.add("mq-on");
+  MQ_MOVE.forEach(([id,to])=>{ const el=document.getElementById(id); if(!el) return; const ph=document.createComment("mq:"+id); el.parentNode.insertBefore(ph,el); MQ.ph[id]=ph; document.getElementById(to).appendChild(el); });
+  let open=true; try{ open=localStorage.getItem("ehpad-mq-panel")!=="0"; }catch(e){} mqPanel(open);
+  if(!RB){ $("#mqLoad").hidden=false; await rvBatInit(); } $("#mqLoad").hidden=true;
+  mqEmptySel(); setTimeout(()=>{ if(typeof rvBatResize==="function") rvBatResize(); },60); mqSync(); }
+function mqExit(){
+  if(!MQ.on) return; MQ.on=false; document.body.classList.remove("mq-on");
+  if(document.fullscreenElement) document.exitFullscreen().catch(()=>{});
+  MQ_MOVE.forEach(([id])=>{ const el=document.getElementById(id), ph=MQ.ph[id]; if(el&&ph&&ph.parentNode){ ph.parentNode.insertBefore(el,ph); ph.remove(); } }); MQ.ph={};
+  setTimeout(()=>{ if(typeof rvBatResize==="function") rvBatResize(); },60); }
+function mqEmptySel(){ const i=$("#rvBatInfo"); if(i&&(!i.textContent.trim()||/Clique un élément/.test(i.textContent))) i.innerHTML=`<div class="mq-empty"><i>👆</i><b>Clique sur un élément de la maquette</b><span>CTA, gaine, équipement, mur, espace… Toutes ses informations s'affichent ici.</span></div>`; }
+function mqSync(){ const a=$("#airOn"), e=$("#explR"); const ba=document.querySelector('[data-mq-act="air"]'), be=document.querySelector('[data-mq-act="expl"]');
+  if(ba) ba.setAttribute("aria-pressed",!!(a&&a.checked)); if(be) be.setAttribute("aria-pressed",!!(e&&+e.value>0.5)); }
+// quand on clique un élément : le panneau s'ouvre sur « Sélection »
+new MutationObserver(()=>{ if(!MQ.on) return; const i=$("#rvBatInfo"); if(!i||i.querySelector(".mq-empty")) return; if(/Clique un élément/.test(i.textContent)){ mqEmptySel(); return; } mqTab("sel"); mqPanel(true); }).observe($("#rvBatInfo"),{childList:true,subtree:true});
+document.querySelectorAll("[data-mq-tab]").forEach(b=>b.onclick=()=>mqTab(b.dataset.mqTab));
+$("#mqToggle").onclick=()=>mqPanel($("#mqPanel").classList.contains("closed"));
+$("#mqBack").onclick=()=>setTab(MQ.prev&&MQ.prev!=="maq"?MQ.prev:"home");
+document.querySelectorAll("[data-mq-act]").forEach(b=>b.onclick=()=>{ const k=b.dataset.mqAct; if(!RB&&k!=="search") return;
+  if(k==="home"){ RB.cam.position.set(-70,-95,75); RB.ctl.target.set(0,8,3); RB.clip.constant=999; const c=document.querySelector('[data-bcut=""]'); if(c) c.click(); RB.ctl.update(); RB.eqSel&&RB.eqSel(null); }
+  else if(k==="air"){ const a=$("#airOn"); if(a){ a.checked=!a.checked; a.onchange({target:a}); } }
+  else if(k==="expl"){ if(RB.explodeTo) RB.explodeTo(EXPL.value>0.5?0:6); setTimeout(mqSync,1300); }
+  else if(k==="film"){ filmStart(false); }
+  else if(k==="search"){ cmdkOpen(); }
+  else if(k==="fs"){ if(document.fullscreenElement) document.exitFullscreen(); else ($("#mq").requestFullscreen?$("#mq").requestFullscreen():Promise.reject()).catch(()=>toast("Plein écran indisponible")); }
+  mqSync(); });
+document.addEventListener("change",e=>{ if(MQ.on&&e.target&&(e.target.id==="airOn")) mqSync(); });
+document.addEventListener("keydown",e=>{ if(!MQ.on) return; if(e.key==="Escape"&&!document.fullscreenElement&&!(document.getElementById("cmdk")&&!$("#cmdk").hidden)&&!FILM.on){ mqPanel($("#mqPanel").classList.contains("closed")); } });
+TAB_META.maq=["Fichiers","Maquette 3D","La maquette en plein écran, avec toutes les fonctions dans le panneau de droite."];
+{ const tb=$("#tabMaq"), vw=$("#viewMaq");
+  tb.setAttribute("aria-controls","viewMaq"); vw.setAttribute("role","tabpanel"); vw.setAttribute("aria-labelledby","tabMaq");
+  const _setTab=setTab; setTab=function(t){ if(t!=="maq"&&MQ.on) mqExit(); if(t==="maq"&&!MQ.on&&tab&&tab!=="maq") MQ.prev=tab; _setTab(t); const on=t==="maq"; vw.hidden=!on; tb.setAttribute("aria-selected",on); tb.tabIndex=on?0:-1;
+    if(on){ setCrumb("maq"); store.set("ehpad-tab","maq"); mqEnter(); } };
+  tb.onclick=()=>setTab("maq");
+}
+// les actions qui ouvraient la 3D dans l'onglet Revit restent valables ; Ctrl + K propose aussi la maquette plein écran
+if(typeof CMDK!=="undefined"){ const _ix=cmdkIndex; cmdkIndex=async function(){ await _ix(); CMDK.idx.unshift({t:"Action",label:"Ouvrir la maquette 3D en plein écran",sub:"Panneau latéral : sélection, affichage, équipements",go:()=>setTab("maq"),h:cmdNorm("Ouvrir la maquette 3D en plein écran"),s:cmdNorm("maquette 3d plein ecran revit")}); }; }
 </script>
