@@ -3621,7 +3621,7 @@ function renderMine(){
         ${t.due?`<span class="mono hint ${late?"late":""}">${fmtDate(t.due)}</span>`:""}
         <span class="hint">📎 ${files.length}</span></summary>
       <div class="mbody">
-        ${t.notes?`<p class="hint" style="margin:0">${esc(t.notes)}</p>`:""}
+        ${t.notes?`<p class="hint" style="margin:0;white-space:pre-line">${esc(t.notes)}</p>`:""}
         ${others.length?`<p class="hint" style="margin:0">Avec ${others.map(esc).join(", ")}</p>`:""}
         <div class="docs">${files.join("")||`<p class="hint">Aucun fichier sur cette tâche.</p>`}</div>
         <div><button class="btn small" data-open="${esc(t._id)}">Ouvrir la tâche</button></div>

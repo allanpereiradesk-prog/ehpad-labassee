@@ -643,5 +643,30 @@
     }
    ]
   }
+ },
+ {
+  "id": "2026-10-20-c08-corrections-dce",
+  "doc": "tasks/c08",
+  "set": {
+   "assignees": [],
+   "createdAt": "2026-10-20T21:20:00Z",
+   "dce": [
+    {
+     "id": "bf1ed74fd0949900bf74e9c118098c84",
+     "kind": "file",
+     "name": "CCTP lot 12 CVC-DF-GEO-PBS",
+     "type": "application/pdf"
+    }
+   ],
+   "docs": [],
+   "due": "2026-11-06",
+   "hoursPlanned": 6,
+   "lot": "commun",
+   "notes": "Vérification du site et de la maquette avec le DCE (CCTP lot 12, notice archi, étude RT2012) faite le 20/10. Ce qui reste à faire :\n\nÀ CORRIGER DANS LA MAQUETTE\n☐ Famille PAC Weishaupt WWP S 35 IDR : passer de 800 × 650 × 1 100 mm aux vraies dimensions du CCTP § 4.6.2 : 1 000 × 885 × 810 mm (L × H × P), 305 kg. Mettre 33,7 kW chaud / 40,1 kW froid dans les paramètres.\n☐ Socle PAC : 900 × 700 mm est plus petit que la PAC (1 000 × 810 au sol). Passer à environ 1 100 × 900 mm.\n☐ Local PAC (5,2 m²) : revérifier que les 2 PAC rentrent avec leurs vraies dimensions et 1 m d'accès devant.\n\nÀ DEMANDER AUX PROFS / À TRANCHER EN ÉQUIPE\n☐ CTA 2 : le CCTP § 4.10.2 dit 2 330 m³/h, mais 27 chambres × 90 m³/h = 2 430 m³/h dans la maquette. Faute de frappe du CCTP ?\n☐ CTA 5 : le CCTP § 4.11.2 dit 8 800 m³/h, mais la somme des débits des locaux fait 6 027 m³/h. Avec les 3 090 m³/h de VMC on arrive à environ 9 100 : le CCTP compte sûrement l'air de compensation des sanitaires (§ 4.12.6). Dans ce cas la CTA 5 doit souffler plus qu'elle ne reprend (dans la maquette soufflage = reprise).\n☐ Chaudières WTC-GW 60-B H : le CCTP § 4.3.1 écrit « chaudière au sol » avec patins, alors qu'on les a posées murales (le modèle WTC-GW est mural). Choisir et mettre à jour l'implantation.\n☐ Puissance chaude : chauffage au plus froid (≈ 117 kW, onglet Énergie) + ECS 100 kW = 217 kW pour 187,4 kW installés. Ça ne passe qu'avec la priorité ECS du CCTP § 4.1 (50 kW). À faire valider.\n\nDÉJÀ CORRIGÉ SUR LE SITE (pour info)\n✔ Onglet Énergie : 21 °C, -9 °C confirmé, récupération 80 %, PAC 33,7 kW, air VMC compensé par les CTA, ECS dans le bilan.\n✔ Le projet : eau adoucie à 15 °TH pour l'ECS (7 °TH pour chauffage, eau glacée et sondes).\n✔ Familles : désenfumage 400 °C – 1 h, Carboline largeur 595 mm (0,6 à 3 m), PAC 33,7 / 40,1 kW.\n✔ Bouches : contrôle DCE mis à jour avec les raccordements VMC du 20/10.",
+   "order": null,
+   "phase": "commune",
+   "status": "afaire",
+   "title": "Corrections après la vérification du DCE (PAC, débits CTA 2 et 5, chaudières, puissance)"
+  }
  }
 ]
