@@ -1,0 +1,848 @@
+{
+ "maj": "2026-10-20",
+ "src": "EHPAD_Pieces_Espaces_Zones_Thermique.xlsx (étude RT2012 Pleiades du DCE + maquette du 16/10), equip.json réseau v13/VMC du 20/10, CCTP lot 12",
+ "surf_chauffee": 4336.77,
+ "vol_chauffe": 12094.1,
+ "surf_espaces": 4681.29,
+ "rt": {
+  "bbio": 121.8,
+  "cep": 111.5,
+  "psi": 0.08,
+  "psi_max": 0.28
+ },
+ "H": {
+  "parois": 898.22,
+  "baies": 734.93,
+  "ponts": 354.39
+ },
+ "parois": [
+  {
+   "famille": "Plancher bas",
+   "nature": "Terre plein",
+   "libelle": "Plancher bas",
+   "U": 0.13,
+   "S": 1984.5,
+   "b": 1,
+   "H": 257.99
+  },
+  {
+   "famille": "Plancher bas",
+   "nature": "Terre plein",
+   "libelle": "Plancher bas",
+   "U": 0.19,
+   "S": 203.76,
+   "b": 1,
+   "H": 38.71
+  },
+  {
+   "famille": "Plancher bas",
+   "nature": "Terre plein",
+   "libelle": "Plancher bas sur LNC",
+   "U": 0.3,
+   "S": 40.36,
+   "b": 0.62,
+   "H": 7.51
+  },
+  {
+   "famille": "Plancher bas",
+   "nature": "Autre",
+   "libelle": "Plancher béton brut",
+   "U": 2.2,
+   "S": 4.63,
+   "b": 0.62,
+   "H": 6.32
+  },
+  {
+   "famille": "Plancher haut",
+   "nature": "Terrasse",
+   "libelle": "Plancher haut béton",
+   "U": 0.12,
+   "S": 2062.2,
+   "b": 1,
+   "H": 247.46
+  },
+  {
+   "famille": "Plancher haut",
+   "nature": "Terrasse",
+   "libelle": "Plancher haut béton salles sur plots",
+   "U": 0.15,
+   "S": 168.39,
+   "b": 1,
+   "H": 25.26
+  },
+  {
+   "famille": "Paroi verticale",
+   "nature": "Mur extérieur (ITE)",
+   "libelle": "Mur ext béton",
+   "U": 0.18,
+   "S": 1530.82,
+   "b": 1,
+   "H": 275.55
+  },
+  {
+   "famille": "Paroi verticale",
+   "nature": "Mur extérieur (ITE)",
+   "libelle": "Mur ext sur LNC",
+   "U": 0.35,
+   "S": 82.68,
+   "b": 0.62,
+   "H": 17.94
+  },
+  {
+   "famille": "Porte",
+   "nature": "Porte extérieure",
+   "libelle": "Porte métallique isolée",
+   "U": 2.1,
+   "S": 5.88,
+   "b": 1,
+   "H": 12.35
+  },
+  {
+   "famille": "Porte",
+   "nature": "Porte extérieure",
+   "libelle": "Porte métallique isolée (sur LNC)",
+   "U": 2.1,
+   "S": 7.02,
+   "b": 0.62,
+   "H": 9.14
+  }
+ ],
+ "baies": [
+  {
+   "orient": "Ouest",
+   "libelle": "Baie avec PSext",
+   "Uw": 1.3,
+   "S": 88.56,
+   "b": 1,
+   "H": 115.13
+  },
+  {
+   "orient": "Ouest",
+   "libelle": "Baie avec PSext",
+   "Uw": 1.3,
+   "S": 52.65,
+   "b": 1,
+   "H": 68.44
+  },
+  {
+   "orient": "Est",
+   "libelle": "Baie avec PSext",
+   "Uw": 1.3,
+   "S": 36.9,
+   "b": 1,
+   "H": 47.97
+  },
+  {
+   "orient": "Sud",
+   "libelle": "Baie sans PS",
+   "Uw": 1.3,
+   "S": 28.01,
+   "b": 1,
+   "H": 36.41
+  },
+  {
+   "orient": "Est",
+   "libelle": "Baie avec PSext",
+   "Uw": 1.3,
+   "S": 25.83,
+   "b": 1,
+   "H": 33.58
+  },
+  {
+   "orient": "Est",
+   "libelle": "Baie avec PSint",
+   "Uw": 1.3,
+   "S": 22.5,
+   "b": 1,
+   "H": 29.25
+  },
+  {
+   "orient": "Ouest",
+   "libelle": "Baie avec PSint",
+   "Uw": 1.3,
+   "S": 22.46,
+   "b": 1,
+   "H": 29.2
+  },
+  {
+   "orient": "Sud",
+   "libelle": "Baie avec PSint",
+   "Uw": 1.3,
+   "S": 22.35,
+   "b": 1,
+   "H": 29.05
+  },
+  {
+   "orient": "Ouest",
+   "libelle": "Baie avec PSint",
+   "Uw": 1.3,
+   "S": 22.33,
+   "b": 1,
+   "H": 29.03
+  },
+  {
+   "orient": "Nord",
+   "libelle": "Baie sans PS",
+   "Uw": 1.3,
+   "S": 21.41,
+   "b": 1,
+   "H": 27.83
+  },
+  {
+   "orient": "Est",
+   "libelle": "Baie avec PSext",
+   "Uw": 1.3,
+   "S": 20.25,
+   "b": 1,
+   "H": 26.32
+  },
+  {
+   "orient": "Est",
+   "libelle": "Baie avec PSext",
+   "Uw": 1.3,
+   "S": 19.17,
+   "b": 1,
+   "H": 24.92
+  },
+  {
+   "orient": "Est",
+   "libelle": "Baie avec PSext",
+   "Uw": 1.3,
+   "S": 18.45,
+   "b": 1,
+   "H": 23.98
+  },
+  {
+   "orient": "Est",
+   "libelle": "Baie avec PSext",
+   "Uw": 1.3,
+   "S": 16.2,
+   "b": 1,
+   "H": 21.06
+  },
+  {
+   "orient": "Est",
+   "libelle": "Baie avec PSext",
+   "Uw": 1.3,
+   "S": 14.76,
+   "b": 1,
+   "H": 19.19
+  },
+  {
+   "orient": "Est",
+   "libelle": "Baie avec PSint",
+   "Uw": 1.3,
+   "S": 14.4,
+   "b": 1,
+   "H": 18.72
+  },
+  {
+   "orient": "Ouest",
+   "libelle": "Baie avec PSint",
+   "Uw": 1.3,
+   "S": 13.5,
+   "b": 1,
+   "H": 17.55
+  },
+  {
+   "orient": "Est",
+   "libelle": "Baie sans PS",
+   "Uw": 1.3,
+   "S": 10.18,
+   "b": 1,
+   "H": 13.23
+  },
+  {
+   "orient": "Ouest",
+   "libelle": "Baie sans PS",
+   "Uw": 1.3,
+   "S": 8.61,
+   "b": 1,
+   "H": 11.19
+  },
+  {
+   "orient": "Est",
+   "libelle": "Baie avec PSext",
+   "Uw": 1.3,
+   "S": 8.1,
+   "b": 1,
+   "H": 10.53
+  },
+  {
+   "orient": "Nord",
+   "libelle": "Menuiserie int",
+   "Uw": 1.45,
+   "S": 5.83,
+   "b": 1,
+   "H": 8.45
+  },
+  {
+   "orient": "Nord",
+   "libelle": "Baie sans PS",
+   "Uw": 1.3,
+   "S": 5.88,
+   "b": 1,
+   "H": 7.64
+  },
+  {
+   "orient": "Ouest",
+   "libelle": "Baie sans PS",
+   "Uw": 1.3,
+   "S": 5.12,
+   "b": 1,
+   "H": 6.66
+  },
+  {
+   "orient": "Est",
+   "libelle": "Baie sans PS",
+   "Uw": 1.3,
+   "S": 5.04,
+   "b": 1,
+   "H": 6.55
+  },
+  {
+   "orient": "Sud",
+   "libelle": "Baie sans PS",
+   "Uw": 1.3,
+   "S": 4.37,
+   "b": 1,
+   "H": 5.68
+  },
+  {
+   "orient": "Est",
+   "libelle": "Baie sans PS",
+   "Uw": 1.3,
+   "S": 4.05,
+   "b": 1,
+   "H": 5.26
+  },
+  {
+   "orient": "Nord",
+   "libelle": "Baie sans PS",
+   "Uw": 1.3,
+   "S": 4.05,
+   "b": 1,
+   "H": 5.26
+  },
+  {
+   "orient": "Est",
+   "libelle": "Baie avec PSext",
+   "Uw": 1.3,
+   "S": 4.05,
+   "b": 1,
+   "H": 5.26
+  },
+  {
+   "orient": "Ouest",
+   "libelle": "Baie avec PSext",
+   "Uw": 1.3,
+   "S": 4.05,
+   "b": 1,
+   "H": 5.26
+  },
+  {
+   "orient": "Sud",
+   "libelle": "Baie avec PSext",
+   "Uw": 1.3,
+   "S": 3.69,
+   "b": 1,
+   "H": 4.8
+  },
+  {
+   "orient": "Est",
+   "libelle": "Baie avec PSext",
+   "Uw": 1.3,
+   "S": 3.69,
+   "b": 1,
+   "H": 4.8
+  },
+  {
+   "orient": "Est",
+   "libelle": "Baie avec PSext",
+   "Uw": 1.3,
+   "S": 3.69,
+   "b": 1,
+   "H": 4.8
+  },
+  {
+   "orient": "Est",
+   "libelle": "Baie avec PSint",
+   "Uw": 1.3,
+   "S": 3.6,
+   "b": 1,
+   "H": 4.68
+  },
+  {
+   "orient": "Nord",
+   "libelle": "Baie sans PS",
+   "Uw": 1.3,
+   "S": 3.08,
+   "b": 1,
+   "H": 4.0
+  },
+  {
+   "orient": "Est",
+   "libelle": "Baie avec PSext",
+   "Uw": 1.3,
+   "S": 2.25,
+   "b": 1,
+   "H": 2.92
+  },
+  {
+   "orient": "Nord",
+   "libelle": "Baie sans PS",
+   "Uw": 1.3,
+   "S": 2.18,
+   "b": 1,
+   "H": 2.83
+  },
+  {
+   "orient": "Est",
+   "libelle": "Baie avec PSext",
+   "Uw": 1.3,
+   "S": 2.17,
+   "b": 1,
+   "H": 2.82
+  },
+  {
+   "orient": "Sud",
+   "libelle": "Baie sans PS",
+   "Uw": 1.3,
+   "S": 2.1,
+   "b": 1,
+   "H": 2.73
+  },
+  {
+   "orient": "Nord",
+   "libelle": "Baie sans PS",
+   "Uw": 1.3,
+   "S": 2,
+   "b": 1,
+   "H": 2.6
+  },
+  {
+   "orient": "Nord",
+   "libelle": "Baie sans PS",
+   "Uw": 1.3,
+   "S": 1.95,
+   "b": 1,
+   "H": 2.54
+  },
+  {
+   "orient": "Ouest",
+   "libelle": "Baie avec PSint",
+   "Uw": 1.3,
+   "S": 1.8,
+   "b": 1,
+   "H": 2.34
+  },
+  {
+   "orient": "Ouest",
+   "libelle": "Baie sans PS",
+   "Uw": 1.3,
+   "S": 1.5,
+   "b": 1,
+   "H": 1.95
+  },
+  {
+   "orient": "Sud",
+   "libelle": "Baie avec PSint",
+   "Uw": 1.3,
+   "S": 1.15,
+   "b": 1,
+   "H": 1.5
+  },
+  {
+   "orient": "Sud",
+   "libelle": "Baie sans PS",
+   "Uw": 1.3,
+   "S": 0.75,
+   "b": 1,
+   "H": 0.97
+  }
+ ],
+ "ponts": [
+  {
+   "type": "mur / plancher bas",
+   "libelle": "ITE 1.1.01 - Dallage isolé en sous-face Psi1",
+   "psi": 0.38,
+   "L": 318.02,
+   "b": 1,
+   "H": 120.85
+  },
+  {
+   "type": "mur / plancher bas",
+   "libelle": "ITE 1.2.01 - Pl. béton isolé en sous-face Psi1",
+   "psi": 0.66,
+   "L": 96.4,
+   "b": 1,
+   "H": 63.62
+  },
+  {
+   "type": "mur / plancher haut",
+   "libelle": "Mur béton / plancher haut béton, acrotère discontinu Psi1",
+   "psi": 0.12,
+   "L": 409.61,
+   "b": 1,
+   "H": 49.15
+  },
+  {
+   "type": "menuiseries / parois opaques",
+   "libelle": "ITE 5.1.2 - Appui au nu ext., équerres au nu ext. Psi1",
+   "psi": 0.15,
+   "L": 294.3,
+   "b": 1,
+   "H": 44.15
+  },
+  {
+   "type": "mur / plancher intermédiaire",
+   "libelle": "ITE 2.1.1 - Pl. béton ou entrevous Psi2",
+   "psi": 0.05,
+   "L": 299.28,
+   "b": 1,
+   "H": 14.96
+  },
+  {
+   "type": "mur / plancher intermédiaire",
+   "libelle": "ITE 2.1.1 - Pl. béton ou entrevous Psi1",
+   "psi": 0.05,
+   "L": 294.33,
+   "b": 1,
+   "H": 14.72
+  },
+  {
+   "type": "refend / façade ou pignon",
+   "libelle": "ITE 4.3.1 - Refend béton Psi2",
+   "psi": 0.03,
+   "L": 437.8,
+   "b": 1,
+   "H": 13.13
+  },
+  {
+   "type": "refend / façade ou pignon",
+   "libelle": "ITE 4.3.1 - Refend béton Psi1",
+   "psi": 0.03,
+   "L": 437.8,
+   "b": 1,
+   "H": 13.13
+  },
+  {
+   "type": "angle de mur",
+   "libelle": "ITE 4.1.1 - Murs béton Psi1",
+   "psi": 0.08,
+   "L": 107,
+   "b": 1,
+   "H": 8.56
+  },
+  {
+   "type": "angle de mur",
+   "libelle": "ITE 4.1.1 - Murs béton Psi2",
+   "psi": 0.08,
+   "L": 107,
+   "b": 1,
+   "H": 8.56
+  },
+  {
+   "type": "mur / plancher haut",
+   "libelle": "Acrotère discontinu Psi1 (sur LNC)",
+   "psi": 0.12,
+   "L": 9.37,
+   "b": 0.62,
+   "H": 0.7
+  },
+  {
+   "type": "mur / plancher intermédiaire",
+   "libelle": "ITE 2.1.1 Psi2 (sur LNC)",
+   "psi": 0.05,
+   "L": 21.79,
+   "b": 0.62,
+   "H": 0.68
+  },
+  {
+   "type": "angle de mur",
+   "libelle": "ITE 4.2.1 - Angle rentrant Psi2",
+   "psi": 0.02,
+   "L": 43.4,
+   "b": 1,
+   "H": 0.87
+  },
+  {
+   "type": "angle de mur",
+   "libelle": "ITE 4.2.1 - Angle rentrant Psi1",
+   "psi": 0.02,
+   "L": 43.4,
+   "b": 1,
+   "H": 0.87
+  },
+  {
+   "type": "menuiseries / parois opaques",
+   "libelle": "DC 3.2 - Pl. bas terre-plein sans remontée d'isolant Psi1",
+   "psi": 0.16,
+   "L": 2.8,
+   "b": 1,
+   "H": 0.45
+  }
+ ],
+ "zones": [
+  {
+   "zone": "N00 - dgt",
+   "lv": "N00",
+   "service": "dgt",
+   "n": 12,
+   "S": 523.15,
+   "V": 1376.77,
+   "chauffee": true
+  },
+  {
+   "zone": "N00 - désenfumage",
+   "lv": "N00",
+   "service": "désenfumage",
+   "n": 13,
+   "S": 5.51,
+   "V": 17.47,
+   "chauffee": true
+  },
+  {
+   "zone": "N00 - logistique",
+   "lv": "N00",
+   "service": "logistique",
+   "n": 19,
+   "S": 293.17,
+   "V": 741.55,
+   "chauffee": true
+  },
+  {
+   "zone": "N00 - ouvert",
+   "lv": "N00",
+   "service": "ouvert",
+   "n": 67,
+   "S": 724.85,
+   "V": 2116.25,
+   "chauffee": true
+  },
+  {
+   "zone": "N00 - soins",
+   "lv": "N00",
+   "service": "soins",
+   "n": 18,
+   "S": 264.33,
+   "V": 662.35,
+   "chauffee": true
+  },
+  {
+   "zone": "N00 - technique",
+   "lv": "N00",
+   "service": "technique",
+   "n": 8,
+   "S": 91.11,
+   "V": 255.17,
+   "chauffee": true
+  },
+  {
+   "zone": "N00 - vie",
+   "lv": "N00",
+   "service": "vie",
+   "n": 8,
+   "S": 320.97,
+   "V": 834.78,
+   "chauffee": true
+  },
+  {
+   "zone": "N01 - dgt",
+   "lv": "N01",
+   "service": "dgt",
+   "n": 14,
+   "S": 594.08,
+   "V": 1602.2,
+   "chauffee": true
+  },
+  {
+   "zone": "N01 - désenfumage",
+   "lv": "N01",
+   "service": "désenfumage",
+   "n": 22,
+   "S": 9.32,
+   "V": 29.44,
+   "chauffee": true
+  },
+  {
+   "zone": "N01 - fermé",
+   "lv": "N01",
+   "service": "fermé",
+   "n": 67,
+   "S": 771.21,
+   "V": 2316.89,
+   "chauffee": true
+  },
+  {
+   "zone": "N01 - ouvert",
+   "lv": "N01",
+   "service": "ouvert",
+   "n": 67,
+   "S": 739.07,
+   "V": 2141.23,
+   "chauffee": true
+  },
+  {
+   "zone": "N01 - terrasse",
+   "lv": "N01",
+   "service": "terrasse",
+   "n": 3,
+   "S": 302.88,
+   "V": 1108.5,
+   "chauffee": false
+  },
+  {
+   "zone": "N01 - vide",
+   "lv": "N01",
+   "service": "vide",
+   "n": 2,
+   "S": 41.64,
+   "V": 138.51,
+   "chauffee": false
+  }
+ ],
+ "ventilation": [
+  {
+   "mark": "CTA 1",
+   "type": "double flux",
+   "mod": "CAD HR OPTIMAL C4",
+   "q": 2520,
+   "pdc": 36,
+   "recup": "échangeur à plaques",
+   "note": "2 520 m3/h"
+  },
+  {
+   "mark": "CTA 2",
+   "type": "double flux",
+   "mod": "CAD HR OPTIMAL C4",
+   "q": 2330,
+   "pdc": 37,
+   "recup": "échangeur à plaques",
+   "note": "2 330 m3/h"
+  },
+  {
+   "mark": "CTA 3",
+   "type": "double flux",
+   "mod": "CAD HR OPTIMAL C4",
+   "q": 1170,
+   "pdc": 30,
+   "recup": "échangeur à plaques",
+   "note": "1 170 m3/h"
+  },
+  {
+   "mark": "CTA 4",
+   "type": "double flux",
+   "mod": "CAD HR OPTIMAL C4",
+   "q": 1170,
+   "pdc": 25,
+   "recup": "échangeur à plaques",
+   "note": "1 170 m3/h"
+  },
+  {
+   "mark": "CTA 5",
+   "type": "double flux",
+   "mod": "CAD O INTEGRAL",
+   "q": 8800,
+   "pdc": 71,
+   "recup": "roue",
+   "note": "8 800 m3/h, débit variable, arrêt la nuit"
+  },
+  {
+   "mark": "VMC 1",
+   "type": "simple flux",
+   "mod": "Caisson C4",
+   "q": 1785,
+   "pdc": null,
+   "recup": null,
+   "note": "nord"
+  },
+  {
+   "mark": "VMC 2",
+   "type": "simple flux",
+   "mod": "Caisson C4",
+   "q": 315,
+   "pdc": null,
+   "recup": null,
+   "note": "aile ouest : vestiaires, douches, WC, ménage"
+  },
+  {
+   "mark": "VMC 3",
+   "type": "simple flux",
+   "mod": "Caisson C4",
+   "q": 255,
+   "pdc": null,
+   "recup": null,
+   "note": "centre ouest : déchets, san., ménage, linge"
+  },
+  {
+   "mark": "VMC 4",
+   "type": "simple flux",
+   "mod": "Caisson C4",
+   "q": 630,
+   "pdc": null,
+   "recup": null,
+   "note": "centre est : office étage, san., WC résidents, ménage"
+  },
+  {
+   "mark": "VMC 5",
+   "type": "simple flux",
+   "mod": "Caisson C4",
+   "q": 60,
+   "pdc": null,
+   "recup": null,
+   "note": "sud : local déchets, nettoyage matériel"
+  },
+  {
+   "mark": "VMC 6",
+   "type": "simple flux",
+   "mod": "Caisson C4",
+   "q": 45,
+   "pdc": null,
+   "recup": null,
+   "note": "san. étage aile est, caisson dans les combles sous la toiture tuiles, rejet par sortie de toiture"
+  }
+ ],
+ "production": [
+  {
+   "mark": "PAC 1",
+   "equip": "PAC géothermique Weishaupt WWP S 35 IDR",
+   "chaud": 35,
+   "froid": 40,
+   "energie": "électricité",
+   "src": "CCTP § 4.6"
+  },
+  {
+   "mark": "PAC 2",
+   "equip": "PAC géothermique Weishaupt WWP S 35 IDR",
+   "chaud": 35,
+   "froid": 40,
+   "energie": "électricité",
+   "src": "CCTP § 4.6"
+  },
+  {
+   "mark": "CH 1",
+   "equip": "Chaudière gaz à condensation Weishaupt WTC-GW 60-B H",
+   "chaud": 60,
+   "froid": 0,
+   "energie": "gaz naturel",
+   "src": "CCTP § 4.3.1"
+  },
+  {
+   "mark": "CH 2",
+   "equip": "Chaudière gaz à condensation Weishaupt WTC-GW 60-B H",
+   "chaud": 60,
+   "froid": 0,
+   "energie": "gaz naturel",
+   "src": "CCTP § 4.3.1"
+  }
+ ],
+ "ecs": {
+  "mark": "ECH ECS",
+  "equip": "Préparateur ECS instantané (échangeur à plaques)",
+  "P": 100,
+  "regime": "70/50 °C",
+  "src": "CCTP § 4.5",
+  "note": "Préchauffage par les PAC (ballon 2 000 L) + stockage primaire 2 000 L"
+ }
+}
