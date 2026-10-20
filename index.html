@@ -627,6 +627,16 @@ button.h-tile{cursor:pointer}button.h-tile:hover{outline:2px solid color-mix(in 
 #cmdk kbd,.cmdk-btn kbd{font:600 11px var(--mono,monospace);border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:1px 5px;background:var(--bg);color:var(--muted)}
 .cmdk-btn{display:inline-flex;gap:5px;align-items:center;border:1px solid var(--line);border-radius:999px;background:var(--surface);padding:4px 10px;cursor:pointer;font-size:13px}.cmdk-btn:hover{border-color:var(--accent)}.cmdk-btn span{margin-right:4px}
 tr.cmdk-hit td{background:color-mix(in srgb,var(--accent) 16%,transparent);transition:background 1s}
+.fg-steps{display:flex;flex-wrap:wrap;gap:6px;list-style:none;padding:0;margin:12px 0;counter-reset:s}.fg-steps li{counter-increment:s;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:5px 12px 5px 6px;font-size:13.5px}.fg-steps li::before{content:counter(s);display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--accent);color:var(--accent-ink,#fff);font-weight:700;font-size:12px;margin-right:6px}
+.fg-drop{display:grid;place-items:center;gap:4px;border:2px dashed var(--line);border-radius:10px;padding:26px;text-align:center;cursor:pointer;background:var(--bg)}.fg-drop.on,.fg-drop:hover{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 7%,var(--bg))}.fg-drop span{color:var(--muted);font-size:13px}
+.fg-cols{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:14px;align-items:start;margin-top:14px}@media (max-width:980px){.fg-cols{grid-template-columns:1fr}}.fg-side{position:sticky;top:110px}
+.fg-cv{width:100%;aspect-ratio:4/3;background:#e8edf1;border-radius:8px;overflow:hidden;border:1px solid var(--line)}.fg-cv canvas{display:block;width:100%;height:100%}
+#fgForm h3{font-size:15px;margin:16px 0 8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}.fg-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px 12px;align-items:start}
+.fg-f{display:grid;gap:3px;font-size:13px;align-content:start}.fg-f>span{color:var(--muted)}.fg-f i{font-style:normal}.fg-f input,.fg-f select{width:100%;box-sizing:border-box}.fg-f small{color:var(--muted);font-size:12px;line-height:1.35}.fg-f.ok input,.fg-f.ok select{border-color:var(--done)}.fg-f.miss input{border-color:var(--danger);box-shadow:0 0 0 2px color-mix(in srgb,var(--danger) 18%,transparent)}
+.fg-tag{font-size:11px;font-weight:700;color:var(--done);background:color-mix(in srgb,var(--done) 12%,transparent);border-radius:999px;padding:0 6px}.fg-tag.m{color:var(--danger);background:color-mix(in srgb,var(--danger) 12%,transparent)}
+.fg-chip{border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:1px 8px;font-size:12px;cursor:pointer;color:inherit}.fg-chip:hover{border-color:var(--accent)}.fg-chip.on{border-color:var(--done);cursor:default}
+.fg-miss{border:1px solid var(--danger);background:color-mix(in srgb,var(--danger) 8%,transparent);border-radius:8px;padding:10px 12px;font-size:14px}.fg-okb{border:1px solid var(--done);background:color-mix(in srgb,var(--done) 9%,transparent);border-radius:8px;padding:10px 12px;font-size:14px}.fg-res{font-size:14px;line-height:1.9}
+.fg-ct{min-width:820px}.fg-ct input,.fg-ct select{width:100%;min-width:60px;box-sizing:border-box}.fg-ct td{padding:4px}.fg-ct .fg-sz{white-space:nowrap}.fg-ct .fg-sz input{width:70px;min-width:0}.fg-ct tr.miss td{background:color-mix(in srgb,var(--danger) 8%,transparent)}.fg-chk{display:flex;gap:6px;align-items:center;margin-top:10px;font-size:14px}.fg-how{font-size:14px;padding-left:20px}
 .hv-wait{display:grid;place-content:center;justify-items:center;gap:12px;text-align:center;color:#fff;padding:20px}.hv-wait p{margin:0}
 .hv-b{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .gai-ctl{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;font-size:14px}.gai-leg{display:flex;flex-wrap:wrap;gap:4px 10px}.gai-leg label{display:inline-flex;gap:5px;align-items:center;cursor:pointer}
@@ -782,6 +792,7 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
       <button role="tab" id="tabDevis" aria-selected="false">Devis</button>
       <button role="tab" id="tabStock" aria-selected="false">Stock</button>
       <button role="tab" id="tabFam" aria-selected="false">Familles</button>
+      <button role="tab" id="tabFamGen" aria-selected="false">Création de famille</button>
       <button role="tab" id="tabImpl" aria-selected="false">Implantation</button>
       <button role="tab" id="tabRevit" aria-selected="false">Revit</button>
       <button role="tab" id="tabTuto" aria-selected="false">Tuto Revit</button>
@@ -1302,6 +1313,31 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
     </div>
     <div class="tbl-wrap"><table class="fam-t resa-t"><thead><tr><th>N°</th><th>Type</th><th>Niveau</th><th>Élément traversé</th><th>Dimensions</th><th>CTA</th><th>Statut</th></tr></thead><tbody id="resaBody"></tbody></table></div>
     <p class="hint" id="resaSrc"></p>
+  </section>
+
+  <section id="viewFamGen" hidden>
+    <section class="rv-head">
+      <div class="label">Familles Revit · génération automatique</div>
+      <h2>Création de famille</h2>
+      <p>Je dépose la <b>fiche technique</b> (PDF) d'un équipement. Le site la lit et remplit ce qu'il trouve : fabricant, modèle, dimensions, débit, puissance, raccords. <b>S'il manque une information, il la demande.</b> Ensuite, il fabrique un <b>script Dynamo</b> : dans Revit 2026, je l'ouvre dans Dynamo et je clique sur « Exécuter », et la famille .rfa est créée avec son volume, ses raccords et ses paramètres.</p>
+    </section>
+    <ol class="fg-steps"><li>Fiche technique</li><li>Vérifier et compléter</li><li>Aperçu 3D</li><li>Script Dynamo</li></ol>
+    <section class="panel"><h2>1. La fiche technique</h2>
+      <label class="fg-drop" id="fgDrop"><input type="file" id="fgFile" accept="application/pdf,.pdf" hidden><b>Dépose la fiche technique ici</b><span>ou clique pour choisir un PDF</span></label>
+      <p><button type="button" class="btn small" id="fgManual">Ou remplir à la main, sans fiche</button></p>
+      <div id="fgRead"></div>
+    </section>
+    <div class="fg-cols">
+      <section class="panel"><h2>2. Vérifier et compléter</h2><div id="fgForm"><p class="hint">Dépose d'abord une fiche technique.</p></div></section>
+      <section class="panel fg-side"><h2>3. Aperçu 3D</h2><div id="fgCv" class="fg-cv"><p class="hint" style="padding:12px">L'aperçu apparaît quand la fiche est lue.</p></div><div class="stk-leg" id="fgLeg"></div>
+        <div id="fgOut" hidden><h2>4. Script Dynamo</h2>
+          <p><button type="button" class="btn primary" id="fgDyn">Télécharger le script Dynamo (.dyn)</button></p>
+          <p class="hint" id="fgOutMsg"></p>
+          <ol class="fg-how"><li>Ouvre ton projet dans <b>Revit 2026</b>.</li><li>Onglet <b>Gérer › Dynamo</b>, puis <b>Ouvrir</b> le fichier .dyn.</li><li>Clique sur <b>Exécuter</b> (en bas à gauche).</li><li>Le résultat s'affiche sous le nœud Python : chemin de la famille, raccords créés.</li></ol>
+          <p class="hint">Si Dynamo n'ouvre pas le .dyn : crée un nœud « Python Script », colle le contenu du <button type="button" class="linklike" id="fgPy">script .py</button> et exécute. Pour le compte Claude « Revit » : <button type="button" class="linklike" id="fgJson">fiche JSON</button>.</p>
+          <p class="hint">La famille est simple : une enveloppe aux bonnes dimensions, les vrais raccords et les paramètres du CCTP. Les dimensions ne sont pas pilotées par des paramètres.</p>
+        </div></section>
+    </div>
   </section>
 
   <section id="viewStock" hidden>
@@ -3868,4 +3904,471 @@ function cmdkGo(r){ cmdkClose(); try{ r.go(); }catch(e){ console.error(e); } }
 document.addEventListener("keydown",e=>{ if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"){ e.preventDefault(); const b=$("#cmdk"); if(b&&!b.hidden) cmdkClose(); else cmdkOpen(); }
   else if(e.key==="/"&&!/input|textarea|select/i.test((document.activeElement||{}).tagName||"")&&!document.activeElement.isContentEditable){ e.preventDefault(); cmdkOpen(); } });
 { const cart=document.querySelector("header.sheet .cart"); if(cart){ cart.insertAdjacentHTML("beforeend",`<div>Recherche</div><div><button type="button" class="cmdk-btn" id="cmdkBtn"><span>Tout chercher</span><kbd>Ctrl</kbd><kbd>K</kbd></button></div>`); $("#cmdkBtn").onclick=cmdkOpen; } }
+</script>
+
+<script>
+/* ========== Création de famille : fiche technique (PDF) → formulaire → aperçu 3D → script Dynamo ========== */
+const FG_SYS_DUCT=["Soufflage","Reprise","Air neuf","Rejet","Extraction"];
+const FG_SYS_PIPE=["Aller chauffage","Retour chauffage","Aller eau glacée","Retour eau glacée","Eau froide","Eau chaude","Bouclage ECS","Gaz","Condensats","Glycol / captage","Autre"];
+const FG_SYS_COL={"Soufflage":"#2f6fd6","Reprise":"#e8892f","Air neuf":"#1f9d55","Rejet":"#7a8790","Extraction":"#46a36b","Aller chauffage":"#d33a3a","Retour chauffage":"#2f6fd6","Aller eau glacée":"#17a2b8","Retour eau glacée":"#0e7490","Eau froide":"#1f9d55","Eau chaude":"#c4573a","Bouclage ECS":"#e07b00","Gaz":"#d4b000","Condensats":"#8e44c9","Glycol / captage":"#65a30d","Autre":"#57534e"};
+const FG_FACES=["Dessus","Dessous","Avant","Arrière","Gauche","Droite"];
+const FG_CATS={
+  cta:{n:"CTA (centrale double flux)",kw:/centrale de traitement d.air|\bCTA\b|double flux|r[ée]cup[ée]rateur (?:à|a) plaques|roue de r[ée]cup/i,shape:"box",ref:"CCTP § 4.10 / 4.11",
+    cons:d=>{ const s=fgDuctSize(d.q); return [["Air neuf","gaine_rect","Air neuf","Gauche",s,0,-d.H/4],["Rejet","gaine_rect","Rejet","Gauche",s,0,d.H/4],["Soufflage","gaine_rect","Soufflage","Droite",s,0,-d.H/4],["Reprise","gaine_rect","Reprise","Droite",s,0,d.H/4]]; }},
+  vmc:{n:"Caisson d'extraction / VMC",kw:/caisson d.extraction|\bVMC\b|extracteur|tourelle|caisson de ventilation|C4 400|400\s*°C|200\s*°C/i,shape:"box",ref:"CCTP § 4.12",
+    cons:d=>[["Aspiration","gaine_ronde","Extraction","Avant",[d.dn||315],0,0],["Rejet","gaine_ronde","Rejet","Arrière",[d.dn||315],0,0]]},
+  pac:{n:"Pompe à chaleur",kw:/pompe (?:à|a) chaleur|\bPAC\b|g[ée]othermi|eau glycol/i,shape:"box",ref:"CCTP § 4.6",
+    cons:d=>{ const n=d.dn||40; return [["Départ chauffage","tuyau","Aller chauffage","Arrière",[n],-d.L/4,d.H/4],["Retour chauffage","tuyau","Retour chauffage","Arrière",[n],-d.L/4,-d.H/4],["Captage aller","tuyau","Glycol / captage","Arrière",[n],d.L/4,d.H/4],["Captage retour","tuyau","Glycol / captage","Arrière",[n],d.L/4,-d.H/4]]; }},
+  chaud:{n:"Chaudière",kw:/chaudi[èe]re|condensation gaz|br[ûu]leur/i,shape:"box",ref:"CCTP § 4.3",
+    cons:d=>{ const n=d.dn||32; return [["Départ","tuyau","Aller chauffage","Dessous",[n],-d.L/4,0],["Retour","tuyau","Retour chauffage","Dessous",[n],d.L/4,0],["Gaz","tuyau","Gaz","Dessous",[20],0,d.P/5],["Condensats","tuyau","Condensats","Dessous",[25],0,-d.P/5]]; }},
+  ballon:{n:"Ballon / préparateur ECS",kw:/ballon|pr[ée]parateur|accumulateur|stockage ecs|eau chaude sanitaire|tampon/i,shape:"cyl",ref:"CCTP § 4.5",
+    cons:d=>{ const n=d.dn||50; return [["Entrée eau froide","tuyau","Eau froide","Gauche",[n],0,-d.H/2+200],["Sortie eau chaude","tuyau","Eau chaude","Gauche",[n],0,d.H/2-200],["Bouclage","tuyau","Bouclage ECS","Droite",[Math.min(n,32)],0,d.H/6]]; }},
+  vase:{n:"Vase d'expansion",kw:/vase d.expansion|maintien de pression|\bvessie\b/i,shape:"cyl",ref:"CCTP § 4.3.3",cons:d=>[["Raccordement","tuyau","Retour chauffage","Dessous",[d.dn||25],0,0]]},
+  circ:{n:"Circulateur / pompe",kw:/circulateur|pompe (?:double|simple|in.?line)|\bMagna\b|\bStratos\b/i,shape:"box",ref:"CCTP § 4.6.2",
+    cons:d=>{ const n=d.dn||50; return [["Aspiration","tuyau","Retour chauffage","Gauche",[n],0,0],["Refoulement","tuyau","Aller chauffage","Droite",[n],0,0]]; }},
+  echang:{n:"Échangeur à plaques",kw:/[ée]changeur|plaques bras[ée]es/i,shape:"box",ref:"CCTP § 4.5",
+    cons:d=>{ const n=d.dn||40; return [["Primaire aller","tuyau","Aller chauffage","Avant",[n],-d.L/4,d.H/4],["Primaire retour","tuyau","Retour chauffage","Avant",[n],-d.L/4,-d.H/4],["Secondaire entrée","tuyau","Eau froide","Avant",[n],d.L/4,-d.H/4],["Secondaire sortie","tuyau","Eau chaude","Avant",[n],d.L/4,d.H/4]]; }},
+  rad:{n:"Radiateur / émetteur",kw:/radiateur|panneau rayonnant|convecteur|s[èe]che.serviettes/i,shape:"box",ref:"CCTP § 4.8",
+    cons:d=>[["Aller","tuyau","Aller chauffage","Dessous",[15],-d.L/2+60,0],["Retour","tuyau","Retour chauffage","Dessous",[15],d.L/2-60,0]]},
+  rideau:{n:"Rideau d'air",kw:/rideau d.air/i,shape:"box",ref:"CCTP § 4.9.2",cons:d=>[["Aller","tuyau","Aller chauffage","Dessus",[20],-d.L/3,0],["Retour","tuyau","Retour chauffage","Dessus",[20],-d.L/3+120,0]]},
+  adou:{n:"Adoucisseur",kw:/adoucisseur|r[ée]sine|saumurage/i,shape:"cyl",ref:"CCTP § 9.2.2",cons:d=>[["Entrée eau brute","tuyau","Eau froide","Dessus",[d.dn||40],-60,0],["Sortie eau adoucie","tuyau","Eau froide","Dessus",[d.dn||40],60,0]]},
+  autre:{n:"Autre équipement",kw:/^$/,shape:"box",ref:"",cons:()=>[]}
+};
+const FG_BRANDS=["VIM","Weishaupt","Grundfos","Wilo","Salmson","Pneumatex","Reflex","Flamco","Zehnder","Finimetal","Danfoss","Aldes","France Air","Atlantic","Daikin","Mitsubishi","Carrier","Viessmann","De Dietrich","Buderus","Bosch","Vaillant","Saunier Duval","Hoval","Wolf","Swegon","Systemair","Trox","Biddle","Ciat","Lennox","Trane","Toshiba","Hitachi","Panasonic","LG","Samsung","Permo","Culligan","Cillit","Unelvent","Soler & Palau","S&P","Helios","Nather","Anjos","Caleffi","IMI","Elco","Thermor","Acova","Purmo","Kermi","Lindab","Airwell","Sauter","Honeywell","Siemens","Belimo","Remeha","Ygnis","Guillot","Lemmens","Charot","Atlantic Guillot","Frisquet","Chappée","Rinnai","Stiebel Eltron","Nibe","Alfa Laval","SWEP","Sedical","KSB","DAB","Lowara","Xylem","Hydrotherm","Elm Leblanc","Clivet","Galletti","Sabiana","Airtècnics","Teddington","Frico"];
+let FG={d:null,found:{},sugg:{},file:"",pages:0,cons:[]};
+const fgNum=v=>{ const n=parseFloat(String(v??"").replace(/\s/g,"").replace(",",".")); return isFinite(n)?n:null; };
+function fgDuctSize(q){ q=fgNum(q)||2000; const A=q/3600/3.5; let H=q>4000?500:q>2000?400:300; let W=Math.max(200,Math.ceil(A/(H/1000)*1000/50)*50); return [W,H]; }
+function fgBlank(){ return {cat:"autre",des:"",fab:"",mod:"",ref:"",shape:"box",L:null,P:null,H:null,D:null,socle:0,q:null,kw:null,kg:null,vol:null,url:"",verif:"Dimensions et raccords à vérifier sur la fiche fabricant.",charger:true,dn:null}; }
+async function fgReadPdf(file){
+  const lib=await loadPdfJs(); const buf=await file.arrayBuffer(); const pdf=await lib.getDocument({data:buf}).promise; let t="";
+  for(let i=1;i<=Math.min(pdf.numPages,30);i++){ const pg=await pdf.getPage(i), c=await pg.getTextContent(); let last=null;
+    c.items.forEach(it=>{ const y=it.transform?Math.round(it.transform[5]):0; t+=(last!==null&&Math.abs(y-last)>3?"\n":" ")+it.str; last=y; }); t+="\n\n"; }
+  FG.pages=pdf.numPages; return t; }
+// ---- lecture de la fiche : on cherche les infos utiles dans le texte ----
+function fgAnalyze(text){
+  const T=text.replace(/\u00a0/g," ").replace(/[×✕]/g,"x").replace(/[ \t]+/g," "), d=fgBlank(), found={}, sugg={};
+  const snip=(i,len=60)=>T.slice(Math.max(0,i-25),i+len).replace(/\s+/g," ").trim();
+  const put=(k,v,i,lab)=>{ if(v==null||v==="") return; if(d[k]==null||d[k]===""||d[k]===fgBlank()[k]){ d[k]=v; found[k]={v,s:i!=null?snip(i):"",lab}; } (sugg[k]=sugg[k]||[]).includes(v)||sugg[k].push(v); };
+  // fabricant
+  let best=null,bc=0; FG_BRANDS.forEach(b=>{ const re=new RegExp("(^|[^A-Za-z])"+b.replace(/[&.]/g,"\\$&")+"(?![A-Za-z])","gi"); const m=T.match(re); if(m&&m.length>bc){ bc=m.length; best=b; } });
+  if(best){ const i=T.search(new RegExp(best.replace(/[&.]/g,"\\$&"),"i")); put("fab",best,i,"Fabricant"); }
+  // catégorie
+  let cb=null,cc=0; Object.entries(FG_CATS).forEach(([k,c])=>{ if(k==="autre") return; const m=T.match(new RegExp(c.kw.source,"gi")); if(m&&m.length>cc){ cc=m.length; cb=k; } });
+  if(cb){ d.cat=cb; d.shape=FG_CATS[cb].shape; d.ref=FG_CATS[cb].ref; found.cat={v:FG_CATS[cb].n,s:"",lab:"Type d'équipement"}; }
+  // modèle : ligne qui suit / contient la marque, ou mot « modèle / type / référence »
+  let m=null; for(const re of [/mod[èe]le\s*[:\-]\s*([A-Z0-9][A-Za-z0-9\-\/ .+]{1,30})/i,/(?:d[ée]signation|gamme)\s*[:\-]\s*([A-Z0-9][A-Za-z0-9\-\/ .+]{1,30})/i,/(?:type|r[ée]f[ée]rence)\s*[:\-]\s*([A-Z0-9][A-Za-z0-9\-\/ .+]{1,30})/i]){ m=T.match(re); if(m&&/\d|[A-Z]{2}/.test(m[1])) break; m=null; }
+  if(m) put("mod",m[1].split("\n")[0].trim().replace(/\s{2,}/g," "),m.index,"Modèle");
+  else if(best){ const i=T.search(new RegExp(best.replace(/[&.]/g,"\\$&")+"\\s+[A-Z0-9]","i")); if(i>=0){ const mm=T.slice(i+best.length).match(/^\s+([A-Z0-9][A-Za-z0-9\-\/ .]{2,25})/); if(mm) put("mod",mm[1].trim(),i,"Modèle"); } }
+  // dimensions
+  const lab=(re,k,L)=>{ const r=new RegExp(re.source+"\\s*(?:\\(mm\\))?\\s*[:=]?\\s*(\\d{2,5}(?:[.,]\\d+)?)\\s*(mm|cm|m)?\\b","gi"); let x; while((x=r.exec(T))){ let v=fgNum(x[x.length-2]); const u=(x[x.length-1]||"mm").toLowerCase(); if(u==="cm") v*=10; if(u==="m"&&v<20) v*=1000; if(v>=30&&v<=12000) put(k,Math.round(v),x.index,L); } };
+  lab(/(?:longueur|long\.)/,"L","Longueur"); lab(/(?:largeur|profondeur|prof\.|larg\.)/,"P","Largeur / profondeur"); lab(/(?:hauteur|haut\.)/,"H","Hauteur");
+  lab(/(?:diam[èe]tre ext[ée]rieur|diam[èe]tre|diam\.|Ø)/,"D","Diamètre");
+  let r3=/(\d{2,5})\s*x\s*(\d{2,5})\s*x\s*(\d{2,5})\s*(mm)?/gi, x3; while((x3=r3.exec(T))){ const a=+x3[1],b=+x3[2],c=+x3[3]; if(Math.min(a,b,c)<30) continue; (sugg.dim3=sugg.dim3||[]).push([a,b,c]); if(d.L==null&&d.P==null&&d.H==null){ d.L=a; d.P=b; d.H=c; found.L={v:a,s:snip(x3.index),lab:"Dimensions L × P × H (ordre à vérifier)"}; found.P={v:b,s:"",lab:""}; found.H={v:c,s:"",lab:""}; } }
+  // débit, puissance, poids, volume
+  const all=(re,f)=>{ let x; const r=new RegExp(re.source,"gi"); while((x=r.exec(T))) f(x); };
+  { const nm=T.match(/(?:d[ée]bit\s+nominal|d[ée]bit\s+d.air\s+nominal|qv\s*nom)[^0-9\n]{0,15}(\d{1,3}(?:[ .]\d{3})+|\d{2,6})\s*m(?:3|³)\s*\/\s*h/i); if(nm) put("q",fgNum(nm[1].replace(/[ .]/g,"")),nm.index,"Débit d'air nominal"); }
+  all(/(\d{1,3}(?:[ .]\d{3})+|\d{2,6})\s*m(?:3|³)\s*\/\s*h/,x=>put("q",fgNum(x[1].replace(/[ .]/g,"")),x.index,"Débit d'air"));
+  all(/(\d{1,4}(?:[.,]\d{1,2})?)\s*kW\b/,x=>put("kw",fgNum(x[1]),x.index,"Puissance"));
+  all(/(?:poids|masse)[^0-9\n]{0,25}(\d{1,5}(?:[.,]\d)?)\s*kg/,x=>put("kg",fgNum(x[1]),x.index,"Poids"));
+  all(/(\d{2,5})\s*(?:litres|l)\b(?![\/a-z])/,x=>{ if(/ballon|tampon|vase|accumul|pr[ée]parateur/i.test(T)) put("vol",fgNum(x[1]),x.index,"Volume"); });
+  // raccords trouvés (aide à remplir le tableau)
+  const rac=[]; all(/\bDN\s?(\d{2,3})\b/,x=>rac.push("DN "+x[1])); all(/Ø\s?(\d{2,4})\s*(?:mm)?/,x=>rac.push("Ø "+x[1]));
+  all(/\bG\s?(\d(?:\s?\d\/\d)?|\d\/\d)\s?(?:"|”|pouce)/,x=>rac.push("G "+x[1]+"\"")); all(/\b(\d{3,4})\s*x\s*(\d{3,4})\b(?!\s*x)/,x=>rac.push(x[1]+" × "+x[2]));
+  const cnt={}; rac.forEach(r=>cnt[r]=(cnt[r]||0)+1); sugg.rac=Object.entries(cnt).sort((a,b)=>b[1]-a[1]).slice(0,10).map(([k,n])=>k+(n>1?` (×${n})`:""));
+  const dn=rac.find(r=>/^DN/.test(r))||rac.find(r=>/^Ø/.test(r)); if(dn) d.dn=+dn.replace(/\D/g,"");
+  // désignation
+  d.des=FG_CATS[d.cat]?(FG_CATS[d.cat].n.split(" (")[0]+(d.kw?` ${String(d.kw).replace(".",",")} kW`:d.q?` ${d.q.toLocaleString("fr-FR")} m³/h`:d.vol?` ${d.vol} L`:"")):"";
+  if(d.shape==="cyl"&&d.D==null&&d.P!=null&&d.L!=null&&Math.abs(d.L-d.P)<0.15*d.L) d.D=d.L;
+  return {d,found,sugg}; }
+function fgMissing(){ const d=FG.d, m=[]; if(!d) return ["fiche"];
+  if(!d.des) m.push(["des","la désignation"]); if(!d.fab) m.push(["fab","le fabricant"]); if(!d.mod) m.push(["mod","le modèle"]);
+  if(d.shape==="cyl"){ if(!fgNum(d.D)) m.push(["D","le diamètre"]); } else { if(!fgNum(d.L)) m.push(["L","la longueur"]); if(!fgNum(d.P)) m.push(["P","la largeur / profondeur"]); }
+  if(!fgNum(d.H)) m.push(["H","la hauteur"]);
+  if(d.cat!=="autre"&&!FG.cons.length) m.push(["cons","au moins un raccord"]);
+  FG.cons.forEach((c,i)=>{ if(!(c.s||[]).every(v=>fgNum(v)>0)) m.push(["c"+i,`la taille du raccord « ${c.n||i+1} »`]); });
+  return m; }
+function fgDims(){ const d=FG.d; return d.shape==="cyl"?{L:fgNum(d.D)||600,P:fgNum(d.D)||600,H:fgNum(d.H)||1000}:{L:fgNum(d.L)||800,P:fgNum(d.P)||600,H:fgNum(d.H)||800}; }
+function fgDefaultCons(){ const c=FG_CATS[FG.d.cat]||FG_CATS.autre, dims={...fgDims(),q:FG.d.q,dn:FG.d.dn};
+  FG.cons=c.cons(dims).map(([n,k,s,f,sz,u,v])=>({n,k,sys:s,face:f,s:sz.slice(),u:Math.round(u),v:Math.round(v)})); }
+// ---- écran ----
+function fgRender(){
+  const box=$("#fgForm"); if(!FG.d){ box.innerHTML=""; $("#fgOut").hidden=true; return; } const d=FG.d, miss=fgMissing(), mk=new Set(miss.map(x=>x[0]));
+  const f=(k,lab,type="text",ph="",unit="")=>{ const fd=FG.found[k], sg=(FG.sugg[k]||[]).filter(v=>String(v)!==String(d[k])).slice(0,4);
+    return `<label class="fg-f${mk.has(k)?" miss":fd?" ok":""}"><span>${lab}${unit?` <i>(${unit})</i>`:""}${fd?` <b class="fg-tag">lu dans la fiche</b>`:mk.has(k)?` <b class="fg-tag m">à compléter</b>`:""}</span>
+      <input ${type==="number"?'type="number" step="any" min="0"':'type="text"'} data-fg="${k}" value="${esc(d[k]??"")}" placeholder="${esc(ph)}">
+      ${fd&&fd.s?`<small title="${esc(fd.s)}">« ${esc(fd.s.slice(0,70))}${fd.s.length>70?"…":""} »</small>`:""}
+      ${sg.length?`<small>Autres valeurs dans la fiche : ${sg.map(v=>`<button type="button" class="fg-chip" data-fgs="${k}" data-v="${esc(v)}">${esc(String(v).replace(".",","))}</button>`).join(" ")}</small>`:""}</label>`; };
+  const catSel=`<label class="fg-f${FG.found.cat?" ok":""}"><span>Type d'équipement${FG.found.cat?` <b class="fg-tag">déduit de la fiche</b>`:""}</span><select data-fg="cat">${Object.entries(FG_CATS).map(([k,c])=>`<option value="${k}"${d.cat===k?" selected":""}>${esc(c.n)}</option>`).join("")}</select></label>`;
+  const shSel=`<label class="fg-f"><span>Forme</span><select data-fg="shape"><option value="box"${d.shape==="box"?" selected":""}>Pavé (caisson)</option><option value="cyl"${d.shape==="cyl"?" selected":""}>Cylindre vertical (ballon, vase…)</option></select></label>`;
+  box.innerHTML=`${miss.length?`<div class="fg-miss"><b>Il manque ${miss.length} information${miss.length>1?"s":""} pour créer la famille :</b> ${miss.map(x=>esc(x[1])).join(", ")}. Complète les cases en rouge.</div>`:`<div class="fg-okb"><b>Tout est rempli.</b> Vérifie l'aperçu 3D puis télécharge le script Dynamo.</div>`}
+    <h3>Identification</h3><div class="fg-grid">${catSel}${f("des","Désignation","text","ex. CTA double flux 2 520 m³/h")}${f("fab","Fabricant","text","ex. VIM")}${f("mod","Modèle","text","ex. CAD HR OPTIMAL C4")}${f("ref","Référence CCTP","text","ex. CCTP § 4.10.2")}${f("url","Lien de la fiche (facultatif)","text","https://…")}</div>
+    <h3>Dimensions</h3><div class="fg-grid">${shSel}${d.shape==="cyl"?f("D","Diamètre","number","","mm"):f("L","Longueur","number","","mm")+f("P","Largeur / profondeur","number","","mm")}${f("H","Hauteur","number","","mm")}${f("socle","Socle (hauteur, 0 = sans)","number","0","mm")}</div>
+    ${FG.sugg.dim3&&FG.sugg.dim3.length>1?`<p class="hint">Autres dimensions « a × b × c » dans la fiche : ${FG.sugg.dim3.slice(0,6).map(t=>`<button type="button" class="fg-chip" data-dim3="${t.join(",")}">${t.join(" × ")}</button>`).join(" ")}</p>`:""}
+    <h3>Caractéristiques</h3><div class="fg-grid">${f("q","Débit d'air","number","","m³/h")}${f("kw","Puissance","number","","kW")}${f("kg","Poids","number","","kg")}${f("vol","Volume","number","","L")}${f("verif","À vérifier","text")}</div>
+    <h3>Raccords <button type="button" class="btn small" id="fgAddC">+ Ajouter un raccord</button> <button type="button" class="btn small" id="fgDefC">Raccords types pour ce type d'équipement</button></h3>
+    ${FG.sugg.rac&&FG.sugg.rac.length?`<p class="hint">Tailles de raccords lues dans la fiche : ${FG.sugg.rac.map(esc).join(" · ")}</p>`:""}
+    <div class="tbl-wrap"><table class="fam-t fg-ct"><thead><tr><th>Nom</th><th>Type</th><th>Réseau</th><th>Taille (mm)</th><th>Face</th><th>Décalage horiz.</th><th>Décalage vert.</th><th></th></tr></thead><tbody>
+    ${FG.cons.map((c,i)=>`<tr data-ci="${i}" class="${mk.has("c"+i)?"miss":""}"><td><input data-c="n" value="${esc(c.n)}"></td>
+      <td><select data-c="k"><option value="gaine_rect"${c.k==="gaine_rect"?" selected":""}>Gaine rectangulaire</option><option value="gaine_ronde"${c.k==="gaine_ronde"?" selected":""}>Gaine ronde</option><option value="tuyau"${c.k==="tuyau"?" selected":""}>Tuyau (DN)</option></select></td>
+      <td><select data-c="sys">${(c.k==="tuyau"?FG_SYS_PIPE:FG_SYS_DUCT).map(s=>`<option${s===c.sys?" selected":""}>${s}</option>`).join("")}</select></td>
+      <td class="fg-sz">${c.k==="gaine_rect"?`<input data-cs="0" type="number" value="${esc(c.s[0]??"")}" aria-label="Largeur"> × <input data-cs="1" type="number" value="${esc(c.s[1]??"")}" aria-label="Hauteur">`:`${c.k==="tuyau"?"DN":"Ø"} <input data-cs="0" type="number" value="${esc(c.s[0]??"")}" aria-label="Diamètre">`}</td>
+      <td><select data-c="face">${FG_FACES.map(s=>`<option${s===c.face?" selected":""}>${s}</option>`).join("")}</select></td>
+      <td><input data-c="u" type="number" value="${c.u}"></td><td><input data-c="v" type="number" value="${c.v}"></td>
+      <td><button type="button" class="btn small" data-cdel aria-label="Supprimer le raccord">✕</button></td></tr>`).join("")||`<tr><td colspan="8" class="hint">Aucun raccord.</td></tr>`}</tbody></table></div>
+    <p class="hint">Décalages en mm depuis le centre de la face. Face « Dessus / Dessous » : horizontal = le long de la longueur, vertical = le long de la profondeur.</p>
+    <label class="fg-chk"><input type="checkbox" id="fgLoad"${d.charger?" checked":""}> Charger la famille dans le projet Revit ouvert après sa création</label>`;
+  box.querySelectorAll("[data-fg]").forEach(el=>el.onchange=()=>{ const k=el.dataset.fg; d[k]=el.type==="number"?fgNum(el.value):el.value; if(FG.found[k]) delete FG.found[k];
+    if(k==="cat"){ d.shape=FG_CATS[d.cat].shape; if(!d.ref) d.ref=FG_CATS[d.cat].ref; if(!FG.cons.length||confirm("Remplacer les raccords par ceux de ce type d'équipement ?")) fgDefaultCons(); }
+    if(k==="shape"&&d.shape==="cyl"&&!d.D) d.D=d.L; fgRender(); });
+  box.querySelectorAll("[data-fgs]").forEach(b=>b.onclick=()=>{ const k=b.dataset.fgs; d[k]=isNaN(+b.dataset.v)?b.dataset.v:+b.dataset.v; fgRender(); });
+  box.querySelectorAll("[data-dim3]").forEach(b=>b.onclick=()=>{ const [a,bb,c]=b.dataset.dim3.split(",").map(Number); d.L=a; d.P=bb; d.H=c; fgRender(); });
+  box.querySelectorAll("tr[data-ci]").forEach(tr=>{ const c=FG.cons[+tr.dataset.ci];
+    tr.querySelectorAll("[data-c]").forEach(el=>el.onchange=()=>{ const k=el.dataset.c; c[k]=el.type==="number"?(fgNum(el.value)||0):el.value;
+      if(k==="k"){ c.sys=(c.k==="tuyau"?FG_SYS_PIPE:FG_SYS_DUCT)[0]; c.s=c.k==="gaine_rect"?[c.s[0]||400,c.s[1]||300]:[c.s[0]||50]; } fgRender(); });
+    tr.querySelectorAll("[data-cs]").forEach(el=>el.onchange=()=>{ c.s[+el.dataset.cs]=fgNum(el.value); fgRender(); });
+    tr.querySelector("[data-cdel]").onclick=()=>{ FG.cons.splice(+tr.dataset.ci,1); fgRender(); }; });
+  $("#fgAddC").onclick=()=>{ FG.cons.push({n:"Raccord "+(FG.cons.length+1),k:"tuyau",sys:"Aller chauffage",face:"Arrière",s:[fgNum(d.dn)||40],u:0,v:0}); fgRender(); };
+  $("#fgDefC").onclick=()=>{ if(!FG.cons.length||confirm("Remplacer les raccords actuels ?")){ fgDefaultCons(); fgRender(); } };
+  $("#fgLoad").onchange=e=>{ d.charger=e.target.checked; };
+  $("#fgOut").hidden=false; const ok=!miss.length; ["fgDyn","fgPy"].forEach(id=>$("#"+id).disabled=!ok);
+  $("#fgOutMsg").innerHTML=ok?`Le fichier s'appellera <code>${esc(fgFileName())}.rfa</code> et sera enregistré dans <code>Documents\\Familles_EHPAD</code>.`:`<span style="color:var(--danger)">Complète d'abord : ${miss.map(x=>esc(x[1])).join(", ")}.</span>`;
+  fgPreview(); }
+const fgSlug=s=>String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^A-Za-z0-9]+/g,"-").replace(/^-|-$/g,"");
+function fgFileName(){ const d=FG.d, pre={pac:"CVC_PAC",chaud:"CVC_Chaudiere",cta:"CVC_CTA",vmc:"CVC_Caisson-VMC",ballon:"PLB_Ballon",vase:"CVC_Vase-expansion",circ:"CVC_Circulateur",echang:"CVC_Echangeur",rad:"CVC_Emetteur",rideau:"CVC_Rideau-air",adou:"PLB_Adoucisseur",autre:"CVC_Equipement"}[d.cat]||"CVC_Equipement"; return [pre,fgSlug(d.fab),fgSlug(d.mod)].filter(Boolean).join("_"); }
+// ---- aperçu 3D ----
+let FG3=null;
+async function fgPreview(){
+  const cv=$("#fgCv"); if(!FG.d) return;
+  try{ if(!FG3){ await loadLib("THREE","https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js");
+      if(!THREE.OrbitControls) await new Promise((res,rej)=>{ const sc=document.createElement("script"); sc.src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"; sc.onload=res; sc.onerror=()=>rej(new Error("contrôles 3D indisponibles")); document.head.appendChild(sc); });
+      cv.innerHTML=""; const scene=new THREE.Scene(); scene.background=new THREE.Color(0xe8edf1); const cam=new THREE.PerspectiveCamera(40,4/3,0.01,100); cam.up.set(0,0,1);
+      const ren=new THREE.WebGLRenderer({antialias:true}); ren.setPixelRatio(Math.min(devicePixelRatio||1,2)); cv.appendChild(ren.domElement);
+      scene.add(new THREE.HemisphereLight(0xffffff,0x7b8790,0.9)); const dl=new THREE.DirectionalLight(0xffffff,0.5); dl.position.set(-3,-5,8); scene.add(dl);
+      const grid=new THREE.GridHelper(10,40,0xaab4bc,0xd2d9de); grid.rotation.x=Math.PI/2; scene.add(grid);
+      const grp=new THREE.Group(); scene.add(grp); const ctl=new THREE.OrbitControls(cam,ren.domElement); ctl.enableDamping=true;
+      FG3={scene,cam,ren,ctl,grp,fit:true}; const rs=()=>{ const w=cv.clientWidth, h=cv.clientHeight||w*.75; ren.setSize(w,h,false); cam.aspect=w/h; cam.updateProjectionMatrix(); }; new ResizeObserver(rs).observe(cv); rs();
+      (function loop(){ if(!document.body.contains(ren.domElement)) return; requestAnimationFrame(loop); if($("#viewFamGen").hidden) return; ctl.update(); ren.render(scene,cam); })(); }
+  }catch(e){ cv.innerHTML=`<p class="hint" style="padding:12px">Aperçu 3D indisponible (${esc(e.message||e)}).</p>`; return; }
+  const {grp}=FG3; while(grp.children.length){ const o=grp.children.pop(); o.geometry&&o.geometry.dispose(); o.material&&o.material.dispose(); }
+  const d=FG.d, s=fgDims(), mmv=v=>v/1000, L=mmv(s.L), P=mmv(s.P), H=mmv(s.H), z0=mmv(fgNum(d.socle)||0);
+  const body=new THREE.MeshLambertMaterial({color:0xc9ced3}), edge=new THREE.LineBasicMaterial({color:0x334155});
+  const add=(geo,mat,x,y,z,rx=0,ry=0)=>{ const m=new THREE.Mesh(geo,mat); m.position.set(x,y,z); m.rotation.set(rx,ry,0); grp.add(m); const e=new THREE.LineSegments(new THREE.EdgesGeometry(geo,30),edge); e.position.copy(m.position); e.rotation.copy(m.rotation); grp.add(e); return m; };
+  if(z0>0) add(d.shape==="cyl"?new THREE.CylinderGeometry(L/2+0.05,L/2+0.05,z0,40):new THREE.BoxGeometry(L+0.1,P+0.1,z0),new THREE.MeshLambertMaterial({color:0xa8a29e}),0,0,z0/2,d.shape==="cyl"?Math.PI/2:0);
+  add(d.shape==="cyl"?new THREE.CylinderGeometry(L/2,L/2,H,48):new THREE.BoxGeometry(L,P,H),body,0,0,z0+H/2,d.shape==="cyl"?Math.PI/2:0);
+  const N={Dessus:[0,0,1],Dessous:[0,0,-1],Avant:[0,-1,0],"Arrière":[0,1,0],Gauche:[-1,0,0],Droite:[1,0,0]};
+  FG.cons.forEach(c=>{ const n=N[c.face]||N.Dessus, u=mmv(c.u||0), v=mmv(c.v||0), len=c.k==="tuyau"?0.08:0.1, col=new THREE.MeshLambertMaterial({color:FG_SYS_COL[c.sys]||"#888"});
+    let p; if(n[2]){ p=[u,v*(n[2]>0?1:-1),n[2]>0?z0+H:z0]; } else { const half=d.shape==="cyl"?L/2:(n[0]?L/2:P/2), t=[-n[1],n[0],0]; p=[n[0]*half+t[0]*u,n[1]*half+t[1]*u,z0+H/2+v]; }
+    const c3=[p[0]+n[0]*len/2,p[1]+n[1]*len/2,p[2]+n[2]*len/2]; let geo, rx=0, ry=0;
+    if(c.k==="gaine_rect"){ const W=mmv(c.s[0]||300), Hh=mmv(c.s[1]||200); geo=n[2]?new THREE.BoxGeometry(W,Hh,len):n[0]?new THREE.BoxGeometry(len,W,Hh):new THREE.BoxGeometry(W,len,Hh); }
+    else { const r=mmv((c.s[0]||50)*(c.k==="tuyau"?1.15:1))/2; geo=new THREE.CylinderGeometry(r,r,len,24); if(n[2]) rx=Math.PI/2; else if(n[0]) ry=0, rx=0; if(n[0]){ geo.rotateZ(Math.PI/2); } }
+    add(geo,col,c3[0],c3[1],c3[2],rx,ry); });
+  if(FG3.fit){ const R=Math.max(L,P,H+z0), dir=new THREE.Vector3(-0.55,-0.75,0.55); FG.cons.forEach(c=>{ const n=N[c.face]; if(n) dir.add(new THREE.Vector3(n[0],n[1],Math.max(0,n[2])).multiplyScalar(1.6/Math.max(1,FG.cons.length))); }); if(Math.abs(dir.x)+Math.abs(dir.y)<0.3) dir.y-=0.6; dir.normalize();
+    FG3.ctl.target.set(0,0,(H+z0)/2); FG3.cam.position.set(dir.x*R*2.8,dir.y*R*2.8,(H+z0)/2+Math.max(0.35,dir.z)*R*2.4); FG3.ctl.update(); FG3.fit=false; }
+  $("#fgLeg").innerHTML=[...new Set(FG.cons.map(c=>c.sys))].map(s=>`<span style="--cc:${FG_SYS_COL[s]||"#888"}"><i></i>${esc(s)}</span>`).join("");
+}
+// ---- script Dynamo (Python) ----
+function fgSpec(){ const d=FG.d, s=fgDims(); return {nom:fgFileName(),type:d.mod||d.des,des:d.des,fab:d.fab,mod:d.mod,ref:d.ref,url:d.url,verif:d.verif,cat:d.cat,forme:d.shape,L:s.L,P:s.P,H:s.H,socle:fgNum(d.socle)||0,
+  q:fgNum(d.q),kw:fgNum(d.kw),kg:fgNum(d.kg),vol:fgNum(d.vol),source:FG.file?("Fiche technique : "+FG.file):"Saisie manuelle",charger:!!d.charger,
+  raccords:FG.cons.map(c=>({nom:c.n,type:c.k,reseau:c.sys,face:c.face,taille:c.s.map(Number),u:Number(c.u)||0,v:Number(c.v)||0}))}; }
+function fgPython(){ const spec=JSON.stringify(JSON.stringify(fgSpec()));
+  return `# -*- coding: utf-8 -*-
+# Script Dynamo genere par le site EHPAD La Bassee (onglet « Création de famille »).
+# Revit 2026 : Gerer > Dynamo > ouvrir ce fichier > Executer.
+# Cree une famille d'equipement de genie climatique (.rfa) avec son volume, ses raccords et ses parametres.
+import clr, os, json, math, traceback
+clr.AddReference('RevitAPI')
+clr.AddReference('RevitServices')
+from Autodesk.Revit.DB import *
+from Autodesk.Revit.DB.Mechanical import DuctSystemType
+from Autodesk.Revit.DB.Plumbing import PipeSystemType
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+
+D = json.loads(u${spec})
+doc = DocumentManager.Instance.CurrentDBDocument
+app = DocumentManager.Instance.CurrentUIApplication.Application
+FT = 1.0 / 304.8
+def mm(v): return float(v) * FT
+def P(x, y, z): return XYZ(x, y, z)
+def add(a, b): return a.Add(b)
+def mul(a, s): return a.Multiply(s)
+
+def sans_accent(s):
+    s = s.lower()
+    for a, b in [(u'\\xe9', 'e'), (u'\\xe8', 'e'), (u'\\xea', 'e'), (u'\\xc9', 'e'), (u'\\xe0', 'a'), (u'\\xef', 'i'), (u'\\xf4', 'o'), (u'\\xe7', 'c')]:
+        s = s.replace(a, b)
+    return s
+
+def trouver_gabarit(chemin):
+    if chemin and os.path.isfile(chemin):
+        return chemin
+    dossiers = []
+    try:
+        dossiers.append(app.FamilyTemplatePath)
+    except Exception:
+        pass
+    for v in ['2026', '2025', '2024']:
+        dossiers.append('C:\\\\ProgramData\\\\Autodesk\\\\RVT %s\\\\Family Templates' % v)
+    fichiers = []
+    for d in dossiers:
+        if not d:
+            continue
+        for base in [d, os.path.dirname(d)]:
+            if not os.path.isdir(base):
+                continue
+            for racine, _, noms in os.walk(base):
+                for n in noms:
+                    if n.lower().endswith('.rft'):
+                        fichiers.append(os.path.join(racine, n))
+    cles = [['genie climatique', 'metrique'], ['mechanical equipment', 'metric'], ['genie climatique'], ['mechanical equipment'],
+            ['modele generique', 'metrique'], ['generic model', 'metric'], ['modele generique'], ['generic model']]
+    for k in cles:
+        for f in fichiers:
+            n = sans_accent(os.path.basename(f))
+            if all(x in n for x in k) and 'face' not in n and 'hote' not in n and 'host' not in n and 'ligne' not in n and 'line' not in n:
+                return f
+    return None
+
+DUCT = {'Soufflage': DuctSystemType.SupplyAir, 'Reprise': DuctSystemType.ReturnAir, 'Extraction': DuctSystemType.ExhaustAir,
+        'Rejet': DuctSystemType.ExhaustAir, 'Air neuf': DuctSystemType.OtherAir}
+PIPE = {'Aller chauffage': PipeSystemType.SupplyHydronic, 'Retour chauffage': PipeSystemType.ReturnHydronic,
+        u'Aller eau glac\\xe9e': PipeSystemType.SupplyHydronic, u'Retour eau glac\\xe9e': PipeSystemType.ReturnHydronic,
+        'Eau froide': PipeSystemType.DomesticColdWater, 'Eau chaude': PipeSystemType.DomesticHotWater, 'Bouclage ECS': PipeSystemType.DomesticHotWater,
+        'Gaz': PipeSystemType.OtherPipe, 'Condensats': PipeSystemType.Sanitary, 'Glycol / captage': PipeSystemType.OtherPipe, 'Autre': PipeSystemType.OtherPipe}
+NORMALES = {'Dessus': (0, 0, 1), 'Dessous': (0, 0, -1), 'Avant': (0, -1, 0), u'Arri\\xe8re': (0, 1, 0), 'Gauche': (-1, 0, 0), 'Droite': (1, 0, 0)}
+
+def boucle_rect(o, u, v, a, b):
+    pts = [add(add(o, mul(u, -a / 2)), mul(v, -b / 2)), add(add(o, mul(u, a / 2)), mul(v, -b / 2)),
+           add(add(o, mul(u, a / 2)), mul(v, b / 2)), add(add(o, mul(u, -a / 2)), mul(v, b / 2))]
+    ca = CurveArray()
+    for i in range(4):
+        ca.Append(Line.CreateBound(pts[i], pts[(i + 1) % 4]))
+    return ca
+
+def boucle_cercle(o, u, v, r):
+    ca = CurveArray()
+    ca.Append(Arc.Create(o, r, 0.0, math.pi, u, v))
+    ca.Append(Arc.Create(o, r, math.pi, 2 * math.pi, u, v))
+    return ca
+
+def extrusion(fdoc, boucle, o, u, v, prof):
+    arr = CurveArrArray()
+    arr.Append(boucle)
+    sp = SketchPlane.Create(fdoc, Plane.CreateByOriginAndBasis(o, u, v))
+    return fdoc.FamilyCreate.NewExtrusion(True, arr, sp, prof)
+
+def face_extreme(el, n):
+    opt = Options()
+    opt.ComputeReferences = True
+    meilleure, dmax = None, -1e9
+    for g in el.get_Geometry(opt):
+        if isinstance(g, Solid):
+            for f in g.Faces:
+                if isinstance(f, PlanarFace) and f.FaceNormal.IsAlmostEqualTo(n):
+                    dd = f.Origin.DotProduct(n)
+                    if dd > dmax:
+                        dmax, meilleure = dd, f
+    return meilleure
+
+def regler(el, bip, val):
+    try:
+        p = el.get_Parameter(bip)
+        if p is not None and not p.IsReadOnly:
+            p.Set(val)
+            return True
+    except Exception:
+        pass
+    return False
+
+def creer(fdoc):
+    L, Pf, H, hs = mm(D['L']), mm(D['P']), mm(D['H']), mm(D.get('socle') or 0)
+    cyl = D['forme'] == 'cyl'
+    X, Y, Z = XYZ.BasisX, XYZ.BasisY, XYZ.BasisZ
+    if hs > 0:
+        b = boucle_cercle(P(0, 0, 0), X, Y, L / 2 + mm(50)) if cyl else boucle_rect(P(0, 0, 0), X, Y, L + mm(100), Pf + mm(100))
+        extrusion(fdoc, b, P(0, 0, 0), X, Y, hs)
+    b = boucle_cercle(P(0, 0, hs), X, Y, L / 2) if cyl else boucle_rect(P(0, 0, hs), X, Y, L, Pf)
+    extrusion(fdoc, b, P(0, 0, hs), X, Y, H)
+    faits, erreurs = 0, []
+    for r in D['raccords']:
+        try:
+            nx, ny, nz = NORMALES.get(r['face'], (0, 0, 1))
+            n = XYZ(nx, ny, nz)
+            du, dv = mm(r.get('u') or 0), mm(r.get('v') or 0)
+            if nz != 0:
+                u = X
+                v = Y if nz > 0 else mul(Y, -1)
+                o = P(du, dv * (1 if nz > 0 else -1), hs + H if nz > 0 else hs)
+                retrait = 0
+            else:
+                v = Z
+                u = Z.CrossProduct(n)
+                demi = L / 2 if (cyl or nx != 0) else Pf / 2
+                retrait = mm(15) if cyl else 0
+                o = add(add(mul(n, demi - retrait), mul(u, du)), P(0, 0, hs + H / 2 + dv))
+            t = [float(x) for x in r['taille']]
+            if r['type'] == 'gaine_rect':
+                boucle, prof = boucle_rect(o, u, v, mm(t[0]), mm(t[1])), mm(80) + retrait
+            elif r['type'] == 'gaine_ronde':
+                boucle, prof = boucle_cercle(o, u, v, mm(t[0]) / 2), mm(80) + retrait
+            else:
+                boucle, prof = boucle_cercle(o, u, v, mm(t[0]) * 1.15 / 2), mm(60) + retrait
+            stub = extrusion(fdoc, boucle, o, u, v, prof)
+            fdoc.Regenerate()
+            face = face_extreme(stub, n)
+            if face is None:
+                erreurs.append(r['nom'] + ' : face introuvable')
+                continue
+            if r['type'] == 'tuyau':
+                ce = ConnectorElement.CreatePipeConnector(fdoc, PIPE.get(r['reseau'], PipeSystemType.OtherPipe), face.Reference)
+                regler(ce, BuiltInParameter.CONNECTOR_RADIUS, mm(t[0]) / 2)
+            elif r['type'] == 'gaine_ronde':
+                ce = ConnectorElement.CreateDuctConnector(fdoc, DUCT.get(r['reseau'], DuctSystemType.OtherAir), ConnectorProfileType.Round, face.Reference)
+                if not regler(ce, BuiltInParameter.CONNECTOR_DIAMETER, mm(t[0])):
+                    regler(ce, BuiltInParameter.CONNECTOR_RADIUS, mm(t[0]) / 2)
+            else:
+                ce = ConnectorElement.CreateDuctConnector(fdoc, DUCT.get(r['reseau'], DuctSystemType.OtherAir), ConnectorProfileType.Rectangular, face.Reference)
+                regler(ce, BuiltInParameter.CONNECTOR_WIDTH, mm(t[0]))
+                regler(ce, BuiltInParameter.CONNECTOR_HEIGHT, mm(t[1]))
+            regler(ce, BuiltInParameter.RBS_CONNECTOR_DESCRIPTION, r['nom'])
+            faits += 1
+        except Exception as ex:
+            erreurs.append(u'%s : %s' % (r.get('nom'), ex))
+    return faits, erreurs
+
+def parametres(fdoc):
+    fm = fdoc.FamilyManager
+    nom_type = D.get('type') or D.get('des') or 'Type 1'
+    if fm.CurrentType is None:
+        fm.NewType(nom_type)
+    else:
+        try:
+            fm.RenameCurrentType(nom_type)
+        except Exception:
+            pass
+    def bip(b, val):
+        try:
+            p = fm.get_Parameter(b)
+            if p is not None and val:
+                fm.Set(p, val)
+        except Exception:
+            pass
+    bip(BuiltInParameter.ALL_MODEL_MANUFACTURER, D.get('fab'))
+    bip(BuiltInParameter.ALL_MODEL_MODEL, D.get('mod'))
+    bip(BuiltInParameter.ALL_MODEL_DESCRIPTION, D.get('des'))
+    bip(BuiltInParameter.ALL_MODEL_URL, D.get('url'))
+    def texte(nom, val):
+        if not val:
+            return
+        try:
+            p = fm.get_Parameter(nom)
+            if p is None:
+                p = fm.AddParameter(nom, GroupTypeId.IdentityData, SpecTypeId.String.Text, False)
+            fm.Set(p, val)
+        except Exception:
+            pass
+    def nombre(nom, val, spec, unite, txt):
+        if val is None:
+            return
+        try:
+            p = fm.get_Parameter(nom)
+            if p is None:
+                p = fm.AddParameter(nom, GroupTypeId.Mechanical, spec, False)
+            fm.Set(p, UnitUtils.ConvertToInternalUnits(float(val), unite))
+        except Exception:
+            texte(nom + ' (texte)', txt)
+    texte(u'R\\xe9f\\xe9rence CCTP', D.get('ref'))
+    texte('Source', D.get('source'))
+    texte(u'\\xc0 v\\xe9rifier', D.get('verif'))
+    nombre(u'D\\xe9bit nominal', D.get('q'), SpecTypeId.AirFlow, UnitTypeId.CubicMetersPerHour, u'%s m3/h' % D.get('q'))
+    nombre('Puissance nominale', D.get('kw'), SpecTypeId.HvacPower, UnitTypeId.Kilowatts, u'%s kW' % D.get('kw'))
+    nombre('Poids', D.get('kg'), SpecTypeId.Mass, UnitTypeId.Kilograms, u'%s kg' % D.get('kg'))
+    nombre('Volume', D.get('vol'), SpecTypeId.Volume, UnitTypeId.Liters, u'%s L' % D.get('vol'))
+
+resultat = ''
+fdoc = None
+try:
+    gabarit = trouver_gabarit(IN[0] if len(IN) > 0 and IN[0] else '')
+    if not gabarit:
+        resultat = u'Gabarit de famille introuvable. Indique son chemin dans le noeud « Chemin du gabarit » (ex. Equipement de genie climatique metrique.rft).'
+    else:
+        TransactionManager.Instance.ForceCloseTransaction()
+        fdoc = app.NewFamilyDocument(gabarit)
+        t = Transaction(fdoc, 'Famille EHPAD')
+        t.Start()
+        try:
+            cat = fdoc.OwnerFamily.FamilyCategory
+            if cat is None or cat.BuiltInCategory != BuiltInCategory.OST_MechanicalEquipment:
+                fdoc.OwnerFamily.FamilyCategory = Category.GetCategory(fdoc, BuiltInCategory.OST_MechanicalEquipment)
+        except Exception:
+            pass
+        faits, erreurs = creer(fdoc)
+        parametres(fdoc)
+        t.Commit()
+        dossier = os.path.join(os.path.expanduser('~'), 'Documents', 'Familles_EHPAD')
+        if not os.path.isdir(dossier):
+            os.makedirs(dossier)
+        chemin = os.path.join(dossier, D['nom'] + '.rfa')
+        so = SaveAsOptions()
+        so.OverwriteExistingFile = True
+        fdoc.SaveAs(chemin, so)
+        fdoc.Close(False)
+        fdoc = None
+        charge = ''
+        if D.get('charger') and not doc.IsFamilyDocument:
+            TransactionManager.Instance.EnsureInTransaction(doc)
+            try:
+                charge = u' Famille charg\\xe9e dans le projet.' if doc.LoadFamily(chemin) else u' (d\\xe9j\\xe0 charg\\xe9e : recharge-la si besoin)'
+            except Exception as ex:
+                charge = u' Chargement impossible : %s' % ex
+            TransactionManager.Instance.TransactionTaskDone()
+        resultat = u'Famille cr\\xe9\\xe9e : %s (%d raccord(s)).%s' % (chemin, faits, charge)
+        if erreurs:
+            resultat += u' Raccords en erreur : ' + u' | '.join(erreurs)
+except Exception:
+    resultat = u'Erreur : ' + traceback.format_exc()
+    try:
+        if fdoc is not None:
+            fdoc.Close(False)
+    except Exception:
+        pass
+OUT = resultat
+`; }
+const fgHex=()=>Array.from(crypto.getRandomValues(new Uint8Array(16))).map(b=>b.toString(16).padStart(2,"0")).join("");
+function fgDyn(){ const py=fgPython(), idS=fgHex(), idSo=fgHex(), idP=fgHex(), idPi=fgHex(), idPo=fgHex(), nom=fgFileName();
+  const port=(id,name,desc)=>({Id:id,Name:name,Description:desc,UsingDefaultValue:false,Level:2,UseLevels:false,KeepListStructure:false});
+  return JSON.stringify({Uuid:[fgHex().slice(0,8),fgHex().slice(0,4),"4"+fgHex().slice(0,3),"8"+fgHex().slice(0,3),fgHex().slice(0,12)].join("-"),IsCustomNode:false,Description:"Création de la famille "+nom+" (site EHPAD La Bassée)",Name:"Creer_"+nom,ElementResolver:{ResolutionMap:{}},Inputs:[],Outputs:[],
+    Nodes:[{ConcreteType:"CoreNodeModels.Input.StringInput, CoreNodeModels",NodeType:"StringInputNode",InputValue:"",Id:idS,Inputs:[],Outputs:[port(idSo,"","String")],Replication:"Disabled",Description:"Creates a string."},
+      {ConcreteType:"PythonNodeModels.PythonNode, PythonNodeModels",Code:py,Engine:"CPython3",EngineName:"CPython3",VariableInputPorts:true,Id:idP,NodeType:"PythonScriptNode",Inputs:[port(idPi,"IN[0]","Input #0")],Outputs:[port(idPo,"OUT","Result of the python script")],Replication:"Disabled",Description:"Runs an embedded Python script."}],
+    Connectors:[{Start:idSo,End:idPi,Id:fgHex(),IsHidden:"False"}],Dependencies:[],NodeLibraryDependencies:[],Bindings:[],
+    View:{Dynamo:{ScaleFactor:1.0,HasRunWithoutCrash:false,IsVisibleInDynamoLibrary:true,Version:"3.0.0.0",RunType:"Manual",RunPeriod:"1000"},
+      Camera:{Name:"Background Preview",EyeX:-17,EyeY:24,EyeZ:50,LookX:12,LookY:-13,LookZ:-58,UpX:0,UpY:1,UpZ:0},
+      NodeViews:[{Id:idS,Name:"Chemin du gabarit (vide = automatique)",IsSetAsInput:false,IsSetAsOutput:false,Excluded:false,ShowGeometry:true,X:0,Y:0},{Id:idP,Name:"Créer la famille "+nom,IsSetAsInput:false,IsSetAsOutput:false,Excluded:false,ShowGeometry:true,X:420,Y:0}],
+      Annotations:[{Id:fgHex(),Title:"Clique sur « Exécuter » en bas à gauche. Le résultat s'affiche sous le nœud Python.",Nodes:[idS,idP],HasNestedGroups:false,Left:-10,Top:-80,Width:700,Height:220,FontSize:24,InitialTop:0,InitialHeight:140,TextblockHeight:60,Background:"#FFC1D676"}],
+      X:60,Y:180,Zoom:1}},null,2); }
+function fgSave(name,text,type){ const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([text],{type})); a.download=name; document.body.appendChild(a); a.click(); a.remove(); }
+// ---- démarrage ----
+async function fgLoadFile(file){
+  if(!file) return; $("#fgRead").innerHTML=`<p class="hint">Je lis la fiche « ${esc(file.name)} »…</p>`;
+  try{ const t=await fgReadPdf(file); FG.file=file.name; fgApplyText(t); }
+  catch(e){ $("#fgRead").innerHTML=`<div class="notice warn">Lecture impossible (${esc(e.message||e)}). Tu peux remplir la fiche à la main.</div>`; } }
+function fgApplyText(t){ const r=fgAnalyze(t); FG.d=r.d; FG.found=r.found; FG.sugg=r.sugg; FG3&&(FG3.fit=true); fgDefaultCons();
+  const n=Object.keys(r.found).filter(k=>r.found[k].lab).length, words=(t.match(/\S+/g)||[]).length;
+  $("#fgRead").innerHTML=words<20?`<div class="notice warn">Je n'ai presque pas trouvé de texte dans ce PDF (fiche scannée ?). Remplis les informations à la main.</div>`
+    :`<div class="fg-res"><b>J'ai lu ${FG.pages||"?"} page${FG.pages>1?"s":""} et trouvé ${n} information${n>1?"s":""}</b> : ${Object.values(r.found).filter(x=>x.lab).map(x=>`<span class="fg-chip on">${esc(x.lab)} : ${esc(String(x.v))}</span>`).join(" ")||"aucune"}.<br><span class="hint">Les raccords proposés sont des raccords types pour ce genre d'équipement : vérifie leur position et leur taille sur la fiche.</span></div>`;
+  fgRender(); }
+$("#fgFile").onchange=e=>fgLoadFile(e.target.files[0]);
+{ const dz=$("#fgDrop"); ["dragenter","dragover"].forEach(ev=>dz.addEventListener(ev,e=>{ e.preventDefault(); dz.classList.add("on"); })); ["dragleave","drop"].forEach(ev=>dz.addEventListener(ev,e=>{ e.preventDefault(); dz.classList.remove("on"); }));
+  dz.addEventListener("drop",e=>{ const f=e.dataTransfer.files[0]; if(f) fgLoadFile(f); }); }
+$("#fgManual").onclick=()=>{ FG={d:fgBlank(),found:{},sugg:{},file:"",pages:0,cons:[]}; $("#fgRead").innerHTML=`<p class="hint">Saisie à la main : choisis d'abord le type d'équipement.</p>`; fgRender(); };
+$("#fgDyn").onclick=()=>fgSave(fgFileName()+".dyn",fgDyn(),"application/json");
+$("#fgPy").onclick=()=>fgSave(fgFileName()+".py",fgPython(),"text/x-python");
+$("#fgJson").onclick=()=>fgSave(fgFileName()+".json",JSON.stringify(fgSpec(),null,2),"application/json");
+TAB_META.famgen=["Fichiers","Création de famille","Une fiche technique PDF → une famille Revit, avec un script Dynamo."];
+{ const tb=$("#tabFamGen"), vw=$("#viewFamGen");
+  tb.setAttribute("aria-controls","viewFamGen"); vw.setAttribute("role","tabpanel"); vw.setAttribute("aria-labelledby","tabFamGen");
+  const _setTab=setTab; setTab=function(t){ _setTab(t); const on=t==="famgen"; vw.hidden=!on; tb.setAttribute("aria-selected",on); tb.tabIndex=on?0:-1;
+    if(on){ setCrumb("famgen"); store.set("ehpad-tab","famgen"); if(FG.d) fgPreview(); } };
+  tb.onclick=()=>setTab("famgen");
+}
 </script>
