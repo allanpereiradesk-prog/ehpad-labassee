@@ -830,6 +830,7 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
       <button role="tab" id="tabResa" aria-selected="false">Réservations</button>
       <button role="tab" id="tabBouches" aria-selected="false">Bouches</button>
       <button role="tab" id="tabEnergie" aria-selected="false">Énergie</button>
+      <button role="tab" id="tabRse" aria-selected="false">RSE et normes</button>
       <button role="tab" id="tabDevis" aria-selected="false">Devis</button>
       <button role="tab" id="tabStock" aria-selected="false">Stock</button>
       <button role="tab" id="tabFam" aria-selected="false">Familles</button>
@@ -1718,6 +1719,34 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
       </section>
     </div>
     <p class="hint" id="enSrc"></p>
+  </section>
+
+  <section id="viewRse" hidden>
+    <section class="rv-head">
+      <div class="label">Lot 12 CVC-PBS · réglementation, normes, démarche RSE (20/10)</div>
+      <h2>RSE et normes</h2>
+      <p>Les textes que notre lot doit respecter, ce qu'ils imposent <b>dans ce projet</b> et où on le prouve (onglet du site, paragraphe du CCTP). Puis notre démarche <b>RSE</b> (responsabilité sociétale) en tant qu'entreprise du lot 12 : environnement, santé des résidents, sécurité des compagnons, façon de travailler. Les sources sont celles du <b>DCE</b> (CCTP lot 12, notices RT2012, environnementale, acoustique, charte chantier). Les textes plus récents que le DCE (2022) sont marqués <span class="src-b src-eq">Hors DCE</span> : ils sont à faire valider par les profs.</p>
+    </section>
+    <div class="resa-sum" id="rseSum"></div>
+    <section class="panel" aria-labelledby="rseNormT">
+      <h2 id="rseNormT">Normes et règlements qui s'appliquent au lot 12</h2>
+      <div class="seg rse-seg" role="group" aria-label="Thème" id="rseSeg"></div>
+      <div class="tbl-wrap"><table class="fam-t rse-t" id="rseNorm"></table></div>
+      <p class="hint">Liste tirée du CCTP lot 12 (§ 1.5, 2.1, 2.2, 7.1) et des notices du DCE. Le CCTP précise qu'elle n'est pas exhaustive : l'entreprise doit respecter tous les textes en vigueur un mois avant la remise de l'offre.</p>
+    </section>
+    <div class="en-g2">
+      <section class="panel" aria-labelledby="rseEnvT"><h2 id="rseEnvT">🌱 Environnement</h2><ul class="rse-l" id="rseEnv"></ul></section>
+      <section class="panel" aria-labelledby="rseSocT"><h2 id="rseSocT">🧓 Santé et confort des résidents</h2><ul class="rse-l" id="rseSoc"></ul></section>
+    </div>
+    <div class="en-g2">
+      <section class="panel" aria-labelledby="rseSecT"><h2 id="rseSecT">🦺 Sécurité et conditions de travail sur le chantier</h2><ul class="rse-l" id="rseSec"></ul></section>
+      <section class="panel" aria-labelledby="rseGovT"><h2 id="rseGovT">🤝 Façon de travailler (gouvernance, client)</h2><ul class="rse-l" id="rseGov"></ul></section>
+    </div>
+    <section class="panel" aria-labelledby="rseTodoT" style="margin-top:14px">
+      <h2 id="rseTodoT">À faire pour être conformes au rendu</h2>
+      <div class="tbl-wrap"><table class="fam-t" id="rseTodo"></table></div>
+    </section>
+    <p class="hint" id="rseSrc"></p>
   </section>
 
   <section id="viewFam" hidden>
@@ -5018,6 +5047,100 @@ TAB_META.energie=["Fichiers","Énergie","Déperditions, besoin de chauffage, pui
   tb.onclick=()=>setTab("energie");
 }
 if(typeof CMDK!=="undefined"){ const _ix=cmdkIndex; cmdkIndex=async function(){ await _ix(); CMDK.idx.unshift({t:"Onglet",label:"Tableau de bord énergie",sub:"Déperditions, besoin de chauffage, PAC, chaudières, ventilation",go:()=>setTab("energie"),h:cmdNorm("Tableau de bord énergie"),s:cmdNorm("energie deperditions chauffage puissance pac chaudiere bbio cep bivalence")}); }; }
+/* ---------- Onglet RSE et normes (#rse) ---------- */
+const RSE_ST={ok:["Respecté","var(--done)"],prev:["Prévu au DCE","var(--done)"],verif:["À vérifier","var(--doing)"],faire:["À faire","var(--todo)"]};
+const RSE_TH={tout:"Tout",therm:"Énergie",secu:"Sécurité incendie",air:"Ventilation",eau:"Eau, ECS",acou:"Acoustique",gaz:"Gaz, chaufferie",geo:"Géothermie, fluides",mise:"Mise en œuvre"};
+const RSE_NORMES=[
+ {th:"therm",t:"RT 2012 (règles Th-BCE, Th-U)",q:"Bbio ≤ Bbio max, Cep ≤ Cep max, Tic ≤ Tic réf ; ratio de ponts thermiques ≤ 0,28 W/(m² SRT.K) ; comptage par usage.",p:"Bbio 121,8 (max 138,8), Cep 111,5 (max 148,1), ponts thermiques 0,08 : conforme (RSET du 01/06/2022). Voir l'onglet Énergie.",s:"CCTP § 2.1.1 · RSET",st:"ok"},
+ {th:"therm",t:"Référentiel E+C- (énergie-carbone)",q:"Niveaux Énergie 1 à 4 et Carbone 1 à 2, calculés par ACV sur 50 ans.",p:"Le projet vise Énergie 2 (159,7 kWh ep/m².an, max 164,5) et Carbone 1 (Eges 1 739 kg éq. CO₂/m², max 1 954).",s:"Étude E+C- V1-S01",st:"ok"},
+ {th:"therm",t:"NF Habitat HQE, établissement médico-social v3.1",q:"Démarche (pas de certification) au niveau « très performant », 2 étoiles par thème : matériaux A+, équipements hydroéconomes, comptage relié à la GTB.",p:"Débits et confort d'été pris en compte ; à nous de citer des fiches A+ / ECAU dans les fiches produits.",s:"Notice environnementale ch. 1",st:"verif"},
+ {th:"therm",t:"Décret BACS (CCH R.175-1 à R.175-6)",hd:1,q:"GTB obligatoire dans le tertiaire au-delà de 70 kW de chauffage ou de clim (1er janvier 2027 pour les bâtiments existants), au moins classe C.",p:"187 kW de chaud installés : on est concernés. La GTB est déjà prévue au DCE (points GTB du lot 11, basculement été/hiver, relance CTA 5).",s:"CCTP § 4.1, 4.11 · annexe POINTS-GTB",st:"prev"},
+ {th:"therm",t:"Décret tertiaire (Éco Énergie Tertiaire)",hd:1,q:"Bâtiments tertiaires ≥ 1 000 m² : −40 % de consommation en 2030, −50 % en 2040, −60 % en 2050, déclaration chaque année sur OPERAT (ADEME).",p:"Concerne l'exploitant après la livraison (environ 4 300 m²). Notre comptage par usage relié à la GTB lui sert d'année de référence.",s:"Notice environnementale ch. 5",st:"prev"},
+ {th:"secu",t:"Règlement ERP (arrêté du 25/06/1980 modifié) + type J",q:"Établissement classé type J, 4e catégorie : clapets coupe-feu NF, gaines CF, coupure de la ventilation sur alarme.",p:"Clapets coupe-feu et volets de désenfumage prévus (§ 4.10, 4.15). À reporter dans la maquette (onglet Réservations pour les traversées).",s:"CCTP § 1.5, 2.1.1",st:"verif"},
+ {th:"secu",t:"Article CH 43 (arrêté du 14/02/2000)",q:"Ventilation des chambres en VMC au sens incendie : ventilateur en fonctionnement permanent, alimentation CR1, extracteur 400 °C – ½ h C4.",p:"CTA 1 à 4 des chambres certifiées C4, indépendantes des locaux communs.",s:"CCTP § 4.10",st:"ok"},
+ {th:"secu",t:"IT 246 (désenfumage des ERP)",q:"Caissons 400 °C – 1 h en terrasse, coffret de relayage NF par extracteur, tourelles interdites.",p:"Famille Aldes Cyclone créée ; nombre et débits des caissons encore à définir (plans DSF absents).",s:"CCTP § 4.15.3",st:"faire"},
+ {th:"air",t:"RSD art. 64 + arrêté du 12/03/1976",q:"Débits d'air neuf minimaux par local.",p:"90 m³/h par chambre (soufflage) et 90 m³/h en salle d'eau (extraction) ; 244 locaux conformes au contrôle DCE.",s:"CCTP § 2.2.2 · onglet Bouches",st:"ok"},
+ {th:"air",t:"NF EN 13053 (centrales de traitement d'air)",q:"Construction et performances des CTA ; ventilateurs EC < 0,3 W/(m³/h), récupération ≥ 80 % (plaques) et ≥ 85 % (roue).",p:"VIM CAD HR OPTIMAL C4 et CAD O INTEGRAL : à justifier avec la fiche VIM (récupération, puissance des ventilateurs).",s:"CCTP § 4.10.2, 4.11.2",st:"verif"},
+ {th:"air",t:"NF DTU 68.2 (NF P 50-411)",q:"Exécution des installations de ventilation mécanique.",p:"Gaines rigides (pas de flexibles), étanchéité des réseaux (classe vérifiée dans la RT2012 : conforme).",s:"CCTP § 2.1.1",st:"ok"},
+ {th:"eau",t:"Arrêté du 23/06/1978 modifié le 30/11/2005 (anti-brûlure, légionelle)",q:"ECS ≤ 50 °C aux points de puisage des pièces de toilette ; ≥ 50 °C en tout point du réseau ; ≥ 55 °C en sortie de stockage (≥ 400 L).",p:"60 °C en sortie d'échangeur, 55 °C au retour de bouclage ; mitigeurs thermostatiques aux points de puisage (résidents Alzheimer).",s:"CCTP § 4.5, 7.1",st:"ok"},
+ {th:"eau",t:"Circulaire DGS 2009/38 (EHPAD : brûlure et légionellose)",q:"Choc thermique possible, suivi des températures, carnet sanitaire.",p:"Choc thermique : le CCTP dit 65 °C au § 4.5 et 70 °C au § 7.1. Prendre 70 °C (le plus contraignant) et le faire confirmer.",s:"CCTP § 2.1.1, 4.5, 7.1",st:"verif"},
+ {th:"eau",t:"Code de la santé publique, décret 2001-1220, arrêté du 29/05/1997 (ACS)",q:"Eau destinée à la consommation humaine : matériaux au contact de l'eau avec attestation ACS, disconnexion, traitement de l'eau.",p:"Adoucisseur : 15 °TH pour l'ECS, 7 °TH pour les réseaux chauffage, eau glacée et sondes ; clapet anti-retour EA.",s:"CCTP § 7.1, 9.2.2",st:"ok"},
+ {th:"eau",t:"NF DTU 60.1, 60.5, 60.11 (plomberie)",q:"Calcul et pose des réseaux EF/ECS/EU ; coefficients de simultanéité du DTU pour l'ECS.",p:"À appliquer au dimensionnement de la partie ECS (tâche i04).",s:"CCTP § 2.1.1, 7",st:"faire"},
+ {th:"acou",t:"Arrêté du 25/04/2003 (bruit dans les établissements de santé)",q:"Bruit d'équipement LnAT ≤ 30 dB(A) dans les chambres et locaux de soins, ≤ 35 dB(A) ailleurs ; pas d'interphonie entre chambres.",p:"Pièges à son côté aspiration des caissons VMC, plots antivibratiles, fourreaux résilients ; notes de calcul acoustique à fournir.",s:"Notice acoustique ch. 7, 10.8 · CCTP § 2.2.3",st:"faire"},
+ {th:"acou",t:"Décret 2006-1099 (bruits de voisinage)",q:"Émergence ≤ 5 dB(A) le jour (7 h – 22 h) et ≤ 3 dB(A) la nuit, en limite de propriété.",p:"CTA et caissons en toiture : vérifier leur puissance acoustique (fiches fabricant) ; PAC 58 dB(A) dans son local fermé.",s:"Notice acoustique § 7.6 · CCTP § 2.2.3",st:"verif"},
+ {th:"gaz",t:"Arrêté du 02/08/1977 + NF DTU 61.1 (gaz)",q:"Installations de gaz combustible : vannes NF gaz, repérage, ventilation de la chaufferie.",p:"Coffret gaz en limite de propriété, réseau PEHD enterré, vannes repérées.",s:"CCTP § 2.1.1, 4.3",st:"ok"},
+ {th:"gaz",t:"Chaufferies (arrêtés de 1978 et 1988) + NF DTU 24.1 (fumisterie)",q:"Chaufferie de plus de 70 kW : local dédié, conduits de fumée, hauteur de cheminée (arrêté du 20/06/1975).",p:"2 × 60 kW au RDC dans un local de 43,8 m² avec accès extérieur ; conduits DN 160/110.",s:"CCTP § 2.1.1, 4.3",st:"ok"},
+ {th:"geo",t:"Code minier (art. L411-1) + NF X10-970 (sondes)",q:"Déclaration des forages ; réalisation des sondes par un foreur qualifié, cimentation, essais de pression.",p:"11 sondes de 150 m espacées d'au moins 10 m, test de réponse thermique déjà fait (GEOSYNERGIE).",s:"CCTP § 5",st:"ok"},
+ {th:"geo",t:"Règlement F-gas (UE) 2024/573 + Code de l'environnement",hd:1,q:"Contrôle d'étanchéité au-delà de 5 t éq. CO₂ (tous les 12 mois jusqu'à 50 t) ; entreprise avec attestation de capacité. Les PAC autonomes de 12 à 50 kW à fluide de PRG ≥ 150 ne peuvent plus être mises sur le marché à partir du 1er janvier 2027.",p:"Chaque PAC : 8 kg de R410A × PRG 2 088 = 16,7 t éq. CO₂ → contrôle annuel. Le R410A (PRG 2 088) pose problème pour une pose en 2027 : prévoir un équivalent à fluide bas PRG (R290…) et le justifier (« ou équivalent »).",s:"CCTP § 4.6.2",st:"verif"},
+ {th:"geo",t:"Écoconception (ErP) + NF EN 14511",q:"Performances déclarées des PAC (COP, Etas).",p:"COP 4,6 (B0/W35), Etas 193 % basse température, classe A++.",s:"CCTP § 4.6.2",st:"ok"},
+ {th:"mise",t:"NF DTU 65.x (chauffage, réseaux hydrauliques)",q:"Sécurité des installations (DTU 65.11), canalisations (65.10), réseaux enterrés (65.9).",p:"Vitesses limitées à 1,10 m/s dans les locaux occupés, pertes de charge ≤ 15 mm CE/m.",s:"CCTP § 2.1.1, 2.2.4",st:"faire"},
+ {th:"mise",t:"NF DTU 67.1 + NF X 08-100 (calorifuge et repérage)",q:"Isolation des réseaux ; couleurs conventionnelles et étiquettes de repérage.",p:"À reprendre dans les paramètres et filtres de vue de la maquette (couleurs par système).",s:"CCTP § 3",st:"faire"},
+ {th:"mise",t:"Accessibilité (arrêté du 01/02/1978 et suivants)",q:"Équipements utilisables par les personnes à mobilité réduite.",p:"Lavabos PMR, robinetterie et commandes à hauteur adaptée (lot plomberie).",s:"CCTP § 1.5, 9.6",st:"verif"}
+];
+const RSE_ENV=[
+ "<b>Énergie renouvelable</b> : 2 PAC géothermiques en priorité (11 sondes de 150 m), les chaudières gaz ne servent que d'appoint et pour l'ECS (CCTP § 4.1).",
+ "<b>Moins d'énergie pour l'air</b> : récupération de chaleur ≥ 80 % (plaques) et ≥ 85 % (roue), ventilateurs EC &lt; 0,3 W/(m³/h), CTA 5 arrêtée la nuit (§ 4.10, 4.11).",
+ "<b>Fluides frigorigènes</b> : 33,4 t éq. CO₂ pour les 2 PAC en R410A. Contrôle d'étanchéité annuel, récupération des fluides en fin de vie, et choix d'un fluide à bas PRG si on pose en 2027 (F-gas).",
+ "<b>Suivi des consommations</b> : comptage par usage (chauffage, froid, ECS, ventilation) relié à la GTB (notice environnementale ch. 5).",
+ "<b>Carbone du bâtiment</b> : E+C- niveau Carbone 1. Pour notre lot, on ajoute les FDES / PEP de nos équipements dans les fiches produits (paramètre dans les familles).",
+ "<b>Chantier à faibles nuisances</b> : tri des déchets (6 bennes), SOGED, bacs de décantation pour les eaux de lavage, bennes bâchées le week-end (charte chantier).",
+ "<b>Eau</b> : équipements sanitaires hydroéconomes classés ECAU (notice environnementale ch. 3)."
+];
+const RSE_SOC=[
+ "<b>Pas de brûlure</b> : ECS limitée à 50 °C aux points de puisage, mitigeurs thermostatiques ; c'est essentiel pour les résidents Alzheimer des unités fermées (arrêté du 30/11/2005).",
+ "<b>Pas de légionelle</b> : 60 °C en sortie, 55 °C au retour de bouclage, choc thermique possible (circulaire DGS 2009).",
+ "<b>Air sain</b> : 90 m³/h d'air neuf par chambre, filtres F7 au soufflage, matériaux étiquetés A+ (NF Habitat HQE).",
+ "<b>Calme</b> : 30 dB(A) maximum dans les chambres, pas d'interphonie entre chambres (notice acoustique).",
+ "<b>Confort d'été</b> : rafraîchissement par géothermie et Tic conforme (RT2012) ; les personnes âgées supportent mal la chaleur.",
+ "<b>Confort d'hiver</b> : 21 °C dans les chambres, 24 °C dans les salles de bain (CCTP § 2.2.2)."
+];
+const RSE_SEC=[
+ "<b>Plan de prévention</b> : le PGC du coordonnateur SPS (LICS, indice 2) est dans le DCE ; on rédige notre PPSPS avant d'intervenir.",
+ "<b>Travail en toiture</b> : 5 CTA et 6 caissons VMC sur la terrasse. Protections collectives (garde-corps), à plus de 1,20 m des bords, accès d'entretien de 0,80 m (onglet Implantation).",
+ "<b>Charges lourdes</b> : PAC de 305 kg, CTA en toiture : levage par grue, plan de levage, socles faits par le gros œuvre (CCTP § 1.8.2).",
+ "<b>Site pollué</b> : ancien garage Citroën dépollué. Forages des sondes à la boue avec récupération des boues (CCTP § 5.4) ; diagnostics amiante/plomb et rapports de dépollution dans le DCE.",
+ "<b>Bruit et poussière</b> : engins ≤ 80 dB(A) à 10 m, 75 dB(A) maximum en limite de chantier de 7 h à 19 h (charte chantier).",
+ "<b>Fluides frigorigènes et gaz</b> : manipulation par du personnel avec attestation d'aptitude ; essais d'étanchéité gaz avant mise en service."
+];
+const RSE_GOV=[
+ "<b>Transparence du devis</b> : chaque prix a sa source (onglet Devis), les quantités viennent de la maquette.",
+ "<b>« Ou équivalent »</b> : toute variante de matériel est justifiée par écrit avec la même performance (CCTP § 6.4).",
+ "<b>Traçabilité</b> : chaque valeur du site cite son paragraphe du CCTP ; les choix d'équipe sont marqués « Choix équipe ».",
+ "<b>Travail en équipe</b> : maquette partagée sur ACC, heures et tâches suivies sur le site, registre des dépôts.",
+ "<b>Exploitation</b> : DOE complet, formation de l'exploitant et mise en service par le constructeur (extension de garantie PAC à 36 mois)."
+];
+const RSE_TODO=[
+ ["Choix de la PAC face au règlement F-gas (R410A interdit en 2027 pour les PAC autonomes de 12 à 50 kW)","Poser la question aux profs, puis proposer un équivalent à fluide bas PRG","i01"],
+ ["Ajouter dans les familles les paramètres Fluide, Charge (kg), PRG, t éq. CO₂, FDES/PEP","Paramètres partagés","i05"],
+ ["Choc thermique ECS : 65 °C (§ 4.5) ou 70 °C (§ 7.1) ?","Échanges profs","i04"],
+ ["Note acoustique : LnAT 30 dB(A) dans les chambres, pièges à son, émergence en limite de propriété","Notes de calcul","i02"],
+ ["Désenfumage : nombre et débit des caissons 400 °C – 1 h","Plans DSF à demander","i09"],
+ ["Rédiger le PPSPS de notre lot à partir du PGC","Offre commerciale","i10"],
+ ["Citer les fiches A+ / ECAU / FDES dans les fiches produits","Nomenclatures + fiches constructeur","i07"]
+];
+let rseTh="tout";
+function renderRse(){
+  const n=k=>RSE_NORMES.filter(x=>x.st===k).length;
+  $("#rseSum").innerHTML=[[RSE_NORMES.length,"textes suivis"],[n("ok")+n("prev"),"respectés ou prévus"],[n("verif"),"à vérifier"],[n("faire"),"à faire"],["J 4e cat.","ERP"],["E2 C1","E+C-"]]
+    .map(([b,s])=>`<div class="k"><b>${b}</b><span>${s}</span></div>`).join("");
+  $("#rseSeg").innerHTML=Object.entries(RSE_TH).map(([k,l])=>`<button type="button" data-rth="${k}" aria-pressed="${k===rseTh}">${l}</button>`).join("");
+  $("#rseSeg").querySelectorAll("[data-rth]").forEach(b=>b.onclick=()=>{ rseTh=b.dataset.rth; renderRse(); });
+  const rows=RSE_NORMES.filter(x=>rseTh==="tout"||x.th===rseTh);
+  $("#rseNorm").innerHTML=`<thead><tr><th>Texte</th><th>Ce qu'il impose</th><th>Dans notre projet</th><th>Statut</th></tr></thead><tbody>`
+    +rows.map(x=>{ const s=RSE_ST[x.st]; return `<tr><td><b>${esc(x.t)}</b><div class="hint">${esc(RSE_TH[x.th])} · ${esc(x.s)}</div>${x.hd?`<span class="src-b src-eq">Hors DCE</span>`:""}</td><td>${esc(x.q)}</td><td>${esc(x.p)}</td><td><span class="pill" style="--pc:${s[1]}">${s[0]}</span></td></tr>`; }).join("")+`</tbody>`;
+  const li=a=>a.map(h=>`<li>${h}</li>`).join("");
+  $("#rseEnv").innerHTML=li(RSE_ENV); $("#rseSoc").innerHTML=li(RSE_SOC); $("#rseSec").innerHTML=li(RSE_SEC); $("#rseGov").innerHTML=li(RSE_GOV);
+  $("#rseTodo").innerHTML=`<thead><tr><th>À faire</th><th>Où</th><th>Tâche</th></tr></thead><tbody>`+RSE_TODO.map(([a,b,c])=>`<tr><td>${esc(a)}</td><td class="hint">${esc(b)}</td><td class="nw"><span class="step">${esc(c)}</span></td></tr>`).join("")+`</tbody>`;
+  $("#rseSrc").innerHTML=`Sources DCE : CCTP lot 12 (juin 2022), RSET et note de calcul RT2012 / E+C- (DIAGOBAT), notice environnementale, charte chantier faible nuisance, notice acoustique NT01. Hors DCE (à jour en octobre 2026) : <a href="https://www.entreprises.cci-paris-idf.fr/web/transition-ecologique/decret-bacs-pour-des-batiments-tertiaires-plus-intelligents-et-plus-economes-en-energie" target="_blank" rel="noopener">décret BACS (CCI Paris IDF)</a>, <a href="https://ekwateur.fr/blog/marche-de-lenergie-pour-les-pros/decret-tertiaire/" target="_blank" rel="noopener">décret tertiaire</a>, <a href="https://projetcelsius.com/blog/f-gaz-climatisation-interdite-2027/" target="_blank" rel="noopener">F-gas 2024/573</a> : à confirmer dans le texte officiel (Légifrance, EUR-Lex).`;
+}
+TAB_META.rse=["Fichiers","RSE et normes","Les textes à respecter, ce qu'ils imposent dans le projet, et notre démarche RSE."];
+{ const tb=$("#tabRse"), vw=$("#viewRse");
+  tb.setAttribute("aria-controls","viewRse"); vw.setAttribute("role","tabpanel"); vw.setAttribute("aria-labelledby","tabRse");
+  const _setTab=setTab; setTab=function(t){ _setTab(t); const on=t==="rse"; vw.hidden=!on; tb.setAttribute("aria-selected",on); tb.tabIndex=on?0:-1;
+    if(on){ setCrumb("rse"); renderRse(); } };
+  tb.onclick=()=>setTab("rse");
+}
+if(typeof CMDK!=="undefined"){ const _ix2=cmdkIndex; cmdkIndex=async function(){ await _ix2(); CMDK.idx.unshift({t:"Onglet",label:"RSE et normes",sub:"Réglementation du lot 12, F-gas, BACS, légionelle, acoustique, démarche RSE",go:()=>setTab("rse"),h:cmdNorm("RSE et normes"),s:cmdNorm("rse normes reglementation dtu f-gas bacs legionelle acoustique erp hqe")}); }; }
 </script>
 <style>
 .en-sum .k{min-width:150px}
@@ -5057,5 +5180,6 @@ if(typeof CMDK!=="undefined"){ const _ix=cmdkIndex; cmdkIndex=async function(){ 
 #viewEnergie .fam-t .num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
 #viewEnergie .en-tot td{border-top:2px solid var(--line)}
 #viewEnergie .en-nc td{color:var(--muted)}
+.rse-seg{margin:0 0 10px;flex-wrap:wrap}.rse-t td{vertical-align:top}.rse-t td:nth-child(2),.rse-t td:nth-child(3){min-width:220px}.rse-l{margin:0;padding-left:18px;display:grid;gap:8px}.rse-l li{line-height:1.45}#viewRse .src-b{display:inline-block;margin-top:4px}
 @media (max-width:560px){.en-bar{grid-template-columns:1fr auto}.en-bar-t{grid-column:1/-1;order:3}}
 </style>
