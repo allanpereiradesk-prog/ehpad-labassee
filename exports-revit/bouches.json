@@ -1,5 +1,6 @@
 [
 {
+"reseau": "CTA 1",
 "cle": "L073",
 "id": "B016",
 "rid": "1044865",
@@ -21,6 +22,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L060",
 "id": "B019",
 "rid": "1044994",
@@ -42,6 +44,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L076",
 "id": "B023",
 "rid": "1045030",
@@ -63,6 +66,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L079",
 "id": "B024",
 "rid": "1045039",
@@ -84,6 +88,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L081",
 "id": "B025",
 "rid": "1045048",
@@ -105,6 +110,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L061",
 "id": "B037",
 "rid": "1045132",
@@ -126,6 +132,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L074",
 "id": "B038",
 "rid": "1045141",
@@ -147,6 +154,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L066",
 "id": "B119",
 "rid": "1050996",
@@ -168,6 +176,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L069",
 "id": "B143",
 "rid": "1051354",
@@ -189,6 +198,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L062",
 "id": "B150",
 "rid": "1051470",
@@ -210,6 +220,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L070",
 "id": "B166",
 "rid": "1051668",
@@ -231,6 +242,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L064",
 "id": "B174",
 "rid": "1051809",
@@ -252,6 +264,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L072",
 "id": "B183",
 "rid": "1051896",
@@ -273,6 +286,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L063",
 "id": "B187",
 "rid": "1051954",
@@ -294,6 +308,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L232",
 "id": "B015",
 "rid": "1044854",
@@ -315,6 +330,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L159",
 "id": "B018",
 "rid": "1044985",
@@ -336,6 +352,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L171",
 "id": "B020",
 "rid": "1045003",
@@ -357,6 +374,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L235",
 "id": "B021",
 "rid": "1045012",
@@ -378,6 +396,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L236",
 "id": "B022",
 "rid": "1045021",
@@ -399,6 +418,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L177",
 "id": "B035",
 "rid": "1045114",
@@ -420,6 +440,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L234",
 "id": "B036",
 "rid": "1045123",
@@ -441,6 +462,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L153",
 "id": "B118",
 "rid": "1050967",
@@ -462,6 +484,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L222",
 "id": "B142",
 "rid": "1051325",
@@ -483,6 +506,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L176",
 "id": "B149",
 "rid": "1051441",
@@ -504,6 +528,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L224",
 "id": "B165",
 "rid": "1051639",
@@ -525,6 +550,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L172",
 "id": "B173",
 "rid": "1051780",
@@ -546,6 +572,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L240",
 "id": "B182",
 "rid": "1051867",
@@ -567,6 +594,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L231",
 "id": "B186",
 "rid": "1051925",
@@ -588,6 +616,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L023",
 "id": "B181",
 "rid": "1045626",
@@ -609,6 +638,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L024",
 "id": "B185",
 "rid": "1045636",
@@ -630,6 +660,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L030",
 "id": "B060",
 "rid": "1045321",
@@ -651,6 +682,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L034",
 "id": "B081",
 "rid": "1045436",
@@ -672,6 +704,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L031",
 "id": "B099",
 "rid": "1050703",
@@ -693,6 +726,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L046",
 "id": "B101",
 "rid": "1050751",
@@ -714,6 +748,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L038",
 "id": "B111",
 "rid": "1050919",
@@ -735,6 +770,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L039",
 "id": "B112",
 "rid": "1050943",
@@ -756,6 +792,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L029",
 "id": "B124",
 "rid": "1045523",
@@ -777,6 +814,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L035",
 "id": "B126",
 "rid": "1051107",
@@ -798,6 +836,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L036",
 "id": "B141",
 "rid": "1045552",
@@ -819,6 +858,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L033",
 "id": "B162",
 "rid": "1045588",
@@ -840,6 +880,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L032",
 "id": "B334",
 "rid": "1052623",
@@ -861,6 +902,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L040",
 "id": "B353",
 "rid": "1052963",
@@ -882,6 +924,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L183",
 "id": "B180",
 "rid": "1045622",
@@ -903,6 +946,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L184",
 "id": "B184",
 "rid": "1045632",
@@ -924,6 +968,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L197",
 "id": "B059",
 "rid": "1045317",
@@ -945,6 +990,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L198",
 "id": "B080",
 "rid": "1045432",
@@ -966,6 +1012,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L201",
 "id": "B098",
 "rid": "1050679",
@@ -987,6 +1034,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L117",
 "id": "B100",
 "rid": "1050727",
@@ -1008,6 +1056,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L190",
 "id": "B109",
 "rid": "1050871",
@@ -1029,6 +1078,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L199",
 "id": "B110",
 "rid": "1050895",
@@ -1050,6 +1100,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L194",
 "id": "B123",
 "rid": "1045519",
@@ -1071,6 +1122,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L204",
 "id": "B125",
 "rid": "1051083",
@@ -1092,6 +1144,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L202",
 "id": "B140",
 "rid": "1045548",
@@ -1113,6 +1166,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L192",
 "id": "B161",
 "rid": "1045584",
@@ -1134,6 +1188,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L189",
 "id": "B333",
 "rid": "1052622",
@@ -1155,6 +1210,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 1",
 "cle": "L200",
 "id": "B352",
 "rid": "1052939",
@@ -1176,6 +1232,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L065",
 "id": "B044",
 "rid": "1045197",
@@ -1197,6 +1254,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L067",
 "id": "B045",
 "rid": "1045206",
@@ -1218,6 +1276,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L068",
 "id": "B046",
 "rid": "1045215",
@@ -1239,6 +1298,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L077",
 "id": "B047",
 "rid": "1045224",
@@ -1260,6 +1320,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L078",
 "id": "B048",
 "rid": "1045233",
@@ -1281,6 +1342,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L084",
 "id": "B049",
 "rid": "1045242",
@@ -1302,6 +1364,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L075",
 "id": "B051",
 "rid": "1050548",
@@ -1323,6 +1386,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L057",
 "id": "B096",
 "rid": "1050621",
@@ -1344,6 +1408,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L058",
 "id": "B122",
 "rid": "1051054",
@@ -1365,6 +1430,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L059",
 "id": "B147",
 "rid": "1051412",
@@ -1386,6 +1452,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L071",
 "id": "B155",
 "rid": "1051552",
@@ -1407,6 +1474,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L080",
 "id": "B164",
 "rid": "1051610",
@@ -1428,6 +1496,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L083",
 "id": "B170",
 "rid": "1051726",
@@ -1449,6 +1518,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L082",
 "id": "B177",
 "rid": "1051838",
@@ -1470,6 +1540,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L170",
 "id": "B039",
 "rid": "1045150",
@@ -1491,6 +1562,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L221",
 "id": "B040",
 "rid": "1045159",
@@ -1512,6 +1584,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L223",
 "id": "B041",
 "rid": "1045168",
@@ -1533,6 +1606,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L238",
 "id": "B042",
 "rid": "1045179",
@@ -1554,6 +1628,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L242",
 "id": "B043",
 "rid": "1045188",
@@ -1575,6 +1650,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L220",
 "id": "B050",
 "rid": "1045251",
@@ -1596,6 +1672,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L244",
 "id": "B097",
 "rid": "1050650",
@@ -1617,6 +1694,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L229",
 "id": "B121",
 "rid": "1051025",
@@ -1638,6 +1716,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L239",
 "id": "B146",
 "rid": "1051383",
@@ -1659,6 +1738,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L237",
 "id": "B154",
 "rid": "1051523",
@@ -1680,6 +1760,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L218",
 "id": "B163",
 "rid": "1051581",
@@ -1701,6 +1782,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L243",
 "id": "B169",
 "rid": "1051697",
@@ -1722,6 +1804,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L241",
 "id": "B369",
 "rid": "1053238",
@@ -1743,6 +1826,7 @@
 "remarque": "Antenne trop courte entre deux raccords"
 },
 {
+"reseau": "CTA 2",
 "cle": "L020",
 "id": "B129",
 "rid": "1045534",
@@ -1764,6 +1848,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L021",
 "id": "B132",
 "rid": "1051179",
@@ -1785,6 +1870,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L022",
 "id": "B133",
 "rid": "1051203",
@@ -1806,6 +1892,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L019",
 "id": "B145",
 "rid": "1045562",
@@ -1827,6 +1914,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L025",
 "id": "B066",
 "rid": "1045353",
@@ -1848,6 +1936,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L026",
 "id": "B069",
 "rid": "1045365",
@@ -1869,6 +1958,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L027",
 "id": "B095",
 "rid": "1045482",
@@ -1890,6 +1980,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L028",
 "id": "B103",
 "rid": "1045496",
@@ -1911,6 +2002,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L037",
 "id": "B065",
 "rid": "1045349",
@@ -1932,6 +2024,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L041",
 "id": "B107",
 "rid": "1050823",
@@ -1953,6 +2046,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L044",
 "id": "B108",
 "rid": "1050847",
@@ -1974,6 +2068,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L042",
 "id": "B130",
 "rid": "1051131",
@@ -1995,6 +2090,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L043",
 "id": "B131",
 "rid": "1051155",
@@ -2016,6 +2112,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L045",
 "id": "B152",
 "rid": "1051499",
@@ -2037,6 +2134,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L182",
 "id": "B128",
 "rid": "1045530",
@@ -2058,6 +2156,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L179",
 "id": "B134",
 "rid": "1051227",
@@ -2079,6 +2178,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L180",
 "id": "B135",
 "rid": "1051251",
@@ -2100,6 +2200,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L181",
 "id": "B144",
 "rid": "1045558",
@@ -2121,6 +2222,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L185",
 "id": "B068",
 "rid": "1045361",
@@ -2142,6 +2244,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L187",
 "id": "B094",
 "rid": "1045478",
@@ -2163,6 +2266,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L186",
 "id": "B102",
 "rid": "1045492",
@@ -2184,6 +2288,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L191",
 "id": "B064",
 "rid": "1045345",
@@ -2205,6 +2310,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L205",
 "id": "B067",
 "rid": "1045357",
@@ -2226,6 +2332,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L188",
 "id": "B105",
 "rid": "1050775",
@@ -2247,6 +2354,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L193",
 "id": "B106",
 "rid": "1050799",
@@ -2268,6 +2376,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L196",
 "id": "B138",
 "rid": "1051277",
@@ -2289,6 +2398,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 2",
 "cle": "L203",
 "id": "B139",
 "rid": "1051301",
@@ -2310,6 +2420,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 3",
 "cle": "L156",
 "id": "B317",
 "rid": "1052440",
@@ -2331,6 +2442,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 3",
 "cle": "L158",
 "id": "B318",
 "rid": "1052449",
@@ -2352,6 +2464,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 3",
 "cle": "L165",
 "id": "B319",
 "rid": "1052458",
@@ -2373,6 +2486,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 3",
 "cle": "L174",
 "id": "B320",
 "rid": "1052467",
@@ -2394,6 +2508,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 3",
 "cle": "L157",
 "id": "B321",
 "rid": "1052476",
@@ -2415,6 +2530,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 3",
 "cle": "L227",
 "id": "B345",
 "rid": "1052786",
@@ -2436,6 +2552,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 3",
 "cle": "L155",
 "id": "B356",
 "rid": "1053017",
@@ -2457,6 +2574,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 3",
 "cle": "L228",
 "id": "B373",
 "rid": "1053271",
@@ -2478,6 +2596,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 3",
 "cle": "L225",
 "id": "B377",
 "rid": "1053337",
@@ -2499,6 +2618,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 3",
 "cle": "L230",
 "id": "B388",
 "rid": "1053426",
@@ -2520,6 +2640,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 3",
 "cle": "L175",
 "id": "B389",
 "rid": "1053455",
@@ -2541,6 +2662,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 3",
 "cle": "L226",
 "id": "B393",
 "rid": "1053521",
@@ -2562,6 +2684,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 3",
 "cle": "L233",
 "id": "B397",
 "rid": "1053557",
@@ -2583,6 +2706,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 3",
 "cle": "L114",
 "id": "B346",
 "rid": "1052815",
@@ -2604,6 +2728,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 3",
 "cle": "L116",
 "id": "B347",
 "rid": "1052819",
@@ -2625,6 +2750,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 3",
 "cle": "L121",
 "id": "B348",
 "rid": "1052843",
@@ -2646,6 +2772,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 3",
 "cle": "L136",
 "id": "B349",
 "rid": "1052867",
@@ -2667,6 +2794,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 3",
 "cle": "L134",
 "id": "B350",
 "rid": "1052891",
@@ -2688,6 +2816,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 3",
 "cle": "L137",
 "id": "B351",
 "rid": "1052915",
@@ -2709,6 +2838,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 3",
 "cle": "L126",
 "id": "B357",
 "rid": "1053046",
@@ -2730,6 +2860,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 3",
 "cle": "L115",
 "id": "B365",
 "rid": "1053204",
@@ -2751,6 +2882,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 3",
 "cle": "L127",
 "id": "B378",
 "rid": "1053366",
@@ -2772,6 +2904,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 3",
 "cle": "L132",
 "id": "B382",
 "rid": "1053382",
@@ -2793,6 +2926,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 3",
 "cle": "L125",
 "id": "B390",
 "rid": "1053484",
@@ -2814,6 +2948,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 3",
 "cle": "L124",
 "id": "B391",
 "rid": "1053488",
@@ -2835,6 +2970,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 3",
 "cle": "L138",
 "id": "B398",
 "rid": "1053586",
@@ -2856,6 +2992,7 @@
 "remarque": "Antenne trop courte entre deux raccords"
 },
 {
+"reseau": "CTA 4",
 "cle": "L219",
 "id": "B322",
 "rid": "1052485",
@@ -2877,6 +3014,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 4",
 "cle": "L163",
 "id": "B325",
 "rid": "1052531",
@@ -2898,6 +3036,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 4",
 "cle": "L164",
 "id": "B326",
 "rid": "1052540",
@@ -2919,6 +3058,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 4",
 "cle": "L166",
 "id": "B327",
 "rid": "1052549",
@@ -2940,6 +3080,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 4",
 "cle": "L167",
 "id": "B328",
 "rid": "1052558",
@@ -2961,6 +3102,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 4",
 "cle": "L168",
 "id": "B329",
 "rid": "1052567",
@@ -2982,6 +3124,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 4",
 "cle": "L161",
 "id": "B331",
 "rid": "1052589",
@@ -3003,6 +3146,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 4",
 "cle": "L160",
 "id": "B354",
 "rid": "1052987",
@@ -3024,6 +3168,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 4",
 "cle": "L173",
 "id": "B363",
 "rid": "1053171",
@@ -3045,6 +3190,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 4",
 "cle": "L162",
 "id": "B370",
 "rid": "1053239",
@@ -3066,6 +3212,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 4",
 "cle": "L154",
 "id": "B374",
 "rid": "1053300",
@@ -3087,6 +3234,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 4",
 "cle": "L178",
 "id": "B383",
 "rid": "1053386",
@@ -3108,6 +3256,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 4",
 "cle": "L169",
 "id": "B387",
 "rid": "1053425",
@@ -3129,6 +3278,7 @@
 "remarque": "Les deux gaines du couloir sont trop proches pour passer l'antenne par-dessus  ; Antenne trop courte entre deux raccords"
 },
 {
+"reseau": "CTA 4",
 "cle": "L123",
 "id": "B323",
 "rid": "1052514",
@@ -3150,6 +3300,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 4",
 "cle": "L120",
 "id": "B332",
 "rid": "1052618",
@@ -3171,6 +3322,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 4",
 "cle": "L139",
 "id": "B343",
 "rid": "1052781",
@@ -3192,6 +3344,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 4",
 "cle": "L128",
 "id": "B358",
 "rid": "1053050",
@@ -3213,6 +3366,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 4",
 "cle": "L129",
 "id": "B359",
 "rid": "1053074",
@@ -3234,6 +3388,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 4",
 "cle": "L130",
 "id": "B360",
 "rid": "1053098",
@@ -3255,6 +3410,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 4",
 "cle": "L131",
 "id": "B361",
 "rid": "1053123",
@@ -3276,6 +3432,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 4",
 "cle": "L133",
 "id": "B362",
 "rid": "1053147",
@@ -3297,6 +3454,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 4",
 "cle": "L135",
 "id": "B364",
 "rid": "1053200",
@@ -3318,6 +3476,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 4",
 "cle": "L119",
 "id": "B368",
 "rid": "1053234",
@@ -3339,6 +3498,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 4",
 "cle": "L118",
 "id": "B375",
 "rid": "1053329",
@@ -3360,6 +3520,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 4",
 "cle": "L122",
 "id": "B376",
 "rid": "1053333",
@@ -3381,6 +3542,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 4",
 "cle": "L195",
 "id": "B385",
 "rid": "1053419",
@@ -3402,6 +3564,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 5",
 "cle": "L086",
 "id": "B355",
 "rid": "1053016",
@@ -3423,6 +3586,7 @@
 "remarque": "Les deux gaines du couloir sont trop proches pour passer l'antenne par-dessus  ; Antenne trop courte entre deux raccords"
 },
 {
+"reseau": "CTA 5",
 "cle": "L003",
 "id": "B381",
 "rid": "1053381",
@@ -3444,6 +3608,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 5",
 "cle": "L104",
 "id": "B395",
 "rid": "1053554",
@@ -3465,6 +3630,7 @@
 "remarque": "Les deux gaines du couloir sont trop proches pour passer l'antenne par-dessus  ; Antenne trop courte entre deux raccords"
 },
 {
+"reseau": "CTA 5",
 "cle": "L087",
 "id": "B301",
 "rid": "1052364",
@@ -3486,6 +3652,7 @@
 "remarque": "Piquage à reprendre à la main (raccord de la gaine principale à proximité)"
 },
 {
+"reseau": "CTA 5",
 "cle": "L088",
 "id": "B394",
 "rid": "1053553",
@@ -3507,6 +3674,7 @@
 "remarque": "Les deux gaines du couloir sont trop proches pour passer l'antenne par-dessus  ; Antenne trop courte entre deux raccords"
 },
 {
+"reseau": "CTA 5",
 "cle": "L089",
 "id": "B315",
 "rid": "1052422",
@@ -3528,6 +3696,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 5",
 "cle": "L090",
 "id": "B302",
 "rid": "1052365",
@@ -3549,6 +3718,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 5",
 "cle": "L105",
 "id": "B401",
 "rid": "1053696",
@@ -3570,6 +3740,7 @@
 "remarque": "Antenne à faire : bouche ajoutée pour être conforme au DCE"
 },
 {
+"reseau": "CTA 5",
 "cle": "L092",
 "id": "B303",
 "rid": "1052375",
@@ -3591,6 +3762,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 5",
 "cle": "L106",
 "id": "B330",
 "rid": "1052576",
@@ -3612,6 +3784,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 5",
 "cle": "L096",
 "id": "B396",
 "rid": "1053555",
@@ -3633,6 +3806,7 @@
 "remarque": "Piquage à reprendre à la main (raccord de la gaine principale à proximité)"
 },
 {
+"reseau": "CTA 5",
 "cle": "L097",
 "id": "B392",
 "rid": "1053492",
@@ -3654,6 +3828,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 5",
 "cle": "L098",
 "id": "B336",
 "rid": "1052625",
@@ -3675,6 +3850,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 5",
 "cle": "L099",
 "id": "B304",
 "rid": "1052385",
@@ -3696,6 +3872,7 @@
 "remarque": "Piquage à reprendre à la main (raccord de la gaine principale à proximité)"
 },
 {
+"reseau": "CTA 5",
 "cle": "L107",
 "id": "B308",
 "rid": "1052407",
@@ -3717,6 +3894,7 @@
 "remarque": "Les deux gaines du couloir sont trop proches pour passer l'antenne par-dessus  ; Antenne trop courte entre deux raccords"
 },
 {
+"reseau": "CTA 5",
 "cle": "L107",
 "id": "B309",
 "rid": "1052408",
@@ -3738,6 +3916,7 @@
 "remarque": "Les deux gaines du couloir sont trop proches pour passer l'antenne par-dessus  ; Antenne trop courte entre deux raccords"
 },
 {
+"reseau": "CTA 5",
 "cle": "L107",
 "id": "B310",
 "rid": "1052409",
@@ -3759,6 +3938,7 @@
 "remarque": "Les deux gaines du couloir sont trop proches pour passer l'antenne par-dessus  ; Antenne trop courte entre deux raccords"
 },
 {
+"reseau": "CTA 5",
 "cle": "L107",
 "id": "B311",
 "rid": "1052410",
@@ -3780,6 +3960,7 @@
 "remarque": "Piquage à reprendre à la main (raccord de la gaine principale à proximité)"
 },
 {
+"reseau": "CTA 5",
 "cle": "L107",
 "id": "B312",
 "rid": "1052419",
@@ -3801,6 +3982,7 @@
 "remarque": "Les deux gaines du couloir sont trop proches pour passer l'antenne par-dessus  ; Antenne trop courte entre deux raccords"
 },
 {
+"reseau": "CTA 5",
 "cle": "L107",
 "id": "B313",
 "rid": "1052420",
@@ -3822,6 +4004,7 @@
 "remarque": "Les deux gaines du couloir sont trop proches pour passer l'antenne par-dessus  ; Antenne trop courte entre deux raccords"
 },
 {
+"reseau": "CTA 5",
 "cle": "L107",
 "id": "B314",
 "rid": "1052421",
@@ -3843,6 +4026,7 @@
 "remarque": "Les deux gaines du couloir sont trop proches pour passer l'antenne par-dessus  ; Antenne trop courte entre deux raccords"
 },
 {
+"reseau": "CTA 5",
 "cle": "L101",
 "id": "B342",
 "rid": "1052752",
@@ -3864,6 +4048,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 5",
 "cle": "L103",
 "id": "B305",
 "rid": "1052395",
@@ -3885,6 +4070,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 5",
 "cle": "L113",
 "id": "B324",
 "rid": "1052518",
@@ -3906,6 +4092,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 5",
 "cle": "L207",
 "id": "B405",
 "rid": "1053700",
@@ -3927,6 +4114,7 @@
 "remarque": "Antenne à faire : bouche ajoutée pour être conforme au DCE"
 },
 {
+"reseau": "CTA 5",
 "cle": "L214",
 "id": "B402",
 "rid": "1053697",
@@ -3948,6 +4136,7 @@
 "remarque": "Antenne à faire : bouche ajoutée pour être conforme au DCE"
 },
 {
+"reseau": "CTA 5",
 "cle": "L214",
 "id": "B403",
 "rid": "1053698",
@@ -3969,6 +4158,7 @@
 "remarque": "Antenne à faire : bouche ajoutée pour être conforme au DCE"
 },
 {
+"reseau": "CTA 5",
 "cle": "L147",
 "id": "B366",
 "rid": "1053208",
@@ -3990,6 +4180,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 5",
 "cle": "L147",
 "id": "B367",
 "rid": "1053222",
@@ -4011,6 +4202,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 5",
 "cle": "L148",
 "id": "B379",
 "rid": "1053370",
@@ -4032,6 +4224,7 @@
 "remarque": "Antenne trop courte entre deux raccords"
 },
 {
+"reseau": "CTA 5",
 "cle": "L148",
 "id": "B380",
 "rid": "1053371",
@@ -4053,6 +4246,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 5",
 "cle": "L086",
 "id": "B058",
 "rid": "1045307",
@@ -4074,6 +4268,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 5",
 "cle": "L003",
 "id": "B386",
 "rid": "1053424",
@@ -4095,6 +4290,7 @@
 "remarque": "Les deux gaines du couloir sont trop proches pour passer l'antenne par-dessus  ; Antenne trop courte entre deux raccords"
 },
 {
+"reseau": "CTA 5",
 "cle": "L104",
 "id": "B090",
 "rid": "1050583",
@@ -4116,6 +4312,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 5",
 "cle": "L087",
 "id": "B337",
 "rid": "1052654",
@@ -4137,6 +4334,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 5",
 "cle": "L088",
 "id": "B211",
 "rid": "1045699",
@@ -4158,6 +4356,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 5",
 "cle": "L089",
 "id": "B335",
 "rid": "1052624",
@@ -4179,6 +4378,7 @@
 "remarque": "Antenne trop courte entre deux raccords"
 },
 {
+"reseau": "CTA 5",
 "cle": "L090",
 "id": "B340",
 "rid": "1052713",
@@ -4200,6 +4400,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 5",
 "cle": "L105",
 "id": "B091",
 "rid": "1050592",
@@ -4221,6 +4422,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 5",
 "cle": "L092",
 "id": "B341",
 "rid": "1052732",
@@ -4242,6 +4444,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 5",
 "cle": "L106",
 "id": "B344",
 "rid": "1052785",
@@ -4263,6 +4466,7 @@
 "remarque": "Antenne trop courte entre deux raccords"
 },
 {
+"reseau": "CTA 5",
 "cle": "L096",
 "id": "B209",
 "rid": "1045689",
@@ -4284,6 +4488,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 5",
 "cle": "L097",
 "id": "B194",
 "rid": "1045652",
@@ -4305,6 +4510,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 5",
 "cle": "L098",
 "id": "B316",
 "rid": "1052431",
@@ -4326,6 +4532,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 5",
 "cle": "L099",
 "id": "B338",
 "rid": "1052673",
@@ -4347,6 +4554,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 5",
 "cle": "L107",
 "id": "B001",
 "rid": "1044492",
@@ -4368,6 +4576,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 5",
 "cle": "L107",
 "id": "B002",
 "rid": "1044808",
@@ -4389,6 +4598,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 5",
 "cle": "L107",
 "id": "B003",
 "rid": "1050485",
@@ -4410,6 +4620,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 5",
 "cle": "L107",
 "id": "B005",
 "rid": "1044820",
@@ -4431,6 +4642,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 5",
 "cle": "L107",
 "id": "B006",
 "rid": "1044829",
@@ -4452,6 +4664,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 5",
 "cle": "L107",
 "id": "B306",
 "rid": "1052405",
@@ -4473,6 +4686,7 @@
 "remarque": "Les deux gaines du couloir sont trop proches pour passer l'antenne par-dessus  ; Antenne trop courte entre deux raccords"
 },
 {
+"reseau": "CTA 5",
 "cle": "L107",
 "id": "B307",
 "rid": "1052406",
@@ -4494,6 +4708,7 @@
 "remarque": "Les deux gaines du couloir sont trop proches pour passer l'antenne par-dessus  ; Antenne trop courte entre deux raccords"
 },
 {
+"reseau": "CTA 5",
 "cle": "L101",
 "id": "B078",
 "rid": "1045422",
@@ -4515,6 +4730,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 5",
 "cle": "L103",
 "id": "B339",
 "rid": "1052693",
@@ -4536,6 +4752,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 5",
 "cle": "L113",
 "id": "B089",
 "rid": "1050574",
@@ -4557,6 +4774,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 5",
 "cle": "L207",
 "id": "B404",
 "rid": "1053699",
@@ -4578,6 +4796,7 @@
 "remarque": "Antenne à faire : bouche ajoutée pour être conforme au DCE"
 },
 {
+"reseau": "CTA 5",
 "cle": "L214",
 "id": "B033",
 "rid": "1050525",
@@ -4599,6 +4818,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 5",
 "cle": "L214",
 "id": "B034",
 "rid": "1050535",
@@ -4620,6 +4840,7 @@
 "remarque": ""
 },
 {
+"reseau": "CTA 5",
 "cle": "L147",
 "id": "B371",
 "rid": "1053268",
@@ -4641,6 +4862,7 @@
 "remarque": "Les deux gaines du couloir sont trop proches pour passer l'antenne par-dessus  ; Antenne trop courte entre deux raccords"
 },
 {
+"reseau": "CTA 5",
 "cle": "L147",
 "id": "B372",
 "rid": "1053269",
@@ -4662,6 +4884,7 @@
 "remarque": "Les deux gaines du couloir sont trop proches pour passer l'antenne par-dessus  ; Antenne trop courte entre deux raccords"
 },
 {
+"reseau": "CTA 5",
 "cle": "L148",
 "id": "B384",
 "rid": "1053418",
@@ -4683,6 +4906,7 @@
 "remarque": "Les deux gaines du couloir sont trop proches pour passer l'antenne par-dessus  ; Antenne trop courte entre deux raccords"
 },
 {
+"reseau": "CTA 5",
 "cle": "L148",
 "id": "B406",
 "rid": "1053703",
@@ -4704,6 +4928,7 @@
 "remarque": "Antenne à faire : bouche ajoutée pour être conforme au DCE"
 },
 {
+"reseau": "VMC 2",
 "cle": "L001",
 "id": "V001",
 "rid": "1053648",
@@ -4721,10 +4946,11 @@
 "x": -73.892,
 "y": 40.357,
 "z": 2.5,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 2"
 },
 {
+"reseau": "VMC 2",
 "cle": "L002",
 "id": "V002",
 "rid": "1053649",
@@ -4739,13 +4965,14 @@
 "modele": "VIM ALYZE S",
 "produit": "Bouche d'extraction VMC autoréglable",
 "ref_cctp": "CCTP 4.12.5",
-"x": -72.834,
-"y": 36.0,
+"x": -72.3,
+"y": 36.45,
 "z": 2.5,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 2 ; bouche décalée dans le local (gaine CTA ou poutre au-dessus)"
 },
 {
+"reseau": "VMC 2",
 "cle": "L005",
 "id": "V003",
 "rid": "1053650",
@@ -4760,13 +4987,14 @@
 "modele": "VIM ALYZE S",
 "produit": "Bouche d'extraction VMC autoréglable",
 "ref_cctp": "CCTP 4.12.5",
-"x": -70.24,
+"x": -70.6,
 "y": 34.5,
 "z": 2.5,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 2 ; bouche décalée dans le local (gaine CTA ou poutre au-dessus)"
 },
 {
+"reseau": "VMC 2",
 "cle": "L006",
 "id": "V004",
 "rid": "1053651",
@@ -4781,13 +5009,14 @@
 "modele": "VIM ALYZE S",
 "produit": "Bouche d'extraction VMC autoréglable",
 "ref_cctp": "CCTP 4.12.5",
-"x": -65.39,
-"y": 34.5,
+"x": -65.95,
+"y": 33.9,
 "z": 2.5,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 2 ; bouche décalée dans le local (gaine CTA ou poutre au-dessus)"
 },
 {
+"reseau": "VMC 3",
 "cle": "L093",
 "id": "V023",
 "rid": "1053670",
@@ -4805,10 +5034,11 @@
 "x": -52.794,
 "y": 38.5,
 "z": 2.5,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 3"
 },
 {
+"reseau": "VMC 3",
 "cle": "L094",
 "id": "V005",
 "rid": "1053652",
@@ -4826,10 +5056,11 @@
 "x": -56.191,
 "y": 38.1,
 "z": 2.5,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 3"
 },
 {
+"reseau": "VMC 5",
 "cle": "L007",
 "id": "V024",
 "rid": "1053671",
@@ -4847,10 +5078,11 @@
 "x": -39.22,
 "y": 18.64,
 "z": 2.5,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 5"
 },
 {
+"reseau": "VMC 1",
 "cle": "L049",
 "id": "V011",
 "rid": "1053658",
@@ -4866,12 +5098,13 @@
 "produit": "Bouche d'extraction VMC autoréglable",
 "ref_cctp": "CCTP 4.12.5",
 "x": -31.147,
-"y": 73.717,
+"y": 73.48,
 "z": 2.5,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 1"
 },
 {
+"reseau": "VMC 2",
 "cle": "L095",
 "id": "V012",
 "rid": "1053659",
@@ -4886,13 +5119,14 @@
 "modele": "VIM ALYZE S",
 "produit": "Bouche d'extraction VMC autoréglable",
 "ref_cctp": "CCTP 4.12.5",
-"x": -64.533,
-"y": 38.675,
+"x": -64.9,
+"y": 39.0,
 "z": 2.5,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 2 ; bouche décalée dans le local (gaine CTA ou poutre au-dessus)"
 },
 {
+"reseau": "VMC 1",
 "cle": "L050",
 "id": "V025",
 "rid": "1053672",
@@ -4908,12 +5142,13 @@
 "produit": "Bouche d'extraction VMC autoréglable",
 "ref_cctp": "CCTP 4.12.5",
 "x": -38.21,
-"y": 65.451,
+"y": 65.28,
 "z": 2.5,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 1"
 },
 {
+"reseau": "VMC 4",
 "cle": "L011",
 "id": "V006",
 "rid": "1053653",
@@ -4928,13 +5163,14 @@
 "modele": "VIM ALYZE S",
 "produit": "Bouche d'extraction VMC autoréglable",
 "ref_cctp": "CCTP 4.12.5",
-"x": -38.01,
-"y": 29.02,
+"x": -37.3,
+"y": 29.6,
 "z": 2.5,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 4 ; bouche décalée dans le local (gaine CTA ou poutre au-dessus)"
 },
 {
+"reseau": "VMC 5",
 "cle": "L012",
 "id": "V007",
 "rid": "1053654",
@@ -4952,10 +5188,11 @@
 "x": -30.01,
 "y": 18.74,
 "z": 2.5,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 5"
 },
 {
+"reseau": "VMC 1",
 "cle": "L051",
 "id": "V013",
 "rid": "1053660",
@@ -4970,13 +5207,14 @@
 "modele": "VIM ALYZE S",
 "produit": "Bouche d'extraction VMC autoréglable",
 "ref_cctp": "CCTP 4.12.5",
-"x": -30.77,
-"y": 66.46,
+"x": -31.27,
+"y": 64.75,
 "z": 2.5,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 1 ; bouche décalée dans le local (gaine CTA ou poutre au-dessus)"
 },
 {
+"reseau": "VMC 1",
 "cle": "L051",
 "id": "V014",
 "rid": "1053661",
@@ -4991,13 +5229,14 @@
 "modele": "VIM ALYZE S",
 "produit": "Bouche d'extraction VMC autoréglable",
 "ref_cctp": "CCTP 4.12.5",
-"x": -29.07,
-"y": 62.66,
+"x": -30.9,
+"y": 62.6,
 "z": 2.5,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 1 ; bouche décalée dans le local (gaine CTA ou poutre au-dessus)"
 },
 {
+"reseau": "VMC 1",
 "cle": "L051",
 "id": "V015",
 "rid": "1053662",
@@ -5015,10 +5254,11 @@
 "x": -31.27,
 "y": 63.86,
 "z": 2.5,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 1"
 },
 {
+"reseau": "VMC 1",
 "cle": "L053",
 "id": "V016",
 "rid": "1053663",
@@ -5036,10 +5276,11 @@
 "x": -38.571,
 "y": 72.021,
 "z": 2.5,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 1"
 },
 {
+"reseau": "VMC 3",
 "cle": "L100",
 "id": "V017",
 "rid": "1053664",
@@ -5057,10 +5298,11 @@
 "x": -42.049,
 "y": 39.36,
 "z": 2.5,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 3"
 },
 {
+"reseau": "VMC 1",
 "cle": "L055",
 "id": "V018",
 "rid": "1053665",
@@ -5078,10 +5320,11 @@
 "x": -33.516,
 "y": 70.503,
 "z": 2.5,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 1"
 },
 {
+"reseau": "VMC 1",
 "cle": "L054",
 "id": "V019",
 "rid": "1053666",
@@ -5099,10 +5342,11 @@
 "x": -33.466,
 "y": 72.515,
 "z": 2.5,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 1"
 },
 {
+"reseau": "VMC 1",
 "cle": "L056",
 "id": "V026",
 "rid": "1053673",
@@ -5120,10 +5364,11 @@
 "x": -31.876,
 "y": 70.583,
 "z": 2.5,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 1"
 },
 {
+"reseau": "VMC 1",
 "cle": "L085",
 "id": "V020",
 "rid": "1053667",
@@ -5141,10 +5386,11 @@
 "x": -34.38,
 "y": 63.851,
 "z": 2.5,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 1"
 },
 {
+"reseau": "VMC 1",
 "cle": "L085",
 "id": "V021",
 "rid": "1053668",
@@ -5162,10 +5408,11 @@
 "x": -29.78,
 "y": 56.651,
 "z": 2.5,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 1"
 },
 {
+"reseau": "VMC 1",
 "cle": "L085",
 "id": "V022",
 "rid": "1053669",
@@ -5180,13 +5427,14 @@
 "modele": "VIM ALYZE S",
 "produit": "Bouche d'extraction VMC autoréglable",
 "ref_cctp": "CCTP 4.12.5",
-"x": -29.38,
-"y": 61.851,
+"x": -30.2,
+"y": 60.5,
 "z": 2.5,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 1 ; bouche décalée dans le local (gaine CTA ou poutre au-dessus)"
 },
 {
+"reseau": "VMC 2",
 "cle": "L017",
 "id": "V008",
 "rid": "1053655",
@@ -5204,10 +5452,11 @@
 "x": -73.603,
 "y": 38.167,
 "z": 2.5,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 2"
 },
 {
+"reseau": "VMC 2",
 "cle": "L015",
 "id": "V009",
 "rid": "1053656",
@@ -5222,13 +5471,14 @@
 "modele": "VIM ALYZE S",
 "produit": "Bouche d'extraction VMC autoréglable",
 "ref_cctp": "CCTP 4.12.5",
-"x": -69.04,
+"x": -68.88,
 "y": 31.94,
 "z": 2.5,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 2"
 },
 {
+"reseau": "VMC 2",
 "cle": "L016",
 "id": "V010",
 "rid": "1053657",
@@ -5246,10 +5496,11 @@
 "x": -66.59,
 "y": 31.94,
 "z": 2.5,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 2"
 },
 {
+"reseau": "VMC 4",
 "cle": "L110",
 "id": "V027",
 "rid": "1053674",
@@ -5265,12 +5516,13 @@
 "produit": "Bouche d'extraction VMC autoréglable",
 "ref_cctp": "CCTP 4.12.5",
 "x": -31.03,
-"y": 38.91,
+"y": 39.5,
 "z": 2.5,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 4 ; bouche décalée dans le local (gaine CTA ou poutre au-dessus)"
 },
 {
+"reseau": "VMC 4",
 "cle": "L111",
 "id": "V028",
 "rid": "1053675",
@@ -5285,13 +5537,14 @@
 "modele": "VIM ALYZE S",
 "produit": "Bouche d'extraction VMC autoréglable",
 "ref_cctp": "CCTP 4.12.5",
-"x": -29.14,
+"x": -29.6,
 "y": 38.91,
 "z": 2.5,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 4 ; bouche décalée dans le local (gaine CTA ou poutre au-dessus)"
 },
 {
+"reseau": "VMC 3",
 "cle": "L141",
 "id": "V029",
 "rid": "1053676",
@@ -5306,13 +5559,14 @@
 "modele": "VIM ALYZE S",
 "produit": "Bouche d'extraction VMC autoréglable",
 "ref_cctp": "CCTP 4.12.5",
-"x": -39.612,
-"y": 38.63,
+"x": -40.6,
+"y": 38.9,
 "z": 5.86,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 3 ; bouche décalée dans le local (gaine CTA ou poutre au-dessus)"
 },
 {
+"reseau": "VMC 1",
 "cle": "L209",
 "id": "V038",
 "rid": "1053685",
@@ -5330,10 +5584,11 @@
 "x": -32.846,
 "y": 73.415,
 "z": 5.86,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 1"
 },
 {
+"reseau": "VMC 1",
 "cle": "L210",
 "id": "V039",
 "rid": "1053686",
@@ -5351,10 +5606,11 @@
 "x": -38.31,
 "y": 65.352,
 "z": 5.86,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 1"
 },
 {
+"reseau": "VMC 3",
 "cle": "L142",
 "id": "V030",
 "rid": "1053677",
@@ -5369,13 +5625,14 @@
 "modele": "VIM ALYZE S",
 "produit": "Bouche d'extraction VMC autoréglable",
 "ref_cctp": "CCTP 4.12.5",
-"x": -48.14,
-"y": 38.9,
+"x": -48.6,
+"y": 38.6,
 "z": 5.86,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 3 ; bouche décalée dans le local (gaine CTA ou poutre au-dessus)"
 },
 {
+"reseau": "VMC 4",
 "cle": "L143",
 "id": "V031",
 "rid": "1053678",
@@ -5390,13 +5647,14 @@
 "modele": "VIM ALYZE S",
 "produit": "Bouche d'extraction VMC autoréglable",
 "ref_cctp": "CCTP 4.12.5",
-"x": -35.06,
-"y": 33.84,
+"x": -35.6,
+"y": 33.3,
 "z": 5.86,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 4 ; bouche décalée dans le local (gaine CTA ou poutre au-dessus)"
 },
 {
+"reseau": "VMC 4",
 "cle": "L143",
 "id": "V032",
 "rid": "1053679",
@@ -5411,13 +5669,14 @@
 "modele": "VIM ALYZE S",
 "produit": "Bouche d'extraction VMC autoréglable",
 "ref_cctp": "CCTP 4.12.5",
-"x": -38.36,
-"y": 28.44,
+"x": -37.4,
+"y": 29.6,
 "z": 5.86,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 4 ; bouche décalée dans le local (gaine CTA ou poutre au-dessus)"
 },
 {
+"reseau": "VMC 4",
 "cle": "L143",
 "id": "V033",
 "rid": "1053680",
@@ -5432,13 +5691,14 @@
 "modele": "VIM ALYZE S",
 "produit": "Bouche d'extraction VMC autoréglable",
 "ref_cctp": "CCTP 4.12.5",
-"x": -34.46,
-"y": 29.74,
+"x": -35.8,
+"y": 29.9,
 "z": 5.86,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 4 ; bouche décalée dans le local (gaine CTA ou poutre au-dessus)"
 },
 {
+"reseau": "VMC 1",
 "cle": "L211",
 "id": "V040",
 "rid": "1053687",
@@ -5453,13 +5713,14 @@
 "modele": "VIM ALYZE S",
 "produit": "Bouche d'extraction VMC autoréglable",
 "ref_cctp": "CCTP 4.12.5",
-"x": -30.77,
-"y": 66.47,
+"x": -31.27,
+"y": 64.75,
 "z": 5.86,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 1 ; bouche décalée dans le local (gaine CTA ou poutre au-dessus)"
 },
 {
+"reseau": "VMC 1",
 "cle": "L211",
 "id": "V041",
 "rid": "1053688",
@@ -5475,12 +5736,13 @@
 "produit": "Bouche d'extraction VMC autoréglable",
 "ref_cctp": "CCTP 4.12.5",
 "x": -29.07,
-"y": 62.67,
+"y": 62.7,
 "z": 5.86,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 1"
 },
 {
+"reseau": "VMC 1",
 "cle": "L211",
 "id": "V042",
 "rid": "1053689",
@@ -5498,10 +5760,11 @@
 "x": -31.27,
 "y": 63.87,
 "z": 5.86,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 1"
 },
 {
+"reseau": "VMC 1",
 "cle": "L213",
 "id": "V043",
 "rid": "1053690",
@@ -5519,10 +5782,11 @@
 "x": -38.571,
 "y": 72.021,
 "z": 5.86,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 1"
 },
 {
+"reseau": "VMC 3",
 "cle": "L152",
 "id": "V034",
 "rid": "1053681",
@@ -5540,10 +5804,11 @@
 "x": -46.1,
 "y": 38.94,
 "z": 5.86,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 3"
 },
 {
+"reseau": "VMC 3",
 "cle": "L150",
 "id": "V035",
 "rid": "1053682",
@@ -5561,10 +5826,11 @@
 "x": -44.48,
 "y": 38.94,
 "z": 5.86,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 3"
 },
 {
+"reseau": "VMC 1",
 "cle": "L217",
 "id": "V036",
 "rid": "1053683",
@@ -5582,10 +5848,11 @@
 "x": -33.516,
 "y": 70.503,
 "z": 5.86,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 1"
 },
 {
+"reseau": "VMC 1",
 "cle": "L151",
 "id": "V037",
 "rid": "1053684",
@@ -5603,10 +5870,11 @@
 "x": -31.876,
 "y": 70.583,
 "z": 5.86,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 1"
 },
 {
+"reseau": "VMC 4",
 "cle": "L149",
 "id": "V044",
 "rid": "1053691",
@@ -5621,13 +5889,14 @@
 "modele": "VIM ALYZE S",
 "produit": "Bouche d'extraction VMC autoréglable",
 "ref_cctp": "CCTP 4.12.5",
-"x": -28.32,
-"y": 32.87,
+"x": -28.0,
+"y": 32.9,
 "z": 5.86,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 4 ; bouche décalée dans le local (gaine CTA ou poutre au-dessus)"
 },
 {
+"reseau": "VMC 4",
 "cle": "L216",
 "id": "V045",
 "rid": "1053692",
@@ -5642,13 +5911,14 @@
 "modele": "VIM ALYZE S",
 "produit": "Bouche d'extraction VMC autoréglable",
 "ref_cctp": "CCTP 4.12.5",
-"x": -28.32,
-"y": 34.49,
+"x": -28.0,
+"y": 34.0,
 "z": 5.86,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 4 ; bouche décalée dans le local (gaine CTA ou poutre au-dessus)"
 },
 {
+"reseau": "VMC 6",
 "cle": "L215",
 "id": "V046",
 "rid": "1053693",
@@ -5666,7 +5936,7 @@
 "x": 1.739,
 "y": 66.18,
 "z": 5.86,
-"raccordee": false,
-"remarque": "Réseau VMC sanitaires (caisson + gaines) à créer"
+"raccordee": true,
+"remarque": "Raccordée au caisson VMC 6"
 }
 ]

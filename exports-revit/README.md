@@ -107,3 +107,20 @@ Pour le site :
 2. Ajouter un tableau « Contrôle DCE » depuis `controle_dce.json` (244 locaux, tous conformes en débit).
 3. Publier le compte rendu (onglet Comptes rendus ou Avancement) et mettre l'Excel à jour dans `files/gaines/` et `docs/`.
 4. Remplacer `plan_bouches.png`.
+
+## Dépôt du 20/10 — réseau VMC simple flux
+
+Lire **`CR_vmc_2026-10-20.md`** (compte rendu à publier, écrit à la 1re personne au nom d'Allan).
+
+Ce qui change dans les fichiers :
+- `gaines.json` (1 815 objets) : nouveaux réseaux `net` = `"VMC 1"` à `"VMC 6"`, `sys` = `"Extraction"`. Les antennes VMC ont `ant: true` et `bouche` = `"V0xx"`. Les manchettes rondes au caisson ont `W` et `H` = 0 (Ø315).
+- `equip.json` : 6 caissons ajoutés (`fam` = `CVC_Caisson-VMC_C4`, `mark` = `VMC 1`…`VMC 6`), avec `cctp` (débit) et `verif`.
+- `bouches.json` : nouveau champ `reseau` (`"VMC 1"`…, ou `"CTA n"`). Les 46 bouches VMC sont `raccordee: true`. `cta` reste `"VMC sanitaires"` pour ne rien casser.
+- `reservations.json` : 156 réservations (70 VMC). `cta` peut valoir `"VMC n"`, `sys` = `"Extraction"`.
+- `EHPAD_Dimensionnement_Gaines.xlsx` : nouvel onglet « Réseaux VMC ». `EHPAD_Bouches_Ventilation.xlsx` : mis à jour.
+- `reseau_vmc.png` : plan des 6 réseaux (RDC, R+1, toiture).
+
+Pour le site :
+1. Ajouter une couleur pour le système « Extraction » (ou une couleur par réseau VMC) dans la vue 3D et les filtres.
+2. Afficher les caissons VMC avec les autres équipements de toiture.
+3. Publier le compte rendu et remplacer les Excel, le plan et les réservations.
