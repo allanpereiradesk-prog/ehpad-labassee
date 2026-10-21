@@ -753,6 +753,27 @@ body.mq-on{overflow:hidden}
 .jt-ev{font-size:13.5px;font-weight:600;color:#1e3a5f;opacity:0;transform:translateY(4px);transition:.35s}.jt-ev.on{opacity:1;transform:none}
 .jt-info{font-size:12.5px;color:#334155;margin-top:6px}.jt-info details{display:inline}.jt-info summary{display:inline;cursor:pointer;color:#1f5fa8;margin-left:6px}.jt-info ul{margin:6px 0 0;padding-left:18px}
 @media (max-width:900px){.jt{right:16px;bottom:92px;left:8px;right:8px}.jt-p i{width:80px}}
+.jv{position:absolute;inset:0;z-index:5;pointer-events:none}.jv>*{pointer-events:auto}
+.jv-top{position:absolute;left:calc(50% - 205px);top:16px;transform:translateX(-50%);width:min(560px,calc(100vw - 460px));min-width:340px;display:grid;gap:8px}
+.jv-bar{display:flex;align-items:center;gap:12px;padding:8px 10px 8px 8px;border-radius:999px;background:rgb(10 16 28 / .78);backdrop-filter:blur(16px);color:#fff;box-shadow:0 14px 40px rgb(2 6 23 / .35);border:1px solid rgb(255 255 255 / .12)}
+.jv-orb{--lv:0;position:relative;flex:none;width:52px;height:52px;border-radius:50%;border:0;padding:0;cursor:pointer;background:radial-gradient(circle at 35% 30%,#e0f2fe,#38bdf8 35%,#1d4ed8 70%,#0b1020);box-shadow:0 0 0 2px rgb(255 255 255 / .15),0 0 calc(10px + var(--lv)*40px) rgb(56 189 248 / calc(.35 + var(--lv)*.6));transform:scale(calc(1 + var(--lv)*.25));transition:transform .08s,filter .3s}
+.jv-orb i{position:absolute;inset:-6px;border-radius:50%;background:conic-gradient(from 0deg,transparent,rgb(56 189 248 / .8),transparent 40%,rgb(168 85 247 / .7),transparent 75%);-webkit-mask:radial-gradient(circle,transparent 58%,#000 60%,#000 66%,transparent 68%);mask:radial-gradient(circle,transparent 58%,#000 60%,#000 66%,transparent 68%);animation:jvSpin 3s linear infinite;opacity:.5}
+.jv-orb b{position:absolute;inset:14px;border-radius:50%;background:rgb(255 255 255 / .85);filter:blur(6px);opacity:.35}
+.jv-orb[data-st="idle"]{filter:grayscale(.75) brightness(.8)}.jv-orb[data-st="idle"] i{animation-duration:9s;opacity:.25}
+.jv-orb[data-st="listen"] i{opacity:.9;animation-duration:2.2s}
+.jv-orb[data-st="think"]{background:radial-gradient(circle at 35% 30%,#f5d0fe,#a855f7 40%,#4c1d95 75%,#0b1020)}.jv-orb[data-st="think"] i{animation-duration:.8s;opacity:1}
+.jv-orb[data-st="speak"]{background:radial-gradient(circle at 35% 30%,#dcfce7,#22d3ee 35%,#2563eb 70%,#0b1020);animation:jvTalk .45s ease-in-out infinite alternate}
+@keyframes jvSpin{to{transform:rotate(360deg)}}@keyframes jvTalk{to{transform:scale(1.12);box-shadow:0 0 34px rgb(34 211 238 / .8)}}
+.jv-txt{flex:1;min-width:0;display:grid;gap:2px}.jv-txt div{display:flex;gap:8px;align-items:baseline}.jv-txt b{font-size:15px;letter-spacing:.06em}.jv-txt span{font-size:12.5px;color:#93c5fd}
+.jv-txt em{font-style:normal;font-size:14px;color:#cbd5e1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.jv-txt em.final{color:#fff;font-weight:600}
+.jv-b{flex:none;width:34px;height:34px;border-radius:50%;border:0;background:rgb(255 255 255 / .1);color:#fff;font-size:15px;cursor:pointer}.jv-b:hover{background:rgb(255 255 255 / .2)}.jv-b[aria-pressed="true"]{background:#0ea5e9}
+.jv-form{display:flex;gap:8px;align-items:center;padding:6px 8px;border-radius:14px;background:rgb(255 255 255 / .82);backdrop-filter:blur(12px);box-shadow:0 8px 24px rgb(15 23 42 / .15)}.jv-form input[type=text],.jv-form #jvTxt{flex:1;min-width:0;border:0;background:transparent;font:inherit;font-size:14px;outline:none;color:#0f172a}.jv-form label{font-size:12px;color:#475569;white-space:nowrap;display:flex;gap:4px;align-items:center}
+.jv-help{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px;border-radius:16px;background:rgb(255 255 255 / .92);backdrop-filter:blur(12px);box-shadow:0 10px 30px rgb(15 23 42 / .2)}.jv-help div{display:grid;gap:4px;align-content:start}.jv-help b{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:#64748b}
+.jv-ex{text-align:left;border:0;border-radius:9px;padding:5px 8px;background:#f1f5f9;font:inherit;font-size:12.5px;color:#0f172a;cursor:pointer}.jv-ex:hover{background:#e0f2fe}
+.jv-sub{position:absolute;left:calc(50% - 205px);bottom:110px;transform:translate(-50%,10px);max-width:min(900px,calc(100vw - 480px));padding:12px 20px;border-radius:16px;background:rgb(2 6 23 / .78);color:#fff;font-size:18px;line-height:1.45;text-align:center;opacity:0;transition:opacity .35s,transform .35s;pointer-events:none;backdrop-filter:blur(8px);text-shadow:0 1px 2px #000}
+.jv-sub.on{opacity:1;transform:translate(-50%,0)}.jt:not([hidden])~.jv .jv-sub{bottom:340px}
+.jv-dock[aria-pressed="true"]{background:linear-gradient(135deg,#0ea5e9,#7c3aed)!important;color:#fff!important;border-color:transparent!important}
+@media (max-width:900px){.jv-top{left:50%;width:calc(100vw - 32px);min-width:0}.jv-sub{left:50%;max-width:calc(100vw - 32px);font-size:15px}}
 .hv-wait{display:grid;place-content:center;justify-items:center;gap:12px;text-align:center;color:#fff;padding:20px}.hv-wait p{margin:0}
 .hv-b{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .gai-ctl{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;font-size:14px}.gai-leg{display:flex;flex-wrap:wrap;gap:4px 10px}.gai-leg label{display:inline-flex;gap:5px;align-items:center;cursor:pointer}
@@ -1627,6 +1648,7 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
         <button type="button" class="mq-btn" data-mq-act="home" title="Vue d'ensemble">⌂<span>Vue</span></button>
         <button type="button" class="mq-btn" data-mq-act="air" aria-pressed="false" title="Air en mouvement">≋<span>Air</span></button>
         <button type="button" class="mq-btn" data-mq-act="expl" aria-pressed="false" title="Écarter les niveaux">⇕<span>Écorché</span></button>
+        <button type="button" class="mq-btn jv-dock" data-mq-act="jarvis" aria-pressed="false" title="Jarvis : piloter la maquette à la voix (touche J)">🎙️<span>Jarvis</span></button>
         <button type="button" class="mq-btn" data-mq-act="day" aria-pressed="false" title="Journée type d'hiver : 24 h animées">🕒<span>Journée</span></button>
         <button type="button" class="mq-btn" data-mq-act="film" title="Film de présentation">▶<span>Film</span></button>
         <button type="button" class="mq-btn" data-mq-act="search" title="Rechercher (Ctrl + K)">⌕<span>Chercher</span></button>
@@ -1648,6 +1670,18 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
         <input type="range" id="jtR" min="0" max="23.99" step="0.05" value="6" aria-label="Heure de la journée">
         <div class="jt-bot"><div class="jt-leg"><span>Besoin par m² :</span><i></i><small>0</small><small>25</small><small>50 W/m²</small></div><div class="jt-ev" id="jtEv"></div></div>
         <div class="jt-info" id="jtInfo"></div>
+      </div>
+      <div class="jv" id="jv" hidden>
+        <div class="jv-top">
+          <div class="jv-bar">
+            <button type="button" class="jv-orb" id="jvOrb" data-st="idle" title="M'écouter / arrêter (touche J)" aria-label="Activer le micro"><i></i><b></b></button>
+            <div class="jv-txt"><div><b>Jarvis</b><span id="jvSt"></span></div><em id="jvHeard"></em></div>
+            <button type="button" class="jv-b" id="jvMic" aria-pressed="false" title="Micro">🎙️</button><button type="button" class="jv-b" id="jvHelpB" title="Que puis-je dire ?">?</button><button type="button" class="jv-b" id="jvX" title="Fermer Jarvis">✕</button>
+          </div>
+          <form class="jv-form" id="jvForm"><input id="jvTxt" autocomplete="off" placeholder="…ou tape ta demande : « montre la CTA 5 »" aria-label="Demande à Jarvis"><label title="Ne réagir qu'aux phrases qui commencent par « Jarvis » : pratique pendant que tu parles au jury"><input type="checkbox" id="jvWake" checked> Mot-clé « Jarvis »</label><label><input type="checkbox" id="jvMute" checked> Voix</label></form>
+          <div class="jv-help" id="jvHelp" hidden></div>
+        </div>
+        <div class="jv-sub" id="jvSub" aria-live="polite"></div>
       </div>
       <aside class="mq-panel" id="mqPanel" aria-label="Panneau de la maquette">
         <button type="button" class="mq-toggle" id="mqToggle" aria-expanded="true" aria-controls="mqPanel" title="Replier / déplier le panneau"><span>›</span></button>
@@ -6629,4 +6663,167 @@ $("#jtSpd").onchange=e=>{ JT.spd=+e.target.value; };
 document.querySelectorAll("[data-jtlv]").forEach(b=>b.onclick=()=>jtLevel(b.dataset.jtlv));
 $("#jtSvg").addEventListener("click",e=>{ const r=e.currentTarget.getBoundingClientRect(); JT.h=Math.max(0,Math.min(23.99,(e.clientX-r.left)/r.width*24)); jtApply(JT.h); });
 document.querySelectorAll('[data-mq-act="day"]').forEach(b=>b.addEventListener("click",()=>{ if(JT.on) jtStop(); else jtStart(); }));
+</script>
+<script>
+/* ========== Jarvis : piloter la Maquette 3D à la voix (Chrome / Edge) ==========
+   Reconnaissance vocale et synthèse vocale du navigateur (gratuites). Un « cerveau » à règles comprend les phrases
+   et les relie aux fonctions de la 3D (caméra, coupes, calques, air, écorché, journée type) et aux données du projet. */
+const JV={on:false,listen:false,wake:true,armed:0,speaking:false,busy:false,rec:null,voice:null,anim:null,demo:false,E:null};
+const jvSR=window.SpeechRecognition||window.webkitSpeechRecognition;
+const jvN=s=>String(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[’']/g," ").replace(/[^a-z0-9,. ]/g," ").replace(/\s+/g," ").trim();
+function jvClean(t){ let s=" "+jvN(t)+" ";
+  s=s.replace(/ c\.? ?t\.? ?a\.? /g," cta ").replace(/ (cte a|ce ta|seta|set a|ct a) /g," cta ").replace(/ v\.? ?m\.? ?c\.? /g," vmc ").replace(/ (pack|pacs|pak) /g," pac ").replace(/ e\.? ?c\.? ?s\.? /g," ecs ").replace(/ r\.? ?d\.? ?c\.? /g," rdc ").replace(/ rez de chaussee /g," rdc ");
+  s=s.replace(/(\d)\s?h(eures?)?\b/g,"$1 h ");
+  const NW={un:1,une:1,deux:2,trois:3,quatre:4,cinq:5,six:6,sept:7,huit:8,neuf:9,dix:10,onze:11,douze:12,treize:13,quatorze:14,quinze:15,seize:16,"dix sept":17,"dix huit":18,"dix neuf":19,vingt:20,"vingt et une":21,"vingt deux":22,"vingt trois":23,minuit:0,midi:12};
+  s=s.replace(/ (cta|vmc|pac|chaudiere|ch|ve|vase) (un|une|deux|trois|quatre|cinq|six) /g,(m,a,b)=>` ${a} ${NW[b]} `);
+  s=s.replace(/ (vingt et une|vingt deux|vingt trois|dix sept|dix huit|dix neuf|deux|trois|quatre|cinq|six|sept|huit|neuf|dix|onze|douze|treize|quatorze|quinze|seize|vingt|une|un) (heures?|h) /g,(m,a,b)=>` ${NW[a]} h `).replace(/ (midi|minuit) /g,(m,a)=>` ${NW[a]} h `);
+  return s.replace(/\s+/g," ").trim(); }
+const JV_WAKE=/\b(jarvis+e?|jar vis|jarvi|djarvis|jervis|charvis|jarvic?e|ok maquette|dis maquette|maquette)\b[ ,.]*/;
+const jvF=n=>Number(n).toLocaleString("fr-FR",{maximumFractionDigits:1});
+// ---- voix ----
+function jvPickVoice(){ const V=speechSynthesis.getVoices().filter(v=>/^fr/i.test(v.lang)); const pref=[/google.*fran/i,/denise|henri|eloise|vivienne|remy/i,/thomas|amelie|amélie|audrey|aurelie/i,/paul|julie|hortense/i];
+  for(const p of pref){ const v=V.find(x=>p.test(x.name)); if(v) return v; } return V[0]||null; }
+if("speechSynthesis" in window){ JV.voice=jvPickVoice(); speechSynthesis.onvoiceschanged=()=>{ JV.voice=jvPickVoice(); }; }
+function jvSpeakable(t){ return String(t).replace(/m3\/h|m³\/h/g," mètres cubes par heure").replace(/(\d)\s?kWh/g,"$1 kilowattheures").replace(/(\d)\s?kW/g,"$1 kilowatts").replace(/W\/m²\.?K/g," watts par mètre carré kelvin").replace(/W\/m²/g," watts par mètre carré").replace(/W\/K/g," watts par kelvin")
+  .replace(/m²/g," mètres carrés").replace(/°C/g," degrés").replace(/\bCTA\b/g,"C.T.A.").replace(/\bVMC\b/g,"V.M.C.").replace(/\bECS\b/g,"E.C.S.").replace(/\bRDC\b/g,"rez-de-chaussée").replace(/\bPAC\b/g,"pac").replace(/\bCH (\d)/g,"chaudière $1").replace(/\bCVC\b/g,"C.V.C.").replace(/(\d) L\b/g,"$1 litres").replace(/[«»·]/g,", "); }
+function jvSay(text,show=true){ if(show) jvSub(text); return new Promise(res=>{ const done=()=>{ JV.speaking=false; jvState(); setTimeout(res,250); };
+  if(JV.mute||!("speechSynthesis" in window)){ setTimeout(done,Math.min(9000,600+text.length*55)); return; }
+  try{ speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(jvSpeakable(text)); u.lang="fr-FR"; if(JV.voice) u.voice=JV.voice; u.rate=1.04; u.pitch=1;
+    JV.speaking=true; jvState(); let ended=false; const fin=()=>{ if(ended) return; ended=true; clearTimeout(to); done(); }; const to=setTimeout(fin,1500+text.length*90);
+    u.onend=fin; u.onerror=fin; speechSynthesis.speak(u); }catch(e){ done(); } }); }
+// ---- affichage ----
+function jvState(s){ const o=$("#jvOrb"); if(!o) return; const st=s||(JV.speaking?"speak":JV.busy?"think":JV.listen?"listen":"idle"); o.dataset.st=st;
+  $("#jvSt").textContent={idle:JV.on?"En pause · touche J ou clic sur l'orbe":"",listen:JV.wake?"J'écoute… commence par « Jarvis »":"J'écoute…",think:"Je réfléchis…",speak:"Je réponds…"}[st]||""; }
+function jvSub(t){ const s=$("#jvSub"); s.textContent=t; s.classList.remove("on"); void s.offsetWidth; s.classList.add("on"); clearTimeout(JV.subT); JV.subT=setTimeout(()=>s.classList.remove("on"),Math.max(5000,t.length*85)); }
+function jvHeard(t,final){ const h=$("#jvHeard"); h.textContent=t?"« "+t+" »":""; h.classList.toggle("final",!!final); }
+// ---- reconnaissance ----
+function jvStartRec(){ if(!jvSR){ jvSub("La reconnaissance vocale n'est pas disponible dans ce navigateur : utilise Chrome ou Edge sur ordinateur. Tu peux taper tes demandes dans le champ en dessous."); return false; }
+  if(JV.rec) return true; const r=new jvSR(); r.lang="fr-FR"; r.continuous=true; r.interimResults=true; r.maxAlternatives=3;
+  r.onresult=e=>{ if(JV.speaking) return; let fin="", tmp=""; for(let i=e.resultIndex;i<e.results.length;i++){ const R=e.results[i]; if(R.isFinal){ const alts=[...R].map(a=>a.transcript); fin+=" "+(alts.find(a=>JV_WAKE.test(jvN(a)))||alts[0]); } else tmp+=R[0].transcript; }
+    if(tmp) jvHeard(tmp.trim(),false); if(fin.trim()){ jvHeard(fin.trim(),true); jvInput(fin.trim(),true); } };
+  r.onerror=e=>{ if(e.error==="not-allowed"||e.error==="service-not-allowed"){ JV.listen=false; jvState(); jvSub("Le micro est bloqué. Clique sur le cadenas à gauche de l'adresse du site, autorise le micro, puis réessaie."); } };
+  r.onend=()=>{ JV.rec=null; if(JV.listen) setTimeout(jvStartRec,200); };
+  try{ r.start(); JV.rec=r; jvMeter(true); return true; }catch(e){ return false; } }
+function jvListen(on){ JV.listen=on; if(on){ if(!jvStartRec()){ JV.listen=false; } } else { try{ JV.rec&&JV.rec.stop(); }catch(e){} JV.rec=null; jvMeter(false); } jvState(); $("#jvMic").setAttribute("aria-pressed",JV.listen); }
+// niveau du micro : l'orbe respire avec ta voix
+async function jvMeter(on){ if(!on){ if(JV.mic){ JV.mic.getTracks().forEach(t=>t.stop()); JV.mic=null; } return; } if(JV.mic||!navigator.mediaDevices) return;
+  try{ JV.mic=await navigator.mediaDevices.getUserMedia({audio:true}); const ac=JV.ac||(JV.ac=new (window.AudioContext||window.webkitAudioContext)()); const an=ac.createAnalyser(); an.fftSize=512; ac.createMediaStreamSource(JV.mic).connect(an); const buf=new Uint8Array(an.fftSize);
+    (function lv(){ if(!JV.mic) { $("#jvOrb").style.setProperty("--lv",0); return; } an.getByteTimeDomainData(buf); let s=0; for(const v of buf){ const d=(v-128)/128; s+=d*d; } $("#jvOrb").style.setProperty("--lv",Math.min(1,Math.sqrt(s/buf.length)*6).toFixed(3)); requestAnimationFrame(lv); })(); }catch(e){} }
+// ---- entrée : mot-clé puis traitement ----
+async function jvInput(raw,voice){ let t=jvClean(raw); const now=performance.now();
+  if(voice&&JV.wake){ const m=t.match(JV_WAKE); if(m){ t=t.slice(m.index+m[0].length).trim(); } else if(now>JV.armed) return; if(!t){ JV.armed=now+7000; jvSub("Oui ?"); jvSay("Oui ?",false); return; } }
+  JV.armed=0; if(JV.busy&&!/^(stop|arrete|tais toi|silence)/.test(t)) return; await jvHandle(t); }
+// ---- caméra ----
+function jvFly(tg,cp,ms=1800){ return new Promise(res=>{ cancelAnimationFrame(JV.anim); const R=RB, t0=performance.now(), a0=R.ctl.target.clone(), c0=R.cam.position.clone(), A=new THREE.Vector3(...tg), C=new THREE.Vector3(...cp);
+  const mid=c0.clone().lerp(C,0.5); mid.z=Math.max(c0.z,C.z)+Math.min(30,c0.distanceTo(C)*0.25);
+  (function st(n){ const k=Math.min(1,(n-t0)/ms), e=k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2; R.ctl.target.lerpVectors(a0,A,e);
+    const p1=c0.clone().lerp(mid,e), p2=mid.clone().lerp(C,e); R.cam.position.lerpVectors(p1,p2,e); R.ctl.update(); if(k<1) JV.anim=requestAnimationFrame(st); else res(); })(t0); }); }
+function jvSpin(sec=16){ cancelAnimationFrame(JV.anim); const R=RB, tg=R.ctl.target.clone(), v=R.cam.position.clone().sub(tg), r=Math.hypot(v.x,v.y), a0=Math.atan2(v.y,v.x), t0=performance.now();
+  return new Promise(res=>{ (function st(n){ const k=(n-t0)/(sec*1000); if(k>=1||JV.stopSpin){ JV.stopSpin=false; res(); return; } const a=a0+k*Math.PI*2; R.cam.position.set(tg.x+r*Math.cos(a),tg.y+r*Math.sin(a),tg.z+v.z); R.ctl.update(); JV.anim=requestAnimationFrame(st); })(t0); }); }
+function jvCut(v){ const b=document.querySelector(`[data-bcut="${v}"]`); if(b) b.click(); else if(RB) RB.clip.constant=v===""?999:+v; }
+function jvLayer(k,on){ const c=document.querySelector(`[data-blay="${k}"]`); if(c){ c.checked=on; rvBatApply(); } else if(RB&&RB.layers[k]) RB.layers[k].visible=on; }
+const jvC=e=>[(e.bb[0][0]+e.bb[1][0])/2-RB.cx,(e.bb[0][1]+e.bb[1][1])/2-RB.cy,(e.bb[0][2]+e.bb[1][2])/2];
+async function jvFocus(e){ const c=jvC(e), low=c[2]<3.3; jvCut(low?"2.7":""); jvLayer("eq",true); if(EXPL.value>0.5&&RB.explodeTo) RB.explodeTo(0,900);
+  await jvFly(c,low?[c[0]-5,c[1]-7,c[2]+9]:[c[0]-13,c[1]-17,c[2]+11]); RB.eqSel&&RB.eqSel(e.id); if(typeof eqInfo==="function") eqInfo(e); }
+async function jvOverview(){ jvCut(""); RB.eqSel&&RB.eqSel(null); await jvFly([0,8,3],[-70,-95,75],2000); }
+async function jvRoof(){ const E=(RB.EQ||[]).filter(x=>/^CTA \d$/.test(x.mark||"")&&x.bb); if(!E.length) return; const bb=new THREE.Box3(); E.forEach(e=>{ bb.expandByPoint(new THREE.Vector3(e.bb[0][0]-RB.cx,e.bb[0][1]-RB.cy,e.bb[0][2])); bb.expandByPoint(new THREE.Vector3(e.bb[1][0]-RB.cx,e.bb[1][1]-RB.cy,e.bb[1][2])); });
+  const c=new THREE.Vector3(), s=new THREE.Vector3(); bb.getCenter(c); bb.getSize(s); const D=Math.max(s.x,s.y,20); jvCut(""); jvLayer("eq",true); await jvFly([c.x,c.y-D*0.1,c.z],[c.x-D*0.1,c.y-D*0.95,c.z+D*0.8],2000); }
+// ---- connaissances ----
+async function jvData(){ if(JV.E) return JV.E; let E={}; try{ E=await (await fetch("files/energie/energie.json")).json(); }catch(e){} try{ if(typeof loadBouches==="function") await loadBouches(); }catch(e){} JV.E=E; return E; }
+const JV_ALIAS=[[/\b(cta|centrale)\s*([1-5])\b/,m=>"CTA "+m[2]],[/\bvmc\s*([1-6])\b/,m=>"VMC "+m[1]],[/\b(pac|pompe a chaleur)\s*([12])\b/,m=>"PAC "+m[2]],[/\b(ch|chaudiere)\s*([12])\b/,m=>"CH "+m[2]],[/\b(ve|vase)( d expansion)?\s*([12])\b/,m=>"VE "+m[3]],
+  [/\bpompes? a chaleur\b|\bpac\b/,()=>"PAC 1"],[/\bchaudieres?\b/,()=>"CH 1"],[/\bballon tampon\b/,()=>"BT 1000"],[/\b(prechauffage|ballon (d )?ecs)\b/,()=>"B2000 ECS"],[/\bstockage primaire\b/,()=>"B2000 PRIM"],[/\b(echangeur|preparateur)\b/,()=>"ECH ECS"],[/\badoucisseur\b/,()=>"ADOU"],[/\bbouclage\b/,()=>"P BECS"],[/\bvases? d expansion\b/,()=>"VE 1"],[/\bcirculateur (gly|glycol)/,()=>"CIRC GLY"],[/\bcirculateurs?\b/,()=>"CIRC PAC"],[/\brideau d air\b/,()=>"RA SAS"]];
+function jvEquip(t){ for(const [re,f] of JV_ALIAS){ const m=t.match(re); if(m){ const mk=f(m); const e=(RB.EQ||[]).find(x=>x.mark===mk&&x.bb); if(e) return e; } } return null; }
+function jvDescribe(e){ const v=(JV.E&&JV.E.ventilation||[]).find(x=>x.mark===e.mark);
+  let s=`${e.mark}`+(e.type&&!/^\d/.test(e.type)&&e.type!==e.mark?` (${e.type.replace(e.mark+" - ","")})`:"")+` : ${(e.desc||"").replace(/^(\p{Lu})(\p{Ll})/u,(m,a,b)=>a.toLowerCase()+b)}, ${e.fab||""} ${e.mod||""}. ${e.cctp||""}.`;
+  if(/^CTA [1-4]$/.test(e.mark)) s+=" Elle tourne 24 h/24 pour les chambres."; if(e.mark==="CTA 5") s+=" Elle dessert les soins et les lieux de vie.";
+  if(e.lv==="NT1") s+=" Elle est posée en toiture."; else if(e.lv==="N00") s+=" Elle se trouve au RDC, en chaufferie.";
+  return s.replace(/\.\./g,".").replace(/\s+/g," ").replace(/ ,/g,","); }
+function jvBouches(t){ let B=Array.isArray(BOUCHES)?BOUCHES:[]; const f=[]; if(/\brdc\b/.test(t)){ B=B.filter(b=>b.lv==="N00"); f.push("au RDC"); } else if(/\betage\b/.test(t)){ B=B.filter(b=>b.lv==="N01"); f.push("à l'étage"); }
+  const fn=t.match(/\b(soufflage|reprise|extraction)\b/); if(fn){ B=B.filter(b=>jvN(b.fonction)===fn[1]); f.unshift("de "+fn[1]); }
+  const c=t.match(/\bcta ([1-5])\b/); if(c){ B=B.filter(b=>b.cta==="CTA "+c[1]); f.push("sur la CTA "+c[1]); } else if(/\bvmc\b/.test(t)){ B=B.filter(b=>/vmc/i.test(b.cta||b.reseau||"")); f.push("sur les VMC"); }
+  const q=B.reduce((a,b)=>a+(+b.q||0),0); return `Il y a ${B.length} bouches ${f.join(" ")}`.trim()+(q?`, pour ${jvF(q)} m³/h au total.`:"."); }
+// ---- le cerveau ----
+const has=(t,re)=>re.test(t);
+async function jvHandle(t){ if(!t) return; JV.busy=true; jvState("think"); await jvData(); if(!RB) await rvBatInit(); let say="";
+  try{
+  if(has(t,/^(stop|arrete|tais toi|silence|chut)\b/)&&!has(t,/journee|air|ventil|particule/)){ JV.stopSpin=true; JV.demo=false; if("speechSynthesis" in window) speechSynthesis.cancel(); say="D'accord."; }
+  else if(has(t,/\b(bonjour|salut|hello|coucou|bonsoir)\b/)&&t.split(" ").length<6) say="Bonjour. Je suis Jarvis, l'assistant de la maquette de l'EHPAD de La Bassée. Demande-moi par exemple : montre-moi la CTA 5.";
+  else if(has(t,/\b(qui es tu|tu es qui|presente toi)\b/)) say="Je suis Jarvis, l'assistant vocal de la maquette BIM du lot 12, CVC et plomberie, de l'EHPAD de La Bassée. Je pilote la 3D et je réponds avec les données du projet.";
+  else if(has(t,/\bmerci\b/)) say="Avec plaisir.";
+  else if(has(t,/\b(aide|que (peux|sais) tu|qu est ce que tu (peux|sais)|commandes?|exemples?)\b/)){ jvHelp(true); say="Voici ce que tu peux me demander : montrer un équipement, ouvrir le bâtiment, faire circuler l'air, lancer la journée d'hiver, ou me poser une question sur les débits, les puissances ou les bouches."; }
+  else if(has(t,/\b(demo|demonstration|presente (le|ton|notre) projet|presentation du projet|fais la presentation)\b/)){ JV.busy=false; jvDemo(); return; }
+  else if(has(t,/\b(au revoir|desactive|eteins toi|arrete d ecouter|fin de l ecoute)\b/)){ say="À bientôt."; jvListen(false); }
+  // journée type
+  else if(has(t,/\bjournee\b|\b24 ?h(eures)?\b|\bhiver\b/)&&!has(t,/\b(arrete|stop|quitte|ferme|coupe|termine)\b/)){ if(typeof jtStart==="function"){ await jtStart(); JT.h=has(t,/\bnuit\b/)?2:5.5; JT.play=true; $("#jtPlay").textContent="❚❚"; JT.last=performance.now(); } say="Voici une journée d'hiver type. Les pièces se colorent selon leur besoin de chauffage. Les CTA 1 à 4 tournent 24 h/24, la CTA 5 s'arrête de 22 h à 6 h."; }
+  else if(has(t,/\b(arrete|stop|quitte|ferme|termine)\b.*\bjournee\b/)){ if(typeof jtStop==="function") jtStop(); say="Journée type fermée."; }
+  else if(JT&&JT.on&&has(t,/\b(\d{1,2}) h\b/)){ const h=+t.match(/\b(\d{1,2}) h\b/)[1]%24; JT.h=h; JT.play=false; $("#jtPlay").textContent="▶"; jtApply(h); const P=jtTotal(h), f=jtCta("CTA 5",h);
+    say=`À ${h} h, il fait ${jvF(JT_EXT(h))} °C dehors. Le bâtiment demande ${jvF(P)} kW de chauffage, et la CTA 5 est ${f>0?"en marche à "+Math.round(f*100)+" %":"à l'arrêt"}.`; }
+  else if(JT&&JT.on&&has(t,/\b(pause|attends)\b/)){ JT.play=false; $("#jtPlay").textContent="▶"; say="Pause."; }
+  else if(JT&&JT.on&&has(t,/\b(reprends|continue|lecture|play)\b/)){ JT.play=true; $("#jtPlay").textContent="❚❚"; JT.last=performance.now(); say="Je reprends."; }
+  // écorché
+  else if(has(t,/\b(ouvre|eclate|ecarte|separe|decompose|ecorche)\b/)&&!has(t,/panneau/)){ RB.explodeTo&&RB.explodeTo(6,1600); say="J'ouvre le bâtiment : le RDC, l'étage et la toiture s'écartent."; }
+  else if(has(t,/\b(referme|regroupe|rassemble|recolle)\b|\bferme (le )?batiment\b/)){ RB.explodeTo&&RB.explodeTo(0,1400); say="Je referme le bâtiment."; }
+  // air
+  else if(has(t,/\b(air|particules?|ventilation|flux)\b/)&&has(t,/\b(arrete|coupe|stop|enleve|cache|masque|eteins)\b/)){ RB.airSet&&RB.airSet(false); say="J'arrête l'animation de l'air."; }
+  else if(has(t,/\b(air|particules?|flux)\b|\bfais circuler\b|\bventilation\b/)&&!jvEquip(t)){ RB.airSet&&RB.airSet(true); say="L'air circule : en bleu le soufflage, l'air neuf qui part des CTA vers les pièces ; en orange la reprise ; en vert l'extraction des sanitaires vers les VMC."; }
+  // calques
+  else if(has(t,/\b(cache|masque|enleve|retire|supprime|eteins|affiche|montre|remets|ajoute|allume)\b/)&&has(t,/\b(gaines?|reseaux?|structure|poutres|poteaux|architecture|murs|equipements|plafonds?|panneaux solaires|photovoltaique|espaces|pieces|zones)\b/)&&!jvEquip(t)){
+    const on=!has(t,/\b(cache|masque|enleve|retire|supprime|eteins)\b/); const L=[["gai",/gaines?|reseaux?/,"les gaines"],["str",/structure|poutres|poteaux/,"la structure"],["arc",/architecture|murs/,"l'architecture"],["eq",/equipements/,"les équipements"],["ceil",/plafonds?/,"les faux plafonds"],["pv",/panneaux solaires|photovoltaique/,"les panneaux solaires"],["esp",/espaces|pieces|zones/,"les espaces CVC"]].filter(x=>x[1].test(t));
+    L.forEach(x=>jvLayer(x[0],on)); say=(on?"J'affiche ":"Je masque ")+L.map(x=>x[2]).join(" et ")+"."; }
+  // questions chiffrées
+  else if(has(t,/\bcombien\b/)&&has(t,/\bbouches?\b/)) say=jvBouches(t);
+  else if(has(t,/\bcombien\b/)&&has(t,/\bcta\b|\bcentrales?\b/)) say="Il y a 5 CTA double flux en toiture : les CTA 1 à 4 pour les chambres, et la CTA 5, la plus grosse avec 8 800 m³/h, pour les soins et les lieux de vie. Au total, "+jvF((JV.E.ventilation||[]).filter(v=>/^CTA/.test(v.mark)).reduce((a,v)=>a+v.q,0))+" m³/h.";
+  else if(has(t,/\bcombien\b/)&&has(t,/\bvmc\b/)) say="Il y a 6 caissons de VMC simple flux pour l'extraction des sanitaires et des offices, pour "+jvF((JV.E.ventilation||[]).filter(v=>/^VMC/.test(v.mark)).reduce((a,v)=>a+v.q,0))+" m³/h.";
+  else if(has(t,/\b(puissance|kw|kilowatts?)\b/)&&has(t,/\b(totale?|chauffage|production|chaufferie)\b/)&&!has(t,/\bpac\s*[12]\b/)) { const P=(RB.EQ||[]); say="En chaufferie : deux pompes à chaleur géothermiques Weishaupt de 33,7 kW chacune, soit 67,4 kW, en appui deux chaudières gaz à condensation de 60 kW. Au total, 187,4 kW de production de chaleur."; }
+  else if(has(t,/\b(bbio|cep|rt ?2012|re ?2020|conforme|reglementation thermique)\b/)){ const r=JV.E.rt||{}; say=`Étude thermique : Bbio ${jvF(r.bbio)} pour un maximum de ${jvF(r.bbio_max)}, et Cep ${jvF(r.cep)} pour un maximum de ${jvF(r.cep_max)}. Le projet est conforme.`; }
+  else if(has(t,/\bsurfaces?\b/)) say=`La surface chauffée est de ${jvF(JV.E.surf_chauffee||4336.77)} m², pour un volume chauffé de ${jvF(JV.E.vol_chauffe||12094)} m³.`;
+  else if(has(t,/\b(deperditions?|pertes|enveloppe|isolation)\b/)){ const H=JV.E.H||{}; say=`Les déperditions de l'enveloppe font ${jvF((H.parois||0)+(H.baies||0)+(H.ponts||0))} W/K : ${jvF(H.parois)} par les parois, ${jvF(H.baies)} par les fenêtres et ${jvF(H.ponts)} par les ponts thermiques.`; }
+  // vues
+  else if(has(t,/\b(vue d ensemble|vue generale|tout le batiment|recentre|reviens|retour|depart|reinitialise)\b/)){ await jvOverview(); say="Vue d'ensemble de l'EHPAD."; }
+  else if(has(t,/\b(tourne|fais (le |un )?tour|rotation|pivote)\b/)){ JV.busy=false; jvState(); jvSay("Je fais le tour du bâtiment."); await jvSpin(16); return; }
+  else if(has(t,/\b(rapproche|zoome|zoom avant|plus pres|approche)\b/)){ const v=RB.cam.position.clone().sub(RB.ctl.target).multiplyScalar(0.55); const c=RB.ctl.target.clone().add(v); await jvFly(RB.ctl.target.toArray(),c.toArray(),900); say="Je me rapproche."; }
+  else if(has(t,/\b(recule|dezoome|zoom arriere|eloigne|plus loin)\b/)){ const v=RB.cam.position.clone().sub(RB.ctl.target).multiplyScalar(1.7); const c=RB.ctl.target.clone().add(v); await jvFly(RB.ctl.target.toArray(),c.toArray(),900); say="Je recule."; }
+  else if(has(t,/\b(film)\b/)){ const b=document.querySelector('[data-mq-act="film"]'); if(b) b.click(); say="Je lance le film de présentation."; }
+  else if(has(t,/\b(visite|balade|promene|promener|premiere personne)\b/)){ setTab("visite"); say="Je t'emmène dans la visite à la première personne."; }
+  else if(has(t,/\b(panneau)\b/)){ mqPanel(!has(t,/\b(ferme|cache|replie)\b/)); say="C'est fait."; }
+  else if((has(t,/\b(toiture|toit|terrasse)\b/)&&!jvEquip(t))||has(t,/\b(les cta|toutes les cta|les centrales)\b/)){ await jvRoof(); say="Voici la toiture, avec les 5 CTA double flux, les caissons de VMC et les panneaux solaires."; }
+  else if(has(t,/\bchaufferie\b/)&&!jvEquip(t)){ const e=(RB.EQ||[]).find(x=>x.mark==="PAC 1"&&x.bb); if(e) await jvFocus(e); say="La chaufferie, au RDC : deux pompes à chaleur géothermiques, deux chaudières gaz à condensation, le ballon tampon et la production d'eau chaude sanitaire."; }
+  else if(has(t,/\b(rdc|rez)\b/)&&!jvEquip(t)){ jvCut("1.5"); await jvFly([-10,15,0],[-25,-60,70],1600); say="Coupe du RDC."; }
+  else if(has(t,/\betage\b/)&&!jvEquip(t)){ jvCut("4.9"); await jvFly([-10,15,3.4],[-25,-60,74],1600); say="Coupe de l'étage."; }
+  // équipements : montrer ou décrire
+  else { const e=jvEquip(t); if(e){ await jvFocus(e); say=jvDescribe(e); }
+    else say="Je n'ai pas compris « "+t+" ». Essaie : « montre-moi la CTA 5 », « ouvre le bâtiment », « fais circuler l'air », « lance la journée d'hiver » ou « combien de bouches à l'étage ? »."; }
+  }catch(err){ console.error(err); say="Oups, je n'ai pas réussi : "+(err.message||err); }
+  JV.busy=false; if(say) await jvSay(say); jvState(); }
+// ---- démonstration complète, commentée ----
+async function jvDemo(){ if(JV.demo) return; JV.demo=true; await jvData(); const nB=(Array.isArray(BOUCHES)?BOUCHES.length:270);
+  const step=async(fn,txt)=>{ if(!JV.demo) return false; const a=fn?fn():null; await Promise.all([a,jvSay(txt)]); return JV.demo; };
+  jvListenPause(true);
+  try{
+    if(typeof jtStop==="function") jtStop(); RB.airSet&&RB.airSet(false); if(RB.explodeTo) RB.explodeTo(0,600); jvLayer("esp",false); jvLayer("ceil",false);
+    if(!await step(()=>jvOverview(),`Voici l'EHPAD de La Bassée : 81 lits sur deux niveaux, ${jvF(JV.E.surf_chauffee||4337)} m² chauffés. Notre mission : le lot 12, chauffage, ventilation, climatisation et plomberie.`)) return;
+    if(!await step(()=>jvSpin(9),"Toute la maquette a été modélisée dans Revit, puis publiée sur ce site.")) return;
+    if(!await step(()=>jvRoof(),"En toiture, cinq centrales double flux. Les CTA 1 à 4 ventilent les chambres jour et nuit. La CTA 5, la plus grosse avec 8 800 m³/h, dessert les soins et les lieux de vie.")) return;
+    if(!await step(async()=>{ await jvOverview(); RB.explodeTo&&RB.explodeTo(6,1600); RB.airSet&&RB.airSet(true); },`Ouvrons le bâtiment. L'air neuf, en bleu, part des CTA vers ${nB} bouches. La reprise, en orange, revient vers les échangeurs qui récupèrent 80 % de la chaleur.`)) return;
+    if(!await step(async()=>{ RB.explodeTo&&RB.explodeTo(0,900); RB.airSet&&RB.airSet(false); const e=(RB.EQ||[]).find(x=>x.mark==="PAC 1"&&x.bb); if(e) await jvFocus(e); },"Au RDC, la chaufferie : deux pompes à chaleur géothermiques de 33,7 kW, appuyées par deux chaudières gaz à condensation de 60 kW.")) return;
+    if(!await step(async()=>{ jvCut(""); if(typeof jtStart==="function"){ await jtStart(); JT.h=1; JT.spd=2.2; JT.play=true; $("#jtPlay").textContent="❚❚"; JT.last=performance.now(); } },"Et voici une journée d'hiver en accéléré. La nuit, les chambres demandent le plus de chaleur. À 6 h, la CTA 5 redémarre. À midi, les repas et le soleil font chuter le besoin.")) return;
+    await new Promise(r=>setTimeout(r,4000)); if(!JV.demo) return;
+    if(!await step(async()=>{ if(typeof jtStop==="function") jtStop(); if(JT) JT.spd=0.8; await jvOverview(); },"Fin de la présentation. Je reste à votre écoute : posez-moi vos questions sur le projet.")) return;
+  } finally { JV.demo=false; jvListenPause(false); jvState(); } }
+function jvListenPause(p){ JV.paused=p; }
+// ---- aide ----
+const JV_EX=[["Montrer","« Jarvis, montre-moi la CTA 5 »","« Jarvis, va à la chaufferie »","« Jarvis, montre la toiture »","« Jarvis, vue d'ensemble »"],["Animer","« Jarvis, ouvre le bâtiment »","« Jarvis, fais circuler l'air »","« Jarvis, lance la journée d'hiver »","« Jarvis, il est 3 heures »","« Jarvis, fais le tour »"],["Questions","« Jarvis, combien de bouches à l'étage ? »","« Jarvis, quelle est la puissance de chauffage ? »","« Jarvis, le projet est-il conforme ? »","« Jarvis, c'est quoi la PAC 1 ? »"],["Présenter","« Jarvis, présente le projet » (démo complète commentée)","« Jarvis, stop »"]];
+function jvHelp(open){ const h=$("#jvHelp"); h.hidden=open===undefined?!h.hidden:!open; if(!h.hidden&&!h.innerHTML) h.innerHTML=JV_EX.map(([t,...L])=>`<div><b>${t}</b>${L.map(x=>`<button type="button" class="jv-ex">${x}</button>`).join("")}</div>`).join("");
+  h.querySelectorAll(".jv-ex").forEach(b=>b.onclick=()=>{ const t=b.textContent.replace(/[«»]/g,"").replace(/\(.*\)/,"").replace(/^ ?jarvis,? /i,""); jvHeard(t,true); jvInput(t,false); }); }
+// ---- ouverture / fermeture ----
+function jvOpen(on){ JV.on=on; $("#jv").hidden=!on; document.querySelectorAll('[data-mq-act="jarvis"]').forEach(b=>b.setAttribute("aria-pressed",on));
+  if(on){ jvData(); jvState(); if(!JV.greeted){ JV.greeted=true; jvSub(jvSR?"Clique sur l'orbe (ou touche J) pour que je t'écoute, puis commence ta phrase par « Jarvis ».":"Ce navigateur n'a pas la reconnaissance vocale : utilise Chrome ou Edge, ou tape tes demandes ci-dessous."); } }
+  else { jvListen(false); JV.demo=false; JV.stopSpin=true; if("speechSynthesis" in window) speechSynthesis.cancel(); } }
+document.querySelectorAll('[data-mq-act="jarvis"]').forEach(b=>b.addEventListener("click",()=>jvOpen(!JV.on)));
+$("#jvOrb").onclick=()=>jvListen(!JV.listen); $("#jvMic").onclick=()=>jvListen(!JV.listen);
+$("#jvWake").onchange=e=>{ JV.wake=e.target.checked; jvState(); }; $("#jvMute").onchange=e=>{ JV.mute=!e.target.checked; if(JV.mute&&"speechSynthesis" in window) speechSynthesis.cancel(); };
+$("#jvHelpB").onclick=()=>jvHelp(); $("#jvX").onclick=()=>jvOpen(false);
+$("#jvForm").onsubmit=e=>{ e.preventDefault(); const i=$("#jvTxt"), t=i.value.trim(); if(!t) return; i.value=""; jvHeard(t,true); jvInput(t,false); };
+document.addEventListener("keydown",e=>{ if(!MQ.on||e.ctrlKey||e.metaKey||e.altKey) return; if(e.target.matches&&e.target.matches("input,textarea,select")) return; if(e.code==="KeyJ"){ e.preventDefault(); if(!JV.on) jvOpen(true); jvListen(!JV.listen); } });
+const _jvMqExit=mqExit; mqExit=function(){ if(JV.on) jvOpen(false); return _jvMqExit.apply(this,arguments); };
 </script>
