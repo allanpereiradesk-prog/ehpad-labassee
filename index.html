@@ -891,6 +891,7 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
       <button role="tab" id="tabResa" aria-selected="false">Réservations</button>
       <button role="tab" id="tabBouches" aria-selected="false">Bouches</button>
       <button role="tab" id="tabEnergie" aria-selected="false">Énergie</button>
+      <button role="tab" id="tabGtb" aria-selected="false">GTB</button>
       <button role="tab" id="tabRse" aria-selected="false">RSE et normes</button>
       <button role="tab" id="tabDevis" aria-selected="false">Devis</button>
       <button role="tab" id="tabStock" aria-selected="false">Stock</button>
@@ -1852,6 +1853,35 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
     </section>
     <div id="kpiGroups"></div>
     <p class="hint" id="kpiSrc"></p>
+  </section>
+
+  <section id="viewGtb" hidden>
+    <section class="rv-head">
+      <div class="label">Lot 12 · supervision simulée · loi d'eau, cascade PAC / chaudières, CTA, ECS</div>
+      <h2>GTB : supervision de la chaufferie</h2>
+      <p>Une GTB comme sur un vrai site, mais <b>simulée</b> avec les chiffres du projet : déperditions de l'étude RT2012, puissances et rendements du CCTP, débits des CTA. Je règle la température dehors et l'heure, et je regarde la régulation travailler : les <b>PAC géothermiques en priorité</b>, les <b>chaudières gaz en appoint</b> et pour l'ECS, la <b>loi d'eau</b>, la relance de la CTA 5, le basculement été/hiver. Je peux aussi provoquer des <b>pannes</b> pour voir comment l'installation réagit.</p>
+    </section>
+    <div class="gtb-wrap">
+      <div class="gtb-scr">
+        <div class="gtb-bar"><span class="gtb-led" id="gtbLed"></span><b>EHPAD La Bassée · Chaufferie RDC</b><span id="gtbClock" class="gtb-mono"></span><span id="gtbModeT" class="gtb-mono"></span></div>
+        <div id="gtbSyn" class="gtb-syn"></div>
+      </div>
+      <aside class="gtb-ctl">
+        <div class="field"><label for="gtbTe">Température dehors : <b id="gtbTeV"></b></label><input type="range" id="gtbTe" min="-12" max="36" step="0.5"></div>
+        <div class="field"><label for="gtbH">Heure : <b id="gtbHV"></b></label><input type="range" id="gtbH" min="0" max="23.5" step="0.5"></div>
+        <div class="field"><span class="gtb-lab">Mode (basculement manuel, CCTP § 4.1)</span><div class="seg" role="group" aria-label="Mode"><button type="button" data-gm="hiver">❄ Hiver : chauffage</button><button type="button" data-gm="ete">☀ Été : froid</button></div></div>
+        <div class="field"><span class="gtb-lab">Rejouer une journée type</span>
+          <select id="gtbDay"><option value="froid">Grand froid (−9 °C / −3 °C)</option><option value="hiver" selected>Hiver (0 °C / 7 °C)</option><option value="mi">Mi-saison (8 °C / 17 °C)</option><option value="ete">Été chaud (18 °C / 30 °C)</option><option value="canicule">Canicule (24 °C / 36 °C)</option></select>
+          <div style="display:flex;gap:8px;margin-top:6px"><button class="btn small primary" type="button" id="gtbPlay">▶ Lancer la journée</button><select id="gtbSpeed" aria-label="Vitesse"><option value="600">lent</option><option value="250" selected>normal</option><option value="80">rapide</option></select></div></div>
+        <div class="field"><span class="gtb-lab">Provoquer une panne</span><div class="gtb-faults" id="gtbFaults"></div></div>
+      </aside>
+    </div>
+    <div class="gtb-kpi" id="gtbKpi"></div>
+    <div class="en-g2">
+      <section class="panel" aria-labelledby="gtbAlT"><h2 id="gtbAlT">Alarmes et événements</h2><ul class="gtb-al" id="gtbAl"></ul></section>
+      <section class="panel" aria-labelledby="gtbTrT"><h2 id="gtbTrT">Courbe de la journée</h2><p class="hint" id="gtbTrH">Lance une journée type pour tracer la courbe heure par heure.</p><div class="en-chart" id="gtbTrend"></div><div class="en-leg" id="gtbLeg"></div><div class="gtb-day" id="gtbDaySum"></div></section>
+    </div>
+    <details class="panel gtb-hyp"><summary><b>Comment c'est calculé</b> (hypothèses, sources)</summary><div id="gtbHyp"></div></details>
   </section>
 
   <section id="viewRse" hidden>
@@ -5787,6 +5817,221 @@ TAB_META.kpi=["Projet","KPI","Nos indicateurs clés : heures, tâches, maquette,
   tb.onclick=()=>setTab("kpi");
 }
 if(typeof CMDK!=="undefined"){ const _ix3=cmdkIndex; cmdkIndex=async function(){ await _ix3(); CMDK.idx.unshift({t:"Onglet",label:"KPI du projet",sub:"Indicateurs clés : heures, tâches, maquette, énergie, conformité",go:()=>setTab("kpi"),h:cmdNorm("KPI du projet"),s:cmdNorm("kpi indicateurs tableau de bord heures avancement")}); }; }
+/* ---------- Onglet GTB (#gtb) : supervision simulée de la chaufferie ---------- */
+const GTB={te:2,h:8,mode:"hiver",faults:{},log:[],play:null,trend:[],prev:{}};
+const GTB_F=[["PAC 1","PAC 1 en défaut"],["PAC 2","PAC 2 en défaut"],["CH 1","Chaudière 1 en sécurité"],["CH 2","Chaudière 2 en sécurité"],["SONDES","Eau glycolée trop froide"],["FILTRE","Filtre CTA 5 encrassé"]];
+const GTB_DAYS={froid:[-9,-3],hiver:[0,7],mi:[8,17],ete:[18,30],canicule:[24,36]};
+const GTB_ECS=[8,8,8,8,8,10,30,100,100,80,40,30,50,50,20,20,20,20,70,70,60,30,15,10]; /* kW d'appel ECS par heure (hypothèse) */
+const CO2={gaz:0.227,elec:0.079};
+const clamp=(v,a,b)=>Math.min(b,Math.max(a,v)), lerp=(a,b,t)=>a+(b-a)*clamp(t,0,1);
+function gtbTeOfDay(day,h){ const [mn,mx]=GTB_DAYS[day]; return (mn+mx)/2+(mx-mn)/2*Math.sin(2*Math.PI*(h-9)/24); }
+function gtbCalc(te,h,mode,F){
+  const D=EN, ti=21, eta=0.8, hh=Math.floor(h)%24;
+  const occ=hh>=7&&hh<21, cta5=hh>=6&&hh<22;
+  const Henv=D.H.parois+D.H.baies+D.H.ponts;
+  const vmc=D.ventilation.filter(v=>v.type==="simple flux").reduce((a,v)=>a+v.q,0);
+  const ctas=D.ventilation.filter(v=>v.type==="double flux").map(v=>({mark:v.mark,q:v.q,eta:v.recup==="roue"?0.85:0.80,on:v.mark==="CTA 5"?cta5:true}));
+  const zs=D.zones.filter(z=>z.chauffee), sh=zs.filter(z=>/ouvert|fermé/.test(z.service)).reduce((a,z)=>a+z.S,0)/zs.reduce((a,z)=>a+z.S,0);
+  const r={te,h,mode,occ,cta5,ctas,alarms:[],ti};
+  const pacOK=["PAC 1","PAC 2"].filter(p=>!F[p]&&!F.SONDES), chOK=["CH 1","CH 2"].filter(c=>!F[c]);
+  r.pacOn={}; r.chP={}; r.tbr=null;
+  r.ecs=GTB_ECS[hh];
+  if(mode==="hiver"){
+    r.tloi=clamp(55-(te+9)*30/29,25,55);
+    const A=occ?15:8;
+    const pEnv=(Henv+0.34*vmc*eta)*(ti-te)/1000;
+    r.rad=Math.max(0,pEnv-A); r.radH=r.rad*sh; r.radC=r.rad-r.radH;
+    ctas.forEach(c=>{ c.tr=te+c.eta*(ti-te); c.p=c.on?Math.max(0,0.34*c.q*(19-c.tr)/1000):0; });
+    r.rideau=occ&&te<12?30.8*clamp((12-te)/21,0.2,1):0;
+    r.co=ctas.reduce((a,c)=>a+c.p,0)+r.rideau;
+    r.need=r.rad+r.co;
+    const capU=lerp(33.7,30.3,(r.tloi-35)/20);
+    r.cop=r.tloi<=35?lerp(5.2,4.6,(r.tloi-25)/10):lerp(4.6,2.9,(r.tloi-35)/20);
+    r.pacCap=capU*pacOK.length;
+    const pPac=Math.min(r.need,r.pacCap);
+    r.ecsPre=Math.min(Math.max(0,r.pacCap-pPac),0.5*r.ecs);
+    r.pac=pPac+r.ecsPre;
+    let left=r.pac; pacOK.forEach(p=>{ const v=Math.min(capU,left); r.pacOn[p]=v; left-=v; });
+    r.elec=r.pac/r.cop;
+    const evap=r.pac*(1-1/r.cop); r.tbr=F.SONDES?-6.2:6-6*evap/45;
+    const ecsRest=r.ecs-r.ecsPre, chCap=60*chOK.length;
+    r.chEcs=Math.min(ecsRest,50,chCap); r.stock=ecsRest-r.chEcs;
+    r.chHeat=Math.min(r.need-pPac,chCap-r.chEcs);
+    r.ch=r.chEcs+r.chHeat;
+    r.unmet=Math.max(0,r.need-pPac-r.chHeat);
+    let lc=r.ch; chOK.forEach(c=>{ const v=Math.min(60,lc); r.chP[c]=v; lc-=v; });
+    const tret=(r.chHeat*(r.tloi-15)+r.chEcs*50)/Math.max(1e-6,r.ch);
+    r.eff=r.ch>0?lerp(109.4,100.4,(tret-30)/30):null;
+    r.gaz=r.ch>0?r.ch/(r.eff/100):0;
+    r.cold=0; r.froidNeed=0;
+    if(r.unmet>0.5) r.alarms.push(["crit",`Puissance insuffisante : il manque ${enF(r.unmet,1)} kW de chauffage`]);
+    if(te>22) r.alarms.push(["info","Il fait plus de 22 °C dehors en mode hiver : passer en mode été depuis la GTB"]);
+    if(r.stock>0.5) r.alarms.push(["info",`Priorité ECS : le stock primaire de 2 000 L fournit ${enF(r.stock,0)} kW (pointe de puisage)`]);
+  } else {
+    r.tloi=null; r.rad=r.radH=r.radC=r.rideau=0; r.need=0;
+    const k=clamp((te-24)/8,0,1.25);
+    ctas.forEach(c=>{ c.tr=te-c.eta*Math.max(0,te-24); c.p=c.on?55*k*c.q/15990:0; });
+    r.co=ctas.reduce((a,c)=>a+c.p,0);
+    r.froidNeed=r.co+(occ?25*k:0);
+    const capF=40.1*pacOK.length; r.pacCap=capF;
+    r.cold=Math.min(r.froidNeed,capF); r.unmetF=r.froidNeed-r.cold;
+    let left=r.cold; pacOK.forEach(p=>{ const v=Math.min(40.1,left); r.pacOn[p]=v; left-=v; });
+    r.cop=6.0; r.elec=r.cold/r.cop; r.pac=0; r.ecsPre=0;
+    r.tbr=F.SONDES?30:14+8*(r.cold*(1+1/r.cop))/94;
+    const chCap=60*chOK.length; r.chEcs=Math.min(r.ecs,50,chCap); r.stock=r.ecs-r.chEcs; r.chHeat=0; r.ch=r.chEcs; r.unmet=0;
+    let lc=r.ch; chOK.forEach(c=>{ const v=Math.min(60,lc); r.chP[c]=v; lc-=v; });
+    r.eff=r.ch>0?lerp(109.4,100.4,(50-30)/30):null; r.gaz=r.ch>0?r.ch/(r.eff/100):0;
+    if(r.unmetF>0.5) r.alarms.push(["crit",`Froid insuffisant : il manque ${enF(r.unmetF,1)} kW`]);
+    if(te<14) r.alarms.push(["warn","Mode été alors qu'il fait moins de 14 °C : risque d'inconfort, repasser en hiver"]);
+  }
+  if(chOK.length<2&&r.ecs>0) {}
+  if(F.SONDES) r.alarms.push(["crit",mode==="hiver"?"Eau glycolée à −6 °C (limite −5 °C, CCTP § 4.6.2) : PAC arrêtées, relève par les chaudières":"Sondes saturées (eau glycolée trop chaude) : PAC arrêtées"]);
+  ["PAC 1","PAC 2"].forEach(p=>{ if(F[p]) r.alarms.push(["crit",`${p} en défaut (haute pression / débit) : ${mode==="hiver"?"relève par les chaudières":"moins de froid disponible"}`]); });
+  ["CH 1","CH 2"].forEach(c=>{ if(F[c]) r.alarms.push(["crit",`${c} en sécurité (défaut flamme) : cascade sur l'autre chaudière`]); });
+  if(F.FILTRE) r.alarms.push(["warn","CTA 5 : perte de charge filtre trop élevée (pressostat) : changer les filtres F7"]);
+  if(!cta5) r.alarms.push(["info","CTA 5 à l'arrêt (hors occupation : arrêt 1 h après, relance 1 h avant, CCTP § 4.11)"]);
+  const heat=(r.pac||0)+(r.ch||0);
+  r.enr=mode==="hiver"&&heat>0?(r.pac-r.elec)/heat*100:null;
+  r.co2=r.gaz*CO2.gaz+r.elec*CO2.elec;
+  return r;
+}
+/* ---- synoptique ---- */
+const GTB_PIPES=[
+ /* id, d, type (gly|hot|cold|ecs), actif si */
+ ["gly","M110 470 V330 H105 M120 470 V340 H105","gly"],
+ ["pac1","M170 160 H260","hot"],["pac2","M170 270 H260","hot"],["pre","M130 310 V400 H260","ecs"],
+ ["bt","M320 205 H690","hot"],
+ ["ch1","M455 110 V140 H690","hot"],["ch2","M585 110 V140","hot"],
+ ["d1","M714 160 H840","hot"],["d2","M714 245 H840","hot"],["d3","M714 330 H840","co"],["d4","M714 420 H840","hot"],
+ ["prec","M330 470 V545 H900 V470","ecs"]
+];
+function gtbSvg(){
+  const P=GTB_PIPES.map(([id,d,t])=>`<path class="gtb-p gtb-${t}" d="${d}"/><path class="gtb-fl gtb-${t}" id="gp-${id}" d="${d}"/>`).join("");
+  const box=(id,x,y,w,h,title,sub)=>`<g class="gtb-eq" id="ge-${id}"><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="6"/><text x="${x+8}" y="${y+18}" class="gtb-t">${title}</text><text x="${x+8}" y="${y+34}" class="gtb-s">${sub}</text><text x="${x+8}" y="${y+h-10}" class="gtb-v" id="gv-${id}"></text></g>`;
+  const pump=(x,y,id)=>`<g class="gtb-pump" id="gpu-${id}"><circle cx="${x}" cy="${y}" r="9"/><path d="M${x-4} ${y-5} L${x+6} ${y} L${x-4} ${y+5}Z"/></g>`;
+  const sondes=Array.from({length:11},(_,i)=>`<line x1="${32+i*14}" y1="490" x2="${32+i*14}" y2="585" class="gtb-sonde"/>`).join("");
+  const dep=(y,id,t,s)=>box(id,840,y-38,150,76,t,s)+pump(760,y,id)+`<g class="gtb-v3" transform="translate(800 ${y})"><path d="M-8 -7 L8 7 M-8 7 L8 -7"/></g><text x="726" y="${y-8}" class="gtb-s" id="gt-${id}"></text>`;
+  return `<svg viewBox="0 0 1000 600" role="img" aria-label="Synoptique de la chaufferie simulée">
+  <rect x="20" y="478" width="200" height="112" class="gtb-sol"/>${sondes}
+  <text x="26" y="472" class="gtb-s">Champ de sondes · 11 × 150 m</text><text x="26" y="598" class="gtb-v" id="gv-sol"></text>
+  ${P}
+  ${pump(110,420,"gly")}
+  ${box("PAC 1",40,120,130,80,"PAC 1","WWP S 35 · géo")}${box("PAC 2",40,230,130,80,"PAC 2","WWP S 35 · géo")}
+  <g class="gtb-tank" id="ge-BT"><rect x="260" y="120" width="60" height="170" rx="28"/><text x="290" y="200" text-anchor="middle" class="gtb-t">BT</text><text x="290" y="216" text-anchor="middle" class="gtb-s">1 000 L</text><text x="290" y="306" text-anchor="middle" class="gtb-v" id="gv-BT"></text></g>
+  <g class="gtb-tank" id="ge-PRE"><rect x="260" y="360" width="70" height="110" rx="30"/><text x="295" y="410" text-anchor="middle" class="gtb-t">Préch.</text><text x="295" y="426" text-anchor="middle" class="gtb-s">ECS 2 000 L</text></g>
+  ${box("CH 1",400,30,110,80,"CH 1","WTC-GW 60 · gaz")}${box("CH 2",530,30,110,80,"CH 2","WTC-GW 60 · gaz")}
+  <rect x="690" y="120" width="24" height="330" rx="4" class="gtb-coll"/><text x="702" y="112" text-anchor="middle" class="gtb-s">collecteur</text>
+  ${dep(160,"d1","Radiateurs héberg.","loi d'eau")}${dep(245,"d2","Radiat. + panneaux","communs, loi d'eau")}${dep(330,"d3","Change-over CTA","55/35 °C · 9/14 °C")}${dep(420,"d4","ECS","échangeur 100 kW")}
+  <text x="440" y="246" class="gtb-s">CTA en toiture, sur le change-over :</text><g id="gtbCtas" transform="translate(440 252)"></g>
+  <text x="560" y="560" class="gtb-s" text-anchor="middle">eau froide préchauffée → échangeur ECS</text>
+  </svg>`;
+}
+function gtbFlow(id,kw,ref){ const el=document.getElementById("gp-"+id); if(!el) return; const on=kw>0.05; el.classList.toggle("on",on); if(on) el.style.animationDuration=(1.6/clamp(kw/ref,0.15,1.2)).toFixed(2)+"s"; }
+function gtbEq(id,state,val){ const g=document.getElementById("ge-"+id); if(g){ g.classList.remove("on","off","fault"); g.classList.add(state); } const v=document.getElementById("gv-"+id); if(v&&val!=null) v.textContent=val; }
+function gtbRender(){
+  if(!EN) return;
+  const r=gtbCalc(GTB.te,GTB.h,GTB.mode,GTB.faults), F=GTB.faults, k1=v=>enF(v,1), k0=v=>enF(v,0);
+  const hh=Math.floor(GTB.h), mm=GTB.h%1?"30":"00";
+  $("#gtbTeV").textContent=k1(GTB.te)+" °C"; $("#gtbHV").textContent=`${String(hh).padStart(2,"0")} h ${mm}`;
+  $("#gtbClock").textContent=`${String(hh).padStart(2,"0")}:${mm} · ext. ${k1(GTB.te)} °C`;
+  $("#gtbModeT").textContent=GTB.mode==="hiver"?"MODE HIVER":"MODE ÉTÉ";
+  document.querySelectorAll("[data-gm]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.gm===GTB.mode));
+  $("#gtbTe").value=GTB.te; $("#gtbH").value=GTB.h;
+  const hiver=GTB.mode==="hiver";
+  ["PAC 1","PAC 2"].forEach(p=>{ const v=r.pacOn[p]||0; gtbEq(p,F[p]||F.SONDES?"fault":v>0.05?"on":"off",F[p]?"DÉFAUT":F.SONDES?"ARRÊT (sondes)":v>0.05?`${k1(v)} kW ${hiver?"chaud":"froid"} · ${v>(hiver?16.8:20)?"2":"1"} compr.`:"à l'arrêt"); });
+  ["CH 1","CH 2"].forEach(c=>{ const v=r.chP[c]||0; gtbEq(c,F[c]?"fault":v>0.05?"on":"off",F[c]?"SÉCURITÉ":v>0.05?`${k1(v)} kW · ${Math.round(v/60*100)} %`:"à l'arrêt"); });
+  gtbEq("BT",r.pac>0.05||r.cold>0.05?"on":"off",hiver?(r.tloi!=null?`${k0(r.tloi)} °C`:""):`${r.cold>0.05?"9 °C":"–"}`);
+  gtbEq("PRE",r.ecsPre>0.05?"on":"off");
+  $("#gv-sol").textContent=`eau glycolée ${r.tbr==null?"–":k1(r.tbr)+" °C"}`;
+  gtbFlow("gly",r.pac+r.cold,60); gtbFlow("pac1",r.pacOn["PAC 1"]||0,34); gtbFlow("pac2",r.pacOn["PAC 2"]||0,34); gtbFlow("pre",r.ecsPre,20);
+  gtbFlow("bt",(r.pac-r.ecsPre)+r.cold,60); gtbFlow("ch1",r.ch,60); gtbFlow("ch2",r.chP["CH 2"]||0,60);
+  gtbFlow("d1",r.radH,50); gtbFlow("d2",r.radC,30); gtbFlow("d3",hiver?r.co:r.froidNeed,40); gtbFlow("d4",r.ecs-r.stock,50); gtbFlow("prec",r.ecsPre,20);
+  document.getElementById("gp-d3").classList.toggle("gtb-cold",!hiver); document.getElementById("gp-bt").classList.toggle("gtb-cold",!hiver);
+  ["pac1","pac2"].forEach(i=>document.getElementById("gp-"+i).classList.toggle("gtb-cold",!hiver));
+  gtbEq("d1",r.radH>0.05?"on":"off",hiver?`${k1(r.radH)} kW`:"arrêt (été)"); gtbEq("d2",r.radC>0.05?"on":"off",hiver?`${k1(r.radC)} kW`:"arrêt (été)");
+  gtbEq("d3",(hiver?r.co:r.froidNeed)>0.05?"on":"off",hiver?`${k1(r.co)} kW chaud`:`${k1(r.froidNeed)} kW froid`);
+  gtbEq("d4",r.ecs>0?"on":"off",`${k0(r.ecs)} kW ${r.stock>0.5?"(stock)":""}`);
+  $("#gt-d1").textContent=hiver?`${k0(r.tloi)} °C`:""; $("#gt-d2").textContent=hiver?`${k0(r.tloi)} °C`:""; $("#gt-d3").textContent=hiver?"55 °C":"9 °C"; $("#gt-d4").textContent="70 °C";
+  ["gly","d1","d2","d3","d4"].forEach(i=>{ const p=document.getElementById("gpu-"+i); if(p) p.classList.toggle("on",i==="gly"?(r.pac+r.cold)>0.05:i==="d1"?r.radH>0.05:i==="d2"?r.radC>0.05:i==="d3"?(hiver?r.co:r.froidNeed)>0.05:r.ecs>0); });
+  $("#gtbCtas").innerHTML=r.ctas.map((c,i)=>`<g transform="translate(0 ${i*34})" class="gtb-cta ${c.on?(c.mark==="CTA 5"&&F.FILTRE?"fault":"on"):"off"}"><rect width="232" height="28" rx="5"/><text x="8" y="12" class="gtb-t" style="font-size:11px">${c.mark} · ${enF(c.q,0)} m³/h</text><text x="8" y="23" class="gtb-s">${c.on?`après récup. ${k1(c.tr)} °C · batterie ${hiver?"chaud":"froid"} ${k1(c.p)} kW`:"à l'arrêt (hors occupation)"}</text></g>`).join("");
+  $("#gtbLed").className="gtb-led "+(r.alarms.some(a=>a[0]==="crit")?"crit":r.alarms.some(a=>a[0]==="warn")?"warn":"ok");
+  /* KPI */
+  const tiles=hiver?[
+    [`${k1(r.need)} kW`,"besoin de chauffage",r.unmet>0.5?"bad":""],[`${k1(r.pac)} kW`,`PAC (COP ${enF(r.cop,1)})`,""],[`${k1(r.ch)} kW`,`chaudières${r.eff?` (rend. ${enF(r.eff,1)} % PCI)`:""}`,""],
+    [r.tloi!=null?`${k0(r.tloi)} °C`:"–","départ radiateurs (loi d'eau)",""],[r.enr==null?"–":`${k0(r.enr)} %`,"de chaleur renouvelable",""],[`${k1(r.elec)} kW`,"électricité des PAC",""],[`${k1(r.gaz)} kW`,"gaz consommé (PCI)",""],[`${k1(r.co2)} kg/h`,"CO₂ émis",""]
+  ]:[
+    [`${k1(r.froidNeed)} kW`,"besoin de froid",r.unmetF>0.5?"bad":""],[`${k1(r.cold)} kW`,"froid des PAC (EER 6)",""],[`${k1(r.elec)} kW`,"électricité des PAC",""],[`${k1(r.ch)} kW`,"chaudières (ECS seule)",""],
+    [r.tbr==null?"–":`${k1(r.tbr)} °C`,"eau glycolée (rejet au sol)",""],[`${k1(r.co2)} kg/h`,"CO₂ émis",""]
+  ];
+  $("#gtbKpi").innerHTML=tiles.map(([b,s,c])=>`<div class="k ${c}"><b>${b}</b><span>${s}</span></div>`).join("");
+  /* journal : nouvelles alarmes horodatées */
+  const now=`${String(hh).padStart(2,"0")}:${mm}`, akey=m=>m.replace(/[−-]?\d[\d\s,.]*/g,"#"), cur={};
+  r.alarms.forEach(a=>{ const k=akey(a[1]); cur[k]=a[1]; if(!GTB.prev[k]) GTB.log.unshift({t:now,lv:a[0],m:a[1]}); });
+  Object.entries(GTB.prev).forEach(([k,m])=>{ if(!cur[k]) GTB.log.unshift({t:now,lv:"ok",m:"Fin : "+m.split(" : ")[0]}); });
+  GTB.prev=cur; GTB.log=GTB.log.slice(0,40);
+  $("#gtbAl").innerHTML=GTB.log.length?GTB.log.map(l=>`<li class="gtb-al-${l.lv}"><span class="gtb-mono">${l.t}</span>${esc(l.m)}</li>`).join(""):`<li class="gtb-al-ok"><span class="gtb-mono">${now}</span>Aucune alarme : installation en fonctionnement normal.</li>`;
+  return r;
+}
+function gtbTrend(){
+  const T=GTB.trend, box=$("#gtbTrend"); if(!T.length){ box.innerHTML=""; $("#gtbLeg").innerHTML=""; $("#gtbDaySum").innerHTML=""; return; }
+  const W=640,H=220,m={l:40,r:12,t:12,b:26}, hiver=T[0].mode==="hiver";
+  const val=r=>hiver?Math.max(r.need,r.pac+r.ch):Math.max(r.froidNeed,r.cold+r.ch);
+  const ymax=Math.max(20,Math.ceil(Math.max(...T.map(r=>Math.max(val(r),(hiver?r.need:r.froidNeed)+r.ecs)))*1.1/20)*20);
+  const x=h=>m.l+h/24*(W-m.l-m.r), y=v=>H-m.b-v/ymax*(H-m.t-m.b);
+  const area=(f,g)=>T.map(r=>`${x(r.h).toFixed(1)},${y(f(r)).toFixed(1)}`).join(" ")+" "+T.slice().reverse().map(r=>`${x(r.h).toFixed(1)},${y(g(r)).toFixed(1)}`).join(" ");
+  let s=""; for(let v=0;v<=ymax;v+=ymax>100?40:20) s+=`<line x1="${m.l}" x2="${W-m.r}" y1="${y(v)}" y2="${y(v)}" class="en-grid"/><text x="${m.l-5}" y="${y(v)+4}" text-anchor="end" class="en-ax">${v}</text>`;
+  for(let h=0;h<=24;h+=3) s+=`<text x="${x(h)}" y="${H-m.b+15}" text-anchor="middle" class="en-ax">${h}h</text>`;
+  const a1=hiver?(r=>r.pac):(r=>r.cold), a2=hiver?(r=>r.pac+r.ch):(r=>r.cold+r.ch);
+  s+=`<polygon class="gtb-a1" points="${area(a1,()=>0)}"/><polygon class="gtb-a2" points="${area(a2,a1)}"/>`;
+  s+=`<polyline class="en-l en-l-need" fill="none" points="${T.map(r=>`${x(r.h).toFixed(1)},${y(hiver?r.need+r.ecs:r.froidNeed+r.ecs).toFixed(1)}`).join(" ")}"/>`;
+  box.innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Puissances sur la journée">${s}<text x="${m.l+4}" y="${m.t+10}" class="en-ax">kW</text></svg>`;
+  $("#gtbLeg").innerHTML=`<span><i class="en-k gtb-k1"></i>${hiver?"PAC (géothermie)":"Froid PAC"}</span><span><i class="en-k gtb-k2"></i>Chaudières gaz</span><span><i class="en-k en-k-need"></i>Besoin ${hiver?"chauffage":"froid"} + ECS</span>`;
+  const dt=0.5, sum=f=>T.reduce((a,r)=>a+f(r)*dt,0);
+  const eE=sum(r=>r.elec), eG=sum(r=>r.gaz), co2=sum(r=>r.co2), enr=hiver?sum(r=>r.pac-r.elec)/Math.max(1e-6,sum(r=>r.pac+r.ch))*100:null;
+  $("#gtbDaySum").innerHTML=T.length>=48?`<b>Bilan de la journée :</b> ${enF(eE,0)} kWh d'électricité, ${enF(eG,0)} kWh de gaz, ${enF(co2,0)} kg de CO₂${enr!=null?`, ${enF(enr,0)} % de chaleur renouvelable`:""}.`:"";
+}
+function gtbStop(){ if(GTB.play){ clearInterval(GTB.play); GTB.play=null; } $("#gtbPlay").textContent="▶ Lancer la journée"; }
+function gtbStart(){
+  gtbStop(); const day=$("#gtbDay").value; GTB.mode=(day==="ete"||day==="canicule")?"ete":"hiver"; GTB.trend=[]; GTB.log=[]; GTB.prev={}; GTB.h=0;
+  $("#gtbTrH").textContent=`Journée « ${$("#gtbDay").selectedOptions[0].text} » : puissance heure par heure.`;
+  $("#gtbPlay").textContent="⏸ Arrêter";
+  const step=()=>{ GTB.te=Math.round(gtbTeOfDay(day,GTB.h)*2)/2; const r=gtbRender(); GTB.trend.push({h:GTB.h,mode:GTB.mode,...r}); gtbTrend();
+    GTB.h+=0.5; if(GTB.h>=24){ GTB.h=23.5; gtbStop(); } };
+  step(); GTB.play=setInterval(step,+$("#gtbSpeed").value);
+}
+let gtbInit=false;
+async function renderGtb(){
+  if(!EN) await enLoad(); if(!EN){ $("#gtbSyn").innerHTML=`<div class="notice">Données énergie indisponibles.</div>`; return; }
+  if(!gtbInit){ gtbInit=true;
+    $("#gtbSyn").innerHTML=gtbSvg();
+    $("#gtbFaults").innerHTML=GTB_F.map(([k,l])=>`<label class="gtb-fault"><input type="checkbox" data-gf="${k}"> ${esc(l)}</label>`).join("");
+    document.querySelectorAll("[data-gf]").forEach(c=>c.onchange=()=>{ GTB.faults[c.dataset.gf]=c.checked; gtbRender(); });
+    $("#gtbTe").oninput=e=>{ gtbStop(); GTB.te=+e.target.value; gtbRender(); };
+    $("#gtbH").oninput=e=>{ gtbStop(); GTB.h=+e.target.value; gtbRender(); };
+    document.querySelectorAll("[data-gm]").forEach(b=>b.onclick=()=>{ GTB.mode=b.dataset.gm; gtbRender(); });
+    $("#gtbPlay").onclick=()=>GTB.play?gtbStop():gtbStart();
+    $("#gtbHyp").innerHTML=`<ul class="rse-l">
+      <li><b>Chauffage</b> : déperditions de l'étude RT2012 (H = ${enF(EN.H.parois+EN.H.baies+EN.H.ponts,0)} W/K) + air extrait par la VMC, pour 21 °C dedans (CCTP § 2.2.2), moins les apports internes (15 kW de 7 h à 21 h, 8 kW la nuit : hypothèse).</li>
+      <li><b>Loi d'eau</b> : départ 55 °C par −9 °C, 25 °C par +20 °C (CCTP § 4.4.2.2). Les PAC suivent la loi d'eau.</li>
+      <li><b>PAC</b> : 33,7 kW (B0/W35, COP 4,6) à 30,3 kW (B0/W55, COP 2,9), interpolés sur la température de départ ; froid 40,1 kW, EER 6,0 (CCTP § 4.6.2). PAC en priorité, 2 compresseurs chacune. Le surplus préchauffe l'ECS (jusqu'à la moitié du besoin : hypothèse).</li>
+      <li><b>Chaudières</b> : 2 × 60 kW en cascade, rendement 109,4 % PCI retour à 30 °C, 100,4 % en 80/60 (CCTP § 4.3.1). Priorité ECS limitée à 50 kW, le stock primaire de 2 000 L fournit le reste des pointes (CCTP § 4.1, 4.5).</li>
+      <li><b>CTA</b> : récupération 80 % (plaques, CTA 1 à 4) et 85 % (roue, CTA 5), air soufflé à 19 °C (hypothèse). CTA 5 de 6 h à 22 h (occupation 7 h – 21 h : hypothèse ; arrêt 1 h après, relance 1 h avant, CCTP § 4.11). Rideau d'air 30,8 kW quand il fait moins de 12 °C en journée (hypothèse).</li>
+      <li><b>Froid</b> : 55 kW pour l'air soufflé + 25 kW pour les locaux de vie à 32 °C dehors (CCTP § 4.1), proportionnel entre 24 et 32 °C (hypothèse).</li>
+      <li><b>ECS</b> : profil de puisage horaire avec pointes le matin (100 kW) et le soir (70 kW) : hypothèse, à remplacer par la note de calcul ECS.</li>
+      <li><b>Sondes</b> : eau glycolée autour de 0 °C à pleine charge en hiver (point nominal B0), alarme sous −5 °C (CCTP § 4.6.2) ; vers 20 °C en été (B20).</li>
+      <li><b>CO₂</b> : gaz 0,227 kg/kWh PCI (Base Carbone ADEME), électricité 0,079 kg/kWh (usage chauffage : à vérifier). Chaleur renouvelable = chaleur des PAC − électricité consommée.</li>
+      <li>C'est un modèle simplifié pour comprendre la régulation, pas une note de calcul : pas d'inertie du bâtiment, pas de dynamique des ballons.</li></ul>`;
+  }
+  gtbRender();
+}
+TAB_META.gtb=["Fichiers","GTB","Supervision simulée de la chaufferie : loi d'eau, PAC, chaudières, CTA, ECS, pannes."];
+{ const tb=$("#tabGtb"), vw=$("#viewGtb");
+  tb.setAttribute("aria-controls","viewGtb"); vw.setAttribute("role","tabpanel"); vw.setAttribute("aria-labelledby","tabGtb");
+  const _setTab=setTab; setTab=function(t){ _setTab(t); const on=t==="gtb"; vw.hidden=!on; tb.setAttribute("aria-selected",on); tb.tabIndex=on?0:-1;
+    if(on){ setCrumb("gtb"); renderGtb(); } else gtbStop(); };
+  tb.onclick=()=>setTab("gtb");
+}
+if(typeof CMDK!=="undefined"){ const _ix4=cmdkIndex; cmdkIndex=async function(){ await _ix4(); CMDK.idx.unshift({t:"Onglet",label:"GTB : supervision simulée",sub:"Loi d'eau, PAC, chaudières, CTA, ECS, pannes",go:()=>setTab("gtb"),h:cmdNorm("GTB supervision"),s:cmdNorm("gtb supervision chaufferie loi d'eau pac chaudiere regulation simulation panne")}); }; }
 </script>
 <script>
 /* ---------- Onglet Piège à son (#pas) : plan coté + script AutoCAD / DXF ---------- */
@@ -6090,6 +6335,39 @@ async function pasLoadFile(file){
 .kpi-bar s{position:absolute;top:-3px;width:2px;height:12px;background:var(--ink);text-decoration:none}
 .kpi-top .kpi-c{padding:14px 16px}.kpi-top .kpi-v{font-size:30px}
 .kpi-dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--kc);vertical-align:middle}
+.gtb-wrap{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:14px;margin-top:4px}
+@media (max-width:860px){.gtb-wrap{grid-template-columns:1fr}}
+.gtb-scr{background:#0d1a22;border-radius:var(--r);overflow:hidden;border:1px solid #23394a;color:#d9e7ee}
+.gtb-bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:8px 12px;background:#132733;border-bottom:1px solid #23394a;font-size:13px}
+.gtb-bar b{font-family:var(--display);font-size:15px;letter-spacing:.02em}.gtb-mono{font-family:var(--mono);font-size:12px;color:#8fb7c9}
+.gtb-led{width:11px;height:11px;border-radius:50%;background:#3fbf73;box-shadow:0 0 8px #3fbf73}.gtb-led.warn{background:#f0b13c;box-shadow:0 0 8px #f0b13c}.gtb-led.crit{background:#ff5a4f;box-shadow:0 0 10px #ff5a4f;animation:gtbBlink 1s steps(2) infinite}
+@keyframes gtbBlink{50%{opacity:.25}}
+.gtb-syn{overflow-x:auto}.gtb-syn svg{display:block;width:100%;min-width:760px;height:auto}
+.gtb-syn text{font-family:var(--body);fill:#d9e7ee}.gtb-t{font-weight:700;font-size:13px}.gtb-s{font-size:10.5px;fill:#8fb7c9!important}.gtb-v{font-family:var(--mono);font-size:11px;fill:#fff!important}
+.gtb-p{fill:none;stroke-width:7;stroke-linecap:round;stroke-linejoin:round;opacity:.28}
+.gtb-fl{fill:none;stroke-width:3;stroke-dasharray:6 10;stroke-linecap:round;opacity:0}
+.gtb-fl.on{opacity:1;animation:gtbFlow 1.6s linear infinite}
+@keyframes gtbFlow{to{stroke-dashoffset:-32}}
+@media (prefers-reduced-motion:reduce){.gtb-fl.on{animation:none;stroke-dasharray:none}.gtb-led.crit{animation:none}}
+.gtb-hot{stroke:#ff6b4a}.gtb-gly{stroke:#46c08a}.gtb-ecs{stroke:#f2b04a}.gtb-co{stroke:#ff6b4a}.gtb-fl.gtb-cold,.gtb-p.gtb-cold{stroke:#4aa8ff}
+.gtb-eq rect,.gtb-tank rect,.gtb-cta rect{fill:#17303d;stroke:#4c6a7a;stroke-width:1.5}
+.gtb-eq.on rect,.gtb-tank.on rect,.gtb-cta.on rect{stroke:#3fbf73;stroke-width:2.5;fill:#173b33}
+.gtb-eq.fault rect,.gtb-cta.fault rect{stroke:#ff5a4f;stroke-width:2.5;fill:#3b1d1f;animation:gtbBlink 1.2s steps(2) infinite}
+.gtb-eq.off text.gtb-v{fill:#8fb7c9!important}
+.gtb-coll{fill:#24404f;stroke:#4c6a7a}.gtb-sol{fill:#3a2e22;opacity:.8}.gtb-sonde{stroke:#46c08a;stroke-width:2;opacity:.8}
+.gtb-pump circle{fill:#17303d;stroke:#4c6a7a;stroke-width:1.5}.gtb-pump path{fill:#4c6a7a}.gtb-pump.on circle{stroke:#3fbf73}.gtb-pump.on path{fill:#3fbf73}
+.gtb-v3 path{stroke:#8fb7c9;stroke-width:2}
+.gtb-ctl{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px;display:grid;gap:14px;align-content:start}
+.gtb-ctl input[type=range]{width:100%;accent-color:var(--accent)}.gtb-lab{font-size:14px}.gtb-ctl select{padding:5px 8px;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+.gtb-faults{display:grid;gap:4px}.gtb-fault{display:flex;gap:6px;align-items:center;font-size:14px}.gtb-fault input{accent-color:var(--danger)}
+.gtb-kpi{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,150px),1fr));gap:10px;margin:14px 0 0}
+.gtb-kpi .k{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:8px 12px}.gtb-kpi .k b{display:block;font-size:21px;font-variant-numeric:tabular-nums}.gtb-kpi .k span{font-size:13px;color:var(--muted)}
+.gtb-kpi .k.bad{border-color:var(--danger)}.gtb-kpi .k.bad b{color:var(--danger)}
+.gtb-al{list-style:none;margin:0;padding:0;display:grid;gap:6px;max-height:320px;overflow:auto}
+.gtb-al li{display:flex;gap:10px;padding:6px 10px;border-radius:6px;border-left:4px solid var(--todo);background:var(--sunk);font-size:14px}
+.gtb-al .gtb-mono{color:var(--muted);flex:none}.gtb-al-crit{border-left-color:var(--danger)!important}.gtb-al-warn{border-left-color:var(--doing)!important}.gtb-al-ok{border-left-color:var(--done)!important}
+.gtb-k1,.gtb-k2{border:0!important;height:10px!important;width:14px!important;border-radius:2px}.gtb-k1{background:#3a9b6b}.gtb-k2{background:#e07b39}.gtb-a1{fill:#3a9b6b;opacity:.75}.gtb-a2{fill:#e07b39;opacity:.75}.gtb-day{margin-top:8px;font-size:14px}
+.gtb-hyp{margin-top:14px}.gtb-hyp summary{cursor:pointer}.gtb-hyp ul{margin-top:10px}
 .rse-seg{margin:0 0 10px;flex-wrap:wrap}.rse-t td{vertical-align:top}.rse-t td:nth-child(2),.rse-t td:nth-child(3){min-width:220px}.rse-l{margin:0;padding-left:18px;display:grid;gap:8px}.rse-l li{line-height:1.45}#viewRse .src-b{display:inline-block;margin-top:4px}
 @media (max-width:560px){.en-bar{grid-template-columns:1fr auto}.en-bar-t{grid-column:1/-1;order:3}}
 .pas-in{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px 14px}.pas-in label{display:grid;gap:4px;font-size:13px;color:var(--muted);font-weight:600}.pas-in input,.pas-in select{font:inherit;font-size:15px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:7px 9px;min-height:38px}
