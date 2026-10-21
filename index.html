@@ -1794,15 +1794,22 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
     <section class="rv-head">
       <div class="label">Outil CVC · dessin AutoCAD (21/10)</div>
       <h2>Piège à son circulaire</h2>
-      <p>Je règle le diamètre, l'isolant et la longueur. Le plan coté se met à jour ci-dessous. Quand il me va, je télécharge le <b>script AutoCAD</b> (il dessine la pièce avec de vraies cotes, calques et hachures) ou le <b>DXF</b> à ouvrir directement.</p>
+      <p>Je dépose la <b>fiche technique</b> (PDF) du piège à son : le site lit le diamètre, l'épaisseur d'isolant et la longueur, et dessine le plan coté. S'il manque une information, je la complète. Quand il me va, je télécharge le <b>script AutoCAD</b> (il dessine la pièce avec de vraies cotes, calques et hachures) ou le <b>DXF</b> à ouvrir directement.</p>
+    </section>
+    <section class="panel pas-form" aria-labelledby="pasPdfT">
+      <h2 id="pasPdfT">1. La fiche technique</h2>
+      <label class="fg-drop" id="pasDrop"><input type="file" id="pasFile" accept="application/pdf,.pdf" hidden><b>Dépose la fiche technique du piège à son ici</b><span>ou clique pour choisir un PDF · le site lit le diamètre, l'isolant et la longueur</span></label>
+      <div id="pasRead"><p class="hint">Pas de fiche ? Règle les dimensions directement ci-dessous.</p></div>
     </section>
     <section class="panel pas-form" aria-labelledby="pasFormT">
-      <h2 id="pasFormT">Dimensions</h2>
+      <h2 id="pasFormT">2. Vérifier les dimensions</h2>
       <div class="pas-in">
         <label>DN (Ø intérieur, mm)<select id="pasDN"></select></label>
         <label>Épaisseur d'isolant (mm)<select id="pasEP"><option>25</option><option>50</option><option selected>100</option><option>150</option></select></label>
         <label>Longueur du corps (mm)<input id="pasL" type="number" min="300" max="3000" step="50" value="1000" inputmode="numeric"></label>
         <label>Manchettes (mm)<input id="pasMAN" type="number" min="30" max="200" step="10" value="60" inputmode="numeric"></label>
+        <label>Fabricant<input id="pasFab" type="text" placeholder="ex. France Air" autocomplete="off"></label>
+        <label>Modèle<input id="pasMod" type="text" placeholder="ex. référence de la gamme" autocomplete="off"></label>
         <label>Débit (m³/h, facultatif)<input id="pasQ" type="number" min="0" step="10" placeholder="ex. 1785" inputmode="numeric"></label>
       </div>
     </section>
@@ -1817,136 +1824,15 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
       <p class="pas-leg"><span><i class="lg-c"></i>Contour</span><span><i class="lg-p"></i>Tôle perforée</span><span><i class="lg-l"></i>Laine minérale</span><span><i class="lg-a"></i>Axe</span><span><i class="lg-d"></i>Cotes</span></p>
     </section>
     <section class="panel" aria-labelledby="pasDlT" style="margin-top:14px">
-      <h2 id="pasDlT">Télécharger</h2>
+      <h2 id="pasDlT">3. Télécharger pour AutoCAD</h2>
       <div class="pas-dl">
         <button type="button" class="btn primary" id="pasDlLsp">Script AutoCAD (.lsp)</button>
         <button type="button" class="btn" id="pasDlDxf">Plan DXF</button>
         <button type="button" class="btn" id="pasDlSvg">Image SVG</button>
       </div>
       <p class="hint">Les fichiers reprennent les dimensions réglées plus haut.</p>
-      <p class="fg-tlink"><a class="btn small" href="#pasTuto">📘 Tuto AutoCAD pas à pas</a></p>
+      <p class="hint">Dans AutoCAD : <code>APPLOAD</code> › charger le fichier, puis taper <code>PAS</code> et valider avec Entrée.</p>
       <p class="hint">Le DXF s'ouvre tel quel (AutoCAD, Revit en lien CAO, visionneuses). Ses cotes sont dessinées en traits et textes : pour des cotes modifiables et des hachures AutoCAD, prendre le script.</p>
-    </section>
-    <section class="fg-tuto" id="pasTuto" aria-labelledby="pasTutoT">
-      <div class="fg-tuto-h"><div><div class="label">Tuto · AutoCAD + script LISP</div><h2 id="pasTutoT">Dessiner le piège à son dans AutoCAD, étape par étape</h2>
-        <p>À suivre dans l'ordre, sans sauter d'étape. Coche chaque étape quand elle est faite : ta progression reste sur ton ordinateur. Compte 5 minutes la première fois. Les cadres rouges numérotés ①②③ montrent où cliquer (dessins simplifiés : ton écran peut être un peu différent).</p></div>
-        <div class="fg-prog"><b id="pasProgN">0 / 8</b><span>étapes faites</span><div class="fg-bar"><i id="pasProgB"></i></div><button type="button" class="btn small" id="pasTutoReset">Tout décocher</button> <button type="button" class="btn small" id="pasTutoPrint">Imprimer le tuto</button></div></div>
-
-      <ol class="tt-toc"><li><a href="#pat1">Avant de commencer</a></li><li><a href="#pat2">Télécharger le script</a></li><li><a href="#pat3">Charger le script (APPLOAD)</a></li><li><a href="#pat4">Lancer la commande PAS</a></li><li><a href="#pat5">Placer le dessin</a></li><li><a href="#pat6">Vérifier le dessin</a></li><li><a href="#pat7">Mettre en page et imprimer</a></li><li><a href="#pat8">Enregistrer et partager</a></li><li><a href="#pat9">Erreurs fréquentes</a></li><li><a href="#pat10">Plan B : le fichier DXF</a></li></ol>
-
-      <section class="tt-step fg-st" id="pat1"><h3><span class="tt-n">1</span>Avant de commencer <label class="fg-done"><input type="checkbox" data-step="1"> Fait</label></h3>
-        <ul class="fg-check">
-          <li><b>AutoCAD</b> (version complète) est ouvert. <b>AutoCAD LT</b> ne lit les scripts LISP qu'à partir de la version 2024 : avant, passe directement au <a href="#pat10">plan B (DXF)</a>.</li>
-          <li>Pars d'un <b>nouveau dessin en millimètres</b> : Nouveau › gabarit <span class="mono">acadiso.dwt</span>. Le script dessine en mm, à l'échelle 1:10 pour les textes et les cotes.</li>
-          <li>Si tu veux l'ajouter dans un plan existant, <b>enregistre-le d'abord</b> (Ctrl + S).</li>
-          <li>Si une commande est en cours, appuie deux fois sur <b>Échap</b>.</li>
-        </ul></section>
-
-      <section class="tt-step fg-st" id="pat2"><h3><span class="tt-n">2</span>Régler et télécharger le script <label class="fg-done"><input type="checkbox" data-step="2"> Fait</label></h3>
-        <ol>
-          <li>Plus haut sur cette page, choisis le <b>DN</b>, l'<b>isolant</b>, la <b>longueur</b> et les <b>manchettes</b>. Regarde l'aperçu : c'est ce qu'AutoCAD va dessiner.</li>
-          <li>Clique sur <b>« Script AutoCAD (.lsp) »</b>. Le fichier <span class="mono">PAS_circulaire.lsp</span> arrive dans ton dossier <span class="mono">Téléchargements</span>.</li>
-          <li>Range-le dans un dossier fixe (ex. <span class="mono">Documents\AutoCAD_scripts</span>) si tu veux t'en resservir.</li>
-        </ol>
-        <p class="fg-warn">Les dimensions réglées sur le site deviennent les valeurs proposées par le script. Tu pourras quand même les changer dans AutoCAD (étape 4).</p></section>
-
-      <section class="tt-step fg-st" id="pat3"><h3><span class="tt-n">3</span>Charger le script avec APPLOAD <label class="fg-done"><input type="checkbox" data-step="3"> Fait</label></h3>
-        <div class="tt-grid"><ol>
-          <li>Tape <b><span class="mono">APPLOAD</span></b> puis Entrée (ou ruban <b>Gérer › Charger une application</b>).</li>
-          <li>Dans la fenêtre, va dans le dossier du fichier et sélectionne <span class="mono">PAS_circulaire.lsp</span> ①.</li>
-          <li>Clique sur <b>Charger</b> ②. En bas, le message « PAS_circulaire.lsp chargé » apparaît.</li>
-          <li>Si AutoCAD affiche une alerte de sécurité, choisis <b>« Charger une fois »</b>.</li>
-          <li>Clique sur <b>Fermer</b> ③.</li>
-          <li>Plus rapide : <b>glisse le fichier .lsp</b> depuis l'Explorateur dans la zone de dessin.</li></ol>
-          <figure class="fg-fig"><svg viewBox="0 0 640 300" role="img" aria-label="Fenêtre Charger/Décharger des applications : fichier PAS_circulaire.lsp encadré (1), bouton Charger encadré (2), bouton Fermer encadré (3)">
-            <rect width="640" height="300" fill="#f3f4f6"/>
-            <rect x="20" y="12" width="600" height="276" rx="6" fill="#fff" stroke="#9aa5b1"/>
-            <rect x="20" y="12" width="600" height="28" rx="6" fill="#2b3a4a"/><text x="34" y="31" font-family="Segoe UI,Arial" font-size="13" fill="#fff">Charger/Décharger des applications</text>
-            <g font-family="Segoe UI,Arial" font-size="11.5" fill="#334155">
-              <text x="36" y="62">Rechercher dans :</text><rect x="140" y="50" width="300" height="20" rx="3" fill="#fff" stroke="#c3cbd3"/><text x="148" y="64">📁 AutoCAD_scripts</text>
-              <rect x="36" y="78" width="404" height="120" fill="#fff" stroke="#c3cbd3"/>
-              <text x="46" y="98">📄 autres_outils.lsp</text>
-              <rect x="42" y="106" width="200" height="20" fill="#dbeafe"/><text x="46" y="120" font-weight="700">📄 PAS_circulaire.lsp</text>
-              <text x="46" y="144">📄 cotes_auto.lsp</text>
-              <text x="36" y="222">Nom du fichier :</text><rect x="130" y="210" width="310" height="20" rx="3" fill="#fff" stroke="#c3cbd3"/><text x="138" y="224">PAS_circulaire.lsp</text>
-              <rect x="470" y="70" width="120" height="26" rx="4" fill="#e5e7eb" stroke="#9aa5b1"/><text x="530" y="87" text-anchor="middle" font-weight="700">Charger</text>
-              <rect x="470" y="246" width="120" height="26" rx="4" fill="#e5e7eb" stroke="#9aa5b1"/><text x="530" y="263" text-anchor="middle">Fermer</text>
-              <text x="36" y="262" fill="#16a34a">PAS_circulaire.lsp chargé.</text>
-            </g>
-            <g fill="none" stroke="#dc2626" stroke-width="3"><rect x="38" y="102" width="208" height="28" rx="4"/><rect x="464" y="64" width="132" height="38" rx="5"/><rect x="464" y="240" width="132" height="38" rx="5"/></g>
-            <g font-family="Segoe UI,Arial" font-size="15" font-weight="700" fill="#dc2626"><text x="252" y="122">①</text><text x="600" y="90">②</text><text x="600" y="266">③</text></g>
-          </svg><figcaption>La fenêtre de la commande APPLOAD (« Charger/Décharger des applications »).</figcaption></figure></div>
-        <p class="fg-warn">Le script reste chargé jusqu'à la fermeture d'AutoCAD. La prochaine fois, recharge-le (ou ajoute-le au <b>Contenu de démarrage</b>, bouton « Contenu » de la même fenêtre).</p></section>
-
-      <section class="tt-step fg-st" id="pat4"><h3><span class="tt-n">4</span>Lancer la commande PAS <label class="fg-done"><input type="checkbox" data-step="4"> Fait</label></h3>
-        <div class="tt-grid"><ol>
-          <li>Tape <b><span class="mono">PAS</span></b> puis Entrée ①.</li>
-          <li>AutoCAD pose 4 questions en bas, dans la ligne de commande ②. La valeur entre <span class="mono">&lt; &gt;</span> est celle réglée sur le site.</li>
-          <li>Appuie sur <b>Entrée</b> pour la garder, ou tape une autre valeur puis Entrée.</li>
-          <li>Ordre des questions : DN, épaisseur d'isolant, longueur du corps, longueur des manchettes (toutes en mm).</li></ol>
-          <figure class="fg-fig"><svg viewBox="0 0 640 210" role="img" aria-label="Ligne de commande AutoCAD : commande PAS tapée (1), questions avec valeurs proposées entre chevrons (2)">
-            <rect width="640" height="210" fill="#1f2933"/>
-            <g font-family="Consolas,monospace" font-size="13" fill="#cbd5e1">
-              <text x="16" y="34">Commande : <tspan fill="#fff" font-weight="700">PAS</tspan></text>
-              <text x="16" y="62">Diametre nominal DN (mm) &lt;315&gt; :</text>
-              <text x="16" y="86">Epaisseur isolant (mm) &lt;100&gt; :</text>
-              <text x="16" y="110">Longueur utile du corps (mm) &lt;1000&gt; :</text>
-              <text x="16" y="134">Longueur des manchettes (mm) &lt;60&gt; :</text>
-              <text x="16" y="158">Point d'insertion &lt;0,0&gt; :</text>
-              <text x="16" y="190" fill="#86efac">Piege a son DN315 dessine.</text>
-            </g>
-            <g fill="none" stroke="#ef4444" stroke-width="3"><rect x="8" y="16" width="150" height="26" rx="4"/><rect x="8" y="46" width="390" height="98" rx="5"/></g>
-            <g font-family="Segoe UI,Arial" font-size="15" font-weight="700" fill="#ef4444"><text x="166" y="35">①</text><text x="406" y="100">②</text></g>
-          </svg><figcaption>Ce que tu vois dans la ligne de commande (en bas de l'écran).</figcaption></figure></div></section>
-
-      <section class="tt-step fg-st" id="pat5"><h3><span class="tt-n">5</span>Placer le dessin <label class="fg-done"><input type="checkbox" data-step="5"> Fait</label></h3>
-        <ol>
-          <li>À « Point d'insertion », <b>clique</b> où tu veux le dessin, ou appuie sur <b>Entrée</b> pour le mettre en 0,0.</li>
-          <li>Le point correspond au <b>bout gauche de l'axe</b> de la coupe. La vue de bout et la nomenclature se placent à droite et en dessous.</li>
-          <li>AutoCAD fait un <b>zoom étendu</b> tout seul : tout le dessin apparaît.</li>
-        </ol></section>
-
-      <section class="tt-step fg-st" id="pat6"><h3><span class="tt-n">6</span>Vérifier le dessin <label class="fg-done"><input type="checkbox" data-step="6"> Fait</label></h3>
-        <ul class="fg-check">
-          <li>Deux vues : <b>coupe longitudinale A-A</b> et <b>vue de bout</b>, avec la laine hachurée.</li>
-          <li>Les cotes : Ø intérieur, Ø extérieur, épaisseur d'isolant, longueurs (manchettes, corps, total). Ce sont de <b>vraies cotes</b> : si tu étires une ligne, la cote suit.</li>
-          <li>Dans le gestionnaire de calques (<span class="mono">CALQUE</span>) : 6 calques <span class="mono">PAS-CONTOUR</span>, <span class="mono">PAS-PERFORE</span>, <span class="mono">PAS-AXE</span>, <span class="mono">PAS-LAINE</span>, <span class="mono">PAS-COTES</span>, <span class="mono">PAS-TEXTE</span>.</li>
-          <li>Compare les chiffres avec l'aperçu du site : ils doivent être identiques.</li>
-        </ul></section>
-
-      <section class="tt-step fg-st" id="pat7"><h3><span class="tt-n">7</span>Mettre en page et imprimer <label class="fg-done"><input type="checkbox" data-step="7"> Fait</label></h3>
-        <ol>
-          <li>Clique sur l'onglet <b>Présentation1</b> en bas à gauche.</li>
-          <li>Dans la fenêtre, double-clique puis règle l'échelle sur <b>1:10</b> (barre d'état, liste des échelles). Les textes et cotes sont faits pour cette échelle.</li>
-          <li>Pour un PDF : <span class="mono">TRACEUR</span> (Ctrl + P) › imprimante <b>DWG To PDF.pc3</b> › format A3 paysage › Aperçu › OK.</li>
-        </ol>
-        <p class="fg-warn">À une autre échelle (1:20, 1:5…), change la variable <span class="mono">DIMSCALE</span> (20, 5…) puis tape <span class="mono">REGEN</span> pour garder des cotes lisibles.</p></section>
-
-      <section class="tt-step fg-st" id="pat8"><h3><span class="tt-n">8</span>Enregistrer et partager <label class="fg-done"><input type="checkbox" data-step="8"> Fait</label></h3>
-        <ol>
-          <li><b>Ctrl + S</b> : enregistre en <span class="mono">.dwg</span> avec un nom clair, ex. <span class="mono">PAS_DN315_L1000.dwg</span>.</li>
-          <li>Dépose le DWG et le PDF dans les <b>documents de la tâche</b> sur le site, pour que l'équipe les retrouve.</li>
-          <li>Pour l'utiliser dans Revit : <b>Insérer › Lier un fichier CAO</b>, unités en millimètres.</li>
-        </ol></section>
-
-      <section class="tt-step" id="pat9"><h3><span class="tt-n">!</span>Erreurs fréquentes</h3>
-        <div class="tbl-wrap"><table class="fam-t"><thead><tr><th>Ce que je vois</th><th>Ce que je fais</th></tr></thead><tbody>
-          <tr><td><b>« Commande inconnue "PAS" »</b></td><td>Le script n'est pas chargé (ou AutoCAD a été fermé depuis). Refais l'<a href="#pat3">étape 3</a>.</td></tr>
-          <tr><td>Alerte <b>« Fichier exécutable non approuvé »</b></td><td>C'est la sécurité d'AutoCAD pour les scripts. Choisis <b>« Charger une fois »</b>.</td></tr>
-          <tr><td>APPLOAD n'existe pas / pas de LISP</td><td>Tu es sur <b>AutoCAD LT</b> avant 2024. Utilise le <a href="#pat10">plan B : le DXF</a>.</td></tr>
-          <tr><td>Les pointillés (tôle perforée, axe) sont en <b>trait continu</b></td><td>Tape <span class="mono">LTSCALE</span>, mets <b>10</b>, puis <span class="mono">REGEN</span>. En présentation, vérifie aussi <span class="mono">PSLTSCALE</span> = 1.</td></tr>
-          <tr><td>Les cotes ou les textes sont <b>énormes ou minuscules</b></td><td>Le dessin n'est sans doute pas en mm. Repars d'un dessin <span class="mono">acadiso.dwt</span>, ou change <span class="mono">DIMSCALE</span> puis <span class="mono">REGEN</span>.</td></tr>
-          <tr><td>Les <b>hachures</b> de la laine manquent</td><td>Tape <span class="mono">FILLMODE</span>, mets 1, puis <span class="mono">REGEN</span>. Si elles manquent toujours, envoie une capture à Allan.</td></tr>
-          <tr><td>« Erreur : … » dans la ligne de commande</td><td>Fais une capture de la ligne de commande (F2 pour l'agrandir) et envoie-la à Allan : il fera corriger le script.</td></tr>
-        </tbody></table></div></section>
-
-      <section class="tt-step" id="pat10"><h3><span class="tt-n">B</span>Plan B : ouvrir le fichier DXF</h3>
-        <ol>
-          <li>Plus haut, clique sur <b>« Plan DXF »</b> : le fichier <span class="mono">Piege_a_son_DN…_L….dxf</span> arrive dans <span class="mono">Téléchargements</span>.</li>
-          <li>Dans AutoCAD (ou LT) : <b>Ouvrir</b> › en bas, type de fichier <b>DXF (*.dxf)</b> › choisis le fichier.</li>
-          <li>Tout est déjà dessiné avec les mêmes calques. Les cotes sont en traits et textes : pour les modifier, refais le DXF sur le site avec les nouvelles dimensions.</li>
-          <li>Enregistre-le en <span class="mono">.dwg</span> (Fichier › Enregistrer sous), puis reprends à l'<a href="#pat7">étape 7</a>.</li>
-        </ol></section>
     </section>
   </section>
 
@@ -5723,7 +5609,7 @@ const PAS_DN=[80,100,125,160,200,250,315,355,400,450,500,560,630,710,800];
 let PAS_TH=30, PAS_AR=22; /* hauteur texte des cotes et longueur des flèches (mm) */
 function pasParams(){
   const n=(id,d,a,b)=>{ const v=parseFloat($(id).value); return isFinite(v)?Math.min(b,Math.max(a,v)):d; };
-  return {DN:n("#pasDN",315,50,2000),EP:n("#pasEP",100,10,300),L:n("#pasL",1000,100,5000),MAN:n("#pasMAN",60,20,300),Q:n("#pasQ",0,0,1e6)};
+  return {DN:n("#pasDN",315,50,2000),EP:n("#pasEP",100,10,300),L:n("#pasL",1000,100,5000),MAN:n("#pasMAN",60,20,300),Q:n("#pasQ",0,0,1e6),fab:($("#pasFab")||{}).value?.trim()||"",mod:($("#pasMod")||{}).value?.trim()||""};
 }
 /* Modèle commun aux 3 sorties : primitives en mm, y vers le haut */
 function pasModel(p){
@@ -5776,7 +5662,7 @@ function pasModel(p){
     tx(bout,ex*Math.abs(c)+side*48,y0+PAS_TH*0.1,txt,PAS_TH,"COTES",side>0?"l":"r"); };
   dia(RE,Math.PI/4,"Ø"+(2*RE),1); dia(R,-Math.PI/6,"Ø"+p.DN,-1);
   const nomen=[
-    `PIÈGE À SON CIRCULAIRE  DN ${p.DN} - L ${p.L} mm`,
+    `PIÈGE À SON CIRCULAIRE  DN ${p.DN} - L ${p.L} mm${p.fab||p.mod?"  -  "+[p.fab,p.mod].filter(Boolean).join(" "):""}`,
     "1 - Enveloppe tôle acier galvanisé ép. 0,8 mm",
     `2 - Tube intérieur tôle perforée galva Ø${p.DN} (trous Ø3 mm, ~30 % de vide)`,
     `3 - Laine minérale ép. ${p.EP} mm, 40 kg/m³, voile de verre anti-défibrage`,
@@ -5850,7 +5736,7 @@ function renderPas(){
   const p=pp, m=pasModel(p), fr=n=>n.toLocaleString("fr-FR",{maximumFractionDigits:2});
   $("#pasCoupe").innerHTML=`<svg viewBox="${pasVB(m.bbC)}" role="img" aria-label="Coupe longitudinale cotée du piège à son DN ${p.DN}" font-family="inherit">${pasSvgItems(m.coupe,PAS_COL)}</svg>`;
   $("#pasBout").innerHTML=`<svg viewBox="${pasVB(m.bbB)}" role="img" aria-label="Vue de bout cotée : Ø ${2*m.RE} extérieur, Ø ${p.DN} intérieur" font-family="inherit">${pasSvgItems(m.bout,PAS_COL)}</svg>`;
-  $("#pasNom").innerHTML=m.nomen.slice(1,6).map(t=>`<li>${esc(t.replace(/^\d - /,""))}</li>`).join("");
+  $("#pasNom").innerHTML=(p.fab||p.mod?`<li><b>${esc([p.fab,p.mod].filter(Boolean).join(" "))}</b> (d'après la fiche)</li>`:"")+m.nomen.slice(1,6).map(t=>`<li>${esc(t.replace(/^\d - /,""))}</li>`).join("");
   const S=Math.PI*(p.DN/2000)**2; let v="";
   if(p.Q>0){ const vi=p.Q/3600/S, ok=vi<=5?["Correct","var(--done)"]:vi<=6.5?["Limite","var(--doing)"]:["Trop rapide","var(--danger)"];
     v=`<div class="k"><b>${fr(vi)} m/s</b><span>Vitesse dans le tube · <span style="color:${ok[1]};font-weight:600">${ok[0]}</span></span></div>`; }
@@ -5875,20 +5761,101 @@ TAB_META.pas=["Fichiers","Création AutoCAD","Dessiner un piège à son circulai
     if(on){ setCrumb("pas"); renderPas(); } };
   tb.onclick=()=>setTab("pas");
 }
-if(typeof CMDK!=="undefined"){ const _ix3=cmdkIndex; cmdkIndex=async function(){ await _ix3(); CMDK.idx.unshift({t:"Onglet",label:"Création AutoCAD",sub:"Piège à son circulaire : plan coté d'un piège à son circulaire, script AutoCAD et DXF",go:()=>setTab("pas"),h:cmdNorm("Création AutoCAD"),s:cmdNorm("creation autocad piege a son silencieux attenuateur autocad dxf lisp circulaire acoustique")}); }; }
-/* ---------- Tuto AutoCAD (#pasTuto) : étapes cochées (sur cet ordinateur), impression ---------- */
-{ const KEY="ehpad-pas-tuto", get=()=>{ try{ return JSON.parse(localStorage.getItem(KEY)||"{}"); }catch(e){ return {}; } }, set=v=>{ try{ localStorage.setItem(KEY,JSON.stringify(v)); }catch(e){} };
-  const boxes=[...document.querySelectorAll("#pasTuto [data-step]")];
-  const upd=()=>{ const st=get(); let n=0; boxes.forEach(b=>{ b.checked=!!st[b.dataset.step]; b.closest(".fg-st").classList.toggle("ok",b.checked); if(b.checked) n++; });
-    $("#pasProgN").textContent=`${n} / ${boxes.length}`; $("#pasProgB").style.width=(100*n/boxes.length)+"%"; };
-  boxes.forEach(b=>b.onchange=()=>{ const st=get(); st[b.dataset.step]=b.checked; set(st); upd();
-    if(b.checked){ const nx=document.getElementById("pat"+(+b.dataset.step+1)); if(nx&&+b.dataset.step<boxes.length) setTimeout(()=>nx.scrollIntoView({behavior:"smooth",block:"start"}),250); } });
-  $("#pasTutoReset").onclick=()=>{ set({}); upd(); };
-  $("#pasTutoPrint").onclick=()=>{ let pb=$("#fgPrintBox"); if(!pb){ pb=document.createElement("div"); pb.id="fgPrintBox"; document.body.appendChild(pb); } pb.innerHTML=$("#pasTuto").outerHTML.replace(/id="/g,'data-id="');
-    document.body.classList.add("fg-printing"); const done=()=>{ document.body.classList.remove("fg-printing"); window.removeEventListener("afterprint",done); }; window.addEventListener("afterprint",done); window.print(); };
-  document.querySelectorAll('#viewPas a[href^="#pa"]').forEach(a=>a.onclick=e=>{ e.preventDefault(); const t=document.getElementById(a.getAttribute("href").slice(1)); if(t) t.scrollIntoView({behavior:"smooth",block:"start"}); });
-  upd(); }
-if(typeof CMDK!=="undefined"){ const _ix4=cmdkIndex; cmdkIndex=async function(){ await _ix4(); CMDK.idx.unshift({t:"Action",label:"Tuto : dessiner le piège à son dans AutoCAD",sub:"Création AutoCAD · étape par étape (APPLOAD, commande PAS, DXF)",go:()=>{ setTab("pas"); setTimeout(()=>{ const t=$("#pasTuto"); if(t) t.scrollIntoView({behavior:"smooth",block:"start"}); },200); },h:cmdNorm("Tuto AutoCAD"),s:cmdNorm("tuto tutoriel autocad lisp appload pas piege a son dxf")}); }; }
+if(typeof CMDK!=="undefined"){ const _ix3=cmdkIndex; cmdkIndex=async function(){ await _ix3(); CMDK.idx.unshift({t:"Onglet",label:"Création AutoCAD",sub:"Piège à son circulaire : plan coté d'un piège à son circulaire, script AutoCAD et DXF",go:()=>setTab("pas"),h:cmdNorm("Création AutoCAD"),s:cmdNorm("creation autocad fiche technique pdf piege a son silencieux attenuateur autocad dxf lisp circulaire acoustique")}); }; }
+/* ---------- Création AutoCAD : lecture de la fiche technique PDF du piège à son ---------- */
+const PAS_BRANDS=["France Air","Aldes","Atlantic","Lindab","Trox","Systemair","Helios","Unelvent","Soler & Palau","S&P","Anjos","Madel","Sodeca","Fläkt","Flakt","Swegon","Ruck","Elektrodesign","Halton","Nather","Airvent","Ventilair","Kingspan","Rosenberg","Wolf","VIM","Zehnder","Sotra","Euroclima","Caruso","Schako","Emco","Aerauliqa","Ostberg","Östberg","Blauberg","Vents","Hoval","Daikin","Airwell","Comefri","Vortice","Atlantic Climatisation"];
+let PAS_PDF={file:"",dns:[],lines:[],found:{}};
+async function pasReadPdf(file){
+  const lib=await loadPdfJs(); const pdf=await lib.getDocument({data:await file.arrayBuffer()}).promise; let t="";
+  for(let i=1;i<=Math.min(pdf.numPages,20);i++){ const pg=await pdf.getPage(i), c=await pg.getTextContent(); let last=null;
+    c.items.forEach(it=>{ const y=it.transform?Math.round(it.transform[5]):0; t+=(last!==null&&Math.abs(y-last)>3?"\n":" ")+it.str; last=y; }); t+="\n"; }
+  return {t,pages:pdf.numPages};
+}
+const pasNums=s=>(s.match(/\d+(?:[.,]\d+)?/g)||[]).map(x=>parseFloat(x.replace(",",".")));
+function pasAnalyze(t){
+  const T=t.replace(/ /g," "), low=T.toLowerCase(), f={};
+  /* fabricant */
+  const br=PAS_BRANDS.find(b=>new RegExp("(^|[^a-z])"+b.toLowerCase().replace(/[&.]/g,"\\$&")+"([^a-z]|$)").test(low)); if(br) f.fab=br==="Flakt"?"Fläkt":br==="S&P"?"Soler & Palau":br;
+  /* modèle : après Modèle / Type / Gamme / Réf, sinon le premier mot en majuscules près de "silencieux" */
+  let m=T.match(/(?:[Mm]od[eè]le|[Gg]amme|[Rr][ée]f(?:[ée]rence)?\.?)\s*[:\-]?\s*([A-Z0-9][A-Za-z0-9\-+]{1,20}(?: [A-Z0-9][A-Za-z0-9\-+]{0,10})?)/);
+  if(!m) m=T.match(/(?:[Ss]ilencieux|SILENCIEUX|[Pp]i[eè]ge [aà] son|[Aa]tt[ée]nuateur)[^\n]{0,30}?\b([A-Z][A-Z0-9\-+]{2,20})\b/);
+  if(m) f.mod=m[1].trim().replace(/\s{2,}.*/,"");
+  /* diamètres : Ø 315, DN 315, D=315, diamètre 315 ; on garde les DN normalisés */
+  const dn=new Set(); const reD=/(?:Ø|ø|⌀|\bDN|\bD\s*=|diam[eè]tre(?: nominal)?|diam\.)\s*[:=]?\s*(\d{2,4})/gi; let r;
+  while((r=reD.exec(T))) { const v=+r[1]; if(PAS_DN.includes(v)) dn.add(v); }
+  if(!dn.size){ /* tableau de sélection : lignes qui commencent par un DN normalisé */
+    T.split("\n").forEach(l=>{ const n=pasNums(l); if(n.length>=2&&PAS_DN.includes(n[0])) dn.add(n[0]); }); }
+  f.dns=[...dn].sort((a,b)=>a-b);
+  /* longueur : L = 900, longueur 1200 mm */
+  const Ls=new Set(); const reL=/(?:\bL\s*[=:]|\blongueur(?: utile)?|\blength)\s*[:=]?\s*(?:\(mm\)\s*)?(\d{3,4})/gi;
+  while((r=reL.exec(T))){ const v=+r[1]; if(v>=200&&v<=4000) Ls.add(v); } f.Ls=[...Ls].sort((a,b)=>a-b);
+  /* isolant : épaisseur 50 mm, isolation 100 mm, laine ... 50 mm */
+  const reE=/(?:[ée]paisseur|isolant|isolation|laine(?: min[ée]rale)?|absorbant|\bep\.)[^\n\d]{0,25}(\d{2,3})\s*mm/gi; const Es=new Set();
+  while((r=reE.exec(T))){ const v=+r[1]; if(v>=20&&v<=300) Es.add(v); } f.Es=[...Es].sort((a,b)=>a-b);
+  /* diamètre extérieur : Ø ext 515, D ext = 415 */
+  const reX=/(?:ext[ée]rieur|\bext\.?|\bD\s*e\b|\bDe\b)\s*[:=]?\s*(\d{3,4})/gi; const Xs=new Set();
+  while((r=reX.exec(T))){ const v=+r[1]; if(v>=100&&v<=2500) Xs.add(v); } f.Xs=[...Xs];
+  /* manchettes */
+  const mm=T.match(/manchette[^\n\d]{0,25}(\d{2,3})\s*mm/i); if(mm&&+mm[1]>=20&&+mm[1]<=300) f.man=+mm[1];
+  /* atténuation (pour info) */
+  const at=[...T.matchAll(/(\d{1,2}(?:[.,]\d)?)\s*dB(?!\s*\(A\))/g)].map(x=>parseFloat(x[1].replace(",","."))).filter(v=>v>0&&v<70);
+  if(at.length) f.att=Math.max(...at);
+  PAS_PDF.lines=T.split("\n");
+  return f;
+}
+/* pour un DN choisi : cherche sur sa ligne du tableau le Ø extérieur (=> isolant) et la longueur */
+function pasFromRow(dn){
+  const out={};
+  for(const l of PAS_PDF.lines){ const n=pasNums(l); if(!n.includes(dn)) continue;
+    const rest=n.filter(v=>v!==dn);
+    const dx=rest.find(v=>v>dn+30&&v<=dn+400&&(v-dn)%2===0); if(dx&&!out.EP) out.EP=(dx-dn)/2;
+    const ln=rest.find(v=>v>=300&&v<=3000&&v!==dx&&v%50===0); if(ln&&!out.L) out.L=ln;
+    if(out.EP&&out.L) break; }
+  return out;
+}
+function pasSetVal(id,v){ const el=$(id); if(v==null) return; if(el.tagName==="SELECT"&&![...el.options].some(o=>+o.value===+v)) el.insertAdjacentHTML("beforeend",`<option>${v}</option>`); el.value=v; el.classList.add("pas-auto"); }
+function pasApplyDN(dn){
+  pasSetVal("#pasDN",dn); const f=PAS_PDF.found, row=pasFromRow(dn);
+  const ep=f.Xs&&f.Xs.length?(()=>{ const x=f.Xs.find(v=>v>dn&&v-dn<=600); return x?(x-dn)/2:null; })():null;
+  const EP=row.EP||(f.Es&&f.Es.length===1?f.Es[0]:null)||ep; if(EP) pasSetVal("#pasEP",EP);
+  const L=row.L||(f.Ls&&f.Ls.length===1?f.Ls[0]:null); if(L) pasSetVal("#pasL",L);
+  f.cur={dn,EP,L}; pasShowRead(); renderPas();
+}
+function pasShowRead(){
+  const f=PAS_PDF.found, ok=(lab,v)=>`<li class="${v!=null&&v!==""?"pas-ok":"pas-miss"}"><b>${lab}</b> : ${v!=null&&v!==""?esc(String(v)):"pas trouvé, à compléter"}</li>`;
+  const cur=f.cur||{};
+  let h=`<p class="hint">📄 ${esc(PAS_PDF.file)} lu. Les champs remplis depuis la fiche sont surlignés : <b>vérifie-les</b>.</p><ul class="pas-read">`
+    +ok("Fabricant",f.fab)+ok("Modèle",f.mod)
+    +ok("DN",cur.dn)+ok("Épaisseur d'isolant (mm)",cur.EP)+ok("Longueur du corps (mm)",cur.L)
+    +(f.att?`<li class="pas-ok"><b>Atténuation max lue</b> : ${f.att} dB (pour info)</li>`:"")+`</ul>`;
+  if(f.dns&&f.dns.length>1) h+=`<p class="pas-chips-t">La fiche donne plusieurs diamètres. Choisis le tien :</p><div class="pas-chips">${f.dns.map(d=>`<button type="button" class="btn small" data-pdn="${d}" aria-pressed="${d===cur.dn}">Ø ${d}</button>`).join("")}</div>`;
+  if(f.Ls&&f.Ls.length>1) h+=`<p class="pas-chips-t">Longueurs proposées :</p><div class="pas-chips">${f.Ls.map(v=>`<button type="button" class="btn small" data-pl="${v}" aria-pressed="${v===+$("#pasL").value}">${v} mm</button>`).join("")}</div>`;
+  $("#pasRead").innerHTML=h;
+  $("#pasRead").querySelectorAll("[data-pdn]").forEach(b=>b.onclick=()=>pasApplyDN(+b.dataset.pdn));
+  $("#pasRead").querySelectorAll("[data-pl]").forEach(b=>b.onclick=()=>{ pasSetVal("#pasL",+b.dataset.pl); f.cur.L=+b.dataset.pl; pasShowRead(); renderPas(); });
+}
+async function pasLoadFile(file){
+  if(!file) return; if(!/pdf$/i.test(file.type)&&!/\.pdf$/i.test(file.name)){ $("#pasRead").innerHTML=`<p class="hint" style="color:var(--danger)">Ce n'est pas un PDF.</p>`; return; }
+  $("#pasRead").innerHTML=`<p class="hint">Lecture de ${esc(file.name)}…</p>`;
+  try{ const {t}=await pasReadPdf(file); PAS_PDF.file=file.name;
+    if(t.replace(/\s/g,"").length<30){ $("#pasRead").innerHTML=`<p class="hint" style="color:var(--danger)">Ce PDF ne contient pas de texte lisible (c'est sans doute un scan). Remplis les dimensions à la main.</p>`; return; }
+    const f=pasAnalyze(t); PAS_PDF.found=f; $("#pasFab").value=f.fab||""; $("#pasMod").value=f.mod||"";
+    if(f.man) pasSetVal("#pasMAN",f.man);
+    const cur=+$("#pasDN").value, dn=f.dns.length===1?f.dns[0]:f.dns.includes(cur)?cur:f.dns.length?null:null;
+    if(dn) pasApplyDN(dn); else { f.cur={};
+      if(f.Es.length===1){ pasSetVal("#pasEP",f.Es[0]); f.cur.EP=f.Es[0]; }
+      if(f.Ls.length===1){ pasSetVal("#pasL",f.Ls[0]); f.cur.L=f.Ls[0]; }
+      pasShowRead(); renderPas(); }
+  }catch(e){ $("#pasRead").innerHTML=`<p class="hint" style="color:var(--danger)">Impossible de lire ce PDF (${esc(e.message||e)}). Remplis les dimensions à la main.</p>`; }
+}
+{ const dz=$("#pasDrop");
+  $("#pasFile").onchange=e=>pasLoadFile(e.target.files[0]);
+  ["dragenter","dragover"].forEach(ev=>dz.addEventListener(ev,e=>{ e.preventDefault(); dz.classList.add("on"); }));
+  ["dragleave","drop"].forEach(ev=>dz.addEventListener(ev,e=>{ e.preventDefault(); dz.classList.remove("on"); }));
+  dz.addEventListener("drop",e=>{ const f=e.dataTransfer.files[0]; if(f) pasLoadFile(f); });
+  ["#pasFab","#pasMod"].forEach(id=>$(id).addEventListener("input",renderPas));
+  ["#pasDN","#pasEP","#pasL","#pasMAN"].forEach(id=>$(id).addEventListener("input",e=>e.target.classList.remove("pas-auto")));
+}
 </script>
 <style>
 .en-sum .k{min-width:150px}
@@ -5946,4 +5913,7 @@ if(typeof CMDK!=="undefined"){ const _ix4=cmdkIndex; cmdkIndex=async function(){
 .pas-leg .lg-p{border-top:2px dashed var(--done)}.pas-leg .lg-l{border-top-color:var(--heat)}.pas-leg .lg-a{border-top:2px dashed var(--danger)}.pas-leg .lg-d{border-top:2px solid var(--accent)}
 .pas-dl{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:6px}.pas-steps{margin:0;padding-left:20px;display:grid;gap:6px}.pas-vh{flex-basis:100%;margin:0}
 @media (max-width:760px){.pas-views{grid-template-columns:1fr}}
+.pas-read{list-style:none;padding:0;margin:8px 0;display:grid;gap:4px;font-size:14px}.pas-read li::before{content:"✓ ";color:var(--done);font-weight:700}.pas-read li.pas-miss::before{content:"! ";color:var(--danger)}.pas-read li.pas-miss{color:var(--danger)}
+.pas-chips-t{margin:10px 0 4px;font-size:13.5px;font-weight:600}.pas-chips{display:flex;flex-wrap:wrap;gap:6px}.pas-chips [aria-pressed="true"]{background:var(--accent);color:var(--accent-ink,#fff);border-color:var(--accent)}
+.pas-in .pas-auto{background:color-mix(in srgb,var(--done) 10%,var(--surface));border-color:var(--done)}#pasDrop{margin-bottom:8px}
 </style>
