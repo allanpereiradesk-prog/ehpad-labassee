@@ -1824,13 +1824,129 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
         <button type="button" class="btn" id="pasDlSvg">Image SVG</button>
       </div>
       <p class="hint">Les fichiers reprennent les dimensions réglées plus haut.</p>
-      <h3>Utiliser le script dans AutoCAD</h3>
-      <ol class="pas-steps">
-        <li>Taper <code>APPLOAD</code>, choisir <code>PAS_circulaire.lsp</code>, cliquer « Charger » (ou glisser le fichier dans le dessin).</li>
-        <li>Taper <code>PAS</code>.</li>
-        <li>Valider les dimensions proposées avec Entrée (ce sont celles réglées ici), puis cliquer le point d'insertion.</li>
-      </ol>
+      <p class="fg-tlink"><a class="btn small" href="#pasTuto">📘 Tuto AutoCAD pas à pas</a></p>
       <p class="hint">Le DXF s'ouvre tel quel (AutoCAD, Revit en lien CAO, visionneuses). Ses cotes sont dessinées en traits et textes : pour des cotes modifiables et des hachures AutoCAD, prendre le script.</p>
+    </section>
+    <section class="fg-tuto" id="pasTuto" aria-labelledby="pasTutoT">
+      <div class="fg-tuto-h"><div><div class="label">Tuto · AutoCAD + script LISP</div><h2 id="pasTutoT">Dessiner le piège à son dans AutoCAD, étape par étape</h2>
+        <p>À suivre dans l'ordre, sans sauter d'étape. Coche chaque étape quand elle est faite : ta progression reste sur ton ordinateur. Compte 5 minutes la première fois. Les cadres rouges numérotés ①②③ montrent où cliquer (dessins simplifiés : ton écran peut être un peu différent).</p></div>
+        <div class="fg-prog"><b id="pasProgN">0 / 8</b><span>étapes faites</span><div class="fg-bar"><i id="pasProgB"></i></div><button type="button" class="btn small" id="pasTutoReset">Tout décocher</button> <button type="button" class="btn small" id="pasTutoPrint">Imprimer le tuto</button></div></div>
+
+      <ol class="tt-toc"><li><a href="#pat1">Avant de commencer</a></li><li><a href="#pat2">Télécharger le script</a></li><li><a href="#pat3">Charger le script (APPLOAD)</a></li><li><a href="#pat4">Lancer la commande PAS</a></li><li><a href="#pat5">Placer le dessin</a></li><li><a href="#pat6">Vérifier le dessin</a></li><li><a href="#pat7">Mettre en page et imprimer</a></li><li><a href="#pat8">Enregistrer et partager</a></li><li><a href="#pat9">Erreurs fréquentes</a></li><li><a href="#pat10">Plan B : le fichier DXF</a></li></ol>
+
+      <section class="tt-step fg-st" id="pat1"><h3><span class="tt-n">1</span>Avant de commencer <label class="fg-done"><input type="checkbox" data-step="1"> Fait</label></h3>
+        <ul class="fg-check">
+          <li><b>AutoCAD</b> (version complète) est ouvert. <b>AutoCAD LT</b> ne lit les scripts LISP qu'à partir de la version 2024 : avant, passe directement au <a href="#pat10">plan B (DXF)</a>.</li>
+          <li>Pars d'un <b>nouveau dessin en millimètres</b> : Nouveau › gabarit <span class="mono">acadiso.dwt</span>. Le script dessine en mm, à l'échelle 1:10 pour les textes et les cotes.</li>
+          <li>Si tu veux l'ajouter dans un plan existant, <b>enregistre-le d'abord</b> (Ctrl + S).</li>
+          <li>Si une commande est en cours, appuie deux fois sur <b>Échap</b>.</li>
+        </ul></section>
+
+      <section class="tt-step fg-st" id="pat2"><h3><span class="tt-n">2</span>Régler et télécharger le script <label class="fg-done"><input type="checkbox" data-step="2"> Fait</label></h3>
+        <ol>
+          <li>Plus haut sur cette page, choisis le <b>DN</b>, l'<b>isolant</b>, la <b>longueur</b> et les <b>manchettes</b>. Regarde l'aperçu : c'est ce qu'AutoCAD va dessiner.</li>
+          <li>Clique sur <b>« Script AutoCAD (.lsp) »</b>. Le fichier <span class="mono">PAS_circulaire.lsp</span> arrive dans ton dossier <span class="mono">Téléchargements</span>.</li>
+          <li>Range-le dans un dossier fixe (ex. <span class="mono">Documents\AutoCAD_scripts</span>) si tu veux t'en resservir.</li>
+        </ol>
+        <p class="fg-warn">Les dimensions réglées sur le site deviennent les valeurs proposées par le script. Tu pourras quand même les changer dans AutoCAD (étape 4).</p></section>
+
+      <section class="tt-step fg-st" id="pat3"><h3><span class="tt-n">3</span>Charger le script avec APPLOAD <label class="fg-done"><input type="checkbox" data-step="3"> Fait</label></h3>
+        <div class="tt-grid"><ol>
+          <li>Tape <b><span class="mono">APPLOAD</span></b> puis Entrée (ou ruban <b>Gérer › Charger une application</b>).</li>
+          <li>Dans la fenêtre, va dans le dossier du fichier et sélectionne <span class="mono">PAS_circulaire.lsp</span> ①.</li>
+          <li>Clique sur <b>Charger</b> ②. En bas, le message « PAS_circulaire.lsp chargé » apparaît.</li>
+          <li>Si AutoCAD affiche une alerte de sécurité, choisis <b>« Charger une fois »</b>.</li>
+          <li>Clique sur <b>Fermer</b> ③.</li>
+          <li>Plus rapide : <b>glisse le fichier .lsp</b> depuis l'Explorateur dans la zone de dessin.</li></ol>
+          <figure class="fg-fig"><svg viewBox="0 0 640 300" role="img" aria-label="Fenêtre Charger/Décharger des applications : fichier PAS_circulaire.lsp encadré (1), bouton Charger encadré (2), bouton Fermer encadré (3)">
+            <rect width="640" height="300" fill="#f3f4f6"/>
+            <rect x="20" y="12" width="600" height="276" rx="6" fill="#fff" stroke="#9aa5b1"/>
+            <rect x="20" y="12" width="600" height="28" rx="6" fill="#2b3a4a"/><text x="34" y="31" font-family="Segoe UI,Arial" font-size="13" fill="#fff">Charger/Décharger des applications</text>
+            <g font-family="Segoe UI,Arial" font-size="11.5" fill="#334155">
+              <text x="36" y="62">Rechercher dans :</text><rect x="140" y="50" width="300" height="20" rx="3" fill="#fff" stroke="#c3cbd3"/><text x="148" y="64">📁 AutoCAD_scripts</text>
+              <rect x="36" y="78" width="404" height="120" fill="#fff" stroke="#c3cbd3"/>
+              <text x="46" y="98">📄 autres_outils.lsp</text>
+              <rect x="42" y="106" width="200" height="20" fill="#dbeafe"/><text x="46" y="120" font-weight="700">📄 PAS_circulaire.lsp</text>
+              <text x="46" y="144">📄 cotes_auto.lsp</text>
+              <text x="36" y="222">Nom du fichier :</text><rect x="130" y="210" width="310" height="20" rx="3" fill="#fff" stroke="#c3cbd3"/><text x="138" y="224">PAS_circulaire.lsp</text>
+              <rect x="470" y="70" width="120" height="26" rx="4" fill="#e5e7eb" stroke="#9aa5b1"/><text x="530" y="87" text-anchor="middle" font-weight="700">Charger</text>
+              <rect x="470" y="246" width="120" height="26" rx="4" fill="#e5e7eb" stroke="#9aa5b1"/><text x="530" y="263" text-anchor="middle">Fermer</text>
+              <text x="36" y="262" fill="#16a34a">PAS_circulaire.lsp chargé.</text>
+            </g>
+            <g fill="none" stroke="#dc2626" stroke-width="3"><rect x="38" y="102" width="208" height="28" rx="4"/><rect x="464" y="64" width="132" height="38" rx="5"/><rect x="464" y="240" width="132" height="38" rx="5"/></g>
+            <g font-family="Segoe UI,Arial" font-size="15" font-weight="700" fill="#dc2626"><text x="252" y="122">①</text><text x="600" y="90">②</text><text x="600" y="266">③</text></g>
+          </svg><figcaption>La fenêtre de la commande APPLOAD (« Charger/Décharger des applications »).</figcaption></figure></div>
+        <p class="fg-warn">Le script reste chargé jusqu'à la fermeture d'AutoCAD. La prochaine fois, recharge-le (ou ajoute-le au <b>Contenu de démarrage</b>, bouton « Contenu » de la même fenêtre).</p></section>
+
+      <section class="tt-step fg-st" id="pat4"><h3><span class="tt-n">4</span>Lancer la commande PAS <label class="fg-done"><input type="checkbox" data-step="4"> Fait</label></h3>
+        <div class="tt-grid"><ol>
+          <li>Tape <b><span class="mono">PAS</span></b> puis Entrée ①.</li>
+          <li>AutoCAD pose 4 questions en bas, dans la ligne de commande ②. La valeur entre <span class="mono">&lt; &gt;</span> est celle réglée sur le site.</li>
+          <li>Appuie sur <b>Entrée</b> pour la garder, ou tape une autre valeur puis Entrée.</li>
+          <li>Ordre des questions : DN, épaisseur d'isolant, longueur du corps, longueur des manchettes (toutes en mm).</li></ol>
+          <figure class="fg-fig"><svg viewBox="0 0 640 210" role="img" aria-label="Ligne de commande AutoCAD : commande PAS tapée (1), questions avec valeurs proposées entre chevrons (2)">
+            <rect width="640" height="210" fill="#1f2933"/>
+            <g font-family="Consolas,monospace" font-size="13" fill="#cbd5e1">
+              <text x="16" y="34">Commande : <tspan fill="#fff" font-weight="700">PAS</tspan></text>
+              <text x="16" y="62">Diametre nominal DN (mm) &lt;315&gt; :</text>
+              <text x="16" y="86">Epaisseur isolant (mm) &lt;100&gt; :</text>
+              <text x="16" y="110">Longueur utile du corps (mm) &lt;1000&gt; :</text>
+              <text x="16" y="134">Longueur des manchettes (mm) &lt;60&gt; :</text>
+              <text x="16" y="158">Point d'insertion &lt;0,0&gt; :</text>
+              <text x="16" y="190" fill="#86efac">Piege a son DN315 dessine.</text>
+            </g>
+            <g fill="none" stroke="#ef4444" stroke-width="3"><rect x="8" y="16" width="150" height="26" rx="4"/><rect x="8" y="46" width="390" height="98" rx="5"/></g>
+            <g font-family="Segoe UI,Arial" font-size="15" font-weight="700" fill="#ef4444"><text x="166" y="35">①</text><text x="406" y="100">②</text></g>
+          </svg><figcaption>Ce que tu vois dans la ligne de commande (en bas de l'écran).</figcaption></figure></div></section>
+
+      <section class="tt-step fg-st" id="pat5"><h3><span class="tt-n">5</span>Placer le dessin <label class="fg-done"><input type="checkbox" data-step="5"> Fait</label></h3>
+        <ol>
+          <li>À « Point d'insertion », <b>clique</b> où tu veux le dessin, ou appuie sur <b>Entrée</b> pour le mettre en 0,0.</li>
+          <li>Le point correspond au <b>bout gauche de l'axe</b> de la coupe. La vue de bout et la nomenclature se placent à droite et en dessous.</li>
+          <li>AutoCAD fait un <b>zoom étendu</b> tout seul : tout le dessin apparaît.</li>
+        </ol></section>
+
+      <section class="tt-step fg-st" id="pat6"><h3><span class="tt-n">6</span>Vérifier le dessin <label class="fg-done"><input type="checkbox" data-step="6"> Fait</label></h3>
+        <ul class="fg-check">
+          <li>Deux vues : <b>coupe longitudinale A-A</b> et <b>vue de bout</b>, avec la laine hachurée.</li>
+          <li>Les cotes : Ø intérieur, Ø extérieur, épaisseur d'isolant, longueurs (manchettes, corps, total). Ce sont de <b>vraies cotes</b> : si tu étires une ligne, la cote suit.</li>
+          <li>Dans le gestionnaire de calques (<span class="mono">CALQUE</span>) : 6 calques <span class="mono">PAS-CONTOUR</span>, <span class="mono">PAS-PERFORE</span>, <span class="mono">PAS-AXE</span>, <span class="mono">PAS-LAINE</span>, <span class="mono">PAS-COTES</span>, <span class="mono">PAS-TEXTE</span>.</li>
+          <li>Compare les chiffres avec l'aperçu du site : ils doivent être identiques.</li>
+        </ul></section>
+
+      <section class="tt-step fg-st" id="pat7"><h3><span class="tt-n">7</span>Mettre en page et imprimer <label class="fg-done"><input type="checkbox" data-step="7"> Fait</label></h3>
+        <ol>
+          <li>Clique sur l'onglet <b>Présentation1</b> en bas à gauche.</li>
+          <li>Dans la fenêtre, double-clique puis règle l'échelle sur <b>1:10</b> (barre d'état, liste des échelles). Les textes et cotes sont faits pour cette échelle.</li>
+          <li>Pour un PDF : <span class="mono">TRACEUR</span> (Ctrl + P) › imprimante <b>DWG To PDF.pc3</b> › format A3 paysage › Aperçu › OK.</li>
+        </ol>
+        <p class="fg-warn">À une autre échelle (1:20, 1:5…), change la variable <span class="mono">DIMSCALE</span> (20, 5…) puis tape <span class="mono">REGEN</span> pour garder des cotes lisibles.</p></section>
+
+      <section class="tt-step fg-st" id="pat8"><h3><span class="tt-n">8</span>Enregistrer et partager <label class="fg-done"><input type="checkbox" data-step="8"> Fait</label></h3>
+        <ol>
+          <li><b>Ctrl + S</b> : enregistre en <span class="mono">.dwg</span> avec un nom clair, ex. <span class="mono">PAS_DN315_L1000.dwg</span>.</li>
+          <li>Dépose le DWG et le PDF dans les <b>documents de la tâche</b> sur le site, pour que l'équipe les retrouve.</li>
+          <li>Pour l'utiliser dans Revit : <b>Insérer › Lier un fichier CAO</b>, unités en millimètres.</li>
+        </ol></section>
+
+      <section class="tt-step" id="pat9"><h3><span class="tt-n">!</span>Erreurs fréquentes</h3>
+        <div class="tbl-wrap"><table class="fam-t"><thead><tr><th>Ce que je vois</th><th>Ce que je fais</th></tr></thead><tbody>
+          <tr><td><b>« Commande inconnue "PAS" »</b></td><td>Le script n'est pas chargé (ou AutoCAD a été fermé depuis). Refais l'<a href="#pat3">étape 3</a>.</td></tr>
+          <tr><td>Alerte <b>« Fichier exécutable non approuvé »</b></td><td>C'est la sécurité d'AutoCAD pour les scripts. Choisis <b>« Charger une fois »</b>.</td></tr>
+          <tr><td>APPLOAD n'existe pas / pas de LISP</td><td>Tu es sur <b>AutoCAD LT</b> avant 2024. Utilise le <a href="#pat10">plan B : le DXF</a>.</td></tr>
+          <tr><td>Les pointillés (tôle perforée, axe) sont en <b>trait continu</b></td><td>Tape <span class="mono">LTSCALE</span>, mets <b>10</b>, puis <span class="mono">REGEN</span>. En présentation, vérifie aussi <span class="mono">PSLTSCALE</span> = 1.</td></tr>
+          <tr><td>Les cotes ou les textes sont <b>énormes ou minuscules</b></td><td>Le dessin n'est sans doute pas en mm. Repars d'un dessin <span class="mono">acadiso.dwt</span>, ou change <span class="mono">DIMSCALE</span> puis <span class="mono">REGEN</span>.</td></tr>
+          <tr><td>Les <b>hachures</b> de la laine manquent</td><td>Tape <span class="mono">FILLMODE</span>, mets 1, puis <span class="mono">REGEN</span>. Si elles manquent toujours, envoie une capture à Allan.</td></tr>
+          <tr><td>« Erreur : … » dans la ligne de commande</td><td>Fais une capture de la ligne de commande (F2 pour l'agrandir) et envoie-la à Allan : il fera corriger le script.</td></tr>
+        </tbody></table></div></section>
+
+      <section class="tt-step" id="pat10"><h3><span class="tt-n">B</span>Plan B : ouvrir le fichier DXF</h3>
+        <ol>
+          <li>Plus haut, clique sur <b>« Plan DXF »</b> : le fichier <span class="mono">Piege_a_son_DN…_L….dxf</span> arrive dans <span class="mono">Téléchargements</span>.</li>
+          <li>Dans AutoCAD (ou LT) : <b>Ouvrir</b> › en bas, type de fichier <b>DXF (*.dxf)</b> › choisis le fichier.</li>
+          <li>Tout est déjà dessiné avec les mêmes calques. Les cotes sont en traits et textes : pour les modifier, refais le DXF sur le site avec les nouvelles dimensions.</li>
+          <li>Enregistre-le en <span class="mono">.dwg</span> (Fichier › Enregistrer sous), puis reprends à l'<a href="#pat7">étape 7</a>.</li>
+        </ol></section>
     </section>
   </section>
 
@@ -5760,6 +5876,19 @@ TAB_META.pas=["Fichiers","Création AutoCAD","Dessiner un piège à son circulai
   tb.onclick=()=>setTab("pas");
 }
 if(typeof CMDK!=="undefined"){ const _ix3=cmdkIndex; cmdkIndex=async function(){ await _ix3(); CMDK.idx.unshift({t:"Onglet",label:"Création AutoCAD",sub:"Piège à son circulaire : plan coté d'un piège à son circulaire, script AutoCAD et DXF",go:()=>setTab("pas"),h:cmdNorm("Création AutoCAD"),s:cmdNorm("creation autocad piege a son silencieux attenuateur autocad dxf lisp circulaire acoustique")}); }; }
+/* ---------- Tuto AutoCAD (#pasTuto) : étapes cochées (sur cet ordinateur), impression ---------- */
+{ const KEY="ehpad-pas-tuto", get=()=>{ try{ return JSON.parse(localStorage.getItem(KEY)||"{}"); }catch(e){ return {}; } }, set=v=>{ try{ localStorage.setItem(KEY,JSON.stringify(v)); }catch(e){} };
+  const boxes=[...document.querySelectorAll("#pasTuto [data-step]")];
+  const upd=()=>{ const st=get(); let n=0; boxes.forEach(b=>{ b.checked=!!st[b.dataset.step]; b.closest(".fg-st").classList.toggle("ok",b.checked); if(b.checked) n++; });
+    $("#pasProgN").textContent=`${n} / ${boxes.length}`; $("#pasProgB").style.width=(100*n/boxes.length)+"%"; };
+  boxes.forEach(b=>b.onchange=()=>{ const st=get(); st[b.dataset.step]=b.checked; set(st); upd();
+    if(b.checked){ const nx=document.getElementById("pat"+(+b.dataset.step+1)); if(nx&&+b.dataset.step<boxes.length) setTimeout(()=>nx.scrollIntoView({behavior:"smooth",block:"start"}),250); } });
+  $("#pasTutoReset").onclick=()=>{ set({}); upd(); };
+  $("#pasTutoPrint").onclick=()=>{ let pb=$("#fgPrintBox"); if(!pb){ pb=document.createElement("div"); pb.id="fgPrintBox"; document.body.appendChild(pb); } pb.innerHTML=$("#pasTuto").outerHTML.replace(/id="/g,'data-id="');
+    document.body.classList.add("fg-printing"); const done=()=>{ document.body.classList.remove("fg-printing"); window.removeEventListener("afterprint",done); }; window.addEventListener("afterprint",done); window.print(); };
+  document.querySelectorAll('#viewPas a[href^="#pa"]').forEach(a=>a.onclick=e=>{ e.preventDefault(); const t=document.getElementById(a.getAttribute("href").slice(1)); if(t) t.scrollIntoView({behavior:"smooth",block:"start"}); });
+  upd(); }
+if(typeof CMDK!=="undefined"){ const _ix4=cmdkIndex; cmdkIndex=async function(){ await _ix4(); CMDK.idx.unshift({t:"Action",label:"Tuto : dessiner le piège à son dans AutoCAD",sub:"Création AutoCAD · étape par étape (APPLOAD, commande PAS, DXF)",go:()=>{ setTab("pas"); setTimeout(()=>{ const t=$("#pasTuto"); if(t) t.scrollIntoView({behavior:"smooth",block:"start"}); },200); },h:cmdNorm("Tuto AutoCAD"),s:cmdNorm("tuto tutoriel autocad lisp appload pas piege a son dxf")}); }; }
 </script>
 <style>
 .en-sum .k{min-width:150px}
