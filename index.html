@@ -774,6 +774,28 @@ body.mq-on{overflow:hidden}
 .jv-sub.on{opacity:1;transform:translate(-50%,0)}.jt:not([hidden])~.jv .jv-sub{bottom:340px}
 .jv-dock[aria-pressed="true"]{background:linear-gradient(135deg,#0ea5e9,#7c3aed)!important;color:#fff!important;border-color:transparent!important}
 @media (max-width:900px){.jv-top{left:50%;width:calc(100vw - 32px);min-width:0}.jv-sub{left:50%;max-width:calc(100vw - 32px);font-size:15px}}
+.ev{position:absolute;inset:0;z-index:4;pointer-events:none}.ev>*{pointer-events:auto}
+.ev-load{position:absolute;inset:0;display:grid;place-items:center;background:rgb(2 6 23 / .55);color:#fff;font-weight:700;font-size:16px;z-index:3}
+.ev-bar{position:absolute;left:16px;right:420px;bottom:112px;padding:10px 14px 8px;border-radius:20px;background:rgb(255 255 255 / .9);backdrop-filter:blur(16px);box-shadow:0 14px 50px rgb(15 23 42 / .25);color:#0f172a}
+.ev-top{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px}.ev-top small{font-size:10.5px;color:#64748b;max-width:150px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ev-pk i{display:block;width:130px;height:5px;border-radius:9px;background:#e2e8f0;overflow:hidden}.ev-pk em{display:block;height:100%;background:linear-gradient(90deg,#22c55e,#f59e0b)}.ev-pk.sat em{background:#dc2626;animation:jtBlink .8s infinite}.ev-pk.sat b{color:#dc2626}.ev-pk.sat b::after{content:" saturé";font-size:11px}
+.ev-badk.bad b{color:#dc2626}.ev-svg{height:60px}
+.ev-leg{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center;font-size:12px;color:#475569;margin-top:4px}.ev-leg i.t,.ev-leg i.c{display:inline-block;width:110px;height:9px;border-radius:9px;vertical-align:-1px;margin-right:6px}.ev-leg i.t{background:linear-gradient(90deg,#2563eb,#06b6d4,#22c55e,#eab308,#f97316,#dc2626)}.ev-leg i.c{background:linear-gradient(90deg,#22c55e,#84cc16,#eab308,#f97316,#dc2626)}
+.ev-who i{display:inline-block;width:9px;height:9px;border-radius:50%;border:1px solid #94a3b8;margin:0 3px 0 6px;vertical-align:-1px}
+.ev-lab{position:absolute;left:16px;top:84px;width:250px;max-height:calc(100% - 420px);overflow:auto;padding:10px 12px;border-radius:18px;background:rgb(255 255 255 / .9);backdrop-filter:blur(16px);box-shadow:0 12px 40px rgb(15 23 42 / .22);color:#0f172a}
+.ev-lab.closed>*:not(.ev-labt){display:none}.ev-labt{border:0;background:none;font:800 14px inherit;cursor:pointer;padding:2px 0 6px;width:100%;text-align:left}
+.ev-met{display:grid;gap:3px;font-size:12px;color:#475569}.ev-met select{font:inherit;font-size:13px;padding:5px;border-radius:9px;border:1px solid #cbd5e1}
+.ev-grp{display:grid;gap:4px;margin-top:8px}.ev-grp>b{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#64748b}
+.ev-sw{display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13.5px}.ev-sw input{display:none}.ev-sw i{flex:none;width:34px;height:19px;border-radius:99px;background:#fca5a5;position:relative;transition:.2s}.ev-sw i::after{content:"";position:absolute;left:2px;top:2px;width:15px;height:15px;border-radius:50%;background:#fff;transition:.2s;box-shadow:0 1px 3px rgb(0 0 0 / .3)}
+.ev-sw input:checked+i{background:#22c55e}.ev-sw input:checked+i::after{left:17px}.ev-sw span{display:grid;line-height:1.15}.ev-sw small{font-size:10.5px;color:#64748b}
+.ev-lab h4{margin:12px 0 4px;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#64748b}.ev-lab .btn{margin-top:8px;width:100%}
+.ev-log{list-style:none;margin:0;padding:0;display:grid;gap:4px;font-size:12px}.ev-log li{padding:4px 6px;border-radius:8px;background:#fff7ed;border-left:3px solid #f97316}.ev-log li.ev-i{background:#f0f9ff;border-left-color:#0ea5e9}.ev-log b{font-variant-numeric:tabular-nums;margin-right:4px}
+.ev-card{position:absolute;left:282px;top:84px;width:260px;padding:10px 12px;border-radius:16px;background:rgb(255 255 255 / .94);box-shadow:0 12px 40px rgb(15 23 42 / .25);color:#0f172a;display:grid;gap:6px}.ev-card>b{font-size:14px;padding-right:20px}.ev-card small{color:#64748b;font-size:11.5px}
+.ev-cx{position:absolute;right:8px;top:6px;border:0;background:none;cursor:pointer;font-size:14px}.ev-cg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}.ev-cg div{display:grid;background:#f1f5f9;border-radius:9px;padding:4px 6px}.ev-cg span{font-size:10px;color:#64748b;text-transform:uppercase}.ev-cg b{font-size:14px}.ev-cg b.bad{color:#dc2626}.ev-cg b.mid{color:#d97706}
+.ev-spw{display:grid;gap:1px;font-size:10.5px;color:#64748b}.ev-sp{width:100%;height:36px;background:#f8fafc;border-radius:6px}.ev-card .hint{font-size:11px;margin:0}
+.ev-dock[aria-pressed="true"]{background:linear-gradient(135deg,#16a34a,#0d9488)!important;color:#fff!important;border-color:transparent!important}
+.ev:not([hidden])~.jv .jv-sub{bottom:300px}
+@media (max-width:900px){.ev-bar{right:8px;left:8px}.ev-lab{width:200px}.ev-card{left:16px;top:auto;bottom:330px}}
 .hv-wait{display:grid;place-content:center;justify-items:center;gap:12px;text-align:center;color:#fff;padding:20px}.hv-wait p{margin:0}
 .hv-b{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .gai-ctl{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;font-size:14px}.gai-leg{display:flex;flex-wrap:wrap;gap:4px 10px}.gai-leg label{display:inline-flex;gap:5px;align-items:center;cursor:pointer}
@@ -1650,6 +1672,7 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
         <button type="button" class="mq-btn" data-mq-act="air" aria-pressed="false" title="Air en mouvement">≋<span>Air</span></button>
         <button type="button" class="mq-btn" data-mq-act="expl" aria-pressed="false" title="Écarter les niveaux">⇕<span>Écorché</span></button>
         <button type="button" class="mq-btn jv-dock" data-mq-act="jarvis" aria-pressed="false" title="Jarvis : piloter la maquette à la voix (touche J)">🎙️<span>Jarvis</span></button>
+        <button type="button" class="mq-btn ev-dock" data-mq-act="vivant" aria-pressed="false" title="L'EHPAD vivant : jumeau numérique et laboratoire de pannes">🧬<span>Vivant</span></button>
         <button type="button" class="mq-btn" data-mq-act="day" aria-pressed="false" title="Journée type d'hiver : 24 h animées">🕒<span>Journée</span></button>
         <button type="button" class="mq-btn" data-mq-act="film" title="Film de présentation">▶<span>Film</span></button>
         <button type="button" class="mq-btn" data-mq-act="search" title="Rechercher (Ctrl + K)">⌕<span>Chercher</span></button>
@@ -1671,6 +1694,31 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
         <input type="range" id="jtR" min="0" max="23.99" step="0.05" value="6" aria-label="Heure de la journée">
         <div class="jt-bot"><div class="jt-leg"><span>Besoin par m² :</span><i></i><small>0</small><small>25</small><small>50 W/m²</small></div><div class="jt-ev" id="jtEv"></div></div>
         <div class="jt-info" id="jtInfo"></div>
+      </div>
+      <div class="ev" id="ev" hidden>
+        <div class="ev-load" id="evLoad" hidden>Le bâtiment se réveille… (2 jours simulés pour stabiliser l'inertie)</div>
+        <aside class="ev-lab" id="evLab"><button type="button" class="ev-labt" id="evLabT">🧪 Laboratoire de pannes</button>
+          <div class="ev-labb" id="evLabB"></div><button type="button" class="btn small" id="evReset">Tout remettre en service</button>
+          <h4>Journal du bâtiment</h4><ul class="ev-log" id="evLog"></ul></aside>
+        <div class="ev-card" id="evCard" hidden></div>
+        <div class="ev-bar">
+          <div class="ev-top">
+            <button type="button" class="jt-play" id="evPlay" title="Lecture / pause">❚❚</button>
+            <div class="jt-clock"><span>🧬</span><b id="evClock">06:00</b></div>
+            <div class="jt-kpi"><span>Extérieur</span><b id="evText">—</b></div>
+            <div class="jt-kpi ev-pk" id="evPk"><span>Chauffage / capacité</span><b id="evP">—</b><i><em id="evPb"></em></i></div>
+            <div class="jt-kpi"><span>CO₂ max</span><b id="evCo2">—</b><small id="evCo2n"></small></div>
+            <div class="jt-kpi ev-badk"><span>Pièces hors confort</span><b id="evBad">0</b></div>
+            <div class="jt-kpi"><span>Énergie</span><b id="evE">0 kWh</b><small id="evPpl"></small></div>
+            <div class="jt-seg" role="group" aria-label="Affichage"><button type="button" data-evmode="T" aria-pressed="true">🌡️ Température</button><button type="button" data-evmode="C" aria-pressed="false">🫁 CO₂</button></div>
+            <div class="jt-seg" role="group" aria-label="Niveau"><button type="button" data-evlv="N00" aria-pressed="true">RDC</button><button type="button" data-evlv="N01" aria-pressed="false">Étage</button></div>
+            <select id="evSpd" aria-label="Vitesse"><option value="60">1 min / s</option><option value="300" selected>5 min / s</option><option value="1200">20 min / s</option><option value="3600">1 h / s</option></select>
+            <button type="button" class="jt-x" id="evClose" title="Fermer">✕</button>
+          </div>
+          <svg class="jt-svg ev-svg" id="evSvg" viewBox="0 0 600 60" preserveAspectRatio="none"></svg>
+          <div class="ev-leg"><span id="evLegT"><i class="t"></i> 16 · 19 · 21 · 24 · 27 °C</span><span id="evLegC" hidden><i class="c"></i> 420 · 800 · 1000 · 1300 · 1700 ppm</span>
+            <span class="ev-who"><i style="background:#fff"></i>résidents <i style="background:#22c55e"></i>soignants <i style="background:#06b6d4"></i>IDE <i style="background:#a855f7"></i>visiteurs <i style="background:#f59e0b"></i>logistique</span><span class="hint">Clique une pièce pour sa fiche.</span></div>
+        </div>
       </div>
       <div class="jv" id="jv" hidden>
         <div class="jv-top">
@@ -7265,6 +7313,20 @@ async function jvHandle(t){ if(!t) return; JV.busy=true; jvState("think"); await
   else if(has(t,/\b(aide|que (peux|sais) tu|qu est ce que tu (peux|sais)|commandes?|exemples?)\b/)){ jvHelp(true); say="Voici ce que tu peux me demander : montrer un équipement, ouvrir le bâtiment, faire circuler l'air, lancer la journée d'hiver, ou me poser une question sur les débits, les puissances ou les bouches."; }
   else if(has(t,/\b(demo|demonstration|presente (le|ton|notre) projet|presentation du projet|fais la presentation)\b/)){ JV.busy=false; jvDemo(); return; }
   else if(has(t,/\b(au revoir|desactive|eteins toi|arrete d ecouter|fin de l ecoute)\b/)){ say="À bientôt."; jvListen(false); }
+  // jumeau numérique vivant
+  else if(has(t,/\b(vivant|jumeau|simulation|simule la vie|reveille le batiment)\b/)&&!has(t,/\b(arrete|stop|ferme|quitte)\b/)&&!has(t,/panne/)){ await evStart(); say="Le bâtiment se réveille : 81 résidents, le personnel et les visiteurs vivent leur journée. Chaque pièce respire : chaleur, inertie des murs et CO₂ calculés minute par minute avec vos vrais débits. Demande-moi de provoquer une panne."; }
+  else if(has(t,/\b(arrete|stop|ferme|quitte)\b/)&&has(t,/\b(vivant|jumeau|simulation)\b/)){ evStop(); say="Simulation arrêtée."; }
+  else if(has(t,/\b(panne|coupe|arrete|eteins|casse)\b/)&&(jvEquip(t)||has(t,/\b(chaudieres?|pac|vmc|cta)\b/))&&(EV.on||has(t,/panne|simule/))){ if(!EV.on) await evStart(); const S=EV.sc; let lab="";
+    const m=t.match(/\bcta ([1-5])\b/), p=t.match(/\bpac ([12])\b/);
+    if(m){ S.cta["CTA "+m[1]]=0; lab="CTA "+m[1]; } else if(p){ S.pac[+p[1]-1]=0; lab="PAC "+p[1]; } else if(has(t,/\bpac\b|pompes? a chaleur/)){ S.pac=[0,0]; lab="les deux PAC"; } else if(has(t,/chaudiere/)){ S.ch=0; lab="les chaudières"; } else if(has(t,/vmc/)){ S.vmc=0; lab="les VMC"; }
+    evLab(); evLog("⚠️ Panne : "+lab+" à l'arrêt (demandé à Jarvis)"); EV.play=true; $("#evPlay").textContent="❚❚"; EV.spd=1200; $("#evSpd").value="1200";
+    say=`Panne simulée : ${lab} à l'arrêt. J'accélère le temps, regarde ce qui se passe dans les pièces concernées.`+(m&&m[1]==="5"?" Passe en mode CO₂ : la salle à manger va réagir au prochain repas.":""); if(m&&m[1]==="5"){ EV.mode="C"; document.querySelectorAll("[data-evmode]").forEach(x=>x.setAttribute("aria-pressed",x.dataset.evmode==="C")); $("#evLegT").hidden=true; $("#evLegC").hidden=false; } }
+  else if(EV.on&&has(t,/\b(repare|remets|reprise|remise en service|tout remettre)\b/)){ $("#evReset").click(); say="Tout est remis en service."; }
+  else if(EV.on&&has(t,/\b(canicule|chaleur|ete)\b/)){ EV.sc.meteo="canicule"; evLab(); evLog("Météo : canicule"); say="Canicule : de 24 à 35 °C. Les CTA passent en rafraîchissement par le change-over, sans émetteurs de froid dans les chambres. Regardons si ça suffit."; }
+  else if(EV.on&&has(t,/\b(grand froid|vague de froid|moins 12|tres froid)\b/)){ EV.sc.meteo="froid"; evLab(); evLog("Météo : vague de froid"); say="Vague de froid : jusqu'à moins 12 degrés. On va voir si la production suit."; }
+  else if(EV.on&&has(t,/\bco2\b|\bqualite d air\b/)){ EV.mode="C"; document.querySelectorAll("[data-evmode]").forEach(x=>x.setAttribute("aria-pressed",x.dataset.evmode==="C")); $("#evLegT").hidden=true; $("#evLegC").hidden=false; evPaint(); say="Affichage du CO₂ : vert jusqu'à 800 ppm, rouge au-delà de 1 300."; }
+  else if(EV.on&&has(t,/\btemperatures?\b/)){ EV.mode="T"; document.querySelectorAll("[data-evmode]").forEach(x=>x.setAttribute("aria-pressed",x.dataset.evmode==="T")); $("#evLegT").hidden=false; $("#evLegC").hidden=true; evPaint(); say="Affichage des températures."; }
+  else if(EV.on&&has(t,/\b(\d{1,2}) h\b/)){ const h=+t.match(/\b(\d{1,2}) h\b/)[1]%24; let n=0; while(Math.floor((EV.t/3600)%24)!==h&&n<1440){ evStep(); n++; } say=`Il est ${h} h. ${EV.rooms.filter(r=>r.N>0).length} pièces occupées, ${Math.round(EV.P/1000)} kW de chauffage.`; }
   // journée type
   else if(has(t,/\bjournee\b|\b24 ?h(eures)?\b|\bhiver\b/)&&!has(t,/\b(arrete|stop|quitte|ferme|coupe|termine)\b/)){ if(typeof jtStart==="function"){ await jtStart(); JT.h=has(t,/\bnuit\b/)?2:5.5; JT.play=true; $("#jtPlay").textContent="❚❚"; JT.last=performance.now(); } say="Voici une journée d'hiver type. Les pièces se colorent selon leur besoin de chauffage. Les CTA 1 à 4 tournent 24 h/24, la CTA 5 s'arrête de 22 h à 6 h."; }
   else if(has(t,/\b(arrete|stop|quitte|ferme|termine)\b.*\bjournee\b/)){ if(typeof jtStop==="function") jtStop(); say="Journée type fermée."; }
@@ -7324,7 +7386,7 @@ async function jvDemo(){ if(JV.demo) return; JV.demo=true; await jvData(); const
   } finally { JV.demo=false; jvListenPause(false); jvState(); } }
 function jvListenPause(p){ JV.paused=p; }
 // ---- aide ----
-const JV_EX=[["Montrer","« Jarvis, montre-moi la CTA 5 »","« Jarvis, va à la chaufferie »","« Jarvis, montre la toiture »","« Jarvis, vue d'ensemble »"],["Animer","« Jarvis, ouvre le bâtiment »","« Jarvis, fais circuler l'air »","« Jarvis, lance la journée d'hiver »","« Jarvis, il est 3 heures »","« Jarvis, fais le tour »"],["Questions","« Jarvis, combien de bouches à l'étage ? »","« Jarvis, quelle est la puissance de chauffage ? »","« Jarvis, le projet est-il conforme ? »","« Jarvis, c'est quoi la PAC 1 ? »"],["Présenter","« Jarvis, présente le projet » (démo complète commentée)","« Jarvis, stop »"]];
+const JV_EX=[["Jumeau vivant","« Jarvis, réveille le bâtiment »","« Jarvis, simule une panne de la CTA 5 »","« Jarvis, panne de la PAC 1 »","« Jarvis, canicule »","« Jarvis, répare tout »"],["Montrer","« Jarvis, montre-moi la CTA 5 »","« Jarvis, va à la chaufferie »","« Jarvis, montre la toiture »","« Jarvis, vue d'ensemble »"],["Animer","« Jarvis, ouvre le bâtiment »","« Jarvis, fais circuler l'air »","« Jarvis, lance la journée d'hiver »","« Jarvis, il est 3 heures »","« Jarvis, fais le tour »"],["Questions","« Jarvis, combien de bouches à l'étage ? »","« Jarvis, quelle est la puissance de chauffage ? »","« Jarvis, le projet est-il conforme ? »","« Jarvis, c'est quoi la PAC 1 ? »"],["Présenter","« Jarvis, présente le projet » (démo complète commentée)","« Jarvis, stop »"]];
 function jvHelp(open){ const h=$("#jvHelp"); h.hidden=open===undefined?!h.hidden:!open; if(!h.hidden&&!h.innerHTML) h.innerHTML=JV_EX.map(([t,...L])=>`<div><b>${t}</b>${L.map(x=>`<button type="button" class="jv-ex">${x}</button>`).join("")}</div>`).join("");
   h.querySelectorAll(".jv-ex").forEach(b=>b.onclick=()=>{ const t=b.textContent.replace(/[«»]/g,"").replace(/\(.*\)/,"").replace(/^ ?jarvis,? /i,""); jvHeard(t,true); jvInput(t,false); }); }
 // ---- ouverture / fermeture ----
@@ -7367,4 +7429,145 @@ const _jvMqExit=mqExit; mqExit=function(){ if(JV.on) jvOpen(false); return _jvMq
   bar.addEventListener("click",()=>setTimeout(sync,0));
   show("projet"); sync();
 })();
+</script>
+<script>
+/* ========== « L'EHPAD vivant » : jumeau numérique simulé + laboratoire de pannes (Maquette 3D) ==========
+   Chaque pièce : modèle thermique à 2 nœuds (air + masse des parois = inertie), bilan CO₂, débits réels des bouches,
+   occupants suivant un emploi du temps d'EHPAD (81 résidents, personnel jour/nuit, visites), émetteurs régulés,
+   production limitée par les PAC / chaudières disponibles, CTA avec récupération et batterie. Pas de temps : 1 minute. */
+const EV={on:false,play:true,spd:300,mode:"T",lv:"N00",t:0,rooms:null,ppl:null,sc:{meteo:"hiver",cta:{"CTA 1":1,"CTA 2":1,"CTA 3":1,"CTA 4":1,"CTA 5":1},vmc:1,pac:[1,1],ch:1,famille:0},log:[],hist:[],E:0,acc:0};
+const EV_MET={hiver:{n:"Hiver type (−6 / +2 °C)",m:-2,a:4,sol:6},froid:{n:"Vague de froid (−12 / −6 °C)",m:-9.5,a:3,sol:5},mi:{n:"Mi-saison (5 / 15 °C)",m:10,a:5,sol:10},canicule:{n:"Canicule (24 / 35 °C)",m:29.5,a:5.5,sol:16}};
+const evText=h=>{ const M=EV_MET[EV.sc.meteo]; return M.m+M.a*Math.sin(2*Math.PI*(h-9)/24); };
+const evHash=(a,b)=>{ let x=(a*374761393+b*668265263)>>>0; x=(x^(x>>>13))*1274126177>>>0; return ((x^(x>>>16))>>>0)/4294967296; };
+const evCen=L=>{ let x=0,y=0; const n=L.length/2; for(let i=0;i<L.length;i+=2){ x+=L[i]; y+=L[i+1]; } return [x/n,y/n]; };
+function evInside(px,py,L){ let c=false; const n=L.length/2; for(let i=0,j=n-1;i<n;j=i++){ const x0=L[2*i],y0=L[2*i+1],x1=L[2*j],y1=L[2*j+1]; if((y0>py)!==(y1>py)&&px<(x1-x0)*(py-y0)/(y1-y0)+x0) c=!c; } return c; }
+async function evPrep(){
+  if(EV.rooms) return; await jtPrep(); try{ if(typeof loadBouches==="function") await loadBouches(); }catch(e){} const B=Array.isArray(BOUCHES)?BOUCHES:[];
+  const R=JT.sp.map((x,i)=>{ const s=x.s, L=s.p[0], A=x.A, V=Math.max(2,A*(s.v&&s.a?Math.min(4,s.v/s.a):2.6)), nm=String(s.nm||"").toLowerCase();
+    const bo=B.filter(b=>b.lv===s.l&&evInside(b.x,b.y,L)), nets={};
+    bo.forEach(b=>{ const k=/^CTA/.test(b.cta||"")?b.cta:"VMC"; const o=nets[k]||(nets[k]={qs:0,qx:0}); if(b.fonction==="Soufflage") o.qs+=+b.q||0; else o.qx+=+b.q||0; });
+    const kind=/^(chambre|ch\. )/.test(nm)?"ch":/salle a manger|salle à manger/.test(nm)&&!/salon/.test(nm)?"sam":/(detente|détente|convivialit|animation|famille|salon)/.test(nm)?"salon":/(coiffure|rééducation|reeducation)/.test(nm)?"act":/(pc |bur|transmission|accueil|soins|prépa|prepa)/.test(nm)?"bur":/(linge|réserve|reserve|vestiaire|stock|atelier|office|tisanerie)/.test(nm)?"log":s.sv==="dgt"?"dgt":"autre";
+    const Hop=x.Genv*0.55, Hwin=x.Genv*0.45;
+    return {i,x,s,m:x.m,A,V,nm,kind,lv:s.l,c:evCen(L),L,nets,Ca:1.2*1006*V+12000*A,Cm:110000*A,Hm:9.1*2.5*A,Hop,Hwin,Ta:21,Tm:20.5,C:600,N:0,Nres:0,Qe:0,hT:[],hC:[],al:{}}; });
+  // pièces sans bouche retrouvée : débit au m² de la pièce voisine du même type (marqué « supposé »)
+  const ventK=["ch","sam","salon","act","bur","log"]; R.forEach(r=>{ const hasS=Object.entries(r.nets).some(([k,o])=>k!=="VMC"&&o.qs>0); if(hasS||!ventK.includes(r.kind)) return;
+    let best=null, bd=1e9; R.forEach(o=>{ if(o===r||o.est) return; const e=Object.entries(o.nets).find(([k,v])=>k!=="VMC"&&v.qs>0); if(!e) return; const d=Math.hypot(o.c[0]-r.c[0],o.c[1]-r.c[1])+(o.lv!==r.lv?50:0)+(o.kind!==r.kind?30:0)+(o.s.sv!==r.s.sv?15:0); if(d<bd){ bd=d; best=[o,e]; } });
+    if(best){ const [o,[k,v]]=best, q=Math.round(v.qs/o.A*r.A); r.nets[k]={qs:q,qx:q}; r.est=true; } });
+  EV.rooms=R; const near=(r,L)=>L.reduce((b,x)=>!b||Math.hypot(x.c[0]-r.c[0],x.c[1]-r.c[1])+(x.lv!==r.lv?40:0)<Math.hypot(b.c[0]-r.c[0],b.c[1]-r.c[1])+(b.lv!==r.lv?40:0)?x:b,null);
+  const CH=R.filter(r=>r.kind==="ch"), SAM=R.filter(r=>r.kind==="sam"||/salle a manger salon|salle à manger salon/.test(r.nm)), SAL=R.filter(r=>r.kind==="salon"), ACT=R.filter(r=>r.kind==="act"), BUR=R.filter(r=>r.kind==="bur"), LOG=R.filter(r=>r.kind==="log"), DGT=R.filter(r=>r.kind==="dgt"), FAM=R.filter(r=>/famille/.test(r.nm));
+  const capa=new Map(SAM.map(x=>[x,Math.max(8,Math.floor(x.A/2))])); const seat=r=>{ const L=[...SAM].sort((a,b)=>(a.s.sv===r.s.sv?0:20)+(a.lv===r.lv?0:30)+Math.hypot(a.c[0]-r.c[0],a.c[1]-r.c[1])-((b.s.sv===r.s.sv?0:20)+(b.lv===r.lv?0:30)+Math.hypot(b.c[0]-r.c[0],b.c[1]-r.c[1]))); const x=L.find(y=>capa.get(y)>0)||L[0]; if(x) capa.set(x,capa.get(x)-1); return x; };
+  const capS=new Map(SAL.map(x=>[x,Math.max(2,Math.floor(x.A/2.5))])); const lounge=r=>{ const L=[...SAL].sort((a,b)=>(a.s.sv===r.s.sv?0:20)+(a.lv===r.lv?0:30)+Math.hypot(a.c[0]-r.c[0],a.c[1]-r.c[1])-((b.s.sv===r.s.sv?0:20)+(b.lv===r.lv?0:30)+Math.hypot(b.c[0]-r.c[0],b.c[1]-r.c[1]))); const x=L.find(y=>capS.get(y)>0); if(x) capS.set(x,capS.get(x)-1); return x||r; };
+  const P=[]; CH.forEach((r,k)=>{ const sam=seat(r)||r, sal=lounge(r);
+    P.push({k:"res",id:k,home:r,sam,sal,act:ACT.length?ACT[k%ACT.length]:sal,bed:evHash(k,7)<0.1}); });
+  const units=[...new Set(CH.map(r=>r.lv+r.s.sv))]; const tour=u=>CH.filter(r=>r.lv+r.s.sv===u);
+  for(let k=0;k<12;k++){ const u=units[k%units.length]; P.push({k:"soi",id:100+k,tour:tour(u),sam:near(tour(u)[0],SAM)||tour(u)[0],dgt:near(tour(u)[0],DGT)||tour(u)[0],night:k<3}); }
+  for(let k=0;k<3;k++) P.push({k:"ide",id:200+k,b:BUR[k%Math.max(1,BUR.length)]||CH[0],tour:CH,night:k===0});
+  for(let k=0;k<4;k++) P.push({k:"adm",id:300+k,b:BUR[(k+3)%Math.max(1,BUR.length)]||CH[0]});
+  for(let k=0;k<3;k++) P.push({k:"log",id:400+k,b:LOG[k%Math.max(1,LOG.length)]||CH[0]});
+  for(let k=0;k<2;k++) P.push({k:"ani",id:500+k,b:SAL[k%Math.max(1,SAL.length)]||CH[0],sam:SAM[k%Math.max(1,SAM.length)]});
+  for(let k=0;k<30;k++) P.push({k:"vis",id:600+k,res:P[(k*7)%CH.length],fam:FAM[0]||SAL[0]||CH[0]});
+  EV.ppl=P; EV.R={CH,SAM,SAL};
+  // points d'apparition des personnes dans chaque pièce
+  R.forEach(r=>{ const L=r.L; let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9; for(let i=0;i<L.length;i+=2){ x0=Math.min(x0,L[i]); x1=Math.max(x1,L[i]); y0=Math.min(y0,L[i+1]); y1=Math.max(y1,L[i+1]); }
+    r.pts=[]; for(let t=0;t<400&&r.pts.length<24;t++){ const x=x0+evHash(r.i,t)*(x1-x0), y=y0+evHash(t,r.i+999)*(y1-y0); if(evInside(x,y,L)) r.pts.push([x,y]); } if(!r.pts.length) r.pts.push(r.c); });
+}
+// ---- où est chacun à l'heure h ----
+function evWhere(p,h){ const slot=Math.floor(h*6), u=evHash(p.id,Math.floor(h*2)), d=evHash(p.id,999), IN=(a,b)=>h>=a&&h<b;
+  if(p.k==="res"){ if(p.bed||IN(0,8.25)||IN(21,24)||IN(17.75,18.5)) return p.home;
+    if(IN(8.25,9.5)) return d<0.55?p.sam:p.home; if(IN(11.75,13.5)) return d<0.88?p.sam:p.home; if(IN(18.5,19.75)) return d<0.82?p.sam:p.home;
+    if(IN(9.5,11.75)) return u<0.32?p.sal:u<0.4?p.act:p.home; if(IN(13.5,15)) return u<0.3?p.sal:p.home; if(IN(15,17.75)) return u<0.45?p.sal:p.home; return u<0.15?p.sal:p.home; }
+  if(p.k==="soi"){ const day=IN(7,21); if(p.night?day:!day) return null; if(!day) return evHash(p.id,slot)<0.3?p.dgt:p.tour[(slot+p.id)%p.tour.length];
+    if(IN(11.75,13.5)||IN(18.5,19.75)||IN(8.25,9)) return p.sam; if(evHash(p.id,slot)<0.18) return p.dgt; return p.tour[(slot+p.id)%p.tour.length]; }
+  if(p.k==="ide"){ if(p.night?IN(7,21):!IN(7,21)) return null; return evHash(p.id,slot)<0.5?p.b:p.tour[(slot*7+p.id)%p.tour.length]; }
+  if(p.k==="adm") return IN(8.5,17.5)&&!IN(12,13)?p.b:null; if(p.k==="log") return IN(7,15)?p.b:null; if(p.k==="ani") return IN(10,17.5)?(IN(11.75,13.5)?p.sam:p.b):null;
+  if(p.k==="vis"){ const fam=EV.sc.famille, n=fam?30:12; if(p.id-600>=n) return null; if(fam&&IN(11.75,15)) return p.res.sam; if(!IN(14,18)) return null; return evHash(p.id,3)<0.4?p.fam:p.res.home; }
+  return null; }
+// ---- un pas de simulation (60 s) ----
+function evStep(){ const dt=60, h=(EV.t/3600)%24, Te=evText(h), M=EV_MET[EV.sc.meteo], R=EV.rooms, cool=Te>24||EV.sc.meteo==="canicule", heat=!cool&&Te<17;
+  R.forEach(r=>{ r.N=0; r.Nres=0; }); if(EV.t%300===0||!EV.loc){ EV.loc=EV.ppl.map(p=>evWhere(p,h)); } EV.loc.forEach((r,j)=>{ if(r){ r.N++; if(EV.ppl[j].k==="res") r.Nres++; } });
+  const f=k=>k==="VMC"?EV.sc.vmc:(EV.sc.cta[k]?jtCta(k,h):0), sun=Math.max(0,Math.sin(Math.PI*(h-8)/9))*(h>8&&h<17?1:0);
+  const cap=(EV.sc.pac[0]+EV.sc.pac[1])*(cool?40.1:33.7)*1000+(heat?EV.sc.ch*2*60000:0);
+  // demande des émetteurs et des batteries de CTA
+  let emit=0, coil=0; R.forEach(r=>{ const Tsp=jtSetpoint(r.s.sv,h)??19; r.Tsp=Tsp; r.Qd=heat?Math.max(0,Math.min(1,(Tsp+0.5-r.Ta)))*70*r.A:0; emit+=r.Qd; });
+  const Tsup=cool?17:19; Object.keys(EV.sc.cta).forEach(k=>{ const q=R.reduce((a,r)=>a+(r.nets[k]?r.nets[k].qs:0),0)*f(k); const Tr=21.5, Tafter=Te+0.8*(Tr-Te); coil+=0.34*q*Math.abs(Tsup-Tafter)*((heat&&Tsup>Tafter)||(cool&&Tafter>Tsup)?1:0); });
+  const dem=emit+coil, k=dem>cap&&dem>0?cap/dem:1; EV.P=dem*k; EV.cap=cap; EV.sat=k<0.999; EV.E+=EV.P*dt/3.6e6;
+  const Taft=Te+0.8*(21.5-Te), Tsupply=heat&&Tsup>Taft?Taft+k*(Tsup-Taft):cool&&Taft>Tsup?Taft+k*(Tsup-Taft):Taft; EV.Tsupply=Tsupply;
+  R.forEach(r=>{ let H=0, HT=0, Q=0, QC=0; const add=(q,T,C)=>{ if(q<=0) return; H+=0.34*q; HT+=0.34*q*T; Q+=q; QC+=q*C; };
+    let qs=0,qx=0; Object.entries(r.nets).forEach(([n,o])=>{ const fr=f(n); if(n!=="VMC") add(o.qs*fr,Tsupply,420); qs+=(n!=="VMC"?o.qs:0)*fr; qx+=o.qx*fr; });
+    add(Math.max(0,qx-qs),21,700); add(0.15*r.V,Te,420); if(!Object.keys(r.nets).length) add(0.3*r.V,21,650);
+    const gP=r.N*80+(r.N?4*r.A:0)+(r.kind==="sam"&&r.N>5?8*r.A:0), gS=M.sol*sun*r.A*0.5, Qe=r.Qd*k; r.Qe=Qe;
+    r.Ta+=(HT-H*r.Ta + r.Hwin*(Te-r.Ta) + r.Hm*(r.Tm-r.Ta) + Qe + 0.6*gP)/r.Ca*dt;
+    r.Tm+=(r.Hm*(r.Ta-r.Tm) + r.Hop*(Te-r.Tm) + 0.4*gP + gS)/r.Cm*dt;
+    const g=(r.N-r.Nres)*0.0062+r.Nres*0.0045; r.C+=((QC-Q*r.C)/3600 + g*1e3)/r.V*dt; if(r.C<400) r.C=400; });
+  EV.t+=dt; }
+function evWarm(h0=6){ EV.t=0; EV.E=0; EV.loc=null; EV.rooms.forEach(r=>{ r.Ta=21; r.Tm=20.5; r.C=600; r.hT=[]; r.hC=[]; r.al={}; }); for(let i=0;i<2*1440+h0*60;i++) evStep(); EV.t=h0*3600; EV.E=0; EV.hist=[]; EV.log=[]; evLog("Simulation lancée : "+EV_MET[EV.sc.meteo].n+", état stabilisé sur 2 jours.","i"); }
+// ---- affichage ----
+const EV_TS=[[16,[37,99,235]],[19,[6,182,212]],[21,[34,197,94]],[24,[234,179,8]],[27,[249,115,22]],[30,[220,38,38]]], EV_CS=[[420,[34,197,94]],[800,[132,204,22]],[1000,[234,179,8]],[1300,[249,115,22]],[1700,[220,38,38]]];
+function evScale(S,v){ if(v<=S[0][0]) return S[0][1]; for(let i=1;i<S.length;i++){ const [a,ca]=S[i-1],[b,cb]=S[i]; if(v<=b){ const k=(v-a)/(b-a); return ca.map((c,j)=>Math.round(c+(cb[j]-c)*k)); } } return S[S.length-1][1]; }
+function evPaint(){ EV.rooms.forEach(r=>{ const c=evScale(EV.mode==="C"?EV_CS:EV_TS,EV.mode==="C"?r.C:r.Ta), M=r.m.material; M.color.setRGB(c[0]/255,c[1]/255,c[2]/255); M.emissive.setRGB(c[0]/255*0.5,c[1]/255*0.5,c[2]/255*0.5); M.opacity=0.85; }); }
+function evLog(t,k="w"){ const h=(EV.t/3600)%24; EV.log.unshift({h,t,k}); if(EV.log.length>40) EV.log.pop(); const L=$("#evLog"); if(L) L.innerHTML=EV.log.slice(0,9).map(e=>`<li class="ev-${e.k}"><b>${jtFmt(e.h)}</b> ${esc(e.t)}</li>`).join(""); }
+function evAlerts(){ const h=(EV.t/3600)%24; EV.rooms.forEach(r=>{ const lab=(r.nm||"pièce")+" "+(r.lv==="N00"?"RDC":"étage")+(r.s.n?" ("+r.s.n+")":"");
+  const chk=(key,cond,msg)=>{ if(cond&&!r.al[key]){ r.al[key]=1; evLog(msg); } else if(!cond&&r.al[key]&&Math.random()<0.02) r.al[key]=0; };
+  chk("co2",r.C>1500&&r.N>0,`CO₂ ${Math.round(r.C)} ppm · ${lab}, ${r.N} personne${r.N>1?"s":""}`); if(r.kind==="ch"||r.kind==="sam"||r.kind==="salon"){ chk("froid",r.Ta<19&&r.N>0,`${r.Ta.toFixed(1).replace(".",",")} °C · ${lab} : trop froid`); chk("chaud",r.Ta>27&&r.N>0,`${r.Ta.toFixed(1).replace(".",",")} °C · ${lab} : trop chaud`); } }); }
+function evHud(){ const h=(EV.t/3600)%24, R=EV.rooms; $("#evClock").textContent=jtFmt(h)+(EV.t>=86400?` · J${Math.floor(EV.t/86400)+1}`:"");
+  $("#evText").textContent=evText(h).toFixed(1).replace(".",",")+" °C"; const pc=EV.cap?EV.P/EV.cap:0; $("#evP").textContent=(EV.P/1000).toFixed(1).replace(".",",")+" / "+(EV.cap/1000).toFixed(0)+" kW"; $("#evPb").style.width=Math.min(100,pc*100)+"%"; $("#evPk").classList.toggle("sat",EV.sat);
+  const occ=R.filter(r=>r.N>0), cm=occ.reduce((b,r)=>!b||r.C>b.C?r:b,null); $("#evCo2").textContent=cm?Math.round(cm.C)+" ppm":"—"; $("#evCo2n").textContent=cm?(cm.nm||"")+" · "+(cm.lv==="N00"?"RDC":"étage"):"";
+  const bad=R.filter(r=>r.N>0&&(r.C>1500||((r.kind==="ch"||r.kind==="sam"||r.kind==="salon")&&(r.Ta<19||r.Ta>27)))).length; $("#evBad").textContent=bad; $("#evBad").parentElement.classList.toggle("bad",bad>0);
+  $("#evE").textContent=Math.round(EV.E).toLocaleString("fr-FR")+" kWh"; const sam=EV.R.SAM.reduce((a,r)=>a+r.Nres,0); $("#evPpl").textContent=`${EV.ppl.filter((p,j)=>EV.loc[j]).length} pers. · ${sam} résidents à table`;
+  if(EV.card) evCardUpd(); }
+function evChart(){ const W=600,H=60, n=96, H24=EV.hist.slice(-n); if(!H24.length){ $("#evSvg").innerHTML=""; return; } const mx=Math.max(...H24.map(x=>x.cap),1);
+  const line=(f,sc)=>"M"+H24.map((x,i)=>`${(i/(n-1)*W).toFixed(1)},${(H-3-f(x)/sc*(H-8)).toFixed(1)}`).join(" L");
+  $("#evSvg").innerHTML=`<path d="${line(x=>x.cap,mx)}" fill="none" stroke="#94a3b8" stroke-dasharray="4 3" stroke-width="1.2"/><path d="${line(x=>x.P,mx)}" fill="none" stroke="#dc2626" stroke-width="2"/><path d="${line(x=>Math.min(2000,x.C),2000)}" fill="none" stroke="#7c3aed" stroke-width="1.6"/>
+    <text x="4" y="10" font-size="9" fill="#dc2626">puissance</text><text x="60" y="10" font-size="9" fill="#7c3aed">CO₂ max</text><text x="112" y="10" font-size="9" fill="#64748b">capacité dispo.</text><text x="${W-60}" y="10" font-size="9" fill="#64748b">24 dernières h</text>`; }
+// ---- personnes (étape 1 : présence par pièce) ----
+function evPeople(){ if(!EV.inst){ const g=new THREE.CylinderGeometry(0.3,0.36,1.7,10); g.rotateX(Math.PI/2); g.translate(0,0,0.85); const m=new THREE.MeshLambertMaterial({clippingPlanes:[RB.clip],emissive:0x333333});
+    EV.inst=new THREE.InstancedMesh(g,m,EV.ppl.length); EV.inst.frustumCulled=false; EV.inst.instanceMatrix.setUsage(THREE.DynamicDrawUsage); RB.scene.add(EV.inst);
+    const C={res:0xffffff,soi:0x22c55e,ide:0x06b6d4,adm:0x64748b,log:0xf59e0b,ani:0xec4899,vis:0xa855f7}; EV.ppl.forEach((p,j)=>EV.inst.setColorAt(j,new THREE.Color(C[p.k]))); EV.inst.instanceColor.needsUpdate=true; }
+  const Mx=new THREE.Matrix4(), Z=new THREE.Matrix4().makeScale(0,0,0), cx=RB.cx, cy=RB.cy;
+  EV.ppl.forEach((p,j)=>{ const r=EV.loc&&EV.loc[j]; if(!r){ EV.inst.setMatrixAt(j,Z); return; } const pt=r.pts[(j*5+3)%r.pts.length]; const z=(r.lv==="N01"?3.36:0)+0.05; const lie=p.k==="res"&&(((EV.t/3600)%24)<7||((EV.t/3600)%24)>21.5);
+    Mx.makeTranslation(pt[0]-cx+(j%3-1)*0.25,pt[1]-cy+((j>>2)%3-1)*0.25,z); if(lie) Mx.multiply(new THREE.Matrix4().makeRotationY(Math.PI/2)).multiply(new THREE.Matrix4().makeTranslation(-0.5,0,0.3)); EV.inst.setMatrixAt(j,Mx); });
+  EV.inst.instanceMatrix.needsUpdate=true; EV.inst.visible=true; }
+// ---- fiche d'une pièce (clic) ----
+function evCardUpd(){ const r=EV.card, c=$("#evCard"); if(!r||!c) return; const nets=Object.entries(r.nets).map(([k,o])=>`${k}${o.qs?" · soufflage "+o.qs+" m³/h":""}${o.qx?" · extraction "+o.qx+" m³/h":""}`).join("<br>")||"pas de bouche (air de transfert)";
+  const sp=(a,mn,mx,col)=>{ if(a.length<2) return ""; return `<svg viewBox="0 0 200 36" class="ev-sp"><path d="M${a.map((v,i)=>`${(i/(a.length-1)*200).toFixed(1)},${(34-(Math.max(mn,Math.min(mx,v))-mn)/(mx-mn)*32).toFixed(1)}`).join(" L")}" fill="none" stroke="${col}" stroke-width="2"/></svg>`; };
+  c.innerHTML=`<button type="button" class="ev-cx" onclick="EV.card=null;this.parentElement.hidden=true">✕</button><b>${esc(r.nm||"Pièce")} · ${r.lv==="N00"?"RDC":"étage"} ${esc(r.s.n||"")}</b><small>${esc((JT_SVC[r.s.sv]||{}).n||r.s.sv)} · ${r.A.toFixed(0)} m² · consigne ${r.Tsp??"—"} °C</small>
+    <div class="ev-cg"><div><span>Air</span><b>${r.Ta.toFixed(1).replace(".",",")} °C</b></div><div><span>Parois</span><b>${r.Tm.toFixed(1).replace(".",",")} °C</b></div><div><span>CO₂</span><b class="${r.C>1300?"bad":r.C>1000?"mid":""}">${Math.round(r.C)} ppm</b></div><div><span>Occupants</span><b>${r.N}</b></div><div><span>Chauffage</span><b>${Math.round(r.Qe)} W</b></div></div>
+    <div class="ev-spw"><span>Température 24 h</span>${sp(r.hT,15,30,"#ea580c")}<span>CO₂ 24 h</span>${sp(r.hC,400,2000,"#7c3aed")}</div><p class="hint">${nets}${r.est?" <b>(débit supposé : aucune bouche retrouvée dans la pièce, débit au m² de la pièce voisine du même type)</b>":""}</p>`; c.hidden=false; }
+// ---- boucle ----
+function evFrame(){ if(!EV.on) return; const now=performance.now(), dt=Math.min(0.1,(now-(EV.last||now))/1000); EV.last=now;
+  if(EV.play){ EV.acc+=dt*EV.spd; let n=0; while(EV.acc>=60&&n<400){ evStep(); EV.acc-=60; n++; if(EV.t%900===0){ EV.hist.push({P:EV.P,cap:EV.cap,C:Math.max(...EV.rooms.filter(r=>r.N>0).map(r=>r.C),420)}); if(EV.hist.length>200) EV.hist.shift(); EV.rooms.forEach(r=>{ r.hT.push(r.Ta); r.hC.push(r.C); if(r.hT.length>96){ r.hT.shift(); r.hC.shift(); } }); evAlerts(); EV.chartDirty=1; } }
+    if(EV.acc>=60) EV.acc=0; }
+  if(now-(EV.lastPaint||0)>120){ EV.lastPaint=now; evPaint(); evPeople(); evHud(); if(EV.chartDirty){ EV.chartDirty=0; evChart(); } }
+  const h=(EV.t/3600)%24, sun=Math.max(0,Math.sin(Math.PI*(h-8)/9))*(h>8&&h<17?1:0); RB.scene.background=new THREE.Color(0x0b1426).lerp(new THREE.Color(0xd9e6f0),sun); if(RB.hemi) RB.hemi.intensity=0.35+0.55*sun;
+  (JT.ctas||[]).forEach(c=>{ const on=EV.sc.cta[c.mark]&&jtCta(c.mark,h)>0; c.ms.forEach(m=>{ m.material.emissive.setHex(on?0x0f7a3a:0x7f1d1d); m.material.emissiveIntensity=on?0.4+0.15*Math.sin(now/300):0.35; }); }); }
+function evLevel(lv){ EV.lv=lv; document.querySelectorAll("[data-evlv]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.evlv===lv)); const R=RB; R.clip.constant=lv==="N00"?2.9:6.3;
+  const bb=new THREE.Box3(); EV.rooms.forEach(r=>{ if(r.lv===lv) bb.expandByObject(r.m); }); const c=new THREE.Vector3(), sz=new THREE.Vector3(); bb.getCenter(c); bb.getSize(sz); const D=Math.max(sz.x,sz.y), z=lv==="N00"?0:3.4;
+  R.ctl.target.set(c.x+D*0.12,c.y-D*0.08,z); R.cam.position.set(c.x+D*0.05,c.y-D*0.78,z+D*0.82); R.ctl.update(); }
+function evLab(){ const S=EV.sc, sw=(id,on,lab,sub)=>`<label class="ev-sw"><input type="checkbox" data-evsw="${id}" ${on?"checked":""}><i></i><span>${lab}${sub?`<small>${sub}</small>`:""}</span></label>`;
+  $("#evLabB").innerHTML=`<label class="ev-met">Météo <select id="evMet">${Object.entries(EV_MET).map(([k,v])=>`<option value="${k}" ${S.meteo===k?"selected":""}>${v.n}</option>`).join("")}</select></label>
+    <div class="ev-grp"><b>Ventilation</b>${Object.keys(S.cta).map(k=>sw(k,S.cta[k],k,k==="CTA 5"?"soins, vie":"chambres")).join("")}${sw("vmc",S.vmc,"VMC 1–6","sanitaires")}</div>
+    <div class="ev-grp"><b>Production</b>${sw("pac0",S.pac[0],"PAC 1","33,7 kW")}${sw("pac1",S.pac[1],"PAC 2","33,7 kW")}${sw("ch",S.ch,"Chaudières","2 × 60 kW")}</div>
+    <div class="ev-grp"><b>Vie</b>${sw("famille",S.famille,"Repas de famille","30 visiteurs à midi")}</div>`;
+  $("#evMet").onchange=e=>{ S.meteo=e.target.value; evLog("Météo : "+EV_MET[S.meteo].n,"i"); };
+  document.querySelectorAll("[data-evsw]").forEach(c=>c.onchange=()=>{ const k=c.dataset.evsw, on=c.checked?1:0; if(S.cta[k]!==undefined) S.cta[k]=on; else if(k==="vmc") S.vmc=on; else if(k==="pac0") S.pac[0]=on; else if(k==="pac1") S.pac[1]=on; else if(k==="ch") S.ch=on; else if(k==="famille") S.famille=on;
+    const L={vmc:"VMC 1–6",pac0:"PAC 1",pac1:"PAC 2",ch:"Chaudières",famille:"Repas de famille"}[k]||k; evLog(k==="famille"?(on?"Repas de famille : 30 visiteurs attendus":"Fin du repas de famille"):(on?"✅ "+L+" remise en service":"⚠️ Panne : "+L+" à l'arrêt"),on?"i":"w"); }); }
+async function evStart(){ if(!RB) await rvBatInit(); if(EV.on) return; if(typeof JT!=="undefined"&&JT.on) jtStop(); const R=RB; $("#ev").hidden=false; $("#evLoad").hidden=false; EV.on=true; document.querySelectorAll('[data-mq-act="vivant"]').forEach(b=>b.setAttribute("aria-pressed","true"));
+  EV.save={vis:Object.fromEntries(Object.entries(R.layers).map(([k,g])=>[k,g.visible])),clip:R.clip.constant,bg:R.scene.background,hemi:R.hemi&&R.hemi.intensity,cam:R.cam.position.clone(),tg:R.ctl.target.clone()};
+  await new Promise(r=>setTimeout(r,30)); await evPrep(); JT.ctas=JT.ctas&&JT.ctas.length?JT.ctas:[]; if(!JT.ctas.length){ R.layers.eq.traverse(o=>{ if(o.isMesh&&o.userData.eq&&/^CTA \d$/.test(o.userData.eq.mark)){ o.material=o.material.clone(); let c=JT.ctas.find(x=>x.mark===o.userData.eq.mark); if(!c){ c={mark:o.userData.eq.mark,ms:[]}; JT.ctas.push(c); } c.ms.push(o); } }); }
+  evWarm(6); evLab(); $("#evLoad").hidden=true; R.layers.esp.visible=true; R.layers.ceil.visible=false; R.layers.gai.visible=false; R.flow=net=>net==="VMC"||/^VMC/.test(net)?EV.sc.vmc:(EV.sc.cta[net]?jtCta(net,(EV.t/3600)%24):0);
+  evLevel(EV.lv); EV.play=true; $("#evPlay").textContent="❚❚"; evPaint(); evPeople(); evHud(); evChart(); }
+function evStop(){ if(!EV.on) return; const R=RB, S=EV.save; EV.on=false; $("#ev").hidden=true; $("#evCard").hidden=true; EV.card=null; document.querySelectorAll('[data-mq-act="vivant"]').forEach(b=>b.setAttribute("aria-pressed","false"));
+  (EV.rooms||[]).forEach(r=>{ r.m.material.color.setHex(r.x.c0); r.m.material.emissive.setHex(0); r.m.material.opacity=r.x.o0; }); (JT.ctas||[]).forEach(c=>c.ms.forEach(m=>{ m.material.emissive.setHex(0); m.material.emissiveIntensity=1; })); if(EV.inst) EV.inst.visible=false; R.flow=null;
+  Object.entries(S.vis).forEach(([k,v])=>R.layers[k].visible=v); R.clip.constant=S.clip; R.scene.background=S.bg; if(R.hemi) R.hemi.intensity=S.hemi; R.cam.position.copy(S.cam); R.ctl.target.copy(S.tg); R.ctl.update(); if(typeof rvBatApply==="function") rvBatApply(); }
+// branchements
+(function hook(){ if(!(typeof RB!=="undefined"&&RB&&RB.jtHooked)){ setTimeout(hook,800); return; } if(RB.evHooked) return; RB.evHooked=true; const t0=RB.tick; RB.tick=()=>{ t0(); evFrame(); };
+  RB.ren.domElement.addEventListener("pointerdown",e=>{ EV.pd=[e.clientX,e.clientY]; }); RB.ren.domElement.addEventListener("pointerup",e=>{ if(!EV.on||!EV.pd||Math.hypot(e.clientX-EV.pd[0],e.clientY-EV.pd[1])>5) return; const r=RB.ren.domElement.getBoundingClientRect(), ray=new THREE.Raycaster();
+    ray.setFromCamera(new THREE.Vector2((e.clientX-r.left)/r.width*2-1,-(e.clientY-r.top)/r.height*2+1),RB.cam); const hit=ray.intersectObjects(EV.rooms.map(x=>x.m)).find(hh=>hh.point.z<=RB.clip.constant); if(hit){ EV.card=EV.rooms.find(x=>x.m===hit.object); evCardUpd(); } }); })();
+document.querySelectorAll('[data-mq-act="vivant"]').forEach(b=>b.addEventListener("click",()=>{ if(EV.on) evStop(); else evStart(); }));
+$("#evPlay").onclick=()=>{ EV.play=!EV.play; $("#evPlay").textContent=EV.play?"❚❚":"▶"; EV.last=performance.now(); };
+$("#evSpd").onchange=e=>{ EV.spd=+e.target.value; }; $("#evClose").onclick=evStop; $("#evReset").onclick=()=>{ EV.sc={meteo:EV.sc.meteo,cta:{"CTA 1":1,"CTA 2":1,"CTA 3":1,"CTA 4":1,"CTA 5":1},vmc:1,pac:[1,1],ch:1,famille:0}; evLab(); evLog("Tout est remis en service.","i"); };
+document.querySelectorAll("[data-evmode]").forEach(b=>b.onclick=()=>{ EV.mode=b.dataset.evmode; document.querySelectorAll("[data-evmode]").forEach(x=>x.setAttribute("aria-pressed",x===b)); $("#evLegT").hidden=EV.mode!=="T"; $("#evLegC").hidden=EV.mode!=="C"; evPaint(); });
+document.querySelectorAll("[data-evlv]").forEach(b=>b.onclick=()=>evLevel(b.dataset.evlv));
+$("#evLabT").onclick=()=>$("#evLab").classList.toggle("closed");
+{ const _s=jtStart; jtStart=async function(){ if(EV.on) evStop(); return _s.apply(this,arguments); }; const _x=mqExit; mqExit=function(){ if(EV.on) evStop(); return _x.apply(this,arguments); }; }
 </script>
