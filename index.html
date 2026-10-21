@@ -849,6 +849,7 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
       <button role="tab" id="tabStock" aria-selected="false">Stock</button>
       <button role="tab" id="tabFam" aria-selected="false">Familles</button>
       <button role="tab" id="tabFamGen" aria-selected="false">Création de famille</button>
+      <button role="tab" id="tabPas" aria-selected="false">Piège à son</button>
       <button role="tab" id="tabImpl" aria-selected="false">Implantation</button>
       <button role="tab" id="tabMaq" aria-selected="false">Maquette 3D</button>
       <button role="tab" id="tabRevit" aria-selected="false">Revit</button>
@@ -1787,6 +1788,50 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
       <div class="tbl-wrap"><table class="fam-t" id="rseTodo"></table></div>
     </section>
     <p class="hint" id="rseSrc"></p>
+  </section>
+
+  <section id="viewPas" hidden>
+    <section class="rv-head">
+      <div class="label">Outil CVC · dessin AutoCAD (21/10)</div>
+      <h2>Piège à son circulaire</h2>
+      <p>Je règle le diamètre, l'isolant et la longueur. Le plan coté se met à jour ci-dessous. Quand il me va, je télécharge le <b>script AutoCAD</b> (il dessine la pièce avec de vraies cotes, calques et hachures) ou le <b>DXF</b> à ouvrir directement.</p>
+    </section>
+    <section class="panel pas-form" aria-labelledby="pasFormT">
+      <h2 id="pasFormT">Dimensions</h2>
+      <div class="pas-in">
+        <label>DN (Ø intérieur, mm)<select id="pasDN"></select></label>
+        <label>Épaisseur d'isolant (mm)<select id="pasEP"><option>25</option><option>50</option><option selected>100</option><option>150</option></select></label>
+        <label>Longueur du corps (mm)<input id="pasL" type="number" min="300" max="3000" step="50" value="1000" inputmode="numeric"></label>
+        <label>Manchettes (mm)<input id="pasMAN" type="number" min="30" max="200" step="10" value="60" inputmode="numeric"></label>
+        <label>Débit (m³/h, facultatif)<input id="pasQ" type="number" min="0" step="10" placeholder="ex. 1785" inputmode="numeric"></label>
+      </div>
+    </section>
+    <div class="resa-sum" id="pasSum" aria-live="polite"></div>
+    <div class="pas-views">
+      <section class="panel" aria-labelledby="pasCoupeT"><h2 id="pasCoupeT">Coupe longitudinale A-A</h2><div class="pas-svg" id="pasCoupe"></div></section>
+      <section class="panel" aria-labelledby="pasBoutT"><h2 id="pasBoutT">Vue de bout</h2><div class="pas-svg" id="pasBout"></div></section>
+    </div>
+    <section class="panel" aria-labelledby="pasNomT" style="margin-top:14px">
+      <h2 id="pasNomT">Nomenclature</h2>
+      <ol class="pas-nom" id="pasNom"></ol>
+      <p class="pas-leg"><span><i class="lg-c"></i>Contour</span><span><i class="lg-p"></i>Tôle perforée</span><span><i class="lg-l"></i>Laine minérale</span><span><i class="lg-a"></i>Axe</span><span><i class="lg-d"></i>Cotes</span></p>
+    </section>
+    <section class="panel" aria-labelledby="pasDlT" style="margin-top:14px">
+      <h2 id="pasDlT">Télécharger</h2>
+      <div class="pas-dl">
+        <button type="button" class="btn primary" id="pasDlLsp">Script AutoCAD (.lsp)</button>
+        <button type="button" class="btn" id="pasDlDxf">Plan DXF</button>
+        <button type="button" class="btn" id="pasDlSvg">Image SVG</button>
+      </div>
+      <p class="hint">Les fichiers reprennent les dimensions réglées plus haut.</p>
+      <h3>Utiliser le script dans AutoCAD</h3>
+      <ol class="pas-steps">
+        <li>Taper <code>APPLOAD</code>, choisir <code>PAS_circulaire.lsp</code>, cliquer « Charger » (ou glisser le fichier dans le dessin).</li>
+        <li>Taper <code>PAS</code>.</li>
+        <li>Valider les dimensions proposées avec Entrée (ce sont celles réglées ici), puis cliquer le point d'insertion.</li>
+      </ol>
+      <p class="hint">Le DXF s'ouvre tel quel (AutoCAD, Revit en lien CAO, visionneuses). Ses cotes sont dessinées en traits et textes : pour des cotes modifiables et des hachures AutoCAD, prendre le script.</p>
+    </section>
   </section>
 
   <section id="viewFam" hidden>
@@ -5556,6 +5601,166 @@ TAB_META.kpi=["Projet","KPI","Nos indicateurs clés : heures, tâches, maquette,
 }
 if(typeof CMDK!=="undefined"){ const _ix3=cmdkIndex; cmdkIndex=async function(){ await _ix3(); CMDK.idx.unshift({t:"Onglet",label:"KPI du projet",sub:"Indicateurs clés : heures, tâches, maquette, énergie, conformité",go:()=>setTab("kpi"),h:cmdNorm("KPI du projet"),s:cmdNorm("kpi indicateurs tableau de bord heures avancement")}); }; }
 </script>
+<script>
+/* ---------- Onglet Piège à son (#pas) : plan coté + script AutoCAD / DXF ---------- */
+const PAS_DN=[80,100,125,160,200,250,315,355,400,450,500,560,630,710,800];
+let PAS_TH=30, PAS_AR=22; /* hauteur texte des cotes et longueur des flèches (mm) */
+function pasParams(){
+  const n=(id,d,a,b)=>{ const v=parseFloat($(id).value); return isFinite(v)?Math.min(b,Math.max(a,v)):d; };
+  return {DN:n("#pasDN",315,50,2000),EP:n("#pasEP",100,10,300),L:n("#pasL",1000,100,5000),MAN:n("#pasMAN",60,20,300),Q:n("#pasQ",0,0,1e6)};
+}
+/* Modèle commun aux 3 sorties : primitives en mm, y vers le haut */
+function pasModel(p){
+  const R=p.DN/2, RE=R+p.EP, LT=p.L+2*p.MAN, M=p.MAN, L=p.L;
+  const coupe=[], bout=[];
+  const ln=(arr,ax,ay,bx,by,ly)=>arr.push({t:"L",a:[ax,ay],b:[bx,by],ly});
+  const tx=(arr,x,y,s,h,ly,al="c",rot=0)=>arr.push({t:"T",p:[x,y],s,h,ly,al,rot});
+  const arrow=(arr,x,y,dx,dy)=>{ const l=Math.hypot(dx,dy), ux=dx/l, uy=dy/l, w=PAS_AR/6;
+    arr.push({t:"S",pts:[[x,y],[x-ux*PAS_AR-uy*w,y-uy*PAS_AR+ux*w],[x-ux*PAS_AR+uy*w,y-uy*PAS_AR-ux*w]],ly:"COTES"}); };
+  /* cote horizontale ou verticale entre a et b, ligne de cote à "at" */
+  const dim=(arr,a,b,at,vert,txt)=>{ const g=8, e=12;
+    if(!vert){ const s=Math.sign(at-a[1])||1;
+      ln(arr,a[0],a[1]+s*g,a[0],at+s*e,"COTES"); ln(arr,b[0],b[1]+s*g,b[0],at+s*e,"COTES"); ln(arr,a[0],at,b[0],at,"COTES");
+      arrow(arr,a[0],at,-1,0); arrow(arr,b[0],at,1,0); tx(arr,(a[0]+b[0])/2,at+PAS_TH*0.75,txt,PAS_TH,"COTES");
+    } else { const s=Math.sign(at-a[0])||1;
+      ln(arr,a[0]+s*g,a[1],at+s*e,a[1],"COTES"); ln(arr,b[0]+s*g,b[1],at+s*e,b[1],"COTES"); ln(arr,at,a[1],at,b[1],"COTES");
+      arrow(arr,at,a[1],0,-1); arrow(arr,at,b[1],0,1); tx(arr,at-PAS_TH*0.75,(a[1]+b[1])/2,txt,PAS_TH,"COTES","c",90); } };
+  /* hachures à 45° (pas de 30 mm) dans un rectangle */
+  const hRect=(arr,x1,y1,x2,y2)=>{ const sp=30;
+    for(let c=x1-y2;c<=x2-y1;c+=sp){ const a=Math.max(x1,y1+c), b=Math.min(x2,y2+c); if(b>a) ln(arr,a,a-c,b,b-c,"LAINE"); } };
+  /* hachures à 45° dans la couronne R..RE autour de (cx,0) */
+  const hRing=(arr,cx)=>{ const sp=30, k=Math.SQRT1_2;
+    for(let n=-RE+sp/2;n<RE;n+=sp){ const he=Math.sqrt(RE*RE-n*n), seg=[];
+      if(Math.abs(n)<R){ const hi=Math.sqrt(R*R-n*n); seg.push([-he,-hi],[hi,he]); } else seg.push([-he,he]);
+      for(const [s0,s1] of seg){ const P=s=>[cx+k*s-k*n, k*s+k*n]; const A=P(s0), B=P(s1); ln(arr,A[0],A[1],B[0],B[1],"LAINE"); } } };
+  /* --- coupe longitudinale --- */
+  hRect(coupe,M,R,M+L,RE); hRect(coupe,M,-RE,M+L,-R);
+  for(const s of [1,-1]){
+    ln(coupe,0,s*R,M,s*R,"CONTOUR"); ln(coupe,M+L,s*R,LT,s*R,"CONTOUR"); ln(coupe,M,s*RE,M+L,s*RE,"CONTOUR");
+    ln(coupe,M,s*R,M,s*RE,"CONTOUR"); ln(coupe,M+L,s*R,M+L,s*RE,"CONTOUR");
+    ln(coupe,M,s*R,M+L,s*R,"PERFORE");
+    ln(coupe,20,s*R,20,s*(R+8),"CONTOUR"); ln(coupe,LT-20,s*R,LT-20,s*(R+8),"CONTOUR");
+  }
+  ln(coupe,-60,0,LT+60,0,"AXE");
+  dim(coupe,[0,-R],[LT,-R],-RE-170,false,String(LT));
+  dim(coupe,[0,-R],[M,-R],-RE-80,false,String(M));
+  dim(coupe,[M,-RE],[M+L,-RE],-RE-80,false,String(L));
+  dim(coupe,[M+L,-R],[LT,-R],-RE-80,false,String(M));
+  dim(coupe,[0,-R],[0,R],-110,true,"Ø"+p.DN);
+  dim(coupe,[M+L,-RE],[M+L,RE],LT+130,true,"Ø"+(2*RE));
+  dim(coupe,[M+L*0.5,R],[M+L*0.5,RE],M+L*0.5+60,true,String(p.EP));
+  /* --- vue de bout (centre 0,0) --- */
+  hRing(bout,0);
+  bout.push({t:"C",c:[0,0],r:RE,ly:"CONTOUR"},{t:"C",c:[0,0],r:R,ly:"PERFORE"});
+  ln(bout,-RE-50,0,RE+50,0,"AXE"); ln(bout,0,-RE-50,0,RE+50,"AXE");
+  const dia=(r,ang,txt,side)=>{ const c=Math.cos(ang), s=Math.sin(ang), ex=side*(r+90);
+    ln(bout,-r*c,-r*s,r*c,r*s,"COTES"); arrow(bout,r*c,r*s,c,s); arrow(bout,-r*c,-r*s,-c,-s);
+    /* renvoi horizontal vers le texte */
+    const x0=side*r*c, y0=side*r*s; ln(bout,x0,y0,ex*Math.abs(c)+side*40,y0,"COTES");
+    tx(bout,ex*Math.abs(c)+side*48,y0+PAS_TH*0.1,txt,PAS_TH,"COTES",side>0?"l":"r"); };
+  dia(RE,Math.PI/4,"Ø"+(2*RE),1); dia(R,-Math.PI/6,"Ø"+p.DN,-1);
+  const nomen=[
+    `PIÈGE À SON CIRCULAIRE  DN ${p.DN} - L ${p.L} mm`,
+    "1 - Enveloppe tôle acier galvanisé ép. 0,8 mm",
+    `2 - Tube intérieur tôle perforée galva Ø${p.DN} (trous Ø3 mm, ~30 % de vide)`,
+    `3 - Laine minérale ép. ${p.EP} mm, 40 kg/m³, voile de verre anti-défibrage`,
+    `4 - Manchettes Ø${p.DN} L ${p.MAN} mm, joint EPDM double lèvre`,
+    "5 - Flasques d'extrémité tôle galva",
+    "Cotes en mm - Échelle 1:10"];
+  return {coupe,bout,nomen,R,RE,LT,
+    bbC:[-110-PAS_TH*1.6,-RE-170-PAS_TH*0.2,LT+130+20,RE+20],
+    bbB:[-(RE+300),-RE-60,RE+300,RE+60]};
+}
+const PAS_COL={CONTOUR:"var(--ink)",PERFORE:"var(--done)",LAINE:"var(--heat)",AXE:"var(--danger)",COTES:"var(--accent)"};
+const PAS_COL_FIX={CONTOUR:"#111",PERFORE:"#1a7f37",LAINE:"#c98a00",AXE:"#c62828",COTES:"#0670a3"};
+function pasSvgItems(arr,col,dx=0,dy=0){
+  const f=v=>Math.round(v*10)/10, X=x=>f(x+dx), Y=y=>f(-(y+dy));
+  return arr.map(o=>{ const c=col[o.ly]||col.CONTOUR;
+    if(o.t==="L"){ const st=o.ly==="PERFORE"?' stroke-dasharray="18 9"':o.ly==="AXE"?' stroke-dasharray="40 10 8 10"':"";
+      const w=o.ly==="CONTOUR"?3:o.ly==="LAINE"?1.4:o.ly==="COTES"?1.4:2;
+      return `<line x1="${X(o.a[0])}" y1="${Y(o.a[1])}" x2="${X(o.b[0])}" y2="${Y(o.b[1])}" stroke="${c}" stroke-width="${w}"${st}/>`; }
+    if(o.t==="C"){ const st=o.ly==="PERFORE"?' stroke-dasharray="18 9" stroke-width="2"':' stroke-width="3"';
+      return `<circle cx="${X(o.c[0])}" cy="${Y(o.c[1])}" r="${f(o.r)}" fill="none" stroke="${c}"${st}/>`; }
+    if(o.t==="S") return `<polygon points="${o.pts.map(q=>X(q[0])+","+Y(q[1])).join(" ")}" fill="${c}"/>`;
+    if(o.t==="T"){ const an=o.al==="l"?"start":o.al==="r"?"end":"middle";
+      return `<text x="${X(o.p[0])}" y="${Y(o.p[1])}" font-size="${o.h}" fill="${c}" text-anchor="${an}" dominant-baseline="middle"${o.rot?` transform="rotate(${-o.rot} ${X(o.p[0])} ${Y(o.p[1])})"`:""}>${esc(o.s)}</text>`; }
+    return ""; }).join("");
+}
+const pasVB=b=>`${b[0]} ${-b[3]} ${b[2]-b[0]} ${b[3]-b[1]}`;
+function pasSvgFull(m,p){ /* SVG complet pour le téléchargement */
+  const cx=m.LT+m.RE+500, yN=-m.RE-330, w=cx+m.RE+400, x0=m.bbC[0]-40;
+  let s=pasSvgItems(m.coupe,PAS_COL_FIX)+pasSvgItems(m.bout,PAS_COL_FIX,cx,0);
+  s+=`<text x="${m.LT/2}" y="${-(m.RE+90)}" font-size="36" text-anchor="middle">COUPE LONGITUDINALE A-A</text><text x="${cx}" y="${-(m.RE+90)}" font-size="36" text-anchor="middle">VUE DE BOUT</text>`;
+  s+=m.nomen.map((t,i)=>`<text x="0" y="${-(yN-i*40)}" font-size="${i?22:30}"${i?"":' font-weight="700"'}>${esc(t)}</text>`).join("");
+  s+=`<rect x="-30" y="${-(yN+60)}" width="${cx+m.RE+130}" height="350" fill="none" stroke="#111" stroke-width="2"/>`;
+  const top=m.RE+160, bot=-yN+320;
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" viewBox="${x0} ${-top} ${w-x0} ${top+bot}" width="${Math.round((w-x0)/4)}" height="${Math.round((top+bot)/4)}" font-family="Arial, sans-serif"><rect x="${x0}" y="${-top}" width="${w-x0}" height="${top+bot}" fill="#fff"/>${s}</svg>`;
+}
+function pasDxf(m){ /* DXF R12, mm, ASCII seulement */
+  const asc=s=>s.normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/Ø/g,"%%c").replace(/[^\x20-\x7e]/g,"");
+  const out=[]; const g=(...a)=>{ for(let i=0;i<a.length;i+=2) out.push(String(a[i]),typeof a[i+1]==="number"?(Math.round(a[i+1]*1000)/1000).toString():a[i+1]); };
+  const LAY={CONTOUR:[7,"CONTINUOUS"],PERFORE:[3,"DASHED"],LAINE:[2,"CONTINUOUS"],AXE:[1,"CENTER"],COTES:[4,"CONTINUOUS"],TEXTE:[7,"CONTINUOUS"]};
+  g(0,"SECTION",2,"HEADER",9,"$ACADVER",1,"AC1009",9,"$INSUNITS",70,"4",9,"$LTSCALE",40,1,0,"ENDSEC");
+  g(0,"SECTION",2,"TABLES",0,"TABLE",2,"LTYPE",70,"3");
+  g(0,"LTYPE",2,"CONTINUOUS",70,"0",3,"Solid line",72,"65",73,"0",40,0);
+  g(0,"LTYPE",2,"DASHED",70,"0",3,"__ __ __",72,"65",73,"2",40,30,49,20,49,-10);
+  g(0,"LTYPE",2,"CENTER",70,"0",3,"____ _ ____",72,"65",73,"4",40,80,49,50,49,-10,49,10,49,-10);
+  g(0,"ENDTAB",0,"TABLE",2,"LAYER",70,String(Object.keys(LAY).length));
+  for(const [n,[c,lt]] of Object.entries(LAY)) g(0,"LAYER",2,"PAS-"+n,70,"0",62,String(c),6,lt);
+  g(0,"ENDTAB",0,"ENDSEC",0,"SECTION",2,"ENTITIES");
+  const put=(arr,dx)=>{ for(const o of arr){ const ly="PAS-"+o.ly;
+    if(o.t==="L") g(0,"LINE",8,ly,10,o.a[0]+dx,20,o.a[1],30,0,11,o.b[0]+dx,21,o.b[1],31,0);
+    else if(o.t==="C") g(0,"CIRCLE",8,ly,10,o.c[0]+dx,20,o.c[1],30,0,40,o.r);
+    else if(o.t==="S"){ const q=o.pts; g(0,"SOLID",8,ly,10,q[0][0]+dx,20,q[0][1],30,0,11,q[1][0]+dx,21,q[1][1],31,0,12,q[2][0]+dx,22,q[2][1],32,0,13,q[2][0]+dx,23,q[2][1],33,0); }
+    else if(o.t==="T"){ const hj=o.al==="l"?"0":o.al==="r"?"2":"1";
+      g(0,"TEXT",8,ly,10,o.p[0]+dx,20,o.p[1],30,0,40,o.h,1,asc(o.s),50,o.rot||0,72,hj,11,o.p[0]+dx,21,o.p[1],31,0,73,"2"); } } };
+  const cx=m.LT+m.RE+500, yN=-m.RE-330;
+  put(m.coupe,0); put(m.bout,cx);
+  put([{t:"T",p:[m.LT/2,m.RE+90],s:"COUPE LONGITUDINALE A-A",h:36,ly:"TEXTE",al:"c"},{t:"T",p:[cx,m.RE+90],s:"VUE DE BOUT",h:36,ly:"TEXTE",al:"c"}],0);
+  m.nomen.forEach((t,i)=>g(0,"TEXT",8,"PAS-TEXTE",10,0,20,yN-i*40,30,0,40,i?22:30,1,asc(t)));
+  const fx=[[-30,yN+50],[cx+m.RE+100,yN+50],[cx+m.RE+100,yN-290],[-30,yN-290]];
+  fx.forEach((a,i)=>{ const b=fx[(i+1)%4]; g(0,"LINE",8,"PAS-CONTOUR",10,a[0],20,a[1],30,0,11,b[0],21,b[1],31,0); });
+  g(0,"ENDSEC",0,"EOF");
+  return out.join("\r\n")+"\r\n";
+}
+function pasSave(name,data,type){
+  const u=URL.createObjectURL(new Blob([data],{type})); const a=document.createElement("a");
+  a.href=u; a.download=name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(u),2000);
+}
+function renderPas(){
+  /* sur écran étroit, textes et flèches plus grands pour rester lisibles (~11 px) */
+  const cw=$("#pasCoupe").clientWidth||800, pp=pasParams(), mmpx=(pp.L+2*pp.MAN+330)/cw;
+  PAS_TH=Math.max(30,Math.min(110,11*mmpx)); PAS_AR=PAS_TH*0.75;
+  const p=pp, m=pasModel(p), fr=n=>n.toLocaleString("fr-FR",{maximumFractionDigits:2});
+  $("#pasCoupe").innerHTML=`<svg viewBox="${pasVB(m.bbC)}" role="img" aria-label="Coupe longitudinale cotée du piège à son DN ${p.DN}" font-family="inherit">${pasSvgItems(m.coupe,PAS_COL)}</svg>`;
+  $("#pasBout").innerHTML=`<svg viewBox="${pasVB(m.bbB)}" role="img" aria-label="Vue de bout cotée : Ø ${2*m.RE} extérieur, Ø ${p.DN} intérieur" font-family="inherit">${pasSvgItems(m.bout,PAS_COL)}</svg>`;
+  $("#pasNom").innerHTML=m.nomen.slice(1,6).map(t=>`<li>${esc(t.replace(/^\d - /,""))}</li>`).join("");
+  const S=Math.PI*(p.DN/2000)**2; let v="";
+  if(p.Q>0){ const vi=p.Q/3600/S, ok=vi<=5?["Correct","var(--done)"]:vi<=6.5?["Limite","var(--doing)"]:["Trop rapide","var(--danger)"];
+    v=`<div class="k"><b>${fr(vi)} m/s</b><span>Vitesse dans le tube · <span style="color:${ok[1]};font-weight:600">${ok[0]}</span></span></div>`; }
+  $("#pasSum").innerHTML=[[`Ø ${2*m.RE}`,"Diamètre extérieur (mm)"],[fr(m.LT),"Longueur totale (mm)"],[fr(S),"Section libre (m²)"]]
+    .map(([b,s])=>`<div class="k"><b>${b}</b><span>${s}</span></div>`).join("")+v
+    +(p.Q>0?`<p class="hint pas-vh">Repère courant : rester autour de 5 m/s maximum dans un piège à son, sinon il fait lui-même du bruit (bruit de régénération). À confirmer avec la fiche du fabricant.</p>`:"");
+}
+TAB_META.pas=["Fichiers","Piège à son","Dessiner un piège à son circulaire coté, puis télécharger le script AutoCAD ou le DXF."];
+{ const tb=$("#tabPas"), vw=$("#viewPas");
+  $("#pasDN").innerHTML=PAS_DN.map(d=>`<option${d===315?" selected":""}>${d}</option>`).join("");
+  ["#pasDN","#pasEP","#pasL","#pasMAN","#pasQ"].forEach(id=>$(id).addEventListener("input",renderPas));
+  $("#pasDlSvg").onclick=()=>{ const p=pasParams(); PAS_TH=30; PAS_AR=22; setTimeout(renderPas,0); pasSave(`Piege_a_son_DN${p.DN}_L${p.L}.svg`,pasSvgFull(pasModel(p),p),"image/svg+xml"); };
+  $("#pasDlDxf").onclick=()=>{ const p=pasParams(); PAS_TH=30; PAS_AR=22; setTimeout(renderPas,0); pasSave(`Piege_a_son_DN${p.DN}_L${p.L}.dxf`,pasDxf(pasModel(p)),"application/dxf"); };
+  $("#pasDlLsp").onclick=async()=>{ const p=pasParams();
+    try{ const r=await fetch("files/pas/PAS_circulaire.lsp",{cache:"no-cache"}); if(!r.ok) throw 0; let t=await r.text();
+      const set=(lab,v)=>{ t=t.replace(new RegExp(`(\\(ask "${lab}[^"]*" )[0-9.]+\\)`),`$1${v.toFixed(1)})`); };
+      set("Diametre",p.DN); set("Epaisseur",p.EP); set("Longueur utile",p.L); set("Longueur des manchettes",p.MAN);
+      pasSave("PAS_circulaire.lsp",t,"text/plain");
+    }catch(e){ location.href="files/pas/PAS_circulaire.lsp"; } };
+  tb.setAttribute("aria-controls","viewPas"); vw.setAttribute("role","tabpanel"); vw.setAttribute("aria-labelledby","tabPas");
+  const _setTab=setTab; setTab=function(t){ _setTab(t); const on=t==="pas"; vw.hidden=!on; tb.setAttribute("aria-selected",on); tb.tabIndex=on?0:-1;
+    if(on){ setCrumb("pas"); renderPas(); } };
+  tb.onclick=()=>setTab("pas");
+}
+if(typeof CMDK!=="undefined"){ const _ix3=cmdkIndex; cmdkIndex=async function(){ await _ix3(); CMDK.idx.unshift({t:"Onglet",label:"Piège à son",sub:"Plan coté d'un piège à son circulaire, script AutoCAD et DXF",go:()=>setTab("pas"),h:cmdNorm("Piège à son"),s:cmdNorm("piege a son silencieux attenuateur autocad dxf lisp circulaire acoustique")}); }; }
+</script>
 <style>
 .en-sum .k{min-width:150px}
 .en-hyp .en-hyp-g{display:flex;flex-wrap:wrap;gap:12px;margin:8px 0}
@@ -5606,4 +5811,10 @@ if(typeof CMDK!=="undefined"){ const _ix3=cmdkIndex; cmdkIndex=async function(){
 .kpi-dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--kc);vertical-align:middle}
 .rse-seg{margin:0 0 10px;flex-wrap:wrap}.rse-t td{vertical-align:top}.rse-t td:nth-child(2),.rse-t td:nth-child(3){min-width:220px}.rse-l{margin:0;padding-left:18px;display:grid;gap:8px}.rse-l li{line-height:1.45}#viewRse .src-b{display:inline-block;margin-top:4px}
 @media (max-width:560px){.en-bar{grid-template-columns:1fr auto}.en-bar-t{grid-column:1/-1;order:3}}
+.pas-in{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px 14px}.pas-in label{display:grid;gap:4px;font-size:13px;color:var(--muted);font-weight:600}.pas-in input,.pas-in select{font:inherit;font-size:15px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:7px 9px;min-height:38px}
+.pas-form{margin-bottom:14px}.pas-views{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:14px}.pas-svg svg{display:block;width:100%;height:auto;max-height:440px}
+.pas-nom{margin:0;padding-left:20px;display:grid;gap:6px}.pas-leg{display:flex;flex-wrap:wrap;gap:6px 16px;margin:12px 0 0;font-size:13px;color:var(--muted)}.pas-leg i{display:inline-block;width:22px;height:0;border-top:3px solid var(--ink);vertical-align:middle;margin-right:6px}
+.pas-leg .lg-p{border-top:2px dashed var(--done)}.pas-leg .lg-l{border-top-color:var(--heat)}.pas-leg .lg-a{border-top:2px dashed var(--danger)}.pas-leg .lg-d{border-top:2px solid var(--accent)}
+.pas-dl{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:6px}.pas-steps{margin:0;padding-left:20px;display:grid;gap:6px}.pas-vh{flex-basis:100%;margin:0}
+@media (max-width:760px){.pas-views{grid-template-columns:1fr}}
 </style>
