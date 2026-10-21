@@ -7306,7 +7306,7 @@ function jvBouches(t){ let B=Array.isArray(BOUCHES)?BOUCHES:[]; const f=[]; if(/
 const has=(t,re)=>re.test(t);
 async function jvHandle(t){ if(!t) return; JV.busy=true; jvState("think"); await jvData(); if(!RB) await rvBatInit(); let say="";
   try{
-  if(has(t,/^(stop|arrete|tais toi|silence|chut)\b/)&&!has(t,/journee|air|ventil|particule/)){ JV.stopSpin=true; JV.demo=false; if("speechSynthesis" in window) speechSynthesis.cancel(); say="D'accord."; }
+  if(has(t,/^(stop|arrete|tais toi|silence|chut)\b/)&&!has(t,/journee|air|ventil|particule|simulation|vivant|jumeau/)){ JV.stopSpin=true; JV.demo=false; if("speechSynthesis" in window) speechSynthesis.cancel(); say="D'accord."; }
   else if(has(t,/\b(bonjour|salut|hello|coucou|bonsoir)\b/)&&t.split(" ").length<6) say="Bonjour. Je suis Jarvis, l'assistant de la maquette de l'EHPAD de La Bassée. Demande-moi par exemple : montre-moi la CTA 5.";
   else if(has(t,/\b(qui es tu|tu es qui|presente toi)\b/)) say="Je suis Jarvis, l'assistant vocal de la maquette BIM du lot 12, CVC et plomberie, de l'EHPAD de La Bassée. Je pilote la 3D et je réponds avec les données du projet.";
   else if(has(t,/\bmerci\b/)) say="Avec plaisir.";
