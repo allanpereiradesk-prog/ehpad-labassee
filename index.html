@@ -849,7 +849,7 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
       <button role="tab" id="tabStock" aria-selected="false">Stock</button>
       <button role="tab" id="tabFam" aria-selected="false">Familles</button>
       <button role="tab" id="tabFamGen" aria-selected="false">Création de famille</button>
-      <button role="tab" id="tabPas" aria-selected="false">Piège à son</button>
+      <button role="tab" id="tabPas" aria-selected="false">Création AutoCAD</button>
       <button role="tab" id="tabImpl" aria-selected="false">Implantation</button>
       <button role="tab" id="tabMaq" aria-selected="false">Maquette 3D</button>
       <button role="tab" id="tabRevit" aria-selected="false">Revit</button>
@@ -5742,7 +5742,7 @@ function renderPas(){
     .map(([b,s])=>`<div class="k"><b>${b}</b><span>${s}</span></div>`).join("")+v
     +(p.Q>0?`<p class="hint pas-vh">Repère courant : rester autour de 5 m/s maximum dans un piège à son, sinon il fait lui-même du bruit (bruit de régénération). À confirmer avec la fiche du fabricant.</p>`:"");
 }
-TAB_META.pas=["Fichiers","Piège à son","Dessiner un piège à son circulaire coté, puis télécharger le script AutoCAD ou le DXF."];
+TAB_META.pas=["Fichiers","Création AutoCAD","Dessiner un piège à son circulaire coté, puis télécharger le script AutoCAD ou le DXF."];
 { const tb=$("#tabPas"), vw=$("#viewPas");
   $("#pasDN").innerHTML=PAS_DN.map(d=>`<option${d===315?" selected":""}>${d}</option>`).join("");
   ["#pasDN","#pasEP","#pasL","#pasMAN","#pasQ"].forEach(id=>$(id).addEventListener("input",renderPas));
@@ -5759,7 +5759,7 @@ TAB_META.pas=["Fichiers","Piège à son","Dessiner un piège à son circulaire c
     if(on){ setCrumb("pas"); renderPas(); } };
   tb.onclick=()=>setTab("pas");
 }
-if(typeof CMDK!=="undefined"){ const _ix3=cmdkIndex; cmdkIndex=async function(){ await _ix3(); CMDK.idx.unshift({t:"Onglet",label:"Piège à son",sub:"Plan coté d'un piège à son circulaire, script AutoCAD et DXF",go:()=>setTab("pas"),h:cmdNorm("Piège à son"),s:cmdNorm("piege a son silencieux attenuateur autocad dxf lisp circulaire acoustique")}); }; }
+if(typeof CMDK!=="undefined"){ const _ix3=cmdkIndex; cmdkIndex=async function(){ await _ix3(); CMDK.idx.unshift({t:"Onglet",label:"Création AutoCAD",sub:"Piège à son circulaire : plan coté d'un piège à son circulaire, script AutoCAD et DXF",go:()=>setTab("pas"),h:cmdNorm("Création AutoCAD"),s:cmdNorm("creation autocad piege a son silencieux attenuateur autocad dxf lisp circulaire acoustique")}); }; }
 </script>
 <style>
 .en-sum .k{min-width:150px}
