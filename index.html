@@ -744,6 +744,7 @@ body.mq-on{overflow:hidden}
 .jt-clock{display:flex;align-items:center;gap:6px}.jt-clock span{font-size:22px}.jt-clock b{font:800 28px/1 var(--mono,ui-monospace,monospace);letter-spacing:.02em}
 .jt-kpi{display:grid;gap:1px}.jt-kpi span{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:#64748b}.jt-kpi b{font-size:17px;font-variant-numeric:tabular-nums}
 .jt-p i{display:block;width:120px;height:5px;border-radius:9px;background:#e2e8f0;overflow:hidden}.jt-p em{display:block;height:100%;background:linear-gradient(90deg,#22c55e,#f59e0b,#dc2626);transition:width .2s}
+.jt-ctas{display:flex;gap:4px}.jt-c{display:grid;justify-items:center;min-width:54px;padding:4px 6px;border-radius:10px;background:#dcfce7;border:1px solid #86efac;line-height:1.15}.jt-c b{font-size:11.5px}.jt-c span{font-size:13px;font-weight:800;color:#15803d}.jt-c span::before{content:"● ";animation:jtBlink 1.4s infinite}.jt-c small{font-size:10px;color:#166534}.jt-c.off{background:#f1f5f9;border-color:#cbd5e1}.jt-c.off span{color:#64748b}.jt-c.off span::before{content:"⏹ ";animation:none}.jt-c.off small{color:#64748b}@keyframes jtBlink{50%{opacity:.35}}
 .jt-cta b{color:#15803d}.jt-cta.off b{color:#475569}.jt-cta.off b::before{content:"⏹ "}.jt-cta:not(.off) b::before{content:"● ";color:#22c55e}
 .jt-seg{display:flex;padding:3px;border-radius:12px;background:rgb(15 23 42 / .06)}.jt-seg button{border:0;background:none;padding:6px 10px;border-radius:9px;font:600 13px inherit;color:#475569;cursor:pointer}.jt-seg button[aria-pressed="true"]{background:#fff;color:#0f172a;box-shadow:0 2px 6px rgb(15 23 42 / .12)}
 #jtSpd{border:1px solid #cbd5e1;border-radius:9px;padding:5px 6px;font:inherit;font-size:13px;background:#fff}.jt-x{margin-left:auto;border:0;background:rgb(15 23 42 / .06);width:32px;height:32px;border-radius:50%;cursor:pointer}
@@ -1638,7 +1639,7 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
           <div class="jt-clock"><span id="jtSky">🌙</span><b id="jtClock">06:00</b></div>
           <div class="jt-kpi"><span>Extérieur</span><b id="jtText">−5 °C</b></div>
           <div class="jt-kpi jt-p"><span>Besoin de chauffage</span><b id="jtP">0 kW</b><i><em id="jtPac"></em></i></div>
-          <div class="jt-kpi jt-cta"><span>CTA 5</span><b id="jtCta">arrêt</b></div>
+          <div class="jt-ctas" id="jtCtas" aria-label="État des CTA"></div>
           <div class="jt-seg" role="group" aria-label="Niveau"><button type="button" data-jtlv="N00" aria-pressed="true">RDC</button><button type="button" data-jtlv="N01" aria-pressed="false">Étage</button><button type="button" data-jtlv="toit" aria-pressed="false">Toiture</button></div>
           <select id="jtSpd" aria-label="Vitesse"><option value="0.4">Lent</option><option value="0.8" selected>Normal</option><option value="2">Rapide</option></select>
           <button type="button" class="jt-x" id="jtClose" title="Fermer la journée type">✕</button>
@@ -6572,13 +6573,14 @@ function jtApply(h){ if(!JT.sp) return; const R=RB;
   const tw=JT_IN(h,7,8.5)||JT_IN(h,16.5,18)?1-Math.min(1,Math.abs(h<12?h-7.6:h-17.2)/0.9):0;
   R.scene.background=night.clone().lerp(dayc,day).lerp(dusk,tw*0.55); if(R.hemi) R.hemi.intensity=0.32+0.6*day; if(R.dl){ R.dl.intensity=0.08+0.55*day; const az=Math.PI*(h-6)/12; R.dl.position.set(-120*Math.cos(az),-60,40+90*day); }
   // CTA 5 : marche / arrêt
-  const f=jtCta("CTA 5",h); (JT.cta5||[]).forEach(m=>{ m.material.emissive.setHex(f>0?0x0f7a3a:0x000000); m.material.emissiveIntensity=f>0?0.35+0.45*f:1; });
-  if(JT.lab){ const t=f>0?`CTA 5 · ${Math.round(f*100)} %`:"CTA 5 · arrêt"; if(JT.labT!==t){ JT.labT=t; const L=stkLabel(t,"#fff",f>0?"rgba(22,163,74,.92)":"rgba(71,85,105,.92)"); JT.lab.material.map=L.material.map; JT.lab.material.needsUpdate=true; JT.lab.scale.copy(L.scale).multiplyScalar(1.6); } }
+  const f=jtCta("CTA 5",h);
+  (JT.ctas||[]).forEach(c=>{ const k=jtCta(c.mark,h); c.ms.forEach(m=>{ m.material.emissive.setHex(k>0?0x0f7a3a:0x000000); m.material.emissiveIntensity=k>0?0.35+0.45*k:1; });
+    if(c.lab){ c.lab.visible=JT.lv==="toit"; const t=k>0?`${c.mark} · ${Math.round(k*100)} %${c.mark==="CTA 5"?"":" · 24 h/24"}`:`${c.mark} · arrêt (nuit)`; if(c.labT!==t){ c.labT=t; const L=stkLabel(t,"#fff",k>0?"rgba(22,163,74,.92)":"rgba(71,85,105,.92)"); c.lab.material.map=L.material.map; c.lab.material.needsUpdate=true; c.lab.scale.copy(L.scale).multiplyScalar(1.5); } } });
   // tableau de bord
   const P=jtTotal(h), Tx=JT_EXT(h);
   $("#jtClock").textContent=jtFmt(h); $("#jtSky").textContent=JT_IN(h,8,17)?"☀️":JT_IN(h,7,8)||JT_IN(h,17,18.5)?"🌅":"🌙";
   $("#jtText").textContent=Tx.toFixed(1).replace(".",",")+" °C"; $("#jtP").textContent=P.toFixed(1).replace(".",",")+" kW"; $("#jtPac").style.width=Math.min(100,P/67.4*100)+"%";
-  $("#jtCta").textContent=f>0?Math.round(f*100)+" %":"arrêt"; $("#jtCta").parentElement.classList.toggle("off",f<=0);
+  $("#jtCtas").innerHTML=(JT.ctas||[]).map(c=>{ const k=jtCta(c.mark,h); return `<div class="jt-c${k>0?"":" off"}" title="${esc(c.desc)}"><b>${c.mark}</b><span>${k>0?Math.round(k*100)+" %":"arrêt"}</span><small>${c.mark==="CTA 5"?"jour":"24 h/24"}</small></div>`; }).join("");
   const r=$("#jtR"); if(document.activeElement!==r) r.value=h; const mk=$("#jtMark"); if(mk){ const X=h/24*600; mk.setAttribute("x1",X); mk.setAttribute("x2",X); }
   // évènement du moment
   let ev=-1; JT_EVENTS.forEach(([t],i)=>{ if(h>=t&&h<t+0.75) ev=i; }); if(ev!==JT.ev){ JT.ev=ev; const e=$("#jtEv"); if(ev>=0){ e.textContent=jtFmt(JT_EVENTS[ev][0])+" — "+JT_EVENTS[ev][1]; e.classList.remove("on"); void e.offsetWidth; e.classList.add("on"); } else { e.classList.remove("on"); e.textContent=""; } }
@@ -6586,33 +6588,37 @@ function jtApply(h){ if(!JT.sp) return; const R=RB;
 function jtChart(){ const W=600,H=70, pts=JT.curve.map((v,i)=>[i/96*W,H-4-(v/JT.max)*(H-12)]), d="M"+pts.map(p=>p[0].toFixed(1)+","+p[1].toFixed(1)).join(" L");
   const off=[[0,6],[22,24]].map(([a,b])=>`<rect x="${a/24*W}" y="0" width="${(b-a)/24*W}" height="${H}" fill="rgb(15 23 42 / .07)"/>`).join("");
   const ticks=[0,3,6,9,12,15,18,21,24].map(t=>`<text x="${Math.min(W-14,t/24*W+2)}" y="${H-2}" font-size="9" fill="#64748b">${t}h</text>`).join("");
-  $("#jtSvg").innerHTML=`${off}<path d="${d} L${W},${H} L0,${H} Z" fill="rgb(239 68 68 / .14)"/><path d="${d}" fill="none" stroke="#dc2626" stroke-width="2"/>${ticks}<text x="4" y="11" font-size="9.5" fill="#991b1b">max ${JT.max.toFixed(0)} kW</text><text x="${0.4/24*W}" y="${H-13}" font-size="9" fill="#475569">CTA 5 arrêtée</text><text x="${22.1/24*W}" y="${H-13}" font-size="9" fill="#475569">arrêt</text><line id="jtMark" x1="0" x2="0" y1="0" y2="${H}" stroke="#0f172a" stroke-width="2"/>`; }
+  $("#jtSvg").innerHTML=`${off}<path d="${d} L${W},${H} L0,${H} Z" fill="rgb(239 68 68 / .14)"/><path d="${d}" fill="none" stroke="#dc2626" stroke-width="2"/>${ticks}<text x="4" y="11" font-size="9.5" fill="#991b1b">max ${JT.max.toFixed(0)} kW</text><text x="${0.4/24*W}" y="${H-13}" font-size="9" fill="#475569">CTA 5 arrêtée · CTA 1-4 en marche</text><text x="${22.1/24*W}" y="${H-13}" font-size="9" fill="#475569">arrêt</text><line id="jtMark" x1="0" x2="0" y1="0" y2="${H}" stroke="#0f172a" stroke-width="2"/>`; }
 function jtLevel(lv){ JT.lv=lv; document.querySelectorAll("[data-jtlv]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.jtlv===lv)); const R=RB;
   R.clip.constant=lv==="N00"?2.9:lv==="N01"?6.3:999; R.layers.esp.visible=lv!=="toit"; R.layers.ceil.visible=false;
-  if(lv==="toit"){ const e=(R.EQ||[]).find(x=>x.mark==="CTA 5"&&x.bb); if(e){ const c=[(e.bb[0][0]+e.bb[1][0])/2-R.cx,(e.bb[0][1]+e.bb[1][1])/2-R.cy,(e.bb[0][2]+e.bb[1][2])/2]; R.ctl.target.set(c[0],c[1],c[2]); R.cam.position.set(c[0]-16,c[1]-22,c[2]+14); } }
+  if(lv==="toit"){ const E=(R.EQ||[]).filter(x=>/^CTA \d$/.test(x.mark||"")&&x.bb); if(E.length){ const bb=new THREE.Box3(); E.forEach(e=>{ bb.expandByPoint(new THREE.Vector3(e.bb[0][0]-R.cx,e.bb[0][1]-R.cy,e.bb[0][2])); bb.expandByPoint(new THREE.Vector3(e.bb[1][0]-R.cx,e.bb[1][1]-R.cy,e.bb[1][2])); });
+      const c=new THREE.Vector3(), sz=new THREE.Vector3(); bb.getCenter(c); bb.getSize(sz); const D=Math.max(sz.x,sz.y,20); R.ctl.target.set(c.x+D*0.08,c.y-D*0.3,c.z); R.cam.position.set(c.x,c.y-D*1.15,c.z+D*1.05); } }
   else { const bb=new THREE.Box3(); (JT.sp||[]).forEach(x=>{ if(x.s.l===lv) bb.expandByObject(x.m); }); if(bb.isEmpty()) R.layers.esp.children.forEach(m=>bb.expandByObject(m));
     const c=new THREE.Vector3(), sz=new THREE.Vector3(); bb.getCenter(c); bb.getSize(sz); const D=Math.max(sz.x,sz.y);
     R.ctl.target.set(c.x+D*0.12,c.y-D*0.08,lv==="N00"?0:3.4); R.cam.position.set(c.x+D*0.05,c.y-D*0.78,(lv==="N00"?0:3.4)+D*0.82); }
-  R.ctl.update(); }
+  (JT.ctas||[]).forEach(c=>{ if(c.lab) c.lab.visible=lv==="toit"; }); R.ctl.update(); }
 async function jtStart(){
   if(!RB) await rvBatInit(); if(JT.on) return; const R=RB; JT.on=true; $("#jt").hidden=false; $("#jtLoad").hidden=false; document.querySelectorAll('[data-mq-act="day"]').forEach(b=>b.setAttribute("aria-pressed","true"));
   JT.save={vis:Object.fromEntries(Object.entries(R.layers).map(([k,g])=>[k,g.visible])),clip:R.clip.constant,bg:R.scene.background,hemi:R.hemi&&R.hemi.intensity,dl:R.dl&&R.dl.intensity,dlp:R.dl&&R.dl.position.clone(),cam:R.cam.position.clone(),tg:R.ctl.target.clone(),air:!!($("#airOn")&&$("#airOn").checked)};
   await jtPrep(); $("#jtLoad").hidden=true; jtChart();
   R.layers.gai.visible=true; R.layers.eq.visible=true; R.layers.esp.visible=true; if(R.airSet) R.airSet(true); R.flow=net=>jtCta(net,JT.h);
-  JT.cta5=[]; R.layers.eq.traverse(o=>{ if(o.isMesh&&o.userData.eq&&o.userData.eq.mark==="CTA 5"){ o.material=o.material.clone(); JT.cta5.push(o); } });
-  const e=(R.EQ||[]).find(x=>x.mark==="CTA 5"&&x.bb); if(e&&typeof stkLabel==="function"){ JT.lab=stkLabel("CTA 5","#fff","rgba(22,163,74,.92)"); JT.lab.position.set((e.bb[0][0]+e.bb[1][0])/2-R.cx,(e.bb[0][1]+e.bb[1][1])/2-R.cy,e.bb[1][2]+2.2); JT.lab.material.depthTest=false; JT.lab.renderOrder=9; R.scene.add(JT.lab); JT.labT=null; }
+  const SVN={ouvert:"chambres",fermé:"chambres (unité protégée)",soins:"soins",vie:"lieux de vie",logistique:"logistique",dgt:"circulations",technique:"locaux techniques"};
+  JT.ctas=["CTA 1","CTA 2","CTA 3","CTA 4","CTA 5"].map(mark=>{ const ms=[]; R.layers.eq.traverse(o=>{ if(o.isMesh&&o.userData.eq&&o.userData.eq.mark===mark){ o.material=o.material.clone(); ms.push(o); } });
+    const cnt={}; JT.sp.forEach(x=>{ if(x.nets[mark]) cnt[x.s.sv]=(cnt[x.s.sv]||0)+1; }); const top=Object.entries(cnt).sort((a,b)=>b[1]-a[1]).slice(0,2).map(([k])=>SVN[k]||k);
+    const desc=`${mark} : ${top.join(", ")||"—"} · ${mark==="CTA 5"?"arrêt de 22 h à 6 h":"marche continue 24 h/24 (chambres occupées jour et nuit)"}`;
+    const e=(R.EQ||[]).find(x=>x.mark===mark&&x.bb); let lab=null; if(e&&typeof stkLabel==="function"){ lab=stkLabel(mark,"#fff","rgba(22,163,74,.92)"); lab.position.set((e.bb[0][0]+e.bb[1][0])/2-R.cx,(e.bb[0][1]+e.bb[1][1])/2-R.cy,e.bb[1][2]+2.2); lab.material.depthTest=false; lab.renderOrder=9; R.scene.add(lab); }
+    return {mark,ms,lab,labT:null,desc,e}; });
   jtLevel(JT.lv); JT.lastH=-1; jtApply(JT.h); jtSum(); }
 function jtStop(){ if(!JT.on) return; const R=RB, S=JT.save; JT.on=false; JT.play=false; $("#jt").hidden=true; $("#jtPlay").textContent="▶"; document.querySelectorAll('[data-mq-act="day"]').forEach(b=>b.setAttribute("aria-pressed","false"));
-  (JT.sp||[]).forEach(x=>{ x.m.material.color.setHex(x.c0); x.m.material.emissive.setHex(0); x.m.material.opacity=x.o0; }); (JT.cta5||[]).forEach(m=>{ m.material.emissive.setHex(0); m.material.emissiveIntensity=1; });
-  if(JT.lab){ R.scene.remove(JT.lab); JT.lab=null; } R.flow=null;
+  (JT.sp||[]).forEach(x=>{ x.m.material.color.setHex(x.c0); x.m.material.emissive.setHex(0); x.m.material.opacity=x.o0; }); (JT.ctas||[]).forEach(c=>{ c.ms.forEach(m=>{ m.material.emissive.setHex(0); m.material.emissiveIntensity=1; }); if(c.lab) R.scene.remove(c.lab); }); JT.ctas=[]; R.flow=null;
   Object.entries(S.vis).forEach(([k,v])=>R.layers[k].visible=v); R.clip.constant=S.clip; R.scene.background=S.bg; if(R.hemi) R.hemi.intensity=S.hemi; if(R.dl){ R.dl.intensity=S.dl; R.dl.position.copy(S.dlp); }
   R.cam.position.copy(S.cam); R.ctl.target.copy(S.tg); R.ctl.update(); if(R.airSet) R.airSet(S.air); if(typeof rvBatApply==="function") rvBatApply(); if(typeof mqSync==="function") mqSync(); }
 function jtSum(){ const t=JT.curve, E=t.reduce((a,v)=>a+v/4,0)-t[96]/4; const n5=JT.sp.filter(x=>x.nets["CTA 5"]).length;
   $("#jtInfo").innerHTML=`<b>Sur 24 h :</b> ${E.toFixed(0)} kWh de chauffage · pointe ${JT.max.toFixed(0)} kW (PAC : 2 × 33,7 = 67,4 kW) · ${JT.sp.length} pièces, dont ${n5} desservies par la CTA 5.
-    <details><summary>Hypothèses du modèle</summary><ul><li>Journée d'hiver type : −6 °C vers 3 h, +2 °C vers 15 h (base de calcul −9 °C).</li><li>Pertes par l'enveloppe : H = ${JT.Htot.toFixed(0)} W/K (parois + baies + ponts, étude RT2012) réparti au m² : ${JT.Hs.toFixed(2).replace(".",",")} W/m².K.</li><li>Ventilation : débit des bouches de chaque pièce, récupération 80 % sur les CTA double flux, CTA 5 arrêtée de 22 h à 6 h et à plein débit aux repas.</li><li>Consignes : chambres 22 °C jour et nuit, soins 22/20 °C, lieux de vie 21/18 °C, logistique 19/16 °C.</li><li>Apports : occupants, éclairage, cuisine, repas, soleil d'hiver. Pas d'inertie du bâtiment ni de relance anticipée : c'est un ordre de grandeur pédagogique, pas une simulation dynamique. La pointe calculée peut donc dépasser la puissance des PAC.</li></ul></details>`; }
+    <details><summary>Hypothèses du modèle</summary><ul><li>Journée d'hiver type : −6 °C vers 3 h, +2 °C vers 15 h (base de calcul −9 °C).</li><li>Pertes par l'enveloppe : H = ${JT.Htot.toFixed(0)} W/K (parois + baies + ponts, étude RT2012) réparti au m² : ${JT.Hs.toFixed(2).replace(".",",")} W/m².K.</li><li>Ventilation : débit des bouches de chaque pièce, récupération 80 % sur les CTA double flux. <b>CTA 1 à 4 (chambres) en marche continue 24 h/24</b> : les résidents sont là jour et nuit. <b>CTA 5</b> (soins, lieux de vie) arrêtée de 22 h à 6 h, relancée le matin et à plein débit aux repas.</li><li>Consignes : chambres 22 °C jour et nuit, soins 22/20 °C, lieux de vie 21/18 °C, logistique 19/16 °C.</li><li>Apports : occupants, éclairage, cuisine, repas, soleil d'hiver. Pas d'inertie du bâtiment ni de relance anticipée : c'est un ordre de grandeur pédagogique, pas une simulation dynamique. La pointe calculée peut donc dépasser la puissance des PAC.</li></ul></details>`; }
 // boucle : avance du temps
 function jtFrame(){ if(!JT.on) return; const now=performance.now(), dt=Math.min(0.1,(now-(JT.last||now))/1000); JT.last=now;
-  if(JT.play){ JT.h=(JT.h+dt*JT.spd)%24; } if(Math.abs(JT.h-JT.lastH)>0.01) jtApply(JT.h); if(JT.lab&&JT.cta5.length){ const f=jtCta("CTA 5",JT.h); JT.cta5.forEach(m=>{ if(f>0) m.material.emissiveIntensity=0.3+0.5*f+0.15*Math.sin(now/300); }); } }
+  if(JT.play){ JT.h=(JT.h+dt*JT.spd)%24; } if(Math.abs(JT.h-JT.lastH)>0.01) jtApply(JT.h); (JT.ctas||[]).forEach((c,i)=>{ const f=jtCta(c.mark,JT.h); if(f>0) c.ms.forEach(m=>m.material.emissiveIntensity=0.3+0.5*f+0.15*Math.sin(now/300+i)); }); }
 // branchement sur la 3D (une fois qu'elle existe)
 (function hook(){ if(!(typeof RB!=="undefined"&&RB&&RB.enh&&RB.tick)){ setTimeout(hook,700); return; } if(RB.jtHooked) return; RB.jtHooked=true; const t0=RB.tick; RB.tick=()=>{ t0(); jtFrame(); };
   const t=$("#rvBatTools"); if(t&&!$("#jtGo")){ const b=document.createElement("button"); b.type="button"; b.className="btn small"; b.id="jtGo"; b.textContent="🕒 Journée type d'hiver (24 h animées)"; b.onclick=()=>{ if(!MQ.on) setTab("maq"); setTimeout(jtStart,MQ.on?0:400); }; const w=t.querySelector(".wow-ctl"); (w||t).appendChild(b); } })();
