@@ -1712,7 +1712,7 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
             <div class="jt-kpi"><span>Énergie</span><b id="evE">0 kWh</b><small id="evPpl"></small></div>
             <div class="jt-seg" role="group" aria-label="Affichage"><button type="button" data-evmode="T" aria-pressed="true">🌡️ Température</button><button type="button" data-evmode="C" aria-pressed="false">🫁 CO₂</button></div>
             <div class="jt-seg" role="group" aria-label="Niveau"><button type="button" data-evlv="N00" aria-pressed="true">RDC</button><button type="button" data-evlv="N01" aria-pressed="false">Étage</button></div>
-            <select id="evSpd" aria-label="Vitesse"><option value="60">1 min / s</option><option value="300" selected>5 min / s</option><option value="1200">20 min / s</option><option value="3600">1 h / s</option></select>
+            <select id="evSpd" aria-label="Vitesse"><option value="10">10 s / s (voir marcher)</option><option value="60" selected>1 min / s</option><option value="300">5 min / s</option><option value="1200">20 min / s</option><option value="3600">1 h / s</option></select>
             <button type="button" class="jt-x" id="evClose" title="Fermer">✕</button>
           </div>
           <svg class="jt-svg ev-svg" id="evSvg" viewBox="0 0 600 60" preserveAspectRatio="none"></svg>
@@ -7435,7 +7435,7 @@ const _jvMqExit=mqExit; mqExit=function(){ if(JV.on) jvOpen(false); return _jvMq
    Chaque pièce : modèle thermique à 2 nœuds (air + masse des parois = inertie), bilan CO₂, débits réels des bouches,
    occupants suivant un emploi du temps d'EHPAD (81 résidents, personnel jour/nuit, visites), émetteurs régulés,
    production limitée par les PAC / chaudières disponibles, CTA avec récupération et batterie. Pas de temps : 1 minute. */
-const EV={on:false,play:true,spd:300,mode:"T",lv:"N00",t:0,rooms:null,ppl:null,sc:{meteo:"hiver",cta:{"CTA 1":1,"CTA 2":1,"CTA 3":1,"CTA 4":1,"CTA 5":1},vmc:1,pac:[1,1],ch:1,famille:0},log:[],hist:[],E:0,acc:0};
+const EV={on:false,play:true,spd:60,mode:"T",lv:"N00",t:0,rooms:null,ppl:null,sc:{meteo:"hiver",cta:{"CTA 1":1,"CTA 2":1,"CTA 3":1,"CTA 4":1,"CTA 5":1},vmc:1,pac:[1,1],ch:1,famille:0},log:[],hist:[],E:0,acc:0};
 const EV_MET={hiver:{n:"Hiver type (−6 / +2 °C)",m:-2,a:4,sol:6},froid:{n:"Vague de froid (−12 / −6 °C)",m:-9.5,a:3,sol:5},mi:{n:"Mi-saison (5 / 15 °C)",m:10,a:5,sol:10},canicule:{n:"Canicule (24 / 35 °C)",m:29.5,a:5.5,sol:16}};
 const evText=h=>{ const M=EV_MET[EV.sc.meteo]; return M.m+M.a*Math.sin(2*Math.PI*(h-9)/24); };
 const evHash=(a,b)=>{ let x=(a*374761393+b*668265263)>>>0; x=(x^(x>>>13))*1274126177>>>0; return ((x^(x>>>16))>>>0)/4294967296; };
@@ -7504,7 +7504,7 @@ function evWarm(h0=6){ EV.t=0; EV.E=0; EV.loc=null; EV.rooms.forEach(r=>{ r.Ta=2
 // ---- affichage ----
 const EV_TS=[[16,[37,99,235]],[19,[6,182,212]],[21,[34,197,94]],[24,[234,179,8]],[27,[249,115,22]],[30,[220,38,38]]], EV_CS=[[420,[34,197,94]],[800,[132,204,22]],[1000,[234,179,8]],[1300,[249,115,22]],[1700,[220,38,38]]];
 function evScale(S,v){ if(v<=S[0][0]) return S[0][1]; for(let i=1;i<S.length;i++){ const [a,ca]=S[i-1],[b,cb]=S[i]; if(v<=b){ const k=(v-a)/(b-a); return ca.map((c,j)=>Math.round(c+(cb[j]-c)*k)); } } return S[S.length-1][1]; }
-function evPaint(){ EV.rooms.forEach(r=>{ const c=evScale(EV.mode==="C"?EV_CS:EV_TS,EV.mode==="C"?r.C:r.Ta), M=r.m.material; M.color.setRGB(c[0]/255,c[1]/255,c[2]/255); M.emissive.setRGB(c[0]/255*0.5,c[1]/255*0.5,c[2]/255*0.5); M.opacity=0.85; }); }
+function evPaint(){ EV.rooms.forEach(r=>{ const c=evScale(EV.mode==="C"?EV_CS:EV_TS,EV.mode==="C"?r.C:r.Ta), M=r.m.material; M.color.setRGB(c[0]/255,c[1]/255,c[2]/255); M.emissive.setRGB(c[0]/255*0.5,c[1]/255*0.5,c[2]/255*0.5); M.opacity=0.6; }); }
 function evLog(t,k="w"){ const h=(EV.t/3600)%24; EV.log.unshift({h,t,k}); if(EV.log.length>40) EV.log.pop(); const L=$("#evLog"); if(L) L.innerHTML=EV.log.slice(0,9).map(e=>`<li class="ev-${e.k}"><b>${jtFmt(e.h)}</b> ${esc(e.t)}</li>`).join(""); }
 function evAlerts(){ const h=(EV.t/3600)%24; EV.rooms.forEach(r=>{ const lab=(r.nm||"pièce")+" "+(r.lv==="N00"?"RDC":"étage")+(r.s.n?" ("+r.s.n+")":"");
   const chk=(key,cond,msg)=>{ if(cond&&!r.al[key]){ r.al[key]=1; evLog(msg); } else if(!cond&&r.al[key]&&Math.random()<0.02) r.al[key]=0; };
@@ -7570,4 +7570,74 @@ document.querySelectorAll("[data-evmode]").forEach(b=>b.onclick=()=>{ EV.mode=b.
 document.querySelectorAll("[data-evlv]").forEach(b=>b.onclick=()=>evLevel(b.dataset.evlv));
 $("#evLabT").onclick=()=>$("#evLab").classList.toggle("closed");
 { const _s=jtStart; jtStart=async function(){ if(EV.on) evStop(); return _s.apply(this,arguments); }; const _x=mqExit; mqExit=function(){ if(EV.on) evStop(); return _x.apply(this,arguments); }; }
+</script>
+<script>
+/* ========== EHPAD vivant, étape 2 : les personnes marchent dans les couloirs ==========
+   Navigation : grille de collision du jeu (cases de 25 cm, portes ouvertes), A* à 8 directions par niveau,
+   ascenseurs entre RDC et étage, chemins mis en cache. Vitesse : résidents 0,6 m/s, personnel 1,1 m/s. */
+const NAV={ok:false,lv:{},cache:new Map(),queue:[]};
+const NAV_Z={N00:0,N01:3.36};
+function navBuild(){ if(NAV.ok) return; gmGrid(); if(!GM.spots) GM.spots=gmFreeSpots(); if(!GM.spawns) GM.spawns=gmArena(GM.spots);
+  const G=GM.grid, N=G.nx*G.ny;
+  Object.entries(NAV_Z).forEach(([L,Z])=>{ const W=new Uint8Array(N), F=new Float32Array(N);
+    for(let c=0;c<N;c++){ let v=null; for(let k=0;k<GM_NF;k++){ const f=G.floor[c*GM_NF+k]; if(f!==f) break; if(Math.abs(f-Z)<0.35){ v=f; break; } } if(v===null) continue;
+      const x=G.x0+((c%G.nx)+.5)*GM_C, y=G.y0+(Math.floor(c/G.nx)+.5)*GM_C; if(!gmBlocked(x,y,v,0.18)){ W[c]=1; F[c]=v; } }
+    NAV.lv[L]={W,F,Z}; });
+  NAV.lift=(GM.lifts||[]).find(l=>l.la!==l.lb&&Math.min(l.la,l.lb)===0&&Math.max(l.la,l.lb)===1)||null; NAV.ok=true; }
+const navCell=(x,y)=>{ const G=GM.grid, cx=Math.floor((x-G.x0)/GM_C), cy=Math.floor((y-G.y0)/GM_C); return cx<0||cy<0||cx>=G.nx||cy>=G.ny?-1:cy*G.nx+cx; };
+const navXY=c=>{ const G=GM.grid; return [G.x0+((c%G.nx)+.5)*GM_C, G.y0+(Math.floor(c/G.nx)+.5)*GM_C]; };
+function navNear(L,x,y){ const W=NAV.lv[L].W, G=GM.grid, c0=navCell(x,y); if(c0>=0&&W[c0]) return c0; const cx=c0%G.nx, cy=Math.floor(c0/G.nx);
+  for(let r=1;r<=14;r++) for(let dy=-r;dy<=r;dy++) for(let dx=-r;dx<=r;dx++){ if(Math.max(Math.abs(dx),Math.abs(dy))!==r) continue; const X=cx+dx, Y=cy+dy; if(X<0||Y<0||X>=G.nx||Y>=G.ny) continue; const c=Y*G.nx+X; if(W[c]) return c; } return -1; }
+function navAstar(L,s,t){ if(s<0||t<0) return null; if(s===t) return [s]; const key=L+":"+s+":"+t; if(NAV.cache.has(key)) return NAV.cache.get(key);
+  const G=GM.grid, W=NAV.lv[L].W, nx=G.nx, N=nx*G.ny; const gS=NAV.g||(NAV.g=new Float32Array(N)), from=NAV.f||(NAV.f=new Int32Array(N)), seen=NAV.s||(NAV.s=new Uint32Array(N)); NAV.gen=(NAV.gen||0)+1; const gen=NAV.gen;
+  const tx=t%nx, ty=Math.floor(t/nx), hh=c=>{ const dx=Math.abs(c%nx-tx), dy=Math.abs(Math.floor(c/nx)-ty); return (dx+dy)+(1.4142-2)*Math.min(dx,dy); };
+  const H=[], push=(c,f)=>{ H.push([f,c]); let i=H.length-1; while(i>0){ const p=(i-1)>>1; if(H[p][0]<=H[i][0]) break; [H[p],H[i]]=[H[i],H[p]]; i=p; } }, pop=()=>{ const top=H[0], last=H.pop(); if(H.length){ H[0]=last; let i=0; for(;;){ const l=2*i+1, r=l+1; let m=i; if(l<H.length&&H[l][0]<H[m][0]) m=l; if(r<H.length&&H[r][0]<H[m][0]) m=r; if(m===i) break; [H[m],H[i]]=[H[i],H[m]]; i=m; } } return top; };
+  seen[s]=gen; gS[s]=0; from[s]=-1; push(s,hh(s)); let n=0;
+  while(H.length&&n<90000){ const [,c]=pop(); n++; if(c===t) break; const cx=c%nx;
+    for(let k=0;k<8;k++){ const dx=[1,-1,0,0,1,1,-1,-1][k], dy=[0,0,1,-1,1,-1,1,-1][k]; if((dx>0&&cx===nx-1)||(dx<0&&cx===0)) continue; const d=c+dx+dy*nx; if(d<0||d>=N||!W[d]) continue;
+      if(dx&&dy&&(!W[c+dx]||!W[c+dy*nx])) continue; const g=gS[c]+(dx&&dy?1.4142:1); if(seen[d]===gen&&gS[d]<=g) continue; seen[d]=gen; gS[d]=g; from[d]=c; push(d,g+hh(d)); } }
+  if(seen[t]!==gen){ NAV.cache.set(key,null); return null; }
+  const out=[]; for(let c=t;c!==-1;c=from[c]) out.push(c); out.reverse();
+  // lissage : on garde les points où la ligne droite n'est plus libre
+  const free=(a,b)=>{ const [ax,ay]=navXY(a), [bx,by]=navXY(b), n2=Math.ceil(Math.hypot(bx-ax,by-ay)/0.12); for(let i=1;i<n2;i++){ const c=navCell(ax+(bx-ax)*i/n2,ay+(by-ay)*i/n2); if(c<0||!W[c]) return false; } return true; };
+  const sm=[out[0]]; let i=0; while(i<out.length-1){ let j=Math.min(out.length-1,i+60); while(j>i+1&&!free(out[i],out[j])) j--; sm.push(out[j]); i=j; }
+  if(NAV.cache.size>4000) NAV.cache.clear(); NAV.cache.set(key,sm); return sm; }
+// trajet complet d'un point à un autre (avec ascenseur si on change de niveau)
+function navTrip(from,to){ const pts=[]; const seg=(L,a,b)=>{ const s=navNear(L,a[0],a[1]), t=navNear(L,b[0],b[1]); const P=navAstar(L,s,t); if(!P) return false; const Z=NAV.lv[L].Z; P.forEach(c=>{ const [x,y]=navXY(c); pts.push([x,y,NAV.lv[L].F[c]||Z]); }); return true; };
+  if(from.L===to.L){ if(!seg(from.L,from.p,to.p)) return null; }
+  else { const lf=NAV.lift; if(!lf) return null; const A=lf.la===0?lf.a:lf.b, B=lf.la===0?lf.b:lf.a, la=from.L==="N00"?A:B, lb=from.L==="N00"?B:A;
+    if(!seg(from.L,from.p,la)) return null; pts.push(["lift"]); if(!seg(to.L,lb,to.p)) return null; }
+  pts.push([to.p[0],to.p[1],NAV_Z[to.L]+0.05]); return pts; }
+// point d'arrivée d'une personne dans une pièce (coordonnées de la scène)
+function evSpot(r,j){ const pt=r.pts[(j*5+3)%r.pts.length]; return [pt[0]-RB.cx+(j%3-1)*0.25,pt[1]-RB.cy+((j>>2)%3-1)*0.25]; }
+function evPlan(j){ const p=EV.ppl[j], r=EV.loc[j]; p.goal=r; if(!r){ p.path=null; p.pos=null; return; } const to={L:r.lv,p:evSpot(r,j)};
+  if(!p.pos||!p.room){ p.pos=[to.p[0],to.p[1],NAV_Z[r.lv]+0.05]; p.room=r; p.path=null; return; }
+  const from={L:p.L||p.room.lv,p:[p.pos[0],p.pos[1]]}; const P=NAV.ok?navTrip(from,to):null; p.room=r;
+  if(!P||P.length<2){ p.pos=[to.p[0],to.p[1],NAV_Z[r.lv]+0.05]; p.L=r.lv; p.path=null; return; }
+  const v=p.k==="res"?0.6:p.k==="vis"?0.95:1.15; let t=EV.t+EV.acc, prev=[p.pos[0],p.pos[1],p.pos[2]]; const path=[{x:prev[0],y:prev[1],z:prev[2],t}];
+  P.forEach(q=>{ if(q[0]==="lift"){ t+=25; path.push({lift:1,t}); return; } const d=path[path.length-1].lift?0:Math.hypot(q[0]-prev[0],q[1]-prev[1]); t+=d/v; path.push({x:q[0],y:q[1],z:q[2],t}); prev=q; });
+  p.path=path; p.L=r.lv; }
+function evMove(now){ for(const p of EV.ppl){ const P=p.path; if(!P) continue; if(now>=P[P.length-1].t){ const e=P[P.length-1]; p.pos=[e.x,e.y,e.z]; p.path=null; p.walk=false; continue; }
+    let i=1; while(i<P.length&&P[i].t<now) i++; const a=P[i-1], b=P[i]; if(b.lift||a.lift){ const q=b.lift?a:b; p.pos=[q.x,q.y,q.z]; p.walk=false; p.inLift=true; continue; } p.inLift=false;
+    const k=(now-a.t)/Math.max(1e-6,b.t-a.t); p.pos=[a.x+(b.x-a.x)*k,a.y+(b.y-a.y)*k,a.z+(b.z-a.z)*k]; p.walk=true; p.dir=Math.atan2(b.y-a.y,b.x-a.x); } }
+// remplace le dessin des personnes de l'étape 1
+evPeople=function(){ if(!EV.inst){ const g=new THREE.CylinderGeometry(0.3,0.36,1.7,10); g.rotateX(Math.PI/2); g.translate(0,0,0.85); const hd=new THREE.SphereGeometry(0.24,10,8); hd.translate(0,0,1.95);
+    const m=new THREE.MeshLambertMaterial({clippingPlanes:[RB.clip],emissive:0x333333}); EV.inst=new THREE.InstancedMesh(g,m,EV.ppl.length); EV.head=new THREE.InstancedMesh(hd,new THREE.MeshLambertMaterial({color:0xf1d3b3,clippingPlanes:[RB.clip]}),EV.ppl.length);
+    [EV.inst,EV.head].forEach(o=>{ o.frustumCulled=false; o.instanceMatrix.setUsage(THREE.DynamicDrawUsage); RB.scene.add(o); });
+    const C={res:0xffffff,soi:0x22c55e,ide:0x06b6d4,adm:0x64748b,log:0xf59e0b,ani:0xec4899,vis:0xa855f7}; EV.ppl.forEach((p,j)=>EV.inst.setColorAt(j,new THREE.Color(C[p.k]))); EV.inst.instanceColor.needsUpdate=true; }
+  const now=EV.t+EV.acc, h=(now/3600)%24, M=new THREE.Matrix4(), Z=new THREE.Matrix4().makeScale(0,0,0), R=new THREE.Matrix4(), T=new THREE.Matrix4();
+  if(EV.loc) EV.ppl.forEach((p,j)=>{ if(p.goal!==EV.loc[j]) NAV.queue.includes(j)||NAV.queue.push(j); });
+  for(let n=0;n<14&&NAV.queue.length;n++) evPlan(NAV.queue.shift());
+  evMove(now); EV.walking=0;
+  EV.ppl.forEach((p,j)=>{ if(!p.pos||p.inLift){ EV.inst.setMatrixAt(j,Z); EV.head.setMatrixAt(j,Z); return; } const lie=p.k==="res"&&!p.path&&(h<7||h>21.5)&&p.room&&p.room.kind==="ch";
+    if(p.walk) EV.walking++; const bob=p.walk?Math.abs(Math.sin(now*3+j))*0.06:0;
+    if(lie){ M.makeTranslation(p.pos[0],p.pos[1],p.pos[2]+0.45).multiply(R.makeRotationY(Math.PI/2)).multiply(T.makeTranslation(-0.95,0,0)); }
+    else M.makeTranslation(p.pos[0],p.pos[1],p.pos[2]+bob);
+    EV.inst.setMatrixAt(j,M); EV.head.setMatrixAt(j,M); });
+  EV.inst.instanceMatrix.needsUpdate=true; EV.head.instanceMatrix.needsUpdate=true; EV.inst.visible=EV.head.visible=true; };
+// les personnes bougent à chaque image (pas seulement au rafraîchissement des couleurs)
+{ const _f=evFrame; evFrame=function(){ _f(); if(EV.on&&EV.inst) evPeople(); }; }
+{ const _s=evStart; evStart=async function(){ const r=await _s.apply(this,arguments); try{ navBuild(); }catch(e){ console.warn("navigation",e); } EV.ppl.forEach(p=>{ p.pos=null; p.room=null; p.path=null; p.goal=undefined; }); NAV.queue=[]; return r; }; }
+{ const _x=evStop; evStop=function(){ if(EV.head) EV.head.visible=false; return _x.apply(this,arguments); }; }
+{ const _h=evHud; evHud=function(){ _h(); const w=$("#evPpl"); if(w&&EV.walking) w.textContent+=` · ${EV.walking} en marche`; }; }
 </script>
