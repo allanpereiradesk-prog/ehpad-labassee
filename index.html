@@ -1914,9 +1914,18 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
       <p>Chaque pièce de la maquette a sa <b>température</b>, ses <b>déperditions</b> (étude RT2012 répartie sur ses façades, sa toiture, son sol), ses <b>bouches</b> et sa <b>CTA</b>. La chaufferie de l'onglet GTB alimente toutes les pièces : si elle manque de puissance, le bâtiment <b>refroidit pour de vrai</b>, plus vite dans les pièces en angle et sous toiture. Clique sur une pièce pour sa fiche, sur un équipement pour sa fiche de maintenance avec son <b>QR code</b>.</p>
     </section>
     <div class="jum-bar">
+      <div class="seg jum-season" role="group" aria-label="Saison"><button type="button" data-js="hiver" aria-pressed="true">❄ Hiver : pannes</button><button type="button" data-js="ete" aria-pressed="false">☀ Canicule et climat futur</button></div>
       <button class="btn primary jum-demo" type="button" id="jumDemo">🎬 Scénario : panne des PAC par grand froid</button>
       <div class="jum-play"><button class="btn small" type="button" id="jumPlay">▶ Faire avancer le temps</button><select id="jumSpeed" aria-label="Vitesse"><option value="1">1 h / s</option><option value="3" selected>3 h / s</option><option value="8">8 h / s</option></select><button class="btn small" type="button" id="jumReset">↺ Remettre à zéro</button></div>
       <span class="jum-clock" id="jumClock"></span>
+    </div>
+    <div class="can-panel" id="canPanel" hidden>
+      <div class="can-row">
+        <div class="field"><label for="canSc">Climat</label><select id="canSc"></select></div>
+        <div class="field"><span class="gtb-lab">Solutions à tester</span><div class="can-opts" id="canOpts"></div></div>
+        <button class="btn primary jum-demo" type="button" id="canRun">☀ Lancer la canicule</button>
+      </div>
+      <div class="can-time"><button class="btn small" type="button" id="canPlay" aria-label="Lecture">▶</button><input type="range" id="canT" min="0" max="0" value="0" aria-label="Moment de la canicule"><span class="jum-clock" id="canClock">–</span></div>
     </div>
     <div class="jum-main">
       <div class="jum-3d-wrap">
@@ -1931,13 +1940,21 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
       </div>
       <aside class="jum-side" id="jumSide"></aside>
     </div>
-    <div class="jum-ctl">
+    <div class="jum-ctl" id="jumCtlW">
       <div class="field"><label for="jumTe">Température dehors : <b id="jumTeV"></b></label><input type="range" id="jumTe" min="-12" max="16" step="0.5"></div>
       <div class="field"><span class="gtb-lab">Pannes (les mêmes que dans l'onglet GTB)</span><div class="jum-faults" id="jumFaults"></div></div>
       <div class="field"><span class="gtb-lab">Étiquettes de maintenance</span><button class="btn small" type="button" id="jumLabels">🏷 Imprimer les étiquettes QR des équipements</button></div>
     </div>
     <div class="jum-kpi resa-sum" id="jumKpi"></div>
-    <details class="panel gtb-hyp"><summary><b>Comment c'est calculé</b> (méthode, hypothèses)</summary><div id="jumHyp"></div></details>
+    <section class="can-res" id="canRes" hidden>
+      <div class="jum-kpi resa-sum" id="canKpi"></div>
+      <div class="en-g2">
+        <section class="panel"><h2>Les chambres les plus exposées</h2><p class="hint">Heures passées au-dessus de 28 °C pendant l'épisode. Clique pour voir la chambre.</p><div id="canWorst"></div></section>
+        <section class="panel"><h2>Ce que changent les solutions</h2><p class="hint">Chambres qui passent plus de 2 h au-dessus de 28 °C, et température maximale dans une chambre, pour chaque climat.</p><div class="tbl-wrap"><table class="fam-t" id="canCmp"></table></div><button class="btn small" type="button" id="canCmpBtn">Calculer le tableau (16 simulations)</button></section>
+      </div>
+      <details class="panel gtb-hyp"><summary><b>Comment c'est calculé</b> (climat, soleil, hypothèses, sources)</summary><div id="canHyp"></div></details>
+    </section>
+    <details id="jumHypD" class="panel gtb-hyp"><summary><b>Comment c'est calculé</b> (méthode, hypothèses)</summary><div id="jumHyp"></div></details>
   </section>
 
   <dialog id="eqDlg" class="eq-dlg" aria-labelledby="eqTitle"><div id="eqBody"></div></dialog>
@@ -6139,7 +6156,7 @@ TAB_META.gtb=["Fichiers","GTB","Supervision simulée de la chaufferie : loi d'ea
 }
 if(typeof CMDK!=="undefined"){ const _ix4=cmdkIndex; cmdkIndex=async function(){ await _ix4(); CMDK.idx.unshift({t:"Onglet",label:"GTB : supervision simulée",sub:"Loi d'eau, PAC, chaudières, CTA, ECS, pannes",go:()=>setTab("gtb"),h:cmdNorm("GTB supervision"),s:cmdNorm("gtb supervision chaufferie loi d'eau pac chaudiere regulation simulation panne")}); }; }
 /* ---------- Onglet Jumeau numérique (#jum) : maquette + GTB + thermique par pièce ---------- */
-const JUM={data:null,rooms:[],eq:[],bo:{},rs:{},T:{},hist:{},t:0,h:7,te:-9,play:null,speed:3,mode:"confort",lv:"all",sel:null,story:null,last:null,three:null,dirty:true};
+const JUM={season:"hiver",data:null,rooms:[],eq:[],bo:{},rs:{},T:{},hist:{},t:0,h:7,te:-9,play:null,speed:3,mode:"confort",lv:"all",sel:null,story:null,last:null,three:null,dirty:true};
 const JUM_C=40; /* Wh/(m².K) : inertie moyenne (béton), hypothèse */
 const JUM_MODES={confort:"Confort",temp:"Température",air:"Air neuf",dep:"Déperditions",res:"Réseaux CTA"};
 const JUM_LV={all:"Tout",N00:"RDC",N01:"Étage"};
@@ -6157,7 +6174,7 @@ const jumPmax=r=>1.5*jumPd(r);
 async function jumLoad(){
   if(JUM.data) return;
   const j=u=>fetch(u,{cache:"no-cache"}).then(x=>x.ok?x.json():null).catch(()=>null);
-  const [d,eq,bo,rs]=await Promise.all([j("files/jumeau/rooms.json?v=3"),j("files/b3d/equip.json?v="+EQ_V),j("files/bouches/bouches.json"),j("exports-revit/reservations.json")]);
+  const [d,eq,bo,rs]=await Promise.all([j("files/jumeau/rooms.json?v=4"),j("files/b3d/equip.json?v="+EQ_V),j("files/bouches/bouches.json"),j("exports-revit/reservations.json")]);
   if(!EN) await enLoad();
   JUM.data=d; JUM.rooms=(d&&d.rooms)||[]; JUM.eq=(eq||[]).filter(e=>!/^Socle/.test(e.mark));
   (bo||[]).forEach(b=>JUM.bo[b.id]=b); ((rs&&rs.items)||[]).forEach(x=>JUM.rs[x.id]=x);
@@ -6193,6 +6210,7 @@ function jumStep(dt){
 function jumColor(r){
   if(r.tc==null&&JUM.mode!=="res"&&JUM.mode!=="air") return null;
   const T=JUM.T[r.i];
+  if(JUM.season==="ete"&&(JUM.mode==="confort"||JUM.mode==="temp")) return jumLerpCol(JUM_SUM,T);
   if(JUM.mode==="confort") return jumLerpCol(JUM_ST.confort,T-r.tc);
   if(JUM.mode==="temp") return jumLerpCol(JUM_ST.temp,T);
   if(JUM.mode==="air"){ const q=(r.qs||0)/(r.a||1); return r.qv?"#a855f7":q>0?jumLerpCol(JUM_ST.air,q):"#e5e7eb"; }
@@ -6206,6 +6224,7 @@ function jumLegend(){
     air:g(JUM_ST.air,"air neuf soufflé par m² (m³/h.m²) · violet : extraction VMC",["0","5","9"]),
     dep:g(JUM_ST.dep,"puissance à −9 °C par m² de pièce (W/m²)",["0","40","70"]),
     res:`<div class="jum-chips">${Object.entries(CTA_COL).filter(([k])=>/^CTA|VMC [1-6]/.test(k)).map(([k,c])=>`<span><i style="background:${c}"></i>${k}</span>`).join("")}</div>`};
+  if(JUM.season==="ete") L.confort=L.temp=g(JUM_SUM,"température de la pièce · 26 °C : limite du plan bleu canicule · 28 °C : inconfort fort",["22 °C","27 °C","33 °C"]);
   $("#jumLeg").innerHTML=L[JUM.mode];
 }
 /* ---- 3D ---- */
@@ -6279,6 +6298,7 @@ function jumPaint(){
   const g=JUM.last&&JUM.last.g;
   T.eqM.forEach(m=>{ const e=m.userData.eq, k=e.mark; let st="off";
     if(GTB.faults[k]||(/^PAC/.test(k)&&GTB.faults.SONDES)||(k==="CTA 5"&&GTB.faults.FILTRE)) st="fault";
+    else if(JUM.season==="ete") st=/^PAC/.test(k)?(CAN.opt.froid?"on":"off"):"on";
     else if(g){ if(/^PAC/.test(k)) st=(g.pacOn[k]||0)>0.05?"on":"off"; else if(/^CH/.test(k)) st=(g.chP[k]||0)>0.05?"on":"off"; else if(k==="CTA 5") st=g.cta5?"on":"off"; else st="on"; }
     m.material.color.set(st==="fault"?0xef4444:st==="on"?0x34d399:0x7b8d98); m.material.emissive.set(st==="fault"?0x550000:0x000000); });
 }
@@ -6287,6 +6307,7 @@ function jumSpark(a,tc){ if(!a||a.length<2) return ""; const W=260,H=54, lo=Math
   return `<svg viewBox="0 0 ${W} ${H}" class="jum-spark" role="img" aria-label="Évolution de la température"><line x1="0" x2="${W}" y1="${y(tc)}" y2="${y(tc)}" class="jum-sp-c"/><polyline points="${a.map((v,i)=>`${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(" ")}" class="jum-sp-l"/></svg>`; }
 function jumSide(){
   const box=$("#jumSide"); const r=JUM.rooms.find(x=>x.i===JUM.sel);
+  if(!r&&JUM.season==="ete"){ box.innerHTML=`<h3>Canicule : clique sur une pièce</h3><p class="hint">Sa fiche montre sa température pendant tout l'épisode, ses heures au-dessus de 26 °C et 28 °C, et ses fenêtres par orientation.</p><p class="hint">Les chambres les plus exposées sont listées sous la maquette.</p>`; return; }
   if(!r){ const L=JUM.last, heated=JUM.rooms.filter(x=>x.tc!=null);
     const cold=heated.slice().sort((a,b)=>(JUM.T[a.i]-a.tc)-(JUM.T[b.i]-b.tc))[0];
     box.innerHTML=`<h3>Clique sur une pièce</h3><p class="hint">Sa fiche s'affiche ici : température en direct, débits d'air, bouches, CTA, déperditions, puissance d'émetteur à prévoir, réservations.</p>
@@ -6294,13 +6315,14 @@ function jumSide(){
       ${cold?`<button class="btn small" type="button" data-jsel="${cold.i}">Voir la pièce la plus froide : ${esc(cold.nm)} (${enF(JUM.T[cold.i],1)} °C)</button>`:""}`;
     box.querySelectorAll("[data-jsel]").forEach(b=>b.onclick=()=>{ JUM.sel=+b.dataset.jsel; jumSide(); JUM.dirty=true; }); return; }
   const T=JUM.T[r.i], d=r.tc!=null?T-r.tc:null, Hr=jumH(r), Pd=jumPd(r);
-  const st=d==null?["Non chauffée","var(--todo)"]:d<-2?["Trop froid","var(--danger)"]:d<-0.7?["Un peu froid","var(--doing)"]:d>2?["Trop chaud","var(--danger)"]:["Confortable","var(--done)"];
+  const ete=JUM.season==="ete";
+  const st=ete?(T>28?["Trop chaud","var(--danger)"]:T>26?["Chaud","var(--doing)"]:["Confortable","var(--done)"]):d==null?["Non chauffée","var(--todo)"]:d<-2?["Trop froid","var(--danger)"]:d<-0.7?["Un peu froid","var(--doing)"]:d>2?["Trop chaud","var(--danger)"]:["Confortable","var(--done)"];
   const bos=(r.bo||[]).map(id=>JUM.bo[id]).filter(Boolean);
   const emit=/circ|dgt|hall|couloir/i.test(r.nm)||r.sv==="dgt"?"panneaux rayonnants Zehnder Carboline, +15 % (CCTP § 4.8.2)":/sdb|douche|bain/i.test(r.nm)?"radiateur ou sèche-serviettes, consigne 24 °C":"radiateur Finimetal Reggane 3000 (CCTP § 4.8.1)";
   const bars=r.H?Object.entries({Murs:r.H.murs,Fenêtres:r.H.baies,"Ponts th.":r.H.ponts,Sol:r.H.sol,Toiture:r.H.toit}).filter(([,v])=>v>0.05):[];
   const mx=Math.max(1,...bars.map(b=>b[1]));
   box.innerHTML=`<div class="jum-fh"><div><span class="hint">${esc(r.l==="N00"?"RDC":"Étage")} · ${esc(RV_LBL[r.sv]||r.sv)}</span><h3>${esc(r.nm)} <span class="mono hint">${esc(r.n)}</span></h3></div><button class="btn small" type="button" id="jumClose" aria-label="Fermer la fiche">✕</button></div>
-    ${r.tc!=null?`<div class="jum-temp"><b>${enF(T,1)} °C</b><span class="pill" style="--pc:${st[1]}">${st[0]}</span><span class="hint">consigne ${r.tc} °C</span></div>${jumSpark(JUM.hist[r.i],r.tc)}`:`<p class="hint">Local non chauffé (CCTP § 2.2.2 : « non contrôlé »).</p>`}
+    ${r.tc!=null?(ete?`<div class="jum-temp"><b>${enF(T,1)} °C</b><span class="pill" style="--pc:${st[1]}">${st[0]}</span></div>${canSide(r)}`:`<div class="jum-temp"><b>${enF(T,1)} °C</b><span class="pill" style="--pc:${st[1]}">${st[0]}</span><span class="hint">consigne ${r.tc} °C</span></div>${jumSpark(JUM.hist[r.i],r.tc)}`):`<p class="hint">Local non chauffé (CCTP § 2.2.2 : « non contrôlé »).</p>`}
     <dl class="jum-dl"><dt>Surface</dt><dd>${enF(r.a,1)} m² · ${enF(r.v,0)} m³</dd><dt>Façade extérieure</dt><dd>${enF(r.ext,1)} m${r.roof?" · sous toiture":""}</dd>
     <dt>Air</dt><dd>${r.qs?`soufflage ${r.qs} m³/h `:""}${r.qr?`· reprise ${r.qr} m³/h `:""}${r.qe-r.qv>0?`· extraction ${r.qe-r.qv} m³/h `:""}${r.qv?`· VMC ${r.qv} m³/h`:""}${!r.qs&&!r.qe&&!r.qr?"air de transfert":""}</dd>
     <dt>Réseau</dt><dd>${(r.cta||[]).length?r.cta.map(c=>`<span class="cta" style="--cc:${CTA_COL[c]||"#888"}"><i></i>${esc(c)}</span>`).join(" "):"–"}</dd></dl>
@@ -6406,6 +6428,7 @@ async function renderJum(){
     $("#jumTe").oninput=e=>{ JUM.te=+e.target.value; GTB.te=JUM.te; JUM.story=null; jumStep(0); jumUI(); };
     $("#jumPlay").onclick=()=>{ JUM.story=null; $("#jumStory").hidden=true; jumPlayToggle(); };
     $("#jumReset").onclick=()=>{ jumPlayToggle(false); JUM.story=null; $("#jumStory").hidden=true; GTB.faults={}; jumResetState(); jumStep(0); jumSide(); jumUI(); };
+    document.querySelectorAll("[data-js]").forEach(b=>b.onclick=()=>jumSeason(b.dataset.js)); canInit();
     $("#jumDemo").onclick=jumStoryStart; $("#jumLabels").onclick=()=>eqLabels();
     $("#jumHyp").innerHTML=`<ul class="rse-l">
       <li><b>Pièces</b> : les 320 espaces de la maquette CVC. Consignes du CCTP § 2.2.2 : 21 °C, 24 °C en salle de bain, 16 °C en stockage, locaux techniques et déchets non chauffés.</li>
@@ -6419,11 +6442,122 @@ async function renderJum(){
   }
   jumUI(); jum3dInit(); if(JUM.three) JUM.dirty=true;
 }
+/* ---------- Jumeau : saison été, canicules actuelles et futures ---------- */
+const CAN_SCEN={
+  actuel:{n:"Été chaud d'aujourd'hui",days:[[15,27],[16,28],[17,29],[17,30],[16,28]]},
+  c2019:{n:"Canicule de juillet 2019 (record : 41,5 °C à Lille)",days:[[16,28],[18,33],[21,37],[23.8,41.5],[20,33],[17,28]]},
+  c2050:{n:"Canicule en 2050 (TRACC +2,7 °C)",days:[[17,29],[19,34],[21,36],[22,38],[24.8,42.5],[23,39],[21,35],[18,30]]},
+  c2100:{n:"Canicule en 2100 (TRACC +4 °C)",days:[[18,30],[20,35],[22,38],[24,40],[26,43.8],[25,42],[24,40],[23,38],[21,35],[19,31]]}};
+const CAN_OPT=[["froid","Rafraîchissement du CCTP (PAC en froid : CTA + cassettes)",true],["volets","Volets des chambres et brise-soleil des salles baissés le jour (prévus au projet)",true],["nuit","Surventilation la nuit (CTA à 2 × débit quand il fait plus frais dehors)",false]];
+const CAN={sc:"c2050",opt:{froid:true,volets:true,nuit:false},res:null,f:0,play:null,cmp:null};
+const JUM_SUM=[[22,"#22c55e"],[24,"#a3e635"],[26,"#facc15"],[28,"#f97316"],[30,"#dc2626"],[33,"#7e22ce"]];
+function canTe(days,t){ const P=[[-8,days[0][1]]]; days.forEach((d,i)=>{ P.push([i*24+5,d[0]],[i*24+16,d[1]]); }); P.push([days.length*24+5,days[days.length-1][0]]);
+  for(let k=1;k<P.length;k++) if(t<=P[k][0]){ const [a,va]=P[k-1],[b,vb]=P[k], x=(t-a)/(b-a); return va+(vb-va)*(1-Math.cos(Math.PI*x))/2; } return P[P.length-1][1]; }
+function canSun(hLegal){ /* La Bassée, 50,5° N, 24 juillet ; heure solaire ≈ heure légale − 1,8 h */
+  const r=Math.PI/180, phi=50.53*r, dec=19.9*r, w=15*((hLegal%24)-1.8-12)*r;
+  const sa=Math.sin(phi)*Math.sin(dec)+Math.cos(phi)*Math.cos(dec)*Math.cos(w); if(sa<=0.02) return null;
+  const alt=Math.asin(sa), az=(180+Math.atan2(Math.sin(w),Math.cos(w)*Math.sin(phi)-Math.tan(dec)*Math.cos(phi))/r+360)%360;
+  const am=Math.min(38,1/sa), dni=0.85*1353*Math.pow(0.7,Math.pow(am,0.678)), dhi=110*Math.pow(sa,0.6);
+  return {alt,az,dni,dhi,ghi:dni*sa+dhi}; }
+function canIrr(s,azw){ if(!s) return 0; const r=Math.PI/180, c=Math.cos(s.alt)*Math.cos((s.az-azw)*r); return s.dni*Math.max(0,c)+0.5*s.dhi+0.1*s.ghi; }
+function canGainInt(r,h){ const day=h>=7&&h<21, nm=r.nm.toLowerCase();
+  if(/chambre|ch\./.test(nm)) return 70+2*r.a+(day?40:0);
+  if(/salle à manger|restaurant|salon|séjour/.test(nm)) return r.a*((h>=12&&h<14)||(h>=18&&h<20)?15:day?6:1);
+  if(r.sv==="logistique"||r.sv==="technique") return r.a*(day?4:1);
+  return r.a*(day?5:1); }
+function canSim(sc,opt){
+  const days=CAN_SCEN[sc].days, nH=days.length*24, R=JUM.rooms.filter(r=>r.tc!=null), nR=R.length;
+  const T=new Float64Array(nR).fill(24.5), out=new Float32Array(nH*nR), Te=new Float32Array(nH), cold=new Float32Array(nH), dt=0.25, warm=48;
+  const cas=R.map(r=>r.sv==="vie"), aCas=R.reduce((a,r,i)=>a+(cas[i]?r.a:0),0)||1;
+  const q5=EN.ventilation.find(v=>v.mark==="CTA 5").q, qAll=EN.ventilation.filter(v=>v.type==="double flux").reduce((a,v)=>a+v.q,0);
+  const lv=R.map(r=>r.l), C=R.map(r=>JUM_C*r.a), He=R.map(r=>jumH(r)), Hr=R.map(r=>r.H?r.H.toit:0);
+  const sunC={};
+  for(let s=-warm*4;s<nH*4;s++){
+    const t=Math.max(0,s*dt), tt=s<0?((s/4)%24+24)%24:t, h=Math.floor(tt)%24, te=canTe(days,s<0?tt:t);
+    const key=(tt%24).toFixed(2); const sun=sunC[key]||(sunC[key]=canSun(tt%24));
+    const sw=opt.volets&&h>=8&&h<20?0.08:0.32, night=h>=22||h<7, cta5=h>=6&&h<22;
+    let mean={N00:0,N01:0}, ma={N00:0,N01:0}; R.forEach((r,i)=>{ mean[lv[i]]+=T[i]*r.a; ma[lv[i]]+=r.a; }); mean.N00/=ma.N00||1; mean.N01/=ma.N01||1;
+    const Tin=(mean.N00+mean.N01)/2, Taf=te>Tin?te-0.8*(te-Tin):te, boost=opt.nuit&&night&&te<Tin-1?2:1;
+    const qEff=(cta5||boost>1?qAll:qAll-q5)*boost, needAir=opt.froid&&Taf>17?0.34*qEff*(Taf-17):0;
+    const tcas=te>32?te-8:24; let needCas=0; const wc=new Float64Array(nR);
+    if(opt.froid) R.forEach((r,i)=>{ if(cas[i]&&T[i]>tcas){ wc[i]=Math.min(25000*r.a/aCas,C[i]*(T[i]-tcas)/0.5); needCas+=wc[i]; } });
+    const avail=opt.froid?80200:0, ratio=needAir+needCas>0?Math.min(1,avail/(needAir+needCas)):1, Tsup=Taf-(needAir>0?ratio*(Taf-17):0);
+    const ihor=sun?sun.ghi:0;
+    R.forEach((r,i)=>{ let sol=0; (r.win||[]).forEach(([az,A])=>{ sol+=A*sw*canIrr(sun,az); });
+      const qa=(r.cta||[]).includes("CTA 5")&&!cta5&&boost===1?0:(r.qs||0)*boost;
+      const P=He[i]*(te-T[i])+Hr[i]*0.032*ihor+sol+canGainInt(r,h)+0.34*qa*(Tsup-T[i])-wc[i]*ratio+2*r.a*(mean[lv[i]]-T[i]);
+      T[i]+=dt*P/C[i]; });
+    if(s>=0&&s%4===0){ const k=s/4; Te[k]=te; cold[k]=(needAir+needCas)*ratio/1000; for(let i=0;i<nR;i++) out[k*nR+i]=T[i]; }
+  }
+  const st=R.map((r,i)=>{ let h26=0,h28=0,mx=-99,dh=0; for(let k=0;k<nH;k++){ const v=out[k*nR+i]; if(v>26) h26++; if(v>28) h28++; if(v>mx) mx=v; dh+=Math.max(0,v-26); } return {i:r.i,h26,h28,mx,dh}; });
+  return {sc,opt:{...opt},R,nR,nH,out,Te,cold,st};
+}
+function canStats(res){ const ch=res.st.filter((s,k)=>/chambre|ch\./i.test(res.R[k].nm)), alz=res.st.filter((s,k)=>/chambre|ch\./i.test(res.R[k].nm)&&res.R[k].sv==="fermé");
+  const sal=res.st.filter((s,k)=>res.R[k].sv==="vie"&&/salle à manger|salon/i.test(res.R[k].nm));
+  return {ch,alz,sal,n28:ch.filter(s=>s.h28>2).length,mx:Math.max(...ch.map(s=>s.mx)),alzMx:alz.length?Math.max(...alz.map(s=>s.mx)):null,salMin:sal.length?Math.min(...sal.map(s=>s.mx)):null,teMax:Math.max(...res.Te)}; }
+function canFrame(f){ const r=CAN.res; if(!r) return; CAN.f=clamp(f,0,r.nH-1); for(let i=0;i<r.nR;i++) JUM.T[r.R[i].i]=r.out[CAN.f*r.nR+i];
+  const d=Math.floor(CAN.f/24)+1, h=CAN.f%24; $("#canT").value=CAN.f;
+  const hot=r.R.filter((x,i)=>/chambre|ch\./i.test(x.nm)&&r.out[CAN.f*r.nR+i]>28).length;
+  $("#canClock").innerHTML=`<span class="gtb-led ${hot?"crit":r.Te[CAN.f]>30?"warn":"ok"}"></span> Jour ${d} · ${String(h).padStart(2,"0")}:00 · <b>${enF(r.Te[CAN.f],1)} °C</b> dehors · ${hot} chambre${hot>1?"s":""} > 28 °C`;
+  JUM.dirty=true; if(JUM.sel!=null) jumSide(); }
+function canPlay(on){ if(on===undefined) on=!CAN.play; if(on&&!CAN.play){ if(CAN.f>=CAN.res.nH-1) CAN.f=0; CAN.play=setInterval(()=>{ if(CAN.f>=CAN.res.nH-1){ canPlay(false); return; } canFrame(CAN.f+1); },140); }
+  if(!on&&CAN.play){ clearInterval(CAN.play); CAN.play=null; } $("#canPlay").textContent=CAN.play?"⏸":"▶"; }
+function canRun(play){
+  canPlay(false); CAN.res=canSim(CAN.sc,CAN.opt); const S=canStats(CAN.res), r=CAN.res;
+  $("#canT").max=r.nH-1; $("#canRes").hidden=false; JUM.mode="temp"; jumLegend(); jumUIModes();
+  $("#canKpi").innerHTML=[[`${enF(S.teMax,1)} °C`,"au plus chaud dehors"],[`${S.n28} / ${S.ch.length}`,"chambres plus de 2 h au-dessus de 28 °C",S.n28?"bad":""],[`${enF(S.mx,1)} °C`,"chambre la plus chaude",S.mx>28?"bad":""],
+    [S.alzMx==null?"–":`${enF(S.alzMx,1)} °C`,"unités Alzheimer (maximum)",S.alzMx>28?"bad":""],[S.salMin==null?"–":`${enF(S.salMin,1)} °C`,"pièce rafraîchie (salle la plus fraîche, max)",S.salMin>=26?"bad":""],
+    [`${enF(Math.max(...r.cold),0)} kW`,`froid utilisé au maximum (${CAN.opt.froid?"80 kW dispo.":"pas de froid"})`]].map(([b,s,c])=>`<div class="k ${c||""}"><b>${b}</b><span>${s}</span></div>`).join("");
+  const w=r.st.map((s,k)=>({...s,r:r.R[k]})).filter(x=>/chambre|ch\./i.test(x.r.nm)).sort((a,b)=>b.h28-a.h28||b.mx-a.mx).slice(0,8);
+  $("#canWorst").innerHTML=`<div class="can-worst">${w.map(x=>{ const o=(x.r.win||[]).slice().sort((a,b)=>b[1]-a[1])[0]; const ori=o?["N","NE","E","SE","S","SO","O","NO"][Math.round(o[0]/45)%8]:"–";
+    return `<button type="button" data-csel="${x.r.i}"><b>${esc(x.r.nm)}</b><span>${x.r.l==="N00"?"RDC":"Étage"} · ${esc(RV_LBL[x.r.sv]||x.r.sv)} · fenêtres ${ori}${x.r.roof?" · sous toiture":""}</span><em>${x.h28} h > 28 °C · max ${enF(x.mx,1)} °C</em></button>`; }).join("")}</div>`;
+  document.querySelectorAll("[data-csel]").forEach(b=>b.onclick=()=>{ JUM.sel=+b.dataset.csel; jumSide(); JUM.dirty=true; document.getElementById("jum3d").scrollIntoView({behavior:"smooth",block:"center"}); });
+  const pk=r.st.reduce((a,s,k)=>a,0); let fMax=0; for(let k=0;k<r.nH;k++) if(r.Te[k]>r.Te[fMax]) fMax=k;
+  canFrame(play?0:fMax+1); if(play) canPlay(true);
+}
+function canCompare(){
+  const cfg=[["Volets oubliés",{froid:true,volets:false,nuit:false}],["Panne des PAC",{froid:false,volets:true,nuit:false}],["Projet (froid + volets)",{froid:true,volets:true,nuit:false}],["Projet + surventilation nuit",{froid:true,volets:true,nuit:true}]];
+  const rows=Object.entries(CAN_SCEN).map(([k,sc])=>`<tr><td><b>${esc(sc.n)}</b></td>${cfg.map(([,o])=>{ const S=canStats(canSim(k,o)); const c=S.n28===0&&S.mx<=28?"var(--done)":S.n28<10?"var(--doing)":"var(--danger)";
+    return `<td class="num"><span class="pill" style="--pc:${c}">${S.n28} ch.</span><div class="hint">max ${enF(S.mx,1)} °C</div></td>`; }).join("")}</tr>`).join("");
+  $("#canCmp").innerHTML=`<thead><tr><th>Climat</th>${cfg.map(([n])=>`<th class="num">${n}</th>`).join("")}</tr></thead><tbody>${rows}</tbody>`; $("#canCmpBtn").hidden=true;
+}
+function canSide(r){ const res=CAN.res; const k=res?res.R.findIndex(x=>x.i===r.i):-1; if(k<0) return "";
+  const s=res.st[k], a=[]; for(let f=0;f<res.nH;f++) a.push(res.out[f*res.nR+k]);
+  const W=280,H=80, lo=Math.min(18,...a), hi=Math.max(34,...a,...res.Te), x=i=>i/(res.nH-1)*W, y=v=>H-(v-lo)/(hi-lo)*H;
+  const svg=`<svg viewBox="0 0 ${W} ${H}" class="jum-spark" style="height:80px" role="img" aria-label="Température de la pièce pendant la canicule"><line x1="0" x2="${W}" y1="${y(26)}" y2="${y(26)}" class="jum-sp-c" style="stroke:#facc15"/><line x1="0" x2="${W}" y1="${y(28)}" y2="${y(28)}" class="jum-sp-c" style="stroke:#f97316"/><polyline points="${Array.from(res.Te).map((v,i)=>`${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(" ")}" style="fill:none;stroke:var(--muted);stroke-width:1;opacity:.6"/><polyline points="${a.map((v,i)=>`${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(" ")}" class="jum-sp-l" style="stroke:var(--heat)"/><line x1="${x(CAN.f)}" x2="${x(CAN.f)}" y1="0" y2="${H}" style="stroke:var(--ink);stroke-width:1"/></svg>`;
+  const ori=(r.win||[]).map(([az,A])=>`${["N","NE","E","SE","S","SO","O","NO"][Math.round(az/45)%8]} ${enF(A,1)} m²`).join(" · ")||"aucune fenêtre extérieure";
+  return `<h4>Pendant la canicule</h4>${svg}<p class="hint" style="margin:2px 0 6px">Rouge : la pièce · gris : dehors · jaune 26 °C · orange 28 °C</p>
+    <dl class="jum-dl"><dt>Maximum</dt><dd><b>${enF(s.mx,1)} °C</b></dd><dt>Au-dessus de 26 °C</dt><dd>${s.h26} h</dd><dt>Au-dessus de 28 °C</dt><dd>${s.h28} h</dd><dt>Degrés-heures &gt; 26 °C</dt><dd>${enF(s.dh,0)} °C.h</dd><dt>Fenêtres</dt><dd>${ori}</dd></dl>`; }
+function jumUIModes(){ document.querySelectorAll("[data-jm]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.jm===JUM.mode)); }
+function jumSeason(s){
+  JUM.season=s; const ete=s==="ete";
+  document.querySelectorAll("[data-js]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.js===s));
+  ["#jumDemo",".jum-play","#jumCtlW","#jumKpi","#jumHypD"].forEach(q=>{ const el=document.querySelector(q); if(el) el.hidden=ete; });
+  $("#jumClock").hidden=ete; $("#canPanel").hidden=!ete; $("#canRes").hidden=!ete||!CAN.res; $("#jumStory").hidden=true;
+  if(ete){ jumPlayToggle(false); JUM.story=null; JUM.mode="temp"; if(CAN.res) canFrame(CAN.f); else canRun(false); }
+  else { canPlay(false); JUM.mode="confort"; jumResetState(); jumStep(0); jumUI(); }
+  jumLegend(); jumUIModes(); jumSide(); JUM.dirty=true;
+}
+function canInit(){
+  $("#canSc").innerHTML=Object.entries(CAN_SCEN).map(([k,v])=>`<option value="${k}"${k===CAN.sc?" selected":""}>${esc(v.n)}</option>`).join("");
+  $("#canOpts").innerHTML=CAN_OPT.map(([k,l])=>`<label class="gtb-fault"><input type="checkbox" data-co="${k}"${CAN.opt[k]?" checked":""}> ${esc(l)}</label>`).join("");
+  $("#canSc").onchange=e=>{ CAN.sc=e.target.value; canRun(false); };
+  document.querySelectorAll("[data-co]").forEach(c=>c.onchange=()=>{ CAN.opt[c.dataset.co]=c.checked; canRun(false); });
+  $("#canRun").onclick=()=>canRun(true); $("#canPlay").onclick=()=>canPlay(); $("#canT").oninput=e=>{ canPlay(false); canFrame(+e.target.value); };
+  $("#canCmpBtn").onclick=()=>{ $("#canCmpBtn").textContent="Calcul…"; setTimeout(canCompare,30); };
+  $("#canHyp").innerHTML=`<ul class="rse-l">
+    <li><b>Climat</b> : record de Lille-Lesquin, 41,5 °C le 25 juillet 2019 avec 23,8 °C la nuit (Météo-France). Les journées autour du record sont reconstituées (hypothèse). 2050 et 2100 : la canicule de 2019 réchauffée selon la TRACC (+2,7 °C en 2050, +4 °C en 2100 par rapport à l'ère préindustrielle, soit environ +1 °C et +2,3 °C par rapport à aujourd'hui) et plus longue (hypothèse).</li>
+    <li><b>Soleil</b> : position du soleil à La Bassée (50,5° N) le 24 juillet, ciel clair. Les 565 m² de fenêtres de l'étude RT2012 sont répartis pièce par pièce selon l'orientation de leurs façades. L'orientation du bâtiment est recalée sur l'étude (fenêtres surtout à l'est et à l'ouest). Facteur solaire 0,32 fenêtre ouverte au soleil, 0,08 volets baissés ; rayonnement réduit de 15 % pour la brume de chaleur (hypothèses).</li>
+    <li><b>Apports</b> : un résident de 70 W par chambre + équipements ; salles à manger chargées aux heures des repas (hypothèses). Toiture : effet du soleil sur la toiture des pièces de l'étage.</li>
+    <li><b>Rafraîchissement</b> (CCTP § 4.1, 4.6, 2.2.2) : 2 PAC = 80 kW de froid. Air des CTA refroidi jusqu'à 17 °C (hypothèse) après récupération (80 %) ; cassettes de 25 kW dans les locaux de vie commune, consigne 24 °C (ou température dehors − 8 °C au-delà de 32 °C). Si le froid manque, tout le monde est servi au même pourcentage.</li>
+    <li><b>Seuils</b> : 26 °C, la limite du plan bleu pour la pièce rafraîchie des EHPAD (décret 2005-768) ; 28 °C, seuil d'inconfort fort retenu ici (hypothèse). Degrés-heures : comme l'indicateur d'inconfort d'été de la RE2020, au-dessus de 26 °C.</li>
+    <li>Même modèle que l'hiver (une zone par pièce, inertie 40 Wh/K.m²). C'est un outil pour comparer des situations, pas une STD réglementaire.</li></ul>`;
+}
 TAB_META.jum=["Projet","Jumeau numérique","La maquette vivante : température de chaque pièce, pannes, fiches et QR codes des équipements."];
 { const tb=$("#tabJum"), vw=$("#viewJum");
   tb.setAttribute("aria-controls","viewJum"); vw.setAttribute("role","tabpanel"); vw.setAttribute("aria-labelledby","tabJum");
   const _setTab=setTab; setTab=function(t){ _setTab(t); const on=t==="jum"; vw.hidden=!on; tb.setAttribute("aria-selected",on); tb.tabIndex=on?0:-1;
-    if(on){ setCrumb("jum"); renderJum(); } else jumPlayToggle(false); };
+    if(on){ setCrumb("jum"); renderJum(); } else { jumPlayToggle(false); if(CAN.play) canPlay(false); } };
   tb.onclick=()=>setTab("jum");
 }
 $("#eqDlg").addEventListener("click",e=>{ if(e.target.id==="eqDlg") e.target.close(); });
@@ -6802,6 +6936,20 @@ async function pasLoadFile(file){
 .eq-g{display:grid;grid-template-columns:minmax(0,1fr) 230px;gap:18px;margin-top:10px}.eq-g h4{margin:14px 0 6px;font-family:var(--display)}
 .eq-live{font-weight:700;font-size:16px;margin:0}.eq-qr{text-align:center}.eq-qr svg{width:200px;height:200px;background:#fff;border-radius:8px;padding:6px}
 @media (max-width:700px){.eq-g{grid-template-columns:1fr}.eq-dlg{width:100vw;max-height:100vh;height:100vh;border-radius:0}}
+.jum-season button{font-weight:600}.jum-season button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.can-panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;margin:0 0 12px;display:grid;gap:10px}
+.can-row{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end}.can-row select{padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--surface);max-width:100%}
+.can-opts{display:grid;gap:3px}.can-time{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.can-time input{flex:1 1 220px;accent-color:#f97316}.can-time .jum-clock{margin-left:0}
+.can-res{margin-top:14px}.can-worst{display:grid;gap:6px}.can-worst button{all:unset;cursor:pointer;display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:8px 10px;border-radius:6px;background:var(--sunk);border-left:4px solid #f97316}
+.can-worst button:hover,.can-worst button:focus-visible{outline:2px solid var(--accent)}.can-worst span{grid-column:1;font-size:12.5px;color:var(--muted)}.can-worst em{grid-row:1/3;grid-column:2;align-self:center;font-style:normal;font-weight:700;color:#c2410c;font-size:13px;text-align:right}
+.tgroups{display:flex;gap:6px;flex-wrap:wrap;padding:8px 0 6px;border-bottom:1px solid var(--line);flex:1 1 100%;width:100%;min-width:0;max-width:100%}
+.tgroups button{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 14px;font-weight:600;font-size:14px;white-space:nowrap}
+.tgroups button:hover{border-color:var(--accent);color:var(--accent)}
+.tgroups button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.tgroups .tg-star{border-color:#d4a017;background:linear-gradient(90deg,color-mix(in srgb,#f0b13c 18%,var(--surface)),var(--surface))}
+.tgroups .tg-star[aria-pressed="true"]{background:linear-gradient(90deg,#0a6a86,#7a4fb3);border-color:transparent;color:#fff}
+.tabs .tg-off{display:none!important}
+@media (max-width:760px){.tgroups{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}.tgroups button{flex:none}}
 .rse-seg{margin:0 0 10px;flex-wrap:wrap}.rse-t td{vertical-align:top}.rse-t td:nth-child(2),.rse-t td:nth-child(3){min-width:220px}.rse-l{margin:0;padding-left:18px;display:grid;gap:8px}.rse-l li{line-height:1.45}#viewRse .src-b{display:inline-block;margin-top:4px}
 @media (max-width:560px){.en-bar{grid-template-columns:1fr auto}.en-bar-t{grid-column:1/-1;order:3}}
 .pas-in{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px 14px}.pas-in label{display:grid;gap:4px;font-size:13px;color:var(--muted);font-weight:600}.pas-in input,.pas-in select{font:inherit;font-size:15px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:7px 9px;min-height:38px}
@@ -7190,4 +7338,33 @@ $("#jvHelpB").onclick=()=>jvHelp(); $("#jvX").onclick=()=>jvOpen(false);
 $("#jvForm").onsubmit=e=>{ e.preventDefault(); const i=$("#jvTxt"), t=i.value.trim(); if(!t) return; i.value=""; jvHeard(t,true); jvInput(t,false); };
 document.addEventListener("keydown",e=>{ if(!MQ.on||e.ctrlKey||e.metaKey||e.altKey) return; if(e.target.matches&&e.target.matches("input,textarea,select")) return; if(e.code==="KeyJ"){ e.preventDefault(); if(!JV.on) jvOpen(true); jvListen(!JV.listen); } });
 const _jvMqExit=mqExit; mqExit=function(){ if(JV.on) jvOpen(false); return _jvMqExit.apply(this,arguments); };
+</script>
+<script>
+/* ---------- Navigation en 2 niveaux : groupes puis onglets ---------- */
+(function(){
+  const bar=document.querySelector(".tabs"); if(!bar||typeof setTab!=="function") return;
+  const G=[
+    ["projet","🏠 Projet","Accueil, présentation, indicateurs, échanges avec les profs",["tabHome","tabProj","tabKpi","tabEch"]],
+    ["equipe","👥 Équipe","Tâches, heures, problèmes, documents, ACC",["tabTasks","tabMine","tabDone","tabHours","tabIssues","tabDocs","tabAcc","tabLogs","tabJeu"]],
+    ["etudes","📐 Études CVC","Énergie, ventilation, réservations, implantation, normes, devis",["tabEnergie","tabBouches","tabResa","tabImpl","tabSyn","tabRse","tabDevis","tabStock"]],
+    ["maquette","🧱 Maquette et Revit","Maquette 3D, visite, familles, Revit",["tabMaq","tabVisite","tabFam","tabFamGen","tabPas","tabRevit","tabTuto","tabCaps"]],
+    ["jumeau","✨ Jumeau et exploitation","Le bâtiment vivant : pannes, canicule, GTB, QR codes",["tabJum","tabGtb"]]];
+  const known=new Set(G.flatMap(g=>g[3]));
+  [...bar.querySelectorAll('[role="tab"]')].forEach(b=>{ if(!known.has(b.id)) G[3][3].push(b.id); }); /* nouveaux onglets : rangés dans Maquette */
+  bar.querySelectorAll(".tsep").forEach(x=>x.remove());
+  G.forEach(([k,,,ids])=>ids.forEach(id=>{ const b=document.getElementById(id); if(b){ b.dataset.grp=k; bar.appendChild(b); } }));
+  const gb=document.createElement("div"); gb.className="tgroups"; gb.setAttribute("role","group"); gb.setAttribute("aria-label","Parties du site");
+  gb.innerHTML=G.map(([k,l,d])=>`<button type="button" data-tg="${k}" title="${d}" aria-pressed="false"${k==="jumeau"?' class="tg-star"':""}>${l}</button>`).join("");
+  bar.parentNode.insertBefore(gb,bar);
+  let cur=null;
+  function show(k){ cur=k; gb.querySelectorAll("[data-tg]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.tg===k));
+    bar.querySelectorAll('[role="tab"]').forEach(b=>b.classList.toggle("tg-off",b.dataset.grp!==k)); bar.dataset.grp=k; }
+  function sync(){ const a=bar.querySelector('[role="tab"][aria-selected="true"]:not([hidden])'); if(a&&a.dataset.grp&&a.dataset.grp!==cur) show(a.dataset.grp); }
+  gb.querySelectorAll("[data-tg]").forEach(b=>b.onclick=()=>{ const g=G.find(x=>x[0]===b.dataset.tg); show(g[0]);
+    const a=bar.querySelector('[role="tab"][aria-selected="true"]'); if(a&&a.dataset.grp===g[0]) return;
+    const first=g[3].map(id=>document.getElementById(id)).find(x=>x&&!x.hidden); if(first) first.click(); });
+  const _st=setTab; setTab=function(t){ _st(t); sync(); };
+  bar.addEventListener("click",()=>setTimeout(sync,0));
+  show("projet"); sync();
+})();
 </script>
