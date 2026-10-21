@@ -913,6 +913,7 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
   <nav class="bar" aria-label="Navigation">
     <div class="tabs" role="tablist" aria-label="Sections du site">
       <button role="tab" id="tabHome" aria-selected="false">Accueil</button>
+      <button role="tab" id="tabJum" aria-selected="false">✨ Jumeau numérique</button>
       <button role="tab" id="tabProj" aria-selected="false">Le projet</button>
       <button role="tab" id="tabKpi" aria-selected="false">KPI</button>
       <button role="tab" id="tabAcc" aria-selected="false">ACC</button>
@@ -1905,6 +1906,41 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
     </div>
     <p class="hint" id="enSrc"></p>
   </section>
+
+  <section id="viewJum" hidden>
+    <section class="rv-head jum-head">
+      <div class="label">Maquette + GTB + étude thermique, reliées pièce par pièce · 274 pièces chauffées simulées en direct</div>
+      <h2>Jumeau numérique de l'EHPAD</h2>
+      <p>Chaque pièce de la maquette a sa <b>température</b>, ses <b>déperditions</b> (étude RT2012 répartie sur ses façades, sa toiture, son sol), ses <b>bouches</b> et sa <b>CTA</b>. La chaufferie de l'onglet GTB alimente toutes les pièces : si elle manque de puissance, le bâtiment <b>refroidit pour de vrai</b>, plus vite dans les pièces en angle et sous toiture. Clique sur une pièce pour sa fiche, sur un équipement pour sa fiche de maintenance avec son <b>QR code</b>.</p>
+    </section>
+    <div class="jum-bar">
+      <button class="btn primary jum-demo" type="button" id="jumDemo">🎬 Scénario : panne des PAC par grand froid</button>
+      <div class="jum-play"><button class="btn small" type="button" id="jumPlay">▶ Faire avancer le temps</button><select id="jumSpeed" aria-label="Vitesse"><option value="1">1 h / s</option><option value="3" selected>3 h / s</option><option value="8">8 h / s</option></select><button class="btn small" type="button" id="jumReset">↺ Remettre à zéro</button></div>
+      <span class="jum-clock" id="jumClock"></span>
+    </div>
+    <div class="jum-main">
+      <div class="jum-3d-wrap">
+        <div class="jum-tools">
+          <div class="seg" role="group" aria-label="Affichage" id="jumModes"></div>
+          <div class="seg" role="group" aria-label="Niveau" id="jumLv"></div>
+        </div>
+        <div id="jum3d" class="jum-3d"><p class="hint" style="padding:16px">Chargement de la maquette…</p></div>
+        <div class="jum-tip" id="jumTip" hidden></div>
+        <div class="jum-story" id="jumStory" hidden></div>
+        <div class="jum-leg" id="jumLeg"></div>
+      </div>
+      <aside class="jum-side" id="jumSide"></aside>
+    </div>
+    <div class="jum-ctl">
+      <div class="field"><label for="jumTe">Température dehors : <b id="jumTeV"></b></label><input type="range" id="jumTe" min="-12" max="16" step="0.5"></div>
+      <div class="field"><span class="gtb-lab">Pannes (les mêmes que dans l'onglet GTB)</span><div class="jum-faults" id="jumFaults"></div></div>
+      <div class="field"><span class="gtb-lab">Étiquettes de maintenance</span><button class="btn small" type="button" id="jumLabels">🏷 Imprimer les étiquettes QR des équipements</button></div>
+    </div>
+    <div class="jum-kpi resa-sum" id="jumKpi"></div>
+    <details class="panel gtb-hyp"><summary><b>Comment c'est calculé</b> (méthode, hypothèses)</summary><div id="jumHyp"></div></details>
+  </section>
+
+  <dialog id="eqDlg" class="eq-dlg" aria-labelledby="eqTitle"><div id="eqBody"></div></dialog>
 
   <section id="viewKpi" hidden>
     <section class="rv-head">
@@ -3999,7 +4035,7 @@ function renderAll(){ renderHome(); renderBoard(); renderMine(); renderDone(); r
 
 /* ---------- Boot ---------- */
 renderMe(); renderTimeline(); renderFilters(); renderBoard(); renderHours();
-{ if(location.hash) history.replaceState(null,"",location.pathname+location.search); setTab("home"); } // à chaque ouverture ou actualisation : l'Accueil, et l'adresse sans #onglet
+{ if(location.hash){ if(location.hash.startsWith("#eq=")) window.EQ_HASH=decodeURIComponent(location.hash.slice(4)); history.replaceState(null,"",location.pathname+location.search); } setTab("home"); } // à chaque ouverture ou actualisation : l'Accueil, et l'adresse sans #onglet
 
 (async()=>{
   db = await window.claude.use("db");
@@ -6102,6 +6138,297 @@ TAB_META.gtb=["Fichiers","GTB","Supervision simulée de la chaufferie : loi d'ea
   tb.onclick=()=>setTab("gtb");
 }
 if(typeof CMDK!=="undefined"){ const _ix4=cmdkIndex; cmdkIndex=async function(){ await _ix4(); CMDK.idx.unshift({t:"Onglet",label:"GTB : supervision simulée",sub:"Loi d'eau, PAC, chaudières, CTA, ECS, pannes",go:()=>setTab("gtb"),h:cmdNorm("GTB supervision"),s:cmdNorm("gtb supervision chaufferie loi d'eau pac chaudiere regulation simulation panne")}); }; }
+/* ---------- Onglet Jumeau numérique (#jum) : maquette + GTB + thermique par pièce ---------- */
+const JUM={data:null,rooms:[],eq:[],bo:{},rs:{},T:{},hist:{},t:0,h:7,te:-9,play:null,speed:3,mode:"confort",lv:"all",sel:null,story:null,last:null,three:null,dirty:true};
+const JUM_C=40; /* Wh/(m².K) : inertie moyenne (béton), hypothèse */
+const JUM_MODES={confort:"Confort",temp:"Température",air:"Air neuf",dep:"Déperditions",res:"Réseaux CTA"};
+const JUM_LV={all:"Tout",N00:"RDC",N01:"Étage"};
+const JUM_EXPL=2.2; /* écartement des niveaux en 3D (m) */
+function jumLerpCol(stops,v){ v=clamp(v,stops[0][0],stops[stops.length-1][0]);
+  for(let i=1;i<stops.length;i++){ if(v<=stops[i][0]){ const [a,ca]=stops[i-1],[b,cb]=stops[i],t=(v-a)/(b-a||1);
+    const p=c=>[parseInt(c.slice(1,3),16),parseInt(c.slice(3,5),16),parseInt(c.slice(5,7),16)], A=p(ca), B=p(cb);
+    return "#"+A.map((x,k)=>Math.round(x+(B[k]-x)*t).toString(16).padStart(2,"0")).join(""); } } return stops[stops.length-1][1]; }
+const JUM_ST={confort:[[-4,"#1d4ed8"],[-2,"#38bdf8"],[-0.6,"#a7f3d0"],[0,"#22c55e"],[0.6,"#a7f3d0"],[2,"#fbbf24"],[4,"#dc2626"]],
+  temp:[[14,"#1e3a8a"],[17,"#3b82f6"],[19,"#67e8f9"],[21,"#22c55e"],[23,"#facc15"],[26,"#dc2626"]],
+  air:[[0,"#e5e7eb"],[2,"#93c5fd"],[5,"#2563eb"],[9,"#1e3a8a"]], dep:[[0,"#fef9c3"],[20,"#fdba74"],[40,"#ef4444"],[70,"#7f1d1d"]]};
+const jumH=r=>r.H?Object.values(r.H).reduce((a,v)=>a+v,0):0;
+const jumPd=r=>jumH(r)*((r.tc||21)+9)+0.34*(r.qs||0)*Math.max(0,(r.tc||21)-19);
+const jumPmax=r=>1.5*jumPd(r);
+async function jumLoad(){
+  if(JUM.data) return;
+  const j=u=>fetch(u,{cache:"no-cache"}).then(x=>x.ok?x.json():null).catch(()=>null);
+  const [d,eq,bo,rs]=await Promise.all([j("files/jumeau/rooms.json?v=3"),j("files/b3d/equip.json?v="+EQ_V),j("files/bouches/bouches.json"),j("exports-revit/reservations.json")]);
+  if(!EN) await enLoad();
+  JUM.data=d; JUM.rooms=(d&&d.rooms)||[]; JUM.eq=(eq||[]).filter(e=>!/^Socle/.test(e.mark));
+  (bo||[]).forEach(b=>JUM.bo[b.id]=b); ((rs&&rs.items)||[]).forEach(x=>JUM.rs[x.id]=x);
+  jumResetState();
+}
+function jumResetState(){ JUM.lastR=null; JUM.t=0; JUM.h=7; JUM.T={}; JUM.hist={}; JUM.rooms.forEach(r=>{ if(r.tc!=null){ JUM.T[r.i]=r.tc; JUM.hist[r.i]=[r.tc]; } }); JUM.dirty=true; }
+/* puissance que la chaufferie peut donner aux pièces (même modèle que l'onglet GTB) */
+function jumPlant(te,h){
+  const g=gtbCalc(te,h,GTB.mode,GTB.faults);
+  if(GTB.mode!=="hiver") return {avail:0,g,chOK:0};
+  const chOK=["CH 1","CH 2"].filter(c=>!GTB.faults[c]).length;
+  const vmc=EN.ventilation.filter(v=>v.type==="simple flux").reduce((a,v)=>a+v.q,0);
+  return {avail:Math.max(0,(g.pacCap+60*chOK-g.chEcs)*1000),co:g.co*1000+0.34*vmc*0.8*Math.max(0,21-te),g,chOK};
+}
+function jumStep(dt){
+  const te=JUM.te, hh=Math.floor(JUM.h)%24, occ=hh>=7&&hh<21, A=(occ?15000:8000);
+  const heated=JUM.rooms.filter(r=>r.tc!=null), aTot=heated.reduce((a,r)=>a+r.a,0);
+  const pl=jumPlant(te,JUM.h); let want=0; const W={};
+  const mean={}; ["N00","N01"].forEach(l=>{ const h=heated.filter(r=>r.l===l), s=h.reduce((a,r)=>a+r.a,0); mean[l]=h.reduce((a,r)=>a+(JUM.T[r.i]-r.tc)*r.a,0)/(s||1); }); /* écart moyen à la consigne */
+  /* air soufflé par les CTA : 19 °C si la batterie est servie, sinon seulement l'air après récupération */
+  const Tr=te+0.8*(21-te), Tsup=Tr+clamp(JUM.lastR==null?1:JUM.lastR,0,1)*(19-Tr), air=r=>(r.cta||[]).includes("CTA 5")&&!pl.g.cta5?0:0.34*(r.qs||0);
+  heated.forEach(r=>{ const T=JUM.T[r.i], loss=jumH(r)*(T-te)+air(r)*(T-Tsup), gain=A*r.a/aTot, C=JUM_C*r.a;
+    W[r.i]=clamp(loss-gain+C*(r.tc-T)/0.5,0,jumPmax(r)); want+=W[r.i]; });
+  /* la chaleur disponible est partagée entre les pièces et les batteries des CTA */
+  const ratio=want>0?Math.min(1,pl.avail/(want+pl.co)):1;
+  heated.forEach(r=>{ const T=JUM.T[r.i], P=W[r.i]*ratio, gain=A*r.a/aTot, C=JUM_C*r.a, cpl=2*r.a*(mean[r.l]-(T-r.tc));
+    JUM.T[r.i]=T+dt*(P+gain+cpl-jumH(r)*(T-te)-air(r)*(T-Tsup))/C; });
+  JUM.lastR=ratio;
+  JUM.last={want,avail:pl.avail*(want/(want+pl.co||1)),ratio,g:pl.g,chOK:pl.chOK};
+  JUM.t+=dt; JUM.h=(JUM.h+dt)%24;
+  JUM.dirty=true;
+}
+function jumColor(r){
+  if(r.tc==null&&JUM.mode!=="res"&&JUM.mode!=="air") return null;
+  const T=JUM.T[r.i];
+  if(JUM.mode==="confort") return jumLerpCol(JUM_ST.confort,T-r.tc);
+  if(JUM.mode==="temp") return jumLerpCol(JUM_ST.temp,T);
+  if(JUM.mode==="air"){ const q=(r.qs||0)/(r.a||1); return r.qv?"#a855f7":q>0?jumLerpCol(JUM_ST.air,q):"#e5e7eb"; }
+  if(JUM.mode==="dep") return jumLerpCol(JUM_ST.dep,jumPd(r)/(r.a||1));
+  if(JUM.mode==="res"){ const c=(r.cta||[]).find(x=>/^CTA/.test(x))||(r.cta||[])[0]; return c?(CTA_COL[c]||"#6b7a86"):null; }
+}
+function jumLegend(){
+  const g=(st,unit,lab)=>`<div class="jum-grad" style="background:linear-gradient(90deg,${st.map(s=>s[1]).join(",")})"></div><div class="jum-gl"><span>${lab[0]}</span><span>${lab[1]}</span><span>${lab[2]}</span></div><span class="hint">${unit}</span>`;
+  const L={confort:g(JUM_ST.confort,"écart à la consigne de la pièce (21 °C, 24 °C en salle de bain, 16 °C en stockage)",["−4 °C","consigne","+4 °C"]),
+    temp:g(JUM_ST.temp,"température de la pièce",["14 °C","21 °C","26 °C"]),
+    air:g(JUM_ST.air,"air neuf soufflé par m² (m³/h.m²) · violet : extraction VMC",["0","5","9"]),
+    dep:g(JUM_ST.dep,"puissance à −9 °C par m² de pièce (W/m²)",["0","40","70"]),
+    res:`<div class="jum-chips">${Object.entries(CTA_COL).filter(([k])=>/^CTA|VMC [1-6]/.test(k)).map(([k,c])=>`<span><i style="background:${c}"></i>${k}</span>`).join("")}</div>`};
+  $("#jumLeg").innerHTML=L[JUM.mode];
+}
+/* ---- 3D ---- */
+async function jum3dInit(){
+  if(JUM.three) return;
+  const box=$("#jum3d");
+  try{ await loadLib("THREE","https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js");
+    if(!THREE.OrbitControls) await new Promise((res,rej)=>{ const sc=document.createElement("script"); sc.src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"; sc.onload=res; sc.onerror=()=>rej(new Error("contrôles 3D indisponibles")); document.head.appendChild(sc); });
+  }catch(e){ box.innerHTML=`<p class="hint" style="padding:16px">3D indisponible (${esc(e.message)}). Les fiches restent accessibles.</p>`; return; }
+  box.innerHTML="";
+  let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9; JUM.rooms.forEach(r=>{ const l=r.p[0]; for(let i=0;i<l.length;i+=2){ x0=Math.min(x0,l[i]);x1=Math.max(x1,l[i]);y0=Math.min(y0,l[i+1]);y1=Math.max(y1,l[i+1]); } });
+  const cx=(x0+x1)/2, cy=(y0+y1)/2;
+  const scene=new THREE.Scene(); scene.background=new THREE.Color(0x0d1a22); scene.fog=new THREE.Fog(0x0d1a22,140,260);
+  const cam=new THREE.PerspectiveCamera(38,16/9,0.5,600); cam.up.set(0,0,1); cam.position.set(-52,-92,72);
+  const ren=new THREE.WebGLRenderer({antialias:true}); ren.setPixelRatio(Math.min(devicePixelRatio||1,2)); box.appendChild(ren.domElement);
+  scene.add(new THREE.HemisphereLight(0xdfefff,0x223344,0.9)); const dl=new THREE.DirectionalLight(0xffffff,0.55); dl.position.set(-40,-60,90); scene.add(dl);
+  const ground=new THREE.Mesh(new THREE.PlaneGeometry(220,220),new THREE.MeshLambertMaterial({color:0x13242e})); ground.position.z=-0.05; scene.add(ground);
+  const grid=new THREE.GridHelper(200,40,0x2a4555,0x1c3341); grid.rotation.x=Math.PI/2; grid.position.z=-0.02; scene.add(grid);
+  const lv={N00:new THREE.Group(),N01:new THREE.Group(),ROOF:new THREE.Group()}; Object.values(lv).forEach(g=>scene.add(g));
+  const ELEV={N00:0,N01:3.36}, pick=[], meshes={};
+  JUM.rooms.forEach(r=>{ if(!lv[r.l]) return;
+    const mk=l=>{ const pts=[]; for(let i=0;i<l.length;i+=2) pts.push(new THREE.Vector2(l[i]-cx,l[i+1]-cy)); return pts; };
+    const sh=new THREE.Shape(mk(r.p[0])); r.p.slice(1).forEach(h=>sh.holes.push(new THREE.Path(mk(h))));
+    const out=r.tc==null;
+    const g=new THREE.ExtrudeGeometry(sh,{depth:out?0.15:Math.min(r.h,3.2)-0.12,bevelEnabled:false});
+    const m=new THREE.Mesh(g,new THREE.MeshLambertMaterial({color:out?0x3b4b55:0x22c55e,transparent:true,opacity:out?0.45:0.92,emissive:0x000000}));
+    m.position.z=ELEV[r.l]; m.userData=r; lv[r.l].add(m); pick.push(m); meshes[r.i]=m;
+    const e=new THREE.LineSegments(new THREE.EdgesGeometry(g,30),new THREE.LineBasicMaterial({color:0x0b141a,transparent:true,opacity:.55})); e.position.z=ELEV[r.l]; lv[r.l].add(e); });
+  /* équipements : boîtes + étiquettes */
+  const eqM=[];
+  const label=(txt)=>{ const c=document.createElement("canvas"); c.width=256; c.height=64; const x=c.getContext("2d");
+    x.fillStyle="rgba(10,22,30,.85)"; x.fillRect(0,8,256,48); x.strokeStyle="#4cb2d0"; x.lineWidth=3; x.strokeRect(1.5,9.5,253,45);
+    x.fillStyle="#fff"; x.font="bold 30px Barlow, Arial"; x.textAlign="center"; x.textBaseline="middle"; x.fillText(txt,128,33);
+    const s=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),depthTest:false})); s.scale.set(6,1.5,1); s.renderOrder=10; return s; };
+  JUM.eq.forEach(e=>{ if(!e.bb) return; const [a,b]=e.bb, w=Math.max(.3,b[0]-a[0]), d=Math.max(.3,b[1]-a[1]), hgt=Math.max(.3,b[2]-a[2]);
+    const roof=a[2]>6, grp=roof?lv.ROOF:lv.N00;
+    const m=new THREE.Mesh(new THREE.BoxGeometry(w,d,hgt),new THREE.MeshLambertMaterial({color:0x9fb3bf,emissive:0x000000}));
+    m.position.set((a[0]+b[0])/2-cx,(a[1]+b[1])/2-cy,(a[2]+b[2])/2); m.userData={eq:e}; grp.add(m); pick.push(m); eqM.push(m);
+    if(/^(CTA|PAC|CH|VMC|RA)/.test(e.mark)){ const s=label(e.mark); s.position.set(m.position.x,m.position.y,b[2]+1.4); grp.add(s); m.userData.lab=s; } });
+  const ctl=new THREE.OrbitControls(cam,ren.domElement); ctl.target.set(0,4,2); ctl.enableDamping=true; ctl.maxPolarAngle=Math.PI*0.48; ctl.minDistance=12; ctl.maxDistance=190; ctl.update();
+  const ray=new THREE.Raycaster(), mv=new THREE.Vector2(); let down=null, hovT=0;
+  const hitAt=e=>{ const r=ren.domElement.getBoundingClientRect(); mv.set(((e.clientX-r.left)/r.width)*2-1,-((e.clientY-r.top)/r.height)*2+1); ray.setFromCamera(mv,cam);
+    return ray.intersectObjects(pick.filter(m=>m.parent.visible))[0]; };
+  ren.domElement.addEventListener("pointerdown",e=>{ down=[e.clientX,e.clientY]; });
+  ren.domElement.addEventListener("pointerup",e=>{ if(!down||Math.hypot(e.clientX-down[0],e.clientY-down[1])>5) return; const h=hitAt(e); if(!h) return;
+    if(h.object.userData.eq) eqOpen(h.object.userData.eq.mark); else { JUM.sel=h.object.userData.i; jumSide(); JUM.dirty=true; } });
+  ren.domElement.addEventListener("pointermove",e=>{ const now=performance.now(); if(now-hovT<60) return; hovT=now; const h=hitAt(e), tip=$("#jumTip");
+    if(!h){ tip.hidden=true; ren.domElement.style.cursor=""; return; } ren.domElement.style.cursor="pointer";
+    const u=h.object.userData, r=ren.domElement.getBoundingClientRect();
+    tip.innerHTML=u.eq?`<b>${esc(u.eq.mark)}</b><span>${esc(u.eq.desc||"")}</span><span class="hint">clic : fiche + QR code</span>`
+      :`<b>${esc(u.nm)}</b><span>${esc(u.n)} · ${esc(RV_LBL[u.sv]||u.sv)}</span>${u.tc!=null?`<span><b>${enF(JUM.T[u.i],1)} °C</b> (consigne ${u.tc} °C)</span>`:`<span class="hint">non chauffé</span>`}`;
+    tip.hidden=false; tip.style.left=Math.min(r.width-200,e.clientX-r.left+14)+"px"; tip.style.top=Math.max(0,e.clientY-r.top-10)+"px"; });
+  ren.domElement.addEventListener("pointerleave",()=>{ $("#jumTip").hidden=true; });
+  JUM.three={scene,cam,ren,ctl,lv,meshes,eqM,ELEV};
+  const resize=()=>{ const w=box.clientWidth, h=box.clientHeight; if(!w||!h) return; ren.setSize(w,h,false); cam.aspect=w/h; cam.updateProjectionMatrix(); };
+  resize(); new ResizeObserver(resize).observe(box);
+  jumLayout();
+  (function loop(){ if(!document.body.contains(ren.domElement)) return; requestAnimationFrame(loop); if($("#viewJum").hidden) return;
+    if(JUM.story&&JUM.play){ ctl.autoRotate=true; ctl.autoRotateSpeed=0.6; } else ctl.autoRotate=false;
+    ctl.update(); if(JUM.dirty) jumPaint(); ren.render(scene,cam); })();
+}
+function jumLayout(){ const T=JUM.three; if(!T) return; const all=JUM.lv==="all";
+  T.lv.N00.visible=JUM.lv!=="N01"; T.lv.N01.visible=JUM.lv!=="N00"; T.lv.ROOF.visible=JUM.lv!=="N00";
+  const off=all?JUM_EXPL:0; T.lv.N01.position.z=off; T.lv.ROOF.position.z=off; JUM.dirty=true; }
+function jumPaint(){
+  const T=JUM.three; if(!T) return; JUM.dirty=false;
+  JUM.rooms.forEach(r=>{ const m=T.meshes[r.i]; if(!m) return; const c=jumColor(r);
+    if(c){ m.material.color.set(c); m.material.opacity=0.93; } else { m.material.color.set(0x3b4b55); m.material.opacity=0.4; }
+    m.material.emissive.set(JUM.sel===r.i?0x555555:0x000000); });
+  /* état des équipements depuis la GTB */
+  const g=JUM.last&&JUM.last.g;
+  T.eqM.forEach(m=>{ const e=m.userData.eq, k=e.mark; let st="off";
+    if(GTB.faults[k]||(/^PAC/.test(k)&&GTB.faults.SONDES)||(k==="CTA 5"&&GTB.faults.FILTRE)) st="fault";
+    else if(g){ if(/^PAC/.test(k)) st=(g.pacOn[k]||0)>0.05?"on":"off"; else if(/^CH/.test(k)) st=(g.chP[k]||0)>0.05?"on":"off"; else if(k==="CTA 5") st=g.cta5?"on":"off"; else st="on"; }
+    m.material.color.set(st==="fault"?0xef4444:st==="on"?0x34d399:0x7b8d98); m.material.emissive.set(st==="fault"?0x550000:0x000000); });
+}
+/* ---- fiche de la pièce ---- */
+function jumSpark(a,tc){ if(!a||a.length<2) return ""; const W=260,H=54, lo=Math.min(tc-3,...a)-0.3, hi=Math.max(tc+1,...a)+0.3, x=i=>i/(a.length-1)*W, y=v=>H-(v-lo)/(hi-lo)*H;
+  return `<svg viewBox="0 0 ${W} ${H}" class="jum-spark" role="img" aria-label="Évolution de la température"><line x1="0" x2="${W}" y1="${y(tc)}" y2="${y(tc)}" class="jum-sp-c"/><polyline points="${a.map((v,i)=>`${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(" ")}" class="jum-sp-l"/></svg>`; }
+function jumSide(){
+  const box=$("#jumSide"); const r=JUM.rooms.find(x=>x.i===JUM.sel);
+  if(!r){ const L=JUM.last, heated=JUM.rooms.filter(x=>x.tc!=null);
+    const cold=heated.slice().sort((a,b)=>(JUM.T[a.i]-a.tc)-(JUM.T[b.i]-b.tc))[0];
+    box.innerHTML=`<h3>Clique sur une pièce</h3><p class="hint">Sa fiche s'affiche ici : température en direct, débits d'air, bouches, CTA, déperditions, puissance d'émetteur à prévoir, réservations.</p>
+      <p class="hint">Clique sur un <b>équipement</b> (CTA, PAC, chaudières…) pour sa fiche de maintenance et son QR code.</p>
+      ${cold?`<button class="btn small" type="button" data-jsel="${cold.i}">Voir la pièce la plus froide : ${esc(cold.nm)} (${enF(JUM.T[cold.i],1)} °C)</button>`:""}`;
+    box.querySelectorAll("[data-jsel]").forEach(b=>b.onclick=()=>{ JUM.sel=+b.dataset.jsel; jumSide(); JUM.dirty=true; }); return; }
+  const T=JUM.T[r.i], d=r.tc!=null?T-r.tc:null, Hr=jumH(r), Pd=jumPd(r);
+  const st=d==null?["Non chauffée","var(--todo)"]:d<-2?["Trop froid","var(--danger)"]:d<-0.7?["Un peu froid","var(--doing)"]:d>2?["Trop chaud","var(--danger)"]:["Confortable","var(--done)"];
+  const bos=(r.bo||[]).map(id=>JUM.bo[id]).filter(Boolean);
+  const emit=/circ|dgt|hall|couloir/i.test(r.nm)||r.sv==="dgt"?"panneaux rayonnants Zehnder Carboline, +15 % (CCTP § 4.8.2)":/sdb|douche|bain/i.test(r.nm)?"radiateur ou sèche-serviettes, consigne 24 °C":"radiateur Finimetal Reggane 3000 (CCTP § 4.8.1)";
+  const bars=r.H?Object.entries({Murs:r.H.murs,Fenêtres:r.H.baies,"Ponts th.":r.H.ponts,Sol:r.H.sol,Toiture:r.H.toit}).filter(([,v])=>v>0.05):[];
+  const mx=Math.max(1,...bars.map(b=>b[1]));
+  box.innerHTML=`<div class="jum-fh"><div><span class="hint">${esc(r.l==="N00"?"RDC":"Étage")} · ${esc(RV_LBL[r.sv]||r.sv)}</span><h3>${esc(r.nm)} <span class="mono hint">${esc(r.n)}</span></h3></div><button class="btn small" type="button" id="jumClose" aria-label="Fermer la fiche">✕</button></div>
+    ${r.tc!=null?`<div class="jum-temp"><b>${enF(T,1)} °C</b><span class="pill" style="--pc:${st[1]}">${st[0]}</span><span class="hint">consigne ${r.tc} °C</span></div>${jumSpark(JUM.hist[r.i],r.tc)}`:`<p class="hint">Local non chauffé (CCTP § 2.2.2 : « non contrôlé »).</p>`}
+    <dl class="jum-dl"><dt>Surface</dt><dd>${enF(r.a,1)} m² · ${enF(r.v,0)} m³</dd><dt>Façade extérieure</dt><dd>${enF(r.ext,1)} m${r.roof?" · sous toiture":""}</dd>
+    <dt>Air</dt><dd>${r.qs?`soufflage ${r.qs} m³/h `:""}${r.qr?`· reprise ${r.qr} m³/h `:""}${r.qe-r.qv>0?`· extraction ${r.qe-r.qv} m³/h `:""}${r.qv?`· VMC ${r.qv} m³/h`:""}${!r.qs&&!r.qe&&!r.qr?"air de transfert":""}</dd>
+    <dt>Réseau</dt><dd>${(r.cta||[]).length?r.cta.map(c=>`<span class="cta" style="--cc:${CTA_COL[c]||"#888"}"><i></i>${esc(c)}</span>`).join(" "):"–"}</dd></dl>
+    ${bos.length?`<h4>Bouches (${bos.length})</h4><ul class="jum-bo">${bos.map(b=>`<li><span class="mono">${esc(b.id)}</span> ${esc(b.fonction)} ${b.q} m³/h · ${esc(b.modele)} ${b.raccordee?"<span class='ok'>✓ raccordée</span>":"<span class='ko'>antenne à faire</span>"}</li>`).join("")}</ul>`:""}
+    ${r.H?`<h4>Déperditions par les parois : ${enF(Hr,1)} W/K</h4><div class="jum-bars">${bars.map(([k,v])=>`<div><span>${k}</span><i style="width:${(v/mx*100).toFixed(0)}%"></i><b>${enF(v,1)}</b></div>`).join("")}</div>
+    <div class="jum-pd"><b>${enF(Pd,0)} W</b> à −9 °C <span class="hint">(${enF(Pd/r.a,0)} W/m²) · ${esc(emit)}</span></div>`:""}
+    ${(r.rs||[]).length?`<h4>Réservations (${r.rs.length})</h4><div class="jum-rs">${r.rs.map(id=>`<button class="btn small" type="button" data-jrs="${esc(id)}">${esc(id)} · ${esc((JUM.rs[id]||{}).type||"")}</button>`).join("")}</div>`:""}
+    <p class="hint" style="margin-top:10px">Déperditions : étude RT2012 du DCE répartie selon la façade, le sol et la toiture de la pièce ; air : bouches de la maquette.</p>`;
+  $("#jumClose").onclick=()=>{ JUM.sel=null; jumSide(); JUM.dirty=true; };
+  box.querySelectorAll("[data-jrs]").forEach(b=>b.onclick=()=>cmdResa(b.dataset.jrs));
+}
+function jumKpi(){
+  const heated=JUM.rooms.filter(r=>r.tc!=null), L=JUM.last||{want:0,avail:0,ratio:1};
+  const cold=heated.filter(r=>JUM.T[r.i]<r.tc-1).length;
+  const ch=heated.filter(r=>/chambre|ch\./i.test(r.nm)), alz=heated.filter(r=>r.sv==="fermé"&&/chambre|ch\./i.test(r.nm));
+  const mn=a=>a.length?Math.min(...a.map(r=>JUM.T[r.i])):null;
+  const minR=heated.slice().sort((a,b)=>(JUM.T[a.i]-a.tc)-(JUM.T[b.i]-b.tc))[0];
+  const tiles=[[`${enF(JUM.te,1)} °C`,"dehors"],[`${enF(L.avail/1000,0)} / ${enF(L.want/1000,0)} kW`,"chaleur disponible / demandée par les pièces",L.ratio<0.999?"bad":""],
+    [`${cold} / ${heated.length}`,"pièces à plus de 1 °C sous la consigne",cold?"bad":""],[mn(ch)==null?"–":`${enF(mn(ch),1)} °C`,"chambre la plus froide",mn(ch)<19?"bad":""],
+    [mn(alz)==null?"–":`${enF(mn(alz),1)} °C`,"unités Alzheimer (minimum)",mn(alz)<19?"bad":""],[minR?esc(minR.nm):"–",minR?`la plus loin de sa consigne (${enF(JUM.T[minR.i]-minR.tc,1)} °C)`:""]];
+  $("#jumKpi").innerHTML=tiles.map(([b,s,c])=>`<div class="k ${c||""}"><b>${b}</b><span>${s}</span></div>`).join("");
+  const d=Math.floor(JUM.t/24), hh=Math.floor(JUM.h), mm=JUM.h%1>=0.5?"30":"00";
+  $("#jumClock").innerHTML=`<span class="gtb-led ${GTB.faults["PAC 1"]||GTB.faults["PAC 2"]||GTB.faults["CH 1"]||GTB.faults["CH 2"]||GTB.faults.SONDES?"crit":L.ratio<0.999?"warn":"ok"}"></span> ${String(hh).padStart(2,"0")}:${mm} · temps simulé +${enF(JUM.t,1)} h${d?` (J+${d})`:""}`;
+}
+function jumUI(){ $("#jumTe").value=JUM.te; $("#jumTeV").textContent=enF(JUM.te,1)+" °C";
+  document.querySelectorAll("[data-jf]").forEach(c=>c.checked=!!GTB.faults[c.dataset.jf]);
+  document.querySelectorAll("[data-jm]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.jm===JUM.mode));
+  document.querySelectorAll("[data-jl]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.jl===JUM.lv));
+  $("#jumPlay").textContent=JUM.play?"⏸ Pause":"▶ Faire avancer le temps"; jumKpi(); }
+function jumTick(){ const dt=+$("#jumSpeed").value*0.25, n=Math.ceil(dt/0.1); for(let k=0;k<n;k++) jumStep(dt/n); /* 4 images par seconde */
+  JUM.rooms.forEach(r=>{ const a=JUM.hist[r.i]; if(!a) return; a.push(JUM.T[r.i]); if(a.length>120) a.shift(); });
+  if(JUM.story) jumStoryTick(); jumKpi(); if(!$("#viewJum").hidden){ if(JUM.sel!=null) jumSideLive(); else jumSide(); } }
+function jumSideLive(){ const r=JUM.rooms.find(x=>x.i===JUM.sel); if(!r||r.tc==null) return; const el=document.querySelector("#jumSide .jum-temp b"); if(!el) return jumSide();
+  el.textContent=enF(JUM.T[r.i],1)+" °C"; const sp=document.querySelector("#jumSide .jum-spark"); if(sp) sp.outerHTML=jumSpark(JUM.hist[r.i],r.tc);
+  const d=JUM.T[r.i]-r.tc, st=d<-2?["Trop froid","var(--danger)"]:d<-0.7?["Un peu froid","var(--doing)"]:d>2?["Trop chaud","var(--danger)"]:["Confortable","var(--done)"]; const p=document.querySelector("#jumSide .jum-temp .pill"); if(p){ p.textContent=st[0]; p.style.setProperty("--pc",st[1]); } }
+function jumPlayToggle(on){ if(on===undefined) on=!JUM.play; if(on&&!JUM.play) JUM.play=setInterval(jumTick,250); if(!on&&JUM.play){ clearInterval(JUM.play); JUM.play=null; } jumUI(); }
+/* ---- scénario de démonstration ---- */
+const JUM_STORY=[
+ {t:0,f:{},m:"Grand froid : −9 °C dehors, 7 h du matin. Les 2 PAC et les chaudières tiennent la consigne partout : tout le bâtiment est vert."},
+ {t:2,f:{"PAC 1":1,"PAC 2":1},m:"⚠ Panne : les 2 PAC géothermiques s'arrêtent. Les chaudières (2 × 60 kW) doivent reprendre le chauffage ET l'eau chaude des toilettes du matin."},
+ {t:5,f:{"PAC 1":1,"PAC 2":1,"CH 2":1},m:"⚠ La chaudière 2 se met en sécurité. Il ne reste que 60 kW : les pièces en angle, sous toiture et les grandes baies refroidissent en premier."},
+ {t:11,f:{"PAC 1":1,"PAC 2":1,"CH 2":1},m:"Regarde les chambres des unités Alzheimer (étage) et la pièce la plus froide en bas : c'est là qu'il faut intervenir en priorité."},
+ {t:13,f:{},m:"🔧 Dépannage : PAC et chaudière redémarrent. Toute la puissance part en relance : il faut plusieurs heures pour tout remonter, c'est l'inertie du bâtiment."},
+ {t:24,f:{},m:"Fin du scénario. Un jumeau numérique sert à ça : prévoir l'effet d'une panne pièce par pièce, et savoir où intervenir en premier."}];
+function jumStoryStart(){ jumPlayToggle(false); GTB.mode="hiver"; GTB.faults={}; JUM.te=-9; jumResetState(); JUM.mode="confort"; JUM.lv="all"; jumLayout(); jumLegend();
+  JUM.story={i:-1}; $("#jumSpeed").value="1"; jumStoryTick(); jumPlayToggle(true); }
+function jumStoryTick(){ const S=JUM.story; let i=S.i; while(i+1<JUM_STORY.length&&JUM.t>=JUM_STORY[i+1].t) i++;
+  if(i!==S.i){ S.i=i; const st=JUM_STORY[i]; GTB.faults={...st.f}; const b=$("#jumStory"); b.hidden=false; b.innerHTML=`<span class="mono">+${st.t} h</span>${esc(st.m)}`; jumUI(); JUM.dirty=true; }
+  if(JUM.t>=JUM_STORY[JUM_STORY.length-1].t+1){ JUM.story=null; jumPlayToggle(false); } }
+/* ---- fiches équipements + QR ---- */
+const EQ_MAINT=[
+ [/^CTA/,["Filtres F7 (soufflage) et F5 (reprise) : suivre la perte de charge (pressostat), changer quand l'alarme GTB apparaît","Échangeur à plaques ou roue : nettoyage et contrôle chaque année","Ventilateurs EC, registres motorisés, batterie à eau : contrôle, purge, vanne de régulation","Mesure des débits et rééquilibrage si besoin"]],
+ [/^PAC/,["Contrôle d'étanchéité du circuit frigorifique chaque année : 8 kg de R410A = 16,7 t éq. CO₂ (règlement F-gas), par une entreprise avec attestation de capacité","Concentration du glycol (protection −10 °C) et pression du circuit des sondes","Filtre à impuretés côté source : nettoyage"]],
+ [/^CH/,["Entretien annuel obligatoire (chaudières de 4 à 400 kW) avec attestation : rendement, CO, réglage du brûleur","Neutralisation des condensats : contrôle et recharge","Conduit de fumée : vérification et ramonage"]],
+ [/^(BT|B2000)/,["Purge des boues en partie basse","Contrôle de l'isolation (jaquette) et des sondes de température"]],
+ [/^(ECH ECS|P BECS)/,["Relevé des températures : ≥ 55 °C en sortie, ≥ 50 °C au retour de bouclage (prévention légionelle)","Choc thermique si besoin, permutation des pompes doubles","Échangeur à plaques : détartrage selon le TH"]],
+ [/^VE/,["Contrôle de la pression de gonflage chaque année","Vérification de la soupape et du groupe de raccordement"]],
+ [/^ADOU/,["Sel : niveau du bac","Contrôle du TH : 15 °TH vers l'ECS, 7 °TH vers les réseaux et les sondes (CCTP § 9.2.2)","Désinfection de la résine"]],
+ [/^CIRC/,["Fonctionnement et permutation des pompes doubles","Contrôle du signal 0-10 V depuis la GTB"]],
+ [/^VMC/,["Débit et dépression du caisson","Nettoyage des bouches d'extraction","Contrôle de l'alimentation (fonctionnement permanent)"]],
+ [/^RA/,["Nettoyage du filtre et de la batterie","Contrôle de la régulation et des sécurités de surchauffe"]]];
+const eqUrl=m=>location.origin+location.pathname+"#eq="+encodeURIComponent(m);
+async function eqQr(text,cell){ try{ await loadLib("qrcode","files/lib/qrcode.js"); const q=qrcode(0,"M"); q.addData(text); q.make(); return q.createSvgTag({cellSize:cell||4,margin:2,scalable:true}); }catch(e){ return `<p class="hint">QR indisponible</p>`; } }
+async function eqOpen(mark){
+  if(!JUM.data) await jumLoad();
+  const e=JUM.eq.find(x=>x.mark===mark)||((await fetch("files/b3d/equip.json?v="+EQ_V).then(r=>r.json()).catch(()=>[])).find(x=>x.mark===mark));
+  const dlg=$("#eqDlg"); if(!e){ toast("Équipement introuvable : "+mark); return; }
+  const g=gtbCalc(JUM.te,JUM.h,GTB.mode,GTB.faults);
+  let live="En service";
+  if(GTB.faults[mark]||(/^PAC/.test(mark)&&GTB.faults.SONDES)) live="⚠ En défaut"; else if(/^PAC/.test(mark)) live=(g.pacOn[mark]||0)>0.05?`En marche : ${enF(g.pacOn[mark],1)} kW ${GTB.mode==="hiver"?"chaud":"froid"}`:"À l'arrêt (en attente)";
+  else if(/^CH/.test(mark)) live=(g.chP[mark]||0)>0.05?`En marche : ${enF(g.chP[mark],1)} kW`:"À l'arrêt (en attente)"; else if(mark==="CTA 5") live=GTB.faults.FILTRE?"⚠ Filtre encrassé":g.cta5?"En marche":"À l'arrêt (hors occupation)";
+  const mt=(EQ_MAINT.find(([re])=>re.test(mark))||[0,["Selon la notice du fabricant"]])[1];
+  const url=eqUrl(mark);
+  $("#eqBody").innerHTML=`<div class="eq-h"><div><span class="hint">Fiche équipement · DOE numérique</span><h2 id="eqTitle">${esc(mark)}</h2><p>${esc(e.desc||"")}</p></div><button class="btn" type="button" id="eqClose">Fermer</button></div>
+    <div class="eq-g"><div><dl class="jum-dl"><dt>Fabricant</dt><dd>${esc(e.fab||"–")}</dd><dt>Modèle</dt><dd>${esc(e.mod||"–")}</dd><dt>Type</dt><dd>${esc(e.type||"–")}</dd>
+      <dt>CCTP</dt><dd>${esc(e.cctp||"–")}</dd><dt>Source</dt><dd>${esc(e.src||"–")}</dd><dt>Implantation</dt><dd>${esc(e.com||"–")}</dd>${e.verif?`<dt>À vérifier</dt><dd>${esc(e.verif)}</dd>`:""}</dl>
+      <h4>État en direct (GTB simulée)</h4><p class="eq-live">${esc(live)}</p>
+      <h4>Maintenance préventive</h4><ul class="rse-l">${mt.map(x=>`<li>${esc(x)}</li>`).join("")}</ul><p class="hint">À compléter avec la notice du fabricant (DOE).</p></div>
+      <div class="eq-qr"><div id="eqQr"></div><p class="hint">Scanner pour ouvrir cette fiche sur le chantier</p><a href="${esc(url)}" class="hint mono" style="word-break:break-all">${esc(url)}</a>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px"><button class="btn small" type="button" id="eqGtb">Ouvrir la GTB</button><button class="btn small" type="button" id="eqPrint">🏷 Imprimer l'étiquette</button></div></div></div>`;
+  $("#eqQr").innerHTML=await eqQr(url,5);
+  $("#eqClose").onclick=()=>dlg.close(); $("#eqGtb").onclick=()=>{ dlg.close(); setTab("gtb"); }; $("#eqPrint").onclick=()=>eqLabels([e]);
+  if(!dlg.open) dlg.showModal();
+}
+async function eqLabels(list){
+  if(!list){ if(!JUM.data) await jumLoad(); list=JUM.eq; }
+  const cells=await Promise.all(list.map(async e=>`<div class="l"><div class="q">${await eqQr(eqUrl(e.mark),3)}</div><div><b>${esc(e.mark)}</b><span>${esc(e.desc||"")}</span><span>${esc([e.fab,e.mod].filter(Boolean).join(" "))}</span><em>EHPAD La Bassée · lot 12 CVC · scanner pour la fiche</em></div></div>`));
+  const w=window.open("","_blank"); if(!w){ toast("Autorise les fenêtres pour imprimer"); return; }
+  w.document.write(`<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>Étiquettes QR · EHPAD La Bassée</title><style>body{font-family:Arial,sans-serif;margin:10mm;color:#111}h1{font-size:16px}.g{display:grid;grid-template-columns:repeat(2,1fr);gap:4mm}.l{display:flex;gap:4mm;align-items:center;border:1.5px solid #111;border-radius:3mm;padding:3mm;break-inside:avoid}.q{width:30mm;flex:none}.q svg{width:30mm;height:30mm}.l b{display:block;font-size:20px}.l span{display:block;font-size:11px}.l em{display:block;font-size:9px;margin-top:2mm;color:#444}@media print{h1{display:none}}</style></head><body><h1>${list.length} étiquette(s) · imprimer en A4</h1><div class="g">${cells.join("")}</div><script>setTimeout(()=>print(),300)<\/script></body></html>`);
+  w.document.close();
+}
+/* ---- rendu de l'onglet ---- */
+let jumInit=false;
+async function renderJum(){
+  await jumLoad();
+  if(!jumInit){ jumInit=true;
+    $("#jumModes").innerHTML=Object.entries(JUM_MODES).map(([k,l])=>`<button type="button" data-jm="${k}">${l}</button>`).join("");
+    $("#jumLv").innerHTML=Object.entries(JUM_LV).map(([k,l])=>`<button type="button" data-jl="${k}">${l}</button>`).join("");
+    $("#jumFaults").innerHTML=GTB_F.map(([k,l])=>`<label class="gtb-fault"><input type="checkbox" data-jf="${k}"> ${esc(l)}</label>`).join("");
+    document.querySelectorAll("[data-jm]").forEach(b=>b.onclick=()=>{ JUM.mode=b.dataset.jm; jumLegend(); JUM.dirty=true; jumUI(); });
+    document.querySelectorAll("[data-jl]").forEach(b=>b.onclick=()=>{ JUM.lv=b.dataset.jl; jumLayout(); jumUI(); });
+    document.querySelectorAll("[data-jf]").forEach(c=>c.onchange=()=>{ GTB.faults[c.dataset.jf]=c.checked; JUM.story=null; $("#jumStory").hidden=true; JUM.dirty=true; jumStep(0); jumUI(); });
+    $("#jumTe").oninput=e=>{ JUM.te=+e.target.value; GTB.te=JUM.te; JUM.story=null; jumStep(0); jumUI(); };
+    $("#jumPlay").onclick=()=>{ JUM.story=null; $("#jumStory").hidden=true; jumPlayToggle(); };
+    $("#jumReset").onclick=()=>{ jumPlayToggle(false); JUM.story=null; $("#jumStory").hidden=true; GTB.faults={}; jumResetState(); jumStep(0); jumSide(); jumUI(); };
+    $("#jumDemo").onclick=jumStoryStart; $("#jumLabels").onclick=()=>eqLabels();
+    $("#jumHyp").innerHTML=`<ul class="rse-l">
+      <li><b>Pièces</b> : les 320 espaces de la maquette CVC. Consignes du CCTP § 2.2.2 : 21 °C, 24 °C en salle de bain, 16 °C en stockage, locaux techniques et déchets non chauffés.</li>
+      <li><b>Déperditions</b> : les 1 988 W/K de l'étude RT2012 répartis pièce par pièce. Murs, fenêtres et ponts thermiques selon la longueur de façade extérieure de la pièce (calculée sur la maquette), sol pour le RDC, toiture pour l'étage et les pièces du RDC sans étage au-dessus. La somme retombe exactement sur l'étude.</li>
+      <li><b>Air</b> : l'air soufflé (bouches de la pièce) arrive à 19 °C, chauffé par la batterie de la CTA. Si la chaufferie manque de puissance, les batteries sont moins servies et l'air arrive plus froid. La CTA 5 s'arrête la nuit. Les sanitaires reçoivent de l'air de transfert ; la part non récupérée de l'air VMC est comptée côté chaufferie.</li><li><b>Échanges entre pièces</b> : une pièce plus froide que ses voisines (par rapport à sa consigne) reçoit 2 W/K par m² de leur chaleur (cloisons, portes : hypothèse).</li>
+      <li><b>Inertie</b> : 40 Wh/K par m² de pièce (bâtiment béton, inertie moyenne : hypothèse). Apports internes 15 kW le jour, 8 kW la nuit, répartis à la surface.</li>
+      <li><b>Émetteurs</b> : 50 % de puissance en plus que le besoin à −9 °C, pour la relance (hypothèse), robinet thermostatique qui vise la consigne.</li>
+      <li><b>Chaufferie</b> : même modèle que l'onglet GTB (PAC, cascade de chaudières, priorité ECS, batteries des CTA). Si la chaleur demandée dépasse la chaleur disponible, toutes les pièces sont servies au même pourcentage.</li>
+      <li>Modèle simplifié, une « zone » par pièce, sans échanges entre pièces voisines : il sert à voir le comportement, pas à remplacer une STD.</li></ul>`;
+    jumStep(0); jumLegend(); jumSide();
+  }
+  jumUI(); jum3dInit(); if(JUM.three) JUM.dirty=true;
+}
+TAB_META.jum=["Projet","Jumeau numérique","La maquette vivante : température de chaque pièce, pannes, fiches et QR codes des équipements."];
+{ const tb=$("#tabJum"), vw=$("#viewJum");
+  tb.setAttribute("aria-controls","viewJum"); vw.setAttribute("role","tabpanel"); vw.setAttribute("aria-labelledby","tabJum");
+  const _setTab=setTab; setTab=function(t){ _setTab(t); const on=t==="jum"; vw.hidden=!on; tb.setAttribute("aria-selected",on); tb.tabIndex=on?0:-1;
+    if(on){ setCrumb("jum"); renderJum(); } else jumPlayToggle(false); };
+  tb.onclick=()=>setTab("jum");
+}
+$("#eqDlg").addEventListener("click",e=>{ if(e.target.id==="eqDlg") e.target.close(); });
+window.addEventListener("load",()=>{ const m=window.EQ_HASH; if(m){ window.EQ_HASH=null; setTab("jum"); eqOpen(m); } });
+if(typeof CMDK!=="undefined"){ const _ix5=cmdkIndex; cmdkIndex=async function(){ await _ix5(); CMDK.idx.unshift({t:"Onglet",label:"Jumeau numérique",sub:"Maquette vivante, températures par pièce, pannes, QR codes",go:()=>setTab("jum"),h:cmdNorm("Jumeau numérique"),s:cmdNorm("jumeau numerique digital twin maquette vivante temperature piece qr code maintenance doe")}); }; }
 </script>
 <script>
 /* ---------- Onglet Piège à son (#pas) : plan coté + script AutoCAD / DXF ---------- */
@@ -6438,6 +6765,43 @@ async function pasLoadFile(file){
 .gtb-al .gtb-mono{color:var(--muted);flex:none}.gtb-al-crit{border-left-color:var(--danger)!important}.gtb-al-warn{border-left-color:var(--doing)!important}.gtb-al-ok{border-left-color:var(--done)!important}
 .gtb-k1,.gtb-k2{border:0!important;height:10px!important;width:14px!important;border-radius:2px}.gtb-k1{background:#3a9b6b}.gtb-k2{background:#e07b39}.gtb-a1{fill:#3a9b6b;opacity:.75}.gtb-a2{fill:#e07b39;opacity:.75}.gtb-day{margin-top:8px;font-size:14px}
 .gtb-hyp{margin-top:14px}.gtb-hyp summary{cursor:pointer}.gtb-hyp ul{margin-top:10px}
+.jum-head h2{font-size:28px}
+.jum-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:4px 0 10px}.jum-demo{font-size:15px;padding:9px 16px}
+.jum-play{display:flex;gap:6px;align-items:center}.jum-play select,.jum-3d-wrap select{padding:4px 8px;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+.jum-clock{margin-left:auto;font-family:var(--mono);font-size:13px;display:flex;align-items:center;gap:8px;background:#0d1a22;color:#d9e7ee;padding:6px 10px;border-radius:6px}
+.jum-main{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:14px}
+@media (max-width:900px){.jum-main{grid-template-columns:1fr}}
+.jum-3d-wrap{position:relative;background:#0d1a22;border-radius:var(--r);overflow:hidden;border:1px solid #23394a;min-width:0}
+.jum-3d{height:clamp(360px,62vh,640px)}.jum-3d canvas{display:block;width:100%!important;height:100%!important;touch-action:none}
+.jum-tools{position:absolute;top:10px;left:10px;right:10px;z-index:2;display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;pointer-events:none}
+.jum-tools .seg{flex-wrap:wrap;pointer-events:auto;background:rgba(13,26,34,.85);border-color:#2c4655;color:#d9e7ee}.jum-tools .seg button{font-size:13px;padding:5px 10px}
+.jum-tools .seg button[aria-pressed="true"]{background:#4cb2d0;color:#06222c}
+.jum-tip{position:absolute;z-index:3;pointer-events:none;background:rgba(10,22,30,.95);color:#e4ecf0;border:1px solid #4cb2d0;border-radius:6px;padding:6px 10px;font-size:13px;display:grid;gap:2px;max-width:240px}
+.jum-tip .hint{color:#8fb7c9}
+.jum-story{position:absolute;left:12px;right:12px;bottom:64px;z-index:3;background:rgba(10,22,30,.92);color:#fff;border-left:4px solid #f0b13c;border-radius:6px;padding:10px 14px;font-size:15px;line-height:1.4;display:flex;gap:10px;align-items:baseline;animation:jumIn .4s ease}
+.jum-story .mono{color:#f0b13c;flex:none}@keyframes jumIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.jum-leg{position:absolute;left:12px;right:12px;bottom:10px;z-index:2;background:rgba(13,26,34,.85);color:#d9e7ee;border-radius:6px;padding:6px 10px;font-size:12px}
+.jum-leg .hint{color:#8fb7c9;font-size:11.5px}.jum-grad{height:8px;border-radius:4px}.jum-gl{display:flex;justify-content:space-between;font-size:11.5px;margin:2px 0}
+.jum-chips{display:flex;flex-wrap:wrap;gap:10px}.jum-chips i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:middle}
+.jum-side{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px;max-height:clamp(360px,62vh,640px);overflow:auto;min-width:0}
+.jum-side h3{font-size:19px}.jum-side h4{margin:12px 0 6px;font-size:14px;font-family:var(--display)}
+.jum-fh{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.jum-temp{display:flex;align-items:center;gap:10px;margin:8px 0 2px;flex-wrap:wrap}.jum-temp b{font-size:34px;font-variant-numeric:tabular-nums;font-family:var(--display)}
+.jum-spark{width:100%;height:54px;display:block}.jum-sp-l{fill:none;stroke:var(--accent);stroke-width:2}.jum-sp-c{stroke:var(--done);stroke-dasharray:4 4}
+.jum-dl{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:10px 0 0;font-size:14px}.jum-dl dt{color:var(--muted)}.jum-dl dd{margin:0}
+.jum-bo{list-style:none;margin:0;padding:0;display:grid;gap:3px;font-size:13px}.jum-bo .ok{color:var(--done)}.jum-bo .ko{color:var(--doing)}
+.jum-bars{display:grid;gap:4px;font-size:13px}.jum-bars div{display:grid;grid-template-columns:76px 1fr 44px;gap:8px;align-items:center}.jum-bars i{display:block;height:8px;border-radius:4px;background:var(--heat)}.jum-bars b{text-align:right;font-variant-numeric:tabular-nums}
+.jum-pd{margin-top:8px;padding:8px 10px;background:var(--sunk);border-radius:6px;font-size:14px}.jum-pd b{font-size:18px}
+.jum-rs{display:flex;flex-wrap:wrap;gap:6px}
+.jum-ctl{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:14px;margin-top:14px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px}
+.jum-ctl input[type=range]{width:100%;accent-color:var(--accent)}.jum-faults{display:grid;grid-template-columns:1fr 1fr;gap:4px}
+.jum-kpi{margin-top:14px}.jum-kpi .k.bad{border-color:var(--danger)}.jum-kpi .k.bad b{color:var(--danger)}
+.eq-dlg{border:0;border-radius:12px;padding:0;width:min(860px,96vw);max-height:92vh;background:var(--surface);color:var(--ink)}
+.eq-dlg::backdrop{background:rgba(5,12,16,.6)}#eqBody{padding:18px 20px}
+.eq-h{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.eq-h h2{font-size:30px}.eq-h p{margin:2px 0 0;color:var(--muted)}
+.eq-g{display:grid;grid-template-columns:minmax(0,1fr) 230px;gap:18px;margin-top:10px}.eq-g h4{margin:14px 0 6px;font-family:var(--display)}
+.eq-live{font-weight:700;font-size:16px;margin:0}.eq-qr{text-align:center}.eq-qr svg{width:200px;height:200px;background:#fff;border-radius:8px;padding:6px}
+@media (max-width:700px){.eq-g{grid-template-columns:1fr}.eq-dlg{width:100vw;max-height:100vh;height:100vh;border-radius:0}}
 .rse-seg{margin:0 0 10px;flex-wrap:wrap}.rse-t td{vertical-align:top}.rse-t td:nth-child(2),.rse-t td:nth-child(3){min-width:220px}.rse-l{margin:0;padding-left:18px;display:grid;gap:8px}.rse-l li{line-height:1.45}#viewRse .src-b{display:inline-block;margin-top:4px}
 @media (max-width:560px){.en-bar{grid-template-columns:1fr auto}.en-bar-t{grid-column:1/-1;order:3}}
 .pas-in{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px 14px}.pas-in label{display:grid;gap:4px;font-size:13px;color:var(--muted);font-weight:600}.pas-in input,.pas-in select{font:inherit;font-size:15px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:7px 9px;min-height:38px}
