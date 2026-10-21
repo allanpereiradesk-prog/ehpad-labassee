@@ -690,6 +690,16 @@ body.mq-on{overflow:hidden}
 .gm-lobby{width:min(640px,100%)}.gm-salle{border:1px solid #e2e8f0;border-radius:14px;padding:10px 14px;margin:10px 0}.gm-salle h3{margin:0 0 6px;font-size:15px}#gmRoster{list-style:none;margin:0;padding:0;display:grid;gap:4px}#gmRoster li{display:flex;align-items:center;gap:4px}#gmRoster span{margin-left:auto;font-size:12.5px;color:#64748b}
 .gm-opts{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:8px;font-size:14px}.gm-opts select{margin-left:6px;padding:3px 6px;border-radius:8px;border:1px solid #cbd5e1}
 
+.vs .gm-cross{filter:drop-shadow(0 0 2px #0f172a)}.vs-msg{color:#fff}
+.vs-map{position:absolute;left:16px;bottom:16px;z-index:3;width:200px;height:200px;border-radius:50%;box-shadow:0 10px 30px rgb(15 23 42 / .25);pointer-events:none}
+.vs-hint{position:absolute;left:50%;top:58%;transform:translateX(-50%);z-index:4;border:0;border-radius:14px;padding:10px 16px;font:600 14px inherit;background:rgb(15 23 42 / .72);color:#fff;cursor:pointer;backdrop-filter:blur(8px)}
+.vs-h{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:#64748b;margin:14px 0 8px}.vs-h:first-child{margin-top:4px}
+.vs-gog{display:flex;flex-wrap:wrap;gap:6px}.vs-gog .mq-btn{box-shadow:none;padding:7px 10px;font-size:13px}
+.vs-lay{display:grid;grid-template-columns:1fr 1fr;gap:6px}.vs-lay label{display:flex;gap:6px;align-items:center;background:rgb(15 23 42 / .04);border-radius:10px;padding:7px 9px;font-size:14px;cursor:pointer}
+.vs-sel .bat-info{border:0;padding:0;background:none;font-size:14px}.vs-sel .eqi-h{flex-direction:column;align-items:stretch}.vs-sel .eqi-r{grid-template-columns:1fr;gap:2px}
+.vs-touch{position:absolute;inset:auto 0 0 0;height:0;z-index:4}.vs-joy{position:absolute;left:236px;bottom:28px;width:120px;height:120px;border-radius:50%;background:rgb(255 255 255 / .25);border:2px solid rgb(255 255 255 / .6);pointer-events:none}.vs-joy i{position:absolute;left:35px;top:35px;width:50px;height:50px;border-radius:50%;background:rgb(255 255 255 / .85)}
+.vs-tb{position:absolute;right:20px;bottom:90px;display:grid;gap:8px}.vs-tb button{width:54px;height:54px;border-radius:50%;border:0;background:rgb(255 255 255 / .85);font-size:22px;box-shadow:0 6px 18px rgb(15 23 42 / .2)}
+@media (max-width:760px){.vs-map{width:130px;height:130px;top:76px;bottom:auto;left:12px}.vs-joy{left:24px}}
 .hv-wait{display:grid;place-content:center;justify-items:center;gap:12px;text-align:center;color:#fff;padding:20px}.hv-wait p{margin:0}
 .hv-b{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .gai-ctl{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;font-size:14px}.gai-leg{display:flex;flex-wrap:wrap;gap:4px 10px}.gai-leg label{display:inline-flex;gap:5px;align-items:center;cursor:pointer}
@@ -852,6 +862,7 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
       <button role="tab" id="tabPas" aria-selected="false">Création AutoCAD</button>
       <button role="tab" id="tabImpl" aria-selected="false">Implantation</button>
       <button role="tab" id="tabMaq" aria-selected="false">Maquette 3D</button>
+      <button role="tab" id="tabVisite" aria-selected="false">🚶 Visite 3D</button>
       <button role="tab" id="tabRevit" aria-selected="false">Revit</button>
       <button role="tab" id="tabTuto" aria-selected="false">Tuto Revit</button>
       <button role="tab" id="tabCaps" aria-selected="false">Captures</button>
@@ -1612,6 +1623,36 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
         <p class="hint">Sur ordinateur, avec une souris. Tir à la tête = 50, au corps = 20 (100 points de vie, qui remontent après 4 s sans être touché). Les portes se traversent. Pour changer de niveau, marche sur un disque bleu « Ascenseur ».</p></div></div>
       <div class="gm-ov" id="gmPause" hidden><div class="gm-card"><h2 id="gmPauseT">Pause</h2><p class="hint" id="gmPauseH"></p><div class="gm-btns"><button type="button" class="btn primary" id="gmResume">Reprendre</button><button type="button" class="btn" id="gmToLobby">Retour à la salle</button><button type="button" class="btn" data-gm-quit>Quitter</button></div></div></div>
       <div class="gm-ov" id="gmOver" hidden><div class="gm-card"><h2 id="gmOverT">Fin de partie</h2><p id="gmOverS"></p><div id="gmOverTab"></div><div class="gm-btns"><button type="button" class="btn primary" id="gmAgain">Rejouer</button><button type="button" class="btn" data-gm-quit>Quitter</button></div><div class="gm-board"></div></div></div>
+    </div>
+  </section>
+
+  <section id="viewVisite" hidden>
+    <div class="mq vs" id="vs">
+      <div class="mq-stage" id="vsStage"><div class="mq-load" id="vsLoad" hidden><span class="mq-spin"></span>Préparation de la visite…</div></div>
+      <div class="gm-cross vs-cross" aria-hidden="true"></div>
+      <div class="gm-msg vs-msg" id="vsMsg"></div>
+      <div class="mq-top"><button type="button" class="mq-btn" data-vs-quit>← Site</button><div class="mq-title"><b>Visite 3D · <span id="vsLvl">RDC</span></b><span id="vsMode">à pied</span></div></div>
+      <canvas id="vsMap" class="vs-map" width="200" height="200" aria-label="Mini-plan"></canvas>
+      <button type="button" class="vs-hint" id="vsHint" hidden>🖱️ Clique dans la vue pour reprendre la visite</button>
+      <div class="mq-dock vs-dock"><button type="button" class="mq-btn" id="vsFlyB" aria-pressed="false">🕊️<span>Vol (F)</span></button><button type="button" class="mq-btn" id="vsHelpB">⌨️<span>Commandes</span></button></div>
+      <aside class="mq-panel vs-panel" id="vsPanel">
+        <button type="button" class="mq-toggle" id="vsFold" aria-label="Replier le panneau"><span>›</span></button>
+        <div class="mq-body">
+          <h3 class="vs-h">Aller à</h3><div id="vsGo"></div>
+          <h3 class="vs-h">Afficher</h3>
+          <div class="vs-lay"><label><input type="checkbox" data-vslay="gai"> Gaines</label><label><input type="checkbox" data-vslay="eq"> Équipements CVC</label><label><input type="checkbox" data-vslay="ceil"> Faux plafonds</label><label><input type="checkbox" data-vslay="pv"> Panneaux solaires</label></div>
+          <h3 class="vs-h">Élément visé</h3><div id="vsSel" class="vs-sel"></div>
+        </div>
+      </aside>
+      <div class="vs-touch" id="vsTouch" hidden><div class="vs-joy"><i id="vsJoyN"></i></div><div class="vs-tb"><button type="button" data-vsbtn="jump">⤒</button><button type="button" data-vsbtn="down">⤓</button><button type="button" data-vsbtn="fly">🕊️</button></div></div>
+      <div class="gm-ov" id="vsStart" hidden><div class="gm-card">
+        <div class="label">Maquette du projet · ouverte à tous</div>
+        <h2>Visite du bâtiment 🚶</h2>
+        <p>Promène-toi dans l'EHPAD à hauteur d'yeux : couloirs, chambres, locaux techniques, toiture avec les CTA. Vise un élément avec la croix et clique pour voir sa fiche (mur, porte, équipement, gaine…).</p>
+        <div class="gm-keys"><span><kbd>Z</kbd><kbd>Q</kbd><kbd>S</kbd><kbd>D</kbd> ou flèches : marcher · <kbd>Maj</kbd> plus vite · <kbd>Espace</kbd> sauter</span><span>Souris : regarder · <b>Clic</b> ou <kbd>E</kbd> : fiche de l'élément visé</span><span><kbd>F</kbd> mode vol (traverse les murs) · <kbd>Espace</kbd> / <kbd>C</kbd> monter / descendre</span><span>Disques bleus : ascenseurs entre RDC, étage et toiture · <kbd>P</kbd> panneau · <kbd>Échap</kbd> libérer la souris</span></div>
+        <p class="hint">Sur téléphone ou tablette : glisse à gauche pour avancer, à droite pour regarder, tape pour voir une fiche.</p>
+        <label class="gm-sens">Sensibilité de la souris <input type="range" id="vsSens" min="0.4" max="2.2" step="0.1" value="1"></label>
+        <div class="gm-btns"><button type="button" class="btn primary" id="vsPlay">▶ Commencer la visite</button><button type="button" class="btn" data-vs-quit>Retour au site</button></div></div></div>
     </div>
   </section>
 
@@ -2973,10 +3014,11 @@ async function rvBatInit(){
     const ctl=new THREE.OrbitControls(cam,ren.domElement); ctl.target.set(0,8,3); ctl.enableDamping=true; ctl.maxPolarAngle=Math.PI*0.49; ctl.update();
     const ray=new THREE.Raycaster(), mv=new THREE.Vector2(); let down=null;
     ren.domElement.addEventListener("pointerdown",e=>{ down=[e.clientX,e.clientY]; });
-    ren.domElement.addEventListener("pointerup",e=>{ if(!down||Math.hypot(e.clientX-down[0],e.clientY-down[1])>5) return; const r=ren.domElement.getBoundingClientRect();
-      mv.set(((e.clientX-r.left)/r.width)*2-1,-((e.clientY-r.top)/r.height)*2+1); ray.setFromCamera(mv,cam);
+    ren.domElement.addEventListener("pointerup",e=>{ if(RB&&RB.game) return; if(!down||Math.hypot(e.clientX-down[0],e.clientY-down[1])>5) return; const r=ren.domElement.getBoundingClientRect();
+      mv.set(((e.clientX-r.left)/r.width)*2-1,-((e.clientY-r.top)/r.height)*2+1); ray.setFromCamera(mv,cam); pickRay(ray); });
+    const pickRay=(rr)=>{
       const vis=pick.filter(m=>m.visible&&m.parent.visible);
-      const hit=ray.intersectObjects(vis).find(h=>h.point.z<=clip.constant+0.001);
+      const hit=rr.intersectObjects(vis).find(h=>h.point.z<=clip.constant+0.001);
       const info=$("#rvBatInfo");
       if(!hit){ eqSel(null); gaiSel(null); info.innerHTML=`<span class="hint">Clique un élément pour savoir ce que c'est.</span>`; return; }
       const u=hit.object.userData;
@@ -2986,8 +3028,8 @@ async function rvBatInit(){
       eqSel(null);
       if(u.space){ const s=u.space; info.innerHTML=`<b>Espace ${esc(s.n)} · ${esc(s.nm)}</b> · zone ${esc(s.z)} · ${s.a.toFixed(1)} m²`; return; }
       const fi=hit.faceIndex; let el=null; for(const e of u.els){ if(fi>=e[1]&&fi<e[1]+e[2]){ el=e; break; } }
-      info.innerHTML=`<b>${esc(u.cat)}</b> · ${esc(el?meta.names[el[0]]:"")} <span class="hint">· maquette ${u.layer==="str"?"structure":"architecte"}${el?" · ID Revit "+el[3]:""}</span>`; });
-    RB={scene,cam,ren,ctl,layers,clip,EQ,eqSel,cx,cy}; if(typeof batEnhance==="function") batEnhance();
+      info.innerHTML=`<b>${esc(u.cat)}</b> · ${esc(el?meta.names[el[0]]:"")} <span class="hint">· maquette ${u.layer==="str"?"structure":"architecte"}${el?" · ID Revit "+el[3]:""}</span>`; };
+    RB={scene,cam,ren,ctl,layers,clip,EQ,eqSel,cx,cy,pickRay}; if(typeof batEnhance==="function") batEnhance();
     const lst=$("#rvBatEq"); if(lst){ const grp=[["Toiture",e=>e.lv==="NT1"],["Terrasse basse (R+1)",e=>e.lv==="N01"],["RDC (chaufferie, local PAC, sas)",e=>e.lv==="N00"]];
       lst.innerHTML=EQ.length?grp.map(([t,f])=>{ const L=EQ.filter(e=>!/^Socle/.test(e.mark||"")&&f(e)); return L.length?`<div class="bat-eqg"><span class="hint">${t} :</span> `+L.map(e=>`<button class="btn small" data-eqgo="${esc(e.id)}" title="${esc(e.type)}">${esc(e.mark||e.type)}</button>`).join(" ")+`</div>`:""; }).join(""):"";
       lst.querySelectorAll("[data-eqgo]").forEach(b=>b.onclick=()=>rvBatFocus(b.dataset.eqgo)); }
@@ -4986,7 +5028,7 @@ function gmPick(far){ const S=GM.spawns, others=far||[]; if(!others.length) retu
   const sc=S.map(s=>[s,Math.min(...others.map(o=>Math.hypot(s[0]-o[0],s[1]-o[1])+Math.abs(s[2]-o[2])*4))]).sort((a,b)=>b[1]-a[1]);
   const top=sc.slice(0,Math.max(1,Math.floor(sc.length*0.12))); return top[Math.floor(Math.random()*top.length)][0]; }
 function gmSpawn(s){ GM.p={x:s[0],y:s[1],z:s[2],vx:0,vy:0,vz:0,yaw:Math.random()*6.28,pitch:0,hp:100,ammo:GM_MAG,reload:0,cool:0,ground:true,alive:true,prot:1.6,hurtAt:-99}; GM.camZ=null; }
-function gmMsg(t,ms=2200){ const m=$("#gmMsg"); m.textContent=t; m.classList.add("on"); clearTimeout(GM.mt); if(ms) GM.mt=setTimeout(()=>m.classList.remove("on"),ms); }
+function gmMsg(t,ms=2200){ if(typeof VS!=="undefined"&&VS.on) return vsMsg(t,ms||1600); const m=$("#gmMsg"); m.textContent=t; m.classList.add("on"); clearTimeout(GM.mt); if(ms) GM.mt=setTimeout(()=>m.classList.remove("on"),ms); }
 function gmMove(p,dx,dy){ const n=Math.max(1,Math.ceil(Math.hypot(dx,dy)/0.07)); dx/=n; dy/=n; const free=gmBlocked(p.x,p.y,p.z);   // coincé dans un mur : on le laisse sortir
   for(let i=0;i<n;i++){ if(free||!gmBlocked(p.x+dx,p.y,p.z)) p.x+=dx; if(free||!gmBlocked(p.x,p.y+dy,p.z)) p.y+=dy; if(p.ground){ const g=gmGround(p.x,p.y,p.z); if(g>p.z) p.z=g; } } }
 function gmPhys(dt){ const p=GM.p, K=GM.keys, can=p.alive&&!GM.freeze;
@@ -5917,3 +5959,110 @@ async function pasLoadFile(file){
 .pas-chips-t{margin:10px 0 4px;font-size:13.5px;font-weight:600}.pas-chips{display:flex;flex-wrap:wrap;gap:6px}.pas-chips [aria-pressed="true"]{background:var(--accent);color:var(--accent-ink,#fff);border-color:var(--accent)}
 .pas-in .pas-auto{background:color-mix(in srgb,var(--done) 10%,var(--surface));border-color:var(--done)}#pasDrop{margin-bottom:8px}
 </style>
+<script>
+/* ========== Visite 3D : se promener à pied (ou en vol) dans le bâtiment, ouverte à tous ==========
+   Réutilise le moteur de déplacement du jeu (gmGrid, gmPhys, ascenseurs) et la fiche des éléments de la 3D (RB.pickRay). */
+const VS={on:false,fly:false,ph:{},lay:{gai:true,eq:true,ceil:false,pv:true},maps:{},lastMap:0};
+try{ const L=JSON.parse(localStorage.getItem("ehpad-vs-lay")||"null"); if(L) Object.assign(VS.lay,L); }catch(e){}
+const vsCv=()=>$("#vsStage canvas");
+function vsMsg(t,ms=1600){ const m=$("#vsMsg"); m.textContent=t; m.classList.add("on"); clearTimeout(VS.mt); VS.mt=setTimeout(()=>m.classList.remove("on"),ms); }
+function vsLevelZ(L){ const S=GM.spawns.filter(s=>gmLvl(s[2])===L).map(s=>s[2]).sort((a,b)=>a-b); return S.length?S[Math.floor(S.length/2)]:[0,3.36,7.02][L]; }
+function vsGoSpot(L){ const S=GM.spawns.filter(s=>gmLvl(s[2])===L); if(!S.length) return null; const cx=S.reduce((a,s)=>a+s[0],0)/S.length, cy=S.reduce((a,s)=>a+s[1],0)/S.length;
+  return S.reduce((b,s)=>Math.hypot(s[0]-cx,s[1]-cy)<Math.hypot(b[0]-cx,b[1]-cy)?s:b,S[0]); }
+function vsPlace(s,look){ gmSpawn(s); const p=GM.p; p.prot=0; p.pitch=0;
+  if(look){ p.yaw=Math.atan2(look[1]-s[1],look[0]-s[0]); p.pitch=Math.max(-0.6,Math.min(0.6,Math.atan2(look[2]-(s[2]+GM_EYE),Math.hypot(look[0]-s[0],look[1]-s[1])))); }
+  gmPhys(0.0001); GM.gun.visible=false; }
+function vsGoList(){ const box=$("#vsGo"); const lv=[0,1,2].filter(L=>GM.spawns.some(s=>gmLvl(s[2])===L));
+  let h=`<div class="vs-gog">${lv.map(L=>`<button class="mq-btn" data-vsl="${L}">${["🚪 Hall (RDC)","🏢 Étage","☀️ Toiture"][L]}</button>`).join("")}</div>`;
+  const E=(RB.EQ||[]).filter(e=>e.bb&&e.mark&&!/^Socle/i.test(e.mark));
+  if(E.length) h+=`<p class="hint" style="margin:10px 0 6px">Équipements CVC :</p><div class="vs-gog">${E.map(e=>`<button class="mq-btn small" data-vse="${esc(e.id)}" title="${esc(e.type||"")}">${esc(e.mark)}</button>`).join("")}</div>`;
+  box.innerHTML=h;
+  box.querySelectorAll("[data-vsl]").forEach(b=>b.onclick=()=>{ const s=vsGoSpot(+b.dataset.vsl); if(s){ vsPlace(s); vsMsg(GM_LVN[+b.dataset.vsl]); } });
+  box.querySelectorAll("[data-vse]").forEach(b=>b.onclick=()=>{ const e=E.find(x=>String(x.id)===b.dataset.vse); if(!e) return; const c=[(e.bb[0][0]+e.bb[1][0])/2-(RB.cx||0),(e.bb[0][1]+e.bb[1][1])/2-(RB.cy||0),(e.bb[0][2]+e.bb[1][2])/2], r=Math.max(e.bb[1][0]-e.bb[0][0],e.bb[1][1]-e.bb[0][1])/2;
+    let best=null, bd=1e9; GM.spawns.forEach(s=>{ const d=Math.hypot(s[0]-c[0],s[1]-c[1]); if(d<r+1.2) return; const sc=d+Math.abs(s[2]-e.bb[0][2])*6; if(sc<bd){ bd=sc; best=s; } });
+    if(best){ vsPlace(best,c); vsMsg(e.mark); if(RB.eqSel) RB.eqSel(e.id); if(typeof eqInfo==="function") eqInfo(e); } }); }
+// mini-plan : un plan par niveau calculé depuis la grille de collision
+function vsMap(L){ if(VS.maps[L]) return VS.maps[L]; const G=GM.grid, Z=vsLevelZ(L), cv=document.createElement("canvas"); cv.width=G.nx; cv.height=G.ny; const x=cv.getContext("2d"), im=x.createImageData(G.nx,G.ny), D=im.data;
+  for(let cy=0;cy<G.ny;cy++) for(let cx=0;cx<G.nx;cx++){ const c=cy*G.nx+cx, o=((G.ny-1-cy)*G.nx+cx)*4; let fl=false; for(let k=0;k<GM_NF;k++){ const v=G.floor[c*GM_NF+k]; if(v!==v) break; if(Math.abs(v-Z)<0.45){ fl=true; break; } }
+    const wl=gmWallAny(c,Math.floor((Z+0.5)/GM_SL),Math.floor((Z+1.8)/GM_SL));
+    const col=wl?[30,41,59,255]:fl?[226,232,240,235]:[0,0,0,0]; D[o]=col[0]; D[o+1]=col[1]; D[o+2]=col[2]; D[o+3]=col[3]; }
+  x.putImageData(im,0,0); return VS.maps[L]=cv; }
+function vsDrawMap(){ const m=$("#vsMap"); if(!m||!GM.p) return; const x=m.getContext("2d"), W=m.width, H=m.height, p=GM.p, G=GM.grid, L=gmLvl(p.z), img=vsMap(L), win=36, k=W/win;
+  x.clearRect(0,0,W,H); x.save(); x.beginPath(); x.arc(W/2,H/2,W/2-2,0,Math.PI*2); x.clip(); x.fillStyle="rgba(148,163,184,.25)"; x.fillRect(0,0,W,H);
+  const px=(p.x-G.x0)/GM_C, py=G.ny-(p.y-G.y0)/GM_C, sw=win/GM_C; x.imageSmoothingEnabled=false; x.drawImage(img,px-sw/2,py-sw/2,sw,sw,0,0,W,H);
+  (GM.lifts||[]).forEach(l=>[l.a,l.b].forEach(s=>{ if(gmLvl(s[2])!==L) return; const sx=W/2+(s[0]-p.x)*k, sy=H/2-(s[1]-p.y)*k; x.fillStyle="#06b6d4"; x.beginPath(); x.arc(sx,sy,5,0,Math.PI*2); x.fill(); }));
+  x.translate(W/2,H/2); x.rotate(-p.yaw); x.fillStyle="#1f5fa8"; x.strokeStyle="#fff"; x.lineWidth=2; x.beginPath(); x.moveTo(9,0); x.lineTo(-6,6); x.lineTo(-3,0); x.lineTo(-6,-6); x.closePath(); x.fill(); x.stroke(); x.restore();
+  x.strokeStyle="rgba(255,255,255,.9)"; x.lineWidth=3; x.beginPath(); x.arc(W/2,H/2,W/2-2,0,Math.PI*2); x.stroke(); x.fillStyle="#0f172a"; x.font="700 11px system-ui"; x.fillText("N",W/2-4,13); }
+function vsFlyStep(dt){ const p=GM.p, K=GM.keys, sp=(K.Shift?14:6)*dt, cs=Math.cos(p.yaw), sn=Math.sin(p.yaw), cp=Math.cos(p.pitch), sp2=Math.sin(p.pitch); let fx=0,fy=0,fz=0;
+  if(K.f){ fx+=cs*cp; fy+=sn*cp; fz+=sp2; } if(K.b){ fx-=cs*cp; fy-=sn*cp; fz-=sp2; } if(K.l){ fx-=sn; fy+=cs; } if(K.r){ fx+=sn; fy-=cs; } if(K.up) fz+=1; if(K.down) fz-=1;
+  p.x+=fx*sp; p.y+=fy*sp; p.z=Math.max(-0.5,Math.min(40,p.z+fz*sp)); p.vx=p.vy=p.vz=0; p.ground=false; GM.camZ=p.z+GM_EYE;
+  GM.cam.position.set(p.x,p.y,p.z+GM_EYE); GM.cam.lookAt(GM.cam.position.clone().add(new THREE.Vector3(cs*cp,sn*cp,sp2))); GM.cam.updateMatrixWorld(); }
+function vsLoop(now){ if(!VS.on) return; requestAnimationFrame(vsLoop); const dt=Math.min(0.05,(now-(VS.last||now))/1000); VS.last=now;
+  if(VS.touch) vsTouchKeys(); if(VS.fly) vsFlyStep(dt); else gmPhys(dt); GM.gun.visible=false;
+  if(now-VS.lastMap>90){ VS.lastMap=now; vsDrawMap(); const L=gmLvl(GM.p.z); $("#vsLvl").textContent=GM_LVN[L]; }
+  RB.ren.render(RB.scene,GM.cam); }
+function vsResize(){ if(!VS.on||!RB) return; const st=$("#vsStage"), w=st.clientWidth, h=st.clientHeight; RB.ren.setSize(w,h,false); GM.cam.aspect=w/h; GM.cam.updateProjectionMatrix(); }
+function vsApplyLay(){ if(!RB) return; Object.entries(VS.lay).forEach(([k,v])=>{ if(RB.layers[k]) RB.layers[k].visible=v; }); document.querySelectorAll("[data-vslay]").forEach(c=>c.checked=!!VS.lay[c.dataset.vslay]);
+  try{ localStorage.setItem("ehpad-vs-lay",JSON.stringify(VS.lay)); }catch(e){} }
+function vsSetFly(on){ VS.fly=on; $("#vsMode").textContent=on?"en vol (F pour atterrir)":"à pied"; $("#vsFlyB").setAttribute("aria-pressed",on);
+  if(!on&&GM.p){ GM.p.vz=0; GM.p.ground=false; GM.camZ=null; } vsMsg(on?"Mode vol : traverse les murs · Espace monte · C descend":"À pied",1800); }
+function vsInspect(){ if(!RB||!RB.pickRay) return; const r=new THREE.Raycaster(); r.far=60; r.setFromCamera(new THREE.Vector2(0,0),GM.cam); r.camera=GM.cam; RB.pickRay(r); vsPanel(true); }
+function vsPanel(open){ $("#vsPanel").classList.toggle("closed",!open); try{ localStorage.setItem("ehpad-vs-panel",open?"1":"0"); }catch(e){} }
+function vsLock(){ const c=vsCv(); if(document.activeElement&&document.activeElement.blur) document.activeElement.blur(); try{ const r=c&&c.requestPointerLock&&c.requestPointerLock(); if(r&&r.catch) r.catch(()=>{}); }catch(e){} }
+async function vsEnter(){
+  if(VS.on) return; if(GM.on) gmExit(); VS.on=true; document.body.classList.add("mq-on"); $("#vsLoad").hidden=false;
+  [["rvBatCv","vsStage"],["rvBatInfo","vsSel"]].forEach(([id,to])=>{ const el=$("#"+id); if(!el) return; const ph=document.createComment("vs"); el.parentNode.insertBefore(ph,el); VS.ph[id]=ph; to==="vsStage"?$("#"+to).prepend(el):$("#"+to).appendChild(el); });
+  if(!RB) await rvBatInit(); RB.game=true; RB.ren.setPixelRatio(Math.min(devicePixelRatio||1,1.5));
+  VS.save={vis:Object.fromEntries(Object.entries(RB.layers).map(([k,g])=>[k,g.visible])),clip:RB.clip.constant,expl:EXPL.value,bg:RB.scene.background,fog:RB.scene.fog};
+  ["arc","str"].forEach(k=>RB.layers[k].visible=true); RB.layers.esp.visible=false; RB.clip.constant=999; EXPL.value=0; vsApplyLay();
+  RB.scene.background=new THREE.Color(0xc7dcec); RB.scene.fog=new THREE.Fog(0xc7dcec,40,160);
+  await new Promise(r=>setTimeout(r,30)); gmSetup(); GM.drones.visible=false; GM.avs.visible=false; GM.mode="visite"; GM.freeze=false; GM.keys={};
+  $("#vsLoad").hidden=true; if(!VS.p){ const s=vsGoSpot(0)||GM.spawns[0]; vsPlace(s); } else { GM.p=VS.p; GM.camZ=null; }
+  vsGoList(); vsResize(); VS.last=0; requestAnimationFrame(vsLoop);
+  const info=$("#rvBatInfo"); if(info&&!info.textContent.trim()) info.innerHTML=`<span class="hint">Vise un élément avec la croix et clique (ou touche E) pour voir sa fiche.</span>`;
+  let po="1"; try{ po=localStorage.getItem("ehpad-vs-panel")||"1"; }catch(e){} vsPanel(po==="1"&&innerWidth>760);
+  VS.touch=("ontouchstart" in window||navigator.maxTouchPoints>0)&&matchMedia("(pointer: coarse)").matches&&!matchMedia("(any-pointer: fine)").matches; $("#vsTouch").hidden=!VS.touch; $("#vsStart").hidden=false; }
+function vsExit(){ if(!VS.on) return; VS.on=false; VS.p=GM.p; if(document.pointerLockElement) document.exitPointerLock(); GM.keys={}; GM.mode=null; document.body.classList.remove("mq-on");
+  Object.entries(VS.ph).forEach(([id,ph])=>{ const el=$("#"+id); if(el&&ph.parentNode){ ph.parentNode.insertBefore(el,ph); ph.remove(); } }); VS.ph={};
+  if(GM.root){ GM.root.visible=false; GM.cam.visible=false; GM.drones.visible=true; GM.avs.visible=true; }
+  if(RB&&VS.save){ Object.entries(VS.save.vis).forEach(([k,v])=>RB.layers[k].visible=v); RB.clip.constant=VS.save.clip; EXPL.value=VS.save.expl; RB.scene.background=VS.save.bg; RB.scene.fog=VS.save.fog||null; RB.game=false; RB.ren.setPixelRatio(Math.min(devicePixelRatio||1,2)); rvBatApply(); }
+  setTimeout(()=>{ if(typeof rvBatResize==="function") rvBatResize(); },60); }
+// ---- commandes clavier / souris ----
+const VS_MAP={KeyW:"f",KeyZ:"f",ArrowUp:"f",KeyS:"b",ArrowDown:"b",KeyA:"l",KeyQ:"l",ArrowLeft:"l",KeyD:"r",ArrowRight:"r"};
+document.addEventListener("keydown",e=>{ if(!VS.on) return; if(e.target&&e.target.matches&&e.target.matches("input,select,textarea")&&!document.pointerLockElement) return; if(e.ctrlKey||e.metaKey) return;
+  if(VS_MAP[e.code]){ GM.keys[VS_MAP[e.code]]=true; e.preventDefault(); e.stopPropagation(); }
+  if(e.code==="Space"){ e.preventDefault(); if(VS.fly) GM.keys.up=true; else if(!e.repeat) GM.keys.jump=true; }
+  if(e.code==="KeyC"){ GM.keys.down=true; e.preventDefault(); } if(e.key==="Shift") GM.keys.Shift=true;
+  if(e.code==="KeyF"&&!e.repeat) vsSetFly(!VS.fly); if(e.code==="KeyE"&&!e.repeat) vsInspect(); if(e.code==="KeyP"&&!e.repeat) vsPanel($("#vsPanel").classList.contains("closed")); },true);
+document.addEventListener("keyup",e=>{ if(!VS.on) return; if(VS_MAP[e.code]){ GM.keys[VS_MAP[e.code]]=false; e.preventDefault(); } if(e.code==="Space"){ GM.keys.up=false; e.preventDefault(); } if(e.code==="KeyC") GM.keys.down=false; if(e.key==="Shift") GM.keys.Shift=false; },true);
+window.addEventListener("blur",()=>{ if(VS.on) GM.keys={}; });
+document.addEventListener("mousemove",e=>{ if(!VS.on||!GM.p||document.pointerLockElement!==vsCv()) return; const p=GM.p, s=0.0022*(VS.sens||1); p.yaw-=e.movementX*s; p.pitch=Math.max(-1.45,Math.min(1.45,p.pitch-e.movementY*s)); });
+document.addEventListener("mousedown",e=>{ if(!VS.on||VS.touch) return; if(!e.target.closest("#vsStage")) return; if(document.pointerLockElement!==vsCv()){ vsLock(); return; } if(e.button===0) vsInspect(); });
+document.addEventListener("pointerlockchange",()=>{ if(!VS.on) return; const locked=document.pointerLockElement===vsCv(); $("#vsHint").hidden=locked||!$("#vsStart").hidden; GM.keys={}; });
+window.addEventListener("resize",vsResize);
+// ---- tactile : à gauche on se déplace, à droite on regarde, une tape = fiche ----
+const VT={mv:null,lk:null};
+function vsTouchKeys(){ const K=GM.keys, m=VT.mv; if(!m) return; const dx=m.x-m.x0, dy=m.y-m.y0, d=Math.hypot(dx,dy);
+  K.f=dy<-14; K.b=dy>14; K.l=dx<-14; K.r=dx>14; K.Shift=d>90; const n=$("#vsJoyN"); if(n) n.style.transform=`translate(${Math.max(-50,Math.min(50,dx))}px,${Math.max(-50,Math.min(50,dy))}px)`; }
+{ const st=$("#vsStage"); st.addEventListener("touchstart",e=>{ if(!VS.on) return; for(const t of e.changedTouches){ const left=t.clientX<innerWidth*0.45; if(left&&!VT.mv) VT.mv={id:t.identifier,x0:t.clientX,y0:t.clientY,x:t.clientX,y:t.clientY}; else if(!VT.lk) VT.lk={id:t.identifier,x:t.clientX,y:t.clientY,x0:t.clientX,y0:t.clientY,t0:performance.now()}; } e.preventDefault(); },{passive:false});
+  st.addEventListener("touchmove",e=>{ if(!VS.on) return; for(const t of e.changedTouches){ if(VT.mv&&t.identifier===VT.mv.id){ VT.mv.x=t.clientX; VT.mv.y=t.clientY; } if(VT.lk&&t.identifier===VT.lk.id&&GM.p){ GM.p.yaw-=(t.clientX-VT.lk.x)*0.006; GM.p.pitch=Math.max(-1.4,Math.min(1.4,GM.p.pitch-(t.clientY-VT.lk.y)*0.006)); VT.lk.x=t.clientX; VT.lk.y=t.clientY; } } e.preventDefault(); },{passive:false});
+  const end=e=>{ for(const t of e.changedTouches){ if(VT.mv&&t.identifier===VT.mv.id){ VT.mv=null; const K=GM.keys; K.f=K.b=K.l=K.r=K.Shift=false; const n=$("#vsJoyN"); if(n) n.style.transform=""; } if(VT.lk&&t.identifier===VT.lk.id){ if(performance.now()-VT.lk.t0<250&&Math.hypot(t.clientX-VT.lk.x0,t.clientY-VT.lk.y0)<10) vsInspect(); VT.lk=null; } } };
+  st.addEventListener("touchend",end); st.addEventListener("touchcancel",end); }
+document.querySelectorAll("[data-vsbtn]").forEach(b=>{ const k=b.dataset.vsbtn; const on=v=>e=>{ e.preventDefault(); if(k==="fly"){ if(v) vsSetFly(!VS.fly); return; } if(k==="jump"){ if(v) (VS.fly?GM.keys.up=true:GM.keys.jump=true); else GM.keys.up=false; return; } GM.keys[k]=v; };
+  b.addEventListener("touchstart",on(true),{passive:false}); b.addEventListener("touchend",on(false)); b.addEventListener("mousedown",on(true)); b.addEventListener("mouseup",on(false)); });
+// ---- boutons ----
+$("#vsPlay").onclick=()=>{ $("#vsStart").hidden=true; if(!VS.touch) vsLock(); else $("#vsHint").hidden=true; };
+$("#vsHint").onclick=vsLock;
+$("#vsFold").onclick=()=>vsPanel($("#vsPanel").classList.contains("closed"));
+$("#vsFlyB").onclick=()=>vsSetFly(!VS.fly);
+$("#vsHelpB").onclick=()=>{ if(document.pointerLockElement) document.exitPointerLock(); $("#vsStart").hidden=false; };
+document.querySelectorAll("[data-vslay]").forEach(c=>c.onchange=()=>{ VS.lay[c.dataset.vslay]=c.checked; vsApplyLay(); });
+document.querySelectorAll("[data-vs-quit]").forEach(b=>b.onclick=()=>setTab("home"));
+$("#vsSens").oninput=e=>{ VS.sens=+e.target.value; };
+// ---- onglet ----
+TAB_META.visite=["Fichiers","Visite 3D","Se promener dans le bâtiment, à pied ou en vol."];
+{ const tb=$("#tabVisite"), vw=$("#viewVisite");
+  tb.setAttribute("aria-controls","viewVisite"); vw.setAttribute("role","tabpanel"); vw.setAttribute("aria-labelledby","tabVisite");
+  const _setTab=setTab; setTab=function(t){ if(t!=="visite"&&VS.on) vsExit(); _setTab(t); const on=t==="visite"; vw.hidden=!on; tb.setAttribute("aria-selected",on); tb.tabIndex=on?0:-1; if(on){ setCrumb("visite"); vsEnter(); } };
+  tb.onclick=()=>setTab("visite"); }
+</script>
