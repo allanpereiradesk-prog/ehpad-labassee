@@ -737,6 +737,21 @@ body.mq-on{overflow:hidden}
 .gm-win .btn{position:relative}.gm-win .btn:not(.primary){color:#0f172a;background:#fff}
 .gm-pay{margin:6px 0 4px;padding:10px 14px;border-radius:14px;background:#fffbeb;border:1px solid #fde68a}.gm-payl{display:grid;grid-template-columns:1fr auto;gap:2px 12px;font-size:13.5px;color:#78350f}.gm-payt{margin-top:6px;font-size:22px;font-weight:800;color:#b45309}.gm-payt small{font-size:13px;font-weight:600;color:#92400e}.gm-pay.done .gm-payt{animation:gmPop .5s}
 @media (max-width:760px){.gm-skr{grid-template-columns:1fr}.gm-case-buy{grid-template-columns:auto 1fr}.gm-case-buy .btn{grid-column:1/-1}}
+.jt{position:absolute;left:16px;right:420px;bottom:96px;z-index:4;padding:12px 14px 10px;border-radius:20px;background:rgb(255 255 255 / .9);backdrop-filter:blur(16px);box-shadow:0 14px 50px rgb(15 23 42 / .25);border:1px solid rgb(255 255 255 / .7);color:#0f172a}
+.mq-panel.closed~.jt,.jt:has(~.mq-panel.closed){right:16px}
+.jt-load{position:absolute;inset:0;display:grid;place-items:center;border-radius:20px;background:rgb(255 255 255 / .9);font-weight:700;z-index:2}
+.jt-top{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px}.jt-play{width:44px;height:44px;border-radius:50%;border:0;background:#1f5fa8;color:#fff;font-size:17px;cursor:pointer;box-shadow:0 6px 16px rgb(31 95 168 / .35)}
+.jt-clock{display:flex;align-items:center;gap:6px}.jt-clock span{font-size:22px}.jt-clock b{font:800 28px/1 var(--mono,ui-monospace,monospace);letter-spacing:.02em}
+.jt-kpi{display:grid;gap:1px}.jt-kpi span{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:#64748b}.jt-kpi b{font-size:17px;font-variant-numeric:tabular-nums}
+.jt-p i{display:block;width:120px;height:5px;border-radius:9px;background:#e2e8f0;overflow:hidden}.jt-p em{display:block;height:100%;background:linear-gradient(90deg,#22c55e,#f59e0b,#dc2626);transition:width .2s}
+.jt-cta b{color:#15803d}.jt-cta.off b{color:#475569}.jt-cta.off b::before{content:"⏹ "}.jt-cta:not(.off) b::before{content:"● ";color:#22c55e}
+.jt-seg{display:flex;padding:3px;border-radius:12px;background:rgb(15 23 42 / .06)}.jt-seg button{border:0;background:none;padding:6px 10px;border-radius:9px;font:600 13px inherit;color:#475569;cursor:pointer}.jt-seg button[aria-pressed="true"]{background:#fff;color:#0f172a;box-shadow:0 2px 6px rgb(15 23 42 / .12)}
+#jtSpd{border:1px solid #cbd5e1;border-radius:9px;padding:5px 6px;font:inherit;font-size:13px;background:#fff}.jt-x{margin-left:auto;border:0;background:rgb(15 23 42 / .06);width:32px;height:32px;border-radius:50%;cursor:pointer}
+.jt-svg{display:block;width:100%;height:70px;margin-top:8px;cursor:pointer;border-radius:8px}#jtR{width:100%;margin:2px 0 0;accent-color:#1f5fa8}
+.jt-bot{display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px}.jt-leg{display:flex;align-items:center;gap:6px;font-size:12px;color:#475569}.jt-leg i{width:120px;height:9px;border-radius:9px;background:linear-gradient(90deg,#3b82f6,#22c55e,#facc15,#f97316,#dc2626)}.jt-leg small{font-size:11px}
+.jt-ev{font-size:13.5px;font-weight:600;color:#1e3a5f;opacity:0;transform:translateY(4px);transition:.35s}.jt-ev.on{opacity:1;transform:none}
+.jt-info{font-size:12.5px;color:#334155;margin-top:6px}.jt-info details{display:inline}.jt-info summary{display:inline;cursor:pointer;color:#1f5fa8;margin-left:6px}.jt-info ul{margin:6px 0 0;padding-left:18px}
+@media (max-width:900px){.jt{right:16px;bottom:92px;left:8px;right:8px}.jt-p i{width:80px}}
 .hv-wait{display:grid;place-content:center;justify-items:center;gap:12px;text-align:center;color:#fff;padding:20px}.hv-wait p{margin:0}
 .hv-b{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .gai-ctl{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;font-size:14px}.gai-leg{display:flex;flex-wrap:wrap;gap:4px 10px}.gai-leg label{display:inline-flex;gap:5px;align-items:center;cursor:pointer}
@@ -1611,9 +1626,27 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
         <button type="button" class="mq-btn" data-mq-act="home" title="Vue d'ensemble">⌂<span>Vue</span></button>
         <button type="button" class="mq-btn" data-mq-act="air" aria-pressed="false" title="Air en mouvement">≋<span>Air</span></button>
         <button type="button" class="mq-btn" data-mq-act="expl" aria-pressed="false" title="Écarter les niveaux">⇕<span>Écorché</span></button>
+        <button type="button" class="mq-btn" data-mq-act="day" aria-pressed="false" title="Journée type d'hiver : 24 h animées">🕒<span>Journée</span></button>
         <button type="button" class="mq-btn" data-mq-act="film" title="Film de présentation">▶<span>Film</span></button>
         <button type="button" class="mq-btn" data-mq-act="search" title="Rechercher (Ctrl + K)">⌕<span>Chercher</span></button>
         <button type="button" class="mq-btn" data-mq-act="fs" title="Plein écran">⛶<span>Plein écran</span></button>
+      </div>
+      <div class="jt" id="jt" hidden>
+        <div class="jt-load" id="jtLoad" hidden>Préparation de la journée…</div>
+        <div class="jt-top">
+          <button type="button" class="jt-play" id="jtPlay" title="Lecture / pause">▶</button>
+          <div class="jt-clock"><span id="jtSky">🌙</span><b id="jtClock">06:00</b></div>
+          <div class="jt-kpi"><span>Extérieur</span><b id="jtText">−5 °C</b></div>
+          <div class="jt-kpi jt-p"><span>Besoin de chauffage</span><b id="jtP">0 kW</b><i><em id="jtPac"></em></i></div>
+          <div class="jt-kpi jt-cta"><span>CTA 5</span><b id="jtCta">arrêt</b></div>
+          <div class="jt-seg" role="group" aria-label="Niveau"><button type="button" data-jtlv="N00" aria-pressed="true">RDC</button><button type="button" data-jtlv="N01" aria-pressed="false">Étage</button><button type="button" data-jtlv="toit" aria-pressed="false">Toiture</button></div>
+          <select id="jtSpd" aria-label="Vitesse"><option value="0.4">Lent</option><option value="0.8" selected>Normal</option><option value="2">Rapide</option></select>
+          <button type="button" class="jt-x" id="jtClose" title="Fermer la journée type">✕</button>
+        </div>
+        <svg class="jt-svg" id="jtSvg" viewBox="0 0 600 70" preserveAspectRatio="none" aria-label="Besoin de chauffage sur 24 h"></svg>
+        <input type="range" id="jtR" min="0" max="23.99" step="0.05" value="6" aria-label="Heure de la journée">
+        <div class="jt-bot"><div class="jt-leg"><span>Besoin par m² :</span><i></i><small>0</small><small>25</small><small>50 W/m²</small></div><div class="jt-ev" id="jtEv"></div></div>
+        <div class="jt-info" id="jtInfo"></div>
       </div>
       <aside class="mq-panel" id="mqPanel" aria-label="Panneau de la maquette">
         <button type="button" class="mq-toggle" id="mqToggle" aria-expanded="true" aria-controls="mqPanel" title="Replier / déplier le panneau"><span>›</span></button>
@@ -3051,7 +3084,7 @@ async function rvBatInit(){
     scene.background=new THREE.Color(dark?0x1b2831:0xdfe6eb);
     const cam=new THREE.PerspectiveCamera(38,4/3,0.5,1500); cam.up.set(0,0,1); cam.position.set(-70,-95,75);
     const ren=new THREE.WebGLRenderer({antialias:true}); ren.setPixelRatio(Math.min(devicePixelRatio||1,2)); ren.localClippingEnabled=true; cv.appendChild(ren.domElement);
-    scene.add(new THREE.HemisphereLight(0xffffff,0x6b7884,0.9)); const dl=new THREE.DirectionalLight(0xffffff,0.55); dl.position.set(-50,-80,120); scene.add(dl);
+    const hemi=new THREE.HemisphereLight(0xffffff,0x6b7884,0.9); scene.add(hemi); const dl=new THREE.DirectionalLight(0xffffff,0.55); dl.position.set(-50,-80,120); scene.add(dl);
     const clip=new THREE.Plane(new THREE.Vector3(0,0,-1),999);
     const layers={}; BAT_LAYERS.forEach(([k])=>{ layers[k]=new THREE.Group(); scene.add(layers[k]); });
     const pick=[];
@@ -3110,7 +3143,7 @@ async function rvBatInit(){
       if(u.space){ const s=u.space; info.innerHTML=`<b>Espace ${esc(s.n)} · ${esc(s.nm)}</b> · zone ${esc(s.z)} · ${s.a.toFixed(1)} m²`; return; }
       const fi=hit.faceIndex; let el=null; for(const e of u.els){ if(fi>=e[1]&&fi<e[1]+e[2]){ el=e; break; } }
       info.innerHTML=`<b>${esc(u.cat)}</b> · ${esc(el?meta.names[el[0]]:"")} <span class="hint">· maquette ${u.layer==="str"?"structure":"architecte"}${el?" · ID Revit "+el[3]:""}</span>`; };
-    RB={scene,cam,ren,ctl,layers,clip,EQ,eqSel,cx,cy,pickRay}; if(typeof batEnhance==="function") batEnhance();
+    RB={scene,cam,ren,ctl,layers,clip,EQ,eqSel,cx,cy,pickRay,hemi,dl}; if(typeof batEnhance==="function") batEnhance();
     const lst=$("#rvBatEq"); if(lst){ const grp=[["Toiture",e=>e.lv==="NT1"],["Terrasse basse (R+1)",e=>e.lv==="N01"],["RDC (chaufferie, local PAC, sas)",e=>e.lv==="N00"]];
       lst.innerHTML=EQ.length?grp.map(([t,f])=>{ const L=EQ.filter(e=>!/^Socle/.test(e.mark||"")&&f(e)); return L.length?`<div class="bat-eqg"><span class="hint">${t} :</span> `+L.map(e=>`<button class="btn small" data-eqgo="${esc(e.id)}" title="${esc(e.type)}">${esc(e.mark||e.type)}</button>`).join(" ")+`</div>`:""; }).join(""):"";
       lst.querySelectorAll("[data-eqgo]").forEach(b=>b.onclick=()=>rvBatFocus(b.dataset.eqgo)); }
@@ -4378,7 +4411,7 @@ function batEnhance(){
   let last=performance.now();
   R.tick=()=>{ const now=performance.now(), dt=Math.min(0.1,(now-last)/1000); last=now; if(!pts.visible) return;
     const gv=R.layers.gai.visible;
-    P.forEach((p,i)=>{ const s=SEG[p.s]; p.ph=(p.ph+dt*s.v/s.L)%1; const on=gv&&s.m.visible;
+    P.forEach((p,i)=>{ const s=SEG[p.s], f=R.flow?R.flow(s.g.net):1; p.ph=(p.ph+dt*s.v*f/s.L)%1; const on=gv&&s.m.visible&&f>0.02;
       if(!on){ pos[i*3+2]=-999; return; } pos[i*3]=s.from.x+(s.to.x-s.from.x)*p.ph; pos[i*3+1]=s.from.y+(s.to.y-s.from.y)*p.ph; pos[i*3+2]=s.from.z+(s.to.z-s.from.z)*p.ph+EXPL.value*s.lvl; });
     geo.attributes.position.needsUpdate=true; };
   // ---- commandes ----
@@ -4387,6 +4420,7 @@ function batEnhance(){
   d.innerHTML=`<label class="wow-air"><input type="checkbox" id="airOn"> <b>Air en mouvement</b> <span class="hint">(${P.length.toLocaleString("fr-FR")} particules : <i style="--cc:#3fa9ff"></i>soufflage <i style="--cc:#ff9a3c"></i>reprise <i style="--cc:#46c47a"></i>extraction)</span></label>
     <label class="wow-ex"><b>Écorché</b> <span class="hint">écarter les niveaux</span><input type="range" id="explR" min="0" max="8" step="0.1" value="0" aria-label="Écarter les niveaux"><output id="explO">0 m</output></label>`;
   t.appendChild(d);
+  R.airSet=on=>{ const c=$("#airOn"); if(c){ c.checked=on; c.onchange({target:c}); } else { pts.visible=on; glassDucts(on); } };
   $("#airOn").onchange=e=>{ pts.visible=e.target.checked; glassDucts(pts.visible); if(pts.visible){ last=performance.now(); if(!R.layers.gai.visible){ const c=document.querySelector('[data-blay="gai"]'); if(c){ c.checked=true; rvBatApply(); } } } };
   const ex=$("#explR"); let anim=null;
   ex.oninput=()=>{ EXPL.value=+ex.value; $("#explO").textContent=String(ex.value).replace(".",",")+" m"; };
@@ -4949,6 +4983,7 @@ async function mqEnter(){
   if(!RB){ $("#mqLoad").hidden=false; await rvBatInit(); } $("#mqLoad").hidden=true;
   mqEmptySel(); setTimeout(()=>{ if(typeof rvBatResize==="function") rvBatResize(); },60); mqSync(); }
 function mqExit(){
+  if(typeof jtStop==="function") jtStop();
   if(!MQ.on) return; MQ.on=false; document.body.classList.remove("mq-on");
   if(document.fullscreenElement) document.exitFullscreen().catch(()=>{});
   MQ_MOVE.forEach(([id])=>{ const el=document.getElementById(id), ph=MQ.ph[id]; if(el&&ph&&ph.parentNode){ ph.parentNode.insertBefore(el,ph); ph.remove(); } }); MQ.ph={};
@@ -6486,4 +6521,106 @@ TAB_META.visite=["Fichiers","Visite 3D","Se promener dans le bâtiment, à pied 
   tb.setAttribute("aria-controls","viewVisite"); vw.setAttribute("role","tabpanel"); vw.setAttribute("aria-labelledby","tabVisite");
   const _setTab=setTab; setTab=function(t){ if(t!=="visite"&&VS.on) vsExit(); _setTab(t); const on=t==="visite"; vw.hidden=!on; tb.setAttribute("aria-selected",on); tb.tabIndex=on?0:-1; if(on){ setCrumb("visite"); vsEnter(); } };
   tb.onclick=()=>setTab("visite"); }
+</script>
+<script>
+/* ========== Journée type d'hiver dans la Maquette 3D ==========
+   Modèle simplifié et pédagogique (pas une simulation thermique dynamique) :
+   besoin(pièce,h) = [Henv·A + 0,34·q·(1−η)·(CTA en marche)] × (Tconsigne(h) − Text(h)) − apports(h)
+   Henv = H total de l'enveloppe (energie.json, parois + baies + ponts) / surface des espaces ; q et CTA de chaque pièce = bouches qu'elle contient (bouches.json). */
+const JT={on:false,h:6,play:false,spd:0.8,lv:"N00",sp:null,last:0,lastH:-1,ev:-1};
+const JT_EXT=h=>-2+4*Math.sin(2*Math.PI*(h-9)/24);            // −6 °C vers 3 h, +2 °C vers 15 h
+const JT_IN=(h,a,b)=>a<b?h>=a&&h<b:h>=a||h<b;
+const JT_SVC={  // consigne jour / nuit (°C), horaires jour, apports internes (W/m²) jour / nuit
+  ouvert:{n:"Chambres (unité ouverte)",tj:22,tn:22,j:[7,21],gj:3,gn:4}, fermé:{n:"Chambres (unité protégée)",tj:22,tn:22,j:[7,21],gj:3,gn:4},
+  soins:{n:"Soins",tj:22,tn:20,j:[7,21],gj:8,gn:2}, vie:{n:"Lieux de vie",tj:21,tn:18,j:[7,21],gj:8,gn:0},
+  logistique:{n:"Logistique, cuisine",tj:19,tn:16,j:[6,20],gj:14,gn:1}, technique:{n:"Locaux techniques",tj:15,tn:15,j:[0,24],gj:5,gn:5}, dgt:{n:"Circulations",tj:20,tn:18,j:[7,21],gj:2,gn:1}};
+const JT_MEALS=[[7.75,9],[12,13.5],[18.5,19.75]];
+const JT_EVENTS=[[6,"🔄 Relance de la CTA 5 : les lieux de vie et les soins se préparent"],[7,"☀️ Réveil des résidents, consignes de jour"],[8,"🥐 Petit-déjeuner : apports internes dans les lieux de vie"],[12,"🍽️ Déjeuner : la CTA 5 passe à plein débit"],[15,"🌤️ Température extérieure maximale (+2 °C)"],[18.5,"🍲 Dîner"],[21,"🌙 Consignes de nuit (réduit dans les espaces communs)"],[22,"⏹️ Arrêt de la CTA 5 pour la nuit"],[3,"🥶 Moment le plus froid (−6 °C) : besoin maximal des chambres"]];
+function jtCta(net,h){ // débit relatif d'un réseau
+  if(net==="CTA 5"){ if(!JT_IN(h,6,22)) return 0; if(h<7) return 0.4+0.3*(h-6); return JT_MEALS.some(([a,b])=>h>=a-0.25&&h<b)?1:0.7; }
+  return 1; }
+function jtSetpoint(sv,h){ const S=JT_SVC[sv]; if(!S) return null; return JT_IN(h,S.j[0],S.j[1])?S.tj:S.tn; }
+function jtGains(sv,h){ const S=JT_SVC[sv]; if(!S) return 0; let g=JT_IN(h,S.j[0],S.j[1])?S.gj:S.gn;
+  if(sv==="vie"&&JT_MEALS.some(([a,b])=>h>=a&&h<b)) g+=22; if(sv==="logistique"&&(JT_IN(h,7,13.5)||JT_IN(h,16.5,19.5))) g+=10;
+  if(JT_IN(h,9,17)) g+=7*Math.sin(Math.PI*(h-9)/8);           // soleil d'hiver
+  return g; }
+async function jtPrep(){
+  if(JT.sp) return JT.sp; let E=null, B=[]; try{ E=await (await fetch("files/energie/energie.json")).json(); }catch(e){}
+  try{ if(typeof loadBouches==="function"&&!BOUCHES) await loadBouches(); }catch(e){} try{ B=Array.isArray(BOUCHES)?BOUCHES:(await (await fetch("files/bouches/bouches.json")).json()); }catch(e){}
+  const Htot=E&&E.H?E.H.parois+E.H.baies+E.H.ponts:1987.5, Sesp=E&&E.surf_espaces||4681, Hs=Htot/Sesp;
+  const inside=(px,py,L)=>{ let c=false; const n=L.length/2; for(let i=0,j=n-1;i<n;j=i++){ const x0=L[2*i],y0=L[2*i+1],x1=L[2*j],y1=L[2*j+1]; if((y0>py)!==(y1>py)&&px<(x1-x0)*(py-y0)/(y1-y0)+x0) c=!c; } return c; };
+  const sp=[]; RB.layers.esp.children.forEach(m=>{ const s=m.userData.space; if(!s||!JT_SVC[s.sv]) return;
+    const bo=B.filter(b=>b.lv===s.l&&s.p[0]&&inside(b.x,b.y,s.p[0])); const nets={};
+    bo.forEach(b=>{ const k=b.cta||b.reseau||"?"; const o=nets[k]||(nets[k]={q:0,eta:/^CTA/.test(k)?0.8:0}); if(/^CTA/.test(k)){ if(b.fonction==="Soufflage") o.q+=+b.q||0; } else o.q+=+b.q||0; });
+    Object.entries(nets).forEach(([k,o])=>{ if(/^CTA/.test(k)&&!o.q){ o.q=bo.filter(b=>(b.cta||b.reseau)===k).reduce((a,b)=>a+(+b.q||0),0); } });
+    sp.push({m,s,A:s.a||1,Genv:Hs*(s.a||1),nets,c0:m.material.color.getHex(),o0:m.material.opacity}); });
+  JT.Hs=Hs; JT.Htot=Htot; JT.sp=sp;
+  // courbe des 24 h
+  JT.curve=[]; for(let i=0;i<=96;i++){ const h=i/4; JT.curve.push(jtTotal(h)); } JT.max=Math.max(...JT.curve,1);
+  return sp; }
+function jtNeed(x,h){ const T=jtSetpoint(x.s.sv,h); if(T==null) return 0; const dT=T-JT_EXT(h); let H=x.Genv;
+  Object.entries(x.nets).forEach(([k,o])=>{ const f=/^CTA/.test(k)?jtCta(k,h):1; H+=0.34*o.q*(1-o.eta)*f; });
+  return Math.max(0,H*dT-jtGains(x.s.sv,h)*x.A); }
+function jtTotal(h){ return JT.sp.reduce((a,x)=>a+jtNeed(x,h),0)/1000; }
+const JT_SCALE=[[0,[59,130,246]],[12,[34,197,94]],[24,[250,204,21]],[36,[249,115,22]],[50,[220,38,38]]];
+function jtCol(w){ for(let i=1;i<JT_SCALE.length;i++){ const [a,ca]=JT_SCALE[i-1],[b,cb]=JT_SCALE[i]; if(w<=b||i===JT_SCALE.length-1){ const k=Math.max(0,Math.min(1,(w-a)/(b-a))); return ca.map((v,j)=>Math.round(v+(cb[j]-v)*k)); } } }
+function jtFmt(h){ const H=Math.floor(h)%24, M=Math.floor((h%1)*60); return String(H).padStart(2,"0")+":"+String(M).padStart(2,"0"); }
+function jtApply(h){ if(!JT.sp) return; const R=RB;
+  JT.sp.forEach(x=>{ const w=jtNeed(x,h)/x.A, c=jtCol(w); x.m.material.color.setRGB(c[0]/255,c[1]/255,c[2]/255); x.m.material.emissive.setRGB(c[0]/255*0.55,c[1]/255*0.55,c[2]/255*0.55); x.m.material.opacity=0.85; x.w=w; });
+  // ciel, soleil
+  const sun=Math.max(0,Math.sin(Math.PI*(h-8)/9)), day=JT_IN(h,8,17)?sun:0, night=new THREE.Color(0x0b1426), dayc=new THREE.Color(0xd9e6f0), dusk=new THREE.Color(0xf4b183);
+  const tw=JT_IN(h,7,8.5)||JT_IN(h,16.5,18)?1-Math.min(1,Math.abs(h<12?h-7.6:h-17.2)/0.9):0;
+  R.scene.background=night.clone().lerp(dayc,day).lerp(dusk,tw*0.55); if(R.hemi) R.hemi.intensity=0.32+0.6*day; if(R.dl){ R.dl.intensity=0.08+0.55*day; const az=Math.PI*(h-6)/12; R.dl.position.set(-120*Math.cos(az),-60,40+90*day); }
+  // CTA 5 : marche / arrêt
+  const f=jtCta("CTA 5",h); (JT.cta5||[]).forEach(m=>{ m.material.emissive.setHex(f>0?0x0f7a3a:0x000000); m.material.emissiveIntensity=f>0?0.35+0.45*f:1; });
+  if(JT.lab){ const t=f>0?`CTA 5 · ${Math.round(f*100)} %`:"CTA 5 · arrêt"; if(JT.labT!==t){ JT.labT=t; const L=stkLabel(t,"#fff",f>0?"rgba(22,163,74,.92)":"rgba(71,85,105,.92)"); JT.lab.material.map=L.material.map; JT.lab.material.needsUpdate=true; JT.lab.scale.copy(L.scale).multiplyScalar(1.6); } }
+  // tableau de bord
+  const P=jtTotal(h), Tx=JT_EXT(h);
+  $("#jtClock").textContent=jtFmt(h); $("#jtSky").textContent=JT_IN(h,8,17)?"☀️":JT_IN(h,7,8)||JT_IN(h,17,18.5)?"🌅":"🌙";
+  $("#jtText").textContent=Tx.toFixed(1).replace(".",",")+" °C"; $("#jtP").textContent=P.toFixed(1).replace(".",",")+" kW"; $("#jtPac").style.width=Math.min(100,P/67.4*100)+"%";
+  $("#jtCta").textContent=f>0?Math.round(f*100)+" %":"arrêt"; $("#jtCta").parentElement.classList.toggle("off",f<=0);
+  const r=$("#jtR"); if(document.activeElement!==r) r.value=h; const mk=$("#jtMark"); if(mk){ const X=h/24*600; mk.setAttribute("x1",X); mk.setAttribute("x2",X); }
+  // évènement du moment
+  let ev=-1; JT_EVENTS.forEach(([t],i)=>{ if(h>=t&&h<t+0.75) ev=i; }); if(ev!==JT.ev){ JT.ev=ev; const e=$("#jtEv"); if(ev>=0){ e.textContent=jtFmt(JT_EVENTS[ev][0])+" — "+JT_EVENTS[ev][1]; e.classList.remove("on"); void e.offsetWidth; e.classList.add("on"); } else { e.classList.remove("on"); e.textContent=""; } }
+  JT.lastH=h; }
+function jtChart(){ const W=600,H=70, pts=JT.curve.map((v,i)=>[i/96*W,H-4-(v/JT.max)*(H-12)]), d="M"+pts.map(p=>p[0].toFixed(1)+","+p[1].toFixed(1)).join(" L");
+  const off=[[0,6],[22,24]].map(([a,b])=>`<rect x="${a/24*W}" y="0" width="${(b-a)/24*W}" height="${H}" fill="rgb(15 23 42 / .07)"/>`).join("");
+  const ticks=[0,3,6,9,12,15,18,21,24].map(t=>`<text x="${Math.min(W-14,t/24*W+2)}" y="${H-2}" font-size="9" fill="#64748b">${t}h</text>`).join("");
+  $("#jtSvg").innerHTML=`${off}<path d="${d} L${W},${H} L0,${H} Z" fill="rgb(239 68 68 / .14)"/><path d="${d}" fill="none" stroke="#dc2626" stroke-width="2"/>${ticks}<text x="4" y="11" font-size="9.5" fill="#991b1b">max ${JT.max.toFixed(0)} kW</text><text x="${0.4/24*W}" y="${H-13}" font-size="9" fill="#475569">CTA 5 arrêtée</text><text x="${22.1/24*W}" y="${H-13}" font-size="9" fill="#475569">arrêt</text><line id="jtMark" x1="0" x2="0" y1="0" y2="${H}" stroke="#0f172a" stroke-width="2"/>`; }
+function jtLevel(lv){ JT.lv=lv; document.querySelectorAll("[data-jtlv]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.jtlv===lv)); const R=RB;
+  R.clip.constant=lv==="N00"?2.9:lv==="N01"?6.3:999; R.layers.esp.visible=lv!=="toit"; R.layers.ceil.visible=false;
+  if(lv==="toit"){ const e=(R.EQ||[]).find(x=>x.mark==="CTA 5"&&x.bb); if(e){ const c=[(e.bb[0][0]+e.bb[1][0])/2-R.cx,(e.bb[0][1]+e.bb[1][1])/2-R.cy,(e.bb[0][2]+e.bb[1][2])/2]; R.ctl.target.set(c[0],c[1],c[2]); R.cam.position.set(c[0]-16,c[1]-22,c[2]+14); } }
+  else { const bb=new THREE.Box3(); (JT.sp||[]).forEach(x=>{ if(x.s.l===lv) bb.expandByObject(x.m); }); if(bb.isEmpty()) R.layers.esp.children.forEach(m=>bb.expandByObject(m));
+    const c=new THREE.Vector3(), sz=new THREE.Vector3(); bb.getCenter(c); bb.getSize(sz); const D=Math.max(sz.x,sz.y);
+    R.ctl.target.set(c.x+D*0.12,c.y-D*0.08,lv==="N00"?0:3.4); R.cam.position.set(c.x+D*0.05,c.y-D*0.78,(lv==="N00"?0:3.4)+D*0.82); }
+  R.ctl.update(); }
+async function jtStart(){
+  if(!RB) await rvBatInit(); if(JT.on) return; const R=RB; JT.on=true; $("#jt").hidden=false; $("#jtLoad").hidden=false; document.querySelectorAll('[data-mq-act="day"]').forEach(b=>b.setAttribute("aria-pressed","true"));
+  JT.save={vis:Object.fromEntries(Object.entries(R.layers).map(([k,g])=>[k,g.visible])),clip:R.clip.constant,bg:R.scene.background,hemi:R.hemi&&R.hemi.intensity,dl:R.dl&&R.dl.intensity,dlp:R.dl&&R.dl.position.clone(),cam:R.cam.position.clone(),tg:R.ctl.target.clone(),air:!!($("#airOn")&&$("#airOn").checked)};
+  await jtPrep(); $("#jtLoad").hidden=true; jtChart();
+  R.layers.gai.visible=true; R.layers.eq.visible=true; R.layers.esp.visible=true; if(R.airSet) R.airSet(true); R.flow=net=>jtCta(net,JT.h);
+  JT.cta5=[]; R.layers.eq.traverse(o=>{ if(o.isMesh&&o.userData.eq&&o.userData.eq.mark==="CTA 5"){ o.material=o.material.clone(); JT.cta5.push(o); } });
+  const e=(R.EQ||[]).find(x=>x.mark==="CTA 5"&&x.bb); if(e&&typeof stkLabel==="function"){ JT.lab=stkLabel("CTA 5","#fff","rgba(22,163,74,.92)"); JT.lab.position.set((e.bb[0][0]+e.bb[1][0])/2-R.cx,(e.bb[0][1]+e.bb[1][1])/2-R.cy,e.bb[1][2]+2.2); JT.lab.material.depthTest=false; JT.lab.renderOrder=9; R.scene.add(JT.lab); JT.labT=null; }
+  jtLevel(JT.lv); JT.lastH=-1; jtApply(JT.h); jtSum(); }
+function jtStop(){ if(!JT.on) return; const R=RB, S=JT.save; JT.on=false; JT.play=false; $("#jt").hidden=true; $("#jtPlay").textContent="▶"; document.querySelectorAll('[data-mq-act="day"]').forEach(b=>b.setAttribute("aria-pressed","false"));
+  (JT.sp||[]).forEach(x=>{ x.m.material.color.setHex(x.c0); x.m.material.emissive.setHex(0); x.m.material.opacity=x.o0; }); (JT.cta5||[]).forEach(m=>{ m.material.emissive.setHex(0); m.material.emissiveIntensity=1; });
+  if(JT.lab){ R.scene.remove(JT.lab); JT.lab=null; } R.flow=null;
+  Object.entries(S.vis).forEach(([k,v])=>R.layers[k].visible=v); R.clip.constant=S.clip; R.scene.background=S.bg; if(R.hemi) R.hemi.intensity=S.hemi; if(R.dl){ R.dl.intensity=S.dl; R.dl.position.copy(S.dlp); }
+  R.cam.position.copy(S.cam); R.ctl.target.copy(S.tg); R.ctl.update(); if(R.airSet) R.airSet(S.air); if(typeof rvBatApply==="function") rvBatApply(); if(typeof mqSync==="function") mqSync(); }
+function jtSum(){ const t=JT.curve, E=t.reduce((a,v)=>a+v/4,0)-t[96]/4; const n5=JT.sp.filter(x=>x.nets["CTA 5"]).length;
+  $("#jtInfo").innerHTML=`<b>Sur 24 h :</b> ${E.toFixed(0)} kWh de chauffage · pointe ${JT.max.toFixed(0)} kW (PAC : 2 × 33,7 = 67,4 kW) · ${JT.sp.length} pièces, dont ${n5} desservies par la CTA 5.
+    <details><summary>Hypothèses du modèle</summary><ul><li>Journée d'hiver type : −6 °C vers 3 h, +2 °C vers 15 h (base de calcul −9 °C).</li><li>Pertes par l'enveloppe : H = ${JT.Htot.toFixed(0)} W/K (parois + baies + ponts, étude RT2012) réparti au m² : ${JT.Hs.toFixed(2).replace(".",",")} W/m².K.</li><li>Ventilation : débit des bouches de chaque pièce, récupération 80 % sur les CTA double flux, CTA 5 arrêtée de 22 h à 6 h et à plein débit aux repas.</li><li>Consignes : chambres 22 °C jour et nuit, soins 22/20 °C, lieux de vie 21/18 °C, logistique 19/16 °C.</li><li>Apports : occupants, éclairage, cuisine, repas, soleil d'hiver. Pas d'inertie du bâtiment ni de relance anticipée : c'est un ordre de grandeur pédagogique, pas une simulation dynamique. La pointe calculée peut donc dépasser la puissance des PAC.</li></ul></details>`; }
+// boucle : avance du temps
+function jtFrame(){ if(!JT.on) return; const now=performance.now(), dt=Math.min(0.1,(now-(JT.last||now))/1000); JT.last=now;
+  if(JT.play){ JT.h=(JT.h+dt*JT.spd)%24; } if(Math.abs(JT.h-JT.lastH)>0.01) jtApply(JT.h); if(JT.lab&&JT.cta5.length){ const f=jtCta("CTA 5",JT.h); JT.cta5.forEach(m=>{ if(f>0) m.material.emissiveIntensity=0.3+0.5*f+0.15*Math.sin(now/300); }); } }
+// branchement sur la 3D (une fois qu'elle existe)
+(function hook(){ if(!(typeof RB!=="undefined"&&RB&&RB.enh&&RB.tick)){ setTimeout(hook,700); return; } if(RB.jtHooked) return; RB.jtHooked=true; const t0=RB.tick; RB.tick=()=>{ t0(); jtFrame(); };
+  const t=$("#rvBatTools"); if(t&&!$("#jtGo")){ const b=document.createElement("button"); b.type="button"; b.className="btn small"; b.id="jtGo"; b.textContent="🕒 Journée type d'hiver (24 h animées)"; b.onclick=()=>{ if(!MQ.on) setTab("maq"); setTimeout(jtStart,MQ.on?0:400); }; const w=t.querySelector(".wow-ctl"); (w||t).appendChild(b); } })();
+$("#jtR").oninput=e=>{ JT.h=+e.target.value; JT.play=false; $("#jtPlay").textContent="▶"; jtApply(JT.h); };
+$("#jtPlay").onclick=()=>{ JT.play=!JT.play; $("#jtPlay").textContent=JT.play?"❚❚":"▶"; JT.last=performance.now(); };
+$("#jtClose").onclick=jtStop;
+$("#jtSpd").onchange=e=>{ JT.spd=+e.target.value; };
+document.querySelectorAll("[data-jtlv]").forEach(b=>b.onclick=()=>jtLevel(b.dataset.jtlv));
+$("#jtSvg").addEventListener("click",e=>{ const r=e.currentTarget.getBoundingClientRect(); JT.h=Math.max(0,Math.min(23.99,(e.clientX-r.left)/r.width*24)); jtApply(JT.h); });
+document.querySelectorAll('[data-mq-act="day"]').forEach(b=>b.addEventListener("click",()=>{ if(JT.on) jtStop(); else jtStart(); }));
 </script>
