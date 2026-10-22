@@ -796,6 +796,15 @@ body.mq-on{overflow:hidden}
 .ev-dock[aria-pressed="true"]{background:linear-gradient(135deg,#16a34a,#0d9488)!important;color:#fff!important;border-color:transparent!important}
 .ev:not([hidden])~.jv .jv-sub{bottom:300px}
 @media (max-width:900px){.ev-bar{right:8px;left:8px}.ev-lab{width:200px}.ev-card{left:16px;top:auto;bottom:330px}}
+.dq-head h2{margin-bottom:6px}.dq-form{display:flex;gap:8px;margin:12px 0 8px}.dq-form input{flex:1;font:inherit;font-size:17px;padding:12px 14px;border-radius:12px;border:2px solid var(--line,#cbd5e1);background:var(--surface,#fff);color:inherit}.dq-form input:focus{outline:none;border-color:#1f5fa8}
+.dq-ex{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}.dq-chip{border:1px solid var(--line,#cbd5e1);background:var(--surface,#fff);color:inherit;border-radius:99px;padding:4px 10px;font:inherit;font-size:13px;cursor:pointer}.dq-chip:hover{border-color:#1f5fa8}.dq-chip.on{background:#1f5fa8;color:#fff;border-color:#1f5fa8}.dq-chip b{margin-left:3px}
+.dq-out{display:grid;gap:12px;margin:12px 0}.dq-ans{padding:16px 18px;border-radius:16px;background:linear-gradient(135deg,#eff6ff,#f0fdf4);border:1px solid #bfdbfe;color:#0f172a}.dq-al{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:#1f5fa8;font-weight:700}
+.dq-ans blockquote{margin:8px 0 10px;padding:0 0 0 14px;border-left:4px solid #1f5fa8;font-size:17px;line-height:1.5}.dq-src{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;font-size:13px;color:#334155}
+.dq-doc{font-weight:700;color:#1e3a5f}.dq-meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:13px;color:var(--muted,#64748b)}
+.dq-list{display:grid;gap:8px;margin:0;padding-left:22px}.dq-list li{padding:10px 12px;border-radius:12px;border:1px solid var(--line,#e2e8f0);background:var(--surface,#fff)}.dq-h{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:13px}.dq-sec{color:#475569}.dq-pg{color:#64748b}
+.dq-list p{margin:6px 0;font-size:14.5px;line-height:1.5}.dq-act{display:flex;gap:14px;font-size:13px}.dq-list mark,.dq-ans mark{background:#fef08a;color:inherit;border-radius:3px;padding:0 2px}
+.dq-none{padding:14px;border-radius:12px;background:#fff7ed;border:1px solid #fed7aa}.dq-docs ul{columns:2;font-size:13.5px}
+@media (max-width:700px){.dq-docs ul{columns:1}.dq-form input{font-size:15px}}
 .hv-wait{display:grid;place-content:center;justify-items:center;gap:12px;text-align:center;color:#fff;padding:20px}.hv-wait p{margin:0}
 .hv-b{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .gai-ctl{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;font-size:14px}.gai-leg{display:flex;flex-wrap:wrap;gap:4px 10px}.gai-leg label{display:inline-flex;gap:5px;align-items:center;cursor:pointer}
@@ -947,6 +956,7 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
       <button role="tab" id="tabIssues" aria-selected="false">Problèmes <span id="issBadge" class="badge" hidden></span></button>
       <span class="tsep" aria-hidden="true"></span>
       <button role="tab" id="tabDocs" aria-selected="false">Documents</button>
+      <button role="tab" id="tabDce" aria-selected="false">🔎 Recherche DCE</button>
       <button role="tab" id="tabSyn" aria-selected="false">Synoptiques</button>
       <button role="tab" id="tabResa" aria-selected="false">Réservations</button>
       <button role="tab" id="tabBouches" aria-selected="false">Bouches</button>
@@ -1177,6 +1187,18 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
 
   <section id="viewDone" hidden>
     <div id="done"></div>
+  </section>
+
+  <section id="viewDce" hidden>
+    <section class="rv-head dq-head">
+      <div class="label">Documents · pièces du marché</div>
+      <h2>🔎 Recherche dans le DCE</h2>
+      <p>Pose ta question en français : le site cherche dans <b>tout le DCE</b> (CCTP, CCAP, notices, études thermique et acoustique, convention BIM, plans…) et affiche <b>le passage exact</b>, avec le document, le paragraphe et la page. Un clic ouvre le PDF à la bonne page.</p>
+      <form class="dq-form" id="dqForm"><input id="dqQ" type="search" autocomplete="off" placeholder="ex. Quelle classe de filtres pour les CTA ?" aria-label="Question"><button class="btn primary" type="submit">Chercher</button></form>
+      <div class="dq-ex" id="dqEx"></div><p class="hint" id="dqDocs">Chargement de l'index…</p>
+    </section>
+    <div id="dqOut" class="dq-out"></div>
+    <details class="dq-docs"><summary>Documents indexés</summary><ul id="dqList"></ul><p class="hint">Recherche par mots-clés (avec racines et synonymes du métier), pas par intelligence artificielle : elle retrouve des passages, elle n'invente rien. Vérifie toujours la page avant de citer. Index : <code>files/dce/index.json</code>, régénéré si le DCE change.</p></details>
   </section>
 
   <section id="viewDocs" hidden>
@@ -7407,7 +7429,7 @@ const _jvMqExit=mqExit; mqExit=function(){ if(JV.on) jvOpen(false); return _jvMq
   const bar=document.querySelector(".tabs"); if(!bar||typeof setTab!=="function") return;
   const G=[
     ["projet","🏠 Projet","Accueil, présentation, indicateurs, échanges avec les profs",["tabHome","tabProj","tabKpi","tabEch"]],
-    ["equipe","👥 Équipe","Tâches, heures, problèmes, documents, ACC",["tabTasks","tabMine","tabDone","tabHours","tabIssues","tabDocs","tabAcc","tabLogs","tabJeu"]],
+    ["equipe","👥 Équipe","Tâches, heures, problèmes, documents, recherche DCE, ACC",["tabTasks","tabMine","tabDone","tabHours","tabIssues","tabDocs","tabDce","tabAcc","tabLogs","tabJeu"]],
     ["etudes","📐 Études CVC","Énergie, ventilation, réservations, implantation, normes, devis",["tabEnergie","tabBouches","tabResa","tabImpl","tabSyn","tabRse","tabDevis","tabStock"]],
     ["maquette","🧱 Maquette et Revit","Maquette 3D, visite, familles, Revit",["tabMaq","tabVisite","tabFam","tabFamGen","tabPas","tabRevit","tabTuto","tabCaps"]],
     ["jumeau","✨ Jumeau et exploitation","Le bâtiment vivant : pannes, canicule, GTB, QR codes",["tabJum","tabGtb"]]];
@@ -7640,4 +7662,69 @@ evPeople=function(){ if(!EV.inst){ const g=new THREE.CylinderGeometry(0.3,0.36,1
 { const _s=evStart; evStart=async function(){ const r=await _s.apply(this,arguments); try{ navBuild(); }catch(e){ console.warn("navigation",e); } EV.ppl.forEach(p=>{ p.pos=null; p.room=null; p.path=null; p.goal=undefined; }); NAV.queue=[]; return r; }; }
 { const _x=evStop; evStop=function(){ if(EV.head) EV.head.visible=false; return _x.apply(this,arguments); }; }
 { const _h=evHud; evHud=function(){ _h(); const w=$("#evPpl"); if(w&&EV.walking) w.textContent+=` · ${EV.walking} en marche`; }; }
+</script>
+<script>
+/* ========== Recherche dans le DCE : on pose une question, le site retrouve le passage exact (document, paragraphe, page) ==========
+   Index construit hors ligne (files/dce/index.json : texte des PDF découpé en passages, OCR pour le PC 16 scanné).
+   Classement BM25 avec racines françaises, synonymes du métier et bonus quand les mots se suivent. */
+const DQ={idx:null,inv:null,doc:"",last:""};
+const DQ_STOP=new Set("a au aux avec ce ces cet cette dans de des du elle en et est etre eux il ils je la le les leur lui ma mais me meme mes moi mon ne nos notre nous on ou par pas pour qu que qui sa se ses son sur ta te tes toi ton tu un une vos votre vous y d l s n c j m t qu est ont sont sera seront doit doivent peut peuvent fait faire selon quel quelle quels quelles combien comment pourquoi quoi dit dire il y a t il".split(" "));
+const DQ_SYN={cta:"centrale traitement air",vmc:"ventilation mecanique controlee",pac:"pompe chaleur geothermique",ecs:"eau chaude sanitaire",efs:"eau froide sanitaire",filtre:"filtration filtres f7 g4 f9 poches",classe:"type",consigne:"temperature interieure hiver",chambre:"chambres",legionelle:"legionellose legionella eau chaude 70",fournit:"charge fourniture lot",bruit:"acoustique sonore niveau",acoustique:"bruit sonore",chaudiere:"chaudieres gaz condensation",registre:"registres clapet",clapet:"registre coupe feu",calorifuge:"isolation calorifugeage",gaine:"conduit conduits reseau aeraulique gaines",bouche:"diffuseur grille bouches",plot:"antivibratile plots",doe:"dossier ouvrages executes",maintenance:"entretien exploitation",debit:"m3 h debits",garantie:"garanties parfait achevement",penalite:"penalites retard",delai:"delais",reception:"essais",bim:"maquette numerique",ifc:"maquette",chantier:"travaux",regulation:"gtb automate",gtb:"gestion technique batiment regulation",radiateur:"emetteur emetteurs",plancher:"chauffant rafraichissant",sonde:"sondes geothermie forage",forage:"sondes geothermique",temperature:"temperatures consigne",consigne:"temperature",prix:"montant",bbio:"besoin bioclimatique",cep:"consommation energie primaire"};
+const dqNorm=s=>String(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[’']/g," ");
+function dqStem(w){ if(w.length<=4||/^\d/.test(w)) return w; for(const s of ["ations","ements","ation","ement","euses","ables","ances","ences","iques","euse","able","ance","ence","ique","eurs","eaux","ees","ers","ies","eur","ee","es","er","s","x","e"]) if(w.endsWith(s)&&w.length-s.length>=4) return w.slice(0,-s.length); return w; }
+const dqTok=s=>dqNorm(s).split(/[^a-z0-9]+/).filter(w=>w&&!DQ_STOP.has(w)&&(w.length>1||/\d/.test(w))).map(dqStem);
+async function dqLoad(){ if(DQ.idx) return; const r=await fetch("files/dce/index.json",{cache:"no-cache"}); DQ.idx=await r.json(); const C=DQ.idx.chunks, inv=new Map(); let tot=0;
+  DQ.len=C.map((c,i)=>{ const T=dqTok(c[2]+" "+c[3]); tot+=T.length; const tf=new Map(); T.forEach(w=>tf.set(w,(tf.get(w)||0)+1)); tf.forEach((n,w)=>{ let L=inv.get(w); if(!L){ L=[]; inv.set(w,L); } L.push([i,n]); }); return T.length; });
+  DQ.inv=inv; DQ.vocab=[...inv.keys()]; DQ.avg=tot/C.length; DQ.D=Object.fromEntries(DQ.idx.docs.map(d=>[d.k,d])); }
+function dqSearch(q){ const base=dqTok(q); DQ.lastBase=base; const C=DQ.idx.chunks, N=C.length, sc=new Float64Array(N), hit=new Uint8Array(N); const terms=new Map();
+  base.forEach(w=>terms.set(w,(terms.get(w)||0)+1)); base.forEach(w=>{ if(w.length<5||/\d/.test(w)) return; let n=0; for(const v of DQ.vocab){ if(v!==w&&v.startsWith(w)&&!terms.has(v)){ terms.set(v,0.7); if(++n>12) break; } } }); dqNorm(q).split(/[^a-z0-9]+/).forEach(w=>{ const s=DQ_SYN[w]||DQ_SYN[w.replace(/[sx]$/,"")]; if(s) dqTok(s).forEach(x=>{ if(!terms.has(x)) terms.set(x,/\d/.test(x)?1:0.35); }); });
+  terms.forEach((wq,w)=>{ const L=DQ.inv.get(w); if(!L) return; const idf=Math.log(1+(N-L.length+0.5)/(L.length+0.5)); L.forEach(([i,n])=>{ const dl=DQ.len[i]; sc[i]+=wq*idf*(n*2.2)/(n+1.2*(0.25+0.75*dl/DQ.avg)); hit[i]++; }); });
+  const res=[]; const nb=base.length; for(let i=0;i<N;i++){ if(!sc[i]) continue; const c=C[i]; if(DQ.doc&&c[0]!==DQ.doc) continue; let s=sc[i]*(1+0.35*Math.min(hit[i],nb)/Math.max(1,nb));
+    const T=dqTok(c[3]); for(let k=0;k+1<base.length;k++){ for(let j=0;j+1<T.length;j++) if(T[j]===base[k]&&T[j+1]===base[k+1]){ s*=1.25; break; } }
+    if(c[2]){ const ST=new Set(dqTok(c[2])); const k=base.filter(w=>ST.has(w)).length; if(k) s*=1+0.3*k; }
+    if(/\b(quel|quelle|quels|quelles|combien|niveau|classe|temperature|debit|vitesse|puissance|nombre|valeur|maxi|mini)/.test(dqNorm(q))&&/\d/.test(c[3])) s*=1.15;
+    if(DQ.D[c[0]].kind==="plan") s*=0.6; if(c[0]==="cctp") s*=1.2; res.push([s,i]); }
+  res.sort((a,b)=>b[0]-a[0]); return {terms:[...terms.keys()],base,res:res.slice(0,40)}; }
+function dqHL(t,terms){ const set=new Set(terms); return esc(t).replace(/[A-Za-zÀ-ÿ0-9]+/g,w=>set.has(dqStem(dqNorm(w)))&&!DQ_STOP.has(dqNorm(w))?`<mark>${w}</mark>`:w); }
+function dqBest(t,terms){ const S=t.split(/(?<=[.;!?])\s+(?=[A-ZÀ-Ý0-9«(•-])|\s+(?=•|- [A-ZÀ-Ý])/).filter(x=>x.trim().length>2); const base=new Set(DQ.lastBase||[]), N=DQ.idx.chunks.length;
+  const w=x=>{ const L=DQ.inv.get(x); const idf=L?Math.log(1+N/L.length):0; return (base.has(x)?1:0.35)*idf; }; let best="", bs=-1; const set=new Set(terms);
+  S.forEach((s,i)=>{ const T=dqTok(s), U=[...new Set(T.filter(x=>set.has(x)))]; let v=U.reduce((a,x)=>a+w(x),0)/Math.pow(T.length+4,0.35); if(/\d/.test(s)) v*=1.3; if(/:\s*$/.test(s)) v*=0.8;
+    if(v>bs){ bs=v; let b=s; if(/:\s*$/.test(s)||s.length<110){ b+=" "+(S[i+1]||""); if(/:\s*$/.test(s)) b+=" "+(S[i+2]||""); } best=b.trim(); } }); return best.length>460?best.slice(0,460)+"…":best; }
+function dqSnippet(t,terms){ const set=new Set(terms), W=t.split(/\s+/); let bi=0,bv=-1; for(let i=0;i<W.length;i++){ let v=0; for(let j=i;j<Math.min(W.length,i+45);j++) if(set.has(dqStem(dqNorm(W[j]).replace(/[^a-z0-9]/g,"")))) v++; if(v>bv){ bv=v; bi=i; } }
+  const a=Math.max(0,bi-6), s=W.slice(a,a+60).join(" "); return (a>0?"… ":"")+s+(a+60<W.length?" …":""); }
+const dqRef=c=>`${DQ.D[c[0]].t}${c[2]?" · § "+c[2]:""} · p. ${c[1]}`;
+const dqUrl=c=>`files/dce/${c[0]}.pdf#page=${c[1]}`;
+async function dqRun(q){ q=(q||"").trim(); if(!q) return; DQ.last=q; $("#dqQ").value=q; const out=$("#dqOut"); out.innerHTML=`<p class="hint">Recherche dans ${DQ.idx?DQ.idx.chunks.length.toLocaleString("fr-FR"):"…"} passages…</p>`;
+  await dqLoad(); const t0=performance.now(), R=dqSearch(q), ms=Math.round(performance.now()-t0), C=DQ.idx.chunks;
+  try{ history.replaceState(null,"","#dce?q="+encodeURIComponent(q)); }catch(e){}
+  if(!R.res.length){ out.innerHTML=`<div class="dq-none"><b>Aucun passage trouvé.</b> Essaie avec d'autres mots (« filtre » plutôt que « filtration G4 », un nom d'équipement, un numéro de paragraphe…).</div>`; return; }
+  const top=C[R.res[0][1]], best=dqBest(top[3],R.terms);
+  const byDoc={}; R.res.forEach(([s,i])=>{ const d=C[i][0]; byDoc[d]=(byDoc[d]||0)+1; });
+  out.innerHTML=`<div class="dq-ans"><div class="dq-al">Réponse la plus probable</div><blockquote>${dqHL(best,R.terms)}</blockquote>
+      <div class="dq-src"><span class="dq-doc">${esc(DQ.D[top[0]].t)}</span>${top[2]?`<span>§ ${esc(top[2])}</span>`:""}<span>page ${top[1]}</span>
+      <a class="btn small" href="${dqUrl(top)}" target="_blank" rel="noopener">Ouvrir le PDF à cette page ↗</a><button type="button" class="btn small" data-dqcopy="${R.res[0][1]}">Copier la citation</button></div></div>
+    <div class="dq-meta">${R.res.length} passage${R.res.length>1?"s":""} pertinents en ${ms} ms · ${Object.entries(byDoc).map(([d,n])=>`<button type="button" class="dq-chip${DQ.doc===d?" on":""}" data-dqdoc="${d}">${esc(DQ.D[d].t)} <b>${n}</b></button>`).join("")}${DQ.doc?`<button type="button" class="dq-chip" data-dqdoc="">✕ tous les documents</button>`:""}</div>
+    <ol class="dq-list">${R.res.slice(1,16).map(([s,i])=>{ const c=C[i]; return `<li><div class="dq-h"><span class="dq-doc">${esc(DQ.D[c[0]].t)}</span>${c[2]?`<span class="dq-sec">§ ${esc(c[2])}</span>`:""}<span class="dq-pg">p. ${c[1]}</span></div>
+      <p>${dqHL(dqSnippet(c[3],R.terms),R.terms)}</p><div class="dq-act"><a href="${dqUrl(c)}" target="_blank" rel="noopener">Ouvrir p. ${c[1]} ↗</a><button type="button" class="linklike" data-dqcopy="${i}">Copier la citation</button><button type="button" class="linklike" data-dqfull="${i}">Lire tout le passage</button></div></li>`; }).join("")}</ol>`;
+  out.querySelectorAll("[data-dqdoc]").forEach(b=>b.onclick=()=>{ DQ.doc=b.dataset.dqdoc; dqRun(DQ.last); });
+  out.querySelectorAll("[data-dqcopy]").forEach(b=>b.onclick=async()=>{ const c=C[+b.dataset.dqcopy], txt=`« ${dqBest(c[3],R.terms)} » (${dqRef(c)})`; try{ await navigator.clipboard.writeText(txt); b.textContent="Copié ✓"; }catch(e){ prompt("Citation :",txt); } setTimeout(()=>b.textContent="Copier la citation",1500); });
+  out.querySelectorAll("[data-dqfull]").forEach(b=>b.onclick=()=>{ const c=C[+b.dataset.dqfull], p=b.closest("li").querySelector("p"); p.innerHTML=dqHL(c[3],R.terms); b.remove(); });
+  if(typeof JV!=="undefined"&&JV.dceSay){ JV.dceSay=false; jvSay(`D'après ${DQ.D[top[0]].t}${top[2]?", paragraphe "+top[2].split(" ")[0]:""}, page ${top[1]} : ${best}`); } }
+// ---- onglet ----
+const DQ_EX=["Quelle classe de filtres pour les CTA ?","Niveau sonore maximal dans les chambres","Température de consigne des chambres","Qui fournit les plots antivibratiles ?","Pénalités de retard","Prévention de la légionelle","Débit des bouches d'extraction des salles de bain","Contenu du DOE","Garantie des pompes à chaleur","Calorifugeage des réseaux"];
+function dqInit(){ if(dqInit.done) return; dqInit.done=true; $("#dqEx").innerHTML=DQ_EX.map(x=>`<button type="button" class="dq-chip">${esc(x)}</button>`).join(""); $("#dqEx").querySelectorAll("button").forEach(b=>b.onclick=()=>dqRun(b.textContent));
+  $("#dqForm").onsubmit=e=>{ e.preventDefault(); DQ.doc=""; dqRun($("#dqQ").value); };
+  dqLoad().then(()=>{ const D=DQ.idx.docs; $("#dqDocs").innerHTML=`${D.length} documents indexés · ${DQ.idx.chunks.length.toLocaleString("fr-FR")} passages · ${D.reduce((a,d)=>a+d.n,0)} pages`; $("#dqList").innerHTML=D.map(d=>`<li><a href="files/dce/${d.k}.pdf" target="_blank" rel="noopener">${esc(d.t)}</a> <span class="hint">${d.n} p.${d.kind==="plan"?" · plan (textes des étiquettes)":""}${d.k==="pc16"?" · scanné, lu par OCR":""}</span></li>`).join(""); }).catch(()=>{ $("#dqDocs").textContent="Index introuvable."; });
+  const m=location.hash.match(/^#dce\?q=(.+)$/); if(m) dqRun(decodeURIComponent(m[1])); }
+TAB_META.dce=["Documents","Recherche DCE","Pose une question, le site retrouve le passage exact dans les pièces du marché."];
+{ const tb=$("#tabDce"), vw=$("#viewDce"); tb.setAttribute("aria-controls","viewDce"); vw.setAttribute("role","tabpanel"); vw.setAttribute("aria-labelledby","tabDce");
+  const _setTab=setTab; setTab=function(t){ _setTab(t); const on=t==="dce"; vw.hidden=!on; tb.setAttribute("aria-selected",on); tb.tabIndex=on?0:-1; if(on){ setCrumb("dce"); dqInit(); setTimeout(()=>$("#dqQ").focus(),50); } };
+  tb.onclick=()=>setTab("dce"); if(/^#dce/.test(location.hash)) setTimeout(()=>setTab("dce"),300); }
+// ---- Jarvis : « Jarvis, que dit le CCTP sur les filtres ? » ----
+async function dqAnswer(q){ await dqLoad(); const R=dqSearch(q); if(!R.res.length) return null; const c=DQ.idx.chunks[R.res[0][1]]; return {c,best:dqBest(c[3],R.terms)}; }
+if(typeof jvHandle==="function"){ const _jh=jvHandle; jvHandle=async function(t){ const m=t.match(/^(?:que dit|qu est ce que dit|cherche|recherche|trouve)(?: le| la| les| dans le| dans la)? (?:cctp|ccap|dce|doc|documents?|notice|marche)?\s*(?:sur|pour|a propos de|concernant|au sujet de)?\s*(.+)$/)||t.match(/^(?:selon|d apres) le (?:cctp|dce|ccap),? (.+)$/);
+  if(!(m&&m[1]&&m[1].length>2)) return _jh.apply(this,arguments);
+  if(typeof MQ!=="undefined"&&MQ.on){ JV.busy=true; jvState("think"); const A=await dqAnswer(m[1]); JV.busy=false; if(!A){ await jvSay("Je n'ai rien trouvé dans le DCE sur ce sujet."); return; }
+    await jvSay(`D'après ${DQ.D[A.c[0]].t}${A.c[2]?", paragraphe "+A.c[2].split(" ")[0]:""}, page ${A.c[1]} : ${A.best}`); return; }
+  JV.dceSay=true; setTab("dce"); await dqRun(m[1]); }; }
 </script>
