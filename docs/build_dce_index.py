@@ -2,7 +2,7 @@
 import json, re, subprocess, sys, os, glob
 
 DCE = "/home/claude/ehpad-labassee/files/dce"
-OCR = os.path.dirname(os.path.abspath(__file__))
+OCR = os.environ.get("OCR_DIR", os.path.dirname(os.path.abspath(__file__)))
 OUT = sys.argv[1]
 
 TITLES = {"cctp": "CCTP lot 12 CVC-DF-GEO-PBS", "schema": "Schéma CVC-S-1 chauffage + ECS + eau glacée", "ft": "Fiches techniques CVC / PBS",
@@ -34,6 +34,8 @@ def pages(key):
 HEAD = re.compile(r"^\s*((?:\d{1,2}\.){1,4}\d{1,2})\.?\s+([A-ZÉÈÀÂÎÔÛÇ][^\n]{2,90})$")
 def clean(t):
     t = t.replace("­", "").replace("\x0c", "\n")
+    t = re.sub(r"[\uf000-\uf8ff\u25aa\u25cf\u2022\u00b7]", "•", t)
+    t = re.sub(r"(•\s*){2,}", "• ", t)
     t = re.sub(r"(\w)-\n(\w)", r"\1\2", t)
     t = re.sub(r"[ \t ]+", " ", t)
     return t
