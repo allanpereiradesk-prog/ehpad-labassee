@@ -7692,8 +7692,9 @@ const _jvMqExit=mqExit; mqExit=function(){ if(JV.on) jvOpen(false); return _jvMq
     ["projet","🏠 Projet","Accueil, présentation, indicateurs, échanges avec les profs",["tabHome","tabProj","tabKpi","tabEch"]],
     ["equipe","👥 Équipe","Tâches, heures, problèmes, documents, recherche DCE, ACC",["tabTasks","tabMine","tabDone","tabHours","tabIssues","tabDocs","tabDce","tabAcc","tabLogs","tabJeu"]],
     ["etudes","📐 Études CVC","Énergie, ventilation, réservations, implantation, normes, devis",["tabEnergie","tabBouches","tabResa","tabImpl","tabSyn","tabRse","tabDevis","tabStock"]],
-    ["maquette","🧱 Maquette et Revit","Maquette 3D, visite, familles, Revit",["tabMaq","tabVisite","tabFam","tabFamGen","tabPas","tabRevit","tabTuto","tabPlug","tabCaps"]],
-    ["jumeau","✨ Jumeau et exploitation","Le bâtiment vivant : pannes, canicule, GTB, QR codes",["tabJum","tabGtb"]]];
+    ["maquette","🧱 Maquette et Revit","Maquette 3D, visite, familles, Revit",["tabMaq","tabVisite","tabFam","tabFamGen","tabPas","tabRevit","tabTuto","tabCaps"]],
+    ["jumeau","✨ Jumeau et exploitation","Le bâtiment vivant : pannes, canicule, GTB, QR codes",["tabJum","tabGtb"]],
+    ["plugin","🧩 Plugin","Le plugin Revit Allan BIM : téléchargement et tuto d'installation",["tabPlug"]]];
   const known=new Set(G.flatMap(g=>g[3]));
   [...bar.querySelectorAll('[role="tab"]')].forEach(b=>{ if(!known.has(b.id)) G[3][3].push(b.id); }); /* nouveaux onglets : rangés dans Maquette */
   bar.querySelectorAll(".tsep").forEach(x=>x.remove());
