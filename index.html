@@ -7423,9 +7423,14 @@ function jvStartRec(){ if(!jvSR){ jvSub("La reconnaissance vocale n'est pas disp
   if(JV.rec) return true; const r=new jvSR(); r.lang="fr-FR"; r.continuous=true; r.interimResults=true; r.maxAlternatives=3;
   r.onresult=e=>{ if(JV.speaking) return; let fin="", tmp=""; for(let i=e.resultIndex;i<e.results.length;i++){ const R=e.results[i]; if(R.isFinal){ const alts=[...R].map(a=>a.transcript); fin+=" "+(alts.find(a=>JV_WAKE.test(jvN(a)))||alts[0]); } else tmp+=R[0].transcript; }
     if(tmp) jvHeard(tmp.trim(),false); if(fin.trim()){ jvHeard(fin.trim(),true); jvInput(fin.trim(),true); } };
-  r.onerror=e=>{ if(e.error==="not-allowed"||e.error==="service-not-allowed"){ JV.listen=false; jvState(); jvSub("Le micro est bloqué. Clique sur le cadenas à gauche de l'adresse du site, autorise le micro, puis réessaie."); } };
-  r.onend=()=>{ JV.rec=null; if(JV.listen) setTimeout(jvStartRec,200); };
-  try{ r.start(); JV.rec=r; jvMeter(true); return true; }catch(e){ return false; } }
+  r.onerror=e=>{ const M={"not-allowed":"Le micro est bloqué. Clique sur le cadenas à gauche de l'adresse du site, autorise le micro, puis réessaie.",
+      "service-not-allowed":"La reconnaissance vocale est refusée par ce navigateur. Utilise Google Chrome ou Microsoft Edge (pas Brave, Firefox ou Opera), ou tape ta demande ci-dessous.",
+      "network":"La reconnaissance vocale ne répond pas : elle a besoin d'internet et ne marche que dans Google Chrome ou Microsoft Edge. Tu peux taper ta demande ci-dessous.",
+      "audio-capture":"Aucun micro détecté. Vérifie qu'un micro est branché et choisi dans Windows (Paramètres › Son › Entrée), puis réessaie.",
+      "language-not-supported":"Le français n'est pas disponible pour la reconnaissance vocale dans ce navigateur : utilise Chrome ou Edge."};
+    if(M[e.error]){ JV.listen=false; JV.recFatal=true; jvMeter(false); jvState(); $("#jvMic").setAttribute("aria-pressed",false); jvSub(M[e.error]); } };
+  r.onend=()=>{ JV.rec=null; if(JV.listen&&!JV.recFatal) setTimeout(jvStartRec,200); };
+  JV.recFatal=false; try{ r.start(); JV.rec=r; jvMeter(true); return true; }catch(e){ jvSub("Impossible de démarrer le micro ("+(e.message||e)+"). Recharge la page puis réessaie."); return false; } }
 function jvListen(on){ JV.listen=on; if(on){ if(!jvStartRec()){ JV.listen=false; } } else { try{ JV.rec&&JV.rec.stop(); }catch(e){} JV.rec=null; jvMeter(false); } jvState(); $("#jvMic").setAttribute("aria-pressed",JV.listen); }
 // niveau du micro : l'orbe respire avec ta voix
 async function jvMeter(on){ if(!on){ if(JV.mic){ JV.mic.getTracks().forEach(t=>t.stop()); JV.mic=null; } return; } if(JV.mic||!navigator.mediaDevices) return;
@@ -7433,15 +7438,20 @@ async function jvMeter(on){ if(!on){ if(JV.mic){ JV.mic.getTracks().forEach(t=>t
     (function lv(){ if(!JV.mic) { $("#jvOrb").style.setProperty("--lv",0); return; } an.getByteTimeDomainData(buf); let s=0; for(const v of buf){ const d=(v-128)/128; s+=d*d; } $("#jvOrb").style.setProperty("--lv",Math.min(1,Math.sqrt(s/buf.length)*6).toFixed(3)); requestAnimationFrame(lv); })(); }catch(e){} }
 // ---- entrée : mot-clé puis traitement ----
 async function jvInput(raw,voice){ let t=jvClean(raw); const now=performance.now();
-  if(voice&&JV.wake){ const m=t.match(JV_WAKE); if(m){ t=t.slice(m.index+m[0].length).trim(); } else if(now>JV.armed) return; if(!t){ JV.armed=now+7000; jvSub("Oui ?"); jvSay("Oui ?",false); return; } }
-  JV.armed=0; if(JV.busy&&!/^(stop|arrete|tais toi|silence)/.test(t)) return; await jvHandle(t); }
+  if(JV.busy&&now-(JV.busyAt||0)>20000){ JV.busy=false; jvAnimStop(); jvState(); }
+  if(voice&&JV.wake){ const m=t.match(JV_WAKE); if(m){ t=t.slice(m.index+m[0].length).trim(); } else if(now>JV.armed){ jvHeard(raw+" — commence ta phrase par « Jarvis » (ou décoche « Mot-clé Jarvis »)",true); return; } if(!t){ JV.armed=now+7000; jvSub("Oui ?"); jvSay("Oui ?",false); return; } }
+  JV.armed=0; if(JV.busy&&!/^(stop|arrete|tais toi|silence)/.test(t)){ jvSub("Attends une seconde, je termine la demande précédente…"); return; }
+  if(JV.busy){ jvAnimStop(); JV.busy=false; } await jvHandle(t); }
 // ---- caméra ----
-function jvFly(tg,cp,ms=1800){ return new Promise(res=>{ cancelAnimationFrame(JV.anim); const R=RB, t0=performance.now(), a0=R.ctl.target.clone(), c0=R.cam.position.clone(), A=new THREE.Vector3(...tg), C=new THREE.Vector3(...cp);
+function jvAnimStop(){ cancelAnimationFrame(JV.anim); clearTimeout(JV.animTo); const r=JV.animRes; JV.animRes=null; if(r) r(); }
+function jvFly(tg,cp,ms=1800){ return new Promise(res0=>{ jvAnimStop(); let fin=false; const res=()=>{ if(fin) return; fin=true; clearTimeout(JV.animTo); if(JV.animRes===res) JV.animRes=null; res0(); }; JV.animRes=res; const R=RB, t0=performance.now(), a0=R.ctl.target.clone(), c0=R.cam.position.clone(), A=new THREE.Vector3(...tg), C=new THREE.Vector3(...cp);
   const mid=c0.clone().lerp(C,0.5); mid.z=Math.max(c0.z,C.z)+Math.min(30,c0.distanceTo(C)*0.25);
   (function st(n){ const k=Math.min(1,(n-t0)/ms), e=k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2; R.ctl.target.lerpVectors(a0,A,e);
-    const p1=c0.clone().lerp(mid,e), p2=mid.clone().lerp(C,e); R.cam.position.lerpVectors(p1,p2,e); R.ctl.update(); if(k<1) JV.anim=requestAnimationFrame(st); else res(); })(t0); }); }
-function jvSpin(sec=16){ cancelAnimationFrame(JV.anim); const R=RB, tg=R.ctl.target.clone(), v=R.cam.position.clone().sub(tg), r=Math.hypot(v.x,v.y), a0=Math.atan2(v.y,v.x), t0=performance.now();
-  return new Promise(res=>{ (function st(n){ const k=(n-t0)/(sec*1000); if(k>=1||JV.stopSpin){ JV.stopSpin=false; res(); return; } const a=a0+k*Math.PI*2; R.cam.position.set(tg.x+r*Math.cos(a),tg.y+r*Math.sin(a),tg.z+v.z); R.ctl.update(); JV.anim=requestAnimationFrame(st); })(t0); }); }
+    const p1=c0.clone().lerp(mid,e), p2=mid.clone().lerp(C,e); R.cam.position.lerpVectors(p1,p2,e); R.ctl.update(); if(fin) return; if(k<1) JV.anim=requestAnimationFrame(st); else res(); })(t0);
+  JV.animTo=setTimeout(()=>{ if(fin) return; cancelAnimationFrame(JV.anim); R.ctl.target.copy(A); R.cam.position.copy(C); R.ctl.update(); res(); },ms+1500); }); }
+function jvSpin(sec=16){ jvAnimStop(); const R=RB, tg=R.ctl.target.clone(), v=R.cam.position.clone().sub(tg), r=Math.hypot(v.x,v.y), a0=Math.atan2(v.y,v.x), t0=performance.now();
+  return new Promise(res0=>{ let fin=false; const res=()=>{ if(fin) return; fin=true; clearTimeout(JV.animTo); if(JV.animRes===res) JV.animRes=null; res0(); }; JV.animRes=res;
+    JV.animTo=setTimeout(res,sec*1000+2000); (function st(n){ if(fin) return; const k=(n-t0)/(sec*1000); if(k>=1||JV.stopSpin){ JV.stopSpin=false; res(); return; } const a=a0+k*Math.PI*2; R.cam.position.set(tg.x+r*Math.cos(a),tg.y+r*Math.sin(a),tg.z+v.z); R.ctl.update(); JV.anim=requestAnimationFrame(st); })(t0); }); }
 function jvCut(v){ const b=document.querySelector(`[data-bcut="${v}"]`); if(b) b.click(); else if(RB) RB.clip.constant=v===""?999:+v; }
 function jvLayer(k,on){ const c=document.querySelector(`[data-blay="${k}"]`); if(c){ c.checked=on; rvBatApply(); } else if(RB&&RB.layers[k]) RB.layers[k].visible=on; }
 const jvC=e=>[(e.bb[0][0]+e.bb[1][0])/2-RB.cx,(e.bb[0][1]+e.bb[1][1])/2-RB.cy,(e.bb[0][2]+e.bb[1][2])/2];
@@ -7466,8 +7476,8 @@ function jvBouches(t){ let B=Array.isArray(BOUCHES)?BOUCHES:[]; const f=[]; if(/
   const q=B.reduce((a,b)=>a+(+b.q||0),0); return `Il y a ${B.length} bouches ${f.join(" ")}`.trim()+(q?`, pour ${jvF(q)} m³/h au total.`:"."); }
 // ---- le cerveau ----
 const has=(t,re)=>re.test(t);
-async function jvHandle(t){ if(!t) return; JV.busy=true; jvState("think"); await jvData(); if(!RB) await rvBatInit(); let say="";
-  try{
+async function jvHandle(t){ if(!t) return; JV.busy=true; JV.busyAt=performance.now(); jvState("think"); let say="";
+  try{ await jvData(); if(!RB) await rvBatInit();
   if(has(t,/^(stop|arrete|tais toi|silence|chut)\b/)&&!has(t,/journee|air|ventil|particule|simulation|vivant|jumeau/)){ JV.stopSpin=true; JV.demo=false; if("speechSynthesis" in window) speechSynthesis.cancel(); say="D'accord."; }
   else if(has(t,/\b(bonjour|salut|hello|coucou|bonsoir)\b/)&&t.split(" ").length<6) say="Bonjour. Je suis Jarvis, l'assistant de la maquette de l'EHPAD de La Bassée. Demande-moi par exemple : montre-moi la CTA 5.";
   else if(has(t,/\b(qui es tu|tu es qui|presente toi)\b/)) say="Je suis Jarvis, l'assistant vocal de la maquette BIM du lot 12, CVC et plomberie, de l'EHPAD de La Bassée. Je pilote la 3D et je réponds avec les données du projet.";
