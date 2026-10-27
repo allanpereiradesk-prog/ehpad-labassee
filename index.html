@@ -1214,7 +1214,7 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
     <details class="dadd" id="dAdd"><summary>+ Ajouter un document</summary>
       <div class="dadd-b">
         <div class="field"><label for="daTask">Sur quelle tâche ?</label><select id="daTask"></select></div>
-        <div class="field"><label for="daFile">Fichier (PDF ou image, 20 Mo max)</label><input type="file" id="daFile" accept="application/pdf,image/png,image/jpeg,image/webp,image/gif"></div>
+        <div class="field"><label for="daFile">Fichier (PDF, image, DWG/DXF, Word, Excel, ZIP · 8 Mo max)</label><input type="file" id="daFile" accept="application/pdf,image/png,image/jpeg,image/webp,image/gif,.pdf,.dwg,.dxf,.docx,.xlsx,.doc,.xls,.csv,.zip"></div>
         <div class="dadd-or">ou un lien (Word, Excel, ACC, OneDrive…)</div>
         <div class="dadd-row"><input id="daUrl" type="url" placeholder="https://…" aria-label="Lien"><input id="daName" placeholder="Nom du document" aria-label="Nom du lien"><button class="btn small" id="daLink">Ajouter le lien</button></div>
       </div></details>
@@ -2549,14 +2549,14 @@ function openTask(id, pane){
       <div class="grp">Ajoutés par l'équipe</div>
       <div class="docs" id="tDocs"></div>
       <div class="inline">
-        <div class="field" id="upWrap"><label for="tFile">Ajouter un fichier (PDF ou image, 20 Mo max)</label><input type="file" id="tFile" accept="application/pdf,image/png,image/jpeg,image/webp,image/gif"></div>
+        <div class="field" id="upWrap"><label for="tFile">Ajouter un fichier (PDF, image, DWG/DXF, Word, Excel, ZIP · 8 Mo max)</label><input type="file" id="tFile" accept="application/pdf,image/png,image/jpeg,image/webp,image/gif,.pdf,.dwg,.dxf,.docx,.xlsx,.doc,.xls,.csv,.zip"></div>
       </div>
       <div class="inline">
         <div class="field"><label for="lName">Nom du lien</label><input id="lName" placeholder="Maquette CVC sur ACC"></div>
         <div class="field"><label for="lUrl">Lien (OneDrive, ACC, Drive…)</label><input id="lUrl" type="url" placeholder="https://…"></div>
         <button class="btn" id="lAdd">Ajouter le lien</button>
       </div>
-      <p class="hint">Les .rvt, .xlsx, .docx et .dwg passent par un lien (OneDrive ou ACC) : la page ne stocke que les PDF et les images.</p>
+      <p class="hint">Les fichiers de plus de 8 Mo (maquettes .rvt, gros DWG…) passent par un lien OneDrive ou ACC.</p>
     </div>
     <div class="pane" id="pHrs">
       <div class="inline">
@@ -2675,11 +2675,16 @@ async function pushDoc(d){
   const t=tasks.find(x=>x._id===openId); if(!t) return;
   await db.doc("tasks/"+openId).update({docs:[...(t.docs||[]), d]});
 }
+/* Types de fichiers acceptés en pièce jointe (tâches, Documents) */
+const DOC_EXT={pdf:"application/pdf",png:"image/png",jpg:"image/jpeg",jpeg:"image/jpeg",webp:"image/webp",gif:"image/gif",
+  dwg:"application/acad",dxf:"application/dxf",docx:"application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  xlsx:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",doc:"application/msword",xls:"application/vnd.ms-excel",csv:"text/csv",zip:"application/zip"};
+function docTypeOf(f){ const ext=((f.name||"").match(/\.([a-z0-9]+)$/i)||[])[1]; const t=ext&&DOC_EXT[ext.toLowerCase()]; return t||(Object.values(DOC_EXT).includes(f.type)?f.type:null); }
+const DOC_BAD="Type non accepté : PDF, image, DWG/DXF, Word, Excel ou ZIP. Pour le reste, mets un lien.";
 async function uploadDoc(e){
   const f=e.target.files[0]; if(!f||!assets) return;
-  const ok=["application/pdf","image/png","image/jpeg","image/webp","image/gif"];
-  let type=f.type; if(!type && /\.pdf$/i.test(f.name)) type="application/pdf";
-  if(!ok.includes(type)){ toast("PDF ou image seulement. Pour le reste, mets un lien."); e.target.value=""; return; }
+  const type=docTypeOf(f);
+  if(!type){ toast(DOC_BAD); e.target.value=""; return; }
   e.target.disabled=true; toast("Envoi en cours…");
   try{ const r=await assets.upload(f,{type});
     await pushDoc({kind:"file", id:r.id, name:f.name, type, size:r.sizeBytes, by:me||"", at:new Date().toISOString()});
@@ -2975,6 +2980,11 @@ async function openViewer(id,type,name,src){
     } else if(type.startsWith("image/")){
       const u=URL.createObjectURL(new Blob([buf],{type}));
       body.innerHTML=`<img src="${u}" alt="${esc(name)}" style="width:100%;height:auto;border-radius:6px">`;
+    } else if(!/^text\//.test(type||"") && !/\.(txt|csv|md|json)$/i.test(name||"")){
+      const ext=((name||"").match(/\.([a-z0-9]{2,5})$/i)||[])[1]||"";
+      const app=/^(dwg|dxf)$/i.test(ext)?"AutoCAD (ou DWG TrueView, gratuit)":/^docx?$/i.test(ext)?"Word":/^xlsx?$/i.test(ext)?"Excel":/^zip$/i.test(ext)?"l'explorateur de fichiers":"le logiciel adapté";
+      body.innerHTML=`<div class="vbin"><b>${esc(ext.toUpperCase()||"Fichier")}</b><p>Ce type de fichier ne s'affiche pas dans le site.</p><p class="hint">${enF(buf.byteLength/1048576,1)} Mo · télécharge-le et ouvre-le avec ${app}.</p><button class="btn primary" type="button" id="vDl2">⬇ Télécharger ${esc(name)}</button></div>`;
+      $("#vDl2").onclick=downloadCurrent;
     } else {
       const txt=new TextDecoder("utf-8").decode(buf);
       body.innerHTML=""; const pre=document.createElement("pre"); pre.className="vtext"; pre.textContent=txt; body.appendChild(pre);
@@ -2988,9 +2998,9 @@ async function downloadCurrent(){
   const dl=await window.claude?.use?.("downloads");
   if(!dl){ toast("Le téléchargement n'est pas disponible ici."); return; }
   let fn=viewMeta.name.replace(/[\\/:*?"<>|]/g," ").trim();
-  const known=(viewMeta.name.match(/\.(pdf|png|jpe?g|webp|gif|txt|xlsx|docx|csv)$/i)||[])[0];
+  const known=(viewMeta.name.match(/\.(pdf|png|jpe?g|webp|gif|txt|xlsx|docx|csv|dwg|dxf|doc|xls|zip|rfa|rvt|ifc)$/i)||[])[0];
   const ext=known?known.toLowerCase():viewMeta.type==="application/pdf"?".pdf":viewMeta.type==="image/png"?".png":viewMeta.type==="image/jpeg"?".jpg":viewMeta.type==="image/webp"?".webp":viewMeta.type==="image/gif"?".gif":".txt";
-  if(!fn.toLowerCase().endsWith(ext)) fn=fn.replace(/\.(pdf|png|jpe?g|webp|gif|txt|xlsx|docx|csv)$/i,"")+ext;
+  if(!fn.toLowerCase().endsWith(ext)) fn=fn.replace(/\.(pdf|png|jpe?g|webp|gif|txt|xlsx|docx|csv|dwg|dxf|doc|xls|zip)$/i,"")+ext;
   try{ await dl.save({filename:fn, data:new Blob([viewBuf],{type:viewMeta.type})}); toast("Fichier enregistré"); }
   catch(e){ if(e&&e.code!=="declined") toast("Téléchargement impossible ("+(e.code||"erreur")+")."); }
 }
@@ -3038,8 +3048,8 @@ function docKey(d){ return d.kind==="file"?"f:"+d.id:d.kind==="static"?"s:"+d.pa
 async function addDocTo(taskId,d){ const t=tasks.find(x=>x._id===taskId); if(!t) throw new Error("tâche introuvable"); await db.doc("tasks/"+taskId).update({docs:[...(t.docs||[]),d]}); }
 $("#daFile").onchange=async e=>{
   const f=e.target.files[0]; if(!f) return; if(!assets||!db){ toast("Envoi indisponible : recharge la page."); return; }
-  let type=f.type; if(!type && /\.pdf$/i.test(f.name)) type="application/pdf";
-  if(!["application/pdf","image/png","image/jpeg","image/webp","image/gif"].includes(type)){ toast("PDF ou image seulement. Pour Word/Excel, exporte en PDF ou mets un lien."); e.target.value=""; return; }
+  const type=docTypeOf(f);
+  if(!type){ toast(DOC_BAD); e.target.value=""; return; }
   e.target.disabled=true; toast("Envoi en cours…");
   try{ const r=await assets.upload(f,{type}); await addDocTo($("#daTask").value,{kind:"file",id:r.id,name:f.name,type,size:r.sizeBytes,by:me||"",at:new Date().toISOString()}); toast("Document ajouté"); }
   catch(err){ fail(err,"Envoi"); }
@@ -4063,7 +4073,7 @@ function renderDone(){
 
 /* ---------- Mes tâches ---------- */
 const mineOpen=new Set();
-function docKind(d){ if(d.kind==="link") return "lien"; if(d.kind==="static") return ((d.file||d.path).replace(/\.b64\.txt$/i,"").split(".").pop()||"").toLowerCase(); return d.type==="application/pdf"?"pdf":(d.type||"").startsWith("image/")?"img":"txt"; }
+function docKind(d){ if(d.kind==="link") return "lien"; if(d.kind==="static") return ((d.file||d.path).replace(/\.b64\.txt$/i,"").split(".").pop()||"").toLowerCase(); if(d.type==="application/pdf") return "pdf"; if((d.type||"").startsWith("image/")) return "img"; return (((d.name||"").match(/\.([a-z0-9]{2,5})$/i)||[])[1]||"txt").toLowerCase(); }
 function fileItems(t){
   const dce=(t.dce||[]).map(d=> d.kind==="file"
     ? `<div class="doc"><span class="k">${d.type==="application/pdf"?"pdf":"txt"}</span>${fileLink(d)}<span class="hint">DCE</span></div>`
@@ -7056,6 +7066,7 @@ async function pasLoadFile(file){
 .can-opts{display:grid;gap:3px}.can-time{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.can-time input{flex:1 1 220px;accent-color:#f97316}.can-time .jum-clock{margin-left:0}
 .can-res{margin-top:14px}.can-worst{display:grid;gap:6px}.can-worst button{all:unset;cursor:pointer;display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:8px 10px;border-radius:6px;background:var(--sunk);border-left:4px solid #f97316}
 .can-worst button:hover,.can-worst button:focus-visible{outline:2px solid var(--accent)}.can-worst span{grid-column:1;font-size:12.5px;color:var(--muted)}.can-worst em{grid-row:1/3;grid-column:2;align-self:center;font-style:normal;font-weight:700;color:#c2410c;font-size:13px;text-align:right}
+.vbin{display:grid;justify-items:center;gap:6px;text-align:center;padding:40px 16px}.vbin>b{font-size:30px;font-family:var(--display);background:var(--sunk);border-radius:10px;padding:14px 22px;color:var(--accent)}.vbin p{margin:0}.vbin .btn{margin-top:10px}
 /* ---- Jumeau numérique : mise en page claire (v2) ---- */
 .jum-hero{display:flex;gap:20px;align-items:center;justify-content:space-between;flex-wrap:wrap}
 .jum-hero-t{flex:1 1 420px;min-width:0}.jum-hero-t p{max-width:68ch}
