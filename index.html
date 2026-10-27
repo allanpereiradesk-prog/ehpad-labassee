@@ -326,6 +326,11 @@ tfoot td{font-weight:600}
 #rv3d{position:relative;width:100%;aspect-ratio:4/3;max-height:72vh}
 #rvBat{display:flex;flex-direction:column}
 .bat-tools{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:8px 10px;border-bottom:1px solid var(--line);background:var(--surface);border-radius:6px 6px 0 0}
+.lot-ctl{display:flex;flex-direction:column;gap:8px;width:100%}.lot-h{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;justify-content:space-between}
+.lot-opt{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;align-items:center}.lot-opt label{display:inline-flex;gap:5px;align-items:center;cursor:pointer}
+.lot-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:5px}.lot-row{display:grid;grid-template-columns:auto 14px 1fr auto;gap:7px;align-items:center;padding:6px 8px;border-radius:9px;background:rgb(15 23 42 / .04);cursor:pointer;font-size:13px;line-height:1.25}
+.lot-row i{width:14px;height:14px;border-radius:4px;border:1px solid rgb(0 0 0 / .15)}.lot-row span{display:flex;flex-direction:column;min-width:0}.lot-row small{color:var(--muted,#64748b);font-size:11.5px}.lot-row.off{opacity:.5}.lot-row .linklike{font-size:12px}
+.mq-body .lot-list{grid-template-columns:1fr}
 .bat-lay{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:14px}.bat-lay label{display:inline-flex;gap:5px;align-items:center;cursor:pointer}
 #rvBatCv{position:relative;width:100%;aspect-ratio:4/3;max-height:70vh}
 #rvBatCv canvas{display:block;width:100%!important;height:100%!important;touch-action:none}
@@ -3290,7 +3295,7 @@ async function rvBatInit(){
       mv.set(((e.clientX-r.left)/r.width)*2-1,-((e.clientY-r.top)/r.height)*2+1); ray.setFromCamera(mv,cam); pickRay(ray); });
     const pickRay=(rr)=>{
       const vis=pick.filter(m=>m.visible&&m.parent.visible);
-      const hit=rr.intersectObjects(vis).find(h=>h.point.z<=clip.constant+0.001);
+      const hit=rr.intersectObjects(vis).find(h=>h.point.z<=clip.constant+0.001&&(typeof lotHitOk!=="function"||lotHitOk(h)));
       const info=$("#rvBatInfo");
       if(!hit){ eqSel(null); gaiSel(null); info.innerHTML=`<span class="hint">Clique un élément pour savoir ce que c'est.</span>`; return; }
       const u=hit.object.userData;
@@ -3300,7 +3305,7 @@ async function rvBatInit(){
       eqSel(null);
       if(u.space){ const s=u.space; info.innerHTML=`<b>Espace ${esc(s.n)} · ${esc(s.nm)}</b> · zone ${esc(s.z)} · ${s.a.toFixed(1)} m²`; return; }
       const fi=hit.faceIndex; let el=null; for(const e of u.els){ if(fi>=e[1]&&fi<e[1]+e[2]){ el=e; break; } }
-      info.innerHTML=`<b>${esc(u.cat)}</b> · ${esc(el?meta.names[el[0]]:"")} <span class="hint">· maquette ${u.layer==="str"?"structure":"architecte"}${el?" · ID Revit "+el[3]:""}</span>`; };
+      info.innerHTML=`<b>${esc(u.cat)}</b> · ${esc(el?meta.names[el[0]]:"")} <span class="hint">· maquette ${u.layer==="str"?"structure":"architecte"}${el&&typeof lotLabel==="function"&&lotLabel(u,el)?" · "+esc(lotLabel(u,el)):""}${el?" · ID Revit "+el[3]:""}</span>`; };
     RB={scene,cam,ren,ctl,layers,clip,EQ,eqSel,cx,cy,pickRay,hemi,dl}; if(typeof batEnhance==="function") batEnhance();
     const lst=$("#rvBatEq"); if(lst){ const grp=[["Toiture",e=>e.lv==="NT1"],["Terrasse basse (R+1)",e=>e.lv==="N01"],["RDC (chaufferie, local PAC, sas)",e=>e.lv==="N00"]];
       lst.innerHTML=EQ.length?grp.map(([t,f])=>{ const L=EQ.filter(e=>!/^Socle/.test(e.mark||"")&&f(e)); return L.length?`<div class="bat-eqg"><span class="hint">${t} :</span> `+L.map(e=>`<button class="btn small" data-eqgo="${esc(e.id)}" title="${esc(e.type)}">${esc(e.mark||e.type)}</button>`).join(" ")+`</div>`:""; }).join(""):"";
@@ -3387,9 +3392,9 @@ function filmSetup(){
   let t0=0; SC.forEach(s=>{ s.t0=t0; t0+=s.d; }); FILM.total=t0; FILM.SC=SC; FILM.dmax=dmax;
 }
 function filmLayer(k,a){ const g=RB.layers[k]; if(!g) return; g.visible=a>0.01;
-  g.traverse(m=>{ if(!m.material||m.userData.gai) return; const M=m.material; if(M.userData.op0===undefined){ M.userData.op0=M.opacity; M.userData.tr0=M.transparent; M.userData.dw0=M.depthWrite; }
-    const op=M.userData.op0*a; M.opacity=op; M.transparent=M.userData.tr0||a<0.999; M.depthWrite=a>=0.999?M.userData.dw0:false; }); }
-function filmRestore(){ const L=RB.layers; Object.keys(L).forEach(k=>L[k].traverse(m=>{ const M=m.material; if(M&&M.userData.op0!==undefined){ M.opacity=M.userData.op0; M.transparent=M.userData.tr0; M.depthWrite=M.userData.dw0; } }));
+  g.traverse(m=>{ if(!m.material||m.userData.gai) return; (Array.isArray(m.material)?m.material:[m.material]).forEach(M=>{ if(M.userData.op0===undefined){ M.userData.op0=M.opacity; M.userData.tr0=M.transparent; M.userData.dw0=M.depthWrite; }
+    const op=M.userData.op0*a; M.opacity=op; M.transparent=M.userData.tr0||a<0.999; M.depthWrite=a>=0.999?M.userData.dw0:false; }); }); }
+function filmRestore(){ const L=RB.layers; Object.keys(L).forEach(k=>L[k].traverse(m=>{ if(!m.material) return; (Array.isArray(m.material)?m.material:[m.material]).forEach(M=>{ if(M.userData.op0!==undefined){ M.opacity=M.userData.op0; M.transparent=M.userData.tr0; M.depthWrite=M.userData.dw0; } }); }));
   L.gai.children.forEach(m=>m.scale.set(1,1,1)); }
 const ease=t=>t<0?0:t>1?1:t*t*(3-2*t);
 function filmFrame(now){
@@ -7727,4 +7732,126 @@ if(typeof jvHandle==="function"){ const _jh=jvHandle; jvHandle=async function(t)
   if(typeof MQ!=="undefined"&&MQ.on){ JV.busy=true; jvState("think"); const A=await dqAnswer(m[1]); JV.busy=false; if(!A){ await jvSay("Je n'ai rien trouvé dans le DCE sur ce sujet."); return; }
     await jvSay(`D'après ${DQ.D[A.c[0]].t}${A.c[2]?", paragraphe "+A.c[2].split(" ")[0]:""}, page ${A.c[1]} : ${A.best}`); return; }
   JV.dceSay=true; setTab("dce"); await dqRun(m[1]); }; }
+</script>
+<script>
+/* ========== Maquette 3D : rendu réaliste + découpage par lots (1 à 7, autres lots, lot 12 CVC) ==========
+   Chaque élément Revit est rangé dans un lot d'après sa catégorie et son nom de type (ex. « GO VOILE BETON » → lot 1,
+   « CLOISON DEMISTYL » → lot 6, « MI … » → lot 5). Les triangles sont regroupés par lot (un appel de dessin par lot).
+   Lot 3 (étanchéité) et lot 7 (revêtements de sol) sont déduits : dessus des dalles de toiture-terrasse, surfaces des pièces. */
+const BLOTS=[{k:1,n:"Gros œuvre",c:0x94a3b8},{k:2,n:"Charpente – couverture",c:0xc2410c},{k:3,n:"Étanchéité",c:0x334155},{k:4,n:"Menuiseries extérieures",c:0x0284c7},{k:5,n:"Menuiseries intérieures",c:0xa16207},{k:6,n:"Plâtrerie – faux plafonds",c:0xe9d5ff},{k:7,n:"Revêtements sols et murs",c:0x16a34a},{k:8,n:"Autres lots (serrurerie, PV, ascenseur, mobilier)",c:0x7c3aed},{k:12,n:"CVC – plomberie (notre lot)",c:0xdc2626}];
+const BLOTI=Object.fromEntries(BLOTS.map((l,i)=>[l.k,i]));
+const BLOT={mode:"real",hidden:{},edges:true,shadows:true,ready:false,mats:{},stats:{},names:null};
+try{ Object.assign(BLOT,JSON.parse(localStorage.getItem("ehpad-lots")||"{}")); }catch(e){}
+function lotSave(){ try{ localStorage.setItem("ehpad-lots",JSON.stringify({mode:BLOT.mode,hidden:BLOT.hidden,edges:BLOT.edges,shadows:BLOT.shadows})); }catch(e){} }
+function lotOf(layer,cat,name){ const n=String(name||"").toUpperCase(); if(layer==="str") return 1;
+  switch(cat){ case "Murs": return /PLINTHE/.test(n)?7:/CLOISON|GAINE DF|DOUBLAGE|PLACO|BA ?13/.test(n)?6:1;
+    case "Sols": return /COUVRE MUR|CORNICHE|ZINC/.test(n)?2:/PVC|REVET|CARREL|\bPP /.test(n)?7:/ACIER/.test(n)?8:1;
+    case "Toitures": return 2; case "Fenêtres": return /(^| : )MI\b|MI VITRAGE|MI PORTE/.test(n)?5:4;
+    case "Portes": return /MONTE CHARGE/.test(n)?8:5; case "Meneaux": return 4; case "Escaliers": case "Poteaux": return 1;
+    case "Plafonds": return /PEINTURE/.test(n)?7:6; case "Garde-corps": case "Panneaux solaires": return 8; case "Divers": return /BRISE|SOLEIL|SHADING/.test(n)?4:8; }
+  return 8; }
+function lotLabel(u,el){ if(!BLOT.names) return ""; const k=lotOf(u.layer,u.cat,BLOT.names[el[0]]); return (k===8?"":"Lot "+k+" · ")+BLOTS[BLOTI[k]].n; }
+// ---- matériaux ----
+const LOT_LOOK={ Murs:{c:0xe7e2d8,r:.92}, Murs6:{c:0xf6f4ef,r:.95}, Murs7:{c:0x64748b,r:.6}, Sols:{c:0xcfc7ba,r:.9}, Sols2:{c:0xb8bec4,r:.35,m:.6}, Sols7:{c:0x9fb7c9,r:.55}, Sols8:{c:0xe5e7eb,r:.4,m:.5},
+  Toitures:{c:0x9a4a2c,r:.85}, Fenêtres:{c:0xa9d6ee,r:.04,m:.1,o:.32,glass:1}, Portes:{c:0xb08055,r:.7}, Portes8:{c:0x9ca3af,r:.4,m:.6}, Meneaux:{c:0x55606a,r:.45,m:.55}, Escaliers:{c:0xcbc4b8,r:.9},
+  "Garde-corps":{c:0x3f4851,r:.4,m:.7}, Poteaux:{c:0xd9d4cb,r:.9}, Plafonds:{c:0xf7f5f0,r:.95,o:.6}, Plafonds7:{c:0xf7f5f0,r:.95,o:.6}, Divers:{c:0xa3a3a3,r:.6}, Divers4:{c:0xd6d3d1,r:.4,m:.4},
+  "Panneaux solaires":{c:0x1e3a8a,r:.18,m:.4}, STR:{c:0xa3abb2,r:.95}, ETANCH:{c:0x2b2f33,r:.85}, CARRELAGE:{c:0xe9e4d8,r:.3}, SOUPLE:{c:0xc9d4dc,r:.6}, RESINE:{c:0x9aa5ad,r:.5} };
+function lotMat(look,li,extra){ const key=look+"|"+li+"|"+BLOT.mode; if(BLOT.mats[key]) return BLOT.mats[key]; const L=LOT_LOOK[look]||LOT_LOOK.Divers, byLot=BLOT.mode==="lots";
+  const M=new THREE.MeshStandardMaterial({color:byLot?BLOTS[li].c:L.c,roughness:byLot?0.7:L.r,metalness:byLot?0:Math.min(.3,L.m||0),side:THREE.DoubleSide,clippingPlanes:[RB.clip],clipShadows:true,
+    transparent:!!L.o,opacity:L.o?(byLot?Math.max(.5,L.o):L.o):1,depthWrite:!L.o,envMapIntensity:L.glass?1.4:0.7,polygonOffset:look==="STR",polygonOffsetFactor:1,...(extra||{})});
+  if(typeof batPatchMat==="function") batPatchMat(M); BLOT.mats[key]=M; return M; }
+// ---- ciel : reflets des matériaux ----
+function lotEnv(){ if(RB.envTex) return; const s=new THREE.Scene(), g=new THREE.SphereGeometry(50,32,16);
+  const m=new THREE.ShaderMaterial({side:THREE.BackSide,uniforms:{},vertexShader:"varying vec3 v; void main(){ v=normalize(position); gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }",
+    fragmentShader:"varying vec3 v; void main(){ float h=v.z; vec3 sky=mix(vec3(.93,.95,.97),vec3(.45,.65,.9),clamp(h*1.6,0.,1.)); vec3 gr=mix(vec3(.82,.82,.8),vec3(.5,.52,.5),clamp(-h*2.,0.,1.)); gl_FragColor=vec4(h>0.?sky:gr,1.); }"});
+  s.add(new THREE.Mesh(g,m)); const pm=new THREE.PMREMGenerator(RB.ren); RB.envTex=pm.fromScene(s,0.02).texture; pm.dispose(); }
+// ---- regroupement des triangles par lot ----
+function lotSplit(mesh){ const u=mesh.userData, g=mesh.geometry; if(!u||!u.els||g.index||u.lotDone) return; u.lotDone=true;
+  const nT=g.attributes.position.count/3, tl=new Uint8Array(nT).fill(BLOTI[8]); const elLot=u.els.map(e=>BLOTI[lotOf(u.layer,u.cat,BLOT.names[e[0]])]);
+  u.els.forEach((e,j)=>{ for(let t=e[1];t<e[1]+e[2]&&t<nT;t++) tl[t]=elLot[j]; });
+  const cnt=new Array(BLOTS.length).fill(0); for(let t=0;t<nT;t++) cnt[tl[t]]++; const off=[]; let a=0; cnt.forEach((c,i)=>{ off[i]=a; a+=c; }); const pos=off.slice(), map=new Uint32Array(nT); for(let t=0;t<nT;t++) map[t]=pos[tl[t]]++;
+  Object.values(g.attributes).forEach(A=>{ const k=A.itemSize, src=A.array, dst=new src.constructor(src.length); for(let t=0;t<nT;t++){ const s=t*3*k, d=map[t]*3*k; for(let q=0;q<3*k;q++) dst[d+q]=src[s+q]; } A.array=dst; A.needsUpdate=true; });
+  u.els=u.els.map(e=>[e[0],map[e[1]]??e[1],e[2],e[3]]); g.clearGroups(); cnt.forEach((c,i)=>{ if(c) g.addGroup(off[i]*3,c*3,i); });
+  u.lotRanges=cnt.map((c,i)=>c?[off[i],c]:null); u.lotEls=elLot.reduce((o,li)=>{ o[li]=(o[li]||0)+1; return o; },{});
+  Object.entries(u.lotEls).forEach(([li,n])=>{ BLOT.stats[li]=(BLOT.stats[li]||0)+n; }); g.computeBoundingSphere(); }
+function lotLook(u,li){ if(u.layer==="str") return "STR"; const k=BLOTS[li].k, c=u.cat; return LOT_LOOK[c+k]?c+k:LOT_LOOK[c]?c:"Divers"; }
+function lotApplyMats(){ RB.lotMeshes.forEach(m=>{ const u=m.userData; m.material=BLOTS.map((l,i)=>lotMat(lotLook(u,i),i)); });
+  (RB.lotExtra||[]).forEach(m=>{ m.material=lotMat(m.userData.look,m.userData.li); }); lotVis(); }
+// ---- lots déduits : étanchéité (3) et revêtements de sol (7) ----
+function lotExtras(){ const R=RB, out=[], cx=R.cx, cy=R.cy; let stats={carrelage:0,souple:0,resine:0,etanch:0};
+  const sp=(typeof rvData==="function"?rvData():[]).filter(s=>s.p&&s.p.length);
+  const inN01=(x,y)=>sp.some(s=>s.l==="N01"&&rvInPoly(x+cx,y+cy,s.p[0]));
+  // étanchéité : dessus des dalles de toiture (sans pièce au-dessus)
+  const P=[]; R.layers.str.traverse(m=>{ if(!m.isMesh||m.userData.cat!=="Dalles") return; const p=m.geometry.attributes.position.array;
+    for(let i=0;i<p.length;i+=9){ const ax=p[i],ay=p[i+1],az=p[i+2],bx=p[i+3],by=p[i+4],bz=p[i+5],qx=p[i+6],qy=p[i+7],qz=p[i+8];
+      const nz=(bx-ax)*(qy-ay)-(by-ay)*(qx-ax), area=Math.abs(nz)/2; if(nz<=0||area<1e-4) continue; const zc=(az+bz+qz)/3; if(zc<3.0) continue;
+      const nx=(by-ay)*(qz-az)-(bz-az)*(qy-ay), ny=(bz-az)*(qx-ax)-(bx-ax)*(qz-az); if(nz/Math.hypot(nx,ny,nz)<0.9) continue;
+      if(zc<6&&inN01((ax+bx+qx)/3,(ay+by+qy)/3)) continue; P.push(ax,ay,az+0.04,bx,by,bz+0.04,qx,qy,qz+0.04); stats.etanch+=area; } });
+  if(P.length){ const g=new THREE.BufferGeometry(); g.setAttribute("position",new THREE.Float32BufferAttribute(P,3)); g.computeVertexNormals(); const m=new THREE.Mesh(g); m.userData={look:"ETANCH",li:BLOTI[3],extra:1}; out.push(m); }
+  // revêtements de sol : une surface par pièce, carrelage dans les pièces humides
+  const ELEV={N00:0,N01:3.36}, G={CARRELAGE:[],SOUPLE:[],RESINE:[]};
+  sp.forEach(s=>{ if(ELEV[s.l]===undefined||/désenfumage|terrasse|vide/.test(s.sv)) return; const nm=String(s.nm||"").toLowerCase();
+    const t=s.sv==="technique"?"RESINE":/sdb|salle de bain|san\.|wc|douche|office|tisanerie|cuisine|prépa|déchets|dechets|vestiaire|m[eé]n\.|linge|net\.|boi\./.test(nm)?"CARRELAGE":"SOUPLE";
+    const mk=l=>{ const v=[]; for(let i=0;i<l.length;i+=2) v.push(new THREE.Vector2(l[i]-cx,l[i+1]-cy)); return v; }; try{ const sh=new THREE.Shape(mk(s.p[0])); s.p.slice(1).forEach(h=>sh.holes.push(new THREE.Path(mk(h))));
+      const g=new THREE.ShapeGeometry(sh); g.translate(0,0,ELEV[s.l]+0.025); G[t].push(g); stats[t==="CARRELAGE"?"carrelage":t==="SOUPLE"?"souple":"resine"]+=s.a||0; }catch(e){} });
+  Object.entries(G).forEach(([t,L])=>{ if(!L.length) return; const pos=[]; L.forEach(g=>{ const a=g.toNonIndexed().attributes.position.array; for(let i=0;i<a.length;i++) pos.push(a[i]); g.dispose(); });
+    const g=new THREE.BufferGeometry(); g.setAttribute("position",new THREE.Float32BufferAttribute(pos,3)); g.computeVertexNormals(); const m=new THREE.Mesh(g); m.userData={look:t,li:BLOTI[7],extra:1}; out.push(m); });
+  out.forEach(m=>{ R.layers.arc.add(m); if(typeof batLvlAttr==="function") batLvlAttr(m); m.receiveShadow=true; }); RB.lotExtra=out; BLOT.extraStats=stats; }
+function rvInPoly(px,py,L){ let c=false; const n=L.length/2; for(let i=0,j=n-1;i<n;j=i++){ const x0=L[2*i],y0=L[2*i+1],x1=L[2*j],y1=L[2*j+1]; if((y0>py)!==(y1>py)&&px<(x1-x0)*(py-y0)/(y1-y0)+x0) c=!c; } return c; }
+// ---- arêtes (un trait par lot, pour qu'elles suivent la visibilité) ----
+function lotEdges(){ if(RB.lotEdges) return; const grp=new THREE.Group(); grp.userData.edges=1; const mat=new THREE.LineBasicMaterial({color:0x334155,transparent:true,opacity:0.32,clippingPlanes:[RB.clip]});
+  RB.lotMeshes.forEach(m=>{ const u=m.userData, A=m.geometry.attributes.position.array; (u.lotRanges||[]).forEach((r,li)=>{ if(!r||u.cat==="Fenêtres"&&false) return; const sub=new THREE.BufferGeometry(); sub.setAttribute("position",new THREE.BufferAttribute(A.slice(r[0]*9,(r[0]+r[1])*9),3));
+    const e=new THREE.EdgesGeometry(sub,32); sub.dispose(); const L=new THREE.LineSegments(e,mat); L.userData={li,layer:u.layer}; L.renderOrder=2; grp.add(L); }); });
+  RB.scene.add(grp); RB.lotEdges=grp; }
+// ---- ombres, sol, lumière ----
+function lotLight(on){ const R=RB; R.ren.shadowMap.enabled=on; R.ren.shadowMap.type=THREE.PCFSoftShadowMap; R.dl.castShadow=on;
+  if(on&&!R.lotShadowSet){ R.lotShadowSet=true; const bb=new THREE.Box3(); R.layers.arc.children.forEach(m=>{ if(m.isMesh&&m.geometry.boundingSphere) bb.expandByObject(m); }); const c=new THREE.Vector3(), s=new THREE.Vector3(); bb.getCenter(c); bb.getSize(s); const D=Math.max(s.x,s.y)*0.62;
+    const sc=R.dl.shadow.camera; sc.left=-D; sc.right=D; sc.top=D; sc.bottom=-D; sc.near=1; sc.far=600; sc.updateProjectionMatrix(); R.dl.shadow.mapSize.set(4096,4096); R.dl.shadow.bias=-0.0004; R.dl.shadow.normalBias=0.03;
+    R.dl.target.position.copy(c); R.scene.add(R.dl.target); R.lotCenter=c;
+    const gr=new THREE.Mesh(new THREE.PlaneGeometry(600,600),new THREE.MeshStandardMaterial({color:0xdde3e6,roughness:1})); gr.position.set(c.x,c.y,-0.06); gr.receiveShadow=true; gr.userData.ground=1; R.scene.add(gr); R.lotGround=gr; }
+  if(R.lotCenter&&!(typeof JT!=="undefined"&&JT.on)&&!(typeof EV!=="undefined"&&EV.on)) R.dl.position.set(R.lotCenter.x-60,R.lotCenter.y-90,140);
+  [R.layers.arc,R.layers.str,R.layers.pv,R.layers.eq,R.layers.gai].forEach(g=>g&&g.traverse(o=>{ if(o.isMesh&&!o.userData.extra&&!o.userData.ground){ o.castShadow=on&&o.parent!==R.layers.esp; o.receiveShadow=on; } }));
+  (R.lotExtra||[]).forEach(o=>o.receiveShadow=on); if(R.lotGround) R.lotGround.visible=BLOT.mode!=="simple";
+  Object.values(BLOT.mats).forEach(M=>M.needsUpdate=true); R.scene.traverse(o=>{ if(o.isMesh&&o.material&&!Array.isArray(o.material)) o.material.needsUpdate=true; }); }
+// ---- visibilité par lot ----
+function lotHitOk(h){ const M=h.object.material; if(!Array.isArray(M)||!h.face) return true; const m=M[h.face.materialIndex]; return !m||m.visible!==false; }
+function lotVis(){ const R=RB; BLOTS.forEach((l,i)=>{ const hid=!!BLOT.hidden[l.k];
+    Object.entries(BLOT.mats).forEach(([key,M])=>{ if(+key.split("|")[1]===i) M.visible=!hid; }); });
+  (R.lotExtra||[]).forEach(m=>m.visible=!BLOT.hidden[BLOTS[m.userData.li].k]);
+  if(R.lotEdges){ R.lotEdges.visible=BLOT.edges&&BLOT.mode!=="simple"&&EXPL.value<0.05; R.lotEdges.children.forEach(L=>L.visible=!BLOT.hidden[BLOTS[L.userData.li].k]&&R.layers[L.userData.layer].visible); }
+  const c12=!BLOT.hidden[12]; ["gai","eq"].forEach(k=>{ const cb=document.querySelector(`[data-blay="${k}"]`); if(cb&&cb.checked!==c12&&BLOT.touched12){ cb.checked=c12; } }); if(BLOT.touched12){ BLOT.touched12=false; rvBatApply(); }
+  lotUI(); }
+function lotMode(mode){ BLOT.mode=mode; lotSave(); const R=RB;
+  if(mode==="simple"){ R.lotMeshes.forEach(m=>m.material=m.userData.mat0); (R.lotExtra||[]).forEach(m=>m.visible=false); R.scene.environment=null; lotLight(false); if(R.lotEdges) R.lotEdges.visible=false; if(R.hemi) R.hemi.intensity=0.9; if(R.dl) R.dl.intensity=0.55; lotUI(); return; }
+  R.scene.environment=null; lotApplyMats(); lotLight(BLOT.shadows); if(R.hemi&&!(typeof JT!=="undefined"&&JT.on)) R.hemi.intensity=0.75; if(R.dl&&!(typeof JT!=="undefined"&&JT.on)) R.dl.intensity=0.7; }
+// ---- interface (dans « Affichage ») ----
+function lotUI(){ const box=$("#lotCtl"); if(!box) return; const S=BLOT.stats, X=BLOT.extraStats||{};
+  const info={2:"tuiles, bac acier, couvertines",3:`déduite : ${Math.round(X.etanch||0).toLocaleString("fr-FR")} m² de toiture-terrasse`,7:`plinthes + sols déduits des pièces : carrelage ${Math.round(X.carrelage||0)} m², souple ${Math.round(X.souple||0)} m²`,12:"gaines + équipements",8:"garde-corps, panneaux PV, porte du monte-charge, mobilier"};
+  box.querySelector(".lot-list").innerHTML=BLOTS.map((l,i)=>`<label class="lot-row${BLOT.hidden[l.k]?" off":""}"><input type="checkbox" data-lot="${l.k}" ${BLOT.hidden[l.k]?"":"checked"}><i style="background:#${l.c.toString(16).padStart(6,"0")}"></i><span><b>${l.k<=7||l.k===12?"Lot "+l.k+" · ":""}${l.n}</b><small>${S[i]?S[i]+" éléments":""}${S[i]&&info[l.k]?" · ":""}${info[l.k]||""}</small></span><button type="button" class="linklike" data-lotsolo="${l.k}" title="Afficher ce lot seul">seul</button></label>`).join("");
+  box.querySelectorAll("[data-lot]").forEach(c=>c.onchange=()=>{ const k=+c.dataset.lot; BLOT.hidden[k]=!c.checked; if(k===12) BLOT.touched12=true; lotSave(); lotVis(); });
+  box.querySelectorAll("[data-lotsolo]").forEach(b=>b.onclick=e=>{ e.preventDefault(); const k=+b.dataset.lotsolo; const solo=BLOTS.every(l=>l.k===k?!BLOT.hidden[l.k]:BLOT.hidden[l.k]); BLOTS.forEach(l=>BLOT.hidden[l.k]=solo?false:l.k!==k); BLOT.touched12=true; lotSave(); lotVis(); });
+  box.querySelectorAll("[data-lotmode]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.lotmode===BLOT.mode)); $("#lotEdges").checked=BLOT.edges; $("#lotShadows").checked=BLOT.shadows; }
+function lotInitUI(){ const t=$("#rvBatTools"); if(!t||$("#lotCtl")) return; const d=document.createElement("div"); d.className="lot-ctl"; d.id="lotCtl";
+  d.innerHTML=`<div class="lot-h"><b>Rendu et lots</b><div class="seg" role="group" aria-label="Rendu"><button type="button" data-lotmode="real">Réaliste</button><button type="button" data-lotmode="lots">Couleurs par lot</button><button type="button" data-lotmode="simple">Simple</button></div></div>
+    <div class="lot-opt"><label><input type="checkbox" id="lotEdges"> Arêtes</label><label><input type="checkbox" id="lotShadows"> Ombres</label><button type="button" class="linklike" id="lotAll">Tout afficher</button></div>
+    <div class="lot-list"></div><p class="hint">Lots rangés d'après le nom de type Revit de chaque élément (« GO VOILE BÉTON » → lot 1, « CLOISON… » → lot 6, « MI… » → lot 5…). Les lots 3 et 7 ne sont pas modélisés dans Revit : ils sont déduits (dessus des toitures-terrasses, surface des pièces).</p>`;
+  t.prepend(d);
+  d.querySelectorAll("[data-lotmode]").forEach(b=>b.onclick=()=>lotMode(b.dataset.lotmode));
+  $("#lotEdges").onchange=e=>{ BLOT.edges=e.target.checked; lotSave(); if(BLOT.edges) lotEdges(); lotVis(); };
+  $("#lotShadows").onchange=e=>{ BLOT.shadows=e.target.checked; lotSave(); if(BLOT.mode!=="simple") lotLight(BLOT.shadows); };
+  $("#lotAll").onclick=()=>{ BLOT.hidden={}; BLOT.touched12=true; lotSave(); lotVis(); }; lotUI(); }
+// ---- démarrage, une fois la 3D chargée ----
+async function lotInit(){ if(BLOT.ready||BLOT.busy) return; BLOT.busy=true; const R=RB;
+  try{ const r=await fetch("files/b3d/building.json?v="+(typeof BAT_V!=="undefined"?BAT_V:""),{cache:"force-cache"}); BLOT.names=(await r.json()).names||[]; }catch(e){ BLOT.names=[]; }
+  R.lotMeshes=[]; [R.layers.arc,R.layers.str,R.layers.pv].forEach(g=>g.children.forEach(m=>{ if(m.isMesh&&m.userData&&m.userData.els&&!m.userData.extra){ m.userData.mat0=m.material; lotSplit(m); R.lotMeshes.push(m); } }));
+  lotExtras(); if(BLOT.edges) lotEdges(); BLOT.ready=true; lotInitUI(); lotMode(BLOT.mode||"real"); BLOT.busy=false; }
+(function hook(){ if(!(typeof RB!=="undefined"&&RB&&RB.enh&&RB.tick)){ setTimeout(hook,600); return; } if(RB.lotHooked) return; RB.lotHooked=true;
+  lotInit().catch(e=>console.error("lots",e)); const t0=RB.tick; RB.tick=()=>{ t0(); lotFrame(); }; })();
+// à chaque image : arêtes et ombres suivent l'écorché, la coupe, les couches ; la carte d'ombre n'est recalculée que si quelque chose change
+function lotFrame(){ const R=RB; if(!BLOT.ready) return; const ex=EXPL.value>0.05;
+  if(R.lotEdges){ const v=BLOT.edges&&BLOT.mode!=="simple"&&!ex; R.lotEdges.visible=v; if(v) R.lotEdges.children.forEach(L=>{ L.visible=!BLOT.hidden[BLOTS[L.userData.li].k]&&R.layers[L.userData.layer].visible; }); }
+  const sh=BLOT.mode!=="simple"&&BLOT.shadows&&!ex; if(R.dl.castShadow!==sh){ R.dl.castShadow=sh; R.ren.shadowMap.needsUpdate=true; }
+  if(R.ren.shadowMap.enabled){ R.ren.shadowMap.autoUpdate=false; const p=R.dl.position, sig=[R.clip.constant,p.x.toFixed(1),p.y.toFixed(1),p.z.toFixed(1),Object.values(R.layers).map(g=>g.visible?1:0).join(""),Object.keys(BLOT.hidden).filter(k=>BLOT.hidden[k]).join(",")].join("|");
+    if(sig!==BLOT.sig){ BLOT.sig=sig; R.ren.shadowMap.needsUpdate=true; } } }
+
 </script>
