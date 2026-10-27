@@ -13,7 +13,7 @@
 "nb": 1,
 "nb_ok": 0,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "V001"
 ],
@@ -33,7 +33,7 @@
 "nb": 1,
 "nb_ok": 0,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "V002"
 ],
@@ -53,7 +53,7 @@
 "nb": 2,
 "nb_ok": 1,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "B381",
 "B386"
@@ -92,7 +92,7 @@
 "nb": 1,
 "nb_ok": 0,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "V003"
 ],
@@ -112,7 +112,7 @@
 "nb": 1,
 "nb_ok": 0,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "V004"
 ],
@@ -132,7 +132,7 @@
 "nb": 1,
 "nb_ok": 0,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "V024"
 ],
@@ -206,7 +206,7 @@
 "nb": 1,
 "nb_ok": 0,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "V006"
 ],
@@ -226,7 +226,7 @@
 "nb": 1,
 "nb_ok": 0,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "V007"
 ],
@@ -282,7 +282,7 @@
 "nb": 1,
 "nb_ok": 0,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "V009"
 ],
@@ -302,7 +302,7 @@
 "nb": 1,
 "nb_ok": 0,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "V010"
 ],
@@ -322,7 +322,7 @@
 "nb": 1,
 "nb_ok": 0,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "V008"
 ],
@@ -956,7 +956,7 @@
 "nb": 1,
 "nb_ok": 0,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "V011"
 ],
@@ -976,7 +976,7 @@
 "nb": 1,
 "nb_ok": 0,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "V025"
 ],
@@ -996,7 +996,7 @@
 "nb": 3,
 "nb_ok": 0,
 "ok": true,
-"rem": "3 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "V013",
 "V014",
@@ -1036,7 +1036,7 @@
 "nb": 1,
 "nb_ok": 0,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "V016"
 ],
@@ -1056,7 +1056,7 @@
 "nb": 1,
 "nb_ok": 0,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "V019"
 ],
@@ -1076,7 +1076,7 @@
 "nb": 1,
 "nb_ok": 0,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "V018"
 ],
@@ -1096,7 +1096,7 @@
 "nb": 1,
 "nb_ok": 0,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "V026"
 ],
@@ -1676,7 +1676,7 @@
 "nb": 3,
 "nb_ok": 0,
 "ok": true,
-"rem": "3 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "V020",
 "V021",
@@ -1698,7 +1698,7 @@
 "nb": 2,
 "nb_ok": 1,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "B058",
 "B355"
@@ -1719,7 +1719,7 @@
 "nb": 2,
 "nb_ok": 1,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "B301",
 "B337"
@@ -1740,7 +1740,7 @@
 "nb": 2,
 "nb_ok": 1,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "B211",
 "B394"
@@ -1761,7 +1761,7 @@
 "nb": 2,
 "nb_ok": 1,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "B315",
 "B335"
@@ -1842,7 +1842,7 @@
 "nb": 1,
 "nb_ok": 0,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "V023"
 ],
@@ -1862,7 +1862,7 @@
 "nb": 1,
 "nb_ok": 0,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "V005"
 ],
@@ -1882,7 +1882,7 @@
 "nb": 1,
 "nb_ok": 0,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "V012"
 ],
@@ -1902,7 +1902,7 @@
 "nb": 2,
 "nb_ok": 1,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "B209",
 "B396"
@@ -1965,7 +1965,7 @@
 "nb": 2,
 "nb_ok": 1,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "B304",
 "B338"
@@ -1986,7 +1986,7 @@
 "nb": 1,
 "nb_ok": 0,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "V017"
 ],
@@ -2066,7 +2066,7 @@
 "nb": 2,
 "nb_ok": 1,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "B090",
 "B395"
@@ -2087,7 +2087,7 @@
 "nb": 2,
 "nb_ok": 1,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "B091",
 "B401"
@@ -2108,7 +2108,7 @@
 "nb": 2,
 "nb_ok": 1,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "B330",
 "B344"
@@ -2129,7 +2129,7 @@
 "nb": 14,
 "nb_ok": 5,
 "ok": true,
-"rem": "9 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "B001",
 "B002",
@@ -2198,7 +2198,7 @@
 "nb": 1,
 "nb_ok": 0,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "V027"
 ],
@@ -2218,7 +2218,7 @@
 "nb": 1,
 "nb_ok": 0,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "V028"
 ],
@@ -2757,7 +2757,7 @@
 "nb": 1,
 "nb_ok": 0,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "B398"
 ],
@@ -2815,7 +2815,7 @@
 "nb": 1,
 "nb_ok": 0,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "V029"
 ],
@@ -2835,7 +2835,7 @@
 "nb": 1,
 "nb_ok": 0,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "V030"
 ],
@@ -2855,7 +2855,7 @@
 "nb": 3,
 "nb_ok": 0,
 "ok": true,
-"rem": "3 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "V031",
 "V032",
@@ -2931,7 +2931,7 @@
 "nb": 4,
 "nb_ok": 2,
 "ok": true,
-"rem": "2 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "B366",
 "B367",
@@ -2954,7 +2954,7 @@
 "nb": 4,
 "nb_ok": 1,
 "ok": true,
-"rem": "3 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "B379",
 "B380",
@@ -2977,7 +2977,7 @@
 "nb": 1,
 "nb_ok": 0,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "V044"
 ],
@@ -2997,7 +2997,7 @@
 "nb": 1,
 "nb_ok": 0,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "V035"
 ],
@@ -3017,7 +3017,7 @@
 "nb": 1,
 "nb_ok": 0,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "V037"
 ],
@@ -3037,7 +3037,7 @@
 "nb": 1,
 "nb_ok": 0,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "V034"
 ],
@@ -3377,7 +3377,7 @@
 "nb": 1,
 "nb_ok": 0,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "B387"
 ],
@@ -4135,7 +4135,7 @@
 "nb": 2,
 "nb_ok": 0,
 "ok": true,
-"rem": "2 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "B404",
 "B405"
@@ -4174,7 +4174,7 @@
 "nb": 1,
 "nb_ok": 0,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "V038"
 ],
@@ -4194,7 +4194,7 @@
 "nb": 1,
 "nb_ok": 0,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "V039"
 ],
@@ -4214,7 +4214,7 @@
 "nb": 3,
 "nb_ok": 0,
 "ok": true,
-"rem": "3 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "V040",
 "V041",
@@ -4254,7 +4254,7 @@
 "nb": 1,
 "nb_ok": 0,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "V043"
 ],
@@ -4274,7 +4274,7 @@
 "nb": 4,
 "nb_ok": 2,
 "ok": true,
-"rem": "2 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "B033",
 "B034",
@@ -4297,7 +4297,7 @@
 "nb": 1,
 "nb_ok": 0,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "V046"
 ],
@@ -4317,7 +4317,7 @@
 "nb": 1,
 "nb_ok": 0,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "V045"
 ],
@@ -4337,7 +4337,7 @@
 "nb": 1,
 "nb_ok": 0,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "V036"
 ],
@@ -4817,7 +4817,7 @@
 "nb": 1,
 "nb_ok": 0,
 "ok": true,
-"rem": "1 bouche(s) à raccorder",
+"rem": "",
 "bouches": [
 "B369"
 ],

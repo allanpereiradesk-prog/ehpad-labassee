@@ -668,5 +668,22 @@
    "status": "afaire",
    "title": "Corrections après la vérification du DCE (PAC, débits CTA 2 et 5, chaudières, puissance)"
   }
+ },
+ {
+  "id": "2026-10-27-i02-cr-raccordement",
+  "doc": "tasks/i02",
+  "union": {
+   "docs": [
+    {
+     "name": "Compte rendu du 27/10 : raccordement des dernières bouches CTA (PDF)",
+     "at": "2026-10-27T23:50:00Z",
+     "by": "Allan",
+     "file": "CR_raccordement_2026-10-27.pdf",
+     "kind": "static",
+     "path": "docs/CR_raccordement_2026-10-27.pdf.b64.txt",
+     "type": "application/pdf"
+    }
+   ]
+  }
  }
 ]

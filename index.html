@@ -2002,6 +2002,7 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
       <h2>Bouches de ventilation</h2>
       <p>Les bouches que j'ai posées dans la maquette Revit, avec leur débit. Une <b>antenne</b> est la petite gaine qui relie le réseau principal à la bouche. Quand l'antenne n'est pas encore faite, la colonne « Antenne » dit pourquoi. Plus bas, le <b>contrôle DCE</b> compare, local par local, le débit du dossier et celui de la maquette.</p>
     </section>
+    <details class="panel bo-cr"><summary><b>Compte rendu du 27/10/2026 : toutes les bouches sont raccordées</b><span class="hint">270 bouches sur 270 · 31 raccordées ce jour · 0 clash CVC · 80 réservations en plus · cliquer pour lire</span> <a class="btn small" href="files/bouches/CR_raccordement_2026-10-27.pdf" download>PDF</a></summary><div class="bo-cr-b" data-cr="files/bouches/CR_raccordement_2026-10-27.html"><p class="hint">Chargement…</p></div></details>
     <details class="panel bo-cr"><summary><b>Compte rendu du 20/10/2026 : réseau VMC simple flux</b><span class="hint">6 caissons C4 · 46 bouches VMC raccordées · 70 réservations · cliquer pour lire</span> <a class="btn small" href="files/bouches/CR_vmc_2026-10-20.pdf" download>PDF</a></summary><div class="bo-cr-b" data-cr="files/bouches/CR_vmc_2026-10-20.html"><p class="hint">Chargement…</p></div>
       <figure class="impl-f"><a href="files/bouches/reseau_vmc.png" target="_blank" rel="noopener"><img src="files/bouches/reseau_vmc.png" alt="Plan des 6 réseaux VMC simple flux : RDC, R+1 et toiture" loading="lazy"></a><figcaption><b>Plan des 6 réseaux VMC</b><span class="hint">RDC, R+1 et toiture. Clique pour agrandir.</span><span class="impl-a"><a href="files/bouches/reseau_vmc.png" download>Télécharger le plan</a><a href="files/gaines/EHPAD_Dimensionnement_Gaines.xlsx" download>Excel des gaines (onglet « Réseaux VMC »)</a></span></figcaption></figure></details>
     <details class="panel bo-cr"><summary><b>Compte rendu du 19/10/2026 : bouches conformes au DCE</b><span class="hint">270 bouches · 244 locaux conformes · 31 bouches CTA à raccorder · cliquer pour lire</span> <a class="btn small" href="files/bouches/CR_bouches_2026-10-19.pdf" download>PDF</a></summary><div class="bo-cr-b" data-cr="files/bouches/CR_bouches_2026-10-19.html"><p class="hint">Chargement…</p></div></details>
@@ -3259,7 +3260,7 @@ function rv3dUpdate(){ if(!R3) return; R3.groups.N01.visible=rvLv==="N01"; }
 /* ---------- Bâtiment complet (ARC + STR + espaces) ---------- */
 let RB=null; const BAT_V="2026-10-16c", EQ_V="10";
 const BAT_COL={"Murs":0xe9e3d8,"Sols":0xcfc7ba,"Toitures":0xa99a8c,"Fenêtres":0x8fc3dd,"Portes":0xa9825a,"Meneaux":0x7d8a92,"Escaliers":0xc9c2b6,"Garde-corps":0x6d7a83,"Poteaux":0xd9d4cb,"Plafonds":0xf4f1ea,"Divers":0xbdbdbd,"Panneaux solaires":0x2f4f7f};
-const GAI_V="5", BAT_STR=0xa3abb2, BAT_LAYERS=[["arc","Architecture",true],["ceil","Plafonds",false],["str","Structure",true],["pv","Panneaux solaires",true],["esp","Espaces CVC (zones)",false],["eq","Équipements CVC",true],["gai","Gaines de ventilation",true]];
+const GAI_V="6", BAT_STR=0xa3abb2, BAT_LAYERS=[["arc","Architecture",true],["ceil","Plafonds",false],["str","Structure",true],["pv","Panneaux solaires",true],["esp","Espaces CVC (zones)",false],["eq","Équipements CVC",true],["gai","Gaines de ventilation",true]];
 function batLayerOf(g){ return g.layer==="str"?"str":g.cat==="Plafonds"?"ceil":g.cat==="Panneaux solaires"?"pv":"arc"; }
 async function batLoadBin(){
   if("DecompressionStream" in window){ try{ const r=await fetch("files/b3d/building.bin.gz?v="+BAT_V); if(r.ok){ const s=r.body.pipeThrough(new DecompressionStream("gzip")); return await new Response(s).arrayBuffer(); } }catch(e){} }
@@ -3744,7 +3745,7 @@ async function renderResa(){
   document.querySelectorAll("#resaF select").forEach(sel=>{ const k=sel.dataset.rf; sel.innerHTML=`<option value="">${lab[k]}</option>`+uniq(k).map(v=>`<option value="${esc(v)}"${resaF[k]===v?" selected":""}>${esc(k==="lv"?resaLv(v):v)}</option>`).join(""); });
   if(!all.length){
     $("#resaSum").innerHTML="";
-    $("#resaBody").innerHTML=`<tr><td colspan="7"><div class="notice">Pas encore de données. La liste sortira de la maquette Revit (fichier <code>exports-revit/reservations.json</code>). D'après la détection du 20/10 : <b>119 traversées de murs</b>, <b>23 trémies</b> et <b>14 passages dans des poutres</b> (dont 70 pour la VMC).</div></td></tr>`;
+    $("#resaBody").innerHTML=`<tr><td colspan="7"><div class="notice">Pas encore de données. La liste sortira de la maquette Revit (fichier <code>exports-revit/reservations.json</code>). D'après la détection du 27/10 : <b>183 traversées de murs</b>, <b>23 trémies</b> et <b>30 passages dans des poutres</b>.</div></td></tr>`;
     $("#resaSrc").textContent=""; return; }
   const cnt=f=>all.filter(f).length, types=uniq("type");
   $("#resaSum").innerHTML=`<div class="k"><b>${all.length}</b><span>réservations</span></div>`+types.map(t=>`<div class="k"><b>${cnt(x=>x.type===t)}</b><span>${esc(t)}</span></div>`).join("")

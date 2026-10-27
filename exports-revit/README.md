@@ -124,3 +124,11 @@ Pour le site :
 1. Ajouter une couleur pour le système « Extraction » (ou une couleur par réseau VMC) dans la vue 3D et les filtres.
 2. Afficher les caissons VMC avec les autres équipements de toiture.
 3. Publier le compte rendu et remplacer les Excel, le plan et les réservations.
+
+## Dépôt du 27/10 — toutes les bouches raccordées (réseau v14)
+
+- `gaines.json` : 2 062 objets (1 024 gaines + 1 038 raccords), réexport complet depuis Revit (géométrie fine). `net`, `sys`, `ant`, `bouche` renseignés.
+- `bouches.json` : 270 bouches, toutes `raccordee: true`, positions reprises de Revit (31 bouches déplacées dans leur local).
+- `controle_dce.json` : plus aucune remarque « à raccorder ».
+- `reservations.json` : 236 réservations (80 nouvelles, champ `rid_elem` = ID de l'élément traversé dans la maquette liée).
+- `CR_raccordement_2026-10-27.md` : compte rendu (solutions par bouche, réservations, points à surveiller).

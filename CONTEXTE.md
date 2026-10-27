@@ -53,7 +53,7 @@ Pour échanger, on passe par ce dépôt. Le Claude Revit dépose ses fichiers da
   - `implantation/`, `syn/` (synoptiques PDF/DXF), `dce/`, `captures/` (captures du Tuto Revit).
 - `maquettes/` : fichiers Revit à télécharger.
 
-## 5. État de la ventilation (18/10)
+## 5. État de la ventilation (18/10, mis à jour le 27/10)
 
 5 CTA double flux en toiture-terrasse (niveau 7,02 m) :
 
@@ -79,6 +79,8 @@ Dimensionnement :
 - pertes de charge réseau principal : CTA1 36 Pa, CTA2 37 Pa, CTA3 30 Pa, CTA4 25 Pa, CTA5 69 Pa.
 
 VMC simple flux (20/10) : **6 caissons C4** (VMC 1 nord 1 785 m³/h, VMC 2 ouest 315, VMC 3 centre ouest 255, VMC 4 centre est 630, VMC 5 sud 60 sur terrasse basse, VMC 6 aile est 45 dans les combles), montées, collecteurs et antennes rigides. Les **46 bouches VMC sont raccordées**. Rejets à plus de 8 m des prises d'air neuf des CTA. Les collecteurs VMC du R+1 passent au-dessus des antennes CTA (axe 6,22 m ; 6,15 m pour VMC 4, sous une poutre 20x50). 18 bouches VMC ont été décalées dans leur local. Reste : grilles de transfert des offices et de la tisanerie, piquage du caisson VMC 1 (Ø315 trop petit pour 1 785 m³/h). Compte rendu : `exports-revit/CR_vmc_2026-10-20.md`. Scripts Revit : `_script/vmc_v4.py` (caisson + gaines), `vmcant_v1.py` (antennes vers les bouches déjà posées).
+
+Raccordement (27/10, Claude « Revit » avec Allan) : **les 270 bouches sont raccordées** (31 de plus : 28 CTA 5, 1 CTA 2, 1 CTA 3, 1 CTA 4), en rigide, sans toucher à l'architecture, **0 clash CVC**. Solutions : épines (reprise RDC x −20,65 ; soufflage/reprise étage x −31,2 / −32,3), passages au-dessus des troncs en gaine plate ×60 (3,05–3,10 m RDC, 6,42–6,45 m étage, dalle étage à 6,52 m), montées orientées, raccords directs par le dessus. Nouvelles branches : reprise aile nord RDC 300×60 (hall), soufflage salons étage 1000×60, reprise aile nord étage 600×60 prolongée jusqu'à la détente, soufflage détente 250×60. Réseau **v14** : `gaines.json` 2 062 objets (1 024 gaines + 1 038 raccords, `GAI_V` = 6), `bouches.json` (positions Revit, `raccordee` partout vrai), `controle_dce.json` (remarques « à raccorder » retirées), `reservations.json` **236** (183 murs, 23 trémies, 30 poutres ; 80 nouvelles R-157…R-236 dont 41 à valider). Compte rendu : `exports-revit/CR_raccordement_2026-10-27.md` (+ HTML/PDF dans `files/bouches/`, PDF dans les documents de la tâche i02). CTA 5 toujours à 6 027 m³/h (CCTP 8 800) : à trancher.
 
 Bouches (19/10) : **270 bouches**, les 244 locaux ventilés du dossier sont conformes en débit (contrôle `exports-revit/controle_dce.json`). Ajout de 46 bouches VMC sanitaires (CCTP § 4.12) et 6 bouches CTA 5. Modèles du CCTP dans les types Revit (GADD F, ALYZE S, DCFD-F, DATP). Reste : réseau VMC (caissons + gaines), 31 bouches CTA à raccorder. Compte rendu : `exports-revit/CR_bouches_2026-10-19.md`.
 
