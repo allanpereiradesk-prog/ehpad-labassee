@@ -1984,29 +1984,63 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
 
   <section id="viewJum" hidden>
     <section class="rv-head jum-head">
-      <div class="label">Maquette + GTB + étude thermique, reliées pièce par pièce · 274 pièces chauffées simulées en direct</div>
-      <h2>Jumeau numérique de l'EHPAD</h2>
-      <p>Chaque pièce de la maquette a sa <b>température</b>, ses <b>déperditions</b> (étude RT2012 répartie sur ses façades, sa toiture, son sol), ses <b>bouches</b> et sa <b>CTA</b>. La chaufferie de l'onglet GTB alimente toutes les pièces : si elle manque de puissance, le bâtiment <b>refroidit pour de vrai</b>, plus vite dans les pièces en angle et sous toiture. Clique sur une pièce pour sa fiche, sur un équipement pour sa fiche de maintenance avec son <b>QR code</b>.</p>
+      <div class="jum-hero">
+        <div class="jum-hero-t">
+          <div class="label">Maquette Revit + étude thermique RT2012 + GTB, reliées pièce par pièce</div>
+          <h2>Jumeau numérique de l'EHPAD</h2>
+          <p>Une <b>copie numérique du bâtiment</b> qui calcule la température de chacune des 274 pièces chauffées, en direct. On change la météo ou on provoque une panne, et on voit <b>quelles pièces refroidissent, et lesquelles en premier</b>.</p>
+        </div>
+        <button class="btn primary jum-demo" type="button" id="jumDemo">🎬 Voir la démo guidée<small>panne des PAC par grand froid</small></button>
+      </div>
+      <ol class="jum-steps">
+        <li><i>1</i><span><b>Choisis une situation</b>météo dehors, pannes à provoquer</span></li>
+        <li><i>2</i><span><b>Fais avancer le temps</b>le bâtiment réagit heure par heure</span></li>
+        <li><i>3</i><span><b>Regarde la maquette</b>clique sur une pièce ou un équipement pour sa fiche</span></li>
+      </ol>
     </section>
-    <div class="jum-bar">
-      <div class="seg jum-season" role="group" aria-label="Saison"><button type="button" data-js="hiver" aria-pressed="true">❄ Hiver : pannes</button><button type="button" data-js="ete" aria-pressed="false">☀ Canicule et climat futur</button></div>
-      <button class="btn primary jum-demo" type="button" id="jumDemo">🎬 Scénario : panne des PAC par grand froid</button>
-      <div class="jum-play"><button class="btn small" type="button" id="jumPlay">▶ Faire avancer le temps</button><select id="jumSpeed" aria-label="Vitesse"><option value="1">1 h / s</option><option value="3" selected>3 h / s</option><option value="8">8 h / s</option></select><button class="btn small" type="button" id="jumReset">↺ Remettre à zéro</button></div>
-      <span class="jum-clock" id="jumClock"></span>
+
+    <div class="jum-season-w">
+      <div class="seg jum-season" role="group" aria-label="Saison"><button type="button" data-js="hiver" aria-pressed="true">❄ Hiver : tester des pannes</button><button type="button" data-js="ete" aria-pressed="false">☀ Été : canicule et climat futur</button></div>
     </div>
+
+    <div class="jum-ctl" id="jumCtlW">
+      <div class="jum-card">
+        <h3 class="jum-ct"><i>1</i>Météo dehors</h3>
+        <div class="jum-te"><b id="jumTeV"></b><span class="hint">température extérieure</span></div>
+        <input type="range" id="jumTe" min="-12" max="16" step="0.5" aria-label="Température dehors">
+        <div class="jum-scale"><span>−12 °C</span><span>−9 °C : base de calcul</span><span>+16 °C</span></div>
+      </div>
+      <div class="jum-card jum-card-f">
+        <h3 class="jum-ct"><i>1</i>Pannes à provoquer <span class="hint">(les mêmes que dans l'onglet GTB)</span></h3>
+        <div class="jum-faults" id="jumFaults"></div>
+      </div>
+      <div class="jum-card">
+        <h3 class="jum-ct"><i>2</i>Temps simulé</h3>
+        <span class="jum-clock" id="jumClock"></span>
+        <div class="jum-play">
+          <button class="btn primary" type="button" id="jumPlay">▶ Faire avancer le temps</button>
+          <label class="jum-speed"><span class="hint">Vitesse</span><select id="jumSpeed" aria-label="Vitesse"><option value="1">1 h / s</option><option value="3" selected>3 h / s</option><option value="8">8 h / s</option></select></label>
+          <button class="btn small" type="button" id="jumReset">↺ Tout remettre à zéro</button>
+        </div>
+      </div>
+    </div>
+
     <div class="can-panel" id="canPanel" hidden>
       <div class="can-row">
-        <div class="field"><label for="canSc">Climat</label><select id="canSc"></select></div>
-        <div class="field"><span class="gtb-lab">Solutions à tester</span><div class="can-opts" id="canOpts"></div></div>
+        <div class="field"><h3 class="jum-ct"><i>1</i>Climat</h3><select id="canSc"></select></div>
+        <div class="field"><h3 class="jum-ct"><i>1</i>Solutions à tester</h3><div class="can-opts" id="canOpts"></div></div>
         <button class="btn primary jum-demo" type="button" id="canRun">☀ Lancer la canicule</button>
       </div>
-      <div class="can-time"><button class="btn small" type="button" id="canPlay" aria-label="Lecture">▶</button><input type="range" id="canT" min="0" max="0" value="0" aria-label="Moment de la canicule"><span class="jum-clock" id="canClock">–</span></div>
+      <div class="can-time"><h3 class="jum-ct"><i>2</i>Moment</h3><button class="btn small" type="button" id="canPlay" aria-label="Lecture">▶</button><input type="range" id="canT" min="0" max="0" value="0" aria-label="Moment de la canicule"><span class="jum-clock" id="canClock">–</span></div>
     </div>
+
+    <div class="jum-kpi" id="jumKpi"></div>
+
     <div class="jum-main">
       <div class="jum-3d-wrap">
         <div class="jum-tools">
-          <div class="seg" role="group" aria-label="Affichage" id="jumModes"></div>
-          <div class="seg" role="group" aria-label="Niveau" id="jumLv"></div>
+          <div class="jum-tg"><span>Colorer par</span><div class="seg" role="group" aria-label="Colorer les pièces par" id="jumModes"></div></div>
+          <div class="jum-tg"><span>Niveau</span><div class="seg" role="group" aria-label="Niveau" id="jumLv"></div></div>
         </div>
         <div id="jum3d" class="jum-3d"><p class="hint" style="padding:16px">Chargement de la maquette…</p></div>
         <div class="jum-tip" id="jumTip" hidden></div>
@@ -2015,12 +2049,7 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
       </div>
       <aside class="jum-side" id="jumSide"></aside>
     </div>
-    <div class="jum-ctl" id="jumCtlW">
-      <div class="field"><label for="jumTe">Température dehors : <b id="jumTeV"></b></label><input type="range" id="jumTe" min="-12" max="16" step="0.5"></div>
-      <div class="field"><span class="gtb-lab">Pannes (les mêmes que dans l'onglet GTB)</span><div class="jum-faults" id="jumFaults"></div></div>
-      <div class="field"><span class="gtb-lab">Étiquettes de maintenance</span><button class="btn small" type="button" id="jumLabels">🏷 Imprimer les étiquettes QR des équipements</button></div>
-    </div>
-    <div class="jum-kpi resa-sum" id="jumKpi"></div>
+
     <section class="can-res" id="canRes" hidden>
       <div class="jum-kpi resa-sum" id="canKpi"></div>
       <div class="en-g2">
@@ -2029,7 +2058,11 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
       </div>
       <details class="panel gtb-hyp"><summary><b>Comment c'est calculé</b> (climat, soleil, hypothèses, sources)</summary><div id="canHyp"></div></details>
     </section>
-    <details id="jumHypD" class="panel gtb-hyp"><summary><b>Comment c'est calculé</b> (méthode, hypothèses)</summary><div id="jumHyp"></div></details>
+
+    <div class="jum-foot">
+      <details id="jumHypD" class="panel gtb-hyp"><summary><b>Comment c'est calculé</b> (méthode, hypothèses)</summary><div id="jumHyp"></div></details>
+      <div class="jum-qr panel"><div><b>Étiquettes de maintenance</b><span class="hint">Un QR code par équipement, qui ouvre sa fiche (DOE numérique).</span></div><button class="btn small" type="button" id="jumLabels">🏷 Imprimer les étiquettes QR</button></div>
+    </div>
   </section>
 
   <dialog id="eqDlg" class="eq-dlg" aria-labelledby="eqTitle"><div id="eqBody"></div></dialog>
@@ -6385,8 +6418,9 @@ function jumSide(){
   if(!r&&JUM.season==="ete"){ box.innerHTML=`<h3>Canicule : clique sur une pièce</h3><p class="hint">Sa fiche montre sa température pendant tout l'épisode, ses heures au-dessus de 26 °C et 28 °C, et ses fenêtres par orientation.</p><p class="hint">Les chambres les plus exposées sont listées sous la maquette.</p>`; return; }
   if(!r){ const L=JUM.last, heated=JUM.rooms.filter(x=>x.tc!=null);
     const cold=heated.slice().sort((a,b)=>(JUM.T[a.i]-a.tc)-(JUM.T[b.i]-b.tc))[0];
-    box.innerHTML=`<h3>Clique sur une pièce</h3><p class="hint">Sa fiche s'affiche ici : température en direct, débits d'air, bouches, CTA, déperditions, puissance d'émetteur à prévoir, réservations.</p>
-      <p class="hint">Clique sur un <b>équipement</b> (CTA, PAC, chaudières…) pour sa fiche de maintenance et son QR code.</p>
+    box.innerHTML=`<div class="jum-empty"><span class="jum-ct"><i>3</i>Fiche</span><h3>Clique sur une pièce de la maquette</h3><p class="hint">Sa fiche s'affiche ici :</p>
+      <ul><li>🌡 sa température en direct et sa courbe</li><li>💨 ses bouches, son débit d'air et sa CTA</li><li>🧱 ses déperditions (murs, fenêtres, toiture…)</li><li>🔥 la puissance d'émetteur à prévoir</li><li>📐 ses réservations</li></ul>
+      <p class="hint">Clique sur un <b>équipement</b> (CTA, PAC, chaudières…) pour sa fiche de maintenance et son QR code.</p></div>
       ${cold?`<button class="btn small" type="button" data-jsel="${cold.i}">Voir la pièce la plus froide : ${esc(cold.nm)} (${enF(JUM.T[cold.i],1)} °C)</button>`:""}`;
     box.querySelectorAll("[data-jsel]").forEach(b=>b.onclick=()=>{ JUM.sel=+b.dataset.jsel; jumSide(); JUM.dirty=true; }); return; }
   const T=JUM.T[r.i], d=r.tc!=null?T-r.tc:null, Hr=jumH(r), Pd=jumPd(r);
@@ -6415,12 +6449,17 @@ function jumKpi(){
   const ch=heated.filter(r=>/chambre|ch\./i.test(r.nm)), alz=heated.filter(r=>r.sv==="fermé"&&/chambre|ch\./i.test(r.nm));
   const mn=a=>a.length?Math.min(...a.map(r=>JUM.T[r.i])):null;
   const minR=heated.slice().sort((a,b)=>(JUM.T[a.i]-a.tc)-(JUM.T[b.i]-b.tc))[0];
-  const tiles=[[`${enF(JUM.te,1)} °C`,"dehors"],[`${enF(L.avail/1000,0)} / ${enF(L.want/1000,0)} kW`,"chaleur disponible / demandée par les pièces",L.ratio<0.999?"bad":""],
-    [`${cold} / ${heated.length}`,"pièces à plus de 1 °C sous la consigne",cold?"bad":""],[mn(ch)==null?"–":`${enF(mn(ch),1)} °C`,"chambre la plus froide",mn(ch)<19?"bad":""],
-    [mn(alz)==null?"–":`${enF(mn(alz),1)} °C`,"unités Alzheimer (minimum)",mn(alz)<19?"bad":""],[minR?esc(minR.nm):"–",minR?`la plus loin de sa consigne (${enF(JUM.T[minR.i]-minR.tc,1)} °C)`:""]];
-  $("#jumKpi").innerHTML=tiles.map(([b,s,c])=>`<div class="k ${c||""}"><b>${b}</b><span>${s}</span></div>`).join("");
+  const flt=GTB_F.filter(([k])=>GTB.faults[k]).map(([,l])=>l), miss=Math.max(0,(L.want-L.avail)/1000);
+  const stt=L.ratio<0.999?["bad","⚠",`La chaufferie manque de ${enF(miss,0)} kW`,`Elle ne fournit que ${enF(L.ratio*100,0)} % de la chaleur demandée : toutes les pièces sont moins chauffées${cold?`, ${cold} pièce${cold>1?"s sont":" est"} déjà à plus de 1 °C sous la consigne`:""}.`]
+    :cold?["warn","◐",`${cold} pièce${cold>1?"s":""} sous la consigne`,"La chaufferie a assez de puissance : ces pièces sont en train de remonter en température."]
+    :["ok","✓","Tout va bien","La chaufferie couvre les besoins et toutes les pièces sont à leur consigne."];
+  const tiles=[["Chaleur disponible / demandée",`${enF(L.avail/1000,0)} / ${enF(L.want/1000,0)} kW`,L.ratio<0.999?"bad":""],
+    ["Pièces trop froides",`${cold} / ${heated.length}`,cold?"bad":"",">1 °C sous la consigne"],["Chambre la plus froide",mn(ch)==null?"–":`${enF(mn(ch),1)} °C`,mn(ch)<19?"bad":"","alerte sous 19 °C"],
+    ["Unités Alzheimer",mn(alz)==null?"–":`${enF(mn(alz),1)} °C`,mn(alz)<19?"bad":"","pièce la plus froide"],["Pièce la plus en écart",minR?esc(minR.nm):"–","",minR?`${enF(JUM.T[minR.i]-minR.tc,1)} °C par rapport à sa consigne`:""]];
+  $("#jumKpi").innerHTML=`<div class="jum-status ${stt[0]}" role="status"><i>${stt[1]}</i><div><b>${stt[2]}</b><span>${stt[3]}</span>${flt.length?`<span class="jum-flt">Pannes en cours : ${flt.map(esc).join(" · ")}</span>`:""}</div></div>
+    <div class="jk-grid">${tiles.map(([l,v,c,h])=>`<div class="jk ${c}"><span>${l}</span><b>${v}</b>${h?`<small>${h}</small>`:""}</div>`).join("")}</div>`;
   const d=Math.floor(JUM.t/24), hh=Math.floor(JUM.h), mm=JUM.h%1>=0.5?"30":"00";
-  $("#jumClock").innerHTML=`<span class="gtb-led ${GTB.faults["PAC 1"]||GTB.faults["PAC 2"]||GTB.faults["CH 1"]||GTB.faults["CH 2"]||GTB.faults.SONDES?"crit":L.ratio<0.999?"warn":"ok"}"></span> ${String(hh).padStart(2,"0")}:${mm} · temps simulé +${enF(JUM.t,1)} h${d?` (J+${d})`:""}`;
+  $("#jumClock").innerHTML=`<span class="gtb-led ${flt.length?"crit":L.ratio<0.999?"warn":"ok"}"></span><b>${String(hh).padStart(2,"0")}:${mm}</b><span>jour ${d+1} · +${enF(JUM.t,1)} h simulées</span>`;
 }
 function jumUI(){ $("#jumTe").value=JUM.te; $("#jumTeV").textContent=enF(JUM.te,1)+" °C";
   document.querySelectorAll("[data-jf]").forEach(c=>c.checked=!!GTB.faults[c.dataset.jf]);
@@ -7017,6 +7056,59 @@ async function pasLoadFile(file){
 .can-opts{display:grid;gap:3px}.can-time{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.can-time input{flex:1 1 220px;accent-color:#f97316}.can-time .jum-clock{margin-left:0}
 .can-res{margin-top:14px}.can-worst{display:grid;gap:6px}.can-worst button{all:unset;cursor:pointer;display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:8px 10px;border-radius:6px;background:var(--sunk);border-left:4px solid #f97316}
 .can-worst button:hover,.can-worst button:focus-visible{outline:2px solid var(--accent)}.can-worst span{grid-column:1;font-size:12.5px;color:var(--muted)}.can-worst em{grid-row:1/3;grid-column:2;align-self:center;font-style:normal;font-weight:700;color:#c2410c;font-size:13px;text-align:right}
+/* ---- Jumeau numérique : mise en page claire (v2) ---- */
+.jum-hero{display:flex;gap:20px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.jum-hero-t{flex:1 1 420px;min-width:0}.jum-hero-t p{max-width:68ch}
+.jum-head h2{font-size:28px}
+.jum-demo{display:flex;flex-direction:column;align-items:flex-start;gap:2px;font-size:16px;padding:12px 18px;line-height:1.2}
+.jum-demo small{font-size:12.5px;font-weight:400;opacity:.85}
+.jum-steps{list-style:none;margin:16px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:10px}
+.jum-steps li{display:flex;gap:10px;align-items:flex-start;background:var(--sunk);border-radius:8px;padding:10px 12px}
+.jum-steps span{display:grid;font-size:13px;color:var(--muted);line-height:1.35}.jum-steps span b{color:var(--ink);font-size:14.5px}
+.jum-steps i,.jum-ct i{flex:none;display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font-style:normal;font-weight:700;font-size:13px}
+.jum-season-w{display:flex;justify-content:center;margin:16px 0 12px}
+.jum-season{background:var(--surface);box-shadow:var(--sh)}.jum-season button{font-size:15px;padding:10px 18px}
+.jum-ct{display:flex;align-items:center;gap:8px;margin:0 0 10px;font-size:15px;font-family:var(--display)}
+.jum-ct .hint{font-weight:400;font-size:12.5px;font-family:var(--body)}
+.jum-ctl{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr) minmax(0,1fr);gap:12px;margin:0;padding:0;background:none;border:0}
+@media (max-width:980px){.jum-ctl{grid-template-columns:1fr}}
+.jum-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;box-shadow:var(--sh);min-width:0}
+.jum-te{display:flex;align-items:baseline;gap:8px}.jum-te b{font-size:30px;font-family:var(--display);font-variant-numeric:tabular-nums;color:var(--accent)}
+.jum-ctl input[type=range]{width:100%;accent-color:var(--accent);margin:8px 0 2px}
+.jum-scale{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted)}
+.jum-faults{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.jum-faults .gtb-fault,.can-opts .gtb-fault{border:1px solid var(--line);border-radius:6px;padding:7px 10px;cursor:pointer;font-size:13.5px;background:var(--surface);transition:background-color .15s,border-color .15s}
+.jum-faults .gtb-fault:hover,.can-opts .gtb-fault:hover{background:var(--sunk)}
+.jum-faults .gtb-fault:has(input:checked){border-color:var(--danger);background:color-mix(in srgb,var(--danger) 10%,var(--surface));color:var(--danger);font-weight:600}
+.can-opts .gtb-fault:has(input:checked){border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,var(--surface));font-weight:600}
+@media (max-width:520px){.jum-faults{grid-template-columns:1fr}}
+.jum-clock{margin:0 0 10px;font-family:var(--body);font-size:13px;display:flex;align-items:center;gap:10px;background:#0d1a22;color:#9fb9c6;padding:8px 12px;border-radius:6px}
+.jum-clock b{font-size:22px;color:#fff;font-variant-numeric:tabular-nums;font-family:var(--display)}
+.jum-play{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.jum-play #jumPlay{flex:1 1 100%;justify-content:center;font-size:15px;padding:9px 14px}
+.jum-speed{display:flex;gap:6px;align-items:center}.jum-play select{padding:5px 8px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink)}
+.jum-kpi{margin:12px 0}
+.jum-status{display:flex;gap:12px;align-items:center;border-radius:var(--r);padding:12px 16px;border:1px solid;margin-bottom:10px}
+.jum-status>i{flex:none;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;font-style:normal;font-weight:700;font-size:17px;color:#fff}
+.jum-status div{display:grid;gap:2px}.jum-status b{font-size:17px;font-family:var(--display)}.jum-status span{font-size:13.5px;color:var(--muted)}
+.jum-status .jum-flt{color:var(--danger);font-weight:600}
+.jum-status.ok{border-color:var(--done);background:color-mix(in srgb,var(--done) 9%,var(--surface))}.jum-status.ok>i{background:var(--done)}
+.jum-status.warn{border-color:var(--doing);background:color-mix(in srgb,var(--doing) 10%,var(--surface))}.jum-status.warn>i{background:var(--doing)}
+.jum-status.bad{border-color:var(--danger);background:color-mix(in srgb,var(--danger) 9%,var(--surface))}.jum-status.bad>i{background:var(--danger)}
+.jk-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+@media (max-width:1100px){.jk-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media (max-width:560px){.jk-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.jk{background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--done);border-radius:var(--r);padding:10px 12px;display:grid;gap:2px;align-content:start;min-width:0}
+.jk span{font-size:12.5px;color:var(--muted)}.jk b{font-size:21px;font-family:var(--display);font-variant-numeric:tabular-nums;overflow-wrap:anywhere;line-height:1.15}.jk small{font-size:11.5px;color:var(--muted)}
+.jk.bad{border-top-color:var(--danger)}.jk.bad b{color:var(--danger)}
+.jum-tools{align-items:flex-start}.jum-tg{display:flex;flex-direction:column;gap:4px;pointer-events:none}
+.jum-tg>span{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#8fb7c9;padding-left:2px}
+.jum-empty ul{margin:6px 0 10px;padding:0;list-style:none;display:grid;gap:5px;font-size:14px}
+.jum-empty .jum-ct{margin-bottom:8px;color:var(--muted)}
+.jum-foot{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;margin-top:14px;align-items:start}
+@media (max-width:760px){.jum-foot{grid-template-columns:1fr}}
+.jum-foot .panel{margin:0}.jum-qr{display:flex;gap:14px;align-items:center}.jum-qr div{display:grid;gap:2px}.jum-qr .hint{font-size:12.5px;max-width:34ch}
+.can-panel{box-shadow:var(--sh);padding:14px 16px}.can-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr) auto;align-items:end}.can-row .field{min-width:0}.can-row select{width:100%}@media (max-width:900px){.can-row{grid-template-columns:1fr}}
+#canKpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,170px),1fr));gap:10px}#canKpi .k{min-width:0;border-radius:var(--r)}.can-time .jum-ct{margin:0}.can-time .jum-clock{margin:0}
 .tgroups{display:flex;gap:6px;flex-wrap:wrap;padding:8px 0 6px;border-bottom:1px solid var(--line);flex:1 1 100%;width:100%;min-width:0;max-width:100%}
 .tgroups button{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 14px;font-weight:600;font-size:14px;white-space:nowrap}
 .tgroups button:hover{border-color:var(--accent);color:var(--accent)}
