@@ -387,6 +387,19 @@ tfoot td{font-weight:600}
 .cap-b p{margin:0}
 .cap-l{font-weight:600;color:var(--muted)}
 .cap .pill{justify-self:start}
+.iss{padding:0;gap:0;overflow:hidden}.iss-top{all:unset;box-sizing:border-box;display:grid;gap:6px;padding:12px 14px;cursor:pointer;width:100%}
+.iss-top:hover{background:var(--sunk)}.iss-top:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.iss-top .meta{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;font-size:13px;color:var(--muted)}
+.iss-cnt{font-size:13px;color:var(--muted);background:var(--sunk);border-radius:999px;padding:1px 9px;font-variant-numeric:tabular-nums}.iss-cnt.on{color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent);font-weight:600}
+.iss-chev{color:var(--muted);transition:transform .15s}.iss.open .iss-chev{transform:rotate(180deg)}
+.iss-prev{font-size:13.5px;display:grid;gap:2px;overflow-wrap:anywhere}.iss-prev em{font-style:normal;font-size:12px;color:var(--accent)}
+.iss-body{padding:4px 14px 14px;display:grid;gap:10px;border-top:1px solid var(--line)}
+.iss-thread{display:grid;gap:8px;margin-top:6px}
+.iss-msg{background:var(--sunk);border-radius:10px;padding:8px 12px;max-width:min(100%,80ch);display:grid;gap:4px;font-size:14px}
+.iss-msg.first{background:transparent;border:1px solid var(--line)}.iss-msg.me{background:color-mix(in srgb,var(--accent) 10%,var(--surface));justify-self:end}
+.iss-msg.sol{border-left:3px solid var(--done)}.iss-mh{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:13px}
+.iss-reply{display:grid;gap:6px}.iss-reply textarea{width:100%;box-sizing:border-box;resize:vertical;min-height:52px;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);font:inherit}
+.iss-act{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
 .iss-sep{font-size:16px;margin:18px 0 8px;padding-top:12px;border-top:2px solid var(--line)}
 .iss-sol{border-left:3px solid var(--done);background:color-mix(in srgb,var(--done) 9%,transparent);padding:8px 12px;border-radius:4px;margin:8px 0}
 .iss-sol b{color:var(--done);font-size:13.5px}
@@ -3991,6 +4004,7 @@ $("#iSave").onclick=async()=>{
   b.disabled=false;
 };
 $("#iFilter").onchange=()=>renderIssues();
+const ISS_OPEN=new Set();
 function renderIssues(){
   const n=issues.filter(i=>i.status!=="resolu").length;
   const badge=$("#issBadge"); badge.hidden=!n; badge.textContent=n;
@@ -3999,25 +4013,42 @@ function renderIssues(){
   const isRes=i=>i.status==="resolu";
   const list=issues.filter(i=>!f||(i.status||"ouvert")===f).sort((a,b)=>((isRes(a)?1:0)-(isRes(b)?1:0))||(isRes(a)?(b.resolvedAt||"").localeCompare(a.resolvedAt||""):(((b.urgent?1:0)-(a.urgent?1:0))||(b.at||"").localeCompare(a.at||""))));
   const firstRes=list.findIndex(isRes), nRes=list.filter(isRes).length;
+  const msgs=i=>{ const L=(i.replies||[]).map(r=>({who:r.who,text:r.text,at:r.at||""}));
+    if(i.solution&&!L.some(r=>r.text===i.solution)) L.push({who:i.resolvedBy||"",text:i.solution,at:i.resolvedAt||"",sol:true});
+    L.forEach(r=>{ if(i.solution&&r.text===i.solution) r.sol=true; }); return L.sort((x,y)=>(x.at||"").localeCompare(y.at||"")); };
+  const when=at=>at?fmtDate(at.slice(0,10))+(at.length>15?" à "+new Date(at).toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"}):""):"";
   box.innerHTML=list.length?list.map((i,idx)=>{
-    const t=tasks.find(x=>x._id===i.taskId); const res=i.status==="resolu";
-    return `${idx===firstRes?`<h3 class="iss-sep">✅ Problèmes réglés <span class="hint">(${nRes})</span></h3>`:""}<article class="iss ${i.urgent&&!res?"urgent":""} ${res?"resolu":""}" data-id="${esc(i._id)}">
-      <div class="iss-h"><span class="tag">${i.kind==="site"?"Site":"Projet"}</span><span class="tt">${esc(i.title)}</span>
-        ${res?`<span class="pill" style="--pc:var(--done)">Réglé</span>`:(i.urgent?`<span class="pill" style="--pc:var(--danger)">Urgent</span>`:`<span class="pill" style="--pc:var(--doing)">À régler</span>`)}</div>
-      <div class="meta"><span class="chip" style="--pc:${PCOLOR[i.who]||"var(--muted)"}">${esc(initials(i.who||"?"))}</span><span>${esc(i.who)} · ${fmtDate((i.at||"").slice(0,10))}</span>
-        ${t?`<button class="x" data-task="${esc(t._id)}" style="color:var(--accent)">${stepNo(t)} · ${esc(t.title.length>50?t.title.slice(0,48)+"…":t.title)}</button>`:""}
-        ${res&&i.resolvedBy?`<span>Réglé par ${esc(i.resolvedBy)}${i.resolvedAt?" le "+fmtDate(i.resolvedAt.slice(0,10)):""}</span>`:""}</div>
-      ${res&&i.solution?`<div class="iss-sol"><b>✅ Comment on l'a réglé</b><div class="report">${esc(i.solution)}</div></div>`:""}
-      ${i.detail?`<p class="report">${esc(i.detail)}</p>`:""}
-      ${(i.shots||[]).length?`<div class="shots">${i.shots.map((s,k)=>`<a href="#" class="blob" data-blob="${esc(s)}" data-type="image/png" data-name="Capture ${k+1}" title="Voir en grand"><img data-fid="${esc(s)}" alt="Capture ${k+1} de ${esc(i.who)}" loading="lazy"></a>`).join("")}</div>`:""}
-      ${(i.replies||[]).map(r=>`<div class="reply"><b>${esc(r.who)}</b> <span class="hint">${fmtDate((r.at||"").slice(0,10))}</span><div class="report">${esc(r.text)}</div></div>`).join("")}
-      <div class="inline"><div class="field"><label for="r_${esc(i._id)}" class="hint">${res?"Répondre":"Répondre, ou écris la solution puis « Marquer réglé »"}${me?" ("+esc(me)+")":""}</label><input id="r_${esc(i._id)}" maxlength="2000" placeholder="${res?"Une remarque…":"Une idée, ou comment tu l'as réglé…"}"></div>
-        <button class="btn small" data-reply="${esc(i._id)}">Envoyer</button>
-        <button class="btn small ${res?"":"primary"}" data-toggle="${esc(i._id)}">${res?"Rouvrir":"Marquer réglé"}</button>
+    const t=tasks.find(x=>x._id===i.taskId); const res=i.status==="resolu"; const M=msgs(i), op=ISS_OPEN.has(i._id), lastM=M[M.length-1];
+    return `${idx===firstRes?`<h3 class="iss-sep">✅ Problèmes réglés <span class="hint">(${nRes})</span></h3>`:""}<article class="iss ${i.urgent&&!res?"urgent":""} ${res?"resolu":""} ${op?"open":""}" data-id="${esc(i._id)}">
+      <button type="button" class="iss-top" data-open="${esc(i._id)}" aria-expanded="${op}">
+        <span class="iss-h"><span class="tag">${i.kind==="site"?"Site":"Projet"}</span><span class="tt">${esc(i.title)}</span>
+          <span class="iss-cnt${M.length?" on":""}" title="${M.length} message${M.length>1?"s":""}">💬 ${M.length}</span>
+          ${res?`<span class="pill" style="--pc:var(--done)">Réglé</span>`:(i.urgent?`<span class="pill" style="--pc:var(--danger)">Urgent</span>`:`<span class="pill" style="--pc:var(--doing)">À régler</span>`)}<span class="iss-chev" aria-hidden="true">▾</span></span>
+        <span class="meta"><span class="chip" style="--pc:${PCOLOR[i.who]||"var(--muted)"}">${esc(initials(i.who||"?"))}</span><span>${esc(i.who)} · ${fmtDate((i.at||"").slice(0,10))}</span>
+          ${res&&i.resolvedBy?`<span>Réglé par ${esc(i.resolvedBy)}${i.resolvedAt?" le "+fmtDate(i.resolvedAt.slice(0,10)):""}</span>`:""}</span>
+        ${!op?`<span class="iss-prev">${lastM?`<span><b>${esc(lastM.who||"?")} :</b> ${esc(lastM.text.length>140?lastM.text.slice(0,138)+"…":lastM.text)}</span>`:`<span class="hint">${i.detail?esc(i.detail.length>140?i.detail.slice(0,138)+"…":i.detail):"Pas encore de réponse."}</span>`}<em>${op?"":"Cliquer pour voir toute la discussion"}</em></span>`:""}
+      </button>
+      ${op?`<div class="iss-body">
+      ${t?`<div><button class="x" data-task="${esc(t._id)}" style="color:var(--accent)">Tâche ${stepNo(t)} · ${esc(t.title.length>60?t.title.slice(0,58)+"…":t.title)}</button></div>`:""}
+      <div class="iss-thread">
+        <div class="iss-msg first"><div class="iss-mh"><span class="chip" style="--pc:${PCOLOR[i.who]||"var(--muted)"}">${esc(initials(i.who||"?"))}</span><b>${esc(i.who||"?")}</b><span class="hint">${when(i.at)} · a signalé le problème</span></div>
+          ${i.detail?`<p class="report">${esc(i.detail)}</p>`:`<p class="hint">Pas de description.</p>`}
+          ${(i.shots||[]).length?`<div class="shots">${i.shots.map((s,k)=>`<a href="#" class="blob" data-blob="${esc(s)}" data-type="image/png" data-name="Capture ${k+1}" title="Voir en grand"><img data-fid="${esc(s)}" alt="Capture ${k+1} de ${esc(i.who)}" loading="lazy"></a>`).join("")}</div>`:""}</div>
+        ${M.map(r=>`<div class="iss-msg${r.sol?" sol":""}${r.who===me?" me":""}"><div class="iss-mh"><span class="chip" style="--pc:${PCOLOR[r.who]||"var(--muted)"}">${esc(initials(r.who||"?"))}</span><b>${esc(r.who||"?")}</b><span class="hint">${when(r.at)}</span>${r.sol?`<span class="pill" style="--pc:var(--done)">✅ Solution</span>`:""}</div><div class="report">${esc(r.text)}</div></div>`).join("")}
+        ${M.length?"":`<p class="hint" style="margin:0">Pas encore de réponse. Sois le premier à répondre !</p>`}
+      </div>
+      <div class="iss-reply"><label for="r_${esc(i._id)}" class="hint">${res?"Ajouter un message":"Répondre (ou écris comment tu l'as réglé, puis « Marquer réglé »)"}${me?" — en tant que <b>"+esc(me)+"</b>":""}</label>
+        <textarea id="r_${esc(i._id)}" maxlength="2000" rows="2" placeholder="${res?"Une remarque…":"Ton message… (Entrée pour envoyer, Maj+Entrée pour aller à la ligne)"}"></textarea>
+        <div class="iss-act"><button class="btn small primary" data-reply="${esc(i._id)}">Envoyer</button>
+        <button class="btn small" data-toggle="${esc(i._id)}">${res?"↺ Rouvrir":"✅ Marquer réglé"}</button>
         ${assets?`<span class="btn small filebtn">+ Capture<input type="file" accept="image/png,image/jpeg,image/webp,image/gif" data-addshot="${esc(i._id)}" aria-label="Ajouter une capture"></span>`:""}
-        <button class="btn small del-quiet" data-delete="${esc(i._id)}" title="Supprimer ce problème (il faut cliquer 2 fois)">Supprimer</button></div>
+        <button class="btn small del-quiet" data-delete="${esc(i._id)}" title="Supprimer ce problème (il faut cliquer 2 fois)">Supprimer</button></div></div>
+      </div>`:""}
     </article>`;
   }).join(""):`<div class="notice">${!ready?"Chargement…":(f==="ouvert"?"Aucun problème en attente. Si quelque chose bloque sur le site ou le projet, signale-le avec le formulaire.":"Rien ici.")}</div>`;
+  box.querySelectorAll("[data-open]").forEach(b=>b.onclick=e=>{ if(e.target.closest("[data-task]")) return; const id=b.dataset.open; if(ISS_OPEN.has(id)) ISS_OPEN.delete(id); else ISS_OPEN.add(id); renderIssues();
+    if(ISS_OPEN.has(id)){ const el=document.getElementById("r_"+id); if(el) el.focus({preventScroll:true}); } });
+  box.querySelectorAll(".iss-reply textarea").forEach(ta=>ta.onkeydown=e=>{ if(e.key==="Enter"&&!e.shiftKey&&!e.isComposing){ e.preventDefault(); ta.closest(".iss").querySelector("[data-reply]").click(); } });
   clampReports(box);
   box.querySelectorAll("[data-task]").forEach(b=>b.onclick=()=>openTask(b.dataset.task,"det"));
   box.querySelectorAll("[data-reply]").forEach(b=>b.onclick=async()=>{ const id=b.dataset.reply, inp=$("#r_"+CSS.escape(id)); const text=inp.value.trim(); if(!text) return;
@@ -4025,7 +4056,8 @@ function renderIssues(){
     try{ await db.doc("issues/"+id).update({replies:[...(i.replies||[]),{who:me||"Quelqu'un",text,at:new Date().toISOString()}]}); toast("Réponse envoyée"); }catch(e){ fail(e,"Réponse"); b.disabled=false; } });
   box.querySelectorAll("[data-toggle]").forEach(b=>b.onclick=async()=>{ const id=b.dataset.toggle, i=issues.find(x=>x._id===id); const res=i.status==="resolu";
     const sol=($("#r_"+CSS.escape(id))||{}).value; const solution=(sol||"").trim();
-    try{ await db.doc("issues/"+id).update(res?{status:"ouvert"}:{status:"resolu",resolvedBy:me||"",resolvedAt:new Date().toISOString(),...(solution?{solution}:{})}); toast(res?"Problème rouvert":(solution?"Problème réglé, solution enregistrée":"Problème réglé")); }catch(e){ fail(e,"Mise à jour"); } });
+    const now=new Date().toISOString(), rep=solution?{replies:[...(i.replies||[]),{who:me||"Quelqu'un",text:solution,at:now}]}:{};
+    try{ await db.doc("issues/"+id).update(res?{status:"ouvert",...rep}:{status:"resolu",resolvedBy:me||"",resolvedAt:now,...(solution?{solution}:{}),...rep}); toast(res?"Problème rouvert":(solution?"Problème réglé, solution enregistrée":"Problème réglé")); }catch(e){ fail(e,"Mise à jour"); } });
   box.querySelectorAll("[data-delete]").forEach(b=>{ let armed=false; b.onclick=async()=>{ if(!armed){armed=true;b.textContent="Confirmer";return;}
     const i=issues.find(x=>x._id===b.dataset.delete);
     try{ await db.doc("issues/"+b.dataset.delete).delete(); toast("Supprimé");
