@@ -13,7 +13,7 @@ Règles suivies :
 - **aucun clash entre gaines CVC** (contrôle refait sur tous les éléments créés) ;
 - chaque passage dans un mur, un voile ou une poutre est une réservation de la liste ci-dessous.
 
-Les débits ne changent pas : la CTA 5 est toujours à **6 027 m³/h** en soufflage et en reprise, avec 31 bouches de chaque côté. L'écart avec les 8 800 m³/h du CCTP reste une question à poser au professeur.
+Les débits ne changent pas : la CTA 5 est toujours à **6 027 m³/h** en soufflage et en reprise, avec 31 bouches de chaque côté. Le CCTP (§ CTA 5 – Aile Nord – zone commune) impose **8 800 m³/h** : les débits des bouches de la CTA 5 doivent être relevés (voir la mise à jour du 28/10 soir).
 
 ## Le problème et la solution
 
@@ -66,7 +66,7 @@ Taille du trou = gaine + 100 mm. Pour la gaine plate 1000 × 60 des salons, cela
 
 ## Points à surveiller
 
-- **CTA 5 : 6 027 m³/h** dans la maquette, contre 8 800 au CCTP. C'est à trancher avec le professeur.
+- **CTA 5 : 6 027 m³/h** dans la maquette, contre 8 800 au CCTP. **Décision du 28/10 : on applique le CCTP, 8 800 m³/h.**
 - **B387 et B369** sont des sdb sur la reprise CTA (comme les autres sdb de chambre), avec un modèle « Extraction plafond » : vérifier que c'est bien voulu.
 - **Branche 1000 × 60 des salons de l'étage** : une gaine large et plate, parce que le plénum sous dalle ne fait que 0,57 m. Une variante en deux 500 × 60 est possible.
 - **Vitesses** (onglet « Branches 27-10 » de l'Excel des gaines) : 3 tronçons dépassent la vitesse maxi du CCTP § 2.2.5. Ce sont la branche de la famille (300 × 60, 3,6 m/s pour 3 maxi), la reprise de l'aile nord au RDC (300 × 60, 3,1 m/s pour 3 maxi) et le début de la reprise de l'aile nord à l'étage (600 × 60, 4,2 m/s pour 3,5 maxi, jusqu'à B402). Pour corriger : 400 × 60, 350 × 60 et 800 × 60 avec une réduction après B402.
@@ -96,3 +96,4 @@ Taille du trou = gaine + 100 mm. Pour la gaine plate 1000 × 60 des salons, cela
   - vues 3D CVC et PLB.
 - **Feuilles A1** : CVC-01 à 05 et PLB-01 à 04.
 - **Étiquettes** : posées sur les équipements, les bouches et les tailles des gaines principales. La vérification est à faire après l'enregistrement.
+- **Débit CTA 5 (décision)** : on applique le CCTP, **8 800 m³/h** en soufflage et en reprise. Les 62 bouches de la CTA 5 passent ×1,46. Les gaines de la CTA 5 sont ensuite redimensionnées pour respecter les vitesses du CCTP § 2.2.5. C'est à faire dans la maquette après l'enregistrement.
