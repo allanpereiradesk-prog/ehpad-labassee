@@ -2009,8 +2009,8 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
     <div id="boSum" class="resa-sum"></div>
     <div class="bo-top">
       <section class="panel"><h2>Débits par CTA</h2><div class="tbl-wrap"><table class="fam-t" id="boCta"></table></div></section>
-      <figure class="impl-f bo-plan"><a href="files/bouches/plan_bouches.png" target="_blank" rel="noopener"><img src="files/bouches/plan_bouches.png" alt="Plan du RDC et de l'étage : gaines principales, antennes et bouches. Un carré rouge vide est une bouche posée dont l'antenne reste à faire." loading="lazy"></a>
-        <figcaption><b>Plan des bouches et des antennes</b><span class="hint">Carré rouge vide = bouche posée, antenne à faire. Clique pour agrandir.</span>
+      <figure class="impl-f bo-plan"><a href="files/bouches/plan_bouches.png" target="_blank" rel="noopener"><img src="files/bouches/plan_bouches.png?v=14" alt="Plan du RDC et de l'étage au 27/10 : gaines et bouches, les 270 bouches sont raccordées. Les 31 bouches raccordées le 27/10 sont entourées en rouge." loading="lazy"></a>
+        <figcaption><b>Plan des bouches et des antennes</b><span class="hint">Maquette v14 (27/10) : toutes les bouches sont raccordées. Cercle rouge = raccordée le 27/10. Clique pour agrandir.</span>
           <span class="impl-a"><a href="files/bouches/plan_bouches.png" download>Télécharger le plan</a><a href="files/bouches/EHPAD_Bouches_Ventilation.xlsx" download>Télécharger l'Excel</a></span></figcaption></figure>
     </div>
     <div class="resa-f" id="boF">
@@ -6436,7 +6436,7 @@ const jumPmax=r=>1.5*jumPd(r);
 async function jumLoad(){
   if(JUM.data) return;
   const j=u=>fetch(u,{cache:"no-cache"}).then(x=>x.ok?x.json():null).catch(()=>null);
-  const [d,eq,bo,rs]=await Promise.all([j("files/jumeau/rooms.json?v=4"),j("files/b3d/equip.json?v="+EQ_V),j("files/bouches/bouches.json"),j("exports-revit/reservations.json")]);
+  const [d,eq,bo,rs]=await Promise.all([j("files/jumeau/rooms.json?v=5"),j("files/b3d/equip.json?v="+EQ_V),j("files/bouches/bouches.json"),j("exports-revit/reservations.json")]);
   if(!EN) await enLoad();
   JUM.data=d; JUM.rooms=(d&&d.rooms)||[]; JUM.eq=(eq||[]).filter(e=>!/^Socle/.test(e.mark));
   (bo||[]).forEach(b=>JUM.bo[b.id]=b); ((rs&&rs.items)||[]).forEach(x=>JUM.rs[x.id]=x);
