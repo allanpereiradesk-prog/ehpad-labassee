@@ -80,3 +80,19 @@ Taille du trou = gaine + 100 mm. Pour la gaine plate 1000 × 60 des salons, cela
 - **Rejet du caisson VMC 6** : gaine Ø315 qui sort en toiture (0,5 m au-dessus des tuiles), système « Rejet VMC 6 ». Il faut prévoir la sortie de toiture (chapeau et abergement tuiles). Elle est ajoutée aux réservations (R-237, 237 au total).
 - **Systèmes vides Extraction 1 et Extraction 17** : supprimés.
 - **Non modélisé** : les grilles de transfert des offices et de la tisanerie. Elles vont dans les portes ou les cloisons, qui sont dans la maquette architecte. Elles sont à commander avec les menuiseries.
+
+## Mise à jour du 28/10 (soir)
+
+**Attention : la maquette n'est pas encore enregistrée depuis ce travail.** Il faut faire Ctrl+S quand Revit a fini de générer les vues.
+
+- **Clapets coupe-feu** : 38 clapets rectangulaires posés aux traversées de parois coupe-feu, réglés à 20 Pa. 17 emplacements restent à traiter :
+  - montées CTA en toiture trop courtes (trémies R-024 à R-036) ;
+  - gaines rondes R-019, R-031, R-079, R-138 : il n'y a pas de famille de clapet rond ;
+  - piquages trop proches pour R-166 et R-174.
+- **Calorifuge** : 84 gaines et accessoires en combles et en toiture, plus le rejet VMC 6, isolés avec 50 mm de panneau de fibres rigide.
+- **Vues livrables** :
+  - plans au 1/150 : CVC N00, N01, NT1 et PLB N00, N01 ;
+  - plans au 1/50 : chaufferie, en CVC et en PLB ;
+  - vues 3D CVC et PLB.
+- **Feuilles A1** : CVC-01 à 05 et PLB-01 à 04.
+- **Étiquettes** : posées sur les équipements, les bouches et les tailles des gaines principales. La vérification est à faire après l'enregistrement.
