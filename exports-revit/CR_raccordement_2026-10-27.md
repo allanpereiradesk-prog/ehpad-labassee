@@ -71,3 +71,12 @@ Taille du trou = gaine + 100 mm. Pour la gaine plate 1000 × 60 des salons, cela
 - **Branche 1000 × 60 des salons de l'étage** : une gaine large et plate, parce que le plénum sous dalle ne fait que 0,57 m. Une variante en deux 500 × 60 est possible.
 - **Vitesses** (onglet « Branches 27-10 » de l'Excel des gaines) : 3 tronçons dépassent la vitesse maxi du CCTP § 2.2.5. Ce sont la branche de la famille (300 × 60, 3,6 m/s pour 3 maxi), la reprise de l'aile nord au RDC (300 × 60, 3,1 m/s pour 3 maxi) et le début de la reprise de l'aile nord à l'étage (600 × 60, 4,2 m/s pour 3,5 maxi, jusqu'à B402). Pour corriger : 400 × 60, 350 × 60 et 800 × 60 avec une réduction après B402.
 - Deux systèmes vides existent dans la maquette (Extraction 1 et Extraction 17). Ils ne gênent pas, mais on peut les supprimer.
+
+## Mise à jour du 28/10
+
+- **Vitesses corrigées** : famille en 400 × 60 (2,7 m/s), reprise de l'aile nord RDC en 350 × 60 (2,6 m/s), reprise de l'aile nord étage en 800 × 60 jusqu'à B402 (3,2 m/s), avec des réductions. Deux petites portions restent au-dessus du CCTP : 1 m de montée de la famille (300 × 60, une poutre empêche d'élargir) et 2,7 m avant B395 (300 × 60, 3,1 m/s).
+- **PAC Weishaupt WWP S 35 IDR** aux dimensions du CCTP § 4.6.2 : 1 000 × 885 × 810 mm (L × H × P), 305 kg, 33,7 kW chaud / 40,1 kW froid. Les 4 raccords hydrauliques sont sur le dessus.
+- **Socles PAC** en 1 100 × 900 mm. Les 2 PAC sont recalées dans le local PAC, sans gêner la porte extérieure. Il reste environ **0,75 m devant les PAC au lieu de 1 m** : le local (3,10 × 1,69 m) est trop petit, à signaler au professeur.
+- **Rejet du caisson VMC 6** : gaine Ø315 qui sort en toiture (0,5 m au-dessus des tuiles), système « Rejet VMC 6 ». Il faut prévoir la sortie de toiture (chapeau et abergement tuiles). Elle est ajoutée aux réservations (R-237, 237 au total).
+- **Systèmes vides Extraction 1 et Extraction 17** : supprimés.
+- **Non modélisé** : les grilles de transfert des offices et de la tisanerie. Elles vont dans les portes ou les cloisons, qui sont dans la maquette architecte. Elles sont à commander avec les menuiseries.
