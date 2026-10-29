@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Allan BIM – Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@500;700;800&display=swap">
+<style>
+
+:root {
+  --ink: #1E1E1E;
+  --muted: #4A4A4A;
+  --blue: #1F6FD1;
+  --blue-2: #4A94EE;
+  --cyan: #7FE3F0;
+  --navy: #2B3A67;
+  --bg: #F4F7FB;
+  --paper: #FFFFFF;
+  --line: #E2E2E2;
+  --free: #EAF3FE;
+  --used: #E6F5EC;
+  --off: #F1F1F1;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: Nunito, system-ui, sans-serif; }
+button, input, select, textarea { font: inherit; color: inherit; }
+input:focus, select:focus, textarea:focus, button:focus-visible { outline: 3px solid var(--cyan); outline-offset: 1px; }
+
+.sun {
+  background-color: var(--blue);
+  background-image: repeating-conic-gradient(from 0deg at 0% 100%, var(--blue-2) 0deg 6deg, var(--blue) 6deg 12deg);
+  border-bottom: 3px solid var(--ink);
+}
+.bar { max-width: 1180px; margin: 0 auto; padding: 18px 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+.avatar { width: 52px; height: 52px; border-radius: 50%; background: var(--navy); border: 3px solid var(--ink);
+  display: flex; align-items: center; justify-content: center; font-family: 'Lilita One', sans-serif; font-size: 20px; color: #fff; }
+.logo { font-family: 'Lilita One', sans-serif; font-size: 30px; line-height: 1; color: #fff; -webkit-text-stroke: 2px var(--ink); letter-spacing: 1px; }
+.private { background: var(--ink); color: #fff; border-radius: 6px; padding: 3px 10px; font-size: 11px; font-weight: 800; letter-spacing: 1px; }
+.spacer { flex: 1; }
+.chip { background: #fff; border: 2px solid var(--ink); border-radius: 8px; padding: 6px 12px; font-size: 13px; font-weight: 800; }
+
+.wrap { max-width: 1180px; margin: 0 auto; padding: 28px 24px; display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; }
+.card { background: var(--paper); border: 3px solid var(--ink); border-radius: 14px; padding: 22px; display: flex; flex-direction: column; gap: 14px; }
+.card.raised { box-shadow: 0 5px 0 var(--ink); }
+.side { flex: 1 1 320px; max-width: 380px; }
+.main { flex: 999 1 560px; min-width: 0; }
+h1, h2 { margin: 0; font-family: 'Lilita One', sans-serif; font-weight: 400; }
+h1 { font-size: 28px; } h2 { font-size: 24px; }
+.hint { margin: 0; font-size: 14px; font-weight: 600; color: var(--muted); }
+
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label { font-size: 12px; font-weight: 800; letter-spacing: .5px; }
+.field input, .field select, .field textarea { min-height: 42px; padding: 8px 12px; border: 2px solid var(--ink); border-radius: 10px; background: #fff; font-weight: 600; }
+
+.btn { min-height: 34px; padding: 0 12px; background: #fff; border: 2px solid var(--ink); border-radius: 8px; font-weight: 800; font-size: 12px; letter-spacing: .5px; cursor: pointer; }
+.btn.big { min-height: 54px; background: var(--cyan); border-radius: 10px; box-shadow: 0 4px 0 var(--ink); font-size: 17px; letter-spacing: 1px; }
+.btn.mid { min-height: 44px; background: var(--cyan); border-radius: 10px; box-shadow: 0 3px 0 var(--ink); font-size: 14px; }
+.btn:disabled { opacity: .5; cursor: default; }
+
+.newcode { display: flex; flex-direction: column; gap: 8px; border: 2px dashed var(--ink); border-radius: 10px; padding: 14px; background: var(--free); }
+.newcode[hidden] { display: none; }
+.newcode .label { font-size: 11px; font-weight: 800; letter-spacing: 1px; }
+.newcode .row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.newcode .value { font-size: 21px; font-weight: 800; letter-spacing: 2px; white-space: nowrap; }
+
+.tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+.tab { min-height: 36px; padding: 0 16px; border: 2px solid var(--ink); border-radius: 10px; background: #fff; font-weight: 800; font-size: 13px; cursor: pointer; }
+.tab[aria-selected="true"] { background: var(--cyan); box-shadow: 0 3px 0 var(--ink); }
+.panel[hidden] { display: none; }
+
+.head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+.counts { display: flex; gap: 8px; font-size: 12px; font-weight: 800; }
+.pill { border: 2px solid var(--ink); border-radius: 999px; padding: 2px 10px; font-size: 12px; font-weight: 800; white-space: nowrap; }
+.pill.libre { background: var(--free); }
+.pill.utilise { background: var(--used); }
+.pill.revoque, .pill.expire, .pill.bloque { background: var(--off); color: var(--muted); }
+
+.scroll { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 600px; }
+th { text-align: left; font-size: 11px; letter-spacing: 1px; color: var(--muted); padding: 8px 10px; border-bottom: 2px solid var(--ink); }
+td { padding: 10px; border-bottom: 1px solid var(--line); font-weight: 700; }
+td.code { font-weight: 800; letter-spacing: 2px; white-space: nowrap; }
+.stack { display: flex; flex-direction: column; gap: 14px; }
+td.date { font-weight: 600; color: var(--muted); }
+td.act { text-align: right; }
+.empty { padding: 18px 10px; color: var(--muted); font-weight: 700; }
+
+.msg { font-size: 14px; font-weight: 700; min-height: 1.2em; margin: 0; }
+.msg.err { color: #B3261E; }
+.msg.ok { color: #1E7A45; }
+
+/* Page de connexion */
+.login { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
+.login .card { width: 100%; max-width: 400px; box-shadow: 0 6px 0 var(--ink); }
+.login .top { display: flex; align-items: center; gap: 12px; }
+
+@media (max-width: 600px) {
+  .logo { font-size: 24px; }
+  .side { max-width: none; }
+}
+
+.logo { font-family: 'Lilita One', sans-serif; }
+[hidden] { display: none !important; }
+.row2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+</style>
+</head>
+<body>
+
+<!-- ============ connexion -->
+<main class="login" id="v-login" hidden>
+  <form class="card" id="f-login" novalidate>
+    <div class="top">
+      <div class="avatar" aria-hidden="true">AL</div>
+      <div class="logo" style="color:#1F6FD1;-webkit-text-stroke:0">ALLAN BIM</div>
+    </div>
+    <h1>Accès admin</h1>
+    <p class="hint">Connecte-toi avec ton compte Allan BIM (le même que dans l'appli).</p>
+    <div class="field">
+      <label for="l-email">ADRESSE MAIL</label>
+      <input id="l-email" type="email" autocomplete="username" required>
+    </div>
+    <div class="field">
+      <label for="l-pw">MOT DE PASSE</label>
+      <input id="l-pw" type="password" autocomplete="current-password" required>
+    </div>
+    <button class="btn big" type="submit">SE CONNECTER</button>
+    <p class="msg err" id="l-msg" role="alert"></p>
+  </form>
+</main>
+
+<!-- ============ espace admin -->
+<div id="v-admin" hidden>
+<header class="sun">
+  <div class="bar">
+    <div class="avatar" aria-hidden="true">AL</div>
+    <div class="logo">ALLAN BIM</div>
+    <div class="private">ESPACE ADMIN · PRIVÉ</div>
+    <div class="spacer"></div>
+    <div class="chip" id="qui"></div>
+    <button class="btn" id="b-logout" type="button">SE DÉCONNECTER</button>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="card raised side" aria-labelledby="gen-title">
+    <h1 id="gen-title">Générer un code</h1>
+    <p class="hint">Le code active un compte dans l'appli AllanBIM.exe. Il ne sert qu'une fois.</p>
+    <form id="f-gen" class="stack" novalidate>
+      <div class="field">
+        <label for="g-pour">POUR (FACULTATIF)</label>
+        <input id="g-pour" type="text" maxlength="60" placeholder="ex. Enes">
+      </div>
+      <div class="field">
+        <label for="g-role">DROITS</label>
+        <select id="g-role"><option value="user">Utilisateur</option><option value="admin">Admin</option></select>
+      </div>
+      <div class="field">
+        <label for="g-jours">VALABLE</label>
+        <select id="g-jours"><option value="7">7 jours</option><option value="30">30 jours</option><option value="0">Sans limite</option></select>
+      </div>
+      <button class="btn big" type="submit">GÉNÉRER</button>
+    </form>
+    <div class="newcode" id="newcode" hidden>
+      <div class="label">NOUVEAU CODE</div>
+      <div class="row">
+        <div class="value" id="newcode-v"></div>
+        <button class="btn" type="button" id="b-copy">COPIER</button>
+      </div>
+    </div>
+    <p class="msg" id="g-msg" role="status"></p>
+  </section>
+
+  <section class="card main" aria-label="Gestion">
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" aria-selected="true" data-panel="p-codes" type="button">Codes</button>
+      <button class="tab" role="tab" aria-selected="false" data-panel="p-users" type="button">Utilisateurs</button>
+      <button class="tab" role="tab" aria-selected="false" data-panel="p-rel" type="button">Mises à jour</button>
+      <button class="tab" role="tab" aria-selected="false" data-panel="p-pre" type="button">Prérequis</button>
+    </div>
+
+    <div class="panel" id="p-codes" role="tabpanel">
+      <div class="head">
+        <h2>Codes générés</h2>
+        <div class="counts"><span class="pill libre" id="c-free">0 libres</span><span class="pill utilise" id="c-used">0 utilisés</span></div>
+      </div>
+      <div class="scroll"><table>
+        <thead><tr><th>CODE</th><th>POUR</th><th>DROITS</th><th>CRÉÉ LE</th><th>STATUT</th><th>UTILISÉ PAR</th><th></th></tr></thead>
+        <tbody id="t-codes"></tbody>
+      </table></div>
+    </div>
+
+    <div class="panel" id="p-users" role="tabpanel" hidden>
+      <div class="head"><h2>Utilisateurs</h2></div>
+      <div class="scroll"><table>
+        <thead><tr><th>NOM</th><th>MAIL</th><th>DROITS</th><th>CRÉÉ LE</th><th>STATUT</th><th></th></tr></thead>
+        <tbody id="t-users"></tbody>
+      </table></div>
+    </div>
+
+    <div class="panel" id="p-rel" role="tabpanel" hidden>
+      <div class="head"><h2>Publier une mise à jour</h2></div>
+      <form id="f-rel" class="stack" novalidate>
+        <div class="row2">
+          <div class="field">
+            <label for="r-version">VERSION (ex. 1.6.0)</label>
+            <input id="r-version" type="text" inputmode="decimal" required>
+          </div>
+          <div class="field">
+            <label for="r-fichier">.ZIP CONTENANT ALLANBIM.EXE</label>
+            <input id="r-fichier" type="file" accept=".zip" required>
+          </div>
+        </div>
+        <div class="field">
+          <label for="r-notes">NOTES</label>
+          <textarea id="r-notes" rows="2" maxlength="2000" placeholder="Ce qui change"></textarea>
+        </div>
+        <button class="btn mid" type="submit">PUBLIER</button>
+        <p class="msg" id="r-msg" role="status"></p>
+      </form>
+      <div class="scroll"><table>
+        <thead><tr><th>VERSION</th><th>NOTES</th><th>TAILLE</th><th>PUBLIÉE LE</th></tr></thead>
+        <tbody id="t-rel"></tbody>
+      </table></div>
+    </div>
+
+    <div class="panel" id="p-pre" role="tabpanel" hidden>
+      <div class="head"><h2>Prérequis à installer</h2></div>
+      <p class="hint">Programmes que le bouton « Télécharger les prérequis » de l'appli installe (en plus du module Revit).</p>
+      <form id="f-pre" class="stack" novalidate>
+        <div class="row2">
+          <div class="field"><label for="p-nom">NOM</label><input id="p-nom" type="text" maxlength="80" required></div>
+          <div class="field"><label for="p-url">LIEN HTTPS DE L'INSTALLEUR</label><input id="p-url" type="url" placeholder="https://…" required></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label for="p-sha">EMPREINTE SHA-256 (CONSEILLÉ)</label><input id="p-sha" type="text" maxlength="64"></div>
+          <div class="field"><label for="p-args">ARGUMENTS (ex. /quiet)</label><input id="p-args" type="text" maxlength="200"></div>
+        </div>
+        <button class="btn mid" type="submit">AJOUTER</button>
+        <p class="msg" id="p-msg" role="status"></p>
+      </form>
+      <div class="scroll"><table>
+        <thead><tr><th>NOM</th><th>LIEN</th><th>ARGUMENTS</th><th></th></tr></thead>
+        <tbody id="t-pre"></tbody>
+      </table></div>
+    </div>
+  </section>
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
