@@ -216,11 +216,14 @@ td.act { text-align: right; }
           <label for="r-notes">NOTES</label>
           <textarea id="r-notes" rows="2" maxlength="2000" placeholder="Ce qui change"></textarea>
         </div>
+        <label style="display:flex;align-items:center;gap:8px;font-weight:800;font-size:14px">
+          <input id="r-oblig" type="checkbox" style="width:18px;height:18px"> Mise à jour obligatoire (bloque les outils tant qu'elle n'est pas installée)
+        </label>
         <button class="btn mid" type="submit">PUBLIER</button>
         <p class="msg" id="r-msg" role="status"></p>
       </form>
       <div class="scroll"><table>
-        <thead><tr><th>VERSION</th><th>NOTES</th><th>TAILLE</th><th>PUBLIÉE LE</th></tr></thead>
+        <thead><tr><th>VERSION</th><th>NOTES</th><th>TAILLE</th><th>PUBLIÉE LE</th><th>OBLIGATOIRE</th></tr></thead>
         <tbody id="t-rel"></tbody>
       </table></div>
     </div>

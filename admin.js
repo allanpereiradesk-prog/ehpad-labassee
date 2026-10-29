@@ -156,16 +156,17 @@
 
   // ---------------------------------------------------------------- mises à jour
   async function chargerReleases() {
-    const { data } = await sb.from('releases').select('version,notes,taille,created_at').order('created_at', { ascending: false });
+    const { data } = await sb.from('releases').select('version,notes,taille,created_at,obligatoire').order('created_at', { ascending: false });
     const tb = $('t-rel');
     tb.textContent = '';
-    if (!data || !data.length) vide(tb, 4, 'Aucune version publiée.');
+    if (!data || !data.length) vide(tb, 5, 'Aucune version publiée.');
     for (const r of data || []) {
       const tr = document.createElement('tr');
       cell(tr, r.version, 'code');
       cell(tr, r.notes || '—');
       cell(tr, (r.taille / 1048576).toFixed(1) + ' Mo', 'date');
       cell(tr, fmt(r.created_at), 'date');
+      cell(tr, r.obligatoire ? 'OUI' : '—');
       tb.appendChild(tr);
     }
   }
@@ -186,7 +187,7 @@
     const empreinte = await sha256(f);
     const up = await sb.storage.from('releases').upload(chemin, f, { contentType: 'application/zip', upsert: false });
     if (up.error) { msg('r-msg', 'Envoi impossible : ' + up.error.message, 'err'); return; }
-    const { error } = await sb.from('releases').insert({ version, notes: $('r-notes').value, chemin, sha256: empreinte, taille: f.size });
+    const { error } = await sb.from('releases').insert({ version, notes: $('r-notes').value, chemin, sha256: empreinte, taille: f.size, obligatoire: $('r-oblig').checked });
     if (error) { msg('r-msg', error.code === '23505' ? 'Cette version existe déjà.' : texteErreur(error), 'err'); return; }
     msg('r-msg', 'Version ' + version + ' publiée. Les utilisateurs la verront avec le bouton Mise à jour.', 'ok');
     $('f-rel').reset();
