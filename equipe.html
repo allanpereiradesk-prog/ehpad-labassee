@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Allan BIM – Équipe en direct</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@500;700;800&display=swap">
+<style>
+:root {
+  --ink: #1E1E1E; --muted: #4A4A4A; --blue: #1F6FD1; --blue-2: #4A94EE; --cyan: #7FE3F0; --navy: #2B3A67;
+  --bg: #F4F7FB; --paper: #FFFFFF; --line: #E2E2E2; --vert: #1E9E57; --orange: #E07A2A; --gris: #8A8F98;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: Nunito, system-ui, sans-serif; }
+button, input { font: inherit; color: inherit; }
+input:focus, button:focus-visible { outline: 3px solid var(--cyan); outline-offset: 1px; }
+[hidden] { display: none !important; }
+
+.sun { background-color: var(--blue); background-image: repeating-conic-gradient(from 0deg at 0% 100%, var(--blue-2) 0deg 6deg, var(--blue) 6deg 12deg); border-bottom: 3px solid var(--ink); }
+.bar { max-width: 1280px; margin: 0 auto; padding: 18px 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+.avatar { width: 52px; height: 52px; border-radius: 50%; background: var(--navy); border: 3px solid var(--ink); display: flex; align-items: center; justify-content: center; font-family: 'Lilita One', sans-serif; font-size: 20px; color: #fff; flex: none; }
+.logo { font-family: 'Lilita One', sans-serif; font-size: 30px; line-height: 1; color: #fff; -webkit-text-stroke: 2px var(--ink); letter-spacing: 1px; }
+.private { background: var(--ink); color: #fff; border-radius: 6px; padding: 3px 10px; font-size: 11px; font-weight: 800; letter-spacing: 1px; }
+.spacer { flex: 1; }
+.chip { background: #fff; border: 2px solid var(--ink); border-radius: 8px; padding: 6px 12px; font-size: 13px; font-weight: 800; }
+.btn { min-height: 34px; padding: 0 12px; background: #fff; border: 2px solid var(--ink); border-radius: 8px; font-weight: 800; font-size: 12px; letter-spacing: .5px; cursor: pointer; }
+.btn.big { min-height: 54px; background: var(--cyan); border-radius: 10px; box-shadow: 0 4px 0 var(--ink); font-size: 17px; letter-spacing: 1px; }
+h1, h2 { margin: 0; font-family: 'Lilita One', sans-serif; font-weight: 400; }
+h1 { font-size: 28px; }
+.hint { margin: 0; font-size: 14px; font-weight: 600; color: var(--muted); }
+.card { background: var(--paper); border: 3px solid var(--ink); border-radius: 14px; padding: 22px; display: flex; flex-direction: column; gap: 14px; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label { font-size: 12px; font-weight: 800; letter-spacing: .5px; }
+.field input { min-height: 42px; padding: 8px 12px; border: 2px solid var(--ink); border-radius: 10px; background: #fff; font-weight: 600; }
+.msg { font-size: 14px; font-weight: 700; min-height: 1.2em; margin: 0; }
+.msg.err { color: #B3261E; }
+.login { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
+.login .card { width: 100%; max-width: 400px; box-shadow: 0 6px 0 var(--ink); }
+.login .top { display: flex; align-items: center; gap: 12px; }
+
+.wrap { max-width: 1280px; margin: 0 auto; padding: 24px; }
+.tete { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-bottom: 20px; }
+.compte { display: flex; gap: 8px; font-size: 13px; font-weight: 800; }
+.pill { border: 2px solid var(--ink); border-radius: 999px; padding: 3px 12px; font-size: 13px; font-weight: 800; white-space: nowrap; background: #fff; }
+.pill.vert { background: #E6F5EC; } .pill.orange { background: #FDEEDC; }
+.bascule { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 14px; cursor: pointer; user-select: none; }
+.bascule input { width: 20px; height: 20px; accent-color: var(--blue); }
+
+.grille { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+.perso { background: var(--paper); border: 3px solid var(--ink); border-radius: 14px; overflow: hidden; box-shadow: 0 5px 0 var(--ink); display: flex; flex-direction: column; }
+.perso.hors { opacity: .6; box-shadow: 0 3px 0 var(--ink); }
+.ecran { position: relative; aspect-ratio: 16 / 10; background: #141C27; border-bottom: 3px solid var(--ink); display: flex; align-items: center; justify-content: center; cursor: zoom-in; }
+.ecran img { width: 100%; height: 100%; object-fit: contain; background: #fff; display: block; }
+.ecran .vide { color: #8A97A8; font-weight: 700; font-size: 14px; text-align: center; padding: 20px; cursor: default; }
+.live { position: absolute; top: 10px; left: 10px; background: #E5484D; color: #fff; border-radius: 999px; padding: 2px 10px 2px 22px; font-size: 12px; font-weight: 800; letter-spacing: 1px; }
+.live::before { content: ''; position: absolute; left: 9px; top: 50%; width: 7px; height: 7px; margin-top: -3.5px; border-radius: 50%; background: #fff; animation: pulse 1.4s infinite; }
+@keyframes pulse { 50% { opacity: .2; } }
+.age { position: absolute; bottom: 8px; right: 10px; background: rgba(20,28,39,.8); color: #fff; border-radius: 6px; padding: 1px 8px; font-size: 12px; font-weight: 700; }
+.infos { padding: 14px 16px; display: flex; gap: 12px; align-items: center; }
+.ini { position: relative; width: 46px; height: 46px; border-radius: 50%; background: var(--blue); border: 2px solid var(--ink); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; flex: none; }
+.ini i { position: absolute; right: -3px; bottom: -3px; width: 15px; height: 15px; border-radius: 50%; border: 2px solid #fff; background: var(--gris); }
+.ini i.vert { background: var(--vert); } .ini i.orange { background: var(--orange); }
+.txt { min-width: 0; }
+.nom { font-weight: 800; font-size: 17px; }
+.sous { font-size: 13px; font-weight: 700; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.etat { margin-left: auto; font-size: 12px; font-weight: 800; white-space: nowrap; }
+.vide-page { padding: 40px; text-align: center; color: var(--muted); font-weight: 700; }
+
+.zoom { position: fixed; inset: 0; background: rgba(10,14,20,.88); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; z-index: 10; cursor: zoom-out; padding: 20px; }
+.zoom img { max-width: 96vw; max-height: 86vh; background: #fff; border: 3px solid var(--ink); border-radius: 10px; }
+.zoom .leg { color: #fff; font-weight: 800; }
+</style>
+</head>
+<body>
+
+<main class="login" id="v-login" hidden>
+  <form class="card" id="f-login" novalidate>
+    <div class="top">
+      <div class="avatar" aria-hidden="true">AL</div>
+      <div class="logo" style="color:#1F6FD1;-webkit-text-stroke:0">ALLAN BIM</div>
+    </div>
+    <h1>Équipe en direct</h1>
+    <p class="hint">Connecte-toi avec ton compte Allan BIM (le même que dans l'appli).</p>
+    <div class="field"><label for="l-email">ADRESSE MAIL</label><input id="l-email" type="email" autocomplete="username" required></div>
+    <div class="field"><label for="l-pw">MOT DE PASSE</label><input id="l-pw" type="password" autocomplete="current-password" required></div>
+    <button class="btn big" type="submit">SE CONNECTER</button>
+    <p class="msg err" id="l-msg" role="alert"></p>
+  </form>
+</main>
+
+<div id="v-app" hidden>
+  <header class="sun">
+    <div class="bar">
+      <div class="avatar" aria-hidden="true">AL</div>
+      <div class="logo">ALLAN BIM</div>
+      <div class="private">ÉQUIPE EN DIRECT</div>
+      <div class="spacer"></div>
+      <div class="chip" id="qui"></div>
+      <button class="btn" id="b-logout" type="button">SE DÉCONNECTER</button>
+    </div>
+  </header>
+  <div class="wrap">
+    <div class="tete">
+      <div class="compte"><span class="pill vert" id="n-revit">0 dans Revit</span><span class="pill orange" id="n-appli">0 appli ouverte</span></div>
+      <div class="spacer"></div>
+      <label class="bascule" title="Les autres voient une image de ta vue Revit active, mise à jour toutes les 30 à 60 s.">
+        <input type="checkbox" id="partage" checked> Partager ma vue Revit
+      </label>
+    </div>
+    <p class="hint" style="margin-bottom:16px">Chaque personne qui a l'appli Allan BIM ouverte apparaît ici. L'image montre sa vue Revit active (mise à jour toutes les 30 à 60 s).</p>
+    <div class="grille" id="grille"></div>
+  </div>
+</div>
+
+<div class="zoom" id="zoom" hidden><img id="zoom-img" alt=""><div class="leg" id="zoom-leg"></div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+(() => {
+  const URL_PROJET = 'https://nhlczhigzzbjgvyjrlks.supabase.co';
+  const CLE_PUBLIQUE = 'sb_publishable_rYhaG5Cs1GOosks1NqRYqQ_2WX-1UjC';
+  const sb = window.supabase.createClient(URL_PROJET, CLE_PUBLIQUE);
+  const $ = (id) => document.getElementById(id);
+  const EN_LIGNE_S = 95;          // l'appli envoie toutes les 30 s
+  let moi = null, lignes = [], urls = {};
+
+  const initiales = (n) => (n || '?').split(/\s+/).filter(Boolean).slice(0, 2).map(x => x[0].toUpperCase()).join('') || '?';
+  const depuis = (iso) => {
+    if (!iso) return '';
+    const s = Math.max(0, (Date.now() - new Date(iso).getTime()) / 1000);
+    if (s < 60) return "à l'instant";
+    if (s < 3600) return 'il y a ' + Math.round(s / 60) + ' min';
+    if (s < 86400) return 'il y a ' + Math.round(s / 3600) + ' h';
+    return 'le ' + new Date(iso).toLocaleDateString('fr-FR');
+  };
+  const duree = (iso) => {
+    if (!iso) return '';
+    const m = Math.round((Date.now() - new Date(iso).getTime()) / 60000);
+    return m < 60 ? m + ' min' : Math.floor(m / 60) + ' h ' + String(m % 60).padStart(2, '0');
+  };
+  const etat = (l) => {
+    const age = (Date.now() - new Date(l.maj).getTime()) / 1000;
+    if (age > EN_LIGNE_S) return 'hors';
+    return l.revit ? 'revit' : 'appli';
+  };
+
+  async function demarrer() {
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) { $('v-login').hidden = false; $('v-app').hidden = true; return; }
+    moi = session.user;
+    $('v-login').hidden = true; $('v-app').hidden = false;
+    $('qui').textContent = moi.email;
+    await charger();
+    sb.channel('presence').on('postgres_changes', { event: '*', schema: 'public', table: 'presence' }, () => charger()).subscribe();
+    setInterval(charger, 20000);
+    setInterval(afficher, 10000);
+  }
+
+  async function charger() {
+    const { data, error } = await sb.from('presence').select('*').order('maj', { ascending: false });
+    if (error) { $('grille').innerHTML = '<div class="vide-page">Erreur : ' + error.message + '</div>'; return; }
+    lignes = data || [];
+    const mienne = lignes.find(l => l.user_id === moi.id);
+    if (mienne) $('partage').checked = mienne.partage !== false;
+    // liens signés des images (privées)
+    const chemins = lignes.filter(l => l.image && l.partage !== false).map(l => l.image);
+    if (chemins.length) {
+      const { data: s } = await sb.storage.from('vues').createSignedUrls(chemins, 600);
+      (s || []).forEach(x => { if (x.signedUrl) urls[x.path] = x.signedUrl; });
+    }
+    afficher();
+  }
+
+  function afficher() {
+    const g = $('grille');
+    g.textContent = '';
+    let nr = 0, na = 0;
+    const ordre = { revit: 0, appli: 1, hors: 2 };
+    const tri = [...lignes].sort((a, b) => ordre[etat(a)] - ordre[etat(b)] || new Date(b.maj) - new Date(a.maj));
+    if (!tri.length) { g.innerHTML = '<div class="vide-page">Personne pour l\'instant. Ouvre l\'appli Allan BIM (2.0.4 ou plus) pour apparaître ici.</div>'; }
+    for (const l of tri) {
+      const e = etat(l);
+      if (e === 'revit') nr++; else if (e === 'appli') na++;
+      const c = document.createElement('article');
+      c.className = 'perso' + (e === 'hors' ? ' hors' : '');
+      const ecran = document.createElement('div');
+      ecran.className = 'ecran';
+      const url = l.image && l.partage !== false ? urls[l.image] : null;
+      if (url && e === 'revit') {
+        const img = document.createElement('img');
+        img.src = url + (url.includes('?') ? '&' : '?') + 'v=' + encodeURIComponent(l.maj);
+        img.alt = 'Vue Revit de ' + (l.nom || '');
+        ecran.appendChild(img);
+        const live = document.createElement('span'); live.className = 'live'; live.textContent = 'LIVE'; ecran.appendChild(live);
+        const age = document.createElement('span'); age.className = 'age'; age.textContent = depuis(l.maj); ecran.appendChild(age);
+        ecran.addEventListener('click', () => { $('zoom-img').src = img.src; $('zoom-leg').textContent = (l.nom || '') + ' — ' + (l.vue || ''); $('zoom').hidden = false; });
+      } else {
+        const v = document.createElement('div'); v.className = 'vide';
+        v.textContent = e === 'hors' ? 'Hors ligne' : e === 'appli' ? 'Revit fermé' : (l.partage === false ? 'Vue non partagée' : 'Image en cours…');
+        ecran.appendChild(v); ecran.style.cursor = 'default';
+      }
+      c.appendChild(ecran);
+      const inf = document.createElement('div'); inf.className = 'infos';
+      inf.innerHTML = '<div class="ini"><span></span><i></i></div><div class="txt"><div class="nom"></div><div class="sous s1"></div><div class="sous s2"></div></div><div class="etat"></div>';
+      inf.querySelector('.ini span').textContent = initiales(l.nom);
+      inf.querySelector('.ini i').className = e === 'revit' ? 'vert' : e === 'appli' ? 'orange' : '';
+      inf.querySelector('.nom').textContent = (l.nom || 'Sans nom') + (l.user_id === moi.id ? ' (moi)' : '');
+      inf.querySelector('.s1').textContent = e === 'revit' ? (l.vue || '') : e === 'appli' ? 'Appli ouverte, Revit fermé' : 'Vu ' + depuis(l.maj);
+      inf.querySelector('.s2').textContent = e === 'revit' ? (l.document || '') + (l.debut ? ' · depuis ' + duree(l.debut) : '') : (l.version ? 'Allan BIM ' + l.version : '');
+      inf.querySelector('.etat').textContent = e === 'revit' ? 'Dans Revit' : e === 'appli' ? 'En ligne' : '';
+      c.appendChild(inf);
+      g.appendChild(c);
+    }
+    $('n-revit').textContent = nr + ' dans Revit';
+    $('n-appli').textContent = na + (na > 1 ? ' appli ouvertes' : ' appli ouverte');
+  }
+
+  $('partage').addEventListener('change', async (ev) => {
+    const partage = ev.target.checked;
+    let { data, error } = await sb.from('presence').update({ partage }).eq('user_id', moi.id).select('user_id');
+    if (!error && (!data || !data.length))   // pas encore de ligne : on la crée sans paraître « en ligne »
+      ({ error } = await sb.from('presence').insert({ user_id: moi.id, partage, maj: '2000-01-01T00:00:00Z' }));
+    if (error) { alert('Impossible : ' + error.message); ev.target.checked = !partage; }
+  });
+  $('zoom').addEventListener('click', () => { $('zoom').hidden = true; });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') $('zoom').hidden = true; });
+
+  $('f-login').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    $('l-msg').textContent = '';
+    const { error } = await sb.auth.signInWithPassword({ email: $('l-email').value.trim(), password: $('l-pw').value });
+    if (error) { $('l-msg').textContent = 'Connexion impossible : ' + error.message; return; }
+    demarrer();
+  });
+  $('b-logout').addEventListener('click', async () => { await sb.auth.signOut(); location.reload(); });
+
+  demarrer();
+})();
+</script>
+</body>
+</html>
