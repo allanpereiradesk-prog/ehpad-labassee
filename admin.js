@@ -236,7 +236,55 @@
     });
   }));
 
+  // ---------------------------------------------------------------- bugs & suggestions
+  const STATUTS = { nouveau: 'Nouveau', en_cours: 'En cours', regle: 'Réglé', refuse: 'Refusé' };
+  async function chargerRetours() {
+    const box = $('l-ret'); box.textContent = '';
+    const { data, error } = await sb.from('retours').select('*').order('cree', { ascending: false }).limit(200);
+    if (error) { box.textContent = 'Lecture impossible : ' + error.message; return; }
+    const ouverts = data.filter((r) => r.statut === 'nouveau' || r.statut === 'en_cours');
+    $('c-ret').hidden = ouverts.length === 0; $('c-ret').textContent = ouverts.length;
+    const f = $('ret-filtre').value;
+    const liste = data.filter((r) => f === 'tous' || (f === 'regle' ? r.statut === 'regle' || r.statut === 'refuse' : r.statut === 'nouveau' || r.statut === 'en_cours'));
+    if (!liste.length) { box.textContent = 'Rien à afficher.'; return; }
+    for (const r of liste) {
+      const d = document.createElement('div'); d.className = 'ret';
+      const h = document.createElement('h3');
+      const t = document.createElement('span'); t.className = 'pill ' + (r.type === 'bug' ? 'bug' : 'suggestion'); t.textContent = r.type === 'bug' ? 'Bug' : 'Suggestion';
+      const st = document.createElement('span'); st.className = 'pill ' + r.statut; st.textContent = STATUTS[r.statut] || r.statut;
+      h.append(t, ' ', st, ' ', document.createTextNode(r.titre || '(sans titre)'));
+      const m = document.createElement('div'); m.className = 'meta';
+      m.textContent = [r.nom, fmt(r.cree) + ' ' + new Date(r.cree).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }), r.outil && ('outil : ' + r.outil), r.version && ('appli ' + r.version), r.document && ('maquette ' + r.document), r.pc].filter(Boolean).join(' · ');
+      const x = document.createElement('div'); x.className = 'txt'; x.textContent = r.texte || '';
+      d.append(h, m, x);
+      if (r.journal) { const j = document.createElement('details'); const s0 = document.createElement('summary'); s0.textContent = 'Journal d\'erreurs'; const pre = document.createElement('pre'); pre.textContent = r.journal; pre.style.whiteSpace = 'pre-wrap'; pre.style.fontSize = '11px'; j.append(s0, pre); d.append(j); }
+      const imgs = document.createElement('div'); imgs.className = 'imgs';
+      for (const chemin of (r.images || [])) {
+        const { data: u } = await sb.storage.from('retours').createSignedUrl(chemin, 3600);
+        if (!u) continue;
+        const a = document.createElement('a'); a.href = u.signedUrl; a.target = '_blank'; a.rel = 'noopener';
+        const im = document.createElement('img'); im.src = u.signedUrl; im.alt = 'capture'; a.append(im); imgs.append(a);
+      }
+      if (imgs.childNodes.length) d.append(imgs);
+      const act = document.createElement('div'); act.className = 'act';
+      const sel = document.createElement('select');
+      for (const k of Object.keys(STATUTS)) { const o = document.createElement('option'); o.value = k; o.textContent = STATUTS[k]; if (k === r.statut) o.selected = true; sel.append(o); }
+      const rep = document.createElement('textarea'); rep.placeholder = 'Réponse (visible dans l\'appli de la personne)'; rep.value = r.reponse || '';
+      const ok = document.createElement('button'); ok.type = 'button'; ok.className = 'btn'; ok.textContent = 'ENREGISTRER';
+      const info = document.createElement('span'); info.className = 'msg';
+      ok.addEventListener('click', async () => {
+        const { error: e2 } = await sb.from('retours').update({ statut: sel.value, reponse: rep.value, maj: new Date().toISOString() }).eq('id', r.id);
+        info.textContent = e2 ? texteErreur(e2) : 'Enregistré.'; info.className = 'msg ' + (e2 ? 'err' : 'ok');
+        if (!e2) setTimeout(chargerRetours, 600);
+      });
+      act.append(sel, rep, ok, info); d.append(act);
+      box.append(d);
+    }
+  }
+  $('ret-filtre').addEventListener('change', chargerRetours);
+
   async function chargerTout() {
+    chargerRetours();
     const liste = await chargerProfils();
     chargerCodes();
     chargerUtilisateurs(liste);
