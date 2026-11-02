@@ -1555,12 +1555,12 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
 
     <article class="phare rv">
       <div class="txt">
-        <span class="tag"><i style="background:#2DD4BF"></i>Claude</span>
-        <h3>Parle à ta maquette.</h3>
-        <p>Un clic dans Allan BIM branche ta maquette Revit sur Claude Desktop. Ensuite tu poses tes questions en français, comme à un collègue : « Liste les bouches de soufflage du N01 avec leur débit », « Quels avertissements corriger en premier ? », « Où en sont mes réservations ? ». Claude lit la maquette ouverte et répond avec les vrais chiffres.</p>
-        <ul><li>Résumé : niveaux, éléments par catégorie, longueur de gaines par réseau</li><li>N'importe quelle catégorie filtrée par niveau, système ou type, avec les paramètres voulus</li><li>Ta sélection, les avertissements regroupés, tes réservations Allan BIM</li><li>Il te montre les éléments dans Revit (sélection + zoom)</li><li>Lecture seule par défaut : il ne modifie rien sans ton accord, et tout s'annule par Ctrl+Z</li></ul>
+        <span class="tag"><i style="background:#2DD4BF"></i>Assistants IA</span>
+        <h3>Parle à ta maquette, avec l'IA de ton choix.</h3>
+        <p>Un clic dans Allan BIM branche ta maquette Revit sur <b>Claude</b>, <b>Codex</b> (OpenAI) ou <b>GitHub Copilot</b>, selon ce que ton entreprise autorise. Ensuite tu poses tes questions en français, comme à un collègue : « Liste les bouches de soufflage du N01 avec leur débit », « Quels avertissements corriger en premier ? », « Où en sont mes réservations ? ». L'IA lit la maquette ouverte et répond avec les vrais chiffres.</p>
+        <ul><li>Claude Desktop, Codex (appli, CLI, VS Code), GitHub Copilot (VS Code en mode Agent, Copilot CLI)</li><li>Résumé : niveaux, éléments par catégorie, longueur de gaines par réseau</li><li>N'importe quelle catégorie filtrée par niveau, système ou type, avec les paramètres voulus</li><li>Ta sélection, les avertissements regroupés, tes réservations Allan BIM</li><li>Lecture seule par défaut : rien n'est modifié sans ton accord, et tout s'annule par Ctrl+Z</li></ul>
       </div>
-      <div class="vis"><img class="cap" src="files/allanbim/claude.jpg" alt="Fenêtre Claude d'Allan BIM" data-t="Claude" data-d="Les 4 étapes pour brancher la maquette sur Claude Desktop, et des phrases d'exemple à copier."></div>
+      <div class="vis"><img class="cap" src="files/allanbim/claude.jpg?v=2" alt="Fenêtre Assistants IA d'Allan BIM" data-t="Assistants IA" data-d="Un bouton Connecter par IA (Claude, Codex, GitHub Copilot), les prérequis vérifiés, et des phrases d'exemple à copier."></div>
     </article>
 
     <article class="phare rv">
@@ -1693,7 +1693,7 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
 (()=>{
 const OUTILS=[
  ["CVC","Tracé assisté","Raccorder les bouches, relier deux réseaux en rigide.","trace","trace.jpg","Dans l'appli"],
- ["Coordination","Claude","Pose tes questions sur la maquette Revit à Claude, en français.","claude","claude.jpg","Dans l'appli"],
+ ["Coordination","Assistants IA","Claude, Codex ou GitHub Copilot branchés sur ta maquette Revit.","claude","claude.jpg","Dans l'appli"],
  ["Coordination","Réservations","Traversées détectées, validation fluide ↔ structure, trous en un clic, Excel.","resa","resa_detect.jpg","Dans l'appli"],
  ["CVC","Dessin du tracé","Dessine le tracé à la main, il est modélisé en rigide.","dessin","dessin.jpg","Dans l'appli"],
  ["CVC","Réparer un raccord","Pourquoi ça ne raccorde pas, et la réparation.","raccord","raccord.jpg","Dans l'appli"],

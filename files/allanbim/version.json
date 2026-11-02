@@ -1,10 +1,10 @@
 {
- "version": "2.2.1",
+ "version": "2.2.2",
  "date": "2026-11-02",
- "taille": 1798102,
+ "taille": 1799869,
  "nouveautes": [
-  "Claude : branche ta maquette Revit sur Claude Desktop en un clic et pose tes questions en français",
-  "Résumé des réseaux, débits des bouches, avertissements, réservations, ta sélection : Claude lit tout, en lecture seule",
-  "Page AutoCAD : métré DWG et export DWG"
+  "Assistants IA : branche ta maquette Revit sur Claude, Codex (OpenAI) ou GitHub Copilot, au choix de ton entreprise",
+  "Pose tes questions en français : réseaux, débits, avertissements, réservations, ta sélection",
+  "Lecture seule par défaut, modifications annulables par Ctrl+Z"
  ]
 }
