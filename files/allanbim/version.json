@@ -1,7 +1,7 @@
 {
  "version": "2.6.0",
  "date": "2026-11-03",
- "taille": 2094243,
+ "taille": 2095227,
  "nouveautes": [
   "Codes par zone (DOE) : chaque gaine, bouche, équipement reçoit le code de la zone du fond de plan DWG où il se trouve",
   "Codes lus tout seuls dans le DXF du plan, sinon tapés une fois par zone (retenus et proposés d'après le nom du local)",
