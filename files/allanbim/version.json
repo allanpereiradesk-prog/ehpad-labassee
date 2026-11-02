@@ -1,10 +1,10 @@
 {
- "version": "2.2.2",
+ "version": "2.2.3",
  "date": "2026-11-02",
- "taille": 1799869,
+ "taille": 1802069,
  "nouveautes": [
-  "Assistants IA : branche ta maquette Revit sur Claude, Codex (OpenAI) ou GitHub Copilot, au choix de ton entreprise",
-  "Pose tes questions en français : réseaux, débits, avertissements, réservations, ta sélection",
-  "Lecture seule par défaut, modifications annulables par Ctrl+Z"
+  "Assistants IA : une IA absente du PC n'est plus marquée « Branchée »",
+  "Bouton « Tester » : vérifie que le pont répond, comme le verra ton IA",
+  "Claude, Codex et GitHub Copilot branchés en un clic, sans lien à copier"
  ]
 }
