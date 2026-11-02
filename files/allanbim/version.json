@@ -1,10 +1,10 @@
 {
- "version": "2.2.4",
+ "version": "2.2.5",
  "date": "2026-11-02",
- "taille": 1802120,
+ "taille": 1802518,
  "nouveautes": [
-  "Mise à jour en un seul clic : l'appli télécharge directement la toute dernière version",
-  "Assistants IA : Claude, Codex et GitHub Copilot, avec bouton « Tester »",
-  "Page AutoCAD : métré DWG et export DWG"
+  "Assistants IA : GitHub Copilot détecté seulement s'il est vraiment activé dans VS Code",
+  "Mise à jour en un seul clic vers la toute dernière version",
+  "Claude, Codex et GitHub Copilot, avec bouton « Tester »"
  ]
 }
