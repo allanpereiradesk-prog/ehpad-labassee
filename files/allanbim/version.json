@@ -1,10 +1,10 @@
 {
- "version": "2.1.6",
+ "version": "2.1.7",
  "date": "2026-11-02",
- "taille": 1436727,
+ "taille": 1520344,
  "nouveautes": [
-  "Dessin du tracé : dessine ton tracé à la main, il est modélisé en rigide",
-  "Angles 90 / 45 / 30 / 22,5 / 15° ou perso, longueur tapée au clavier",
-  "Décalage de hauteur, pente, autre taille, piquage ou té à l'arrivée"
+  "Réservations : détection des traversées, circuit de validation fluide ↔ structure",
+  "Trous créés en un clic, réservations « À revoir » si le réseau bouge",
+  "Export Excel avec colonne Décision et réimport des réponses du BE"
  ]
 }

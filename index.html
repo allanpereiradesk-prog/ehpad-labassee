@@ -1473,7 +1473,7 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
         <h4>Outils CVC</h4>
         <div class="rang anim"><img src="files/allanbim/v_dessin.jpg" alt=""><img src="files/allanbim/v_trace.jpg" alt=""><img src="files/allanbim/v_raccord.jpg" alt=""><img src="files/allanbim/v_calcul.jpg" alt=""><img src="files/allanbim/v_debits.jpg" alt=""><img src="files/allanbim/v_gabarits.jpg" alt=""><img src="files/allanbim/v_espaces.jpg" alt=""></div>
         <h4>Coordination</h4>
-        <div class="rang anim inv"><img src="files/allanbim/v_clash.jpg" alt=""><img src="files/allanbim/v_vue.jpg" alt=""><img src="files/allanbim/v_equipe.jpg" alt=""><img src="files/allanbim/v_partage.jpg" alt=""><img src="files/allanbim/v_python.jpg" alt=""></div>
+        <div class="rang anim inv"><img src="files/allanbim/v_resa.jpg" alt=""><img src="files/allanbim/v_clash.jpg" alt=""><img src="files/allanbim/v_vue.jpg" alt=""><img src="files/allanbim/v_equipe.jpg" alt=""><img src="files/allanbim/v_partage.jpg" alt=""><img src="files/allanbim/v_python.jpg" alt=""></div>
         <h4>Livrables</h4>
         <div class="rang anim" style="animation-duration:52s"><img src="files/allanbim/v_controle.jpg" alt=""><img src="files/allanbim/v_etiquetage.jpg" alt=""><img src="files/allanbim/v_ngf.jpg" alt=""><img src="files/allanbim/v_export.jpg" alt=""><img src="files/allanbim/v_feuilles.jpg" alt=""></div>
       </div>
@@ -1483,7 +1483,7 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
 
 <div class="chiffres">
   <div class="w">
-    <div><b>21</b><span>outils dans l'appli</span></div>
+    <div><b>22</b><span>outils dans l'appli</span></div>
     <div><b>9</b><span>gabarits de vue livrables</span></div>
     <div><b>100 %</b><span>gaine rigide, jamais de flexible</span></div>
     <div><b>Ctrl + K</b><span>pour tout retrouver</span></div>
@@ -1506,6 +1506,16 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
         <ul><li>Aperçu avant de modifier la maquette</li><li>Suit ta sélection Revit en direct</li><li>Gaine rigide et coudes, jamais de flexible</li></ul>
       </div>
       <div class="vis"><img class="cap" src="files/allanbim/route3d.jpg" alt="Route orthogonale tracée entre deux réseaux, vue 3D Revit" data-t="Relier deux réseaux" data-d="La route la plus courte qui contourne les obstacles, en gaine rigide."><img class="mini" src="files/allanbim/trace.jpg" alt="Fenêtre Tracé assisté" data-t="Tracé assisté" data-d="Raccorder des bouches ou relier deux extrémités libres."></div>
+    </article>
+
+    <article class="phare rv">
+      <div class="txt">
+        <span class="tag"><i style="background:var(--or)"></i>Réservations</span>
+        <h3>Chaque trou validé, par les deux lots.</h3>
+        <p>Allan BIM trouve toutes les traversées des réseaux dans les murs, dalles, toitures et poutres (ta maquette et les maquettes liées) et te montre où chaque réservation sera faite avant de rien créer. Ensuite, le circuit : le fluidier valide, le structureux ou l'architecte met « Bon pour trou » ou refuse avec son motif, et les trous se créent en un clic.</p>
+        <ul><li>Numéros RES-N01-001, statuts et historique qui / quand / pourquoi</li><li>« À revoir » tout seul si un réseau bouge ou grossit après validation</li><li>Les réponses passent d'une maquette liée à l'autre (CVC ↔ structure)</li><li>Excel aller-retour : le BE remplit « Décision », on réimporte</li><li>Carte par niveau, couleurs par statut dans Revit, coupe-feu et poutres signalés</li></ul>
+      </div>
+      <div class="vis"><img class="cap" src="files/allanbim/resa_circuit.jpg" alt="Circuit de validation des réservations" data-t="Circuit de validation" data-d="Statuts, contrôles et historique de chaque réservation."><img class="mini" style="background:#000" src="files/allanbim/resa_carte.jpg" alt="Carte des réservations" data-t="Carte par niveau" data-d="Toutes les réservations d'un niveau, en couleur par statut."></div>
     </article>
 
     <article class="phare rv">
@@ -1574,7 +1584,7 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
   <div class="w">
     <div class="tete rv">
       <span class="k">Tous les outils</span>
-      <h2>Une appli, vingt et un outils.</h2>
+      <h2>Une appli, vingt-deux outils.</h2>
       <p>Clique sur un outil pour le voir en vrai.</p>
     </div>
     <div class="filtres" id="ab-filtres"></div>
@@ -1627,6 +1637,7 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
 (()=>{
 const OUTILS=[
  ["CVC","Tracé assisté","Raccorder les bouches, relier deux réseaux en rigide.","trace","trace.jpg","Dans l'appli"],
+ ["Coordination","Réservations","Traversées détectées, validation fluide ↔ structure, trous en un clic, Excel.","resa","resa_detect.jpg","Dans l'appli"],
  ["CVC","Dessin du tracé","Dessine le tracé à la main, il est modélisé en rigide.","dessin","dessin.jpg","Dans l'appli"],
  ["CVC","Réparer un raccord","Pourquoi ça ne raccorde pas, et la réparation.","raccord","raccord.jpg","Dans l'appli"],
  ["CVC","Calculatrice","Calculs, unités, gaine, tube, air, pente.","calcul","calc_gaine.jpg","Fenêtre flottante"],
