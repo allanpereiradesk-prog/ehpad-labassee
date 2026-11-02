@@ -1450,6 +1450,18 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
 .abp .hero{padding:56px 0 34px}
 .abp section.s{padding:72px 0}
 .abp .abp-k2{color:var(--muted)}
+.abp .flux{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:0 0 34px}
+.abp .flux span.st{font:600 14px var(--body);padding:7px 14px;border-radius:999px;border:1.5px solid}
+.abp .flux i{color:var(--dim);font-style:normal;font-size:18px}
+.abp .etapes5{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+.abp .e5{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.abp .e5 .vis img{width:100%;aspect-ratio:4/3;object-fit:cover;object-position:top left;cursor:zoom-in;display:block;background:#fff}
+.abp .e5 div.t{padding:14px 16px 18px}
+.abp .e5 b{display:flex;align-items:center;gap:8px;font:700 18px var(--display);margin-bottom:6px}
+.abp .e5 b em{font-style:normal;display:grid;place-items:center;width:26px;height:26px;border-radius:8px;background:rgba(224,122,42,.18);color:var(--or);font-size:15px}
+.abp .e5 p{margin:0;color:var(--muted);font-size:14.5px;line-height:1.5}
+@media (max-width:1100px){.abp .etapes5{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:600px){.abp .etapes5{grid-template-columns:1fr}}
 </style>
 <div class="abp">
 <section class="hero">
@@ -1517,6 +1529,27 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
       </div>
       <div class="vis"><img class="cap" src="files/allanbim/resa_carte.jpg" alt="Plan des réservations" data-t="Plan des réservations" data-d="Le plan du niveau (murs, pièces, réseaux) avec chaque réservation à sa place, en couleur par statut."><img class="mini" src="files/allanbim/resa_apercu.jpg" alt="Image Revit du trou" data-t="Aperçu Revit" data-d="La fiche montre le trou en 3D, exporté directement de Revit."></div>
     </article>
+
+    <div class="rv" style="margin:-40px 0 110px">
+      <span class="k">Les réservations, étape par étape</span>
+      <h3 style="font-size:30px;font-weight:800;margin:10px 0 16px">Du réseau au trou percé, sans perdre personne en route.</h3>
+      <div class="flux">
+        <span class="st" style="color:#F08C28;border-color:#F08C28">Proposée</span><i>→</i>
+        <span class="st" style="color:#F2C94C;border-color:#F2C94C">Validée fluide</span><i>→</i>
+        <span class="st" style="color:#5CC48A;border-color:#5CC48A">Bon pour trou</span><i>→</i>
+        <span class="st" style="color:#9A9AA6;border-color:#9A9AA6">Trou créé</span>
+        <span style="color:var(--dim);margin-left:14px">ou</span>
+        <span class="st" style="color:#F06A5A;border-color:#F06A5A">Refusée (avec le motif)</span>
+        <span class="st" style="color:#B07CF0;border-color:#B07CF0">À revoir (le réseau a bougé)</span>
+      </div>
+      <div class="etapes5">
+        <div class="e5"><div class="vis"><img src="files/allanbim/resa_detect_v.jpg" data-full="files/allanbim/resa_detect.jpg" alt="Détection des traversées" data-t="1 · Détecter" data-d="Toutes les traversées des réseaux dans les murs, dalles, toitures et poutres, avec la taille de réservation calculée."></div><div class="t"><b><em>1</em>Détecter</b><p>Allan BIM trouve où les gaines et canalisations traversent murs, dalles et poutres, et calcule chaque réservation (jeu + isolation). Tu coches ce que tu réserves.</p></div></div>
+        <div class="e5"><div class="vis"><img src="files/allanbim/resa_carte_v.jpg" data-full="files/allanbim/resa_carte.jpg" alt="Plan des réservations" data-t="2 · Voir sur le plan" data-d="Le plan du niveau avec chaque réservation à sa place, en couleur selon son statut."></div><div class="t"><b><em>2</em>Voir sur le plan</b><p>Chaque réservation apparaît sur le plan du niveau, à sa vraie place, avec les murs, les pièces et les réseaux autour.</p></div></div>
+        <div class="e5"><div class="vis"><img src="files/allanbim/resa_circuit_v.jpg" data-full="files/allanbim/resa_circuit.jpg" alt="Circuit de validation" data-t="3 · Faire valider" data-d="Le fluidier valide, le structureux ou l'architecte met « Bon pour trou » ou refuse avec un commentaire."></div><div class="t"><b><em>3</em>Faire valider</b><p>Le fluidier valide, la structure ou l'archi met « Bon pour trou » ou refuse en disant pourquoi. Tout est gardé dans l'historique.</p></div></div>
+        <div class="e5"><div class="vis"><img src="files/allanbim/resa_excel.jpg" alt="Export Excel" data-t="4 · Échanger par Excel" data-d="Le BE remplit la colonne Décision dans le fichier, on réimporte : les statuts se mettent à jour tout seuls."></div><div class="t"><b><em>4</em>Échanger par Excel</b><p>Pour un BE sans Revit : export Excel, il remplit « Décision » et « Commentaire », on réimporte et tout se met à jour.</p></div></div>
+        <div class="e5"><div class="vis"><img src="files/allanbim/resa_trous.jpg" alt="Trous créés dans Revit" data-t="5 · Percer en un clic" data-d="Les trous validés sont créés pour de vrai dans les murs et les dalles de la maquette."></div><div class="t"><b><em>5</em>Percer en un clic</b><p>Les réservations « Bon pour trou » deviennent de vrais trous dans les murs, dalles et toitures. Si un réseau bouge ensuite : « À revoir ».</p></div></div>
+      </div>
+    </div>
 
     <article class="phare rv">
       <div class="txt">
@@ -1674,7 +1707,7 @@ function ouvrir(src,t,d){ $("#ab-lbi").src=src; $("#ab-lbc").innerHTML=`<b>${t||
 R.addEventListener("click",e=>{
   const a=e.target.closest("a[data-ab]"); if(a){ e.preventDefault(); const t=R.querySelector(a.getAttribute("href")); if(t) t.scrollIntoView({behavior:"smooth"}); return; }
   const o=e.target.closest(".outil"); if(o){ ouvrir(F+(o.dataset.cap||("v_"+o.querySelector("img").src.split("v_")[1])),o.dataset.t,o.dataset.d); return; }
-  const i=e.target.closest(".vis img"); if(i) ouvrir(i.src,i.dataset.t,i.dataset.d);
+  const i=e.target.closest(".vis img"); if(i) ouvrir(i.dataset.full||i.src,i.dataset.t,i.dataset.d);
 });
 lb.onclick=()=>lb.classList.remove("on");
 addEventListener("keydown",e=>{ if(e.key==="Escape") lb.classList.remove("on"); });
