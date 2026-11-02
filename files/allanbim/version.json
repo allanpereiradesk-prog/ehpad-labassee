@@ -1,10 +1,10 @@
 {
- "version": "2.2.3",
+ "version": "2.2.4",
  "date": "2026-11-02",
- "taille": 1802069,
+ "taille": 1802120,
  "nouveautes": [
-  "Assistants IA : une IA absente du PC n'est plus marquée « Branchée »",
-  "Bouton « Tester » : vérifie que le pont répond, comme le verra ton IA",
-  "Claude, Codex et GitHub Copilot branchés en un clic, sans lien à copier"
+  "Mise à jour en un seul clic : l'appli télécharge directement la toute dernière version",
+  "Assistants IA : Claude, Codex et GitHub Copilot, avec bouton « Tester »",
+  "Page AutoCAD : métré DWG et export DWG"
  ]
 }
