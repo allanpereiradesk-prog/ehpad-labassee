@@ -1,10 +1,10 @@
 {
- "version": "2.2.5",
+ "version": "2.3.0",
  "date": "2026-11-02",
- "taille": 1802518,
+ "taille": 1806094,
  "nouveautes": [
-  "Assistants IA : GitHub Copilot détecté seulement s'il est vraiment activé dans VS Code",
-  "Mise à jour en un seul clic vers la toute dernière version",
-  "Claude, Codex et GitHub Copilot, avec bouton « Tester »"
+  "Microsoft 365 Copilot : le Copilot de ton entreprise peut lire ta maquette Revit (via Copilot Studio), en lecture seule",
+  "La maquette reste sur ton PC, une clé par entreprise, révocable",
+  "Claude, Codex et GitHub Copilot branchés en local, mise à jour en un clic"
  ]
 }
