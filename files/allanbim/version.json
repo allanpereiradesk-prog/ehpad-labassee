@@ -1,10 +1,10 @@
 {
- "version": "2.2.0",
+ "version": "2.2.1",
  "date": "2026-11-02",
- "taille": 1632966,
+ "taille": 1798102,
  "nouveautes": [
-  "La case AutoCAD de l'accueil ouvre sa propre page d'outils, comme Revit",
-  "Métré d'un plan AutoCAD (DWG/DXF → Excel) et Exporter en DWG avec calques CVC / PLB / ARC propres",
-  "Lancement d'AutoCAD depuis l'appli s'il est installé sur le PC"
+  "Claude : branche ta maquette Revit sur Claude Desktop en un clic et pose tes questions en français",
+  "Résumé des réseaux, débits des bouches, avertissements, réservations, ta sélection : Claude lit tout, en lecture seule",
+  "Page AutoCAD : métré DWG et export DWG"
  ]
 }

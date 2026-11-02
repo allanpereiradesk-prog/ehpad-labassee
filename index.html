@@ -1485,7 +1485,7 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
         <h4>Outils CVC</h4>
         <div class="rang anim"><img src="files/allanbim/v_dessin.jpg" alt=""><img src="files/allanbim/v_trace.jpg" alt=""><img src="files/allanbim/v_raccord.jpg" alt=""><img src="files/allanbim/v_calcul.jpg" alt=""><img src="files/allanbim/v_debits.jpg" alt=""><img src="files/allanbim/v_gabarits.jpg" alt=""><img src="files/allanbim/v_espaces.jpg" alt=""></div>
         <h4>Coordination</h4>
-        <div class="rang anim inv"><img src="files/allanbim/v_resa.jpg" alt=""><img src="files/allanbim/v_clash.jpg" alt=""><img src="files/allanbim/v_vue.jpg" alt=""><img src="files/allanbim/v_equipe.jpg" alt=""><img src="files/allanbim/v_partage.jpg" alt=""><img src="files/allanbim/v_python.jpg" alt=""></div>
+        <div class="rang anim inv"><img src="files/allanbim/v_claude.jpg" alt=""><img src="files/allanbim/v_resa.jpg" alt=""><img src="files/allanbim/v_clash.jpg" alt=""><img src="files/allanbim/v_vue.jpg" alt=""><img src="files/allanbim/v_equipe.jpg" alt=""><img src="files/allanbim/v_partage.jpg" alt=""><img src="files/allanbim/v_python.jpg" alt=""></div>
         <h4>AutoCAD</h4>
         <div class="rang anim inv" style="animation-duration:30s"><img src="files/allanbim/v_dwg.jpg" alt=""><img src="files/allanbim/v_dwgexp.jpg" alt=""><img src="files/allanbim/v_dwg.jpg" alt=""><img src="files/allanbim/v_dwgexp.jpg" alt=""><img src="files/allanbim/v_dwg.jpg" alt=""><img src="files/allanbim/v_dwgexp.jpg" alt=""></div>
         <h4>Livrables</h4>
@@ -1497,7 +1497,7 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
 
 <div class="chiffres">
   <div class="w">
-    <div><b>24</b><span>outils dans l'appli</span></div>
+    <div><b>25</b><span>outils dans l'appli</span></div>
     <div><b>9</b><span>gabarits de vue livrables</span></div>
     <div><b>100 %</b><span>gaine rigide, jamais de flexible</span></div>
     <div><b>Ctrl + K</b><span>pour tout retrouver</span></div>
@@ -1552,6 +1552,16 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
         <div class="e5"><div class="vis"><img src="files/allanbim/resa_trous.jpg" alt="Trous créés dans Revit" data-t="5 · Percer en un clic" data-d="Les trous validés sont créés pour de vrai dans les murs et les dalles de la maquette."></div><div class="t"><b><em>5</em>Percer en un clic</b><p>Les réservations « Bon pour trou » deviennent de vrais trous dans les murs, dalles et toitures. Si un réseau bouge ensuite : « À revoir ».</p></div></div>
       </div>
     </div>
+
+    <article class="phare rv">
+      <div class="txt">
+        <span class="tag"><i style="background:#2DD4BF"></i>Claude</span>
+        <h3>Parle à ta maquette.</h3>
+        <p>Un clic dans Allan BIM branche ta maquette Revit sur Claude Desktop. Ensuite tu poses tes questions en français, comme à un collègue : « Liste les bouches de soufflage du N01 avec leur débit », « Quels avertissements corriger en premier ? », « Où en sont mes réservations ? ». Claude lit la maquette ouverte et répond avec les vrais chiffres.</p>
+        <ul><li>Résumé : niveaux, éléments par catégorie, longueur de gaines par réseau</li><li>N'importe quelle catégorie filtrée par niveau, système ou type, avec les paramètres voulus</li><li>Ta sélection, les avertissements regroupés, tes réservations Allan BIM</li><li>Il te montre les éléments dans Revit (sélection + zoom)</li><li>Lecture seule par défaut : il ne modifie rien sans ton accord, et tout s'annule par Ctrl+Z</li></ul>
+      </div>
+      <div class="vis"><img class="cap" src="files/allanbim/claude.jpg" alt="Fenêtre Claude d'Allan BIM" data-t="Claude" data-d="Les 4 étapes pour brancher la maquette sur Claude Desktop, et des phrases d'exemple à copier."></div>
+    </article>
 
     <article class="phare rv">
       <div class="txt">
@@ -1683,6 +1693,7 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
 (()=>{
 const OUTILS=[
  ["CVC","Tracé assisté","Raccorder les bouches, relier deux réseaux en rigide.","trace","trace.jpg","Dans l'appli"],
+ ["Coordination","Claude","Pose tes questions sur la maquette Revit à Claude, en français.","claude","claude.jpg","Dans l'appli"],
  ["Coordination","Réservations","Traversées détectées, validation fluide ↔ structure, trous en un clic, Excel.","resa","resa_detect.jpg","Dans l'appli"],
  ["CVC","Dessin du tracé","Dessine le tracé à la main, il est modélisé en rigide.","dessin","dessin.jpg","Dans l'appli"],
  ["CVC","Réparer un raccord","Pourquoi ça ne raccorde pas, et la réparation.","raccord","raccord.jpg","Dans l'appli"],
