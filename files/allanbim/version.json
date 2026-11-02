@@ -1,10 +1,10 @@
 {
- "version": "2.4.0",
+ "version": "2.5.0",
  "date": "2026-11-02",
- "taille": 1903281,
+ "taille": 2005540,
  "nouveautes": [
-  "Module AutoCAD 2027+ : ton IA travaille directement dans AutoCAD (calques, longueurs, objets, textes, blocs, zoom, dessin sur demande)",
-  "Métré DWG et export DWG via Revit, même sans AutoCAD",
-  "Claude, Codex, GitHub Copilot en local, Microsoft 365 Copilot en ligne"
+  "Recettes : ce que fait Dynamo, en une phrase en français (Prendre → Filtrer → Trier → Écrire)",
+  "Aperçu avant / après, compteur à chaque étape, un seul Ctrl+Z pour tout annuler",
+  "Excel aller-retour et 10 recettes CVC prêtes, à enregistrer et partager"
  ]
 }

@@ -1483,7 +1483,7 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
       <div class="tb"><b></b>Allan BIM<span class="js-ver2">v2.1.5</span></div>
       <div class="rg">
         <h4>Outils CVC</h4>
-        <div class="rang anim"><img src="files/allanbim/v_dessin.jpg" alt=""><img src="files/allanbim/v_trace.jpg" alt=""><img src="files/allanbim/v_raccord.jpg" alt=""><img src="files/allanbim/v_calcul.jpg" alt=""><img src="files/allanbim/v_debits.jpg" alt=""><img src="files/allanbim/v_gabarits.jpg" alt=""><img src="files/allanbim/v_espaces.jpg" alt=""></div>
+        <div class="rang anim"><img src="files/allanbim/v_recettes.jpg" alt=""><img src="files/allanbim/v_dessin.jpg" alt=""><img src="files/allanbim/v_trace.jpg" alt=""><img src="files/allanbim/v_raccord.jpg" alt=""><img src="files/allanbim/v_calcul.jpg" alt=""><img src="files/allanbim/v_debits.jpg" alt=""><img src="files/allanbim/v_gabarits.jpg" alt=""><img src="files/allanbim/v_espaces.jpg" alt=""></div>
         <h4>Coordination</h4>
         <div class="rang anim inv"><img src="files/allanbim/v_claude.jpg" alt=""><img src="files/allanbim/v_resa.jpg" alt=""><img src="files/allanbim/v_clash.jpg" alt=""><img src="files/allanbim/v_vue.jpg" alt=""><img src="files/allanbim/v_equipe.jpg" alt=""><img src="files/allanbim/v_partage.jpg" alt=""><img src="files/allanbim/v_python.jpg" alt=""></div>
         <h4>AutoCAD</h4>
@@ -1497,7 +1497,7 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
 
 <div class="chiffres">
   <div class="w">
-    <div><b>25</b><span>outils dans l'appli</span></div>
+    <div><b>26</b><span>outils dans l'appli</span></div>
     <div><b>9</b><span>gabarits de vue livrables</span></div>
     <div><b>100 %</b><span>gaine rigide, jamais de flexible</span></div>
     <div><b>Ctrl + K</b><span>pour tout retrouver</span></div>
@@ -1511,6 +1511,16 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
       <h2>Moins de clics, moins de blocages.</h2>
       <p>Chaque outil part d'un vrai problème rencontré en projet, et chacun s'explique : un petit « i » sur chaque carte dit ce qu'il fait et comment.</p>
     </div>
+
+    <article class="phare rv">
+      <div class="txt">
+        <span class="tag"><i style="background:var(--jaune)"></i>Recettes · nouveau</span>
+        <h3>Ce que fait Dynamo, en une phrase.</h3>
+        <p>Écris ce que tu veux en français — « numérote les bouches de soufflage par niveau en BS-001 », « mets le nom du local dans le commentaire des bouches » — et Allan BIM en fait des étapes lisibles : Prendre, Filtrer, Trier, Écrire. Pas de nœuds, pas de fils : chaque carte dit combien d'éléments passent, et l'aperçu montre chaque valeur avant et après.</p>
+        <ul><li>Rien n'est modifié avant « Appliquer », et un seul Ctrl+Z annule toute la recette</li><li>Numéros 001, 002…, valeurs d'autres paramètres, nom du local, calculs (débit × 1,1 arrondi à 5)</li><li>Excel aller-retour avec aperçu avant de réécrire dans Revit</li><li>10 recettes CVC prêtes, les tiennes à enregistrer et à partager</li><li>Au clavier de bout en bout, texte agrandissable, erreurs qui disent quoi corriger</li></ul>
+      </div>
+      <div class="vis"><img class="cap" src="files/allanbim/recettes.jpg" alt="Fenêtre Recettes : une phrase devient des étapes avec aperçu avant / après" data-t="Recettes" data-d="Une phrase en français devient des étapes, avec le compteur à chaque étape et l'aperçu avant / après."></div>
+    </article>
 
     <article class="phare rv">
       <div class="txt">
@@ -1692,6 +1702,7 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
 <script>
 (()=>{
 const OUTILS=[
+ ["CVC","Recettes","Ce que fait Dynamo, en une phrase en français : étapes lisibles, aperçu, un Ctrl+Z.","recettes","recettes.jpg","Dans l'appli"],
  ["CVC","Tracé assisté","Raccorder les bouches, relier deux réseaux en rigide.","trace","trace.jpg","Dans l'appli"],
  ["Coordination","Assistants IA","Claude, Codex ou GitHub Copilot branchés sur ta maquette Revit.","claude","claude.jpg","Dans l'appli"],
  ["Coordination","Réservations","Traversées détectées, validation fluide ↔ structure, trous en un clic, Excel.","resa","resa_detect.jpg","Dans l'appli"],
