@@ -1,10 +1,10 @@
 {
- "version": "2.3.0",
+ "version": "2.3.1",
  "date": "2026-11-02",
- "taille": 1806094,
+ "taille": 1822611,
  "nouveautes": [
-  "Microsoft 365 Copilot : le Copilot de ton entreprise peut lire ta maquette Revit (via Copilot Studio), en lecture seule",
-  "La maquette reste sur ton PC, une clé par entreprise, révocable",
-  "Claude, Codex et GitHub Copilot branchés en local, mise à jour en un clic"
+  "Assistants IA + AutoCAD : ton IA trouve tes plans DWG, en fait le métré par calque (sans AutoCAD) et exporte tes feuilles Revit en DWG",
+  "Microsoft 365 Copilot en ligne via Copilot Studio (lecture seule, une clé par entreprise)",
+  "Claude, Codex et GitHub Copilot branchés en local"
  ]
 }
