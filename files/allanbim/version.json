@@ -1,10 +1,10 @@
 {
- "version": "2.1.5",
- "date": "2026-11-01",
- "taille": 1367699,
+ "version": "2.1.6",
+ "date": "2026-11-02",
+ "taille": 1436727,
  "nouveautes": [
-  "Rangées d'outils sans barre : on glisse, comme sur les bonnes applis",
-  "Calculatrice : bouton Copier sur chaque résultat",
-  "Calculatrice CVC : unités, gaine, tube, air, pente"
+  "Dessin du tracé : dessine ton tracé à la main, il est modélisé en rigide",
+  "Angles 90 / 45 / 30 / 22,5 / 15° ou perso, longueur tapée au clavier",
+  "Décalage de hauteur, pente, autre taille, piquage ou té à l'arrivée"
  ]
 }
