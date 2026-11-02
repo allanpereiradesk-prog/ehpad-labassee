@@ -1,10 +1,10 @@
 {
- "version": "2.1.9",
+ "version": "2.2.0",
  "date": "2026-11-02",
- "taille": 1632318,
+ "taille": 1632966,
  "nouveautes": [
-  "Nouvelle rangée AutoCAD : métré d'un plan DWG/DXF (longueurs, surfaces, blocs par calque) avec export Excel",
-  "Exporter en DWG : tes plans Revit dans AutoCAD avec des calques propres CVC / PLB / ARC, un calque par réseau",
-  "Option DXF, coordonnées partagées et version AutoCAD au choix"
+  "La case AutoCAD de l'accueil ouvre sa propre page d'outils, comme Revit",
+  "Métré d'un plan AutoCAD (DWG/DXF → Excel) et Exporter en DWG avec calques CVC / PLB / ARC propres",
+  "Lancement d'AutoCAD depuis l'appli s'il est installé sur le PC"
  ]
 }
