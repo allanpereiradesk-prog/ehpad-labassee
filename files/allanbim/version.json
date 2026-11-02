@@ -1,10 +1,10 @@
 {
- "version": "2.5.0",
- "date": "2026-11-02",
- "taille": 2005540,
+ "version": "2.6.0",
+ "date": "2026-11-03",
+ "taille": 2094243,
  "nouveautes": [
-  "Recettes : ce que fait Dynamo, en une phrase en français (Prendre → Filtrer → Trier → Écrire)",
-  "Aperçu avant / après, compteur à chaque étape, un seul Ctrl+Z pour tout annuler",
-  "Excel aller-retour et 10 recettes CVC prêtes, à enregistrer et partager"
+  "Codes par zone (DOE) : chaque gaine, bouche, équipement reçoit le code de la zone du fond de plan DWG où il se trouve",
+  "Codes lus tout seuls dans le DXF du plan, sinon tapés une fois par zone (retenus et proposés d'après le nom du local)",
+  "Gaines à cheval signalées, écriture en un seul Ctrl+Z, Excel du DOE"
  ]
 }

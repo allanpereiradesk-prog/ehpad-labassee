@@ -1489,7 +1489,7 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
         <h4>AutoCAD</h4>
         <div class="rang anim inv" style="animation-duration:30s"><img src="files/allanbim/v_dwg.jpg" alt=""><img src="files/allanbim/v_dwgexp.jpg" alt=""><img src="files/allanbim/v_dwg.jpg" alt=""><img src="files/allanbim/v_dwgexp.jpg" alt=""><img src="files/allanbim/v_dwg.jpg" alt=""><img src="files/allanbim/v_dwgexp.jpg" alt=""></div>
         <h4>Livrables</h4>
-        <div class="rang anim" style="animation-duration:52s"><img src="files/allanbim/v_controle.jpg" alt=""><img src="files/allanbim/v_etiquetage.jpg" alt=""><img src="files/allanbim/v_ngf.jpg" alt=""><img src="files/allanbim/v_export.jpg" alt=""><img src="files/allanbim/v_feuilles.jpg" alt=""></div>
+        <div class="rang anim" style="animation-duration:52s"><img src="files/allanbim/v_zones.jpg" alt=""><img src="files/allanbim/v_controle.jpg" alt=""><img src="files/allanbim/v_etiquetage.jpg" alt=""><img src="files/allanbim/v_ngf.jpg" alt=""><img src="files/allanbim/v_export.jpg" alt=""><img src="files/allanbim/v_feuilles.jpg" alt=""></div>
       </div>
     </div>
   </div>
@@ -1497,7 +1497,7 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
 
 <div class="chiffres">
   <div class="w">
-    <div><b>26</b><span>outils dans l'appli</span></div>
+    <div><b>27</b><span>outils dans l'appli</span></div>
     <div><b>9</b><span>gabarits de vue livrables</span></div>
     <div><b>100 %</b><span>gaine rigide, jamais de flexible</span></div>
     <div><b>Ctrl + K</b><span>pour tout retrouver</span></div>
@@ -1511,6 +1511,16 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
       <h2>Moins de clics, moins de blocages.</h2>
       <p>Chaque outil part d'un vrai problème rencontré en projet, et chacun s'explique : un petit « i » sur chaque carte dit ce qu'il fait et comment.</p>
     </div>
+
+    <article class="phare rv">
+      <div class="txt">
+        <span class="tag"><i style="background:var(--or)"></i>Codes par zone · nouveau</span>
+        <h3>Le code de zone dans chaque gaine, sans le taper 1 000 fois.</h3>
+        <p>Pour le DOE : Allan BIM lit les zones de ton fond de plan DWG (les contours fermés d'un calque) et les réseaux du niveau, puis chaque gaine, raccord, bouche, accessoire ou équipement prend le code de la zone où il se trouve. Tu tapes le code une seule fois par zone, en cliquant sur le plan.</p>
+        <ul><li>Plan interactif : zones et réseaux colorés par code, les oubliés en gris ou en rouge</li><li>Les codes écrits dans les zones sont lus tout seuls dans le DXF du plan, sinon tu les tapes une fois par zone</li><li>Le local Revit au centre de chaque zone t'aide, et l'outil apprend « nom du local → code »</li><li>Gaine à cheval sur deux zones : la plus longue gagne, et c'est signalé</li><li>Écrit dans le paramètre de ton choix (BMG_ZONE…) en un seul Ctrl+Z, puis l'Excel du DOE</li><li>Marche aussi avec les espaces ou les pièces Revit à la place du DWG</li></ul>
+      </div>
+      <div class="vis"><img class="cap" src="files/allanbim/zones.jpg" alt="Fenêtre Codes par zone : plan des zones et des réseaux colorés par code" data-t="Codes par zone" data-d="Les zones du DWG, les réseaux colorés par code et le bilan avant d'écrire dans Revit."></div>
+    </article>
 
     <article class="phare rv">
       <div class="txt">
@@ -1720,6 +1730,7 @@ const OUTILS=[
  ["Coordination","Équipe en direct","Qui est connecté et ce qu'il voit dans Revit.","equipe",null,"Sur le site"],
  ["Coordination","Partager ma vue","Montre ta vue Revit à un collègue connecté, il accepte ou refuse.","partage",null,"Dans l'appli"],
  ["Mon Revit","Barre de raccourcis","Ta barre flottante d'icônes Revit, par sets.","barre","barre_perso.jpg","Dans Revit"],
+ ["Livrables","Codes par zone","DOE : le code de zone du fond de plan DWG dans chaque gaine et équipement.","zones","zones.jpg","Dans l'appli"],
  ["Livrables","Contrôle des plans","Grilles de vérification et contrôles automatiques.","controle",null,"Dans Revit"],
  ["Livrables","Étiquetage","Étiquettes de la vue active, sans chevauchement.","etiquetage",null,"Dans Revit"],
  ["Livrables","Altitudes NGF","Calcul des NGF pour les étiquettes.","ngf",null,"Dans Revit"],
