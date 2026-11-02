@@ -1,10 +1,10 @@
 {
- "version": "2.1.7",
+ "version": "2.1.8",
  "date": "2026-11-02",
- "taille": 1520344,
+ "taille": 1527320,
  "nouveautes": [
-  "Réservations : détection des traversées, circuit de validation fluide ↔ structure",
-  "Trous créés en un clic, réservations « À revoir » si le réseau bouge",
-  "Export Excel avec colonne Décision et réimport des réponses du BE"
+  "Réservations : vrai plan du niveau (murs, pièces, réseaux) avec chaque trou à sa place",
+  "Image Revit 3D du trou dans la fiche de chaque réservation",
+  "Détection, validation fluide ↔ structure, trous en un clic, Excel aller-retour"
  ]
 }
