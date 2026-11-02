@@ -1,10 +1,10 @@
 {
- "version": "2.3.1",
+ "version": "2.4.0",
  "date": "2026-11-02",
- "taille": 1822611,
+ "taille": 1903281,
  "nouveautes": [
-  "Assistants IA + AutoCAD : ton IA trouve tes plans DWG, en fait le métré par calque (sans AutoCAD) et exporte tes feuilles Revit en DWG",
-  "Microsoft 365 Copilot en ligne via Copilot Studio (lecture seule, une clé par entreprise)",
-  "Claude, Codex et GitHub Copilot branchés en local"
+  "Module AutoCAD 2027+ : ton IA travaille directement dans AutoCAD (calques, longueurs, objets, textes, blocs, zoom, dessin sur demande)",
+  "Métré DWG et export DWG via Revit, même sans AutoCAD",
+  "Claude, Codex, GitHub Copilot en local, Microsoft 365 Copilot en ligne"
  ]
 }
