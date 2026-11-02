@@ -1486,6 +1486,8 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
         <div class="rang anim"><img src="files/allanbim/v_dessin.jpg" alt=""><img src="files/allanbim/v_trace.jpg" alt=""><img src="files/allanbim/v_raccord.jpg" alt=""><img src="files/allanbim/v_calcul.jpg" alt=""><img src="files/allanbim/v_debits.jpg" alt=""><img src="files/allanbim/v_gabarits.jpg" alt=""><img src="files/allanbim/v_espaces.jpg" alt=""></div>
         <h4>Coordination</h4>
         <div class="rang anim inv"><img src="files/allanbim/v_resa.jpg" alt=""><img src="files/allanbim/v_clash.jpg" alt=""><img src="files/allanbim/v_vue.jpg" alt=""><img src="files/allanbim/v_equipe.jpg" alt=""><img src="files/allanbim/v_partage.jpg" alt=""><img src="files/allanbim/v_python.jpg" alt=""></div>
+        <h4>AutoCAD</h4>
+        <div class="rang anim inv" style="animation-duration:30s"><img src="files/allanbim/v_dwg.jpg" alt=""><img src="files/allanbim/v_dwgexp.jpg" alt=""><img src="files/allanbim/v_dwg.jpg" alt=""><img src="files/allanbim/v_dwgexp.jpg" alt=""><img src="files/allanbim/v_dwg.jpg" alt=""><img src="files/allanbim/v_dwgexp.jpg" alt=""></div>
         <h4>Livrables</h4>
         <div class="rang anim" style="animation-duration:52s"><img src="files/allanbim/v_controle.jpg" alt=""><img src="files/allanbim/v_etiquetage.jpg" alt=""><img src="files/allanbim/v_ngf.jpg" alt=""><img src="files/allanbim/v_export.jpg" alt=""><img src="files/allanbim/v_feuilles.jpg" alt=""></div>
       </div>
@@ -1495,7 +1497,7 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
 
 <div class="chiffres">
   <div class="w">
-    <div><b>22</b><span>outils dans l'appli</span></div>
+    <div><b>24</b><span>outils dans l'appli</span></div>
     <div><b>9</b><span>gabarits de vue livrables</span></div>
     <div><b>100 %</b><span>gaine rigide, jamais de flexible</span></div>
     <div><b>Ctrl + K</b><span>pour tout retrouver</span></div>
@@ -1550,6 +1552,17 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
         <div class="e5"><div class="vis"><img src="files/allanbim/resa_trous.jpg" alt="Trous créés dans Revit" data-t="5 · Percer en un clic" data-d="Les trous validés sont créés pour de vrai dans les murs et les dalles de la maquette."></div><div class="t"><b><em>5</em>Percer en un clic</b><p>Les réservations « Bon pour trou » deviennent de vrais trous dans les murs, dalles et toitures. Si un réseau bouge ensuite : « À revoir ».</p></div></div>
       </div>
     </div>
+
+    <article class="phare rv">
+      <div class="txt">
+        <span class="tag"><i style="background:#F0605A"></i>AutoCAD</span>
+        <h3>Le DWG, dans les deux sens.</h3>
+        <p><b>Métré d'un plan AutoCAD</b> : tu ouvres un DWG ou un DXF reçu d'un BE ou de l'archi, Allan BIM l'affiche et compte tout, calque par calque : longueurs, surfaces fermées, objets et blocs. Tu décoches ce qui ne compte pas, tu coches ÷2 pour les gaines dessinées en double trait, et tu sors le métré en Excel.</p>
+        <p><b>Exporter en DWG</b> : tu coches tes feuilles et tes vues Revit, Allan BIM les envoie en DWG avec des calques rangés et lisibles, au lieu des centaines de calques Revit illisibles.</p>
+        <ul><li>Calques normalisés CVC-GAINE, CVC-BOUCHE, PLB-TUYAU, ARC-MUR…</li><li>Un calque par réseau : CVC-GAINE-Soufflage, CVC-GAINE-Reprise…</li><li>Aperçu du plan, isolement d'un calque, total en direct, Excel avec formules</li><li>Option DXF, coordonnées partagées pour caler avec l'archi, version AutoCAD au choix</li><li>Pas besoin d'AutoCAD installé : Revit fait la lecture et l'export</li></ul>
+      </div>
+      <div class="vis"><img class="cap" src="files/allanbim/acad_metre.jpg" alt="Métré d'un plan AutoCAD" data-t="Métré d'un plan AutoCAD" data-d="Le DWG affiché, et pour chaque calque sa longueur, ses objets, ses surfaces fermées et ses blocs. Export Excel en un clic."><img class="mini" src="files/allanbim/acad_export.jpg" alt="Exporter en DWG" data-t="Exporter en DWG" data-d="Tu coches les feuilles et les vues, et tu choisis les options : calques Allan BIM, un calque par réseau, DXF, coordonnées partagées."></div>
+    </article>
 
     <article class="phare rv">
       <div class="txt">
@@ -1689,6 +1702,8 @@ const OUTILS=[
  ["Livrables","Étiquetage","Étiquettes de la vue active, sans chevauchement.","etiquetage",null,"Dans Revit"],
  ["Livrables","Altitudes NGF","Calcul des NGF pour les étiquettes.","ngf",null,"Dans Revit"],
  ["Livrables","Export des livrables","Feuilles et vues prêtes à rendre.","export",null,"Dans Revit"],
+ ["AutoCAD","Métré d'un plan AutoCAD","DWG / DXF : longueurs, surfaces et blocs par calque, export Excel.","dwg","acad_metre.jpg","Dans l'appli"],
+ ["AutoCAD","Exporter en DWG","Tes plans Revit en DWG avec des calques CVC / PLB / ARC propres.","dwgexp","acad_export.jpg","Dans l'appli"],
  ["Aide","Bug & suggestion","Signaler un souci ou proposer une idée, avec captures.","retours","retours.jpg","Dans l'appli"],
  ["Aide","Fiches « i »","Chaque outil explique ce qu'il fait et comment.","livrables","info.jpg","Dans l'appli"],
 ];

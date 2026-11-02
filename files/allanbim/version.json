@@ -1,10 +1,10 @@
 {
- "version": "2.1.8",
+ "version": "2.1.9",
  "date": "2026-11-02",
- "taille": 1527320,
+ "taille": 1632318,
  "nouveautes": [
-  "Réservations : vrai plan du niveau (murs, pièces, réseaux) avec chaque trou à sa place",
-  "Image Revit 3D du trou dans la fiche de chaque réservation",
-  "Détection, validation fluide ↔ structure, trous en un clic, Excel aller-retour"
+  "Nouvelle rangée AutoCAD : métré d'un plan DWG/DXF (longueurs, surfaces, blocs par calque) avec export Excel",
+  "Exporter en DWG : tes plans Revit dans AutoCAD avec des calques propres CVC / PLB / ARC, un calque par réseau",
+  "Option DXF, coordonnées partagées et version AutoCAD au choix"
  ]
 }
