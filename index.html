@@ -1487,7 +1487,7 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
         <h4>Coordination</h4>
         <div class="rang anim inv"><img src="files/allanbim/v_claude.jpg" alt=""><img src="files/allanbim/v_resa.jpg" alt=""><img src="files/allanbim/v_clash.jpg" alt=""><img src="files/allanbim/v_vue.jpg" alt=""><img src="files/allanbim/v_equipe.jpg" alt=""><img src="files/allanbim/v_partage.jpg" alt=""><img src="files/allanbim/v_python.jpg" alt=""></div>
         <h4>AutoCAD</h4>
-        <div class="rang anim inv" style="animation-duration:30s"><img src="files/allanbim/v_dwg.jpg" alt=""><img src="files/allanbim/v_dwgexp.jpg" alt=""><img src="files/allanbim/v_dwg.jpg" alt=""><img src="files/allanbim/v_dwgexp.jpg" alt=""><img src="files/allanbim/v_dwg.jpg" alt=""><img src="files/allanbim/v_dwgexp.jpg" alt=""></div>
+        <div class="rang anim inv" style="animation-duration:30s"><img src="files/allanbim/v_barre_acad.jpg" alt=""><img src="files/allanbim/v_dwg.jpg" alt=""><img src="files/allanbim/v_dwgexp.jpg" alt=""><img src="files/allanbim/v_dwg.jpg" alt=""><img src="files/allanbim/v_dwgexp.jpg" alt=""><img src="files/allanbim/v_dwg.jpg" alt=""><img src="files/allanbim/v_dwgexp.jpg" alt=""></div>
         <h4>Livrables</h4>
         <div class="rang anim" style="animation-duration:52s"><img src="files/allanbim/v_zones.jpg" alt=""><img src="files/allanbim/v_controle.jpg" alt=""><img src="files/allanbim/v_etiquetage.jpg" alt=""><img src="files/allanbim/v_ngf.jpg" alt=""><img src="files/allanbim/v_export.jpg" alt=""><img src="files/allanbim/v_feuilles.jpg" alt=""></div>
       </div>
@@ -1497,7 +1497,7 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
 
 <div class="chiffres">
   <div class="w">
-    <div><b>27</b><span>outils dans l'appli</span></div>
+    <div><b>28</b><span>outils dans l'appli</span></div>
     <div><b>9</b><span>gabarits de vue livrables</span></div>
     <div><b>100 %</b><span>gaine rigide, jamais de flexible</span></div>
     <div><b>Ctrl + K</b><span>pour tout retrouver</span></div>
@@ -1511,6 +1511,16 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
       <h2>Moins de clics, moins de blocages.</h2>
       <p>Chaque outil part d'un vrai problème rencontré en projet, et chacun s'explique : un petit « i » sur chaque carte dit ce qu'il fait et comment.</p>
     </div>
+
+    <article class="phare rv">
+      <div class="txt">
+        <span class="tag"><i style="background:#F0605A"></i>Barre AutoCAD · nouveau</span>
+        <h3>Ta barre de raccourcis, maintenant aussi dans AutoCAD.</h3>
+        <p>La même barre flottante que dans Revit, dans AutoCAD 2027 : les commandes que tu utilises tout le temps, avec les vraies icônes d'AutoCAD. Un clic et la commande part, plus besoin de fouiller le ruban.</p>
+        <ul><li>4 sets prêts : Dessin, Annotation, Calques, Nettoyage — un clic sur la pastille pour changer</li><li>Horizontale ou verticale, repliable, déplaçable : elle revient au même endroit au démarrage</li><li>« Personnaliser » : tout le ruban d'AutoCAD dans une recherche, double-clic pour ajouter, ↑ ↓ pour l'ordre</li><li>Tes propres commandes : une macro ou un LISP (ex. _-LAYER _S CVC-GAINE)</li><li>S'installe d'un clic depuis la page AutoCAD de l'appli · ALLANBIMBARRE / ALLANBIMBARREPERSO</li></ul>
+      </div>
+      <div class="vis"><img class="cap" src="files/allanbim/barre_acad_perso.jpg" alt="Fenêtre Personnaliser la barre AutoCAD" data-t="Personnaliser la barre AutoCAD" data-d="Les sets, toutes les commandes du ruban d'AutoCAD et tes commandes à toi."><img class="mini" style="width:70%;background:#000" src="files/allanbim/barre_acad.jpg" alt="Barre de raccourcis AutoCAD" data-t="Barre de raccourcis AutoCAD" data-d="La barre flottante dans AutoCAD, avec les icônes du ruban."></div>
+    </article>
 
     <article class="phare rv">
       <div class="txt">
@@ -1735,6 +1745,7 @@ const OUTILS=[
  ["Livrables","Étiquetage","Étiquettes de la vue active, sans chevauchement.","etiquetage",null,"Dans Revit"],
  ["Livrables","Altitudes NGF","Calcul des NGF pour les étiquettes.","ngf",null,"Dans Revit"],
  ["Livrables","Export des livrables","Feuilles et vues prêtes à rendre.","export",null,"Dans Revit"],
+ ["AutoCAD","Barre de raccourcis AutoCAD","Tes commandes AutoCAD préférées dans une barre flottante, par sets, avec leurs icônes.","barre_acad","barre_acad_perso.jpg","Dans AutoCAD"],
  ["AutoCAD","Métré d'un plan AutoCAD","DWG / DXF : longueurs, surfaces et blocs par calque, export Excel.","dwg","acad_metre.jpg","Dans l'appli"],
  ["AutoCAD","Exporter en DWG","Tes plans Revit en DWG avec des calques CVC / PLB / ARC propres.","dwgexp","acad_export.jpg","Dans l'appli"],
  ["Aide","Bug & suggestion","Signaler un souci ou proposer une idée, avec captures.","retours","retours.jpg","Dans l'appli"],

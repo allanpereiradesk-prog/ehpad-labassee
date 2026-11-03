@@ -1,10 +1,10 @@
 {
- "version": "2.6.0",
+ "version": "2.7.0",
  "date": "2026-11-03",
- "taille": 2095227,
+ "taille": 2202459,
  "nouveautes": [
-  "Codes par zone (DOE) : chaque gaine, bouche, équipement reçoit le code de la zone du fond de plan DWG où il se trouve",
-  "Codes lus tout seuls dans le DXF du plan, sinon tapés une fois par zone (retenus et proposés d'après le nom du local)",
-  "Gaines à cheval signalées, écriture en un seul Ctrl+Z, Excel du DOE"
+  "Barre de raccourcis AutoCAD : tes commandes préférées dans une barre flottante, avec les vraies icônes d'AutoCAD, par sets",
+  "Personnaliser la barre : tout le ruban d'AutoCAD dans une recherche, l'ordre, les couleurs, tes propres macros ou LISP",
+  "Codes par zone (DOE) : le code de zone du fond de plan DWG dans chaque gaine et équipement"
  ]
 }
