@@ -1431,7 +1431,9 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
 .abp .rv{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}
 .abp .rv.vu{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){.abp .rv{opacity:1;transform:none}
-.abp .rang.anim{animation:none}
+/* les rangées défilent quand même, au ralenti (Allan préfère un site vivant) */
+.abp .rang.anim{animation:abdefile 110s linear infinite!important}
+.abp .rang.anim.inv{animation-direction:reverse!important}
 .abp .app{transform:none}
 }
 @media (max-width:900px){.abp .hero .w,.abp .phare{grid-template-columns:1fr;gap:34px}
