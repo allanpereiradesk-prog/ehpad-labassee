@@ -1,12 +1,12 @@
 {
- "version": "3.3.0",
- "date": "2026-11-03",
- "taille": 9185287,
+ "version": "3.4.0",
+ "date": "2026-11-04",
+ "taille": 9217546,
  "nouveautes": [
+  "Mode jour / nuit : toute l'interface passe en clair d'un clic",
+  "Nouvelle mascotte : panda roux le jour, raton laveur la nuit (ses yeux suivent la souris)",
+  "Réseaux AutoCAD : les couleurs de ta charte graphique, à exporter et partager",
   "Réseaux AutoCAD : tracé de gaines et de tuyaux au clic (coudes, réductions, piquages droits ou biais, étiquettes)",
-  "Calcul en un clic : débits cumulés, tailles automatiques, vitesses, pertes de charge, circuit le plus défavorisé, note de calcul Excel",
-  "Contrôle du réseau, quantitatif Excel et 3D à l'altitude",
-  "Revit 2024, 2025 et 2027 : le module s'installe dans toutes les versions de 2022 à 2027",
-  "La Bibliothèque de blocs AutoCAD est sur la page AutoCAD"
+  "Calcul en un clic : débits cumulés, tailles automatiques, vitesses, pertes de charge, circuit le plus défavorisé, note de calcul Excel"
  ]
 }
