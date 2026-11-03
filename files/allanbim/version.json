@@ -1,12 +1,12 @@
 {
- "version": "3.4.0",
+ "version": "3.4.1",
  "date": "2026-11-04",
- "taille": 9217546,
+ "taille": 9217491,
  "nouveautes": [
+  "Correctif : le mode nuit retrouve bien son fond sombre après le mode jour",
   "Mode jour / nuit : toute l'interface passe en clair d'un clic",
   "Nouvelle mascotte : panda roux le jour, raton laveur la nuit (ses yeux suivent la souris)",
   "Réseaux AutoCAD : les couleurs de ta charte graphique, à exporter et partager",
-  "Réseaux AutoCAD : tracé de gaines et de tuyaux au clic (coudes, réductions, piquages droits ou biais, étiquettes)",
-  "Calcul en un clic : débits cumulés, tailles automatiques, vitesses, pertes de charge, circuit le plus défavorisé, note de calcul Excel"
+  "Réseaux AutoCAD : tracé de gaines et de tuyaux au clic (coudes, réductions, piquages droits ou biais, étiquettes)"
  ]
 }
