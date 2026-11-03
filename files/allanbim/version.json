@@ -1,11 +1,12 @@
 {
- "version": "3.1.2",
+ "version": "3.3.0",
  "date": "2026-11-03",
- "taille": 8894245,
+ "taille": 9185287,
  "nouveautes": [
+  "Réseaux AutoCAD : tracé de gaines et de tuyaux au clic (coudes, réductions, piquages droits ou biais, étiquettes)",
+  "Calcul en un clic : débits cumulés, tailles automatiques, vitesses, pertes de charge, circuit le plus défavorisé, note de calcul Excel",
+  "Contrôle du réseau, quantitatif Excel et 3D à l'altitude",
   "Revit 2024, 2025 et 2027 : le module s'installe dans toutes les versions de 2022 à 2027",
-  "La Bibliothèque de blocs AutoCAD est sur la page AutoCAD",
-  "Bibliothèque de blocs AutoCAD : 118 symboles CVC / plomberie posés d'un clic (aligné sur le tuyau, repère V1, V2…)",
-  "Partage avec l'équipe : tes blocs AutoCAD et tes familles Revit visibles par tous les membres"
+  "La Bibliothèque de blocs AutoCAD est sur la page AutoCAD"
  ]
 }
