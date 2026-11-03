@@ -1,11 +1,11 @@
 {
- "version": "2.9.8",
+ "version": "2.9.9",
  "date": "2026-11-03",
- "taille": 3859114,
+ "taille": 3860331,
  "nouveautes": [
+  "Curseur AutoCAD dans Revit : réticule court comme AutoCAD, couleurs corrigées, plus de clignotement",
   "Codes par zone : escaliers et ascenseurs sur le plan pour se repérer",
   "Curseur AutoCAD plus fluide : les lignes suivent la souris sans retard",
-  "Numéros depuis le DWG : les numéros du plan DWG (regards, bouches…) recopiés dans les familles Revit posées au même endroit",
-  "Codes par zone : « Remplir les codes » pour toutes les zones d'un coup, trémies en zones à part, flexibles pris en compte"
+  "Numéros depuis le DWG : les numéros du plan DWG (regards, bouches…) recopiés dans les familles Revit posées au même endroit"
  ]
 }
