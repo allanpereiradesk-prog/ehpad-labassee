@@ -1,10 +1,10 @@
 {
- "version": "2.7.0",
+ "version": "2.8.0",
  "date": "2026-11-03",
- "taille": 2202459,
+ "taille": 2341228,
  "nouveautes": [
-  "Barre de raccourcis AutoCAD : tes commandes préférées dans une barre flottante, avec les vraies icônes d'AutoCAD, par sets",
-  "Personnaliser la barre : tout le ruban d'AutoCAD dans une recherche, l'ordre, les couleurs, tes propres macros ou LISP",
-  "Codes par zone (DOE) : le code de zone du fond de plan DWG dans chaque gaine et équipement"
+  "Familles : conçois tes familles Revit CVC et plomberie (formes, raccords gaine / tuyau, paramètres) avec un aperçu 3D, et charge-les dans la maquette",
+  "Bibliothèque : catalogue Allan BIM en 166 tailles, mes modèles, familles du projet, mes dossiers de .rfa, favoris",
+  "Catalogue utilisateur : importe une famille de fabricant pour la partager avec l'équipe"
  ]
 }
