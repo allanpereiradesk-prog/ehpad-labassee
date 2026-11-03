@@ -1,11 +1,11 @@
 {
- "version": "2.9.1",
+ "version": "2.9.2",
  "date": "2026-11-03",
- "taille": 3645867,
+ "taille": 3707082,
  "nouveautes": [
+  "Curseur AutoCAD : le réticule d'AutoCAD dans la zone de dessin de Revit",
+  "Codes par zone : les pièces de la maquette architecte liée deviennent les zones, et le tableau des types d'espace se lit aussi depuis une image",
   "Codes par zone : le type d'espace du DOE (REU, CHO, BUR…) rempli en même temps que le code de zone, avec la table lue dans le PDF du DOE ou tapée à la main",
-  "Nouveautés : un onglet dans l'appli pour voir ce qui change à chaque mise à jour, et installer la dernière en un clic",
-  "Barre de raccourcis AutoCAD compatible AutoCAD 2025 et 2026 (en plus de 2027)",
-  "Allan BIM marche aussi avec Revit 2023 : le module s'installe tout seul si Revit 2023 est sur le PC"
+  "Nouveautés : un onglet dans l'appli pour voir ce qui change à chaque mise à jour, et installer la dernière en un clic"
  ]
 }
