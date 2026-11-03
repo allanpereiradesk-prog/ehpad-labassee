@@ -1,11 +1,11 @@
 {
- "version": "3.1.1",
+ "version": "3.1.2",
  "date": "2026-11-03",
- "taille": 5347180,
+ "taille": 8894245,
  "nouveautes": [
+  "Revit 2024, 2025 et 2027 : le module s'installe dans toutes les versions de 2022 à 2027",
   "La Bibliothèque de blocs AutoCAD est sur la page AutoCAD",
   "Bibliothèque de blocs AutoCAD : 118 symboles CVC / plomberie posés d'un clic (aligné sur le tuyau, repère V1, V2…)",
-  "Partage avec l'équipe : tes blocs AutoCAD et tes familles Revit visibles par tous les membres",
-  "Revit 2022 : le module Allan BIM fonctionne aussi dans Revit 2022 (installation automatique)"
+  "Partage avec l'équipe : tes blocs AutoCAD et tes familles Revit visibles par tous les membres"
  ]
 }
