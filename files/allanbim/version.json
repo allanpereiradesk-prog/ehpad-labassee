@@ -1,8 +1,9 @@
 {
- "version": "2.8.0",
+ "version": "2.8.1",
  "date": "2026-11-03",
- "taille": 2341228,
+ "taille": 3434332,
  "nouveautes": [
+  "Allan BIM marche aussi avec Revit 2023 : le module s'installe tout seul si Revit 2023 est sur le PC",
   "Familles : conçois tes familles Revit CVC et plomberie (formes, raccords gaine / tuyau, paramètres) avec un aperçu 3D, et charge-les dans la maquette",
   "Bibliothèque : catalogue Allan BIM en 166 tailles, mes modèles, familles du projet, mes dossiers de .rfa, favoris",
   "Catalogue utilisateur : importe une famille de fabricant pour la partager avec l'équipe"
