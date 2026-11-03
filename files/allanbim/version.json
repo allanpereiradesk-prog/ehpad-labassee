@@ -1,11 +1,11 @@
 {
- "version": "2.9.2",
+ "version": "2.9.3",
  "date": "2026-11-03",
- "taille": 3707082,
+ "taille": 3766516,
  "nouveautes": [
+  "Dimensions : le pense-bête des tailles de tubes (acier, cuivre, multicouche, PER, PEHD, PVC) et de gaines rondes / rectangulaires, avec débit et puissance",
   "Curseur AutoCAD : le réticule d'AutoCAD dans la zone de dessin de Revit",
   "Codes par zone : les pièces de la maquette architecte liée deviennent les zones, et le tableau des types d'espace se lit aussi depuis une image",
-  "Codes par zone : le type d'espace du DOE (REU, CHO, BUR…) rempli en même temps que le code de zone, avec la table lue dans le PDF du DOE ou tapée à la main",
-  "Nouveautés : un onglet dans l'appli pour voir ce qui change à chaque mise à jour, et installer la dernière en un clic"
+  "Codes par zone : le type d'espace du DOE (REU, CHO, BUR…) rempli en même temps que le code de zone, avec la table lue dans le PDF du DOE ou tapée à la main"
  ]
 }
