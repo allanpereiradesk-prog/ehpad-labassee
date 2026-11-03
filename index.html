@@ -1483,7 +1483,7 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
       <div class="tb"><b></b>Allan BIM<span class="js-ver2">v2.1.5</span></div>
       <div class="rg">
         <h4>Outils CVC</h4>
-        <div class="rang anim"><img src="files/allanbim/v_recettes.jpg" alt=""><img src="files/allanbim/v_dessin.jpg" alt=""><img src="files/allanbim/v_trace.jpg" alt=""><img src="files/allanbim/v_raccord.jpg" alt=""><img src="files/allanbim/v_calcul.jpg" alt=""><img src="files/allanbim/v_debits.jpg" alt=""><img src="files/allanbim/v_gabarits.jpg" alt=""><img src="files/allanbim/v_espaces.jpg" alt=""></div>
+        <div class="rang anim"><img src="files/allanbim/v_familles.jpg" alt=""><img src="files/allanbim/v_recettes.jpg" alt=""><img src="files/allanbim/v_dessin.jpg" alt=""><img src="files/allanbim/v_trace.jpg" alt=""><img src="files/allanbim/v_raccord.jpg" alt=""><img src="files/allanbim/v_calcul.jpg" alt=""><img src="files/allanbim/v_debits.jpg" alt=""><img src="files/allanbim/v_gabarits.jpg" alt=""><img src="files/allanbim/v_espaces.jpg" alt=""></div>
         <h4>Coordination</h4>
         <div class="rang anim inv"><img src="files/allanbim/v_claude.jpg" alt=""><img src="files/allanbim/v_resa.jpg" alt=""><img src="files/allanbim/v_clash.jpg" alt=""><img src="files/allanbim/v_vue.jpg" alt=""><img src="files/allanbim/v_equipe.jpg" alt=""><img src="files/allanbim/v_partage.jpg" alt=""><img src="files/allanbim/v_python.jpg" alt=""></div>
         <h4>AutoCAD</h4>
@@ -1497,7 +1497,7 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
 
 <div class="chiffres">
   <div class="w">
-    <div><b>28</b><span>outils dans l'appli</span></div>
+    <div><b>29</b><span>outils dans l'appli</span></div>
     <div><b>9</b><span>gabarits de vue livrables</span></div>
     <div><b>100 %</b><span>gaine rigide, jamais de flexible</span></div>
     <div><b>Ctrl + K</b><span>pour tout retrouver</span></div>
@@ -1511,6 +1511,16 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
       <h2>Moins de clics, moins de blocages.</h2>
       <p>Chaque outil part d'un vrai problème rencontré en projet, et chacun s'explique : un petit « i » sur chaque carte dit ce qu'il fait et comment.</p>
     </div>
+
+    <article class="phare rv">
+      <div class="txt">
+        <span class="tag"><i style="background:var(--or)"></i>Familles · nouveau</span>
+        <h3>Tes familles CVC et plomberie, sans l'éditeur de familles.</h3>
+        <p>Mode Conception : tu pars d'un modèle (bouche, diffuseur, CTA, caisson, ventilo, cassette, radiateur, chaudière, silencieux, registre, lavabo, WC, douche, ballon, pompe, vanne…), tu règles ses cotes et l'aperçu 3D suit. Allan BIM fabrique un vrai .rfa avec ses raccords de gaine et de tuyau, et le charge dans ta maquette. Mode Bibliothèque : tout le catalogue en plusieurs tailles, tes modèles, les familles du projet et tes dossiers de .rfa.</p>
+        <ul><li>34 modèles de départ CVC et plomberie, 166 tailles prêtes dans la bibliothèque</li><li>Formes à la main : boîte, cylindre, cône, transition rectangle → rond, sphère, dôme, creux</li><li>Raccords gaine ronde / rectangulaire et tuyau, avec réseau (soufflage, reprise, EF, ECS, EU, chauffage…), sens et débit</li><li>Le débit devient un paramètre réglable sur chaque élément posé ; tes paramètres (marque, puissance…) vont dans les nomenclatures</li><li>Aperçu 3D qu'on fait tourner, contrôle avant création, Ctrl+Z illimité</li><li>Bibliothèque : recherche, catégories, favoris, vignettes de tes .rfa, « Charger et placer » en un clic</li></ul>
+      </div>
+      <div class="vis"><img class="cap" src="files/allanbim/familles.jpg" alt="Familles, mode Conception : une CTA en 3D et ses réglages" data-t="Familles · Conception" data-d="Un modèle de départ, ses réglages, ses formes et ses raccords, en 3D."><img class="mini" style="width:70%" src="files/allanbim/familles_biblio.jpg" alt="Familles, mode Bibliothèque" data-t="Familles · Bibliothèque" data-d="Le catalogue Allan BIM, tes modèles, les familles du projet et tes dossiers de .rfa."></div>
+    </article>
 
     <article class="phare rv">
       <div class="txt">
@@ -1722,6 +1732,7 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
 <script>
 (()=>{
 const OUTILS=[
+ ["CVC","Familles","Conçois tes familles CVC / plomberie avec raccords, ou pioche dans la bibliothèque.","familles","familles.jpg","Dans l'appli"],
  ["CVC","Recettes","Ce que fait Dynamo, en une phrase en français : étapes lisibles, aperçu, un Ctrl+Z.","recettes","recettes.jpg","Dans l'appli"],
  ["CVC","Tracé assisté","Raccorder les bouches, relier deux réseaux en rigide.","trace","trace.jpg","Dans l'appli"],
  ["Coordination","Assistants IA","Claude, Codex ou GitHub Copilot branchés sur ta maquette Revit.","claude","claude.jpg","Dans l'appli"],
