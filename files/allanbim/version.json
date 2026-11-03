@@ -1,11 +1,11 @@
 {
- "version": "2.9.9",
+ "version": "3.0.0",
  "date": "2026-11-03",
- "taille": 3860331,
+ "taille": 5184753,
  "nouveautes": [
+  "Revit 2022 : le module Allan BIM fonctionne aussi dans Revit 2022 (installation automatique)",
+  "Convertisseur de familles : une famille d'un Revit récent recréée dans Revit 2023 ou 2022 (paramètres, types, formules, raccords conservés)",
   "Curseur AutoCAD dans Revit : réticule court comme AutoCAD, couleurs corrigées, plus de clignotement",
-  "Codes par zone : escaliers et ascenseurs sur le plan pour se repérer",
-  "Curseur AutoCAD plus fluide : les lignes suivent la souris sans retard",
-  "Numéros depuis le DWG : les numéros du plan DWG (regards, bouches…) recopiés dans les familles Revit posées au même endroit"
+  "Codes par zone : escaliers et ascenseurs sur le plan pour se repérer"
  ]
 }
