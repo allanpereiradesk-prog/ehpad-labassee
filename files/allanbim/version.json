@@ -1,11 +1,11 @@
 {
- "version": "2.9.0",
+ "version": "2.9.1",
  "date": "2026-11-03",
- "taille": 3620173,
+ "taille": 3645867,
  "nouveautes": [
+  "Codes par zone : le type d'espace du DOE (REU, CHO, BUR…) rempli en même temps que le code de zone, avec la table lue dans le PDF du DOE ou tapée à la main",
   "Nouveautés : un onglet dans l'appli pour voir ce qui change à chaque mise à jour, et installer la dernière en un clic",
   "Barre de raccourcis AutoCAD compatible AutoCAD 2025 et 2026 (en plus de 2027)",
-  "Allan BIM marche aussi avec Revit 2023 : le module s'installe tout seul si Revit 2023 est sur le PC",
-  "Familles : conçois tes familles Revit CVC et plomberie avec un aperçu 3D, et charge-les dans la maquette"
+  "Allan BIM marche aussi avec Revit 2023 : le module s'installe tout seul si Revit 2023 est sur le PC"
  ]
 }
