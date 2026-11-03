@@ -1,12 +1,12 @@
 {
- "version": "3.4.1",
+ "version": "3.5.0",
  "date": "2026-11-04",
- "taille": 9217491,
+ "taille": 9242757,
  "nouveautes": [
-  "Correctif : le mode nuit retrouve bien son fond sombre après le mode jour",
+  "Groupes : partage tes familles Revit et blocs AutoCAD avec ton entreprise seulement (code pour rejoindre)",
+  "Familles Revit : import d'une gamme entière en une fois",
+  "AutoCAD : crée un bloc depuis ta sélection, récap en vignettes après chaque import",
   "Mode jour / nuit : toute l'interface passe en clair d'un clic",
-  "Nouvelle mascotte : panda roux le jour, raton laveur la nuit (ses yeux suivent la souris)",
-  "Réseaux AutoCAD : les couleurs de ta charte graphique, à exporter et partager",
-  "Réseaux AutoCAD : tracé de gaines et de tuyaux au clic (coudes, réductions, piquages droits ou biais, étiquettes)"
+  "Nouvelle mascotte : panda roux le jour, raton laveur la nuit (ses yeux suivent la souris)"
  ]
 }
