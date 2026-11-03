@@ -1,11 +1,11 @@
 {
- "version": "2.8.1",
+ "version": "2.9.0",
  "date": "2026-11-03",
- "taille": 3434332,
+ "taille": 3620173,
  "nouveautes": [
+  "Nouveautés : un onglet dans l'appli pour voir ce qui change à chaque mise à jour, et installer la dernière en un clic",
+  "Barre de raccourcis AutoCAD compatible AutoCAD 2025 et 2026 (en plus de 2027)",
   "Allan BIM marche aussi avec Revit 2023 : le module s'installe tout seul si Revit 2023 est sur le PC",
-  "Familles : conçois tes familles Revit CVC et plomberie (formes, raccords gaine / tuyau, paramètres) avec un aperçu 3D, et charge-les dans la maquette",
-  "Bibliothèque : catalogue Allan BIM en 166 tailles, mes modèles, familles du projet, mes dossiers de .rfa, favoris",
-  "Catalogue utilisateur : importe une famille de fabricant pour la partager avec l'équipe"
+  "Familles : conçois tes familles Revit CVC et plomberie avec un aperçu 3D, et charge-les dans la maquette"
  ]
 }
