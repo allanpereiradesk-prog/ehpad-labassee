@@ -1,11 +1,11 @@
 {
- "version": "3.0.0",
+ "version": "3.1.0",
  "date": "2026-11-03",
- "taille": 5184753,
+ "taille": 5347146,
  "nouveautes": [
+  "Bibliothèque de blocs AutoCAD : 118 symboles CVC / plomberie posés d'un clic (aligné sur le tuyau, repère V1, V2…)",
+  "Partage avec l'équipe : tes blocs AutoCAD et tes familles Revit visibles par tous les membres",
   "Revit 2022 : le module Allan BIM fonctionne aussi dans Revit 2022 (installation automatique)",
-  "Convertisseur de familles : une famille d'un Revit récent recréée dans Revit 2023 ou 2022 (paramètres, types, formules, raccords conservés)",
-  "Curseur AutoCAD dans Revit : réticule court comme AutoCAD, couleurs corrigées, plus de clignotement",
-  "Codes par zone : escaliers et ascenseurs sur le plan pour se repérer"
+  "Convertisseur de familles : une famille d'un Revit récent recréée dans Revit 2023 ou 2022 (paramètres, types, formules, raccords conservés)"
  ]
 }
