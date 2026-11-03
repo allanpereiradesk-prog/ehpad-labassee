@@ -1,11 +1,11 @@
 {
- "version": "2.9.5",
+ "version": "2.9.6",
  "date": "2026-11-03",
- "taille": 3846503,
+ "taille": 3849199,
  "nouveautes": [
+  "Curseur AutoCAD plus fluide : les lignes suivent la souris sans retard",
   "Numéros depuis le DWG : les numéros du plan DWG (regards, bouches…) recopiés dans les familles Revit posées au même endroit",
   "Codes par zone : « Remplir les codes » pour toutes les zones d'un coup, trémies en zones à part, flexibles pris en compte",
-  "Curseur AutoCAD : réglages de la taille du réticule, de la case et de la couleur",
-  "Dimensions : le pense-bête des tailles de tubes (acier, cuivre, multicouche, PER, PEHD, PVC) et de gaines rondes / rectangulaires, avec débit et puissance"
+  "Curseur AutoCAD : réglages de la taille du réticule, de la case et de la couleur"
  ]
 }
