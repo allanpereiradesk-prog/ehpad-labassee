@@ -1,11 +1,10 @@
 {
- "version": "3.9.5",
+ "version": "3.9.6",
  "date": "2026-11-04",
- "taille": 10134570,
+ "taille": 10348832,
  "nouveautes": [
-  "AutoCAD Réseaux style Autofluid : étiquettes « Ø160 Ai:2.70 », flèches de sens d'écoulement",
-  "Raccords visibles aux coudes, manchons des gaines circulaires, clapet coupe-feu en papillon plein",
-  "Repères numérotés automatiquement (CCF 1, REG 2…)",
+  "Revit · Clashs : bouton « ⚠ 3D globale », tous les clashs du projet en 3D, bâtiment en transparence, conflits en rouge avec panneaux ⚠",
+  "AutoCAD Réseaux style Autofluid : étiquettes « Ø160 Ai:2.70 », flèches de sens, repères numérotés (3.9.5)",
   "Coudes à 90° / 45°, tracés impossibles refusés, calorifuge avec 6 dessins (3.9.3)"
  ]
 }
