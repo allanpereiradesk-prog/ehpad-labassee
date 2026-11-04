@@ -1,11 +1,11 @@
 {
- "version": "3.9.2",
+ "version": "3.9.3",
  "date": "2026-11-04",
- "taille": 10436126,
+ "taille": 10123064,
  "nouveautes": [
-  "AutoCAD : la pose des symboles démarre directement (fermer et rouvrir AutoCAD une fois)",
-  "Vue Allan BIM : bouton du ruban pour Revit 2022 à 2024 indiqué dans l'aide",
-  "Codes par zone : étage réel et pièges à son (3.9.1)",
-  "Rechercher dans Revit (Ctrl+F) (3.9.0)"
+  "AutoCAD Réseaux : coudes à 90° et 45° seulement, tracés impossibles refusés (comme Autofluid)",
+  "Calorifuge avec épaisseur et 6 dessins (tirets, pointillés, hachures, zigzag…)",
+  "Touche D : diamètre conseillé selon le débit ; colonnes montantes / descendantes ; piquages par-dessus / par-dessous",
+  "Étiquettes plus lisibles et jamais cachées, axe arrondi dans les coudes, types de ligne corrigés sur AutoCAD en français"
  ]
 }
