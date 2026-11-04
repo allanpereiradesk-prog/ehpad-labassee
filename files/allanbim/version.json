@@ -1,12 +1,11 @@
 {
- "version": "3.8.0",
+ "version": "3.9.0",
  "date": "2026-11-04",
- "taille": 10293580,
+ "taille": 10425714,
  "nouveautes": [
-  "Nouveau : outil Visas — ouvre le PDF du visa, chaque remarque devient un correctif proposé dans Revit",
-  "Avant / après pour chaque remarque, défilement, Valider ou Refuser",
-  "Correctifs : étiquettes, débits, diamètres, altitudes NGF, pentes, sens, locaux, coupe, 3D, légende, vanne, registre, clapet coupe-feu, calorifuge, doublons",
-  "Avant d'enlever : « D'où vient-il ? » (lien Revit, sous-projet, phase) et vérification « déjà là mais caché »",
-  "Réponse générée : rapport PDF avant / après, tableau Excel, nouvel indice, nuages de révision, PDF des feuilles"
+  "Nouveau : Rechercher dans Revit (Ctrl+F) — repère, taille, système, local, vue, feuille → sélection et zoom",
+  "Ctrl+F marche directement dans Revit quand l'appli est ouverte (désactivable)",
+  "Codes par zone : masquer dans la vue ceux qui ont déjà leur code, ou ceux qui n'en ont pas",
+  "Visas (3.8) : un correctif proposé par remarque du visa, avant / après, réponse générée"
  ]
 }
