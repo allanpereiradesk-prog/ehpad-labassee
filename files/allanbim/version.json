@@ -1,10 +1,11 @@
 {
- "version": "3.9.7",
+ "version": "3.9.8",
  "date": "2026-11-04",
- "taille": 10348800,
+ "taille": 10351281,
  "nouveautes": [
-  "Appli mieux rangée : barres de raccourcis AutoCAD et pense-bête Dimensions dans l'onglet AutoCAD",
-  "Revit · Clashs : bouton « ⚠ 3D globale », tous les clashs en 3D avec panneaux ⚠ (3.9.6)",
-  "AutoCAD Réseaux style Autofluid : étiquettes « Ø160 Ai:2.70 », flèches de sens, repères numérotés (3.9.5)"
+  "Groupes : chercher un utilisateur d'Allan BIM par son nom et l'ajouter au groupe sans code",
+  "Notification quand quelqu'un rejoint ton groupe",
+  "Appli mieux rangée : outils AutoCAD dans l'onglet AutoCAD (3.9.7)",
+  "Revit · Clashs : bouton « ⚠ 3D globale » (3.9.6)"
  ]
 }
