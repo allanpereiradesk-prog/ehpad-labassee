@@ -1,10 +1,10 @@
 {
- "version": "3.9.6",
+ "version": "3.9.7",
  "date": "2026-11-04",
- "taille": 10348832,
+ "taille": 10348800,
  "nouveautes": [
-  "Revit · Clashs : bouton « ⚠ 3D globale », tous les clashs du projet en 3D, bâtiment en transparence, conflits en rouge avec panneaux ⚠",
-  "AutoCAD Réseaux style Autofluid : étiquettes « Ø160 Ai:2.70 », flèches de sens, repères numérotés (3.9.5)",
-  "Coudes à 90° / 45°, tracés impossibles refusés, calorifuge avec 6 dessins (3.9.3)"
+  "Appli mieux rangée : barres de raccourcis AutoCAD et pense-bête Dimensions dans l'onglet AutoCAD",
+  "Revit · Clashs : bouton « ⚠ 3D globale », tous les clashs en 3D avec panneaux ⚠ (3.9.6)",
+  "AutoCAD Réseaux style Autofluid : étiquettes « Ø160 Ai:2.70 », flèches de sens, repères numérotés (3.9.5)"
  ]
 }
