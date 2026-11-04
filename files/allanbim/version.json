@@ -1,11 +1,10 @@
 {
- "version": "3.9.0",
+ "version": "3.9.1",
  "date": "2026-11-04",
- "taille": 10425714,
+ "taille": 10431436,
  "nouveautes": [
-  "Nouveau : Rechercher dans Revit (Ctrl+F) — repère, taille, système, local, vue, feuille → sélection et zoom",
-  "Ctrl+F marche directement dans Revit quand l'appli est ouverte (désactivable)",
-  "Codes par zone : masquer dans la vue ceux qui ont déjà leur code, ou ceux qui n'en ont pas",
-  "Visas (3.8) : un correctif proposé par remarque du visa, avant / après, réponse générée"
+  "Codes par zone : gaines du faux-plafond prises au bon étage (grosses gaines, accessoires…)",
+  "Codes par zone : modèles génériques à raccords (pièges à son…) pris en compte",
+  "Rechercher dans Revit (Ctrl+F) et masquage « avec / sans code » (3.9.0)"
  ]
 }
