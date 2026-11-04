@@ -1,13 +1,12 @@
 {
- "version": "3.6.0",
+ "version": "3.7.0",
  "date": "2026-11-04",
- "taille": 9437508,
+ "taille": 9464879,
  "nouveautes": [
-  "Réseaux AutoCAD : croisements dessinés automatiquement (réseau du dessous en pointillés)",
-  "Accessoires (registre, clapet coupe-feu, silencieux, filtre, batterie, vannes) comptés dans le calcul et le quantitatif",
-  "Évacuations en pente : flèches, fil d'eau, 3D en pente, contrôle de la pente et du remplissage",
-  "Coupes automatiques A-A, B-B… et légende aux couleurs de ta charte",
-  "Envoi des réseaux AutoCAD vers Revit : vraies gaines et tuyaux avec coudes, réductions et piquages",
-  "Accessibilité : bilan lu par le lecteur d'écran, aide sur chaque bouton"
+  "Numérotation des repères : choix du paramètre (Marque, Commentaires ou paramètre partagé)",
+  "Mode « Compléter les vides seulement » pour garder les repères existants",
+  "Jamais de doublon : les numéros déjà pris ailleurs dans le projet sont sautés",
+  "« Suivre le réseau » va au bout de chaque branche avant la suivante",
+  "Réseaux AutoCAD (3.6) : croisements, accessoires, coupes, évacuations en pente, envoi vers Revit"
  ]
 }
