@@ -1,10 +1,11 @@
 {
- "version": "3.9.1",
+ "version": "3.9.2",
  "date": "2026-11-04",
- "taille": 10431436,
+ "taille": 10436126,
  "nouveautes": [
-  "Codes par zone : gaines du faux-plafond prises au bon étage (grosses gaines, accessoires…)",
-  "Codes par zone : modèles génériques à raccords (pièges à son…) pris en compte",
-  "Rechercher dans Revit (Ctrl+F) et masquage « avec / sans code » (3.9.0)"
+  "AutoCAD : la pose des symboles démarre directement (fermer et rouvrir AutoCAD une fois)",
+  "Vue Allan BIM : bouton du ruban pour Revit 2022 à 2024 indiqué dans l'aide",
+  "Codes par zone : étage réel et pièges à son (3.9.1)",
+  "Rechercher dans Revit (Ctrl+F) (3.9.0)"
  ]
 }
