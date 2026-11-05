@@ -1,11 +1,11 @@
 {
- "version": "3.9.10",
+ "version": "3.9.11",
  "date": "2026-11-05",
- "taille": 10529427,
+ "taille": 10756318,
  "nouveautes": [
-  "AutoCAD : P = piquage sur la principale (té droit, biais 45°, par-dessus, par-dessous) avec aperçu",
-  "AutoCAD : C = bout coupé (symboles de coupure des tubes et des gaines) et style de dessin « Enes » pour la plomberie",
-  "Nouvelle catégorie « Visas & contrôle » (en test) avec Visas et Contrôle des plans",
-  "Visas : bon plan et bon local trouvés tout seuls, plus de formats lus, plus de blocage Revit"
+  "Pense-bête : débit max silencieux des gaines rondes (Ø 125 → 140 m³/h … Ø 630 → 7 000 m³/h)",
+  "Pense-bête aussi dans la page Revit",
+  "Bouton Ø « pense-bête » dans les barres de raccourcis Revit et AutoCAD",
+  "Gaines rondes : seulement les diamètres qui existent"
  ]
 }
