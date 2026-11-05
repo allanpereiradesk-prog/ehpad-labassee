@@ -1,12 +1,12 @@
 {
- "version": "3.9.12",
+ "version": "3.9.13",
  "date": "2026-11-05",
- "taille": 9288022,
+ "taille": 9417340,
  "nouveautes": [
-  "Bilan aéraulique : Excel une feuille par niveau + synthèse par CTA",
-  "Contrôle d'équilibre et débit mini réglementaire",
-  "Transferts proposés automatiquement",
-  "Schéma de principe tracé par l'outil Réseaux dans AutoCAD",
-  "Vue de dessin et DWG depuis Revit"
+  "Réseaux AutoCAD : canalisations et coudes déplaçables un par un, toujours raccordés",
+  "Branches qui suivent la principale",
+  "Vannes qui restent sur le réseau",
+  "Taille des étiquettes réglable",
+  "Choix du matériau corrigé dans la palette"
  ]
 }
