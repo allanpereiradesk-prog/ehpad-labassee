@@ -1,11 +1,12 @@
 {
- "version": "3.9.11",
+ "version": "3.9.12",
  "date": "2026-11-05",
- "taille": 10756318,
+ "taille": 9288022,
  "nouveautes": [
-  "Pense-bête : débit max silencieux des gaines rondes (Ø 125 → 140 m³/h … Ø 630 → 7 000 m³/h)",
-  "Pense-bête aussi dans la page Revit",
-  "Bouton Ø « pense-bête » dans les barres de raccourcis Revit et AutoCAD",
-  "Gaines rondes : seulement les diamètres qui existent"
+  "Bilan aéraulique : Excel une feuille par niveau + synthèse par CTA",
+  "Contrôle d'équilibre et débit mini réglementaire",
+  "Transferts proposés automatiquement",
+  "Schéma de principe tracé par l'outil Réseaux dans AutoCAD",
+  "Vue de dessin et DWG depuis Revit"
  ]
 }
