@@ -1,11 +1,11 @@
 {
- "version": "3.9.9",
+ "version": "3.9.10",
  "date": "2026-11-05",
- "taille": 10440129,
+ "taille": 10529427,
  "nouveautes": [
-  "Visas : choix automatique du bon plan, du bon local et de l'équipement cité, avec un message clair quand le niveau ou la feuille n'existe pas",
-  "Visas : lecture de bien plus de formats (avis en 1re colonne, 4.1 / « idem », PDF protégés et scannés)",
-  "Visas : ajouts en orange, flèches de sens même sur un réseau non raccordé, vue 3D de tout un niveau, plus de blocage Revit si la maquette n'est pas à jour",
-  "Rechercher : les vues sont trouvées et les résultats sont classés par pertinence"
+  "AutoCAD : P = piquage sur la principale (té droit, biais 45°, par-dessus, par-dessous) avec aperçu",
+  "AutoCAD : C = bout coupé (symboles de coupure des tubes et des gaines) et style de dessin « Enes » pour la plomberie",
+  "Nouvelle catégorie « Visas & contrôle » (en test) avec Visas et Contrôle des plans",
+  "Visas : bon plan et bon local trouvés tout seuls, plus de formats lus, plus de blocage Revit"
  ]
 }
