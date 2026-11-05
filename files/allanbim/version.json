@@ -1,11 +1,11 @@
 {
- "version": "3.9.8",
- "date": "2026-11-04",
- "taille": 10351281,
+ "version": "3.9.9",
+ "date": "2026-11-05",
+ "taille": 10440129,
  "nouveautes": [
-  "Groupes : chercher un utilisateur d'Allan BIM par son nom et l'ajouter au groupe sans code",
-  "Notification quand quelqu'un rejoint ton groupe",
-  "Appli mieux rangée : outils AutoCAD dans l'onglet AutoCAD (3.9.7)",
-  "Revit · Clashs : bouton « ⚠ 3D globale » (3.9.6)"
+  "Visas : choix automatique du bon plan, du bon local et de l'équipement cité, avec un message clair quand le niveau ou la feuille n'existe pas",
+  "Visas : lecture de bien plus de formats (avis en 1re colonne, 4.1 / « idem », PDF protégés et scannés)",
+  "Visas : ajouts en orange, flèches de sens même sur un réseau non raccordé, vue 3D de tout un niveau, plus de blocage Revit si la maquette n'est pas à jour",
+  "Rechercher : les vues sont trouvées et les résultats sont classés par pertinence"
  ]
 }
