@@ -1,7 +1,7 @@
 {
- "version": "3.9.14",
- "date": "2026-11-05",
- "taille": 9377902,
+ "version": "3.9.15",
+ "date": "2026-11-06",
+ "taille": 9398123,
  "nouveautes": [
   "Réseaux AutoCAD : canalisations et coudes déplaçables un par un, toujours raccordés",
   "Branches qui suivent la principale",
