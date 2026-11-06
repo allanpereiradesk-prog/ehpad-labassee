@@ -1,12 +1,12 @@
 {
- "version": "3.9.16",
+ "version": "3.9.17",
  "date": "2026-11-06",
- "taille": 9404696,
+ "taille": 9473057,
  "nouveautes": [
-  "Réseaux AutoCAD : canalisations et coudes déplaçables un par un, toujours raccordés",
-  "Branches qui suivent la principale",
-  "Vannes qui restent sur le réseau",
-  "Taille des étiquettes réglable",
-  "Choix du matériau corrigé dans la palette"
+  "Continuer un réseau depuis son bout",
+  "Barre Réseau à la sélection",
+  "Propriétés",
+  "Raccorder deux canalisations",
+  "Réseau parallèle"
  ]
 }
