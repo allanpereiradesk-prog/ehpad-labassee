@@ -1,12 +1,12 @@
 {
- "version": "3.9.19",
+ "version": "3.9.20",
  "date": "2026-11-06",
- "taille": 9388160,
+ "taille": 9631902,
  "nouveautes": [
-  "Réseaux AutoCAD : Raccorder plus sûr (refus = rien de modifié)",
-  "Raccordement refusé entre systèmes ou matériaux différents",
-  "Gaine rect / ronde : bon tronçon après un piquage",
-  "Branche jamais plus grande que sa principale",
-  "Contrôle : piquage entre deux réseaux différents"
+  "Repère yin-yang pour les piquages dessus / dessous",
+  "Étiquette de piquage masquée d'un clic",
+  "Coudes à taille fixe",
+  "Trait simple sans croix aux coudes",
+  "Taille modifiable au clic comme dans Revit"
  ]
 }
