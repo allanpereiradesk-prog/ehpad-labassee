@@ -1,12 +1,12 @@
 {
- "version": "3.9.18",
+ "version": "3.9.19",
  "date": "2026-11-06",
- "taille": 9490509,
+ "taille": 9388160,
  "nouveautes": [
-  "Tracé fini sur un bout = raccordé",
-  "Fil d'eau des branches d'évacuation calé sur le collecteur",
-  "Barre Réseau à la sélection",
-  "Raccorder deux canalisations",
-  "Aperçu en direct"
+  "Réseaux AutoCAD : Raccorder plus sûr (refus = rien de modifié)",
+  "Raccordement refusé entre systèmes ou matériaux différents",
+  "Gaine rect / ronde : bon tronçon après un piquage",
+  "Branche jamais plus grande que sa principale",
+  "Contrôle : piquage entre deux réseaux différents"
  ]
 }
