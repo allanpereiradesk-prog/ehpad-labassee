@@ -1,12 +1,12 @@
 {
- "version": "3.9.25",
+ "version": "3.9.27",
  "date": "2026-11-09",
- "taille": 12466277,
+ "taille": 12474253,
  "nouveautes": [
+  "Python réparé pour Revit 2022 à 2024",
+  "Nomenclatures : choisir avant de lire, même sur une grosse maquette",
   "Revit 2025 et 2026 avant 2026.5 : module chargé",
   "Nomenclatures Revit → Excel",
-  "Moteur Python 3.4.2 pour Revit 2026 et 2027",
-  "Montrer dans Revit sans fenêtre bloquante",
-  "Métré DWG sans blocage"
+  "Moteur Python 3.4.2 pour Revit 2026 et 2027"
  ]
 }
