@@ -1,12 +1,12 @@
 {
- "version": "3.9.21",
- "date": "2026-11-06",
- "taille": 9434673,
+ "version": "3.9.25",
+ "date": "2026-11-09",
+ "taille": 12466277,
  "nouveautes": [
-  "Style SMA",
-  "Réduction simple ou avec V au clic",
-  "Repère yin-yang pour les piquages dessus / dessous",
-  "Étiquette de piquage masquée d'un clic",
-  "Coudes à taille fixe"
+  "Revit 2025 et 2026 avant 2026.5 : module chargé",
+  "Nomenclatures Revit → Excel",
+  "Moteur Python 3.4.2 pour Revit 2026 et 2027",
+  "Montrer dans Revit sans fenêtre bloquante",
+  "Métré DWG sans blocage"
  ]
 }
