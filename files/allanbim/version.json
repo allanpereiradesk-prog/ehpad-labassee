@@ -1,12 +1,12 @@
 {
- "version": "3.9.30",
- "date": "2026-11-10",
- "taille": 12702900,
+ "version": "3.9.37",
+ "date": "2026-11-13",
+ "taille": 13185325,
  "nouveautes": [
-  "Documents : retrouve un mot dans tes DOE et notices, ouverts à la bonne page",
-  "Vérifier un schéma DWG contre le bilan aéraulique",
-  "Étiquetage propre : repères à angle droit, aucune superposition",
-  "Python réparé pour Revit 2022 à 2024",
-  "Nomenclatures : choisir avant de lire, même sur une grosse maquette"
+  "Claude fonctionne aussi avec AutoCAD 2020 à 2024",
+  "Claude sélectionne dans AutoCAD en quelques secondes (similaires, raccordés, motifs)",
+  "Favoris : une étoile sur chaque vignette",
+  "Familles : onglet « Doc technique »",
+  "Documents : partage en ligne avec un groupe"
  ]
 }
