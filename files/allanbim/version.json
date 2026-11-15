@@ -1,12 +1,12 @@
 {
- "version": "3.9.37",
- "date": "2026-11-13",
- "taille": 13185325,
+ "version": "3.9.38",
+ "date": "2026-11-16",
+ "taille": 13212628,
  "nouveautes": [
+  "Documents : un classeur pour garder les passages qui t'intéressent (glisser-déposer)",
+  "Classeur → dossier Windows : synthèse Word, Excel et copie des documents",
+  "Documents : tri, filtre de date, recherches épinglées",
   "Claude fonctionne aussi avec AutoCAD 2020 à 2024",
-  "Claude sélectionne dans AutoCAD en quelques secondes (similaires, raccordés, motifs)",
-  "Favoris : une étoile sur chaque vignette",
-  "Familles : onglet « Doc technique »",
-  "Documents : partage en ligne avec un groupe"
+  "Claude sélectionne dans AutoCAD en quelques secondes (similaires, raccordés, motifs)"
  ]
 }
