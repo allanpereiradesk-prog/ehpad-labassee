@@ -685,5 +685,135 @@
     }
    ]
   }
+ },
+ {
+  "id": "2026-11-16-syn-04",
+  "doc": "synoptiques/SYN-04",
+  "set": {
+   "title": "Ventilation CTA 1",
+   "desc": "Aile Nord, zone ouverte : 28 chambres et 28 salles de bain sur 2 niveaux, 56 bouches, 2 520 m³/h",
+   "preview": "files/syn/apercu-SYN-04.jpg",
+   "versions": [
+    {
+     "indice": "A",
+     "at": "2026-11-16T12:00:00Z",
+     "by": "Allan",
+     "note": "Première version : locaux, bouches, débits et diamètres d'après la maquette v14",
+     "dxf": {
+      "path": "files/syn/EXE_RSP_CVC_SYN-04_Ventilation_CTA1.dxf",
+      "name": "EXE_RSP_CVC_SYN-04_A.dxf"
+     },
+     "pdf": {
+      "path": "files/syn/EXE_RSP_CVC_SYN-04_Ventilation_CTA1.pdf",
+      "name": "EXE_RSP_CVC_SYN-04_A.pdf",
+      "type": "application/pdf"
+     }
+    }
+   ]
+  }
+ },
+ {
+  "id": "2026-11-16-syn-05",
+  "doc": "synoptiques/SYN-05",
+  "set": {
+   "title": "Ventilation CTA 2",
+   "desc": "Aile Sud, zone ouverte : 27 chambres et 27 salles de bain sur 2 niveaux, 54 bouches, 2 430 m³/h",
+   "preview": "files/syn/apercu-SYN-05.jpg",
+   "versions": [
+    {
+     "indice": "A",
+     "at": "2026-11-16T12:00:00Z",
+     "by": "Allan",
+     "note": "Première version : locaux, bouches, débits et diamètres d'après la maquette v14",
+     "dxf": {
+      "path": "files/syn/EXE_RSP_CVC_SYN-05_Ventilation_CTA2.dxf",
+      "name": "EXE_RSP_CVC_SYN-05_A.dxf"
+     },
+     "pdf": {
+      "path": "files/syn/EXE_RSP_CVC_SYN-05_Ventilation_CTA2.pdf",
+      "name": "EXE_RSP_CVC_SYN-05_A.pdf",
+      "type": "application/pdf"
+     }
+    }
+   ]
+  }
+ },
+ {
+  "id": "2026-11-16-syn-06",
+  "doc": "synoptiques/SYN-06",
+  "set": {
+   "title": "Ventilation CTA 3",
+   "desc": "Aile Nord, zone fermée : 13 chambres et 13 salles de bain à l'étage, 26 bouches, 1 170 m³/h",
+   "preview": "files/syn/apercu-SYN-06.jpg",
+   "versions": [
+    {
+     "indice": "A",
+     "at": "2026-11-16T12:00:00Z",
+     "by": "Allan",
+     "note": "Première version : locaux, bouches, débits et diamètres d'après la maquette v14",
+     "dxf": {
+      "path": "files/syn/EXE_RSP_CVC_SYN-06_Ventilation_CTA3.dxf",
+      "name": "EXE_RSP_CVC_SYN-06_A.dxf"
+     },
+     "pdf": {
+      "path": "files/syn/EXE_RSP_CVC_SYN-06_Ventilation_CTA3.pdf",
+      "name": "EXE_RSP_CVC_SYN-06_A.pdf",
+      "type": "application/pdf"
+     }
+    }
+   ]
+  }
+ },
+ {
+  "id": "2026-11-16-syn-07",
+  "doc": "synoptiques/SYN-07",
+  "set": {
+   "title": "Ventilation CTA 4",
+   "desc": "Aile Sud, zone fermée : 13 chambres et 13 salles de bain à l'étage, 26 bouches, 1 170 m³/h",
+   "preview": "files/syn/apercu-SYN-07.jpg",
+   "versions": [
+    {
+     "indice": "A",
+     "at": "2026-11-16T12:00:00Z",
+     "by": "Allan",
+     "note": "Première version : locaux, bouches, débits et diamètres d'après la maquette v14",
+     "dxf": {
+      "path": "files/syn/EXE_RSP_CVC_SYN-07_Ventilation_CTA4.dxf",
+      "name": "EXE_RSP_CVC_SYN-07_A.dxf"
+     },
+     "pdf": {
+      "path": "files/syn/EXE_RSP_CVC_SYN-07_Ventilation_CTA4.pdf",
+      "name": "EXE_RSP_CVC_SYN-07_A.pdf",
+      "type": "application/pdf"
+     }
+    }
+   ]
+  }
+ },
+ {
+  "id": "2026-11-16-syn-08",
+  "doc": "synoptiques/SYN-08",
+  "set": {
+   "title": "Ventilation CTA 5",
+   "desc": "Locaux communs : 22 locaux communs sur 2 niveaux, 62 bouches, 6 027 m³/h",
+   "preview": "files/syn/apercu-SYN-08.jpg",
+   "versions": [
+    {
+     "indice": "A",
+     "at": "2026-11-16T12:00:00Z",
+     "by": "Allan",
+     "note": "Première version : locaux, bouches, débits et diamètres d'après la maquette v14",
+     "dxf": {
+      "path": "files/syn/EXE_RSP_CVC_SYN-08_Ventilation_CTA5.dxf",
+      "name": "EXE_RSP_CVC_SYN-08_A.dxf"
+     },
+     "pdf": {
+      "path": "files/syn/EXE_RSP_CVC_SYN-08_Ventilation_CTA5.pdf",
+      "name": "EXE_RSP_CVC_SYN-08_A.pdf",
+      "type": "application/pdf"
+     }
+    }
+   ]
+  }
  }
 ]
