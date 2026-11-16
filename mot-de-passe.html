@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Allan BIM – Mot de passe</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@500;700;800&display=swap">
+<style>
+:root{--ink:#1E1E1E;--muted:#4A4A4A;--blue:#1F6FD1;--blue-2:#4A94EE;--cyan:#7FE3F0;--bg:#F4F7FB;--paper:#FFF;--ok:#1E8A4C;--ko:#C0392B}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Nunito,system-ui,sans-serif;min-height:100vh}
+header{background-color:var(--blue);background-image:repeating-conic-gradient(from 0deg at 0% 100%,var(--blue-2) 0deg 6deg,var(--blue) 6deg 12deg);border-bottom:3px solid var(--ink);padding:18px 16px;color:#fff}
+header b{font-family:'Lilita One',sans-serif;font-size:26px;letter-spacing:.5px;text-shadow:2px 2px 0 var(--ink)}
+main{max-width:440px;margin:40px auto;padding:0 16px}
+.carte{background:var(--paper);border:3px solid var(--ink);border-radius:14px;box-shadow:5px 5px 0 var(--ink);padding:24px}
+h1{font-family:'Lilita One',sans-serif;font-size:30px;margin:0 0 6px}
+p{color:var(--muted);margin:0 0 18px;line-height:1.45}
+label{display:block;font-weight:800;font-size:13px;text-transform:uppercase;margin:14px 0 6px}
+input{width:100%;padding:12px;border:3px solid var(--ink);border-radius:8px;background:#fff;font:inherit}
+input:focus,button:focus-visible{outline:3px solid var(--cyan);outline-offset:1px}
+button{margin-top:20px;width:100%;padding:13px;border:3px solid var(--ink);border-radius:10px;background:var(--cyan);font:inherit;font-weight:800;text-transform:uppercase;cursor:pointer;box-shadow:3px 3px 0 var(--ink)}
+button:disabled{opacity:.6;cursor:wait}
+.msg{margin-top:16px;font-weight:700;min-height:1.4em}
+.ok{color:var(--ok)}.ko{color:var(--ko)}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<header><b>ALLAN BIM</b></header>
+<main>
+  <div class="carte" id="v-demande">
+    <h1>Mot de passe oublié</h1>
+    <p>Tape l'adresse mail de ton compte Allan BIM : tu reçois un lien pour choisir un nouveau mot de passe.</p>
+    <form id="f-demande">
+      <label for="d-mail">Adresse mail</label>
+      <input id="d-mail" type="email" autocomplete="email" required>
+      <button type="submit">Recevoir le lien</button>
+    </form>
+    <div class="msg" id="d-msg" role="status"></div>
+  </div>
+
+  <div class="carte" id="v-nouveau" hidden>
+    <h1>Nouveau mot de passe</h1>
+    <p>Choisis ton nouveau mot de passe (8 caractères minimum), puis reconnecte-toi dans l'appli Allan BIM.</p>
+    <form id="f-nouveau">
+      <label for="n-mdp">Nouveau mot de passe</label>
+      <input id="n-mdp" type="password" autocomplete="new-password" minlength="8" required>
+      <label for="n-mdp2">Encore une fois</label>
+      <input id="n-mdp2" type="password" autocomplete="new-password" minlength="8" required>
+      <button type="submit">Enregistrer</button>
+    </form>
+    <div class="msg" id="n-msg" role="status"></div>
+  </div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+(function () {
+  const sb = window.supabase.createClient('https://nhlczhigzzbjgvyjrlks.supabase.co', 'sb_publishable_rYhaG5Cs1GOosks1NqRYqQ_2WX-1UjC');
+  const $ = (id) => document.getElementById(id);
+  const dire = (el, txt, ok) => { el.textContent = txt; el.className = 'msg ' + (ok ? 'ok' : 'ko'); };
+  const ici = location.origin + location.pathname;
+
+  // Lien reçu par mail : Supabase ouvre une session de récupération
+  function modeNouveau() { $('v-demande').hidden = true; $('v-nouveau').hidden = false; }
+  if (/type=recovery/.test(location.hash) || /code=/.test(location.search)) modeNouveau();
+  sb.auth.onAuthStateChange((ev) => { if (ev === 'PASSWORD_RECOVERY') modeNouveau(); });
+  const err = new URLSearchParams(location.hash.slice(1)).get('error_description');
+  if (err) dire($('d-msg'), 'Le lien n\'est plus valable (' + err.replace(/\+/g, ' ') + '). Redemande-en un.', false);
+
+  $('f-demande').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const b = e.target.querySelector('button'); b.disabled = true;
+    const { error } = await sb.auth.resetPasswordForEmail($('d-mail').value.trim(), { redirectTo: ici });
+    b.disabled = false;
+    if (error) dire($('d-msg'), 'Envoi impossible : ' + error.message, false);
+    else dire($('d-msg'), 'C\'est parti : regarde ta boîte mail (et les indésirables).', true);
+  });
+
+  $('f-nouveau').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const a = $('n-mdp').value, c = $('n-mdp2').value;
+    if (a.length < 8) return dire($('n-msg'), '8 caractères minimum.', false);
+    if (a !== c) return dire($('n-msg'), 'Les deux mots de passe ne sont pas pareils.', false);
+    const b = e.target.querySelector('button'); b.disabled = true;
+    const { error } = await sb.auth.updateUser({ password: a });
+    b.disabled = false;
+    if (error) return dire($('n-msg'), 'Impossible : ' + error.message + '. Redemande un lien.', false);
+    dire($('n-msg'), 'Mot de passe changé. Tu peux te reconnecter dans l\'appli Allan BIM.', true);
+    e.target.reset(); await sb.auth.signOut();
+  });
+})();
+</script>
+</body>
+</html>
