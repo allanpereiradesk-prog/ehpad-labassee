@@ -1,12 +1,12 @@
 {
- "version": "3.9.39",
+ "version": "3.9.40",
  "date": "2026-11-16",
- "taille": 13237658,
+ "taille": 13282750,
  "nouveautes": [
+  "Assistants IA : connecteur Excel (lire, chercher, écrire dans ton classeur)",
+  "Assistants IA : choisis les connecteurs de l'IA — Revit, AutoCAD, Excel",
   "Documents : un projet par affaire, page « Mes projets »",
   "Documents : la vraie page du PDF dans l'aperçu, mots surlignés",
-  "Documents : texte mis en forme, Excel en tableau, filtres sur une ligne",
-  "Documents : un classeur pour garder les passages qui t'intéressent (glisser-déposer)",
-  "Classeur → dossier Windows : synthèse Word, Excel et copie des documents"
+  "Documents : texte mis en forme, Excel en tableau, filtres sur une ligne"
  ]
 }
