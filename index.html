@@ -937,6 +937,10 @@ input::placeholder,textarea::placeholder{color:color-mix(in srgb,var(--muted) 85
 .bo-plan figcaption .hint{display:block}
 #boCta td,#boCta th{font-size:13.5px}
 .gai-ant{display:inline-flex;gap:6px;align-items:center;cursor:pointer}
+.sc-tabs{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 10px}
+.sc-tabs button{border:2px solid var(--cc,#888);background:transparent;border-radius:999px;padding:4px 12px;font:inherit;font-weight:700;cursor:pointer;color:inherit}
+.sc-tabs button[aria-selected="true"]{background:var(--cc,#888);color:#fff}
+.sc-tabs button small{opacity:.75;font-weight:500;margin-left:4px}
 </style>
 
 <a class="skip" href="#contenu">Aller au contenu</a>
@@ -2501,6 +2505,12 @@ fetch(F+"version.json",{cache:"no-store"}).then(r=>r.json()).then(v=>{
     </div>
     <div class="tbl-wrap"><table class="fam-t resa-t"><thead><tr><th>Repère</th><th>Local</th><th>Niveau</th><th>Fonction</th><th class="num">Débit</th><th>Bouche</th><th>CTA</th><th>Antenne</th></tr></thead><tbody id="boBody"></tbody></table></div>
     <p class="hint" id="boSrc"></p>
+    <section class="panel bo-salles" id="salles-cta"><h2>Salles desservies par chaque CTA</h2>
+      <p class="hint">Pour chaque CTA ou caisson VMC, les locaux qu'elle dessert avec leurs débits (somme des bouches du local). Clique sur une CTA pour voir ses salles.</p>
+      <div class="sc-tabs" id="scTabs" role="tablist" aria-label="Choisir une CTA"></div>
+      <div class="tbl-wrap"><table class="fam-t resa-t" id="scT"></table></div>
+      <p class="impl-a"><a href="files/bouches/EHPAD_Salles_par_CTA.xlsx" download>Télécharger le tableau Excel (un onglet par CTA)</a></p>
+    </section>
     <section class="panel bo-dce"><h2>Contrôle DCE : débits par local</h2>
       <p class="hint">Chaque local ventilé du dossier DCE (fichier « Débits par local ») comparé à la maquette : débit du dossier, débits des bouches posées, nombre de bouches et bouches encore à raccorder.</p>
       <div id="dceSum" class="resa-sum"></div>
@@ -4961,6 +4971,22 @@ async function renderBouches(){
     <td>${b.raccordee?`<span class="pill" style="--pc:var(--done)">faite</span>`:`<span class="pill" style="--pc:var(--doing)">à faire</span>`}${b.remarque?`<div class="hint">${esc(b.remarque)}</div>`:""}</td></tr>`; }).join("")
     :`<tr><td colspan="8" class="hint">Aucune bouche avec ces filtres.</td></tr>`;
   $("#boSrc").textContent=`${rows.length} sur ${all.length} affichées · source : ${boMeta.src||""}`;
+  try{ renderSallesCta(); }catch(e){ console.error(e); }
+}
+let scSel="";
+function renderSallesCta(){
+  const all=BOUCHES||[], g=b=>b.reseau||b.cta||"", nat=(a,b)=>String(a).localeCompare(String(b),"fr",{numeric:true});
+  const res=[...new Set(all.map(g).filter(Boolean))].sort((a,b)=>(a.startsWith("VMC")-b.startsWith("VMC"))||nat(a,b));
+  if(!res.length){ $("#scTabs").innerHTML=""; $("#scT").innerHTML=""; return; }
+  if(!res.includes(scSel)) scSel=res[0];
+  const locs=r=>{ const m=new Map(); all.filter(b=>g(b)===r).forEach(b=>{ const k=[b.lv,b.num||"",b.local||""].join("|"); const e=m.get(k)||{lv:b.lv,num:b.num||"",local:b.local||"",n:0,Soufflage:0,Reprise:0,Extraction:0,rep:[]}; e.n++; e[b.fonction]=(e[b.fonction]||0)+(+b.q||0); e.rep.push(b.id); m.set(k,e); });
+    return [...m.values()].sort((a,b)=>nat(a.lv,b.lv)||nat(a.num,b.num)||nat(a.local,b.local)); };
+  $("#scTabs").innerHTML=res.map(r=>`<button role="tab" aria-selected="${r===scSel}" data-sc="${esc(r)}" style="--cc:${CTA_COL[r]||"#888"}">${esc(r)}<small>${locs(r).length} locaux</small></button>`).join("");
+  $("#scTabs").querySelectorAll("[data-sc]").forEach(b=>b.onclick=()=>{ scSel=b.dataset.sc; renderSallesCta(); });
+  const L=locs(scSel), tot=k=>L.reduce((a,e)=>a+(e[k]||0),0), q=v=>v?`${boNum(v)} m³/h`:"";
+  $("#scT").innerHTML=`<thead><tr><th>Niveau</th><th>N° pièce</th><th>Local</th><th class="num">Bouches</th><th class="num">Soufflage</th><th class="num">Reprise</th><th class="num">Extraction</th></tr></thead><tbody>`
+    +L.map(e=>`<tr><td class="nw">${esc(resaLv(e.lv))}</td><td class="nw">${esc(e.num)}</td><td>${esc(e.local)}<div class="hint">${esc(e.rep.join(", "))}</div></td><td class="num">${e.n}</td><td class="num">${q(e.Soufflage)}</td><td class="num">${q(e.Reprise)}</td><td class="num">${q(e.Extraction)}</td></tr>`).join("")
+    +`</tbody><tfoot><tr><th colspan="3">${esc(scSel)} : ${L.length} locaux</th><th class="num">${tot("n")}</th><th class="num">${q(tot("Soufflage"))}</th><th class="num">${q(tot("Reprise"))}</th><th class="num">${q(tot("Extraction"))}</th></tr></tfoot>`;
 }
 document.querySelectorAll("#boF [data-bf]").forEach(el=>el.addEventListener(el.tagName==="INPUT"?"input":"change",()=>{ boF[el.dataset.bf]=el.value; renderBouches(); }));
 $("#boCsv").onclick=()=>{ const rows=boRows(); if(!rows.length){ toast("Rien à exporter."); return; }
