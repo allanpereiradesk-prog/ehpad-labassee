@@ -39,6 +39,13 @@ button:disabled{opacity:.6;cursor:wait}
       <button type="submit">Recevoir le lien</button>
     </form>
     <div class="msg" id="d-msg" role="status"></div>
+    <form id="f-lien">
+      <label for="l-lien">Le lien du mail ne s'ouvre pas ? Colle-le ici</label>
+      <p style="margin:0 0 8px;font-size:14px">Dans le mail, appui long (ou clic droit) sur le lien → « Copier le lien », puis colle-le ci-dessous. Ne clique pas dessus avant : un lien ne sert qu'une fois.</p>
+      <input id="l-lien" type="url" placeholder="https://nhlczhigzzbjgvyjrlks.supabase.co/auth/v1/verify?token=…" required>
+      <button type="submit">Continuer</button>
+    </form>
+    <div class="msg" id="l-msg" role="status"></div>
   </div>
 
   <div class="carte" id="v-nouveau" hidden>
@@ -76,6 +83,23 @@ button:disabled{opacity:.6;cursor:wait}
     b.disabled = false;
     if (error) dire($('d-msg'), 'Envoi impossible : ' + error.message, false);
     else dire($('d-msg'), 'C\'est parti : regarde ta boîte mail (et les indésirables).', true);
+  });
+
+  // Lien du mail collé : on vérifie son jeton ici, sans passer par l'adresse de redirection
+  $('f-lien').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const brut = $('l-lien').value.trim();
+    let jeton = null;
+    try { const u = new URL(brut); jeton = u.searchParams.get('token') || u.searchParams.get('token_hash');
+      const h = new URLSearchParams(u.hash.slice(1));
+      if (!jeton && h.get('access_token')) { const { error } = await sb.auth.setSession({ access_token: h.get('access_token'), refresh_token: h.get('refresh_token') || '' }); if (error) throw error; modeNouveau(); return; }
+    } catch (x) { if (x && x.message && !/URL/.test(x.message)) return dire($('l-msg'), 'Lien refusé : ' + x.message + '. Redemande un mail.', false); }
+    if (!jeton) return dire($('l-msg'), 'Ce n\'est pas le lien du mail Allan BIM (il contient « token= »).', false);
+    const b = e.target.querySelector('button'); b.disabled = true;
+    const { error } = await sb.auth.verifyOtp({ token_hash: jeton, type: 'recovery' });
+    b.disabled = false;
+    if (error) return dire($('l-msg'), 'Lien expiré ou déjà utilisé (' + error.message + '). Redemande un mail ci-dessus et colle le nouveau lien sans cliquer dessus.', false);
+    modeNouveau();
   });
 
   $('f-nouveau').addEventListener('submit', async (e) => {
