@@ -1,12 +1,12 @@
 {
- "version": "3.9.42",
+ "version": "3.9.46",
  "date": "2026-11-18",
- "taille": 16276476,
+ "taille": 16642749,
  "nouveautes": [
-  "Page Blender : crée ta maquette 3D réaliste depuis Revit ou un IFC",
-  "Maquette 3D : visite intérieure, données de chaque objet, coupe par niveau",
-  "Assistants IA : connecteur Excel (lire, chercher, écrire dans ton classeur)",
-  "Assistants IA : choisis les connecteurs de l'IA — Revit, AutoCAD, Excel",
-  "Documents : un projet par affaire, page « Mes projets »"
+  "Bilan thermique : carte de chaleur dans Revit, « Et si… » et comparaison avec ClimaBIM",
+  "Bilan thermique : U calculés depuis les couches des types Revit",
+  "Bilan thermique : déperditions NF EN 12831-1 local par local depuis la maquette, apports d'été et note de calcul Excel",
+  "Bilan thermique : ponts thermiques linéiques ψ × L mesurés dans la maquette, modifiables",
+  "Page Blender : crée ta maquette 3D réaliste depuis Revit ou un IFC"
  ]
 }
