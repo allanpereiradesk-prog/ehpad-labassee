@@ -1,12 +1,12 @@
 {
- "version": "3.9.40",
- "date": "2026-11-16",
- "taille": 13282750,
+ "version": "3.9.42",
+ "date": "2026-11-18",
+ "taille": 16276476,
  "nouveautes": [
+  "Page Blender : crée ta maquette 3D réaliste depuis Revit ou un IFC",
+  "Maquette 3D : visite intérieure, données de chaque objet, coupe par niveau",
   "Assistants IA : connecteur Excel (lire, chercher, écrire dans ton classeur)",
   "Assistants IA : choisis les connecteurs de l'IA — Revit, AutoCAD, Excel",
-  "Documents : un projet par affaire, page « Mes projets »",
-  "Documents : la vraie page du PDF dans l'aperçu, mots surlignés",
-  "Documents : texte mis en forme, Excel en tableau, filtres sur une ligne"
+  "Documents : un projet par affaire, page « Mes projets »"
  ]
 }
