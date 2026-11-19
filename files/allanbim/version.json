@@ -1,12 +1,12 @@
 {
- "version": "3.9.46",
- "date": "2026-11-18",
- "taille": 16642749,
+ "version": "3.9.47",
+ "date": "2026-11-19",
+ "taille": 16651642,
  "nouveautes": [
+  "Bilan thermique : générateur sur la charge du bâtiment, terre-plein ISO 13370, volets",
   "Bilan thermique : carte de chaleur dans Revit, « Et si… » et comparaison avec ClimaBIM",
   "Bilan thermique : U calculés depuis les couches des types Revit",
   "Bilan thermique : déperditions NF EN 12831-1 local par local depuis la maquette, apports d'été et note de calcul Excel",
-  "Bilan thermique : ponts thermiques linéiques ψ × L mesurés dans la maquette, modifiables",
-  "Page Blender : crée ta maquette 3D réaliste depuis Revit ou un IFC"
+  "Bilan thermique : ponts thermiques linéiques ψ × L mesurés dans la maquette, modifiables"
  ]
 }
