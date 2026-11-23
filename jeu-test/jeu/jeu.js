@@ -586,7 +586,7 @@ function unstick(auto) {
   if (!auto) p.unT = t + 10; p.x = p.safe[0]; p.y = p.safe[1]; p.z = p.safe[2]; p.lvl = W.level(p.z + 0.4); p.vx = p.vy = p.vz = 0; p.ground = true; p.camZ = null; p.stuckT = 0; toast(auto ? "Tu étais coincé<small>Retour au dernier endroit sûr.</small>" : "Débloqué<small>Retour au dernier endroit sûr.</small>", 2200);
 }
 function physics(dt) {
-  const p = G.p, P = me(), t = now(), can = P.st === "alive" && t >= G.t0 && !G.fadeT && !(G.role === "m" && (t < G.t0 + G.mWait || t < (G.stunT || 0) || t < (G.eatT || 0)));
+  const p = G.p, P = me(), t = now(), can = P.st === "alive" && t >= G.t0 && !G.fadeT && !(G.role === "m" && (t < G.t0 + G.mWait || t < (G.stunT || 0) || t < (G.eatT || 0) || t < (G.hitT || 0)));
   let fx = K.r - K.l + K.jx, fy = K.f - K.b + K.jy; if (!can) fx = fy = 0;   // immobile : compte à rebours, sonné, en train de manger…
   const mag = Math.min(1, Math.hypot(fx, fy)); if (!isFinite(p.vx) || !isFinite(p.vy)) p.vx = p.vy = 0;
   const wantRun = K.run && mag > 0.3 && p.stam > 0.02 && !p.tired;
@@ -674,13 +674,13 @@ function hostActors(t) {
       continue;
     }
     /* mamie : patrouille, poursuite, recherche */
-    if (t < G.t0 + 12 || t < (a.eatT || 0)) continue;
+    if (t < G.t0 + 12 || t < (a.eatT || 0) || t < (a.hitT || 0)) continue;
     { let ck = null, cd = 1e9; for (const c of CK.thr.values()) { if (c.L !== a.L || c.eaten || t < c.t0 + c.dur) continue; const d = Math.hypot(c.x - a.x, c.y - a.y); if (d < cd) { cd = d; ck = c; } }
       if (ck && cd < 1.1) { ck.eaten = true; a.eatT = t + 5; a.tg = null; a.lure = 0; stopAt(a, t, 0); a.wait = t + 5.5; emit(["eat", -1 - a.id, ck.id, t + 5]); continue; }
       if (ck && cd < 7 && W.los(a.x, a.y, W.LV_Z[a.L] + 1.2, ck.x, ck.y, W.LV_Z[a.L] + 0.5)) { if (a.lure !== ck.id || done) { a.lure = ck.id; a.tg = null; if (!pathTo(a, ck.x, ck.y, 2.4, 0, t)) a.lure = 0; } if (a.lure) continue; } }
     let best = null, bd = 1e9;
     for (const P of G.players.values()) { if (P.role !== "s" || P.st !== "alive" || W.level(P.z + 0.4) !== a.L) continue; const d = Math.hypot(P.x - a.x, P.y - a.y);
-      if (d < 0.85) { caught(P.id, -1 - a.id, a); continue; }
+      if (d < 0.85) { if (a.skin !== 7) caught(P.id, -1 - a.id, a); else if (hit(P.id, -1 - a.id, a)) { a.hitT = t + 2; a.tg = null; stopAt(a, t, 0); a.wait = t + 2; } continue; }
       const f = P.f || 0, loud = (f & 2) || (f & 4), quiet = (f & 8) || !(f & 1);
       const seen = d < 2.0 || (d < 13 && loud && W.los(a.x, a.y, P.z + 1.3, P.x, P.y, P.z + 1.3)) || (d < 5.5 && !quiet && W.los(a.x, a.y, P.z + 1.3, P.x, P.y, P.z + 1.3)) || (a.tg === P.id && d < 9 && W.los(a.x, a.y, P.z + 1.3, P.x, P.y, P.z + 1.3));
       if (seen && d < bd) { bd = d; best = P; } }
@@ -770,12 +770,20 @@ function hostMsg(id, m) {
     case "ctake": { const c = CK.pick.get(m[1]); if (G.mode === "play" && c && P.role === "s" && P.st === "alive" && (P.cook || 0) < 3 && Math.hypot(P.x - c.x, P.y - c.y) < 2.2) { P.cook = (P.cook || 0) + 1; emit(["cgot", c.id, id]); } break; }
     case "cthrow": if (G.mode === "play" && P.role === "s" && P.st === "alive" && (P.cook || 0) > 0 && t >= G.t0 && Math.hypot(P.x - m[1], P.y - m[2]) < 2.5 && m.length === 7 && m.slice(1).every(v => typeof v === "number" && isFinite(v))) { P.cook--; const d = Math.hypot(m[4] - m[1], m[5] - m[2], m[6] - m[3]); emit(["cfly", CK.nid++, id, m[1], m[2], m[3], m[4], m[5], m[6], Math.round(t * 1000) / 1000, clamp(d / 9, 0.25, 1.3)]); } break;
     case "cri": if (G.mode === "play" && P.role === "m" && t >= G.t0 + G.mWait && t >= (G.stunT || 0) && t >= (P.eatT || 0) && t >= (P.criT || 0)) { P.criT = t + 25; emit(["cri", P.x, P.y, P.z, t]); } break;
-    case "grab": { if (G.mode !== "play" || P.role !== "m" || t < (P.grabT || 0) || t < (G.stunT || 0) || t < (P.eatT || 0) || t < G.t0 + G.mWait) break; P.grabT = t + 1.2; emit(["fx", "swing", id]); let best = null, bd = 2.1, kind = 0;
+    case "grab": { if (G.mode !== "play" || P.role !== "m" || t < (P.grabT || 0) || t < (P.frzT || 0) || t < (G.stunT || 0) || t < (P.eatT || 0) || t < G.t0 + G.mWait) break; P.grabT = t + 1.2; emit(["fx", "swing", id]); let best = null, bd = 2.1, kind = 0;
       const test = (x, y, z, o, k) => { const d = Math.hypot(x - P.x, y - P.y); if (d < bd && Math.abs(z - P.z) < 1.2 && Math.abs(angDiff(Math.atan2(y - P.y, x - P.x), P.yaw)) < 1.0 && W.los(P.x, P.y, P.z + 1.2, x, y, z + 1.2)) { bd = d; best = o; kind = k; } };
       for (const Q of G.players.values()) if (Q.role === "s" && Q.st === "alive") test(Q.x, Q.y, Q.z, Q, 1);
       for (const a of G.actors) if (a.kind === "r") test(a.x, a.y, W.LV_Z[a.L], a, 2);
-      if (kind === 1) caught(best.id, id, P); else if (kind === 2) { best.hold = t + 4; best.wait = 0; stopAt(best, t, 0); emit(["stun", t + 6]); } else emit(["fx", "miss", id]); break; }
+      if (kind === 1) hit(best.id, id, P); else if (kind === 2) { best.hold = t + 4; best.wait = 0; stopAt(best, t, 0); emit(["stun", t + 6]); } else emit(["fx", "miss", id]); break; }
   }
+}
+/* un coup du Méchant : le résident a 2 points de vie. Au premier coup il est blessé, au deuxième il est attrapé.
+   Après chaque coup le Méchant reste sur place 2 secondes, pour laisser le temps de fuir. Les mamies, elles, attrapent toujours du premier coup. */
+function hit(id, by, src) {
+  const P = G.players.get(id), t = now(); if (!P || P.st !== "alive" || G.over || t < (P.invT || 0)) return false;
+  if ((P.hp || 1) > 1) { P.hp--; P.invT = t + 2; emit(["hit", id, P.hp, by, src ? [src.x, src.y] : null, t + 2]); }
+  else { emit(["frz", by, t + 2]); caught(id, by, src); }
+  return true;
 }
 function caught(id, by, src, left) {
   const P = G.players.get(id); if (!P || P.st !== "alive" || G.over) return; const drop = G.key && G.key.holder === id ? [P.x, P.y, W.ground(P.x, P.y, P.z + 0.3)] : null;
@@ -808,7 +816,7 @@ function startGame(S) {
   cineClear(); G.over = false; for (const a of G.actors) scene.remove(a.mesh); for (const P of G.players.values()) if (P.mesh) { scene.remove(P.mesh); P.mesh = null; }
   if (!G.host) { G.players.clear(); S.names.forEach(n => G.players.set(n[0], newPlayer(n[0], n[1]))); }
   G.actors = S.acts.map(a => { const o = { id: a[0], kind: a[1], L: a[2], skin: a[3], x: a[4], y: a[5], base: a[6], st: 0, dir: Math.random() * TAU, mesh: makeChar(a[3]), wait: S.t0 + Math.random() * 9, vyaw: 0 }; setPath(o, [a[4], a[5]], 1, S.t0, 0); if (o.kind === "r") o.mesh.scale.setScalar(0.94 + (a[0] % 5) * 0.025); return o; });
-  for (const P of G.players.values()) { P.role = P.id === S.villain ? "m" : "s"; P.st = "alive"; P.gone = false; P.by = null; const s = S.sp[P.id]; P.x = P.sx = s[0]; P.y = P.sy = s[1]; P.z = P.sz = s[2]; P.yaw = P.syaw = s[3]; P.f = 0; P.grabT = 0; P.fall = 0; if (P.id !== G.me) { P.mesh = makeChar(P.role === "m" ? 7 : P.id % 6); P.tag = nameTag(P.name, P.role === "m"); P.tag.position.z = P.role === "m" ? 2.12 : 1.97; P.mesh.add(P.tag); } }
+  for (const P of G.players.values()) { P.role = P.id === S.villain ? "m" : "s"; P.st = "alive"; P.gone = false; P.by = null; P.hp = 2; P.invT = 0; P.frzT = 0; const s = S.sp[P.id]; P.x = P.sx = s[0]; P.y = P.sy = s[1]; P.z = P.sz = s[2]; P.yaw = P.syaw = s[3]; P.f = 0; P.grabT = 0; P.fall = 0; if (P.id !== G.me) { P.mesh = makeChar(P.role === "m" ? 7 : P.id % 6); P.tag = nameTag(P.name, P.role === "m"); P.tag.position.z = P.role === "m" ? 2.12 : 1.97; P.mesh.add(P.tag); } }
   const M = me(), s = S.sp[G.me]; G.role = M.role; EYE = G.role === "m" ? 1.74 : 1.5; G.p = { x: s[0], y: s[1], z: s[2], vx: 0, vy: 0, vz: 0, yaw: s[3], pitch: 0, ground: true, stam: 1, tired: false, lamp: G.role === "s", slow: false, bob: 0, camZ: null, moving: false, bat: 1, lvl: W.level(s[2] + 0.4), safe: [s[0], s[1], s[2]] }; G.spawn = [s[0], s[1], s[2], s[3]]; G.home = null;
   G.key = { x: S.key[0], y: S.key[1], z: S.key[2], L: S.key[3], holder: -1, hint: roomHint(S.key[0], S.key[1], S.key[3]) }; G.exitOpen = false; G.t0 = S.t0; G.dur = S.dur; G.mWait = 18; G.stunT = 0; G.scare = null; G.spec = null; G.ended = false; G.fadeT = 0; G.linkCd = 0; G.villain = S.villain;
   exitDoor.children.forEach(h => { h.position.y = 0; }); W.setDoor(W.exit, false); W.lv[0].B = W.lv[0].B0 ? W.lv[0].B0.slice() : W.lv[0].B; if (!W.lv[0].B0) W.lv[0].B0 = W.lv[0].B.slice();
@@ -817,7 +825,7 @@ function startGame(S) {
   keyMesh.visible = true; scareG.visible = scareA.visible = false; $("tLamp").classList.toggle("on", G.p.lamp); $("tSlow").classList.remove("on"); $("keyChip").classList.remove("on"); $("feed").innerHTML = "";
   ["sMenu", "sLobby", "sEnd", "sLoad"].forEach(i => $(i).hidden = true); document.body.classList.add("play"); G.mode = "play"; $("fade").style.opacity = 1; setTimeout(() => { $("fade").style.opacity = 0; }, 500);
   clearTimeout(G.endTimer); G.fc = null; G.specFree = false; G.specNV = true; document.body.classList.remove("spec"); $("tSlow").textContent = "Marche lente"; G.adapt = 1; G.openT = 0; G.escT = 0; G.lampOutT = 0; G.shakeT = 0; G.final = false; G.criT = 0; G.danger = 0; scareStop(0, false); SCQ.length = 0; G.ghostT = S.t0 + 30 + Math.random() * 25; buildBlood(S.seed);
-  $("tAct").textContent = G.role === "m" ? "Frapper" : "Action"; G.swingT = 0; $("tLamp").textContent = G.role === "m" ? "Cri" : "Lampe"; $("tSlow").style.display = G.role === "m" ? "none" : "";
+  $("tAct").textContent = G.role === "m" ? "Frapper" : "Action"; G.swingT = 0; G.hitT = 0; $("tLamp").textContent = G.role === "m" ? "Cri" : "Lampe"; $("tSlow").style.display = G.role === "m" ? "none" : "";
   cineIntro(S, () => toast(G.role === "m" ? "Tu es <span style='color:#e0453a'>LE MÉCHANT</span><small>Attrape les résidents avant qu'ils sortent. Attention : les vrais résidents te sonnent.</small>" : (S.villain >= 0 ? "Tu es un <span style='color:#49c98a'>RÉSIDENT</span><small>Un joueur est le Méchant. Fonds-toi parmi les résidents, trouve la clé, sors par le hall.</small>" : "Tu es un <span style='color:#49c98a'>RÉSIDENT</span><small>Descends de la toiture, trouve la clé, sors par le hall. Le Méchant et les mamies rôdent…</small>"), 6500));
   if (A.amb) { A.amb.g.gain.setTargetAtTime(0.5, A.ctx.currentTime, 2); A.amb.og.gain.setTargetAtTime(0.16, A.ctx.currentTime, 3); }
   if (!TOUCH) { try { const r = $("gl").requestPointerLock(); if (r && r.catch) r.catch(() => {}); } catch (e) { } }
@@ -858,6 +866,11 @@ function onMsg(m) {
       else feed(m[2] === "out" ? "🚪 " + esc(P.name) + " s'est échappé" : m[2] === "left" ? esc(P.name) + " a quitté la partie" : "💀 " + esc(P.name) + " a été attrapé");
       if (m[1] !== G.me && me() && me().st !== "alive" && G.spec === m[1] && G.fc) pickSpec();
       if (G.host) checkEnd(); break; }
+    case "hit": { const P = G.players.get(m[1]); if (!P) break; P.hp = m[2]; const B = m[3] >= 0 ? G.players.get(m[3]) : null; if (B) B.frzT = m[5];
+      if (m[3] === G.me) { G.hitT = m[5]; SND.crack(); toast("Touché !<small>Encore un coup pour l'avoir. Tu reprends ton élan 2 secondes.</small>", 2200); }
+      if (m[1] === G.me) { const p = G.p; SND.crack(); sTone(420, 0.3, 0.5, "sawtooth", 180); shake(750, 0.075); p.stam = 1; p.tired = false; $("flash").style.opacity = 0.5; setTimeout(() => { if (!G.scare) $("flash").style.opacity = 0; }, 260); toast("Tu es blessé !<small>Encore un coup et c'est fini. Il est bloqué 2 secondes : cours !</small>", 2600); hudT = 0; }
+      else if (G.role === "s") feed("🩸 " + esc(P.name) + " est blessé"); break; }
+    case "frz": { const B = m[1] >= 0 ? G.players.get(m[1]) : null; if (B) B.frzT = m[2]; if (m[1] === G.me) G.hitT = m[2]; break; }
     case "end": cineOutro(m[1]); break;
   }
 }
@@ -1083,13 +1096,13 @@ function useLink(p, d) {
 function interactions(t) {
   const p = G.p, P = me(), KEYN = TOUCH ? "Action" : "E"; let pr = "";
   if (P.st !== "alive") { if (actQ) pickSpec(); actQ = false; $("prompt").classList.remove("on"); return; }
-  const L = W.level(p.z + 0.4), awake = G.role !== "m" || (t >= G.t0 + G.mWait && t >= G.stunT && t >= (G.eatT || 0));
+  const L = W.level(p.z + 0.4), awake = G.role !== "m" || (t >= G.t0 + G.mWait && t >= G.stunT && t >= (G.eatT || 0) && t >= (G.hitT || 0));
   /* escaliers (le Méchant ne monte pas sur la toiture) */
   let link = null, up = false;
   if (awake && !G.fadeT && t > G.linkCd && t >= G.t0) for (const l of W.links) for (const [s, d, u] of [[l.a, l.b, true], [l.b, l.a, false]]) {
     if (Math.hypot(p.x - s[0], p.y - s[1]) < 1.35 && Math.abs(p.z - s[2]) < 0.8 && !(G.role === "m" && (d[2] > 6.5 || s[2] > 6.5))) { link = d; up = u; } }
   if (link) { pr = KEYN + " — " + (up ? "Monter" : "Descendre") + " par l'escalier"; if (actQ) { useLink(p, link); actQ = false; } }
-  if (G.role === "m") { if (actQ && awake) { request(["grab"]); if (performance.now() - (G.swingT || 0) > 1200) G.swingT = performance.now(); } if (t < G.t0 + G.mWait) pr = "Tu te réveilles dans " + Math.ceil(G.t0 + G.mWait - t) + " s…"; else if (t < (G.eatT || 0)) pr = "🍪 Tu manges un cookie… " + Math.ceil(G.eatT - t) + " s"; else if (t < G.stunT) pr = "Sonné… " + Math.ceil(G.stunT - t) + " s"; }
+  if (G.role === "m") { if (actQ && awake) { request(["grab"]); if (performance.now() - (G.swingT || 0) > 1200) G.swingT = performance.now(); } if (t < G.t0 + G.mWait) pr = "Tu te réveilles dans " + Math.ceil(G.t0 + G.mWait - t) + " s…"; else if (t < (G.eatT || 0)) pr = "🍪 Tu manges un cookie… " + Math.ceil(G.eatT - t) + " s"; else if (t < G.stunT) pr = "Sonné… " + Math.ceil(G.stunT - t) + " s"; else if (t < (G.hitT || 0)) pr = "Tu reprends ton élan… " + Math.ceil(G.hitT - t) + " s"; }
   else {
     const k = G.key;
     if (k.holder < 0 && Math.hypot(p.x - k.x, p.y - k.y) < 1.6 && Math.abs(p.z - k.z) < 1.5) { pr = KEYN + " — Prendre la clé"; if (actQ) request(["take"]); }
@@ -1108,9 +1121,10 @@ function hud(t) {
   const P = me(), p = G.p, left = Math.max(0, G.t0 + G.dur - t), k = G.key; $("timer").textContent = t < G.t0 ? "Prêt…" : Math.floor(left / 60) + ":" + String(Math.floor(left % 60)).padStart(2, "0");
   const sv = [...G.players.values()].filter(q => q.role === "s"); $("alive").textContent = "👤 " + sv.filter(q => q.st === "alive").length + "/" + sv.length; $("alive").style.display = sv.length > 1 || G.role === "m" ? "" : "none";
   $("lvl").textContent = W.LV_NAME[W.level((P.st === "alive" ? p.z : camera.position.z - EYE) + 0.4)]; $("stam").firstElementChild.style.width = Math.round(p.stam * 100) + "%"; $("stam").firstElementChild.style.background = p.tired ? "#b3261e" : "#d8d4c8";
+  const hpOn = G.role === "s" && P.st === "alive"; $("hp").style.display = hpOn ? "" : "none"; if (hpOn) { const n = P.hp || 0; $("hp1").classList.toggle("on", n >= 1); $("hp2").classList.toggle("on", n >= 2); }
   let o;
   if (P.st === "caught") o = "Tu as été attrapé. Tu peux suivre les autres ou voler partout."; else if (P.st === "out") o = "Tu es dehors. Tu peux suivre les autres ou voler partout.";
-  else if (G.role === "m") o = "Frappe les résidents joueurs avec ta clé (" + (TOUCH ? "bouton Frapper" : "clic") + "). Ceux qui courent ou qui ont une lampe ne sont pas de vrais résidents.";
+  else if (G.role === "m") o = "Frappe les résidents joueurs avec ta clé (" + (TOUCH ? "bouton Frapper" : "clic") + ") : il faut 2 coups. Ceux qui courent ou qui ont une lampe ne sont pas de vrais résidents.";
   else if (G.exitOpen) o = "La porte du hall est ouverte : sors par le rez-de-chaussée !";
   else if (k.holder === G.me) o = "Tu as la clé. Va à la porte du hall, au rez-de-chaussée (panneau SORTIE).";
   else if (k.holder >= 0) o = esc(G.players.get(k.holder).name) + " a la clé. Rejoins le hall, au rez-de-chaussée.";

@@ -72,6 +72,10 @@ body.play #hud{display:block}
 #lvl{position:absolute;right:14px;top:12px}
 #stam{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);width:min(240px,46vw);height:5px;border-radius:9px;background:rgba(255,255,255,.12);overflow:hidden}
 #stam i{display:block;height:100%;width:100%;background:#d8d4c8}
+#hp{position:absolute;left:50%;bottom:34px;transform:translateX(-50%);display:flex;gap:6px;align-items:center;width:min(240px,46vw)}
+#hp b{font-size:10.5px;letter-spacing:.16em;color:#f0c4bf;font-weight:800;text-shadow:0 1px 4px #000}
+#hp i{flex:1;height:9px;border-radius:4px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);transition:background .25s,box-shadow .25s}
+#hp i.on{background:linear-gradient(#e85a4f,#b3261e);border-color:#e0453a;box-shadow:0 0 10px rgba(224,69,58,.45)}
 #prompt{position:absolute;left:50%;bottom:64px;transform:translateX(-50%);background:rgba(8,9,11,.72);border:1px solid rgba(255,255,255,.12);border-radius:9px;padding:8px 14px;font-weight:600;white-space:nowrap;display:none}
 #prompt.on{display:block}
 #toast{position:absolute;left:50%;top:26%;transform:translateX(-50%);text-align:center;font-size:clamp(18px,3.4vw,28px);font-weight:800;text-shadow:0 2px 18px #000;opacity:0;transition:opacity .4s;max-width:90vw}
@@ -88,7 +92,7 @@ body.play #hud{display:block}
 #spec span{font-weight:700;font-size:15px}
 #spec small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
 body.spec #spec{display:block}
-body.spec #stam,body.spec #bat,body.spec #cross{display:none}
+body.spec #stam,body.spec #bat,body.spec #cross,body.spec #hp{display:none!important}
 body.touch.spec #spec{bottom:8px;left:38%;max-width:52vw}
 #pause{position:fixed;inset:0;z-index:15;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.55)}
 #pause.on{display:flex}
@@ -147,6 +151,7 @@ body.touch #feed,body.touch #mini.big+#feed{top:88px}
   <div id="toast"></div>
   <div id="prompt"></div>
   <div id="spec"></div>
+  <div id="hp"><b>PV</b><i id="hp1" class="on"></i><i id="hp2" class="on"></i></div>
   <div id="stam"><i></i></div>
 </div>
 <div id="touch">
@@ -199,7 +204,7 @@ body.touch #feed,body.touch #mini.big+#feed{top:88px}
   <h2 class="kb">Commandes</h2>
   <div class="keys kb"><span><kbd>Z</kbd><kbd>Q</kbd><kbd>S</kbd><kbd>D</kbd> bouger</span><span><kbd>Maj</kbd> courir</span><span><kbd>Espace</kbd> sauter</span><span><kbd>C</kbd> marche lente</span><span><kbd>F</kbd> lampe</span><span><kbd>G</kbd> ou clic droit : lancer un cookie</span><span><kbd>R</kbd> cri du Méchant</span><span><kbd>M</kbd> agrandir la mini-carte</span><span><kbd>B</kbd> se débloquer si tu es coincé</span><span><kbd>T</kbd> retour au point de départ</span><span><kbd>V</kbd> caméra libre (spectateur)</span><span><kbd>E</kbd> ou clic : action</span></div>
   <p class="note" style="margin:8px 0 0">Sur téléphone (tiens-le à l'horizontale) : pouce gauche pour avancer, pouce droit pour regarder.</p>
-  <p class="note" style="margin:10px 0 0;opacity:.6;font-size:11.5px">Version 18</p>
+  <p class="note" style="margin:10px 0 0;opacity:.6;font-size:11.5px">Version 19</p>
 </div></div>
 
 <!-- salon -->
@@ -235,8 +240,8 @@ body.touch #feed,body.touch #mini.big+#feed{top:88px}
 </div></div>
 
 <script src="three.min.js"></script>
-<script src="jeu/monde.js?v=18"></script>
-<script src="jeu/anim_capture.js?v=18"></script>
-<script src="jeu/jeu.js?v=18"></script>
+<script src="jeu/monde.js?v=19"></script>
+<script src="jeu/anim_capture.js?v=19"></script>
+<script src="jeu/jeu.js?v=19"></script>
 </body>
 </html>
