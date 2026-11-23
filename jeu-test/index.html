@@ -94,6 +94,19 @@ body.play #quit{display:block}
 #unstuck{position:fixed;right:92px;bottom:10px;z-index:16;pointer-events:auto;display:none;padding:7px 12px;min-height:0;font-size:12.5px;opacity:.75}
 body.play #unstuck{display:block} body.play.spec #unstuck{display:none}
 
+/* cinématiques : bandes noires en haut et en bas, texte, rappel pour passer */
+#cine{position:fixed;inset:0;z-index:7;pointer-events:none;display:none}
+body.cine #cine{display:block}
+#cine .bar{position:absolute;left:0;right:0;height:10vh;background:#000}
+#cine .bar.t{top:0} #cine .bar.b{bottom:0}
+#cineC{position:absolute;left:50%;bottom:14vh;transform:translateX(-50%);width:min(900px,90vw);text-align:center;opacity:0;text-shadow:0 2px 16px #000,0 0 4px #000}
+#cineT{display:block;font-size:clamp(17px,2.7vw,27px);font-weight:600;line-height:1.3}
+#cineC.big #cineT{font-size:clamp(30px,6.6vw,66px);font-weight:800;letter-spacing:.05em;text-transform:uppercase;line-height:1.05}
+#cineS{display:block;margin-top:8px;font-size:clamp(11px,1.5vw,14px);letter-spacing:.22em;text-transform:uppercase;color:#cfcbc0}
+#cineSkip{position:absolute;right:16px;bottom:0;height:10vh;display:flex;align-items:center;font-size:12.5px;letter-spacing:.06em;color:var(--muted)}
+#cineF{background:#000;opacity:0;z-index:6}
+body.cine #hud>*,body.cine #touch,body.cine #quit,body.cine #unstuck{display:none!important}
+
 /* tactile */
 #touch{position:fixed;inset:0;z-index:6;display:none;pointer-events:none}
 body.play.touch #touch{display:block}
@@ -113,6 +126,9 @@ body.touch .kb{display:none}
 <body>
 <canvas id="gl"></canvas>
 <div class="fx" id="vig"></div><div class="fx" id="pulse"></div><div class="fx" id="grain"></div><div class="fx" id="fade"></div><div class="fx" id="flash"></div>
+
+<div class="fx" id="cineF"></div>
+<div id="cine"><div class="bar t"></div><div class="bar b"></div><div id="cineC"><b id="cineT"></b><span id="cineS"></span></div><div id="cineSkip"></div></div>
 
 <div id="hud">
   <div id="obj"><b id="objT">Objectif</b><span id="objS"></span></div>
@@ -174,7 +190,7 @@ body.touch .kb{display:none}
   <h2 class="kb">Commandes</h2>
   <div class="keys kb"><span><kbd>Z</kbd><kbd>Q</kbd><kbd>S</kbd><kbd>D</kbd> bouger</span><span><kbd>Maj</kbd> courir</span><span><kbd>Espace</kbd> sauter</span><span><kbd>C</kbd> marche lente</span><span><kbd>F</kbd> lampe</span><span><kbd>G</kbd> ou clic droit : lancer un cookie</span><span><kbd>R</kbd> cri du Méchant</span><span><kbd>B</kbd> se débloquer si tu es coincé</span><span><kbd>V</kbd> caméra libre (spectateur)</span><span><kbd>E</kbd> ou clic : action</span></div>
   <p class="note" style="margin:8px 0 0">Sur téléphone (tiens-le à l'horizontale) : pouce gauche pour avancer, pouce droit pour regarder.</p>
-  <p class="note" style="margin:10px 0 0;opacity:.6;font-size:11.5px">Version 12</p>
+  <p class="note" style="margin:10px 0 0;opacity:.6;font-size:11.5px">Version 13</p>
 </div></div>
 
 <!-- salon -->
@@ -210,8 +226,8 @@ body.touch .kb{display:none}
 </div></div>
 
 <script src="three.min.js"></script>
-<script src="jeu/monde.js?v=12"></script>
-<script src="jeu/anim_capture.js?v=12"></script>
-<script src="jeu/jeu.js?v=12"></script>
+<script src="jeu/monde.js?v=13"></script>
+<script src="jeu/anim_capture.js?v=13"></script>
+<script src="jeu/jeu.js?v=13"></script>
 </body>
 </html>

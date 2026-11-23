@@ -484,22 +484,23 @@ function initInput() {
   const cv = $("gl"), map = { KeyW: "f", ArrowUp: "f", KeyS: "b", ArrowDown: "b", KeyA: "l", ArrowLeft: "l", KeyD: "r", ArrowRight: "r" };   // codes = position des touches : ZQSD sur un clavier français
   addEventListener("keydown", e => { if (e.target && /INPUT|SELECT|TEXTAREA/.test(e.target.tagName)) return; if (G.mode !== "play") return;
     if (map[e.code]) { K[map[e.code]] = 1; e.preventDefault(); } if (e.code === "ShiftLeft" || e.code === "ShiftRight") K.run = true;
+    if (G.cine) { if (!e.repeat && (e.code === "Space" || e.code === "Enter" || e.code === "KeyE")) cineSkip(); if (e.code === "Space") e.preventDefault(); return; }
     if (e.repeat) return; if (e.code === "KeyF") toggleLamp(); if (e.code === "KeyR") cri(); if (e.code === "KeyV") toggleFree(); if (e.code === "KeyG") CK.q = true; if (e.code === "KeyB") unstick(false); if (e.code === "KeyC") toggleSlow(); if (e.code === "KeyE") { actQ = true; e.preventDefault(); } if (e.code === "Space") { K.jump = true; e.preventDefault(); } });
   addEventListener("keyup", e => { if (map[e.code]) K[map[e.code]] = 0; if (e.code === "ShiftLeft" || e.code === "ShiftRight") K.run = false; });
   addEventListener("blur", () => { K.f = K.b = K.l = K.r = 0; K.run = false; });
   if (!TOUCH) {
     let drag = false;
-    cv.addEventListener("mousedown", e => { if (G.mode !== "play") return; audioOn(); if (!locked) { drag = true; try { const r = cv.requestPointerLock(); if (r && r.catch) r.catch(() => {}); } catch (err) { } } else if (e.button === 0) actQ = true; else if (e.button === 2) CK.q = true; });
+    cv.addEventListener("mousedown", e => { if (G.mode !== "play") return; audioOn(); if (!locked) { drag = true; try { const r = cv.requestPointerLock(); if (r && r.catch) r.catch(() => {}); } catch (err) { } } if (G.cine) { cineSkip(); return; } if (!locked) return; if (e.button === 0) actQ = true; else if (e.button === 2) CK.q = true; });
     cv.addEventListener("contextmenu", e => e.preventDefault());
     addEventListener("mouseup", () => { drag = false; });
-    document.addEventListener("pointerlockchange", () => { locked = document.pointerLockElement === cv; $("pause").classList.toggle("on", !locked && G.mode === "play" && !G.noLock); if (locked) G.noLock = false; });
+    document.addEventListener("pointerlockchange", () => { locked = document.pointerLockElement === cv; $("pause").classList.toggle("on", !locked && G.mode === "play" && !G.noLock && !G.cine); if (locked) G.noLock = false; });
     $("pause").addEventListener("click", () => { try { const r = cv.requestPointerLock(); if (r && r.catch) r.catch(() => {}); } catch (err) { } });
     document.addEventListener("pointerlockerror", () => { G.noLock = true; $("pause").classList.remove("on"); });
     addEventListener("mousemove", e => { if (G.mode !== "play" || !(locked || drag)) return; look(e.movementX * 0.0023, e.movementY * 0.0023); });
   }
   /* tactile : pouce gauche = déplacement, pouce droit = regard */
   const st = $("stick"), nub = st.firstElementChild; let mid = null, lid = null, mo = null, lp = null, tapT = 0, tapM = 0;
-  cv.addEventListener("pointerdown", e => { if (e.pointerType === "mouse" || G.mode !== "play") return; audioOn(); cv.setPointerCapture(e.pointerId);
+  cv.addEventListener("pointerdown", e => { if (e.pointerType === "mouse" || G.mode !== "play") return; audioOn(); if (G.cine) { cineSkip(); return; } cv.setPointerCapture(e.pointerId);
     if (e.clientX < innerWidth * 0.45 && mid === null) { mid = e.pointerId; mo = { x: e.clientX, y: e.clientY }; st.style.display = "block"; st.style.left = (mo.x - 60) + "px"; st.style.top = (mo.y - 60) + "px"; nub.style.transform = ""; }
     else if (lid === null) { lid = e.pointerId; lp = { x: e.clientX, y: e.clientY }; tapT = performance.now(); tapM = 0; } });
   cv.addEventListener("pointermove", e => { if (e.pointerId === mid) { let dx = e.clientX - mo.x, dy = e.clientY - mo.y; const l = Math.hypot(dx, dy), m = 52; if (l > m) { dx *= m / l; dy *= m / l; } nub.style.transform = "translate(" + dx + "px," + dy + "px)"; K.jx = dx / m; K.jy = -dy / m; }
@@ -569,6 +570,7 @@ function physics(dt) {
 }
 function placeCam(dt) {
   const P = me(), p = G.p; let x, y, z, yaw, pitch;
+  if (G.cine && cineStep(dt)) return;
   if (G.scare && G.scare.rig) return scareAnim();
   if (G.scare) { const s = G.scare, k = Math.min(1, (performance.now() - s.t0) / 180); yaw = p.yaw + angDiff(s.yaw, p.yaw) * k; pitch = p.pitch * (1 - k); x = p.x; y = p.y; z = p.camZ; p.yaw = yaw; p.pitch = pitch;
     const sh = (Math.random() - 0.5) * 0.05, scareG = s.m; scareG.visible = true; scareG.position.set(x + Math.cos(s.yaw) * (1.7 - 0.72 * k), y + Math.sin(s.yaw) * (1.7 - 0.72 * k), p.z + 0.06 + sh); scareG.rotation.z = s.yaw + Math.PI; animChar(scareG, dt, 3, true); }
@@ -687,7 +689,7 @@ async function clientJoin(name, code) {
 function syncClock() { let n = 0, best = 1e9; const one = () => { if (!NET.conn || !NET.conn.open) return; NET.conn.send(["pi", performance.now()]); if (++n < 5) setTimeout(one, 350); }; NET.onPong = (t0, th) => { const rtt = performance.now() - t0; if (rtt < best) { best = rtt; G.off = th + rtt / 2000 - performance.now() / 1000; } }; one(); }
 /* messages reçus par l'hôte */
 function hostMsg(id, m) {
-  const P = G.players.get(id); if (!P) return; const t = now();
+  const P = G.players.get(id); if (!P) return; const t = now(); if (G.over && m[0] !== "pi") return;
   switch (m[0]) {
     case "pi": { const c = NET.conns.get(id); if (c) c.send(["po", m[1], now()]); break; }
     case "s": P.x = m[1]; P.y = m[2]; P.z = m[3]; P.yaw = m[4]; P.pitch = m[5]; P.f = m[6]; break;
@@ -705,7 +707,7 @@ function hostMsg(id, m) {
   }
 }
 function caught(id, by, src, left) {
-  const P = G.players.get(id); if (!P || P.st !== "alive") return; const drop = G.key && G.key.holder === id ? [P.x, P.y, W.ground(P.x, P.y, P.z + 0.3)] : null;
+  const P = G.players.get(id); if (!P || P.st !== "alive" || G.over) return; const drop = G.key && G.key.holder === id ? [P.x, P.y, W.ground(P.x, P.y, P.z + 0.3)] : null;
   emit(["out", id, left ? "left" : "caught", by, src ? [src.x, src.y] : null, drop]);
 }
 
@@ -729,10 +731,10 @@ function hostStart() {
   /* départs : résidents sur la toiture, le Méchant dans le hall */
   const sp = {}, sv = ids.filter(i => i !== villain); sv.forEach((id, i) => { const a = i / Math.max(1, sv.length) * TAU, c = W.near(W.lv[W.spawn[3]].A, W.spawn[0] + Math.cos(a) * 1.4, W.spawn[1] + Math.sin(a) * 1.4, 10), p = W.xy(c); sp[id] = [p[0], p[1], W.lv[W.spawn[3]].F[c], r() * TAU]; });
   if (villain >= 0) { const p = far(0, stairs(0).concat([[W.exit.x, W.exit.y]]), 20), c = W.near(H.masks[0], p[0], p[1], 8); sp[villain] = [p[0], p[1], W.lv[0].F[c], r() * TAU]; }
-  emit(["start", { seed, villain, key: [k[0], k[1], k[2], k[3]], acts, sp, cook, t0: t + 4, dur: G.opts.dur, names: [...G.players.values()].map(p => [p.id, p.name]) }]);
+  emit(["start", { seed, villain, key: [k[0], k[1], k[2], k[3]], acts, sp, cook, t0: t + 6, dur: G.opts.dur, names: [...G.players.values()].map(p => [p.id, p.name]) }]);
 }
 function startGame(S) {
-  for (const a of G.actors) scene.remove(a.mesh); for (const P of G.players.values()) if (P.mesh) { scene.remove(P.mesh); P.mesh = null; }
+  cineClear(); G.over = false; for (const a of G.actors) scene.remove(a.mesh); for (const P of G.players.values()) if (P.mesh) { scene.remove(P.mesh); P.mesh = null; }
   if (!G.host) { G.players.clear(); S.names.forEach(n => G.players.set(n[0], newPlayer(n[0], n[1]))); }
   G.actors = S.acts.map(a => { const o = { id: a[0], kind: a[1], L: a[2], skin: a[3], x: a[4], y: a[5], base: a[6], st: 0, dir: Math.random() * TAU, mesh: makeChar(a[3]), wait: S.t0 + Math.random() * 9, vyaw: 0 }; setPath(o, [a[4], a[5]], 1, S.t0, 0); if (o.kind === "r") o.mesh.scale.setScalar(0.94 + (a[0] % 5) * 0.025); return o; });
   for (const P of G.players.values()) { P.role = P.id === S.villain ? "m" : "s"; P.st = "alive"; P.gone = false; P.by = null; const s = S.sp[P.id]; P.x = P.sx = s[0]; P.y = P.sy = s[1]; P.z = P.sz = s[2]; P.yaw = P.syaw = s[3]; P.f = 0; P.grabT = 0; P.fall = 0; if (P.id !== G.me) { P.mesh = makeChar(P.role === "m" ? 7 : P.id % 6); P.tag = nameTag(P.name, P.role === "m"); P.tag.position.z = P.role === "m" ? 2.12 : 1.97; P.mesh.add(P.tag); } }
@@ -745,7 +747,7 @@ function startGame(S) {
   ["sMenu", "sLobby", "sEnd", "sLoad"].forEach(i => $(i).hidden = true); document.body.classList.add("play"); G.mode = "play"; $("fade").style.opacity = 1; setTimeout(() => { $("fade").style.opacity = 0; }, 500);
   clearTimeout(G.endTimer); G.fc = null; G.specFree = false; G.specNV = true; document.body.classList.remove("spec"); $("tSlow").textContent = "Marche lente"; G.adapt = 1; G.openT = 0; G.escT = 0; G.lampOutT = 0; G.shakeT = 0; G.final = false; G.criT = 0; G.danger = 0; G.ghostOn = false; G.ghostT = S.t0 + 38 + Math.random() * 30; ghost.visible = false; buildBlood(S.seed);
   $("tAct").textContent = G.role === "m" ? "Attraper" : "Action"; $("tLamp").textContent = G.role === "m" ? "Cri" : "Lampe"; $("tSlow").style.display = G.role === "m" ? "none" : "";
-  toast(G.role === "m" ? "Tu es <span style='color:#e0453a'>LE MÉCHANT</span><small>Attrape les résidents avant qu'ils sortent. Attention : les vrais résidents te sonnent.</small>" : (S.villain >= 0 ? "Tu es un <span style='color:#49c98a'>RÉSIDENT</span><small>Un joueur est le Méchant. Fonds-toi parmi les résidents, trouve la clé, sors par le hall.</small>" : "Tu es un <span style='color:#49c98a'>RÉSIDENT</span><small>Descends de la toiture, trouve la clé, sors par le hall. Le Méchant et les mamies rôdent…</small>"), 6500);
+  cineIntro(S, () => toast(G.role === "m" ? "Tu es <span style='color:#e0453a'>LE MÉCHANT</span><small>Attrape les résidents avant qu'ils sortent. Attention : les vrais résidents te sonnent.</small>" : (S.villain >= 0 ? "Tu es un <span style='color:#49c98a'>RÉSIDENT</span><small>Un joueur est le Méchant. Fonds-toi parmi les résidents, trouve la clé, sors par le hall.</small>" : "Tu es un <span style='color:#49c98a'>RÉSIDENT</span><small>Descends de la toiture, trouve la clé, sors par le hall. Le Méchant et les mamies rôdent…</small>"), 6500));
   if (A.amb) { A.amb.g.gain.setTargetAtTime(0.5, A.ctx.currentTime, 2); A.amb.og.gain.setTargetAtTime(0.16, A.ctx.currentTime, 3); }
   if (!TOUCH) { try { const r = $("gl").requestPointerLock(); if (r && r.catch) r.catch(() => {}); } catch (e) { } }
 }
@@ -781,7 +783,7 @@ function onMsg(m) {
       else feed(m[2] === "out" ? "🚪 " + esc(P.name) + " s'est échappé" : m[2] === "left" ? esc(P.name) + " a quitté la partie" : "💀 " + esc(P.name) + " a été attrapé");
       if (m[1] !== G.me && me() && me().st !== "alive" && G.spec === m[1] && G.fc) pickSpec();
       if (G.host) checkEnd(); break; }
-    case "end": endGame(m[1]); break;
+    case "end": cineOutro(m[1]); break;
   }
 }
 function checkEnd(force) {
@@ -825,7 +827,7 @@ function showLobby() {
   $("lobOpts").style.display = G.host ? "" : "none"; $("bStart").hidden = !G.host; $("lobMsg").style.color = "var(--muted)";
   $("lobMsg").textContent = G.host ? (G.players.size < 2 ? "En attente d'autres joueurs… (seul, il n'y aura pas de Méchant joueur)" : G.players.size + " joueurs : l'un de vous sera le Méchant, tiré au sort.") : "En attente du lancement par l'hôte…";
 }
-function toMenu(msg) { G.mode = "menu"; clearTimeout(G.endTimer); netClose(); $("fade").style.opacity = 0; for (const P of G.players.values()) if (P.mesh) scene.remove(P.mesh); G.players.clear(); document.body.classList.remove("play"); document.body.classList.remove("spec"); if (document.pointerLockElement) document.exitPointerLock(); $("pause").classList.remove("on"); ["sLobby", "sEnd", "sLoad"].forEach(i => $(i).hidden = true); $("sMenu").hidden = false; $("menuMsg").textContent = msg || ""; $("flash").style.opacity = 0; $("pulse").style.opacity = 0;
+function toMenu(msg) { G.mode = "menu"; clearTimeout(G.endTimer); cineClear(); G.over = false; netClose(); $("fade").style.opacity = 0; for (const P of G.players.values()) if (P.mesh) scene.remove(P.mesh); G.players.clear(); document.body.classList.remove("play"); document.body.classList.remove("spec"); if (document.pointerLockElement) document.exitPointerLock(); $("pause").classList.remove("on"); ["sLobby", "sEnd", "sLoad"].forEach(i => $(i).hidden = true); $("sMenu").hidden = false; $("menuMsg").textContent = msg || ""; $("flash").style.opacity = 0; $("pulse").style.opacity = 0;
   for (const a of G.actors) scene.remove(a.mesh); G.actors = []; cookiesClear(); if (keyMesh) keyMesh.visible = false; if (ghost) ghost.visible = false; if (bloodMesh) bloodMesh.visible = false; if (scareG) { scareG.visible = scareA.visible = false; } G.scare = null; if (A.amb) { A.amb.g.gain.setTargetAtTime(0.12, A.ctx.currentTime, 1); A.amb.og.gain.setTargetAtTime(0.03, A.ctx.currentTime, 1); A.hum.hg.gain.setTargetAtTime(0, A.ctx.currentTime, 0.2); } }
 function initUI() {
   const nm = $("name"); try { nm.value = localStorage.getItem("jeu-ehpad-nom") || ""; } catch (e) { }
@@ -844,11 +846,68 @@ function initUI() {
   const cv = document.createElement("canvas"); cv.width = cv.height = 160; const c = cv.getContext("2d"), im = c.createImageData(160, 160); for (let i = 0; i < im.data.length; i += 4) { const v = Math.random() * 255; im.data[i] = im.data[i + 1] = im.data[i + 2] = v; im.data[i + 3] = 255; } c.putImageData(im, 0, 0); $("grain").style.backgroundImage = "url(" + cv.toDataURL() + ")";
 }
 
+/* ───────── 10 bis. cinématiques : une courte au début de la partie, une courte à la fin ─────────
+   Une cinématique est une suite de plans. Dans chaque plan la caméra glisse du point « a » au point « b »
+   en regardant de « la » vers « lb », avec un texte en bas de l'écran. Pendant ce temps personne ne joue.
+   Espace, Entrée, un clic ou un appui sur l'écran : on passe. */
+const CINE = { props: [] };
+const mix3 = (a, b, k) => b ? [a[0] + (b[0] - a[0]) * k, a[1] + (b[1] - a[1]) * k, a[2] + (b[2] - a[2]) * k] : a, ease = k => k * k * (3 - 2 * k);
+function cineProp(skin, x, y, z, yaw) { const m = makeChar(skin); m.position.set(x, y, z); m.rotation.z = yaw; m.visible = true; CINE.props.push(m); return m; }
+function cineClear() {
+  for (const m of CINE.props) scene.remove(m); CINE.props.length = 0; G.cine = null; document.body.classList.remove("cine"); $("cineF").style.opacity = 0; $("cineC").style.opacity = 0;
+  if (U.uSkyGain) { U.uSkyGain.value = 0.05; U.uEnv.value = 0.05; U.uFog.value.set(0.004, 0.006, 0.011, U.uFog.value.w); }
+}
+function cineStart(kind, shots, t0, done) {
+  cineClear(); let d = 0; for (const s of shots) { s.t = d; d += s.d; }
+  G.cine = { kind, shots, i: -1, t0, dur: d, done, born: performance.now(), s: shots[0] }; document.body.classList.add("cine"); $("cineSkip").textContent = TOUCH ? "Touche l'écran pour passer" : "Espace ou clic : passer";
+}
+function cineEnd() { const C = G.cine; if (!C) return; cineClear(); if (C.done) C.done(); }
+function cineSkip() { const C = G.cine; if (!C || performance.now() - C.born < 900) return; if (C.kind === "intro" && G.solo) G.t0 = Math.min(G.t0, now() + 0.6); cineEnd(); }
+function cineStep(dt) {
+  const C = G.cine, e = Math.max(0, now() - C.t0); if (e >= C.dur) { cineEnd(); return false; }
+  let i = Math.max(0, C.i); while (i < C.shots.length - 1 && e >= C.shots[i + 1].t) i++;
+  const s = C.shots[i], u = e - s.t, k = clamp(u / s.d, 0, 1), q = ease(k);
+  if (i !== C.i) { C.i = i; C.s = s; $("cineT").innerHTML = s.txt || ""; $("cineS").textContent = s.sub || ""; $("cineC").classList.toggle("big", !!s.big); if (s.on) s.on(); }
+  C.k = k; const c = mix3(s.a, s.b, q), l = mix3(s.la, s.lb, q); camera.position.set(c[0], c[1], c[2]); camera.lookAt(l[0], l[1], l[2]); camera.updateMatrixWorld();
+  if (s.f) s.f(k, dt);
+  $("cineF").style.opacity = Math.max(0, s.in ? 1 - u / s.in : 0, s.out ? 1 - (s.d - u) / s.out : 0);   // fondu au noir entre deux plans
+  $("cineC").style.opacity = clamp(Math.min((u - 0.2) / 0.35, (s.d - u) / 0.25), 0, 1);
+  return true;
+}
+/* début : la nuit dehors, le Méchant dans le couloir de l'étage, puis la caméra rejoint les yeux du joueur */
+function cineIntro(S, roleToast) {
+  const p = G.p, bad = G.role === "m", ez = p.z + EYE, cy = Math.cos(p.yaw), sy = Math.sin(p.yaw), Z1 = W.LV_Z[1] - 0.04, X = -35.9, ex = W.exit;
+  const shots = [
+    { d: 2.3, a: [-106, 58, 17], b: [-74, 55.8, 10.8], la: [ex.x, ex.y, 1.5], night: 6.5, fog: 0.008, wide: true, in: 0.7, out: 0.25, big: true, txt: "La Nuit de l'EHPAD", sub: "La Bassée · 3 h 12 du matin" },
+    { d: 1.7, a: [X, 44.2, Z1 + 1.5], b: [X, 47.9, Z1 + 1.6], la: [X, 50, Z1 + 1.58], night: 1.3, fog: 0.05, lamp: true, in: 0.2, out: 0.2, txt: S.villain >= 0 ? "L'un de vous est <span style='color:#e0453a'>le Méchant</span>." : "<span style='color:#e0453a'>Le Méchant</span> rôde. Les mamies aussi.",
+      on() { const m = cineProp(7, X, 50, Z1, -Math.PI / 2); m.userData.eyes.visible = true; this.m = m; SND.sting(); }, f(k, dt) { animChar(this.m, dt, 0, k > 0.45); } },
+    bad ? { d: 1.4, a: [p.x, p.y, ez], la: [p.x + Math.cos(p.yaw + 1.3) * 4, p.y + Math.sin(p.yaw + 1.3) * 4, ez - 0.5], lb: [p.x + cy * 4, p.y + sy * 4, ez], night: 5.5, tint: [1.25, 0.6, 0.55], fog: 0.05, in: 0.2, txt: "Toi, tu les attends en bas." }
+        : { d: 1.4, a: [p.x - cy * 6, p.y - sy * 6, ez + 7], b: [p.x, p.y, ez], la: [p.x, p.y, p.z + 1], lb: [p.x + cy * 4, p.y + sy * 4, ez], night: 3.2, nightB: 1, fog: 0.02, wide: true, lamp: true, in: 0.2, txt: "Toi, tu te réveilles sur la toiture." }
+  ];
+  cineStart("intro", shots, S.t0 - 5.4, roleToast);
+}
+/* fin : si quelqu'un est sorti, le jour se lève devant l'entrée ; sinon le Méchant attend devant la porte fermée */
+function cineOutro(R) {
+  if (G.mode !== "play" || G.over || !R.res.some(r => r[0] === G.me)) return;
+  G.over = true; G.scare = null; scareG.visible = scareA.visible = false; ghost.visible = false; G.ghostOn = false; $("flash").style.opacity = 0; $("pulse").style.opacity = 0; $("fade").style.opacity = 0; $("pause").classList.remove("on"); $("toast").classList.remove("on");
+  const out = R.res.filter(r => r[2] === "s" && r[3] === "out"), ex = W.exit; let shot;
+  if (out.length) shot = { d: 4.2, a: [ex.x - 8.5, ex.y + 1, 1.6], b: [ex.x - 24.5, ex.y + 7.4, 10.5], la: [ex.x, ex.y, 1.5], lb: [ex.x + 0.5, ex.y + 0.4, 3], night: 3.5, nightB: 15, fog: 0.012, wide: true, in: 0.5, out: 0.6,
+    txt: "Le jour se lève sur La Bassée.", sub: out.length + (out.length > 1 ? " résidents ont survécu à la nuit" : " résident a survécu à la nuit"),
+    on() { this.ms = out.slice(0, 6).map((r, i) => cineProp(r[0] % 6, ex.x - 2.2 - i * 1.3, ex.y + (i % 2 ? 0.6 : -0.5), W.ground(ex.x - 2, ex.y, 0.5), Math.PI)); exitDoor.children.forEach(h => { h.position.y = 2.75; }); SND.win(); },
+    f(k, dt) { for (const m of this.ms) { m.position.x -= dt * 1.15; animChar(m, dt, 1.15, false); } U.uSkyGain.value = 0.05 + 0.8 * k; U.uEnv.value = 0.05 + 0.45 * k; U.uFog.value.x = 0.004 + 0.085 * k; U.uFog.value.y = 0.006 + 0.1 * k; U.uFog.value.z = 0.011 + 0.14 * k; } };
+  else shot = { d: 4, a: [ex.x + 7.9, ex.y - 0.2, 1.55], b: [ex.x + 5.3, ex.y - 0.2, 1.64], la: [ex.x + 3.8, ex.y - 0.2, 1.6], night: 1.7, fog: 0.05, in: 0.4, out: 0.9,
+    txt: "La porte du hall est restée fermée.", sub: "Personne n'a quitté l'EHPAD cette nuit",
+    on() { const m = cineProp(7, ex.x + 3.8, ex.y - 0.2, 0, 0); m.userData.eyes.visible = true; this.m = m; G.final = true; SND.slam(); setTimeout(() => { if (G.cine && G.cine.s === this) SND.laugh(0.8); }, 1900); },
+    f(k, dt) { animChar(this.m, dt, 0, k > 0.55); } };
+  cineStart("end", [shot], now(), () => endGame(R));
+}
+
 /* ───────── 11. boucle ───────── */
 const RED = [0.6, 0.04, 0.03]; let alarmT = 0;
 /* apparition : une silhouette du Méchant au bout du couloir, qui disparaît quand on approche (ce n'est pas le vrai) */
 function apparition(dt, t, danger, L) {
   const P = me(), p = G.p; if (G.mode !== "play" || G.role !== "s" || !P || P.st !== "alive") { ghost.visible = false; G.ghostOn = false; return; }
+  if (G.cine) return;
   if (G.ghostOn) { const d = Math.hypot(ghost.position.x - p.x, ghost.position.y - p.y);
     if (d < 5.5 || t > G.ghostEnd) { ghost.visible = false; G.ghostOn = false; G.lampOutT = Math.max(G.lampOutT || 0, t + 0.4); G.ghostT = t + 40 + Math.random() * 45; }
     else { ghost.rotation.z = Math.atan2(p.y - ghost.position.y, p.x - ghost.position.x); animChar(ghost, dt, 0, false); ghost.userData.eyes.visible = true; } return; }
@@ -904,7 +963,7 @@ function frame(tm) {
   requestAnimationFrame(frame); const dt = Math.min(0.05, (tm - lastT) / 1000 || 0.016); lastT = tm; const t = now();
   if ((G.mode === "play" || G.mode === "end") && me() && G.p) {
     const p = G.p, P = me();
-    if (G.mode === "play") {
+    if (G.mode === "play" && !G.over) {
       physics(dt); P.x = p.x; P.y = p.y; P.z = p.z; P.yaw = p.yaw; P.pitch = p.pitch; P.f = (p.moving ? 1 : 0) | (p.run ? 2 : 0) | (p.lamp ? 4 : 0) | (p.slowNow ? 8 : 0);
       interactions(t);
       if (tm - sendT > 80) { sendT = tm; if (!G.host) request(["s", +p.x.toFixed(2), +p.y.toFixed(2), +p.z.toFixed(2), +p.yaw.toFixed(3), +p.pitch.toFixed(2), P.f]); }
@@ -920,18 +979,19 @@ function frame(tm) {
     placeCam(dt);
     /* PNJ */
     let nearG = null, ng = 1e9, danger = 0; const myL = W.level(camera.position.z - EYE + 0.4);
-    for (const a of G.actors) { if (!G.host || G.mode !== "play") actorAt(a, t); const m = a.mesh, z = W.LV_Z[a.L], d = Math.hypot(a.x - camera.position.x, a.y - camera.position.y);
+    for (const a of G.actors) { if (!G.host || G.mode !== "play" || G.over) actorAt(a, t); const m = a.mesh, z = W.LV_Z[a.L], d = Math.hypot(a.x - camera.position.x, a.y - camera.position.y);
       m.visible = d < 55 && Math.abs(z - (camera.position.z - EYE)) < 5 && !(G.scare && G.scare.hideA === a.id); a.vyaw += angDiff(a.dir, a.vyaw) * Math.min(1, dt * 6);
       if (m.visible) { m.position.set(a.x, a.y, W.ground(a.x, a.y, z + 0.3)); m.rotation.z = a.vyaw; animChar(m, dt, a.mv ? a.sp : 0, a.kind === "g" && a.st === 1, t < (a.eatUntil || 0)); }
       if (a.kind === "g" && a.L === myL && d < ng) { ng = d; nearG = a; } }
     /* autres joueurs */
     for (const Q of G.players.values()) { if (Q.id === G.me || !Q.mesh) continue; const k = Math.min(1, dt * 12), sp = Math.hypot(Q.x - Q.sx, Q.y - Q.sy) / Math.max(dt, 0.001) * k;
-      Q.sx += (Q.x - Q.sx) * k; Q.sy += (Q.y - Q.sy) * k; Q.sz += (Q.z - Q.sz) * k; Q.syaw += angDiff(Q.yaw, Q.syaw) * k; Q.mesh.visible = (Q.st === "alive" || !!Q.fall) && !(G.scare && G.scare.hideP === Q.id); if (Q.tag) Q.tag.visible = P.st !== "alive" && !G.scare;
+      Q.sx += (Q.x - Q.sx) * k; Q.sy += (Q.y - Q.sy) * k; Q.sz += (Q.z - Q.sz) * k; Q.syaw += angDiff(Q.yaw, Q.syaw) * k; Q.mesh.visible = (Q.st === "alive" || !!Q.fall) && !(G.scare && G.scare.hideP === Q.id); if (Q.tag) Q.tag.visible = P.st !== "alive" && !G.scare && !G.cine;
       if (Q.fall) { const kf = (performance.now() - Q.fall) / 1000;   // la victime vue par les autres : elle se débat puis tombe sur le dos
         if (kf > 3.2 || G.mode !== "play") { Q.fall = 0; Q.mesh.visible = false; Q.mesh.rotation.set(0, 0, Q.syaw); }
         else { Q.mesh.position.set(Q.sx, Q.sy, Q.sz); Q.mesh.rotation.set(0, kf < 1.35 ? Math.sin(kf * 38) * 0.05 : -Math.min(1.5, (kf - 1.35) * (kf - 1.35) * 9), Q.syaw + (kf < 1.35 ? Math.sin(kf * 31) * 0.06 : 0)); animChar(Q.mesh, dt, 0, false); } }
       else if (Q.mesh.visible) { Q.mesh.position.set(Q.sx, Q.sy, Q.sz); Q.mesh.rotation.z = Q.syaw; animChar(Q.mesh, dt, Math.min(5, sp), Q.role === "m" && (Q.f & 2), t < (Q.eatUntil || 0)); }
       if (Q.role === "m" && Q.st === "alive" && G.role === "s" && W.level(Q.z + 0.4) === myL) { const d = Math.hypot(Q.x - camera.position.x, Q.y - camera.position.y); if (d < ng) { ng = d; nearG = Q; } } }
+    if (G.cine) nearG = null;
     danger = G.mode === "play" && G.role === "s" && P.st === "alive" && nearG ? clamp(1 - ng / 16, 0, 1) : 0; G.danger = danger;
     for (const Q of G.players.values()) { if (Q.role !== "m" || Q.id === G.me || !Q.mesh || !Q.mesh.visible || !A.ctx) continue; const d = Math.hypot(Q.sx - camera.position.x, Q.sy - camera.position.y), sp2 = Q.mesh.userData.sp; if (d < 17 && sp2 > 0.5) { Q.stT = (Q.stT || 0) - dt * sp2; if (Q.stT <= 0) { Q.stT = 1.7; SND.thud(clamp(1 - d / 17, 0, 1)); } } }
     apparition(dt, t, danger, myL);
@@ -941,14 +1001,14 @@ function frame(tm) {
     /* lampe */
     const fw = tmpV.set(0, 0, -1).applyQuaternion(camera.quaternion); lampDir.lerp(fw, Math.min(1, dt * 11)).normalize(); U.uLampDir.value.copy(lampDir);
     U.uLampPos.value.copy(camera.position).addScaledVector(fw, 0.05); U.uLampPos.value.z -= 0.14;
-    const on = G.mode === "play" && ((P.st === "alive" && p.lamp && G.role === "s") || !!G.scare); let fl = 0.93 + 0.07 * Math.sin(tm / 53) * Math.sin(tm / 17) - (Math.sin(tm / 2900) > 0.992 ? 0.6 : 0);
+    const CS = G.cine ? G.cine.s : null, on = CS ? !!CS.lamp : G.mode === "play" && ((P.st === "alive" && p.lamp && G.role === "s") || !!G.scare); let fl = 0.93 + 0.07 * Math.sin(tm / 53) * Math.sin(tm / 17) - (Math.sin(tm / 2900) > 0.992 ? 0.6 : 0);
     /* batterie : elle se vide lampe allumée, se recharge éteinte ; la lampe grésille quand le danger approche */
     if (G.mode === "play" && P.st === "alive" && G.role === "s") { if (p.lamp) { p.bat = Math.max(0, p.bat - dt / 170); if (p.bat <= 0) { p.lamp = false; $("tLamp").classList.remove("on"); toast("Plus de batterie…<small>La lampe se recharge quand elle est éteinte.</small>", 3200); } } else p.bat = Math.min(1, p.bat + dt / 75); }
     if (danger > 0.3 && Math.sin(tm / 61) * Math.sin(tm / 23 + 2.0) > 0.78 - danger * 0.45) fl *= 0.12;
-    const cut2 = t < (G.lampOutT || 0) && !G.scare; fl *= 0.4 + 0.6 * Math.min(1, p.bat * 5);
+    const cut2 = t < (G.lampOutT || 0) && !G.scare && !CS; fl *= 0.4 + 0.6 * Math.min(1, p.bat * 5);
     U.uLampP.value.set(on && !cut2 ? 2.6 * fl : 0, 0.955, 0.84, 30);
     /* les yeux s'habituent au noir quand la lampe est éteinte */
-    G.adapt += ((on ? 1 : 2.6) - G.adapt) * Math.min(1, dt * (on ? 3 : 0.5)); const spc = P.st !== "alive" && !G.scare, nb = spc ? (G.specNV ? 6.5 : 1.8) : G.role === "m" ? 5.5 : G.adapt, tn = spc ? (G.specNV ? [0.8, 1.2, 0.7] : [1, 1, 1]) : G.role === "m" ? [1.25, 0.6, 0.55] : [1, 1, 1]; U.uNight.value.set(0.05 * nb * tn[0], 0.062 * nb * tn[1], 0.095 * nb * tn[2]);
+    G.adapt += ((on ? 1 : 2.6) - G.adapt) * Math.min(1, dt * (on ? 3 : 0.5)); const spc = P.st !== "alive" && !G.scare, nb = CS ? CS.night + ((CS.nightB != null ? CS.nightB : CS.night) - CS.night) * ease(G.cine.k || 0) : spc ? (G.specNV ? 6.5 : 1.8) : G.role === "m" ? 5.5 : G.adapt, tn = CS ? (CS.tint || [1, 1, 1]) : spc ? (G.specNV ? [0.8, 1.2, 0.7] : [1, 1, 1]) : G.role === "m" ? [1.25, 0.6, 0.55] : [1, 1, 1]; U.uNight.value.set(0.05 * nb * tn[0], 0.062 * nb * tn[1], 0.095 * nb * tn[2]);
     let si = 0; for (const Q of G.players.values()) { if (si >= 3) break; if (Q.id === G.me || Q.st !== "alive" || !(Q.f & 4) || Q.role !== "s") continue; const cp = Math.cos(Q.pitch || 0), dx = Math.cos(Q.syaw) * cp, dy = Math.sin(Q.syaw) * cp, dz = Math.sin(Q.pitch || 0);
       U.uSpPos.value[si].set(Q.sx + dx * 0.3, Q.sy + dy * 0.3, Q.sz + 1.25, 2.4); U.uSpDir.value[si].set(dx, dy, dz, Math.min(28, W.ray(Q.sx, Q.sy, Q.sz + 1.3, dx, dy, dz, 28) + 0.6)); si++; }
     for (; si < 3; si++) U.uSpPos.value[si].w = 0;
@@ -972,10 +1032,10 @@ function frame(tm) {
   } else { /* menu : caméra qui tourne lentement au-dessus du bâtiment */
     const a = tm / 26000; camera.position.set(-38 + Math.cos(a) * 62, 48 + Math.sin(a) * 62, 26); camera.lookAt(-38, 48, 2); camera.updateMatrixWorld(); U.uLampP.value.x = 0; for (let i = 0; i < 8; i++) U.uPtPos.value[i].w = 0; for (let i = 0; i < 3; i++) U.uSpPos.value[i].w = 0; U.uNight.value.set(0.34, 0.42, 0.62);
   }
-  U.uFog.value.w = G.mode === "play" || G.mode === "end" ? (camera.position.z > 8 ? 0.02 : 0.05) : 0.006;
+  const CW = G.cine ? G.cine.s : null; U.uFog.value.w = CW ? CW.fog : G.mode === "play" || G.mode === "end" ? (camera.position.z > 8 ? 0.02 : 0.05) : 0.006;
   pmat.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse); frustum.setFromProjectionMatrix(pmat);
   /* on n'affiche que ce qui peut se voir : dedans, le brouillard cache tout au-delà de ~55 m et les autres niveaux au-delà de ~24 m */
-  const inGame = G.mode === "play" || G.mode === "end", cz = camera.position.z, roof = cz > 8, far = !inGame ? 400 : roof ? 120 : TOUCH ? 46 : 58, band = cz < 3.2 ? 0 : cz < 6.9 ? 1 : 2;
+  const inGame = G.mode === "play" || G.mode === "end", cz = camera.position.z, roof = cz > 8 || !!(CW && CW.wide), far = !inGame ? 400 : CW && CW.wide ? 170 : roof ? 120 : TOUCH ? 46 : 58, band = cz < 3.2 ? 0 : cz < 6.9 ? 1 : 2;
   for (const c of chunks) { if (c.always) continue; sph.center.copy(c.c); sph.radius = c.r; const d = c.c.distanceTo(camera.position) - c.r; c.mesh.visible = d < far && (!inGame || roof || c.band === band || d < 24) && frustum.intersectsSphere(sph); }
   /* au menu, 20 images par seconde suffisent (tout le bâtiment est affiché) */
   if (window.JEU_SANS_RENDU || (!inGame && (frameN++ % 3))) return;
@@ -1005,7 +1065,7 @@ async function main() {
     lampDir = new THREE.Vector3(1, 0, 0); tmpV = new THREE.Vector3();
     buildWorld(POS, AUX8, AUX16, IDX); buildDecor(); buildSkins(); buildProps(); initInput();
     step(); $("sLoad").hidden = true; $("sMenu").hidden = false; G.mode = "menu";
-    window.__jeu = { unstick, CK, G, W, U, NET, H, K, camera, renderer, scene, chunks, LIGHTS, hostStart, request, emit, now, SND, A, physics, interactions, hostActors };
+    window.__jeu = { unstick, CK, G, W, U, NET, H, K, camera, renderer, scene, chunks, LIGHTS, hostStart, request, emit, now, SND, A, physics, interactions, hostActors, cineSkip, cineStart, cineProp };
     requestAnimationFrame(frame);
   } catch (err) { $("loadmsg").textContent = err.message || String(err); $("loadmsg").style.color = "#e0453a"; $("bar").style.display = "none"; console.error(err); }
 }
