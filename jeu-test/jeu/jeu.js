@@ -447,7 +447,7 @@ function initInput() {
   const cv = $("gl"), map = { KeyW: "f", ArrowUp: "f", KeyS: "b", ArrowDown: "b", KeyA: "l", ArrowLeft: "l", KeyD: "r", ArrowRight: "r" };   // codes = position des touches : ZQSD sur un clavier français
   addEventListener("keydown", e => { if (e.target && /INPUT|SELECT|TEXTAREA/.test(e.target.tagName)) return; if (G.mode !== "play") return;
     if (map[e.code]) { K[map[e.code]] = 1; e.preventDefault(); } if (e.code === "ShiftLeft" || e.code === "ShiftRight") K.run = true;
-    if (e.repeat) return; if (e.code === "KeyF") toggleLamp(); if (e.code === "KeyR") cri(); if (e.code === "KeyC") toggleSlow(); if (e.code === "KeyE" || e.code === "Space") { actQ = true; e.preventDefault(); } });
+    if (e.repeat) return; if (e.code === "KeyF") toggleLamp(); if (e.code === "KeyR") cri(); if (e.code === "KeyV") toggleFree(); if (e.code === "KeyC") toggleSlow(); if (e.code === "KeyE" || e.code === "Space") { actQ = true; e.preventDefault(); } });
   addEventListener("keyup", e => { if (map[e.code]) K[map[e.code]] = 0; if (e.code === "ShiftLeft" || e.code === "ShiftRight") K.run = false; });
   addEventListener("blur", () => { K.f = K.b = K.l = K.r = 0; K.run = false; });
   if (!TOUCH) {
@@ -474,9 +474,9 @@ function initInput() {
 }
 function look(dx, dy) { const p = G.p; if (!p) return; p.yaw -= dx; p.pitch = clamp(p.pitch - dy, -1.3, 1.3); }
 function cri() { if (G.mode === "play" && G.role === "m") request(["cri"]); }
-function toggleLamp() { const p = G.p; if (!p || me().st !== "alive") return; if (G.role === "m") return cri();
+function toggleLamp() { const p = G.p; if (!p || !me()) return; if (me().st !== "alive") { G.specNV = !G.specNV; specUI(); return; } if (G.role === "m") return cri();
   if (!p.lamp && p.bat < 0.06) { toast("Batterie vide<small>La lampe se recharge quand elle est éteinte.</small>", 2200); return; } p.lamp = !p.lamp; sNoise(3000, 4, 0.08, 0.03); $("tLamp").classList.toggle("on", p.lamp); }
-function toggleSlow() { const p = G.p; if (!p) return; p.slow = !p.slow; $("tSlow").classList.toggle("on", p.slow); }
+function toggleSlow() { const p = G.p; if (!p) return; if (me() && me().st !== "alive") return toggleFree(); p.slow = !p.slow; $("tSlow").classList.toggle("on", p.slow); }
 
 /* ───────── 7. joueur ───────── */
 const G = { mode: "load", players: new Map(), actors: [], me: 0, host: true, solo: true, off: 0, role: "s", p: null, key: null, exitOpen: false, t0: 0, dur: 480, opts: { gran: 3, res: 26, dur: 480 } };
@@ -516,7 +516,11 @@ function placeCam(dt) {
   const P = me(), p = G.p; let x, y, z, yaw, pitch;
   if (G.scare) { const s = G.scare, k = Math.min(1, (performance.now() - s.t0) / 180); yaw = p.yaw + angDiff(s.yaw, p.yaw) * k; pitch = p.pitch * (1 - k); x = p.x; y = p.y; z = p.camZ; p.yaw = yaw; p.pitch = pitch;
     const sh = (Math.random() - 0.5) * 0.05, scareG = s.m; scareG.visible = true; scareG.position.set(x + Math.cos(s.yaw) * (1.7 - 0.72 * k), y + Math.sin(s.yaw) * (1.7 - 0.72 * k), p.z + 0.06 + sh); scareG.rotation.z = s.yaw + Math.PI; animChar(scareG, dt, 3, true); }
-  else if (P && P.st !== "alive" && G.spec != null && G.players.get(G.spec)) { const q = G.players.get(G.spec); x = q.sx; y = q.sy; z = q.sz + EYE; yaw = q.syaw; pitch = q.pitch || 0; }
+  else if (P && P.st !== "alive" && G.fc) {
+    const q = !G.specFree && G.spec != null ? G.players.get(G.spec) : null, c0 = Math.cos(p.pitch), fx = Math.cos(p.yaw) * c0, fy = Math.sin(p.yaw) * c0, fz = Math.sin(p.pitch);
+    if (q && q.st === "alive") { const hx = q.sx, hy = q.sy, hz = q.sz + 1.6, d = Math.max(0.35, Math.min(3.2, W.ray(hx, hy, hz, -fx, -fy, -fz, 3.5) - 0.3)); x = hx - fx * d; y = hy - fy * d; z = hz - fz * d; G.fc.x = x; G.fc.y = y; G.fc.z = z; }
+    else { x = G.fc.x; y = G.fc.y; z = G.fc.z; }
+    yaw = p.yaw; pitch = p.pitch; }
   else { const b = p.moving && p.ground ? Math.sin(p.bob) * (p.run ? 0.045 : 0.025) : 0; x = p.x; y = p.y; z = p.camZ + b; yaw = p.yaw; pitch = p.pitch;
     const sk = Math.max(0, (G.danger || 0) - 0.5) * 0.03 + (performance.now() < (G.shakeT || 0) ? 0.035 : 0); if (sk) { yaw += (Math.random() - 0.5) * sk; pitch += (Math.random() - 0.5) * sk; } }
   camera.position.set(x, y, z); const cp = Math.cos(pitch); camera.lookAt(x + Math.cos(yaw) * cp, y + Math.sin(yaw) * cp, z + Math.sin(pitch)); camera.updateMatrixWorld();
@@ -644,13 +648,13 @@ function startGame(S) {
   for (const a of G.actors) scene.remove(a.mesh); for (const P of G.players.values()) if (P.mesh) { scene.remove(P.mesh); P.mesh = null; }
   if (!G.host) { G.players.clear(); S.names.forEach(n => G.players.set(n[0], newPlayer(n[0], n[1]))); }
   G.actors = S.acts.map(a => { const o = { id: a[0], kind: a[1], L: a[2], skin: a[3], x: a[4], y: a[5], base: a[6], st: 0, dir: Math.random() * TAU, mesh: makeChar(a[3]), wait: S.t0 + Math.random() * 9, vyaw: 0 }; setPath(o, [a[4], a[5]], 1, S.t0, 0); if (o.kind === "r") o.mesh.scale.setScalar(0.94 + (a[0] % 5) * 0.025); return o; });
-  for (const P of G.players.values()) { P.role = P.id === S.villain ? "m" : "s"; P.st = "alive"; P.gone = false; P.by = null; const s = S.sp[P.id]; P.x = P.sx = s[0]; P.y = P.sy = s[1]; P.z = P.sz = s[2]; P.yaw = P.syaw = s[3]; P.f = 0; P.grabT = 0; if (P.id !== G.me) P.mesh = makeChar(P.role === "m" ? 7 : P.id % 6); }
+  for (const P of G.players.values()) { P.role = P.id === S.villain ? "m" : "s"; P.st = "alive"; P.gone = false; P.by = null; const s = S.sp[P.id]; P.x = P.sx = s[0]; P.y = P.sy = s[1]; P.z = P.sz = s[2]; P.yaw = P.syaw = s[3]; P.f = 0; P.grabT = 0; if (P.id !== G.me) { P.mesh = makeChar(P.role === "m" ? 7 : P.id % 6); P.tag = nameTag(P.name, P.role === "m"); P.tag.position.z = P.role === "m" ? 2.12 : 1.97; P.mesh.add(P.tag); } }
   const M = me(), s = S.sp[G.me]; G.role = M.role; EYE = G.role === "m" ? 1.74 : 1.5; G.p = { x: s[0], y: s[1], z: s[2], vx: 0, vy: 0, vz: 0, yaw: s[3], pitch: 0, ground: true, stam: 1, tired: false, lamp: G.role === "s", slow: false, bob: 0, camZ: null, moving: false, bat: 1 };
   G.key = { x: S.key[0], y: S.key[1], z: S.key[2], L: S.key[3], holder: -1, hint: roomHint(S.key[0], S.key[1], S.key[3]) }; G.exitOpen = false; G.t0 = S.t0; G.dur = S.dur; G.mWait = 18; G.stunT = 0; G.scare = null; G.spec = null; G.ended = false; G.fadeT = 0; G.linkCd = 0; G.villain = S.villain;
   exitDoor.children.forEach(h => { h.position.y = 0; }); W.setDoor(W.exit, false); W.lv[0].B = W.lv[0].B0 ? W.lv[0].B0.slice() : W.lv[0].B; if (!W.lv[0].B0) W.lv[0].B0 = W.lv[0].B.slice();
   keyMesh.visible = true; scareG.visible = scareA.visible = false; $("tLamp").classList.toggle("on", G.p.lamp); $("tSlow").classList.remove("on"); $("keyChip").classList.remove("on"); $("feed").innerHTML = "";
   ["sMenu", "sLobby", "sEnd", "sLoad"].forEach(i => $(i).hidden = true); document.body.classList.add("play"); G.mode = "play"; $("fade").style.opacity = 1; setTimeout(() => { $("fade").style.opacity = 0; }, 500);
-  G.adapt = 1; G.openT = 0; G.escT = 0; G.lampOutT = 0; G.shakeT = 0; G.final = false; G.criT = 0; G.danger = 0; G.ghostOn = false; G.ghostT = S.t0 + 38 + Math.random() * 30; ghost.visible = false; buildBlood(S.seed);
+  G.fc = null; G.specFree = false; G.specNV = true; document.body.classList.remove("spec"); $("tSlow").textContent = "Marche lente"; G.adapt = 1; G.openT = 0; G.escT = 0; G.lampOutT = 0; G.shakeT = 0; G.final = false; G.criT = 0; G.danger = 0; G.ghostOn = false; G.ghostT = S.t0 + 38 + Math.random() * 30; ghost.visible = false; buildBlood(S.seed);
   $("tAct").textContent = G.role === "m" ? "Attraper" : "Action"; $("tLamp").textContent = G.role === "m" ? "Cri" : "Lampe"; $("tSlow").style.display = G.role === "m" ? "none" : "";
   toast(G.role === "m" ? "Tu es <span style='color:#e0453a'>LE MÉCHANT</span><small>Attrape les résidents avant qu'ils sortent. Attention : les vrais résidents te sonnent.</small>" : (S.villain >= 0 ? "Tu es un <span style='color:#49c98a'>RÉSIDENT</span><small>Un joueur est le Méchant. Fonds-toi parmi les résidents, trouve la clé, sors par le hall.</small>" : "Tu es un <span style='color:#49c98a'>RÉSIDENT</span><small>Descends de la toiture, trouve la clé, sors par le hall. Le Méchant et les mamies rôdent…</small>"), 6500);
   if (A.amb) { A.amb.g.gain.setTargetAtTime(0.5, A.ctx.currentTime, 2); A.amb.og.gain.setTargetAtTime(0.16, A.ctx.currentTime, 3); }
@@ -674,8 +678,9 @@ function onMsg(m) {
     case "out": { const P = G.players.get(m[1]); if (!P) break; P.st = m[2] === "out" ? "out" : "caught"; P.by = m[3]; if (P.mesh) P.mesh.visible = false;
       if (m[5] && G.key.holder === m[1]) { G.key.holder = -1; G.key.x = m[5][0]; G.key.y = m[5][1]; G.key.z = m[5][2]; G.key.L = W.level(m[5][2] + 0.4); G.key.hint = roomHint(G.key.x, G.key.y, G.key.L); keyMesh.visible = true; $("keyChip").classList.remove("on"); if (G.role === "s") feed("🗝 La clé est tombée"); }
       if (m[1] === G.me) { if (m[2] === "caught") { const ac = m[3] < 0 ? G.actors.find(x => x.id === -1 - m[3]) : null; G.scare = { t0: performance.now(), yaw: m[4] ? Math.atan2(m[4][1] - G.p.y, m[4][0] - G.p.x) : G.p.yaw, m: m[3] >= 0 || (ac && ac.skin === 7) ? scareA : scareG }; SND.scream(); $("flash").style.opacity = 0.5; }
-        else if (m[2] === "out") { SND.win(); toast("Tu es dehors !<small>Tu as survécu à la nuit.</small>", 4000); pickSpec(); } }
+        else if (m[2] === "out") { SND.win(); toast("Tu es dehors !<small>Tu as survécu à la nuit.</small>", 4000); specStart(); } }
       else feed(m[2] === "out" ? "🚪 " + esc(P.name) + " s'est échappé" : m[2] === "left" ? esc(P.name) + " a quitté la partie" : "💀 " + esc(P.name) + " a été attrapé");
+      if (m[1] !== G.me && me() && me().st !== "alive" && G.spec === m[1] && G.fc) pickSpec();
       if (G.host) checkEnd(); break; }
     case "end": endGame(m[1]); break;
   }
@@ -685,7 +690,7 @@ function checkEnd(force) {
   setTimeout(() => emit(["end", { res: [...G.players.values()].map(p => [p.id, p.name, p.role, p.st === "alive" ? "time" : p.st, p.by]), time: force ? 1 : 0 }]), 2300);
 }
 function endGame(R) {
-  G.mode = "end"; G.scare = null; scareG.visible = scareA.visible = false; document.body.classList.remove("play"); $("pause").classList.remove("on"); if (document.pointerLockElement) document.exitPointerLock(); $("flash").style.opacity = 0; $("pulse").style.opacity = 0;
+  G.mode = "end"; G.scare = null; scareG.visible = scareA.visible = false; document.body.classList.remove("play"); document.body.classList.remove("spec"); $("pause").classList.remove("on"); if (document.pointerLockElement) document.exitPointerLock(); $("flash").style.opacity = 0; $("pulse").style.opacity = 0;
   if (A.amb) { A.amb.g.gain.setTargetAtTime(0.12, A.ctx.currentTime, 1); A.amb.og.gain.setTargetAtTime(0.04, A.ctx.currentTime, 1); A.hum.hg.gain.setTargetAtTime(0, A.ctx.currentTime, 0.2); }
   const mine = R.res.find(r => r[0] === G.me), out = R.res.filter(r => r[2] === "s" && r[3] === "out").length, nS = R.res.filter(r => r[2] === "s").length;
   const win = mine[2] === "s" ? mine[3] === "out" : out === 0;
@@ -694,16 +699,33 @@ function endGame(R) {
   $("endRes").innerHTML = R.res.map(r => "<div><span>" + esc(r[1]) + (r[2] === "m" ? " · <b style='color:#e0453a'>le Méchant</b>" : "") + "</span><span class='" + (r[2] === "m" ? (out === 0 ? "w" : "l") : r[3] === "out" ? "w" : "l") + "'>" + (r[2] === "m" ? (nS - out) + " attrapé" + (nS - out > 1 ? "s" : "") : r[3] === "out" ? "Échappé" : r[3] === "time" ? "Temps écoulé" : r[3] === "left" ? "Parti" : "Attrapé") + "</span></div>").join("");
   $("bAgain").hidden = !G.host; $("endMsg").textContent = G.host ? "" : "L'hôte peut relancer une partie."; $("endMsg").style.color = "var(--muted)"; $("sEnd").hidden = false;
 }
-function pickSpec() { const P = me(); if (!P || P.st === "alive") return; const al = [...G.players.values()].filter(p => p.st === "alive" && p.id !== G.me); if (!al.length) { G.spec = null; return; } const i = al.findIndex(p => p.id === G.spec); G.spec = al[(i + 1) % al.length].id; toast("Tu regardes " + esc(G.players.get(G.spec).name) + "<small>" + (TOUCH ? "Touche l'écran" : "Clic") + " pour changer de joueur</small>", 2500); }
+function nameTag(name, bad) {
+  const cv = document.createElement("canvas"); cv.width = 256; cv.height = 64; const c = cv.getContext("2d"); c.fillStyle = "rgba(6,7,9,.78)"; c.beginPath(); if (c.roundRect) c.roundRect(4, 8, 248, 48, 14); else c.rect(4, 8, 248, 48); c.fill();
+  c.fillStyle = bad ? "#ff5a4d" : "#f1efe8"; c.font = "bold 30px 'Segoe UI',Arial,sans-serif"; c.textAlign = "center"; c.textBaseline = "middle"; c.fillText((bad ? "☠ " : "") + name, 128, 33, 236);
+  const t = new THREE.CanvasTexture(cv); t.colorSpace = THREE.SRGBColorSpace; const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: t, transparent: true, depthWrite: false })); sp.scale.set(0.84, 0.21, 1); sp.renderOrder = 9; sp.visible = false; return sp;
+}
+/* mode spectateur : pour ceux qui sont attrapés ou déjà sortis */
+function specStart() { const P = me(), p = G.p; if (!P || P.st === "alive" || G.mode !== "play") return; G.fc = { x: p.x, y: p.y, z: p.camZ || p.z + EYE }; G.specNV = true; G.specFree = false; G.spec = null; p.pitch = -0.28; pickSpec(); }
+function toggleFree() { const P = me(); if (!P || P.st === "alive" || G.mode !== "play" || !G.fc) return; G.specFree = !G.specFree; if (!G.specFree) { const q = G.players.get(G.spec); if (!q || q.st !== "alive") return pickSpec(); } specUI(); }
+function specUI() {
+  const q = !G.specFree && G.spec != null ? G.players.get(G.spec) : null; document.body.classList.add("spec");
+  $("spec").innerHTML = "<b>👁 Mode spectateur</b><span>" + (q ? "Tu suis " + esc(q.name) + (q.role === "m" ? " (le Méchant)" : "") : "Caméra libre") + "</span><small>" + (TOUCH ? "Suivant : changer de joueur · Libre : voler partout · Vision : voir dans le noir" : "Clic : joueur suivant · V : caméra libre · F : vision de nuit · ZQSD pour voler, Maj plus vite") + "</small>";
+  $("tAct").textContent = "Suivant"; $("tSlow").style.display = ""; $("tSlow").textContent = G.specFree ? "Suivre" : "Libre"; $("tSlow").classList.remove("on"); $("tLamp").textContent = "Vision"; $("tLamp").classList.toggle("on", !!G.specNV);
+}
+function specStep(dt) {
+  const p = G.p, c = G.fc, f = clamp(K.f - K.b + K.jy, -1, 1), r = clamp(K.r - K.l + K.jx, -1, 1); if (!f && !r) return; const sp = (K.run ? 13 : 6) * dt, cp = Math.cos(p.pitch);
+  c.x = clamp(c.x + (Math.cos(p.yaw) * cp * f + Math.sin(p.yaw) * r) * sp, -95, 20); c.y = clamp(c.y + (Math.sin(p.yaw) * cp * f - Math.cos(p.yaw) * r) * sp, -5, 100); c.z = clamp(c.z + Math.sin(p.pitch) * f * sp, 0.4, 18);
+}
+function pickSpec() { const P = me(); if (!P || P.st === "alive" || !G.fc) return; const al = [...G.players.values()].filter(q => q.st === "alive" && q.id !== G.me); if (!al.length) { G.spec = null; G.specFree = true; specUI(); return; } const k = al.findIndex(q => q.id === G.spec); G.spec = al[(k + 1) % al.length].id; G.specFree = false; specUI(); }
 let toastT = 0; function toast(h, ms) { const t = $("toast"); t.innerHTML = h; t.classList.add("on"); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove("on"), ms || 2500); }
 function feed(h) { const f = $("feed"), d = document.createElement("div"); d.innerHTML = h; f.appendChild(d); while (f.children.length > 4) f.firstChild.remove(); setTimeout(() => d.remove(), 6000); }
 function showLobby() {
-  G.mode = "lobby"; document.body.classList.remove("play"); ["sMenu", "sEnd", "sLoad"].forEach(i => $(i).hidden = true); $("sLobby").hidden = false; $("lobCode").textContent = NET.code;
+  G.mode = "lobby"; document.body.classList.remove("play"); document.body.classList.remove("spec"); ["sMenu", "sEnd", "sLoad"].forEach(i => $(i).hidden = true); $("sLobby").hidden = false; $("lobCode").textContent = NET.code;
   $("lobList").innerHTML = [...G.players.values()].map(p => "<div class='pl'><i></i><span>" + esc(p.name) + "</span><small>" + (p.id === 0 ? "hôte" : "") + (p.id === G.me ? " · toi" : "") + "</small></div>").join("");
   $("lobOpts").style.display = G.host ? "" : "none"; $("bStart").hidden = !G.host; $("lobMsg").style.color = "var(--muted)";
   $("lobMsg").textContent = G.host ? (G.players.size < 2 ? "En attente d'autres joueurs… (seul, il n'y aura pas de Méchant joueur)" : G.players.size + " joueurs : l'un de vous sera le Méchant, tiré au sort.") : "En attente du lancement par l'hôte…";
 }
-function toMenu(msg) { netClose(); G.mode = "menu"; for (const P of G.players.values()) if (P.mesh) scene.remove(P.mesh); G.players.clear(); document.body.classList.remove("play"); if (document.pointerLockElement) document.exitPointerLock(); $("pause").classList.remove("on"); ["sLobby", "sEnd", "sLoad"].forEach(i => $(i).hidden = true); $("sMenu").hidden = false; $("menuMsg").textContent = msg || ""; $("flash").style.opacity = 0; $("pulse").style.opacity = 0;
+function toMenu(msg) { netClose(); G.mode = "menu"; for (const P of G.players.values()) if (P.mesh) scene.remove(P.mesh); G.players.clear(); document.body.classList.remove("play"); document.body.classList.remove("spec"); if (document.pointerLockElement) document.exitPointerLock(); $("pause").classList.remove("on"); ["sLobby", "sEnd", "sLoad"].forEach(i => $(i).hidden = true); $("sMenu").hidden = false; $("menuMsg").textContent = msg || ""; $("flash").style.opacity = 0; $("pulse").style.opacity = 0;
   for (const a of G.actors) scene.remove(a.mesh); G.actors = []; if (keyMesh) keyMesh.visible = false; if (ghost) ghost.visible = false; if (bloodMesh) bloodMesh.visible = false; if (scareG) { scareG.visible = scareA.visible = false; } G.scare = null; if (A.amb) { A.amb.g.gain.setTargetAtTime(0.12, A.ctx.currentTime, 1); A.amb.og.gain.setTargetAtTime(0.03, A.ctx.currentTime, 1); A.hum.hg.gain.setTargetAtTime(0, A.ctx.currentTime, 0.2); } }
 function initUI() {
   const nm = $("name"); try { nm.value = localStorage.getItem("jeu-ehpad-nom") || ""; } catch (e) { }
@@ -769,7 +791,7 @@ function hud(t) {
   const sv = [...G.players.values()].filter(q => q.role === "s"); $("alive").textContent = "👤 " + sv.filter(q => q.st === "alive").length + "/" + sv.length; $("alive").style.display = sv.length > 1 || G.role === "m" ? "" : "none";
   $("lvl").textContent = W.LV_NAME[W.level((P.st === "alive" ? p.z : camera.position.z - EYE) + 0.4)]; $("stam").firstElementChild.style.width = Math.round(p.stam * 100) + "%"; $("stam").firstElementChild.style.background = p.tired ? "#b3261e" : "#d8d4c8";
   let o;
-  if (P.st === "caught") o = "Tu as été attrapé. Tu regardes les autres."; else if (P.st === "out") o = "Tu es dehors. Tu regardes les autres.";
+  if (P.st === "caught") o = "Tu as été attrapé. Tu peux suivre les autres ou voler partout."; else if (P.st === "out") o = "Tu es dehors. Tu peux suivre les autres ou voler partout.";
   else if (G.role === "m") o = "Attrape les résidents joueurs (" + (TOUCH ? "bouton Attraper" : "clic") + "). Ceux qui courent ou qui ont une lampe ne sont pas de vrais résidents.";
   else if (G.exitOpen) o = "La porte du hall est ouverte : sors par le rez-de-chaussée !";
   else if (k.holder === G.me) o = "Tu as la clé. Va à la porte du hall, au rez-de-chaussée (panneau SORTIE).";
@@ -788,10 +810,11 @@ function frame(tm) {
       if (G.host && tm - tickT > 100) { tickT = tm; hostActors(t);
         if (!G.solo) emit(["S", [...G.players.values()].filter(q => q.st === "alive").map(q => [q.id, +q.x.toFixed(2), +q.y.toFixed(2), +q.z.toFixed(2), +q.yaw.toFixed(3), +(q.pitch || 0).toFixed(2), q.f])]);
         if (!G.ended && t > G.t0 + G.dur) checkEnd(true); }
-      if (G.scare && performance.now() - G.scare.t0 > 1700) { G.scare = null; scareG.visible = scareA.visible = false; $("flash").style.opacity = 0; pickSpec(); }
+      if (G.scare && performance.now() - G.scare.t0 > 1700) { G.scare = null; scareG.visible = scareA.visible = false; $("flash").style.opacity = 0; specStart(); }
       if (G.scare) $("flash").style.opacity = Math.random() < 0.3 ? 0.42 : 0.1;
       if (tm - hudT > 200) { hudT = tm; hud(t); }
     }
+    if (G.mode === "play" && P.st !== "alive" && !G.scare && G.specFree && G.fc) specStep(dt);
     placeCam(dt);
     /* PNJ */
     let nearG = null, ng = 1e9, danger = 0; const myL = W.level(camera.position.z - EYE + 0.4);
@@ -801,7 +824,7 @@ function frame(tm) {
       if (a.kind === "g" && a.L === myL && d < ng) { ng = d; nearG = a; } }
     /* autres joueurs */
     for (const Q of G.players.values()) { if (Q.id === G.me || !Q.mesh) continue; const k = Math.min(1, dt * 12), sp = Math.hypot(Q.x - Q.sx, Q.y - Q.sy) / Math.max(dt, 0.001) * k;
-      Q.sx += (Q.x - Q.sx) * k; Q.sy += (Q.y - Q.sy) * k; Q.sz += (Q.z - Q.sz) * k; Q.syaw += angDiff(Q.yaw, Q.syaw) * k; Q.mesh.visible = Q.st === "alive" && !(G.spec === Q.id && P.st !== "alive");
+      Q.sx += (Q.x - Q.sx) * k; Q.sy += (Q.y - Q.sy) * k; Q.sz += (Q.z - Q.sz) * k; Q.syaw += angDiff(Q.yaw, Q.syaw) * k; Q.mesh.visible = Q.st === "alive"; if (Q.tag) Q.tag.visible = P.st !== "alive" && !G.scare;
       if (Q.mesh.visible) { Q.mesh.position.set(Q.sx, Q.sy, Q.sz); Q.mesh.rotation.z = Q.syaw; animChar(Q.mesh, dt, Math.min(5, sp), Q.role === "m" && (Q.f & 2)); }
       if (Q.role === "m" && Q.st === "alive" && G.role === "s" && W.level(Q.z + 0.4) === myL) { const d = Math.hypot(Q.x - camera.position.x, Q.y - camera.position.y); if (d < ng) { ng = d; nearG = Q; } } }
     danger = G.mode === "play" && G.role === "s" && P.st === "alive" && nearG ? clamp(1 - ng / 16, 0, 1) : 0; G.danger = danger;
@@ -820,7 +843,7 @@ function frame(tm) {
     const cut2 = t < (G.lampOutT || 0) && !G.scare; fl *= 0.4 + 0.6 * Math.min(1, p.bat * 5);
     U.uLampP.value.set(on && !cut2 ? 2.6 * fl : 0, 0.955, 0.84, 30);
     /* les yeux s'habituent au noir quand la lampe est éteinte */
-    G.adapt += ((on ? 1 : 2.6) - G.adapt) * Math.min(1, dt * (on ? 3 : 0.5)); const nb = G.role === "m" ? 5.5 : G.adapt; U.uNight.value.set(0.05 * nb * (G.role === "m" ? 1.25 : 1), 0.062 * nb * (G.role === "m" ? 0.6 : 1), 0.095 * nb * (G.role === "m" ? 0.55 : 1));
+    G.adapt += ((on ? 1 : 2.6) - G.adapt) * Math.min(1, dt * (on ? 3 : 0.5)); const spc = P.st !== "alive" && !G.scare, nb = spc ? (G.specNV ? 6.5 : 1.8) : G.role === "m" ? 5.5 : G.adapt, tn = spc ? (G.specNV ? [0.8, 1.2, 0.7] : [1, 1, 1]) : G.role === "m" ? [1.25, 0.6, 0.55] : [1, 1, 1]; U.uNight.value.set(0.05 * nb * tn[0], 0.062 * nb * tn[1], 0.095 * nb * tn[2]);
     let si = 0; for (const Q of G.players.values()) { if (si >= 3) break; if (Q.id === G.me || Q.st !== "alive" || !(Q.f & 4) || Q.role !== "s") continue; const cp = Math.cos(Q.pitch || 0), dx = Math.cos(Q.syaw) * cp, dy = Math.sin(Q.syaw) * cp, dz = Math.sin(Q.pitch || 0);
       U.uSpPos.value[si].set(Q.sx + dx * 0.3, Q.sy + dy * 0.3, Q.sz + 1.25, 2.4); U.uSpDir.value[si].set(dx, dy, dz, Math.min(28, W.ray(Q.sx, Q.sy, Q.sz + 1.3, dx, dy, dz, 28) + 0.6)); si++; }
     for (; si < 3; si++) U.uSpPos.value[si].w = 0;
