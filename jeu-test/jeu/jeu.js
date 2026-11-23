@@ -932,7 +932,7 @@ function cineIntro(S, roleToast) {
     { d: 2.3, a: [-106, 58, 17], b: [-74, 55.8, 10.8], la: [ex.x, ex.y, 1.5], night: 6.5, fog: 0.008, wide: true, in: 0.7, out: 0.25, big: true, txt: "La Nuit de l'EHPAD", sub: "La Bassée · 3 h 12 du matin" },
     { d: 1.7, a: [X, 44.2, Z1 + 1.5], b: [X, 47.9, Z1 + 1.6], la: [X, 50, Z1 + 1.58], night: 1.3, fog: 0.05, lamp: true, in: 0.2, out: 0.2, txt: S.villain >= 0 ? "L'un de vous est <span style='color:#e0453a'>le Méchant</span>." : "<span style='color:#e0453a'>Le Méchant</span> rôde. Les mamies aussi.",
       on() { const m = cineProp(7, X, 50, Z1, -Math.PI / 2); m.userData.eyes.visible = true; this.m = m; SND.sting(); }, f(k, dt) { animChar(this.m, dt, 0, k > 0.45); } },
-    bad ? { d: 1.4, a: [p.x, p.y, ez], la: [p.x + Math.cos(p.yaw + 1.3) * 4, p.y + Math.sin(p.yaw + 1.3) * 4, ez - 0.5], lb: [p.x + cy * 4, p.y + sy * 4, ez], night: 5.5, tint: [1.25, 0.6, 0.55], fog: 0.05, in: 0.2, txt: "Toi, tu les attends en bas." }
+    bad ? { d: 1.4, a: [p.x, p.y, ez], la: [p.x + Math.cos(p.yaw + 1.3) * 4, p.y + Math.sin(p.yaw + 1.3) * 4, ez - 0.5], lb: [p.x + cy * 4, p.y + sy * 4, ez], night: 2.4, tint: [1.25, 0.6, 0.55], fog: 0.085, in: 0.2, txt: "Toi, tu les attends en bas." }
         : { d: 1.4, a: [p.x - cy * 6, p.y - sy * 6, ez + 7], b: [p.x, p.y, ez], la: [p.x, p.y, p.z + 1], lb: [p.x + cy * 4, p.y + sy * 4, ez], night: 3.2, nightB: 1, fog: 0.02, wide: true, lamp: true, in: 0.2, txt: "Toi, tu te réveilles sur la toiture." }
   ];
   cineStart("intro", shots, S.t0 - 5.4, roleToast);
@@ -1143,7 +1143,7 @@ function frame(tm) {
     const cut2 = t < (G.lampOutT || 0) && !G.scare && !CS; fl *= 0.4 + 0.6 * Math.min(1, p.bat * 5);
     U.uLampP.value.set(on && !cut2 ? 2.6 * fl : 0, 0.955, 0.84, 30);
     /* les yeux s'habituent au noir quand la lampe est éteinte */
-    G.adapt += ((on ? 1 : 2.6) - G.adapt) * Math.min(1, dt * (on ? 3 : 0.5)); const spc = P.st !== "alive" && !G.scare, nb = CS ? CS.night + ((CS.nightB != null ? CS.nightB : CS.night) - CS.night) * ease(G.cine.k || 0) : spc ? (G.specNV ? 6.5 : 1.8) : G.role === "m" ? 5.5 : G.adapt, tn = CS ? (CS.tint || [1, 1, 1]) : spc ? (G.specNV ? [0.8, 1.2, 0.7] : [1, 1, 1]) : G.role === "m" ? [1.25, 0.6, 0.55] : [1, 1, 1]; U.uNight.value.set(0.05 * nb * tn[0], 0.062 * nb * tn[1], 0.095 * nb * tn[2]);
+    G.adapt += ((on ? 1 : 2.6) - G.adapt) * Math.min(1, dt * (on ? 3 : 0.5)); const spc = P.st !== "alive" && !G.scare, nb = CS ? CS.night + ((CS.nightB != null ? CS.nightB : CS.night) - CS.night) * ease(G.cine.k || 0) : spc ? (G.specNV ? 6.5 : 1.8) : G.role === "m" ? 2.4 : G.adapt, tn = CS ? (CS.tint || [1, 1, 1]) : spc ? (G.specNV ? [0.8, 1.2, 0.7] : [1, 1, 1]) : G.role === "m" ? [1.25, 0.6, 0.55] : [1, 1, 1]; U.uNight.value.set(0.05 * nb * tn[0], 0.062 * nb * tn[1], 0.095 * nb * tn[2]);
     let si = 0; for (const Q of G.players.values()) { if (si >= 3) break; if (Q.id === G.me || Q.st !== "alive" || !(Q.f & 4) || Q.role !== "s") continue; const cp = Math.cos(Q.pitch || 0), dx = Math.cos(Q.syaw) * cp, dy = Math.sin(Q.syaw) * cp, dz = Math.sin(Q.pitch || 0);
       U.uSpPos.value[si].set(Q.sx + dx * 0.3, Q.sy + dy * 0.3, Q.sz + 1.25, 2.4); U.uSpDir.value[si].set(dx, dy, dz, Math.min(28, W.ray(Q.sx, Q.sy, Q.sz + 1.3, dx, dy, dz, 28) + 0.6)); si++; }
     for (; si < 3; si++) U.uSpPos.value[si].w = 0;
@@ -1169,7 +1169,7 @@ function frame(tm) {
   } else { /* menu : caméra qui tourne lentement au-dessus du bâtiment */
     const a = tm / 26000; camera.position.set(-38 + Math.cos(a) * 62, 48 + Math.sin(a) * 62, 26); camera.lookAt(-38, 48, 2); camera.updateMatrixWorld(); U.uLampP.value.x = 0; for (let i = 0; i < 8; i++) U.uPtPos.value[i].w = 0; for (let i = 0; i < 3; i++) U.uSpPos.value[i].w = 0; U.uNight.value.set(0.34, 0.42, 0.62);
   }
-  const CW = G.cine ? G.cine.s : null; U.uFog.value.w = CW ? CW.fog : G.mode === "play" || G.mode === "end" ? (camera.position.z > 8 ? 0.02 : QL[QA.lvl].fog) : 0.006;
+  const CW = G.cine ? G.cine.s : null; U.uFog.value.w = CW ? CW.fog : G.mode === "play" || G.mode === "end" ? (camera.position.z > 8 ? 0.02 : G.role === "m" && me() && me().st === "alive" ? Math.max(0.085, QL[QA.lvl].fog) : QL[QA.lvl].fog) : 0.006;   // le Méchant voit moins loin : brouillard plus épais
   pmat.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse); frustum.setFromProjectionMatrix(pmat);
   /* on n'affiche que ce qui peut se voir : dedans, le brouillard cache tout au-delà de ~55 m et les autres niveaux au-delà de ~24 m */
   const inGame = G.mode === "play" || G.mode === "end", cz = camera.position.z, roof = cz > 8 || !!(CW && CW.wide), wide = !!(CW && CW.wide), far = !inGame ? 400 : wide ? 170 : roof ? 120 : Math.min(QL[QA.lvl].far, TOUCH ? 46 : 58), nearB = QL[QA.lvl].near, detF = QL[QA.lvl].det, band = cz < 3.2 ? 0 : cz < 6.9 ? 1 : 2;
