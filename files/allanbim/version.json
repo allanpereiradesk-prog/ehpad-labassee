@@ -1,12 +1,12 @@
 {
- "version": "3.9.47",
- "date": "2026-11-19",
- "taille": 16651642,
+ "version": "3.9.48",
+ "date": "2026-11-23",
+ "taille": 16670487,
  "nouveautes": [
+  "Bilan thermique : détail réglementaire (Ubat), ponts thermiques selon l'isolant, portes vers les locaux non chauffés",
+  "Maquette 3D : maquette d'exemple à télécharger",
   "Bilan thermique : générateur sur la charge du bâtiment, terre-plein ISO 13370, volets",
   "Bilan thermique : carte de chaleur dans Revit, « Et si… » et comparaison avec ClimaBIM",
-  "Bilan thermique : U calculés depuis les couches des types Revit",
-  "Bilan thermique : déperditions NF EN 12831-1 local par local depuis la maquette, apports d'été et note de calcul Excel",
-  "Bilan thermique : ponts thermiques linéiques ψ × L mesurés dans la maquette, modifiables"
+  "Bilan thermique : U calculés depuis les couches des types Revit"
  ]
 }
