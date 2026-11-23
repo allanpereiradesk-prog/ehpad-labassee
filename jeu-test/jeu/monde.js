@@ -201,7 +201,9 @@
     }
     lv = [0, 1, 2].map(L => W.navLevel(L));
     lv.forEach(l => { const m = mainOf(l), A = new Uint8Array(W.N); for (let i = 0; i < W.N; i++) if (m.c.id[i] === m.b) A[i] = 1; l.A = A; l.size = m.c.sizes[m.b] || 0; l.all = m.c.sizes; });
-    lv.forEach(l => { const B = new Uint8Array(W.N), nx = W.nx; for (let c = 0; c < W.N; c++) if (l.A[c]) { for (let dy = -2; dy <= 2; dy++) for (let dx = -2; dx <= 2; dx++) { const d = c + dx + dy * nx; if (d >= 0 && d < W.N) B[d] = 1; } } l.B = B; });
+    /* limite de jeu : la zone, élargie de 2 cases, mais seulement là où il y a un sol à ce niveau (sinon on tomberait dans un vide : gaine, trémie, bord de dalle) */
+    const hasFloor = (c, Z) => { for (let k = 0; k < NF; k++) { const f = W.floor[c * NF + k]; if (f !== f) break; if (f > Z - 0.3 && f < Z + 0.38) return true; } return false; };   // un sol sur lequel on arrive en marchant (pas un rebord plus haut)
+    lv.forEach(l => { const B = new Uint8Array(W.N), nx = W.nx; for (let c = 0; c < W.N; c++) if (l.A[c]) { for (let dy = -2; dy <= 2; dy++) for (let dx = -2; dx <= 2; dx++) { const d = c + dx + dy * nx; if (d >= 0 && d < W.N && (l.L === 0 || l.A[d] || hasFloor(d, l.Z))) B[d] = 1; } } l.B = B; });
     W.lv = lv;
     /* escaliers : on regroupe les volées d'une même cage, puis on relie les niveaux */
     const cores = [];

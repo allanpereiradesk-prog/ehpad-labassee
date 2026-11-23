@@ -484,7 +484,7 @@ function initInput() {
   const cv = $("gl"), map = { KeyW: "f", ArrowUp: "f", KeyS: "b", ArrowDown: "b", KeyA: "l", ArrowLeft: "l", KeyD: "r", ArrowRight: "r" };   // codes = position des touches : ZQSD sur un clavier français
   addEventListener("keydown", e => { if (e.target && /INPUT|SELECT|TEXTAREA/.test(e.target.tagName)) return; if (G.mode !== "play") return;
     if (map[e.code]) { K[map[e.code]] = 1; e.preventDefault(); } if (e.code === "ShiftLeft" || e.code === "ShiftRight") K.run = true;
-    if (e.repeat) return; if (e.code === "KeyF") toggleLamp(); if (e.code === "KeyR") cri(); if (e.code === "KeyV") toggleFree(); if (e.code === "KeyG") CK.q = true; if (e.code === "KeyC") toggleSlow(); if (e.code === "KeyE") { actQ = true; e.preventDefault(); } if (e.code === "Space") { K.jump = true; e.preventDefault(); } });
+    if (e.repeat) return; if (e.code === "KeyF") toggleLamp(); if (e.code === "KeyR") cri(); if (e.code === "KeyV") toggleFree(); if (e.code === "KeyG") CK.q = true; if (e.code === "KeyB") unstick(false); if (e.code === "KeyC") toggleSlow(); if (e.code === "KeyE") { actQ = true; e.preventDefault(); } if (e.code === "Space") { K.jump = true; e.preventDefault(); } });
   addEventListener("keyup", e => { if (map[e.code]) K[map[e.code]] = 0; if (e.code === "ShiftLeft" || e.code === "ShiftRight") K.run = false; });
   addEventListener("blur", () => { K.f = K.b = K.l = K.r = 0; K.run = false; });
   if (!TOUCH) {
@@ -522,15 +522,21 @@ const now = () => performance.now() / 1000 + G.off;
 const me = () => G.players.get(G.me);
 const SAS = [-42.4, 45.9, -39.55, 48.9];
 const inSas = (x, y) => x > SAS[0] && x < SAS[2] && y > SAS[1] && y < SAS[3];
-function allowed(x, y, z) { const c = W.cell(x, y); if (c < 0) return false; if (!W.lv[W.level(z + 0.4)].B[c]) return false; if (G.role === "m" && inSas(x, y)) return false; return true; }
+function allowed(x, y, z, L) { const c = W.cell(x, y); if (c < 0) return false; const lv = L != null ? L : (G.p && G.p.lvl != null ? G.p.lvl : W.level(z + 0.4)); if (!W.lv[lv].B[c]) return false; if (G.role === "m" && inSas(x, y)) return false; return true; }
 function tryMove(p, dx, dy) {
-  const n = Math.max(1, Math.ceil(Math.hypot(dx, dy) / 0.07)); dx /= n; dy /= n;
-  const stuck = W.blocked(p.x, p.y, p.z), out = !allowed(p.x, p.y, p.z);   // coincé dans un mur ou hors zone (ne devrait pas arriver) : on le laisse revenir
+  if (!allowed(p.x, p.y, p.z)) { unstick(true); return; }   // hors de la zone de jeu (ne devrait pas arriver) : retour au dernier endroit sûr
+  const n = Math.max(1, Math.ceil(Math.hypot(dx, dy) / 0.07)); dx /= n; dy /= n; const stuck = W.blocked(p.x, p.y, p.z);   // coincé dans un mur : on le laisse ressortir
   for (let i = 0; i < n; i++) {
-    if ((stuck || !W.blocked(p.x + dx, p.y, p.z)) && (out || allowed(p.x + dx, p.y, p.z))) p.x += dx;
-    if ((stuck || !W.blocked(p.x, p.y + dy, p.z)) && (out || allowed(p.x, p.y + dy, p.z))) p.y += dy;
+    if ((stuck || !W.blocked(p.x + dx, p.y, p.z)) && allowed(p.x + dx, p.y, p.z)) p.x += dx;
+    if ((stuck || !W.blocked(p.x, p.y + dy, p.z)) && allowed(p.x, p.y + dy, p.z)) p.y += dy;
     if (p.ground) { const g = W.ground(p.x, p.y, p.z); if (g > p.z) p.z = g; }
   }
+}
+/* vrai si le joueur n'est pas sur le sol normal du niveau (sur un meuble, dans un creux…) : c'est là qu'on peut rester coincé */
+function offFloor(p) { const l = W.lv[p.lvl != null ? p.lvl : W.level(p.z + 0.4)], c = W.near(l.A, p.x, p.y, 3); return c < 0 || Math.abs(p.z - l.F[c]) > 0.1; }
+function unstick(auto) {
+  const p = G.p, P = me(); if (!p || !P || P.st !== "alive" || G.mode !== "play" || !p.safe) return; const t = now(); if (!auto && t < (p.unT || 0)) { toast("Encore " + Math.ceil(p.unT - t) + " s avant de pouvoir te débloquer", 1500); return; }
+  if (!auto) p.unT = t + 10; p.x = p.safe[0]; p.y = p.safe[1]; p.z = p.safe[2]; p.lvl = W.level(p.z + 0.4); p.vx = p.vy = p.vz = 0; p.ground = true; p.camZ = null; p.stuckT = 0; toast(auto ? "Tu étais coincé<small>Retour au dernier endroit sûr.</small>" : "Débloqué<small>Retour au dernier endroit sûr.</small>", 2200);
 }
 function physics(dt) {
   const p = G.p, P = me(), t = now(), can = P.st === "alive" && t >= G.t0 && !G.fadeT && !(G.role === "m" && (t < G.t0 + G.mWait || t < (G.stunT || 0) || t < (G.eatT || 0)));
@@ -551,6 +557,12 @@ function physics(dt) {
   const wasAir = !p.ground;
   p.vz -= 20 * dt; const nz = p.z + p.vz * dt, g = W.ground(p.x, p.y, p.z, p.ground ? W.STEP : 0.05);
   if (nz <= g || (p.ground && p.z - g <= W.STEP + 0.02)) { p.z = g; p.vz = 0; p.ground = true; if (wasAir) SND.step(true); } else { p.z = nz; p.ground = false; }
+  /* anti-blocage : on retient le dernier endroit sûr (sol normal de la zone de jeu) ; si le joueur pousse sans avancer ailleurs que là, on l'y ramène */
+  { const cS = W.cell(p.x, p.y), Lz = W.level(p.z + 0.4), lS = W.lv[Lz], safe = p.ground && cS >= 0 && lS.A[cS] && Math.abs(p.z - lS.F[cS]) < 0.12 && !W.blocked(p.x, p.y, p.z);
+    if (safe) { p.safe = [p.x, p.y, p.z]; p.lvl = Lz; p.stuckT = 0; }
+    else if (can && mag > 0.3 && offFloor(p) && Math.hypot(p.x - (p.px === undefined ? p.x : p.px), p.y - (p.py === undefined ? p.y : p.py)) < 0.25 * dt) { p.stuckT = (p.stuckT || 0) + dt; if (p.stuckT > 2.2) unstick(true); }
+    else p.stuckT = Math.max(0, (p.stuckT || 0) - dt * 2);
+    p.px = p.x; p.py = p.y; }
   const sp = Math.hypot(p.vx, p.vy); p.moving = sp > 0.3;
   if (p.moving && p.ground) { p.bob += dt * (3 + sp * 2.2); A.stepT -= dt * sp; if (A.stepT <= 0) { A.stepT = p.run ? 1.9 : 1.5; if (!p.slowNow) SND.step(p.run); } }
   const tz = p.z + EYE; if (p.camZ == null || Math.abs(tz - p.camZ) > 0.9) p.camZ = tz; else p.camZ += (tz - p.camZ) * Math.min(1, dt * 14);
@@ -724,7 +736,7 @@ function startGame(S) {
   if (!G.host) { G.players.clear(); S.names.forEach(n => G.players.set(n[0], newPlayer(n[0], n[1]))); }
   G.actors = S.acts.map(a => { const o = { id: a[0], kind: a[1], L: a[2], skin: a[3], x: a[4], y: a[5], base: a[6], st: 0, dir: Math.random() * TAU, mesh: makeChar(a[3]), wait: S.t0 + Math.random() * 9, vyaw: 0 }; setPath(o, [a[4], a[5]], 1, S.t0, 0); if (o.kind === "r") o.mesh.scale.setScalar(0.94 + (a[0] % 5) * 0.025); return o; });
   for (const P of G.players.values()) { P.role = P.id === S.villain ? "m" : "s"; P.st = "alive"; P.gone = false; P.by = null; const s = S.sp[P.id]; P.x = P.sx = s[0]; P.y = P.sy = s[1]; P.z = P.sz = s[2]; P.yaw = P.syaw = s[3]; P.f = 0; P.grabT = 0; P.fall = 0; if (P.id !== G.me) { P.mesh = makeChar(P.role === "m" ? 7 : P.id % 6); P.tag = nameTag(P.name, P.role === "m"); P.tag.position.z = P.role === "m" ? 2.12 : 1.97; P.mesh.add(P.tag); } }
-  const M = me(), s = S.sp[G.me]; G.role = M.role; EYE = G.role === "m" ? 1.74 : 1.5; G.p = { x: s[0], y: s[1], z: s[2], vx: 0, vy: 0, vz: 0, yaw: s[3], pitch: 0, ground: true, stam: 1, tired: false, lamp: G.role === "s", slow: false, bob: 0, camZ: null, moving: false, bat: 1 };
+  const M = me(), s = S.sp[G.me]; G.role = M.role; EYE = G.role === "m" ? 1.74 : 1.5; G.p = { x: s[0], y: s[1], z: s[2], vx: 0, vy: 0, vz: 0, yaw: s[3], pitch: 0, ground: true, stam: 1, tired: false, lamp: G.role === "s", slow: false, bob: 0, camZ: null, moving: false, bat: 1, lvl: W.level(s[2] + 0.4), safe: [s[0], s[1], s[2]] };
   G.key = { x: S.key[0], y: S.key[1], z: S.key[2], L: S.key[3], holder: -1, hint: roomHint(S.key[0], S.key[1], S.key[3]) }; G.exitOpen = false; G.t0 = S.t0; G.dur = S.dur; G.mWait = 18; G.stunT = 0; G.scare = null; G.spec = null; G.ended = false; G.fadeT = 0; G.linkCd = 0; G.villain = S.villain;
   exitDoor.children.forEach(h => { h.position.y = 0; }); W.setDoor(W.exit, false); W.lv[0].B = W.lv[0].B0 ? W.lv[0].B0.slice() : W.lv[0].B; if (!W.lv[0].B0) W.lv[0].B0 = W.lv[0].B.slice();
   cookiesClear(); for (const c of (S.cook || [])) CK.pick.set(c[0], { id: c[0], x: c[1], y: c[2], z: c[3], L: c[4], mesh: cookieMesh(1.5) }); for (const c of CK.pick.values()) c.mesh.position.set(c.x, c.y, c.z + 0.55);
@@ -823,7 +835,7 @@ function initUI() {
   $("bJoin").onclick = async () => { audioOn(); const code = $("code").value.trim().toUpperCase(); if (code.length !== 4) { $("menuMsg").textContent = "Tape le code de 4 lettres donné par l'hôte."; return; } busy(1, true); $("menuMsg").textContent = "Connexion…"; try { await clientJoin(name(), code); $("menuMsg").textContent = ""; G.mode = "lobby"; showLobby(); } catch (e) { $("menuMsg").textContent = e.message; netClose(); } busy(1, false); };
   ["oGran", "oRes", "oDur"].forEach(i => $(i).onchange = () => { G.opts = { gran: +$("oGran").value, res: +$("oRes").value, dur: +$("oDur").value }; emit(lobbyState()); });
   $("bStart").onclick = () => { audioOn(); hostStart(); };
-  $("bLeave").onclick = () => toMenu(""); $("bMenu").onclick = () => toMenu(""); $("quit").onclick = () => toMenu("");
+  $("unstuck").onclick = () => unstick(false); $("bLeave").onclick = () => toMenu(""); $("bMenu").onclick = () => toMenu(""); $("quit").onclick = () => toMenu("");
   $("bAgain").onclick = () => { audioOn(); if (G.solo) hostStart(); else { G.mode = "lobby"; emit(lobbyState()); } };
   $("bCopy").onclick = () => { const u = location.href.split("#")[0] + "#" + NET.code; const done = () => { $("bCopy").textContent = "Lien copié"; setTimeout(() => $("bCopy").textContent = "Copier le lien", 1600); }; try { navigator.clipboard.writeText(u).then(done, () => { $("lobMsg").textContent = u; }); } catch (e) { $("lobMsg").textContent = u; } };
   const h = (location.hash || "").slice(1).toUpperCase(); if (/^[A-Z]{4}$/.test(h)) $("code").value = h;
@@ -847,8 +859,8 @@ function apparition(dt, t, danger, L) {
 let frameN = 0, lastT = 0, sendT = 0, tickT = 0, hudT = 0, lampDir = null, tmpV = null, tinkT = 0, creakT = 20;
 function useLink(p, d) {
   G.fadeT = performance.now(); $("fade").style.opacity = 1; SND.stairs();
-  setTimeout(() => { let tx = d[0], ty = d[1]; for (let a = 0; a < TAU; a += 0.6) { const x = d[0] + Math.cos(a + p.yaw) * 0.9, y = d[1] + Math.sin(a + p.yaw) * 0.9; if (!W.blocked(x, y, d[2]) && allowed(x, y, d[2])) { tx = x; ty = y; break; } }
-    p.x = tx; p.y = ty; p.z = d[2]; p.vx = p.vy = p.vz = 0; p.camZ = null; G.linkCd = now() + 1.2; $("fade").style.opacity = 0; G.fadeT = 0; }, 520);
+  setTimeout(() => { let tx = d[0], ty = d[1]; for (let a = 0; a < TAU; a += 0.6) { const x = d[0] + Math.cos(a + p.yaw) * 0.9, y = d[1] + Math.sin(a + p.yaw) * 0.9; if (!W.blocked(x, y, d[2]) && allowed(x, y, d[2], W.level(d[2] + 0.4))) { tx = x; ty = y; break; } }
+    p.x = tx; p.y = ty; p.z = d[2]; p.lvl = W.level(d[2] + 0.4); p.safe = [d[0], d[1], d[2]]; p.vx = p.vy = p.vz = 0; p.camZ = null; G.linkCd = now() + 1.2; $("fade").style.opacity = 0; G.fadeT = 0; }, 520);
 }
 function interactions(t) {
   const p = G.p, P = me(), KEYN = TOUCH ? "Action" : "E"; let pr = "";
@@ -992,7 +1004,7 @@ async function main() {
     lampDir = new THREE.Vector3(1, 0, 0); tmpV = new THREE.Vector3();
     buildWorld(POS, AUX8, AUX16, IDX); buildDecor(); buildSkins(); buildProps(); initInput();
     step(); $("sLoad").hidden = true; $("sMenu").hidden = false; G.mode = "menu";
-    window.__jeu = { CK, G, W, U, NET, H, K, camera, renderer, scene, chunks, LIGHTS, hostStart, request, emit, now, SND, A, physics, interactions, hostActors };
+    window.__jeu = { unstick, CK, G, W, U, NET, H, K, camera, renderer, scene, chunks, LIGHTS, hostStart, request, emit, now, SND, A, physics, interactions, hostActors };
     requestAnimationFrame(frame);
   } catch (err) { $("loadmsg").textContent = err.message || String(err); $("loadmsg").style.color = "#e0453a"; $("bar").style.display = "none"; console.error(err); }
 }
