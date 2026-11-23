@@ -484,7 +484,7 @@ function initInput() {
   const cv = $("gl"), map = { KeyW: "f", ArrowUp: "f", KeyS: "b", ArrowDown: "b", KeyA: "l", ArrowLeft: "l", KeyD: "r", ArrowRight: "r" };   // codes = position des touches : ZQSD sur un clavier français
   addEventListener("keydown", e => { if (e.target && /INPUT|SELECT|TEXTAREA/.test(e.target.tagName)) return; if (G.mode !== "play") return;
     if (map[e.code]) { K[map[e.code]] = 1; e.preventDefault(); } if (e.code === "ShiftLeft" || e.code === "ShiftRight") K.run = true;
-    if (e.repeat) return; if (e.code === "KeyF") toggleLamp(); if (e.code === "KeyR") cri(); if (e.code === "KeyV") toggleFree(); if (e.code === "KeyG") CK.q = true; if (e.code === "KeyC") toggleSlow(); if (e.code === "KeyE" || e.code === "Space") { actQ = true; e.preventDefault(); } });
+    if (e.repeat) return; if (e.code === "KeyF") toggleLamp(); if (e.code === "KeyR") cri(); if (e.code === "KeyV") toggleFree(); if (e.code === "KeyG") CK.q = true; if (e.code === "KeyC") toggleSlow(); if (e.code === "KeyE") { actQ = true; e.preventDefault(); } if (e.code === "Space") { K.jump = true; e.preventDefault(); } });
   addEventListener("keyup", e => { if (map[e.code]) K[map[e.code]] = 0; if (e.code === "ShiftLeft" || e.code === "ShiftRight") K.run = false; });
   addEventListener("blur", () => { K.f = K.b = K.l = K.r = 0; K.run = false; });
   if (!TOUCH) {
@@ -508,7 +508,7 @@ function initInput() {
   cv.addEventListener("pointerup", up); cv.addEventListener("pointercancel", up);
   const hold = (id, dn, upf) => { const b = $(id); b.addEventListener("pointerdown", e => { e.preventDefault(); audioOn(); dn(); }); if (upf) { b.addEventListener("pointerup", upf); b.addEventListener("pointercancel", upf); b.addEventListener("pointerleave", upf); } };
   hold("tRun", () => { K.run = true; $("tRun").classList.add("on"); }, () => { K.run = false; $("tRun").classList.remove("on"); });
-  hold("tAct", () => { actQ = true; }); hold("tCook", () => { CK.q = true; }); hold("tLamp", toggleLamp); hold("tSlow", toggleSlow);
+  hold("tAct", () => { actQ = true; }); hold("tCook", () => { CK.q = true; }); hold("tJump", () => { K.jump = true; }); hold("tLamp", toggleLamp); hold("tSlow", toggleSlow);
 }
 function look(dx, dy) { const p = G.p; if (!p) return; p.yaw -= dx; p.pitch = clamp(p.pitch - dy, -1.3, 1.3); }
 function cri() { if (G.mode === "play" && G.role === "m") request(["cri"]); }
@@ -524,10 +524,11 @@ const SAS = [-42.4, 45.9, -39.55, 48.9];
 const inSas = (x, y) => x > SAS[0] && x < SAS[2] && y > SAS[1] && y < SAS[3];
 function allowed(x, y, z) { const c = W.cell(x, y); if (c < 0) return false; if (!W.lv[W.level(z + 0.4)].B[c]) return false; if (G.role === "m" && inSas(x, y)) return false; return true; }
 function tryMove(p, dx, dy) {
-  const n = Math.max(1, Math.ceil(Math.hypot(dx, dy) / 0.07)); dx /= n; dy /= n; const free = W.blocked(p.x, p.y, p.z) || !allowed(p.x, p.y, p.z);
+  const n = Math.max(1, Math.ceil(Math.hypot(dx, dy) / 0.07)); dx /= n; dy /= n;
+  const stuck = W.blocked(p.x, p.y, p.z), out = !allowed(p.x, p.y, p.z);   // coincé dans un mur ou hors zone (ne devrait pas arriver) : on le laisse revenir
   for (let i = 0; i < n; i++) {
-    if (free || (!W.blocked(p.x + dx, p.y, p.z) && allowed(p.x + dx, p.y, p.z))) p.x += dx;
-    if (free || (!W.blocked(p.x, p.y + dy, p.z) && allowed(p.x, p.y + dy, p.z))) p.y += dy;
+    if ((stuck || !W.blocked(p.x + dx, p.y, p.z)) && (out || allowed(p.x + dx, p.y, p.z))) p.x += dx;
+    if ((stuck || !W.blocked(p.x, p.y + dy, p.z)) && (out || allowed(p.x, p.y + dy, p.z))) p.y += dy;
     if (p.ground) { const g = W.ground(p.x, p.y, p.z); if (g > p.z) p.z = g; }
   }
 }
@@ -544,8 +545,12 @@ function physics(dt) {
   if (mag > 0.05) { const l = Math.hypot(fx, fy), cs = Math.cos(p.yaw), sn = Math.sin(p.yaw); fx /= l; fy /= l; tx = (cs * fy + sn * fx) * spd; ty = (sn * fy - cs * fx) * spd; }
   const k = Math.min(1, 12 * dt); p.vx += (tx - p.vx) * k; p.vy += (ty - p.vy) * k; if (!tx && Math.abs(p.vx) < 0.01) p.vx = 0; if (!ty && Math.abs(p.vy) < 0.01) p.vy = 0;
   if (p.vx || p.vy) tryMove(p, p.vx * dt, p.vy * dt);
+  /* saut : 70 cm environ ; on se cogne au plafond, et la zone de jeu reste la même en l'air */
+  if (K.jump) { K.jump = false; if (can && p.ground && p.stam > 0.05) { p.vz = 5.4; p.ground = false; p.stam = Math.max(0, p.stam - 0.06); SND.step(true); } }
+  if (p.vz > 0) { const c = W.cell(p.x, p.y); if (c >= 0) for (let q = 0; q < W.NC; q++) { const v = W.ceil[c * W.NC + q]; if (v !== v) break; if (v > p.z + 1.45 && v < p.z + 1.92) p.vz = 0; } }
+  const wasAir = !p.ground;
   p.vz -= 20 * dt; const nz = p.z + p.vz * dt, g = W.ground(p.x, p.y, p.z, p.ground ? W.STEP : 0.05);
-  if (nz <= g || (p.ground && p.z - g <= W.STEP + 0.02)) { p.z = g; p.vz = 0; p.ground = true; } else { p.z = nz; p.ground = false; }
+  if (nz <= g || (p.ground && p.z - g <= W.STEP + 0.02)) { p.z = g; p.vz = 0; p.ground = true; if (wasAir) SND.step(true); } else { p.z = nz; p.ground = false; }
   const sp = Math.hypot(p.vx, p.vy); p.moving = sp > 0.3;
   if (p.moving && p.ground) { p.bob += dt * (3 + sp * 2.2); A.stepT -= dt * sp; if (A.stepT <= 0) { A.stepT = p.run ? 1.9 : 1.5; if (!p.slowNow) SND.step(p.run); } }
   const tz = p.z + EYE; if (p.camZ == null || Math.abs(tz - p.camZ) > 0.9) p.camZ = tz; else p.camZ += (tz - p.camZ) * Math.min(1, dt * 14);
@@ -813,7 +818,7 @@ function initUI() {
   const nm = $("name"); try { nm.value = localStorage.getItem("jeu-ehpad-nom") || ""; } catch (e) { }
   const name = () => { const v = nm.value.trim() || "Joueur"; try { localStorage.setItem("jeu-ehpad-nom", v); } catch (e) { } return v; };
   const busy = (b, on) => { ["bSolo", "bHost", "bJoin"].forEach(i => $(i).disabled = on); };
-  $("bSolo").onclick = () => { audioOn(); netClose(); G.host = true; G.solo = true; G.me = 0; G.off = 0; G.players.clear(); G.players.set(0, newPlayer(0, name())); G.opts = { gran: 3, res: 26, dur: 480 }; hostStart(); };
+  $("bSolo").onclick = () => { audioOn(); netClose(); G.host = true; G.solo = true; G.me = 0; G.off = 0; G.players.clear(); G.players.set(0, newPlayer(0, name())); G.opts = { gran: 3, res: 12, dur: 480 }; hostStart(); };
   $("bHost").onclick = async () => { audioOn(); busy(1, true); $("menuMsg").textContent = "Création de la partie…"; try { await hostCreate(name()); G.opts = { gran: +$("oGran").value, res: +$("oRes").value, dur: +$("oDur").value }; $("menuMsg").textContent = ""; showLobby(); } catch (e) { $("menuMsg").textContent = e.message; netClose(); } busy(1, false); };
   $("bJoin").onclick = async () => { audioOn(); const code = $("code").value.trim().toUpperCase(); if (code.length !== 4) { $("menuMsg").textContent = "Tape le code de 4 lettres donné par l'hôte."; return; } busy(1, true); $("menuMsg").textContent = "Connexion…"; try { await clientJoin(name(), code); $("menuMsg").textContent = ""; G.mode = "lobby"; showLobby(); } catch (e) { $("menuMsg").textContent = e.message; netClose(); } busy(1, false); };
   ["oGran", "oRes", "oDur"].forEach(i => $(i).onchange = () => { G.opts = { gran: +$("oGran").value, res: +$("oRes").value, dur: +$("oDur").value }; emit(lobbyState()); });

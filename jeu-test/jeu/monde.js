@@ -103,7 +103,7 @@
       for (let i = 1; i < n; i++) { const f = i / n, x = ax + (bx - ax) * f, y = ay + (by - ay) * f, z = az + (bz - az) * f, c = cell(x, y); if (c < 0) return false; const sl = Math.floor(z / SL); if (sl >= 0 && sl < NS && (wall[c * 4 + (sl >> 5)] & (1 << (sl & 31)))) return false; }
       return true;
     };
-    W.level = z => z < 1.9 ? 0 : z < 5.4 ? 1 : 2;
+    W.level = z => z < 2.9 ? 0 : z < 6.3 ? 1 : 2;   // z = hauteur des pieds + 0,4 m environ (on peut être debout sur un meuble ou en plein saut)
 
     W.setDoor = (d, open) => {
       if (!d.ok) return; d.open = open;
