@@ -1,12 +1,12 @@
 {
- "version": "3.9.48",
+ "version": "3.9.49",
  "date": "2026-11-23",
- "taille": 16670487,
+ "taille": 16518082,
  "nouveautes": [
+  "Bilan thermique : onglets Graphiques et Maquette 3D, pointe simultanée d'été, air humide, corrections du calcul",
   "Bilan thermique : détail réglementaire (Ubat), ponts thermiques selon l'isolant, portes vers les locaux non chauffés",
   "Maquette 3D : maquette d'exemple à télécharger",
   "Bilan thermique : générateur sur la charge du bâtiment, terre-plein ISO 13370, volets",
-  "Bilan thermique : carte de chaleur dans Revit, « Et si… » et comparaison avec ClimaBIM",
-  "Bilan thermique : U calculés depuis les couches des types Revit"
+  "Bilan thermique : carte de chaleur dans Revit, « Et si… » et comparaison avec ClimaBIM"
  ]
 }
