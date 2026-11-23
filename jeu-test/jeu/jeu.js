@@ -388,7 +388,9 @@ function scareAnim() {
   const rx = L(A.root, 3, 0), ry = L(A.root, 3, 1), rz = L(A.root, 3, 2); m.position.set(s.V[0] + c * rx - sn * ry, s.V[1] + sn * rx + c * ry, s.V[2] + rz); m.rotation.set(0, 0, s.phi); m.visible = true; animPose(m.userData, A, fi, true);
   const C = A.cam, cx = L(C, 7, 0), cy = L(C, 7, 1), cz = L(C, 7, 2); s.v.set(s.V[0] + c * cx - sn * cy, s.V[1] + sn * cx + c * cy, s.V[2] + cz);
   _qa.set(C[i * 7 + 3], C[i * 7 + 4], C[i * 7 + 5], C[i * 7 + 6]); _qb.set(C[j * 7 + 3], C[j * 7 + 4], C[j * 7 + 5], C[j * 7 + 6]); s.q.copy(s.qz).multiply(_qa.slerp(_qb, f));
-  const k = Math.min(1, tA / 0.16); camera.position.copy(s.p0).lerp(s.v, k); camera.quaternion.copy(s.q0).slerp(s.q, k); camera.updateMatrixWorld();
+  const k = Math.min(1, tA / 0.16); camera.position.copy(s.p0).lerp(s.v, k); camera.quaternion.copy(s.q0).slerp(s.q, k);
+  const sh = fi > 12 && fi < 22 ? 0.045 : fi > 52 && fi < 64 ? 0.07 : fi >= 22 && fi <= 52 ? 0.01 : 0; if (sh) { camera.position.z += (Math.random() - 0.5) * sh * 0.5; camera.rotateX((Math.random() - 0.5) * sh); camera.rotateY((Math.random() - 0.5) * sh); camera.rotateZ((Math.random() - 0.5) * sh); }
+  camera.updateMatrixWorld();
   $("flash").style.opacity = (fi > 14 && fi < 20) || (fi > 53 && fi < 59) ? 0.38 : fi > 20 && fi < 53 ? 0.08 + 0.05 * Math.sin(fi * 1.7) : 0; $("fade").style.opacity = fi > A.n - 9 ? Math.min(1, (fi - (A.n - 9)) / 7) : 0;
 }
 /* pose : marche (jambes et bras), poursuite (bras tendus) */
@@ -413,7 +415,7 @@ function animChar(g, dt, speed, chase, eat) {
   if (eat) { u.aL.rotation.y = -2.25 + s * 0.12; u.aR.rotation.y = -2.25 - s * 0.12; }
   if (u.eyes) u.eyes.visible = !!chase && !eat;
 }
-let keyMesh = null, scareG = null, scareA = null, ghost = null, bloodMesh = null, bloodMat = null;
+let keyMesh = null, scareG = null, scareA = null, ghost = null, dragG = null, bloodMesh = null, bloodMat = null;
 const VS_DEC = `varying vec2 vUv; varying vec3 vW; void main(){ vUv=uv; vec4 w=modelMatrix*vec4(position,1.0); vW=w.xyz; gl_Position=projectionMatrix*viewMatrix*w; }`;
 const FS_DEC = `uniform sampler2D uBlood; uniform vec3 uNight; varying vec2 vUv; varying vec3 vW;` + GLSL_COMMON + GLSL_DYN + `
 void main(){ vec4 t=texture2D(uBlood,vUv); if(t.a<0.03) discard; vec3 N=vec3(0.0,0.0,1.0); vec3 V=normalize(cameraPosition-vW); vec3 dl=dyn(vW,N);
@@ -448,7 +450,7 @@ function buildProps() {
   const m = new THREE.MeshBasicMaterial({ color: 0xf0c75a }); keyMesh = new THREE.Group();
   const ring = new THREE.Mesh(new THREE.TorusGeometry(0.045, 0.012, 8, 20), m), st = new THREE.Mesh(new THREE.BoxGeometry(0.13, 0.016, 0.016), m), t1 = new THREE.Mesh(new THREE.BoxGeometry(0.016, 0.016, 0.04), m), t2 = t1.clone();
   ring.rotation.x = Math.PI / 2; st.position.x = 0.11; t1.position.set(0.15, 0, -0.025); t2.position.set(0.12, 0, -0.022); keyMesh.add(ring, st, t1, t2); keyMesh.scale.setScalar(1.5); keyMesh.visible = false; scene.add(keyMesh);
-  scareG = makeChar(6); scareA = makeChar(7); ghost = makeChar(7);
+  scareG = makeChar(6); scareA = makeChar(7); ghost = makeChar(7); dragG = makeChar(6);
   U.uBlood = { value: bloodTexture() }; bloodMat = new THREE.ShaderMaterial({ uniforms: U, vertexShader: VS_DEC, fragmentShader: FS_DEC, transparent: true, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2 });
 }
 
@@ -602,8 +604,11 @@ function physics(dt) {
   if (p.moving && p.ground) { p.bob += dt * (3 + sp * 2.2); A.stepT -= dt * sp; if (A.stepT <= 0) { A.stepT = p.run ? 1.9 : 1.5; if (!p.slowNow) SND.step(p.run); } }
   const tz = p.z + EYE; if (p.camZ == null || Math.abs(tz - p.camZ) > 0.9) p.camZ = tz; else p.camZ += (tz - p.camZ) * Math.min(1, dt * 14);
 }
+/* tremblement de l'écran : shake(durée en ms, force). La force retombe doucement sur le dernier quart de seconde. */
+function shake(ms, amp) { const n = performance.now(); if (n >= (G.shakeT || 0)) G.shakeA = 0; G.shakeT = Math.max(G.shakeT || 0, n + ms); G.shakeA = Math.max(G.shakeA || 0, amp || 0.035); }
+function shakeNow() { const n = performance.now(), e = G.shakeT || 0; return n < e ? (G.shakeA || 0.035) * Math.min(1, (e - n) / 250) : 0; }
 function placeCam(dt) {
-  const P = me(), p = G.p; let x, y, z, yaw, pitch;
+  const P = me(), p = G.p; let x, y, z, yaw, pitch, roll = 0;
   if (G.cine && cineStep(dt)) return;
   if (G.scare && G.scare.rig) return scareAnim();
   if (G.scare) { const s = G.scare, k = Math.min(1, (performance.now() - s.t0) / 180); yaw = p.yaw + angDiff(s.yaw, p.yaw) * k; pitch = p.pitch * (1 - k); x = p.x; y = p.y; z = p.camZ; p.yaw = yaw; p.pitch = pitch;
@@ -614,8 +619,8 @@ function placeCam(dt) {
     else { x = G.fc.x; y = G.fc.y; z = G.fc.z; }
     yaw = p.yaw; pitch = p.pitch; }
   else { const b = p.moving && p.ground ? Math.sin(p.bob) * (p.run ? 0.045 : 0.025) : 0; x = p.x; y = p.y; z = p.camZ + b; yaw = p.yaw; pitch = p.pitch;
-    const sk = Math.max(0, (G.danger || 0) - 0.5) * 0.03 + (performance.now() < (G.shakeT || 0) ? 0.035 : 0); if (sk) { yaw += (Math.random() - 0.5) * sk; pitch += (Math.random() - 0.5) * sk; } }
-  camera.position.set(x, y, z); const cp = Math.cos(pitch); camera.lookAt(x + Math.cos(yaw) * cp, y + Math.sin(yaw) * cp, z + Math.sin(pitch)); camera.updateMatrixWorld();
+    const sk = Math.max(0, (G.danger || 0) - 0.5) * 0.03 + shakeNow(); if (sk) { yaw += (Math.random() - 0.5) * sk; pitch += (Math.random() - 0.5) * sk; z += (Math.random() - 0.5) * sk * 0.3; roll = (Math.random() - 0.5) * sk * 0.9; } }
+  camera.position.set(x, y, z); const cp = Math.cos(pitch); camera.lookAt(x + Math.cos(yaw) * cp, y + Math.sin(yaw) * cp, z + Math.sin(pitch)); if (roll) camera.rotateZ(roll); camera.updateMatrixWorld();
 }
 
 /* ───────── 8. PNJ : résidents et mamies (calculés par l'hôte, rejoués par tous) ───────── */
@@ -790,7 +795,7 @@ function startGame(S) {
   CK.n = G.role === "s" ? 1 : 0; CK.nid = 1; for (const P of G.players.values()) { P.cook = P.role === "s" ? 1 : 0; P.eatT = 0; P.eatUntil = 0; } G.eatT = 0;
   keyMesh.visible = true; scareG.visible = scareA.visible = false; $("tLamp").classList.toggle("on", G.p.lamp); $("tSlow").classList.remove("on"); $("keyChip").classList.remove("on"); $("feed").innerHTML = "";
   ["sMenu", "sLobby", "sEnd", "sLoad"].forEach(i => $(i).hidden = true); document.body.classList.add("play"); G.mode = "play"; $("fade").style.opacity = 1; setTimeout(() => { $("fade").style.opacity = 0; }, 500);
-  clearTimeout(G.endTimer); G.fc = null; G.specFree = false; G.specNV = true; document.body.classList.remove("spec"); $("tSlow").textContent = "Marche lente"; G.adapt = 1; G.openT = 0; G.escT = 0; G.lampOutT = 0; G.shakeT = 0; G.final = false; G.criT = 0; G.danger = 0; G.ghostOn = false; G.ghostT = S.t0 + 38 + Math.random() * 30; ghost.visible = false; buildBlood(S.seed);
+  clearTimeout(G.endTimer); G.fc = null; G.specFree = false; G.specNV = true; document.body.classList.remove("spec"); $("tSlow").textContent = "Marche lente"; G.adapt = 1; G.openT = 0; G.escT = 0; G.lampOutT = 0; G.shakeT = 0; G.final = false; G.criT = 0; G.danger = 0; scareStop(0, false); SCQ.length = 0; G.ghostT = S.t0 + 30 + Math.random() * 25; buildBlood(S.seed);
   $("tAct").textContent = G.role === "m" ? "Attraper" : "Action"; $("tLamp").textContent = G.role === "m" ? "Cri" : "Lampe"; $("tSlow").style.display = G.role === "m" ? "none" : "";
   cineIntro(S, () => toast(G.role === "m" ? "Tu es <span style='color:#e0453a'>LE MÉCHANT</span><small>Attrape les résidents avant qu'ils sortent. Attention : les vrais résidents te sonnent.</small>" : (S.villain >= 0 ? "Tu es un <span style='color:#49c98a'>RÉSIDENT</span><small>Un joueur est le Méchant. Fonds-toi parmi les résidents, trouve la clé, sors par le hall.</small>" : "Tu es un <span style='color:#49c98a'>RÉSIDENT</span><small>Descends de la toiture, trouve la clé, sors par le hall. Le Méchant et les mamies rôdent…</small>"), 6500));
   if (A.amb) { A.amb.g.gain.setTargetAtTime(0.5, A.ctx.currentTime, 2); A.amb.og.gain.setTargetAtTime(0.16, A.ctx.currentTime, 3); }
@@ -808,8 +813,8 @@ function onMsg(m) {
     case "exit": G.exitOpen = true; Monde.openExit(W); G.doorT = performance.now(); SND.door(); toast(G.role === "m" ? "La sortie est ouverte !<small>Ils s'échappent…</small>" : "La porte est ouverte !<small>Sors vite.</small>", 3500); break;
     case "stun": G.stunT = m[1]; if (G.role === "m") { SND.stun(); toast("C'était un vrai résident…<small>Tu es sonné quelques secondes.</small>", 3000); } else feed("Le Méchant s'est trompé de résident"); break;
     case "cri": { G.criT = m[4] + 25; if (G.role === "m") { SND.laugh(1); break; } const p = G.p, d = Math.hypot(m[1] - p.x, m[2] - p.y) + Math.abs(m[3] - p.z) * 3;
-      if (d < 40) SND.laugh(clamp(1.2 - d / 34, 0.15, 1)); if (d < 19 && me().st === "alive") { G.lampOutT = now() + 4.5; G.shakeT = performance.now() + 900; toast("Ta lampe s'éteint…", 1600); } break; }
-    case "fx": if (m[1] === "sting") { const a = G.actors.find(x => x.id === m[2]); if (a && G.p && Math.hypot(a.x - G.p.x, a.y - G.p.y) < 16 && W.level(G.p.z + 0.4) === a.L) { SND.sting(); if (a.skin === 7) SND.laugh(0.7); G.lampOutT = Math.max(G.lampOutT || 0, now() + 0.9); G.shakeT = performance.now() + 500; } } else if (m[1] === "miss" && m[2] === G.me) SND.grab(); break;
+      if (d < 40) SND.laugh(clamp(1.2 - d / 34, 0.15, 1)); if (d < 19 && me().st === "alive") { G.lampOutT = now() + 4.5; shake(900); toast("Ta lampe s'éteint…", 1600); } break; }
+    case "fx": if (m[1] === "sting") { const a = G.actors.find(x => x.id === m[2]); if (a && G.p && Math.hypot(a.x - G.p.x, a.y - G.p.y) < 16 && W.level(G.p.z + 0.4) === a.L) { SND.sting(); if (a.skin === 7) SND.laugh(0.7); G.lampOutT = Math.max(G.lampOutT || 0, now() + 0.9); shake(500); } } else if (m[1] === "miss" && m[2] === G.me) SND.grab(); break;
     case "feed": feed(esc(m[1])); break;
     case "cgot": { const c = CK.pick.get(m[1]); if (c) { scene.remove(c.mesh); CK.pick.delete(m[1]); } if (m[2] === G.me) { CK.n++; sTone(880, 0.1, 0.12, "triangle", 1320); feed("🍪 Cookie ramassé (" + CK.n + ")"); } break; }
     case "cfly": { const c = { id: m[1], o: [m[3], m[4], m[5]], x: m[6], y: m[7], z: m[8], L: W.level(m[8] + 0.4), t0: m[9], dur: m[10], mesh: cookieMesh(1.15) }; c.mesh.position.set(m[3], m[4], m[5]); CK.thr.set(c.id, c); if (m[2] === G.me) { CK.n = Math.max(0, CK.n - 1); sNoise(900, 1.5, 0.1, 0.08); } break; }
@@ -825,6 +830,7 @@ function onMsg(m) {
           if (G.scare.m === scareA && AN()) { const A = AN(), sc0 = G.scare; sc0.rig = true; sc0.dur = A.n / A.fps * 1000; rigReset(scareA.userData); SND.sting(); const later = (ms, fn) => setTimeout(() => { if (G.scare === sc0) fn(); }, ms); later(430, () => SND.scream()); later(1800, () => SND.crack()); later(2180, () => SND.slam()); }
           else { SND.scream(); $("flash").style.opacity = 0.5; } }
         else if (m[2] === "out") { SND.win(); toast("Tu es dehors !<small>Tu as survécu à la nuit.</small>", 4000); specStart(); } }
+      if (m[1] !== G.me && m[2] === "caught" && m[4] && G.p && me() && me().st === "alive" && Math.hypot(m[4][0] - G.p.x, m[4][1] - G.p.y) < 14) shake(700, 0.04);
       else feed(m[2] === "out" ? "🚪 " + esc(P.name) + " s'est échappé" : m[2] === "left" ? esc(P.name) + " a quitté la partie" : "💀 " + esc(P.name) + " a été attrapé");
       if (m[1] !== G.me && me() && me().st !== "alive" && G.spec === m[1] && G.fc) pickSpec();
       if (G.host) checkEnd(); break; }
@@ -873,7 +879,7 @@ function showLobby() {
   $("lobMsg").textContent = G.host ? (G.players.size < 2 ? "En attente d'autres joueurs… (seul, il n'y aura pas de Méchant joueur)" : G.players.size + " joueurs : l'un de vous sera le Méchant, tiré au sort.") : "En attente du lancement par l'hôte…";
 }
 function toMenu(msg) { G.mode = "menu"; clearTimeout(G.endTimer); cineClear(); G.over = false; netClose(); $("fade").style.opacity = 0; for (const P of G.players.values()) if (P.mesh) scene.remove(P.mesh); G.players.clear(); document.body.classList.remove("play"); document.body.classList.remove("spec"); if (document.pointerLockElement) document.exitPointerLock(); $("pause").classList.remove("on"); ["sLobby", "sEnd", "sLoad"].forEach(i => $(i).hidden = true); $("sMenu").hidden = false; $("menuMsg").textContent = msg || ""; $("flash").style.opacity = 0; $("pulse").style.opacity = 0;
-  for (const a of G.actors) scene.remove(a.mesh); G.actors = []; cookiesClear(); if (keyMesh) keyMesh.visible = false; if (ghost) ghost.visible = false; if (bloodMesh) bloodMesh.visible = false; if (scareG) { scareG.visible = scareA.visible = false; } G.scare = null; if (A.amb) { A.amb.g.gain.setTargetAtTime(0.12, A.ctx.currentTime, 1); A.amb.og.gain.setTargetAtTime(0.03, A.ctx.currentTime, 1); A.hum.hg.gain.setTargetAtTime(0, A.ctx.currentTime, 0.2); } }
+  for (const a of G.actors) scene.remove(a.mesh); G.actors = []; cookiesClear(); if (keyMesh) keyMesh.visible = false; if (ghost) scareStop(0, false); if (bloodMesh) bloodMesh.visible = false; if (scareG) { scareG.visible = scareA.visible = false; } G.scare = null; if (A.amb) { A.amb.g.gain.setTargetAtTime(0.12, A.ctx.currentTime, 1); A.amb.og.gain.setTargetAtTime(0.03, A.ctx.currentTime, 1); A.hum.hg.gain.setTargetAtTime(0, A.ctx.currentTime, 0.2); } }
 function initUI() {
   const nm = $("name"); try { nm.value = localStorage.getItem("jeu-ehpad-nom") || ""; } catch (e) { }
   const name = () => { const v = nm.value.trim() || "Joueur"; try { localStorage.setItem("jeu-ehpad-nom", v); } catch (e) { } return v; };
@@ -934,7 +940,7 @@ function cineIntro(S, roleToast) {
 /* fin : si quelqu'un est sorti, le jour se lève devant l'entrée ; sinon le Méchant attend devant la porte fermée */
 function cineOutro(R) {
   if (G.mode !== "play" || G.over || !R.res.some(r => r[0] === G.me)) return;
-  G.over = true; G.scare = null; scareG.visible = scareA.visible = false; ghost.visible = false; G.ghostOn = false; $("flash").style.opacity = 0; $("pulse").style.opacity = 0; $("fade").style.opacity = 0; $("pause").classList.remove("on"); $("toast").classList.remove("on");
+  G.over = true; G.scare = null; scareG.visible = scareA.visible = false; scareStop(0, false); $("flash").style.opacity = 0; $("pulse").style.opacity = 0; $("fade").style.opacity = 0; $("pause").classList.remove("on"); $("toast").classList.remove("on");
   const out = R.res.filter(r => r[2] === "s" && r[3] === "out"), ex = W.exit; let shot;
   if (out.length) shot = { d: 4.2, a: [ex.x - 8.5, ex.y + 1, 1.6], b: [ex.x - 24.5, ex.y + 7.4, 10.5], la: [ex.x, ex.y, 1.5], lb: [ex.x + 0.5, ex.y + 0.4, 3], night: 3.5, nightB: 15, fog: 0.012, wide: true, in: 0.5, out: 0.6,
     txt: "Le jour se lève sur La Bassée.", sub: out.length + (out.length > 1 ? " résidents ont survécu à la nuit" : " résident a survécu à la nuit"),
@@ -988,17 +994,61 @@ function miniDraw() {
 
 /* ───────── 11. boucle ───────── */
 const RED = [0.6, 0.04, 0.03]; let alarmT = 0;
-/* apparition : une silhouette du Méchant au bout du couloir, qui disparaît quand on approche (ce n'est pas le vrai) */
+/* frayeurs : de temps en temps le joueur voit le Méchant. Ce n'est pas le vrai : il ne peut pas attraper, et chacun voit les siennes.
+   Trois scènes, jouées tour à tour dans un ordre tiré au hasard :
+   « silhouette » : il attend au bout du couloir et disparaît quand on approche ;
+   « plafond »    : il tombe du plafond la tête en bas, juste devant le joueur, puis remonte ;
+   « traine »     : au loin, il tire une mamie par terre jusque dans une pièce. */
+let SC = { kind: null }; const SCQ = [];
+function ceilAt(c, f) { let h = 1e9; for (let k = 0; k < W.NC; k++) { const v = W.ceil[c * W.NC + k]; if (v > f + 1.6 && v < h) h = v; } return h < f + 3.6 ? h : f + 2.5; }
+function scareStop(t, flick) {
+  if (SC.kind && flick) G.lampOutT = Math.max(G.lampOutT || 0, t + 0.4);
+  ghost.visible = false; ghost.rotation.set(0, 0, 0); rigReset(ghost.userData); ghost.userData.eyes.visible = false; dragG.visible = false; dragG.rotation.set(0, 0, 0); SC = { kind: null }; G.ghostOn = false; G.ghostT = t + 38 + Math.random() * 40;
+}
+function scareTry(kind, t, L) {
+  const p = G.p, z = W.LV_Z[L], A = W.lv[L].A, eye = p.z + 1.4;
+  if (kind === "silhouette") { const a = p.yaw + (Math.random() - 0.5) * 0.8, d = 9 + Math.random() * 8, x = p.x + Math.cos(a) * d, y = p.y + Math.sin(a) * d, c = W.cell(x, y);
+    if (c < 0 || !A[c] || W.blocked(x, y, z, 0.3) || !W.los(p.x, p.y, z + 1.4, x, y, z + 1.4)) return false;
+    ghost.position.set(x, y, W.lv[L].F[c]); SC = { kind, end: t + 2.6 }; SND.whisper(); shake(250); }
+  else if (kind === "plafond") { const a = p.yaw + (Math.random() - 0.5) * 0.3, d = 3.2 + Math.random() * 1.5, x = p.x + Math.cos(a) * d, y = p.y + Math.sin(a) * d, c = W.cell(x, y);
+    if (c < 0 || !A[c] || W.blocked(x, y, z, 0.3) || Math.abs(W.lv[L].F[c] - p.z) > 0.4 || !W.los(p.x, p.y, eye, x, y, eye)) return false;
+    SC = { kind, t0: t, x, y, top: ceilAt(c, W.lv[L].F[c]) }; SND.sting(); SND.crack(); setTimeout(() => { if (SC.kind === "plafond") SND.laugh(0.7); }, 350); shake(900, 0.07); }
+  else { const a = p.yaw + (Math.random() - 0.5) * 0.7, d = 5.5 + Math.random() * 4, x = p.x + Math.cos(a) * d, y = p.y + Math.sin(a) * d, c = W.cell(x, y);
+    if (c < 0 || !A[c] || !W.los(p.x, p.y, eye, x, y, z + 1.2)) return false;
+    /* il l'emmène vers un endroit proche que le joueur ne voit pas : une chambre, un recoin */
+    let e = -1; for (let i = 0; i < 14 && e < 0; i++) { const b = Math.random() * TAU, r = 4 + Math.random() * 5, qx = x + Math.cos(b) * r, qy = y + Math.sin(b) * r, q = W.cell(qx, qy); if (q >= 0 && A[q] && Math.hypot(qx - p.x, qy - p.y) > 6 && !W.los(p.x, p.y, eye, qx, qy, z + 1.2)) e = q; }
+    if (e < 0) return false; const path = W.astar(A, c, e, 5000); if (!path || path.length < 5) return false;
+    const pts = []; for (const q of path) { const w = W.xy(q); pts.push(w[0], w[1]); } const ma = { L }, gr = { L }; setPath(ma, pts, 1, t - 2.1, 0); setPath(gr, pts, 1, t, 0); if (ma.len < 4 || ma.len > 15) return false;
+    ma.dir = gr.dir = Math.atan2(pts[3] - pts[1], pts[2] - pts[0]); SC = { kind: "traine", ma, gr, z, end: t + ma.len + 0.4, snd: 0 }; SND.whisper(); shake(300, 0.014); }
+  ghost.visible = true; ghost.userData.eyes.visible = true; G.ghostOn = true; return true;
+}
+function scareRun(dt, t) {
+  const p = G.p, u = ghost.userData;
+  if (SC.kind === "silhouette") { if (Math.hypot(ghost.position.x - p.x, ghost.position.y - p.y) < 5.5 || t > SC.end) return scareStop(t, true);
+    ghost.rotation.z = Math.atan2(p.y - ghost.position.y, p.x - ghost.position.x); animChar(ghost, dt, 0, false); u.eyes.visible = true; return; }
+  if (SC.kind === "plafond") { const e = t - SC.t0; if (e > 1.55) return scareStop(t, true);
+    /* il tombe d'un coup, se balance une seconde les bras tendus vers le joueur, puis remonte */
+    const off = e < 0.14 ? 2.1 - 1.3 * (e / 0.14) : e < 1.25 ? 0.8 + 0.06 * Math.sin((e - 0.14) * 30) * Math.exp(-(e - 0.14) * 5) : 0.8 + 1.35 * Math.min(1, (e - 1.25) / 0.22), sw = Math.sin(e * 9) * 0.07;
+    ghost.position.set(SC.x, SC.y, SC.top + off); ghost.rotation.set(sw, Math.PI, Math.atan2(p.y - SC.y, p.x - SC.x) + Math.PI);
+    rigReset(u); u.aL.rotation.y = -2.7 + Math.sin(e * 23) * 0.12; u.aR.rotation.y = -2.7 - Math.sin(e * 19) * 0.12; u.eL.rotation.y = u.eR.rotation.y = -0.25; u.head.rotation.y = 0.35; u.head.rotation.z = Math.sin(e * 14) * 0.18; u.eyes.visible = true;
+    if (e < 0.9) $("flash").style.opacity = e < 0.12 ? 0.3 : 0; return; }
+  /* traine : le Méchant marche à reculons, penché, et tire la mamie couchée sur le dos */
+  const a = SC.ma, g = SC.gr; actorAt(a, t); actorAt(g, t);
+  if (t > SC.end || Math.hypot(a.x - p.x, a.y - p.y) < 4.5) { if (t <= SC.end) SND.laugh(0.5); return scareStop(t, true); }
+  ghost.position.set(a.x, a.y, W.ground(a.x, a.y, SC.z + 0.3)); SC.d1 = SC.d1 == null ? a.dir : SC.d1 + angDiff(a.dir, SC.d1) * Math.min(1, dt * 5); SC.d2 = SC.d2 == null ? g.dir : SC.d2 + angDiff(g.dir, SC.d2) * Math.min(1, dt * 5);
+  ghost.rotation.set(0, 0, SC.d1 + Math.PI); animChar(ghost, dt, a.mv ? 1 : 0, false);
+  u.body.rotation.y = 0.45; u.body.position.x = -0.93 * Math.sin(0.45); u.aL.rotation.y = u.aR.rotation.y = -0.7; u.eL.rotation.y = u.eR.rotation.y = -0.1; u.head.rotation.y = 0.2; u.eyes.visible = true;
+  dragG.visible = true; dragG.position.set(g.x, g.y, W.ground(g.x, g.y, SC.z + 0.3) + 0.05); dragG.rotation.set(0, -1.12 + Math.sin(t * 7) * 0.03, SC.d2 + Math.PI + Math.sin(t * 5) * 0.05);   // le buste relevé : il la tire par les épaules animChar(dragG, dt, 0, false);
+  SC.snd -= dt; if (SC.snd <= 0 && g.mv) { SC.snd = 0.55; const d = Math.hypot(g.x - p.x, g.y - p.y); sNoise(150, 0.9, 0.2 * clamp(1.2 - d / 18, 0.15, 1), 0.45, "lowpass"); }
+}
 function apparition(dt, t, danger, L) {
-  const P = me(), p = G.p; if (G.mode !== "play" || G.role !== "s" || !P || P.st !== "alive") { ghost.visible = false; G.ghostOn = false; return; }
-  if (G.cine) return;
-  if (G.ghostOn) { const d = Math.hypot(ghost.position.x - p.x, ghost.position.y - p.y);
-    if (d < 5.5 || t > G.ghostEnd) { ghost.visible = false; G.ghostOn = false; G.lampOutT = Math.max(G.lampOutT || 0, t + 0.4); G.ghostT = t + 40 + Math.random() * 45; }
-    else { ghost.rotation.z = Math.atan2(p.y - ghost.position.y, p.x - ghost.position.x); animChar(ghost, dt, 0, false); ghost.userData.eyes.visible = true; } return; }
-  if (t < G.ghostT || L > 1 || danger > 0.15 || t < G.t0 + 25) return;
-  const a = p.yaw + (Math.random() - 0.5) * 0.8, d = 9 + Math.random() * 8, x = p.x + Math.cos(a) * d, y = p.y + Math.sin(a) * d, c = W.cell(x, y), z = W.LV_Z[L];
-  if (c >= 0 && W.lv[L].A[c] && !W.blocked(x, y, z, 0.3) && W.los(p.x, p.y, z + 1.4, x, y, z + 1.4)) { ghost.position.set(x, y, W.lv[L].F[c]); ghost.visible = true; G.ghostOn = true; G.ghostEnd = t + 2.6; SND.whisper(); G.shakeT = performance.now() + 250; }
-  else G.ghostT = t + 2;
+  const P = me(), p = G.p; if (G.mode !== "play" || G.role !== "s" || !P || P.st !== "alive" || G.over || G.cine) { if (SC.kind) scareStop(t, false); return; }
+  if (SC.kind) return scareRun(dt, t);
+  if (t < G.ghostT || L > 1 || danger > 0.15 || t < G.t0 + 25 || G.home) return;
+  if (!SCQ.length) { SCQ.push("plafond", "traine", "silhouette"); SCQ.sort(() => Math.random() - 0.5); SC.tries = 0; }
+  if (scareTry(SCQ[0], t, L)) { SCQ.shift(); return; }
+  /* pas la place ici pour cette scène : on réessaie un peu plus loin, et au bout de 10 essais on passe à la suivante */
+  SC.tries = (SC.tries || 0) + 1; if (SC.tries > 10) { SCQ.shift(); SC.tries = 0; } G.ghostT = t + 1.5;
 }
 const vis = []; let frameN = 0, sTickT = 0, lastT = 0, sendT = 0, tickT = 0, hudT = 0, lampDir = null, tmpV = null, tinkT = 0, creakT = 20;
 function useLink(p, d) {
@@ -1078,7 +1128,7 @@ function frame(tm) {
       if (Q.role === "m" && Q.st === "alive" && G.role === "s" && W.level(Q.z + 0.4) === myL) { const d = Math.hypot(Q.x - camera.position.x, Q.y - camera.position.y); if (d < ng) { ng = d; nearG = Q; } } }
     if (G.cine) nearG = null;
     danger = G.mode === "play" && G.role === "s" && P.st === "alive" && nearG ? clamp(1 - ng / 16, 0, 1) : 0; G.danger = danger;
-    for (const Q of G.players.values()) { if (Q.role !== "m" || Q.id === G.me || !Q.mesh || !Q.mesh.visible || !A.ctx) continue; const d = Math.hypot(Q.sx - camera.position.x, Q.sy - camera.position.y), sp2 = Q.mesh.userData.sp; if (d < 17 && sp2 > 0.5) { Q.stT = (Q.stT || 0) - dt * sp2; if (Q.stT <= 0) { Q.stT = 1.7; SND.thud(clamp(1 - d / 17, 0, 1)); } } }
+    for (const Q of G.players.values()) { if (Q.role !== "m" || Q.id === G.me || !Q.mesh || !Q.mesh.visible || !A.ctx) continue; const d = Math.hypot(Q.sx - camera.position.x, Q.sy - camera.position.y), sp2 = Q.mesh.userData.sp; if (d < 17 && sp2 > 0.5) { Q.stT = (Q.stT || 0) - dt * sp2; if (Q.stT <= 0) { Q.stT = 1.7; SND.thud(clamp(1 - d / 17, 0, 1)); if (G.role === "s" && P.st === "alive" && d < 11) shake(140, 0.022 * (1 - d / 11)); } } }
     apparition(dt, t, danger, myL);
     /* clé, porte */
     if (keyMesh.visible) { const k = G.key; keyMesh.position.set(k.x, k.y, k.z + 0.9 + Math.sin(tm / 600) * 0.05); keyMesh.rotation.z = tm / 900; keyMesh.rotation.y = 0.5; }
@@ -1101,6 +1151,8 @@ function frame(tm) {
     const cand = []; const cp = camera.position;
     for (const l of LIGHTS) { const d = Math.hypot(l.x - cp.x, l.y - cp.y) + Math.abs(l.z - cp.z) * 3; if (d < 40) cand.push([d, l.x, l.y, l.z, l.r, G.final ? RED : l.col, G.final ? 0.35 + 0.65 * Math.abs(Math.sin(tm / 420)) : l.fl ? (Math.sin(tm / 90 * (1 + l.fl * 0.13)) * Math.sin(tm / 37 + l.fl) > 0.1 ? 1 : 0.12) : 1]); }
     if (keyMesh.visible) cand.push([Math.hypot(G.key.x - cp.x, G.key.y - cp.y) * 0.5, G.key.x, G.key.y, G.key.z + 0.9, 4.2, [0.75, 0.55, 0.14], 0.8 + 0.2 * Math.sin(tm / 300)]);
+    if (G.ghostOn && ghost.visible && SC.kind !== "plafond") cand.push([0.2, ghost.position.x, ghost.position.y, ghost.position.z + 1.3, 4.6, [0.6, 0.07, 0.05], 0.85 + 0.15 * Math.sin(tm / 70)]);   // lueur rouge autour de l'apparition, pour qu'on la voie dans le noir
+    if (dragG.visible) cand.push([0.25, dragG.position.x, dragG.position.y, dragG.position.z + 1.1, 3.4, [0.5, 0.42, 0.36], 1]);
     for (const a of G.actors) if (a.kind === "g" && a.st === 1 && a.mesh.visible) cand.push([0.1, a.x, a.y, W.LV_Z[a.L] + 1.4, 3.2, [0.7, 0.05, 0.03], 1]);
     cand.sort((a, b) => a[0] - b[0]);
     for (let i = 0; i < 8; i++) { const c = cand[i]; if (c) { U.uPtPos.value[i].set(c[1], c[2], c[3], c[4]); U.uPtCol.value[i].set(c[5][0] * c[6], c[5][1] * c[6], c[5][2] * c[6]); } else U.uPtPos.value[i].w = 0; }
@@ -1155,7 +1207,7 @@ async function main() {
     lampDir = new THREE.Vector3(1, 0, 0); tmpV = new THREE.Vector3();
     buildWorld(POS, AUX8, AUX16, IDX); buildDecor(); buildSkins(); buildProps(); miniBuild(); initInput();
     step(); $("sLoad").hidden = true; $("sMenu").hidden = false; G.mode = "menu";
-    window.__jeu = { unstick, CK, G, W, U, NET, H, K, camera, renderer, scene, chunks, LIGHTS, hostStart, request, emit, now, SND, A, physics, interactions, hostActors, cineSkip, cineStart, cineProp, MM, miniDraw, QA, QL, qSet, goSpawn };
+    window.__jeu = { unstick, CK, G, W, U, NET, H, K, camera, renderer, scene, chunks, LIGHTS, hostStart, request, emit, now, SND, A, physics, interactions, hostActors, cineSkip, cineStart, cineProp, MM, miniDraw, QA, QL, qSet, goSpawn, scareTry, shake, getSC: () => SC, ghost: () => ghost };
     requestAnimationFrame(frame);
   } catch (err) { $("loadmsg").textContent = err.message || String(err); $("loadmsg").style.color = "#e0453a"; $("bar").style.display = "none"; console.error(err); }
 }
