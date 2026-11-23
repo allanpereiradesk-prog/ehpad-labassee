@@ -672,7 +672,7 @@ async function hostCreate(name) {
         c.on("data", m => { if (!Array.isArray(m)) return;
           if (m[0] === "hello") { if (G.mode !== "lobby" || G.players.size >= 8) { try { c.send(["no", G.mode !== "lobby" ? "La partie a déjà commencé." : "La partie est complète."]); } catch (e) { } return; } id = NET.nid++; NET.conns.set(id, c); G.players.set(id, newPlayer(id, String(m[1] || "Joueur").slice(0, 14))); c.send(["you", id]); emit(lobbyState()); }
           else if (id != null) hostMsg(id, m); });
-        c.on("close", () => { if (id == null) return; NET.conns.delete(id); const P = G.players.get(id); if (G.mode === "lobby") { G.players.delete(id); emit(lobbyState()); } else if (P && P.st === "alive") { P.gone = true; if (P.role === "s") caught(id, 0, null, true); else emit(["feed", "Le Méchant a quitté la partie."]); } }); });
+        c.on("close", () => { if (id == null) return; NET.conns.delete(id); const P = G.players.get(id); if (G.mode === "lobby") { G.players.delete(id); emit(lobbyState()); } else if (G.mode === "play" && P && P.st === "alive") { P.gone = true; if (P.role === "s") caught(id, 0, null, true); else emit(["feed", "Le Méchant a quitté la partie."]); } }); });
     }; go(); });
 }
 async function clientJoin(name, code) {
@@ -743,7 +743,7 @@ function startGame(S) {
   CK.n = G.role === "s" ? 1 : 0; CK.nid = 1; for (const P of G.players.values()) { P.cook = P.role === "s" ? 1 : 0; P.eatT = 0; P.eatUntil = 0; } G.eatT = 0;
   keyMesh.visible = true; scareG.visible = scareA.visible = false; $("tLamp").classList.toggle("on", G.p.lamp); $("tSlow").classList.remove("on"); $("keyChip").classList.remove("on"); $("feed").innerHTML = "";
   ["sMenu", "sLobby", "sEnd", "sLoad"].forEach(i => $(i).hidden = true); document.body.classList.add("play"); G.mode = "play"; $("fade").style.opacity = 1; setTimeout(() => { $("fade").style.opacity = 0; }, 500);
-  G.fc = null; G.specFree = false; G.specNV = true; document.body.classList.remove("spec"); $("tSlow").textContent = "Marche lente"; G.adapt = 1; G.openT = 0; G.escT = 0; G.lampOutT = 0; G.shakeT = 0; G.final = false; G.criT = 0; G.danger = 0; G.ghostOn = false; G.ghostT = S.t0 + 38 + Math.random() * 30; ghost.visible = false; buildBlood(S.seed);
+  clearTimeout(G.endTimer); G.fc = null; G.specFree = false; G.specNV = true; document.body.classList.remove("spec"); $("tSlow").textContent = "Marche lente"; G.adapt = 1; G.openT = 0; G.escT = 0; G.lampOutT = 0; G.shakeT = 0; G.final = false; G.criT = 0; G.danger = 0; G.ghostOn = false; G.ghostT = S.t0 + 38 + Math.random() * 30; ghost.visible = false; buildBlood(S.seed);
   $("tAct").textContent = G.role === "m" ? "Attraper" : "Action"; $("tLamp").textContent = G.role === "m" ? "Cri" : "Lampe"; $("tSlow").style.display = G.role === "m" ? "none" : "";
   toast(G.role === "m" ? "Tu es <span style='color:#e0453a'>LE MÉCHANT</span><small>Attrape les résidents avant qu'ils sortent. Attention : les vrais résidents te sonnent.</small>" : (S.villain >= 0 ? "Tu es un <span style='color:#49c98a'>RÉSIDENT</span><small>Un joueur est le Méchant. Fonds-toi parmi les résidents, trouve la clé, sors par le hall.</small>" : "Tu es un <span style='color:#49c98a'>RÉSIDENT</span><small>Descends de la toiture, trouve la clé, sors par le hall. Le Méchant et les mamies rôdent…</small>"), 6500);
   if (A.amb) { A.amb.g.gain.setTargetAtTime(0.5, A.ctx.currentTime, 2); A.amb.og.gain.setTargetAtTime(0.16, A.ctx.currentTime, 3); }
@@ -786,9 +786,10 @@ function onMsg(m) {
 }
 function checkEnd(force) {
   if (G.ended) return; const sv = [...G.players.values()].filter(p => p.role === "s"); if (!force && sv.some(p => p.st === "alive")) return; G.ended = true;
-  setTimeout(() => emit(["end", { res: [...G.players.values()].map(p => [p.id, p.name, p.role, p.st === "alive" ? "time" : p.st, p.by]), time: force ? 1 : 0 }]), 3500);
+  clearTimeout(G.endTimer); G.endTimer = setTimeout(() => { if (G.mode === "play") emit(["end", { res: [...G.players.values()].map(p => [p.id, p.name, p.role, p.st === "alive" ? "time" : p.st, p.by]), time: force ? 1 : 0 }]); }, 3500);
 }
 function endGame(R) {
+  if (G.mode !== "play" || !R.res.some(r => r[0] === G.me)) return;
   G.mode = "end"; G.scare = null; $("fade").style.opacity = 0; scareG.visible = scareA.visible = false; document.body.classList.remove("play"); document.body.classList.remove("spec"); $("pause").classList.remove("on"); if (document.pointerLockElement) document.exitPointerLock(); $("flash").style.opacity = 0; $("pulse").style.opacity = 0;
   if (A.amb) { A.amb.g.gain.setTargetAtTime(0.12, A.ctx.currentTime, 1); A.amb.og.gain.setTargetAtTime(0.04, A.ctx.currentTime, 1); A.hum.hg.gain.setTargetAtTime(0, A.ctx.currentTime, 0.2); }
   const mine = R.res.find(r => r[0] === G.me), out = R.res.filter(r => r[2] === "s" && r[3] === "out").length, nS = R.res.filter(r => r[2] === "s").length;
@@ -824,7 +825,7 @@ function showLobby() {
   $("lobOpts").style.display = G.host ? "" : "none"; $("bStart").hidden = !G.host; $("lobMsg").style.color = "var(--muted)";
   $("lobMsg").textContent = G.host ? (G.players.size < 2 ? "En attente d'autres joueurs… (seul, il n'y aura pas de Méchant joueur)" : G.players.size + " joueurs : l'un de vous sera le Méchant, tiré au sort.") : "En attente du lancement par l'hôte…";
 }
-function toMenu(msg) { netClose(); G.mode = "menu"; $("fade").style.opacity = 0; for (const P of G.players.values()) if (P.mesh) scene.remove(P.mesh); G.players.clear(); document.body.classList.remove("play"); document.body.classList.remove("spec"); if (document.pointerLockElement) document.exitPointerLock(); $("pause").classList.remove("on"); ["sLobby", "sEnd", "sLoad"].forEach(i => $(i).hidden = true); $("sMenu").hidden = false; $("menuMsg").textContent = msg || ""; $("flash").style.opacity = 0; $("pulse").style.opacity = 0;
+function toMenu(msg) { G.mode = "menu"; clearTimeout(G.endTimer); netClose(); $("fade").style.opacity = 0; for (const P of G.players.values()) if (P.mesh) scene.remove(P.mesh); G.players.clear(); document.body.classList.remove("play"); document.body.classList.remove("spec"); if (document.pointerLockElement) document.exitPointerLock(); $("pause").classList.remove("on"); ["sLobby", "sEnd", "sLoad"].forEach(i => $(i).hidden = true); $("sMenu").hidden = false; $("menuMsg").textContent = msg || ""; $("flash").style.opacity = 0; $("pulse").style.opacity = 0;
   for (const a of G.actors) scene.remove(a.mesh); G.actors = []; cookiesClear(); if (keyMesh) keyMesh.visible = false; if (ghost) ghost.visible = false; if (bloodMesh) bloodMesh.visible = false; if (scareG) { scareG.visible = scareA.visible = false; } G.scare = null; if (A.amb) { A.amb.g.gain.setTargetAtTime(0.12, A.ctx.currentTime, 1); A.amb.og.gain.setTargetAtTime(0.03, A.ctx.currentTime, 1); A.hum.hg.gain.setTargetAtTime(0, A.ctx.currentTime, 0.2); } }
 function initUI() {
   const nm = $("name"); try { nm.value = localStorage.getItem("jeu-ehpad-nom") || ""; } catch (e) { }
@@ -901,7 +902,7 @@ function hud(t) {
 }
 function frame(tm) {
   requestAnimationFrame(frame); const dt = Math.min(0.05, (tm - lastT) / 1000 || 0.016); lastT = tm; const t = now();
-  if (G.mode === "play" || G.mode === "end") {
+  if ((G.mode === "play" || G.mode === "end") && me() && G.p) {
     const p = G.p, P = me();
     if (G.mode === "play") {
       physics(dt); P.x = p.x; P.y = p.y; P.z = p.z; P.yaw = p.yaw; P.pitch = p.pitch; P.f = (p.moving ? 1 : 0) | (p.run ? 2 : 0) | (p.lamp ? 4 : 0) | (p.slowNow ? 8 : 0);
