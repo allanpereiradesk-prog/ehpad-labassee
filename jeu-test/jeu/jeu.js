@@ -339,11 +339,32 @@ function makeChar(skin) {
     if (S.hunter) { eyes = new THREE.Group(); const m = eyeMat(), e1 = new THREE.Mesh(new THREE.SphereGeometry(0.017, 8, 6), m), e2 = e1.clone(); const hx = Math.sin(S.lean) * S.eye[1] + Math.cos(S.lean) * S.eye[0], hz = 0.56 + Math.cos(S.lean) * S.eye[1] - Math.sin(S.lean) * S.eye[0]; e1.position.set(hx, 0.042, hz); e2.position.set(hx, -0.042, hz); eyes.add(e1, e2); eyes.visible = false; g.add(eyes); }
     U2 = { aL, aR, lL, lR, body, eyes };
   }
-  g.traverse(o => { o.frustumCulled = false; });
+  g.traverse(o => { o.frustumCulled = false; }); g.rotation.order = "ZYX";
   g.userData = Object.assign(U2, { ph: Math.random() * 6, granny: S.granny, sp: 0 }); g.visible = false; scene.add(g); return g;
 }
+/* animations faites dans Blender (outils/capture_mechant.py -> jeu/anim_capture.js) : une rotation par articulation et par image */
+const AN = () => window.JEU_ANIM && window.JEU_ANIM.capture;
+let _qa = null, _qb = null;
+function animPose(u, A, fi, legs) {
+  if (!_qa) { _qa = new THREE.Quaternion(); _qb = new THREE.Quaternion(); }
+  const i = Math.max(0, Math.min(A.n - 1, Math.floor(fi))), j = Math.min(A.n - 1, i + 1), f = fi - i;
+  for (const k in A.j) { if (!legs && (k[0] === "l" || k[0] === "k")) continue; const a = A.j[k]; _qa.set(a[i * 4], a[i * 4 + 1], a[i * 4 + 2], a[i * 4 + 3]); _qb.set(a[j * 4], a[j * 4 + 1], a[j * 4 + 2], a[j * 4 + 3]); u[k].quaternion.copy(_qa).slerp(_qb, f); }
+  const b = A.body; u.body.position.set(b[i * 3] + (b[j * 3] - b[i * 3]) * f, b[i * 3 + 1] + (b[j * 3 + 1] - b[i * 3 + 1]) * f, b[i * 3 + 2] + (b[j * 3 + 2] - b[i * 3 + 2]) * f); u.eyes.visible = true;
+}
+function rigReset(u) { for (const k of ["body", "head", "aL", "eL", "aR", "eR", "lL", "kL", "lR", "kR"]) u[k].quaternion.identity(); u.aL.rotation.x = 0.09; u.aR.rotation.x = -0.09; u.body.position.set(0, 0, 0); }
+/* la scène de capture vue par la victime : le Méchant et la caméra suivent l'animation Blender */
+function scareAnim() {
+  const s = G.scare, A = AN(), p = G.p, m = s.m, tA = (performance.now() - s.t0) / 1000, fi = Math.min(A.n - 1, tA * A.fps);
+  if (!s.V) { s.V = [p.x + Math.cos(s.yaw) * 1.75, p.y + Math.sin(s.yaw) * 1.75, p.z]; s.phi = s.yaw + Math.PI; s.q0 = camera.quaternion.clone(); s.p0 = camera.position.clone(); s.qz = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 0, 1), s.phi); s.v = new THREE.Vector3(); s.q = new THREE.Quaternion(); }
+  const i = Math.floor(fi), j = Math.min(A.n - 1, i + 1), f = fi - i, c = Math.cos(s.phi), sn = Math.sin(s.phi), L = (arr, st, o) => arr[i * st + o] + (arr[j * st + o] - arr[i * st + o]) * f;
+  const rx = L(A.root, 3, 0), ry = L(A.root, 3, 1), rz = L(A.root, 3, 2); m.position.set(s.V[0] + c * rx - sn * ry, s.V[1] + sn * rx + c * ry, s.V[2] + rz); m.rotation.set(0, 0, s.phi); m.visible = true; animPose(m.userData, A, fi, true);
+  const C = A.cam, cx = L(C, 7, 0), cy = L(C, 7, 1), cz = L(C, 7, 2); s.v.set(s.V[0] + c * cx - sn * cy, s.V[1] + sn * cx + c * cy, s.V[2] + cz);
+  _qa.set(C[i * 7 + 3], C[i * 7 + 4], C[i * 7 + 5], C[i * 7 + 6]); _qb.set(C[j * 7 + 3], C[j * 7 + 4], C[j * 7 + 5], C[j * 7 + 6]); s.q.copy(s.qz).multiply(_qa.slerp(_qb, f));
+  const k = Math.min(1, tA / 0.16); camera.position.copy(s.p0).lerp(s.v, k); camera.quaternion.copy(s.q0).slerp(s.q, k); camera.updateMatrixWorld();
+  $("flash").style.opacity = (fi > 14 && fi < 20) || (fi > 53 && fi < 59) ? 0.38 : fi > 20 && fi < 53 ? 0.08 + 0.05 * Math.sin(fi * 1.7) : 0; $("fade").style.opacity = fi > A.n - 9 ? Math.min(1, (fi - (A.n - 9)) / 7) : 0;
+}
 /* pose : marche (jambes et bras), poursuite (bras tendus) */
-function animChar(g, dt, speed, chase) {
+function animChar(g, dt, speed, chase, eat) {
   const u = g.userData; u.sp += (speed - u.sp) * Math.min(1, dt * 8); u.ph += dt * (2.2 + u.sp * 3.6);
   if (u.rig) {   // marche avec genoux et coudes ; le buste se penche en courant
     const mv = u.sp > 0.05 ? 1 : 0, sw = Math.min(0.66, 0.16 + u.sp * 0.12) * mv, ph = u.ph * 0.78, s = Math.sin(ph);
@@ -352,13 +373,17 @@ function animChar(g, dt, speed, chase) {
     else { u.aL.rotation.y = s * sw * 0.85; u.aR.rotation.y = -s * sw * 0.85; u.eL.rotation.y = -(0.16 + sw * 0.9 * Math.max(0, -s) + sw * 0.3); u.eR.rotation.y = -(0.16 + sw * 0.9 * Math.max(0, s) + sw * 0.3); }
     const lean = Math.min(0.2, u.sp * 0.038) + (mv ? 0 : Math.sin(u.ph * 0.35) * 0.008); u.body.rotation.y = lean; u.body.position.x = -0.93 * Math.sin(lean); u.body.position.z = Math.abs(Math.cos(ph)) * 0.022 * mv;
     u.head.rotation.y = -lean * 0.7 + (chase ? -0.12 : 0); u.head.rotation.z = Math.sin(u.ph * 0.23) * (mv ? 0.05 : 0.22);
-    u.eyes.visible = !!chase; return;
+    u.eyes.visible = !!chase;
+    if (eat) { const c = Math.sin(u.ph * 2.4); u.aL.rotation.y = -1.0; u.aR.rotation.y = -1.08 + c * 0.07; u.eL.rotation.y = -2.0 + c * 0.14; u.eR.rotation.y = -1.92 - c * 0.14; u.head.rotation.y = 0.22 + c * 0.09; u.head.rotation.z = 0; }
+    if (u.anim) { const A = AN(), fi = A ? u.anim.a + (performance.now() - u.anim.t0) / 1000 * A.fps : 1e9; if (!A || fi >= u.anim.b) { u.anim = null; rigReset(u); } else animPose(u, A, fi, false); }
+    return;
   }
   const a = Math.min(0.75, 0.16 + u.sp * 0.2) * (u.sp > 0.05 ? 1 : 0), s = Math.sin(u.ph);
   u.lL.rotation.y = s * a; u.lR.rotation.y = -s * a;
   if (chase) { u.aL.rotation.y = -1.35 + s * 0.12; u.aR.rotation.y = -1.35 - s * 0.12; } else { u.aL.rotation.y = -s * a * 0.7 - 0.12; u.aR.rotation.y = s * a * 0.7 - 0.12; }
   u.body.position.z = Math.abs(Math.cos(u.ph)) * 0.018 * (u.sp > 0.05 ? 1 : 0); u.body.rotation.x = s * 0.035 * (u.sp > 0.05 ? 1 : 0);
-  if (u.eyes) u.eyes.visible = !!chase;
+  if (eat) { u.aL.rotation.y = -2.25 + s * 0.12; u.aR.rotation.y = -2.25 - s * 0.12; }
+  if (u.eyes) u.eyes.visible = !!chase && !eat;
 }
 let keyMesh = null, scareG = null, scareA = null, ghost = null, bloodMesh = null, bloodMat = null;
 const VS_DEC = `varying vec2 vUv; varying vec3 vW; void main(){ vUv=uv; vec4 w=modelMatrix*vec4(position,1.0); vW=w.xyz; gl_Position=projectionMatrix*viewMatrix*w; }`;
@@ -436,6 +461,7 @@ const SND = {
   slam() { sNoise(95, 0.7, 0.4, 0.4, "lowpass"); sTone(58, 0.25, 0.35, "sine", 40); },
   alarm() { sTone(233, 0.05, 0.9, "sawtooth", 175); },
   thud(v) { sNoise(105, 1, 0.3 * v, 0.13, "lowpass"); },
+  crack() { sNoise(2300, 2, 0.5, 0.06); sTone(150, 0.4, 0.14, "square", 55); },
   creak() { sTone(90 + Math.random() * 60, 0.05, 1.4, "sawtooth", 60 + Math.random() * 40); }
 };
 const HUM = [311, 277, 311, 370, 311, 277, 233, 277];
@@ -447,12 +473,13 @@ function initInput() {
   const cv = $("gl"), map = { KeyW: "f", ArrowUp: "f", KeyS: "b", ArrowDown: "b", KeyA: "l", ArrowLeft: "l", KeyD: "r", ArrowRight: "r" };   // codes = position des touches : ZQSD sur un clavier français
   addEventListener("keydown", e => { if (e.target && /INPUT|SELECT|TEXTAREA/.test(e.target.tagName)) return; if (G.mode !== "play") return;
     if (map[e.code]) { K[map[e.code]] = 1; e.preventDefault(); } if (e.code === "ShiftLeft" || e.code === "ShiftRight") K.run = true;
-    if (e.repeat) return; if (e.code === "KeyF") toggleLamp(); if (e.code === "KeyR") cri(); if (e.code === "KeyV") toggleFree(); if (e.code === "KeyC") toggleSlow(); if (e.code === "KeyE" || e.code === "Space") { actQ = true; e.preventDefault(); } });
+    if (e.repeat) return; if (e.code === "KeyF") toggleLamp(); if (e.code === "KeyR") cri(); if (e.code === "KeyV") toggleFree(); if (e.code === "KeyG") CK.q = true; if (e.code === "KeyC") toggleSlow(); if (e.code === "KeyE" || e.code === "Space") { actQ = true; e.preventDefault(); } });
   addEventListener("keyup", e => { if (map[e.code]) K[map[e.code]] = 0; if (e.code === "ShiftLeft" || e.code === "ShiftRight") K.run = false; });
   addEventListener("blur", () => { K.f = K.b = K.l = K.r = 0; K.run = false; });
   if (!TOUCH) {
     let drag = false;
-    cv.addEventListener("mousedown", e => { if (G.mode !== "play") return; audioOn(); if (!locked) { drag = true; try { const r = cv.requestPointerLock(); if (r && r.catch) r.catch(() => {}); } catch (err) { } } else if (e.button === 0) actQ = true; });
+    cv.addEventListener("mousedown", e => { if (G.mode !== "play") return; audioOn(); if (!locked) { drag = true; try { const r = cv.requestPointerLock(); if (r && r.catch) r.catch(() => {}); } catch (err) { } } else if (e.button === 0) actQ = true; else if (e.button === 2) CK.q = true; });
+    cv.addEventListener("contextmenu", e => e.preventDefault());
     addEventListener("mouseup", () => { drag = false; });
     document.addEventListener("pointerlockchange", () => { locked = document.pointerLockElement === cv; $("pause").classList.toggle("on", !locked && G.mode === "play" && !G.noLock); if (locked) G.noLock = false; });
     $("pause").addEventListener("click", () => { try { const r = cv.requestPointerLock(); if (r && r.catch) r.catch(() => {}); } catch (err) { } });
@@ -470,7 +497,7 @@ function initInput() {
   cv.addEventListener("pointerup", up); cv.addEventListener("pointercancel", up);
   const hold = (id, dn, upf) => { const b = $(id); b.addEventListener("pointerdown", e => { e.preventDefault(); audioOn(); dn(); }); if (upf) { b.addEventListener("pointerup", upf); b.addEventListener("pointercancel", upf); b.addEventListener("pointerleave", upf); } };
   hold("tRun", () => { K.run = true; $("tRun").classList.add("on"); }, () => { K.run = false; $("tRun").classList.remove("on"); });
-  hold("tAct", () => { actQ = true; }); hold("tLamp", toggleLamp); hold("tSlow", toggleSlow);
+  hold("tAct", () => { actQ = true; }); hold("tCook", () => { CK.q = true; }); hold("tLamp", toggleLamp); hold("tSlow", toggleSlow);
 }
 function look(dx, dy) { const p = G.p; if (!p) return; p.yaw -= dx; p.pitch = clamp(p.pitch - dy, -1.3, 1.3); }
 function cri() { if (G.mode === "play" && G.role === "m") request(["cri"]); }
@@ -494,9 +521,9 @@ function tryMove(p, dx, dy) {
   }
 }
 function physics(dt) {
-  const p = G.p, P = me(), t = now(), can = P.st === "alive" && t >= G.t0 && !G.fadeT && !(G.role === "m" && (t < G.t0 + G.mWait || t < (G.stunT || 0)));
-  let fx = K.r - K.l + K.jx, fy = K.f - K.b + K.jy; const mag = Math.min(1, Math.hypot(fx, fy));
-  if (!can) fx = fy = 0;
+  const p = G.p, P = me(), t = now(), can = P.st === "alive" && t >= G.t0 && !G.fadeT && !(G.role === "m" && (t < G.t0 + G.mWait || t < (G.stunT || 0) || t < (G.eatT || 0)));
+  let fx = K.r - K.l + K.jx, fy = K.f - K.b + K.jy; if (!can) fx = fy = 0;   // immobile : compte à rebours, sonné, en train de manger…
+  const mag = Math.min(1, Math.hypot(fx, fy)); if (!isFinite(p.vx) || !isFinite(p.vy)) p.vx = p.vy = 0;
   const wantRun = K.run && mag > 0.3 && p.stam > 0.02 && !p.tired;
   const slow = p.slow || (TOUCH && mag < 0.55 && !K.run);
   let spd = G.role === "m" ? (wantRun ? SPD.mRun : SPD.mWalk) : (wantRun ? SPD.run : slow ? SPD.slow : SPD.walk);
@@ -514,6 +541,7 @@ function physics(dt) {
 }
 function placeCam(dt) {
   const P = me(), p = G.p; let x, y, z, yaw, pitch;
+  if (G.scare && G.scare.rig) return scareAnim();
   if (G.scare) { const s = G.scare, k = Math.min(1, (performance.now() - s.t0) / 180); yaw = p.yaw + angDiff(s.yaw, p.yaw) * k; pitch = p.pitch * (1 - k); x = p.x; y = p.y; z = p.camZ; p.yaw = yaw; p.pitch = pitch;
     const sh = (Math.random() - 0.5) * 0.05, scareG = s.m; scareG.visible = true; scareG.position.set(x + Math.cos(s.yaw) * (1.7 - 0.72 * k), y + Math.sin(s.yaw) * (1.7 - 0.72 * k), p.z + 0.06 + sh); scareG.rotation.z = s.yaw + Math.PI; animChar(scareG, dt, 3, true); }
   else if (P && P.st !== "alive" && G.fc) {
@@ -556,7 +584,10 @@ function hostActors(t) {
       continue;
     }
     /* mamie : patrouille, poursuite, recherche */
-    if (t < G.t0 + 12) continue;
+    if (t < G.t0 + 12 || t < (a.eatT || 0)) continue;
+    { let ck = null, cd = 1e9; for (const c of CK.thr.values()) { if (c.L !== a.L || c.eaten || t < c.t0 + c.dur) continue; const d = Math.hypot(c.x - a.x, c.y - a.y); if (d < cd) { cd = d; ck = c; } }
+      if (ck && cd < 1.1) { ck.eaten = true; a.eatT = t + 5; a.tg = null; a.lure = 0; stopAt(a, t, 0); a.wait = t + 5.5; emit(["eat", -1 - a.id, ck.id, t + 5]); continue; }
+      if (ck && cd < 7 && W.los(a.x, a.y, W.LV_Z[a.L] + 1.2, ck.x, ck.y, W.LV_Z[a.L] + 0.5)) { if (a.lure !== ck.id || done) { a.lure = ck.id; a.tg = null; if (!pathTo(a, ck.x, ck.y, 2.4, 0, t)) a.lure = 0; } if (a.lure) continue; } }
     let best = null, bd = 1e9;
     for (const P of G.players.values()) { if (P.role !== "s" || P.st !== "alive" || W.level(P.z + 0.4) !== a.L) continue; const d = Math.hypot(P.x - a.x, P.y - a.y);
       if (d < 0.85) { caught(P.id, -1 - a.id, a); continue; }
@@ -570,6 +601,31 @@ function hostActors(t) {
   }
 }
 
+/* ───────── cookies : on les ramasse, on les lance ; un poursuivant qui en touche un s'arrête 5 s pour le manger ───────── */
+const CK = { pick: new Map(), thr: new Map(), n: 0, nid: 1, q: false, takeT: 0 };
+function cookieMesh(sc) {
+  const g = new THREE.Group(), m1 = new THREE.MeshBasicMaterial({ color: 0x8a6634 }), m2 = new THREE.MeshBasicMaterial({ color: 0x24140a }), d = new THREE.Mesh(new THREE.CylinderGeometry(0.075, 0.08, 0.024, 16), m1); d.rotation.x = Math.PI / 2; g.add(d);
+  for (let i = 0; i < 6; i++) { const c = new THREE.Mesh(new THREE.SphereGeometry(0.012, 6, 5), m2), a = i * 1.05 + 0.3, r = i % 2 ? 0.045 : 0.022; c.position.set(Math.cos(a) * r, Math.sin(a) * r, 0.013); g.add(c); }
+  g.scale.setScalar(sc || 1); scene.add(g); return g;
+}
+function cookiesClear() { for (const c of CK.pick.values()) scene.remove(c.mesh); for (const c of CK.thr.values()) scene.remove(c.mesh); CK.pick.clear(); CK.thr.clear(); CK.n = 0; CK.q = false; }
+function throwCookie() {
+  const p = G.p, cp = Math.cos(p.pitch), dx = Math.cos(p.yaw) * cp, dy = Math.sin(p.yaw) * cp; let x = p.x + dx * 0.35, y = p.y + dy * 0.35, z = p.z + EYE - 0.15, vx = dx * 8.5, vy = dy * 8.5, vz = Math.sin(p.pitch) * 8.5 + 2.6; const o = [x, y, z], h = 0.025;
+  for (let n = 0; n < 100; n++) { const nx = x + vx * h, ny = y + vy * h, nz = z + vz * h; vz -= 13 * h; const c = W.cell(nx, ny), sl = Math.floor(nz / W.SL);
+    if (c < 0 || (sl >= 0 && sl < W.NS && (W.wall[c * 4 + (sl >> 5)] & (1 << (sl & 31))))) break; x = nx; y = ny; z = nz; if (vz < 0 && nz <= W.ground(nx, ny, nz, 0.3) + 0.04) break; }
+  const r2 = v => Math.round(v * 100) / 100; request(["cthrow", r2(o[0]), r2(o[1]), r2(o[2]), r2(x), r2(y), r2(W.ground(x, y, z, 0.3))]);
+}
+function cookiesStep(dt, t, tm) {
+  const p = G.p, P = me();
+  for (const c of CK.pick.values()) { c.mesh.position.z = c.z + 0.55 + Math.sin(tm / 500 + c.id) * 0.05; c.mesh.rotation.z = tm / 700 + c.id; c.mesh.rotation.y = 0.9;
+    if (G.role === "s" && P.st === "alive" && CK.n < 3 && t > CK.takeT && Math.hypot(c.x - p.x, c.y - p.y) < 1.2 && Math.abs(c.z - p.z) < 1.2) { CK.takeT = t + 0.4; request(["ctake", c.id]); } }
+  for (const c of CK.thr.values()) { const k = clamp((t - c.t0) / c.dur, 0, 1), m = c.mesh; m.position.set(c.o[0] + (c.x - c.o[0]) * k, c.o[1] + (c.y - c.o[1]) * k, c.o[2] + (c.z + 0.03 - c.o[2]) * k + 0.5 * 4 * k * (1 - k)); m.rotation.y = k < 1 ? tm / 40 : 0; if (k >= 1 && !c.landed) { c.landed = true; if (Math.hypot(c.x - p.x, c.y - p.y) < 14) sNoise(700, 2, 0.12, 0.05); } }
+  if (CK.q) { CK.q = false; if (G.role === "s" && P.st === "alive" && t >= G.t0) { if (CK.n > 0) throwCookie(); else toast("Plus de cookie<small>Ramasses-en dans le bâtiment.</small>", 1600); } }
+}
+function hostCookies(t) {
+  for (const c of [...CK.thr.values()]) { if (c.eaten) continue; if (t > c.t0 + 30) { emit(["cgone", c.id]); continue; } if (t < c.t0 + c.dur) continue;
+    for (const V of G.players.values()) { if (V.role !== "m" || V.st !== "alive" || t < (V.eatT || 0) || t < G.t0 + G.mWait) continue; if (Math.hypot(V.x - c.x, V.y - c.y) < 1.05 && Math.abs(V.z - c.z) < 1.3) { c.eaten = true; V.eatT = t + 5; emit(["eat", V.id, c.id, t + 5]); break; } } }
+}
 /* ───────── 9. réseau (PeerJS : un hôte, les autres s'y connectent) ───────── */
 const NET = { peer: null, conns: new Map(), conn: null, code: "", nid: 1 }, PFX = "allanbim-nuit-ehpad-";
 const peerOpts = () => Object.assign({ debug: 0 }, window.JEU_PEER || {});
@@ -610,8 +666,10 @@ function hostMsg(id, m) {
     case "esc": if (G.mode === "play" && P.role === "s" && P.st === "alive" && G.exitOpen) emit(["out", id, "out", null, null, null]); break;
     case "take": if (G.mode === "play" && P.role === "s" && P.st === "alive" && G.key && G.key.holder < 0 && Math.hypot(P.x - G.key.x, P.y - G.key.y) < 2 && Math.abs(P.z - G.key.z) < 1.5) emit(["key", id]); break;
     case "open": if (G.mode === "play" && !G.exitOpen && G.key && G.key.holder === id && Math.hypot(P.x - W.exit.x, P.y - W.exit.y) < 3.2) emit(["exit"]); break;
-    case "cri": if (G.mode === "play" && P.role === "m" && t >= G.t0 + G.mWait && t >= (G.stunT || 0) && t >= (P.criT || 0)) { P.criT = t + 25; emit(["cri", P.x, P.y, P.z, t]); } break;
-    case "grab": { if (G.mode !== "play" || P.role !== "m" || t < (P.grabT || 0) || t < (G.stunT || 0) || t < G.t0 + G.mWait) break; P.grabT = t + 1.2; let best = null, bd = 1.75, kind = 0;
+    case "ctake": { const c = CK.pick.get(m[1]); if (G.mode === "play" && c && P.role === "s" && P.st === "alive" && (P.cook || 0) < 3 && Math.hypot(P.x - c.x, P.y - c.y) < 2.2) { P.cook = (P.cook || 0) + 1; emit(["cgot", c.id, id]); } break; }
+    case "cthrow": if (G.mode === "play" && P.role === "s" && P.st === "alive" && (P.cook || 0) > 0 && t >= G.t0 && Math.hypot(P.x - m[1], P.y - m[2]) < 2.5 && m.length === 7 && m.slice(1).every(v => typeof v === "number" && isFinite(v))) { P.cook--; const d = Math.hypot(m[4] - m[1], m[5] - m[2], m[6] - m[3]); emit(["cfly", CK.nid++, id, m[1], m[2], m[3], m[4], m[5], m[6], Math.round(t * 1000) / 1000, clamp(d / 9, 0.25, 1.3)]); } break;
+    case "cri": if (G.mode === "play" && P.role === "m" && t >= G.t0 + G.mWait && t >= (G.stunT || 0) && t >= (P.eatT || 0) && t >= (P.criT || 0)) { P.criT = t + 25; emit(["cri", P.x, P.y, P.z, t]); } break;
+    case "grab": { if (G.mode !== "play" || P.role !== "m" || t < (P.grabT || 0) || t < (G.stunT || 0) || t < (P.eatT || 0) || t < G.t0 + G.mWait) break; P.grabT = t + 1.2; let best = null, bd = 1.75, kind = 0;
       const test = (x, y, z, o, k) => { const d = Math.hypot(x - P.x, y - P.y); if (d < bd && Math.abs(z - P.z) < 1.2 && Math.abs(angDiff(Math.atan2(y - P.y, x - P.x), P.yaw)) < 1.0 && W.los(P.x, P.y, P.z + 1.2, x, y, z + 1.2)) { bd = d; best = o; kind = k; } };
       for (const Q of G.players.values()) if (Q.role === "s" && Q.st === "alive") test(Q.x, Q.y, Q.z, Q, 1);
       for (const a of G.actors) if (a.kind === "r") test(a.x, a.y, W.LV_Z[a.L], a, 2);
@@ -637,21 +695,24 @@ function hostStart() {
   /* PNJ */
   const acts = [], far = (L, pts, min) => { const C = H.cells[L]; for (let i = 0; i < 60; i++) { const p = W.xy(C[Math.floor(r() * C.length)]); if (pts.every(q => Math.hypot(q[0] - p[0], q[1] - p[1]) > min)) return p; } return W.xy(C[Math.floor(r() * C.length)]); };
   const stairs = L => W.links.filter(l => l.la === L || l.lb === L).map(l => l.la === L ? l.a : l.b);
+  const cook = [], cpts = [[], []]; for (let i = 0; i < 10; i++) { const L = i % 2, p = far(L, cpts[L], 9), c = W.near(H.masks[L], p[0], p[1], 6); if (c < 0) continue; cpts[L].push(p); const q = W.xy(c); cook.push([i + 1, q[0], q[1], W.lv[L].F[c], L]); }
   for (let i = 0; i < G.opts.res; i++) { const L = i % 2, p = far(L, [], 0); acts.push([i, "r", L, Math.floor(r() * 6), p[0], p[1], 0.65 + r() * 0.55]); }
   const gp = [[], []]; for (let i = 0; i < G.opts.gran; i++) { const L = (i + 1) % 2, p = far(L, stairs(L).concat(gp[L]), 22); gp[L].push(p); acts.push([100 + i, "g", L, villain < 0 && i === 0 ? 7 : 6, p[0], p[1], 1.05]); }
   /* départs : résidents sur la toiture, le Méchant dans le hall */
   const sp = {}, sv = ids.filter(i => i !== villain); sv.forEach((id, i) => { const a = i / Math.max(1, sv.length) * TAU, c = W.near(W.lv[W.spawn[3]].A, W.spawn[0] + Math.cos(a) * 1.4, W.spawn[1] + Math.sin(a) * 1.4, 10), p = W.xy(c); sp[id] = [p[0], p[1], W.lv[W.spawn[3]].F[c], r() * TAU]; });
   if (villain >= 0) { const p = far(0, stairs(0).concat([[W.exit.x, W.exit.y]]), 20), c = W.near(H.masks[0], p[0], p[1], 8); sp[villain] = [p[0], p[1], W.lv[0].F[c], r() * TAU]; }
-  emit(["start", { seed, villain, key: [k[0], k[1], k[2], k[3]], acts, sp, t0: t + 4, dur: G.opts.dur, names: [...G.players.values()].map(p => [p.id, p.name]) }]);
+  emit(["start", { seed, villain, key: [k[0], k[1], k[2], k[3]], acts, sp, cook, t0: t + 4, dur: G.opts.dur, names: [...G.players.values()].map(p => [p.id, p.name]) }]);
 }
 function startGame(S) {
   for (const a of G.actors) scene.remove(a.mesh); for (const P of G.players.values()) if (P.mesh) { scene.remove(P.mesh); P.mesh = null; }
   if (!G.host) { G.players.clear(); S.names.forEach(n => G.players.set(n[0], newPlayer(n[0], n[1]))); }
   G.actors = S.acts.map(a => { const o = { id: a[0], kind: a[1], L: a[2], skin: a[3], x: a[4], y: a[5], base: a[6], st: 0, dir: Math.random() * TAU, mesh: makeChar(a[3]), wait: S.t0 + Math.random() * 9, vyaw: 0 }; setPath(o, [a[4], a[5]], 1, S.t0, 0); if (o.kind === "r") o.mesh.scale.setScalar(0.94 + (a[0] % 5) * 0.025); return o; });
-  for (const P of G.players.values()) { P.role = P.id === S.villain ? "m" : "s"; P.st = "alive"; P.gone = false; P.by = null; const s = S.sp[P.id]; P.x = P.sx = s[0]; P.y = P.sy = s[1]; P.z = P.sz = s[2]; P.yaw = P.syaw = s[3]; P.f = 0; P.grabT = 0; if (P.id !== G.me) { P.mesh = makeChar(P.role === "m" ? 7 : P.id % 6); P.tag = nameTag(P.name, P.role === "m"); P.tag.position.z = P.role === "m" ? 2.12 : 1.97; P.mesh.add(P.tag); } }
+  for (const P of G.players.values()) { P.role = P.id === S.villain ? "m" : "s"; P.st = "alive"; P.gone = false; P.by = null; const s = S.sp[P.id]; P.x = P.sx = s[0]; P.y = P.sy = s[1]; P.z = P.sz = s[2]; P.yaw = P.syaw = s[3]; P.f = 0; P.grabT = 0; P.fall = 0; if (P.id !== G.me) { P.mesh = makeChar(P.role === "m" ? 7 : P.id % 6); P.tag = nameTag(P.name, P.role === "m"); P.tag.position.z = P.role === "m" ? 2.12 : 1.97; P.mesh.add(P.tag); } }
   const M = me(), s = S.sp[G.me]; G.role = M.role; EYE = G.role === "m" ? 1.74 : 1.5; G.p = { x: s[0], y: s[1], z: s[2], vx: 0, vy: 0, vz: 0, yaw: s[3], pitch: 0, ground: true, stam: 1, tired: false, lamp: G.role === "s", slow: false, bob: 0, camZ: null, moving: false, bat: 1 };
   G.key = { x: S.key[0], y: S.key[1], z: S.key[2], L: S.key[3], holder: -1, hint: roomHint(S.key[0], S.key[1], S.key[3]) }; G.exitOpen = false; G.t0 = S.t0; G.dur = S.dur; G.mWait = 18; G.stunT = 0; G.scare = null; G.spec = null; G.ended = false; G.fadeT = 0; G.linkCd = 0; G.villain = S.villain;
   exitDoor.children.forEach(h => { h.position.y = 0; }); W.setDoor(W.exit, false); W.lv[0].B = W.lv[0].B0 ? W.lv[0].B0.slice() : W.lv[0].B; if (!W.lv[0].B0) W.lv[0].B0 = W.lv[0].B.slice();
+  cookiesClear(); for (const c of (S.cook || [])) CK.pick.set(c[0], { id: c[0], x: c[1], y: c[2], z: c[3], L: c[4], mesh: cookieMesh(1.5) }); for (const c of CK.pick.values()) c.mesh.position.set(c.x, c.y, c.z + 0.55);
+  CK.n = G.role === "s" ? 1 : 0; CK.nid = 1; for (const P of G.players.values()) { P.cook = P.role === "s" ? 1 : 0; P.eatT = 0; P.eatUntil = 0; } G.eatT = 0;
   keyMesh.visible = true; scareG.visible = scareA.visible = false; $("tLamp").classList.toggle("on", G.p.lamp); $("tSlow").classList.remove("on"); $("keyChip").classList.remove("on"); $("feed").innerHTML = "";
   ["sMenu", "sLobby", "sEnd", "sLoad"].forEach(i => $(i).hidden = true); document.body.classList.add("play"); G.mode = "play"; $("fade").style.opacity = 1; setTimeout(() => { $("fade").style.opacity = 0; }, 500);
   G.fc = null; G.specFree = false; G.specNV = true; document.body.classList.remove("spec"); $("tSlow").textContent = "Marche lente"; G.adapt = 1; G.openT = 0; G.escT = 0; G.lampOutT = 0; G.shakeT = 0; G.final = false; G.criT = 0; G.danger = 0; G.ghostOn = false; G.ghostT = S.t0 + 38 + Math.random() * 30; ghost.visible = false; buildBlood(S.seed);
@@ -675,9 +736,19 @@ function onMsg(m) {
       if (d < 40) SND.laugh(clamp(1.2 - d / 34, 0.15, 1)); if (d < 19 && me().st === "alive") { G.lampOutT = now() + 4.5; G.shakeT = performance.now() + 900; toast("Ta lampe s'éteint…", 1600); } break; }
     case "fx": if (m[1] === "sting") { const a = G.actors.find(x => x.id === m[2]); if (a && G.p && Math.hypot(a.x - G.p.x, a.y - G.p.y) < 16 && W.level(G.p.z + 0.4) === a.L) { SND.sting(); if (a.skin === 7) SND.laugh(0.7); G.lampOutT = Math.max(G.lampOutT || 0, now() + 0.9); G.shakeT = performance.now() + 500; } } else if (m[1] === "miss" && m[2] === G.me) SND.grab(); break;
     case "feed": feed(esc(m[1])); break;
+    case "cgot": { const c = CK.pick.get(m[1]); if (c) { scene.remove(c.mesh); CK.pick.delete(m[1]); } if (m[2] === G.me) { CK.n++; sTone(880, 0.1, 0.12, "triangle", 1320); feed("🍪 Cookie ramassé (" + CK.n + ")"); } break; }
+    case "cfly": { const c = { id: m[1], o: [m[3], m[4], m[5]], x: m[6], y: m[7], z: m[8], L: W.level(m[8] + 0.4), t0: m[9], dur: m[10], mesh: cookieMesh(1.15) }; c.mesh.position.set(m[3], m[4], m[5]); CK.thr.set(c.id, c); if (m[2] === G.me) { CK.n = Math.max(0, CK.n - 1); sNoise(900, 1.5, 0.1, 0.08); } break; }
+    case "cgone": { const c = CK.thr.get(m[1]); if (c) { scene.remove(c.mesh); CK.thr.delete(m[1]); } break; }
+    case "eat": { const c = CK.thr.get(m[2]); let ex = 0, ey = 0; if (c) { ex = c.x; ey = c.y; scene.remove(c.mesh); CK.thr.delete(m[2]); }
+      if (m[1] >= 0) { const Q = G.players.get(m[1]); if (Q) Q.eatUntil = m[3]; if (m[1] === G.me) { G.eatT = m[3]; toast("Un cookie !<small>Tu ne peux pas t'empêcher de le manger… 5 secondes.</small>", 3000); } else feed("🍪 Le Méchant mange un cookie : 5 s de répit"); }
+      else { const a = G.actors.find(x => x.id === -1 - m[1]); if (a) a.eatUntil = m[3]; }
+      const dC = m[1] === G.me ? 0 : Math.hypot(ex - G.p.x, ey - G.p.y); if (dC < 16) for (let i = 0; i < 9; i++) setTimeout(() => { if (G.mode === "play") sNoise(1500 + Math.random() * 900, 3, 0.16 * clamp(1.1 - dC / 16, 0.1, 1), 0.05); }, i * 520 + Math.random() * 120); break; }
     case "out": { const P = G.players.get(m[1]); if (!P) break; P.st = m[2] === "out" ? "out" : "caught"; P.by = m[3]; if (P.mesh) P.mesh.visible = false;
+      if (m[2] === "caught" && AN()) { const cm = m[3] >= 0 ? (G.players.get(m[3]) || {}).mesh : ((G.actors.find(x => x.id === -1 - m[3] && x.skin === 7) || {}).mesh); if (cm && cm.userData.rig) cm.userData.anim = { t0: performance.now(), a: 11, b: 64 }; if (P.mesh && m[1] !== G.me) P.fall = performance.now(); }
       if (m[5] && G.key.holder === m[1]) { G.key.holder = -1; G.key.x = m[5][0]; G.key.y = m[5][1]; G.key.z = m[5][2]; G.key.L = W.level(m[5][2] + 0.4); G.key.hint = roomHint(G.key.x, G.key.y, G.key.L); keyMesh.visible = true; $("keyChip").classList.remove("on"); if (G.role === "s") feed("🗝 La clé est tombée"); }
-      if (m[1] === G.me) { if (m[2] === "caught") { const ac = m[3] < 0 ? G.actors.find(x => x.id === -1 - m[3]) : null; G.scare = { t0: performance.now(), yaw: m[4] ? Math.atan2(m[4][1] - G.p.y, m[4][0] - G.p.x) : G.p.yaw, m: m[3] >= 0 || (ac && ac.skin === 7) ? scareA : scareG }; SND.scream(); $("flash").style.opacity = 0.5; }
+      if (m[1] === G.me) { if (m[2] === "caught") { const ac = m[3] < 0 ? G.actors.find(x => x.id === -1 - m[3]) : null; G.scare = { t0: performance.now(), yaw: m[4] ? Math.atan2(m[4][1] - G.p.y, m[4][0] - G.p.x) : G.p.yaw, m: m[3] >= 0 || (ac && ac.skin === 7) ? scareA : scareG, hideP: m[3] >= 0 ? m[3] : null, hideA: ac ? ac.id : null };
+          if (G.scare.m === scareA && AN()) { const A = AN(), sc0 = G.scare; sc0.rig = true; sc0.dur = A.n / A.fps * 1000; rigReset(scareA.userData); SND.sting(); const later = (ms, fn) => setTimeout(() => { if (G.scare === sc0) fn(); }, ms); later(430, () => SND.scream()); later(1800, () => SND.crack()); later(2180, () => SND.slam()); }
+          else { SND.scream(); $("flash").style.opacity = 0.5; } }
         else if (m[2] === "out") { SND.win(); toast("Tu es dehors !<small>Tu as survécu à la nuit.</small>", 4000); specStart(); } }
       else feed(m[2] === "out" ? "🚪 " + esc(P.name) + " s'est échappé" : m[2] === "left" ? esc(P.name) + " a quitté la partie" : "💀 " + esc(P.name) + " a été attrapé");
       if (m[1] !== G.me && me() && me().st !== "alive" && G.spec === m[1] && G.fc) pickSpec();
@@ -687,10 +758,10 @@ function onMsg(m) {
 }
 function checkEnd(force) {
   if (G.ended) return; const sv = [...G.players.values()].filter(p => p.role === "s"); if (!force && sv.some(p => p.st === "alive")) return; G.ended = true;
-  setTimeout(() => emit(["end", { res: [...G.players.values()].map(p => [p.id, p.name, p.role, p.st === "alive" ? "time" : p.st, p.by]), time: force ? 1 : 0 }]), 2300);
+  setTimeout(() => emit(["end", { res: [...G.players.values()].map(p => [p.id, p.name, p.role, p.st === "alive" ? "time" : p.st, p.by]), time: force ? 1 : 0 }]), 3500);
 }
 function endGame(R) {
-  G.mode = "end"; G.scare = null; scareG.visible = scareA.visible = false; document.body.classList.remove("play"); document.body.classList.remove("spec"); $("pause").classList.remove("on"); if (document.pointerLockElement) document.exitPointerLock(); $("flash").style.opacity = 0; $("pulse").style.opacity = 0;
+  G.mode = "end"; G.scare = null; $("fade").style.opacity = 0; scareG.visible = scareA.visible = false; document.body.classList.remove("play"); document.body.classList.remove("spec"); $("pause").classList.remove("on"); if (document.pointerLockElement) document.exitPointerLock(); $("flash").style.opacity = 0; $("pulse").style.opacity = 0;
   if (A.amb) { A.amb.g.gain.setTargetAtTime(0.12, A.ctx.currentTime, 1); A.amb.og.gain.setTargetAtTime(0.04, A.ctx.currentTime, 1); A.hum.hg.gain.setTargetAtTime(0, A.ctx.currentTime, 0.2); }
   const mine = R.res.find(r => r[0] === G.me), out = R.res.filter(r => r[2] === "s" && r[3] === "out").length, nS = R.res.filter(r => r[2] === "s").length;
   const win = mine[2] === "s" ? mine[3] === "out" : out === 0;
@@ -725,8 +796,8 @@ function showLobby() {
   $("lobOpts").style.display = G.host ? "" : "none"; $("bStart").hidden = !G.host; $("lobMsg").style.color = "var(--muted)";
   $("lobMsg").textContent = G.host ? (G.players.size < 2 ? "En attente d'autres joueurs… (seul, il n'y aura pas de Méchant joueur)" : G.players.size + " joueurs : l'un de vous sera le Méchant, tiré au sort.") : "En attente du lancement par l'hôte…";
 }
-function toMenu(msg) { netClose(); G.mode = "menu"; for (const P of G.players.values()) if (P.mesh) scene.remove(P.mesh); G.players.clear(); document.body.classList.remove("play"); document.body.classList.remove("spec"); if (document.pointerLockElement) document.exitPointerLock(); $("pause").classList.remove("on"); ["sLobby", "sEnd", "sLoad"].forEach(i => $(i).hidden = true); $("sMenu").hidden = false; $("menuMsg").textContent = msg || ""; $("flash").style.opacity = 0; $("pulse").style.opacity = 0;
-  for (const a of G.actors) scene.remove(a.mesh); G.actors = []; if (keyMesh) keyMesh.visible = false; if (ghost) ghost.visible = false; if (bloodMesh) bloodMesh.visible = false; if (scareG) { scareG.visible = scareA.visible = false; } G.scare = null; if (A.amb) { A.amb.g.gain.setTargetAtTime(0.12, A.ctx.currentTime, 1); A.amb.og.gain.setTargetAtTime(0.03, A.ctx.currentTime, 1); A.hum.hg.gain.setTargetAtTime(0, A.ctx.currentTime, 0.2); } }
+function toMenu(msg) { netClose(); G.mode = "menu"; $("fade").style.opacity = 0; for (const P of G.players.values()) if (P.mesh) scene.remove(P.mesh); G.players.clear(); document.body.classList.remove("play"); document.body.classList.remove("spec"); if (document.pointerLockElement) document.exitPointerLock(); $("pause").classList.remove("on"); ["sLobby", "sEnd", "sLoad"].forEach(i => $(i).hidden = true); $("sMenu").hidden = false; $("menuMsg").textContent = msg || ""; $("flash").style.opacity = 0; $("pulse").style.opacity = 0;
+  for (const a of G.actors) scene.remove(a.mesh); G.actors = []; cookiesClear(); if (keyMesh) keyMesh.visible = false; if (ghost) ghost.visible = false; if (bloodMesh) bloodMesh.visible = false; if (scareG) { scareG.visible = scareA.visible = false; } G.scare = null; if (A.amb) { A.amb.g.gain.setTargetAtTime(0.12, A.ctx.currentTime, 1); A.amb.og.gain.setTargetAtTime(0.03, A.ctx.currentTime, 1); A.hum.hg.gain.setTargetAtTime(0, A.ctx.currentTime, 0.2); } }
 function initUI() {
   const nm = $("name"); try { nm.value = localStorage.getItem("jeu-ehpad-nom") || ""; } catch (e) { }
   const name = () => { const v = nm.value.trim() || "Joueur"; try { localStorage.setItem("jeu-ehpad-nom", v); } catch (e) { } return v; };
@@ -766,13 +837,13 @@ function useLink(p, d) {
 function interactions(t) {
   const p = G.p, P = me(), KEYN = TOUCH ? "Action" : "E"; let pr = "";
   if (P.st !== "alive") { if (actQ) pickSpec(); actQ = false; $("prompt").classList.remove("on"); return; }
-  const L = W.level(p.z + 0.4), awake = G.role !== "m" || (t >= G.t0 + G.mWait && t >= G.stunT);
+  const L = W.level(p.z + 0.4), awake = G.role !== "m" || (t >= G.t0 + G.mWait && t >= G.stunT && t >= (G.eatT || 0));
   /* escaliers (le Méchant ne monte pas sur la toiture) */
   let link = null, up = false;
   if (awake && !G.fadeT && t > G.linkCd && t >= G.t0) for (const l of W.links) for (const [s, d, u] of [[l.a, l.b, true], [l.b, l.a, false]]) {
     if (Math.hypot(p.x - s[0], p.y - s[1]) < 1.35 && Math.abs(p.z - s[2]) < 0.8 && !(G.role === "m" && (d[2] > 6.5 || s[2] > 6.5))) { link = d; up = u; } }
   if (link) { pr = KEYN + " — " + (up ? "Monter" : "Descendre") + " par l'escalier"; if (actQ) { useLink(p, link); actQ = false; } }
-  if (G.role === "m") { if (actQ && awake) request(["grab"]); if (t < G.t0 + G.mWait) pr = "Tu te réveilles dans " + Math.ceil(G.t0 + G.mWait - t) + " s…"; else if (t < G.stunT) pr = "Sonné… " + Math.ceil(G.stunT - t) + " s"; }
+  if (G.role === "m") { if (actQ && awake) request(["grab"]); if (t < G.t0 + G.mWait) pr = "Tu te réveilles dans " + Math.ceil(G.t0 + G.mWait - t) + " s…"; else if (t < (G.eatT || 0)) pr = "🍪 Tu manges un cookie… " + Math.ceil(G.eatT - t) + " s"; else if (t < G.stunT) pr = "Sonné… " + Math.ceil(G.stunT - t) + " s"; }
   else {
     const k = G.key;
     if (k.holder < 0 && Math.hypot(p.x - k.x, p.y - k.y) < 1.6 && Math.abs(p.z - k.z) < 1.5) { pr = KEYN + " — Prendre la clé"; if (actQ) request(["take"]); }
@@ -782,6 +853,7 @@ function interactions(t) {
   actQ = false; const el = $("prompt"); el.textContent = pr; el.classList.toggle("on", !!pr);
 }
 function hud(t) {
+  { const ck = $("cook"); ck.style.display = G.role === "s" && me().st === "alive" ? "" : "none"; ck.textContent = "🍪 " + CK.n; $("tCook").style.display = G.role === "s" && me().st === "alive" ? "" : "none"; }
   { const p = G.p, b = $("bat"), left = G.t0 + G.dur - t;
     if (G.role === "m") { const w = Math.ceil((G.criT || 0) - t); b.textContent = w > 0 ? "😈 Cri : " + w + " s" : "😈 Cri prêt (" + (TOUCH ? "bouton Cri" : "R") + ")"; b.style.color = w > 0 ? "" : "#e0453a"; }
     else { b.textContent = "🔦 " + Math.round(p.bat * 100) + " %"; b.style.color = p.bat < 0.2 ? "#e0453a" : ""; }
@@ -807,11 +879,12 @@ function frame(tm) {
       physics(dt); P.x = p.x; P.y = p.y; P.z = p.z; P.yaw = p.yaw; P.pitch = p.pitch; P.f = (p.moving ? 1 : 0) | (p.run ? 2 : 0) | (p.lamp ? 4 : 0) | (p.slowNow ? 8 : 0);
       interactions(t);
       if (tm - sendT > 80) { sendT = tm; if (!G.host) request(["s", +p.x.toFixed(2), +p.y.toFixed(2), +p.z.toFixed(2), +p.yaw.toFixed(3), +p.pitch.toFixed(2), P.f]); }
-      if (G.host && tm - tickT > 100) { tickT = tm; hostActors(t);
+      cookiesStep(dt, t, tm);
+      if (G.host && tm - tickT > 100) { tickT = tm; hostActors(t); hostCookies(t);
         if (!G.solo) emit(["S", [...G.players.values()].filter(q => q.st === "alive").map(q => [q.id, +q.x.toFixed(2), +q.y.toFixed(2), +q.z.toFixed(2), +q.yaw.toFixed(3), +(q.pitch || 0).toFixed(2), q.f])]);
         if (!G.ended && t > G.t0 + G.dur) checkEnd(true); }
-      if (G.scare && performance.now() - G.scare.t0 > 1700) { G.scare = null; scareG.visible = scareA.visible = false; $("flash").style.opacity = 0; specStart(); }
-      if (G.scare) $("flash").style.opacity = Math.random() < 0.3 ? 0.42 : 0.1;
+      if (G.scare && performance.now() - G.scare.t0 > (G.scare.dur || 1700)) { G.scare = null; scareG.visible = scareA.visible = false; $("flash").style.opacity = 0; $("fade").style.opacity = 0; specStart(); }
+      if (G.scare && !G.scare.rig) $("flash").style.opacity = Math.random() < 0.3 ? 0.42 : 0.1;
       if (tm - hudT > 200) { hudT = tm; hud(t); }
     }
     if (G.mode === "play" && P.st !== "alive" && !G.scare && G.specFree && G.fc) specStep(dt);
@@ -819,13 +892,16 @@ function frame(tm) {
     /* PNJ */
     let nearG = null, ng = 1e9, danger = 0; const myL = W.level(camera.position.z - EYE + 0.4);
     for (const a of G.actors) { if (!G.host || G.mode !== "play") actorAt(a, t); const m = a.mesh, z = W.LV_Z[a.L], d = Math.hypot(a.x - camera.position.x, a.y - camera.position.y);
-      m.visible = d < 55 && Math.abs(z - (camera.position.z - EYE)) < 5; a.vyaw += angDiff(a.dir, a.vyaw) * Math.min(1, dt * 6);
-      if (m.visible) { m.position.set(a.x, a.y, W.ground(a.x, a.y, z + 0.3)); m.rotation.z = a.vyaw; animChar(m, dt, a.mv ? a.sp : 0, a.kind === "g" && a.st === 1); }
+      m.visible = d < 55 && Math.abs(z - (camera.position.z - EYE)) < 5 && !(G.scare && G.scare.hideA === a.id); a.vyaw += angDiff(a.dir, a.vyaw) * Math.min(1, dt * 6);
+      if (m.visible) { m.position.set(a.x, a.y, W.ground(a.x, a.y, z + 0.3)); m.rotation.z = a.vyaw; animChar(m, dt, a.mv ? a.sp : 0, a.kind === "g" && a.st === 1, t < (a.eatUntil || 0)); }
       if (a.kind === "g" && a.L === myL && d < ng) { ng = d; nearG = a; } }
     /* autres joueurs */
     for (const Q of G.players.values()) { if (Q.id === G.me || !Q.mesh) continue; const k = Math.min(1, dt * 12), sp = Math.hypot(Q.x - Q.sx, Q.y - Q.sy) / Math.max(dt, 0.001) * k;
-      Q.sx += (Q.x - Q.sx) * k; Q.sy += (Q.y - Q.sy) * k; Q.sz += (Q.z - Q.sz) * k; Q.syaw += angDiff(Q.yaw, Q.syaw) * k; Q.mesh.visible = Q.st === "alive"; if (Q.tag) Q.tag.visible = P.st !== "alive" && !G.scare;
-      if (Q.mesh.visible) { Q.mesh.position.set(Q.sx, Q.sy, Q.sz); Q.mesh.rotation.z = Q.syaw; animChar(Q.mesh, dt, Math.min(5, sp), Q.role === "m" && (Q.f & 2)); }
+      Q.sx += (Q.x - Q.sx) * k; Q.sy += (Q.y - Q.sy) * k; Q.sz += (Q.z - Q.sz) * k; Q.syaw += angDiff(Q.yaw, Q.syaw) * k; Q.mesh.visible = (Q.st === "alive" || !!Q.fall) && !(G.scare && G.scare.hideP === Q.id); if (Q.tag) Q.tag.visible = P.st !== "alive" && !G.scare;
+      if (Q.fall) { const kf = (performance.now() - Q.fall) / 1000;   // la victime vue par les autres : elle se débat puis tombe sur le dos
+        if (kf > 3.2 || G.mode !== "play") { Q.fall = 0; Q.mesh.visible = false; Q.mesh.rotation.set(0, 0, Q.syaw); }
+        else { Q.mesh.position.set(Q.sx, Q.sy, Q.sz); Q.mesh.rotation.set(0, kf < 1.35 ? Math.sin(kf * 38) * 0.05 : -Math.min(1.5, (kf - 1.35) * (kf - 1.35) * 9), Q.syaw + (kf < 1.35 ? Math.sin(kf * 31) * 0.06 : 0)); animChar(Q.mesh, dt, 0, false); } }
+      else if (Q.mesh.visible) { Q.mesh.position.set(Q.sx, Q.sy, Q.sz); Q.mesh.rotation.z = Q.syaw; animChar(Q.mesh, dt, Math.min(5, sp), Q.role === "m" && (Q.f & 2), t < (Q.eatUntil || 0)); }
       if (Q.role === "m" && Q.st === "alive" && G.role === "s" && W.level(Q.z + 0.4) === myL) { const d = Math.hypot(Q.x - camera.position.x, Q.y - camera.position.y); if (d < ng) { ng = d; nearG = Q; } } }
     danger = G.mode === "play" && G.role === "s" && P.st === "alive" && nearG ? clamp(1 - ng / 16, 0, 1) : 0; G.danger = danger;
     for (const Q of G.players.values()) { if (Q.role !== "m" || Q.id === G.me || !Q.mesh || !Q.mesh.visible || !A.ctx) continue; const d = Math.hypot(Q.sx - camera.position.x, Q.sy - camera.position.y), sp2 = Q.mesh.userData.sp; if (d < 17 && sp2 > 0.5) { Q.stT = (Q.stT || 0) - dt * sp2; if (Q.stT <= 0) { Q.stT = 1.7; SND.thud(clamp(1 - d / 17, 0, 1)); } } }
@@ -900,7 +976,7 @@ async function main() {
     lampDir = new THREE.Vector3(1, 0, 0); tmpV = new THREE.Vector3();
     buildWorld(POS, AUX8, AUX16, IDX); buildDecor(); buildSkins(); buildProps(); initInput();
     step(); $("sLoad").hidden = true; $("sMenu").hidden = false; G.mode = "menu";
-    window.__jeu = { G, W, U, NET, H, K, camera, renderer, scene, chunks, LIGHTS, hostStart, request, emit, now, SND, A, physics, interactions, hostActors };
+    window.__jeu = { CK, G, W, U, NET, H, K, camera, renderer, scene, chunks, LIGHTS, hostStart, request, emit, now, SND, A, physics, interactions, hostActors };
     requestAnimationFrame(frame);
   } catch (err) { $("loadmsg").textContent = err.message || String(err); $("loadmsg").style.color = "#e0453a"; $("bar").style.display = "none"; console.error(err); }
 }

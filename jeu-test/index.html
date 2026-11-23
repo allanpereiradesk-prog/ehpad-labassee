@@ -101,7 +101,7 @@ body.touch #cross{display:none}
 .tbtn{position:absolute;pointer-events:auto;width:62px;height:62px;border-radius:50%;border:1px solid rgba(255,255,255,.22);background:rgba(10,11,14,.55);font-size:11.5px;font-weight:700;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.1;touch-action:none}
 .tbtn.on{background:rgba(224,122,42,.5);border-color:var(--accent)}
 #tAct{right:18px;bottom:96px;width:76px;height:76px;background:rgba(179,38,30,.5)}
-#tRun{right:104px;bottom:52px} #tLamp{right:22px;bottom:186px} #tSlow{right:104px;bottom:130px}
+#tRun{right:104px;bottom:52px} #tCook{right:186px;bottom:96px;background:rgba(138,102,52,.55)} #tLamp{right:22px;bottom:186px} #tSlow{right:104px;bottom:130px}
 body.touch #quit{bottom:auto;top:50px;right:14px}
 body.touch .kb{display:none}
 @media (max-width:900px){ #obj{max-width:40vw;font-size:12.5px;padding:6px 10px} #top{top:8px} .chip{font-size:13px;padding:4px 10px} }
@@ -114,7 +114,7 @@ body.touch .kb{display:none}
 
 <div id="hud">
   <div id="obj"><b id="objT">Objectif</b><span id="objS"></span></div>
-  <div id="top"><div class="chip" id="timer">8:00</div><div class="chip" id="alive"></div><div class="chip" id="bat"></div><div class="chip" id="keyChip">🗝 Clé</div></div>
+  <div id="top"><div class="chip" id="timer">8:00</div><div class="chip" id="alive"></div><div class="chip" id="bat"></div><div class="chip" id="cook"></div><div class="chip" id="keyChip">🗝 Clé</div></div>
   <div class="chip" id="lvl"></div>
   <div id="feed"></div>
   <div id="cross"></div>
@@ -128,6 +128,7 @@ body.touch .kb{display:none}
   <button class="tbtn" id="tLamp">Lampe</button>
   <button class="tbtn" id="tSlow">Marche lente</button>
   <button class="tbtn" id="tRun">Courir</button>
+  <button class="tbtn" id="tCook">Cookie</button>
   <button class="tbtn" id="tAct">Action</button>
 </div>
 <button class="btn" id="quit">Quitter</button>
@@ -162,11 +163,12 @@ body.touch .kb{display:none}
     <b>Résidents</b><span>Les joueurs ressemblent aux résidents déjà présents. Marche lentement, lampe éteinte, et on ne te remarque pas.</span>
     <b>Le Méchant</b><span>À plusieurs, un joueur tiré au sort est le Méchant. Il apparaît ailleurs, au rez-de-chaussée, et doit attraper les autres… mais s'il attrape un vrai résident, il est sonné.</span>
     <b>La lampe</b><span>La batterie se vide, elle se recharge lampe éteinte. Elle grésille quand le danger approche. Suis les traces au sol : elles mènent à la clé.</span>
+    <b>Les cookies</b><span>Ramasse-les et lance-les. Le Méchant (et les mamies) ne résistent pas : celui qui en touche un s'arrête 5 secondes pour le manger.</span>
     <b>Spectateur</b><span>Attrapé ou déjà sorti ? Tu passes en mode spectateur : tu suis les joueurs encore en vie ou tu voles partout dans le bâtiment.</span>
     <b>La sortie</b><span>Une seule clé dans le bâtiment. Celui qui la porte ouvre la porte du hall pour tout le monde.</span>
   </dl>
   <h2 class="kb">Commandes</h2>
-  <div class="keys kb"><span><kbd>Z</kbd><kbd>Q</kbd><kbd>S</kbd><kbd>D</kbd> bouger</span><span><kbd>Maj</kbd> courir</span><span><kbd>C</kbd> marche lente</span><span><kbd>F</kbd> lampe</span><span><kbd>R</kbd> cri du Méchant</span><span><kbd>V</kbd> caméra libre (spectateur)</span><span><kbd>E</kbd> ou clic : action</span></div>
+  <div class="keys kb"><span><kbd>Z</kbd><kbd>Q</kbd><kbd>S</kbd><kbd>D</kbd> bouger</span><span><kbd>Maj</kbd> courir</span><span><kbd>C</kbd> marche lente</span><span><kbd>F</kbd> lampe</span><span><kbd>G</kbd> ou clic droit : lancer un cookie</span><span><kbd>R</kbd> cri du Méchant</span><span><kbd>V</kbd> caméra libre (spectateur)</span><span><kbd>E</kbd> ou clic : action</span></div>
   <p class="note" style="margin:8px 0 0">Sur téléphone (tiens-le à l'horizontale) : pouce gauche pour avancer, pouce droit pour regarder.</p>
 </div></div>
 
@@ -204,6 +206,7 @@ body.touch .kb{display:none}
 
 <script src="three.min.js"></script>
 <script src="jeu/monde.js"></script>
+<script src="jeu/anim_capture.js"></script>
 <script src="jeu/jeu.js"></script>
 </body>
 </html>
