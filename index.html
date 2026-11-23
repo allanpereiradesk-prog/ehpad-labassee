@@ -8220,6 +8220,10 @@ const _jvMqExit=mqExit; mqExit=function(){ if(JV.on) jvOpen(false); return _jvMq
   const _st=setTab; setTab=function(t){ _st(t); sync(); };
   bar.addEventListener("click",()=>setTimeout(sync,0));
   show("projet"); sync();
+  /* lien vers le jeu test (page à part : jeu-test/), rangé dans le groupe Équipe */
+  const jt=document.createElement("button"); jt.type="button"; jt.id="lnkJeuTest"; jt.textContent="🎮 Jeu test"; jt.title="La Nuit de l'EHPAD : jeu test dans la maquette (s'ouvre dans un nouvel onglet)";
+  jt.onclick=()=>{ const w=window.open("jeu-test/","_blank"); if(!w) location.href="jeu-test/"; }; bar.appendChild(jt);
+  const jst=document.createElement("style"); jst.textContent='.tabs:not([data-grp="equipe"]) #lnkJeuTest{display:none}'; document.head.appendChild(jst);
 })();
 </script>
 <script>
