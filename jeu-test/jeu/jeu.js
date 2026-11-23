@@ -485,7 +485,7 @@ function initInput() {
   addEventListener("keydown", e => { if (e.target && /INPUT|SELECT|TEXTAREA/.test(e.target.tagName)) return; if (G.mode !== "play") return;
     if (map[e.code]) { K[map[e.code]] = 1; e.preventDefault(); } if (e.code === "ShiftLeft" || e.code === "ShiftRight") K.run = true;
     if (G.cine) { if (!e.repeat && (e.code === "Space" || e.code === "Enter" || e.code === "KeyE")) cineSkip(); if (e.code === "Space") e.preventDefault(); return; }
-    if (e.repeat) return; if (e.code === "KeyF") toggleLamp(); if (e.code === "KeyR") cri(); if (e.code === "KeyV") toggleFree(); if (e.code === "KeyG") CK.q = true; if (e.code === "KeyB") unstick(false); if (e.code === "KeyC") toggleSlow(); if (e.code === "KeyE") { actQ = true; e.preventDefault(); } if (e.code === "Space") { K.jump = true; e.preventDefault(); } });
+    if (e.repeat) return; if (e.code === "KeyF") toggleLamp(); if (e.code === "KeyR") cri(); if (e.code === "KeyV") toggleFree(); if (e.code === "KeyG") CK.q = true; if (e.code === "KeyB") unstick(false); if (e.key === "m" || e.key === "M") miniToggle(); if (e.code === "KeyC") toggleSlow(); if (e.code === "KeyE") { actQ = true; e.preventDefault(); } if (e.code === "Space") { K.jump = true; e.preventDefault(); } });
   addEventListener("keyup", e => { if (map[e.code]) K[map[e.code]] = 0; if (e.code === "ShiftLeft" || e.code === "ShiftRight") K.run = false; });
   addEventListener("blur", () => { K.f = K.b = K.l = K.r = 0; K.run = false; });
   if (!TOUCH) {
@@ -508,6 +508,7 @@ function initInput() {
   const up = e => { if (e.pointerId === mid) { mid = null; K.jx = K.jy = 0; st.style.display = "none"; } else if (e.pointerId === lid) { lid = null; if (tapM < 10 && performance.now() - tapT < 280 && me() && me().st !== "alive") actQ = true; } };
   cv.addEventListener("pointerup", up); cv.addEventListener("pointercancel", up);
   const hold = (id, dn, upf) => { const b = $(id); b.addEventListener("pointerdown", e => { e.preventDefault(); audioOn(); dn(); }); if (upf) { b.addEventListener("pointerup", upf); b.addEventListener("pointercancel", upf); b.addEventListener("pointerleave", upf); } };
+  $("mini").addEventListener("pointerdown", e => { e.preventDefault(); e.stopPropagation(); miniToggle(); });
   hold("tRun", () => { K.run = true; $("tRun").classList.add("on"); }, () => { K.run = false; $("tRun").classList.remove("on"); });
   hold("tAct", () => { actQ = true; }); hold("tCook", () => { CK.q = true; }); hold("tJump", () => { K.jump = true; }); hold("tLamp", toggleLamp); hold("tSlow", toggleSlow);
 }
@@ -658,17 +659,21 @@ function hostCookies(t) {
 }
 /* ───────── 9. réseau (PeerJS : un hôte, les autres s'y connectent) ───────── */
 const NET = { peer: null, conns: new Map(), conn: null, code: "", nid: 1 }, PFX = "allanbim-nuit-ehpad-";
-const peerOpts = () => Object.assign({ debug: 0 }, window.JEU_PEER || {});
+const ICE = { iceServers: [{ urls: ["stun:stun.l.google.com:19302", "stun:stun1.l.google.com:19302", "stun:stun.cloudflare.com:3478"] }, { urls: ["turn:eu-0.turn.peerjs.com:3478", "turn:us-0.turn.peerjs.com:3478"], username: "peerjs", credential: "peerjsp" }], sdpSemantics: "unified-plan" };
+const peerOpts = () => Object.assign({ debug: 0, config: ICE }, window.JEU_PEER || {});
+/* le service de mise en relation coupe parfois la liaison (longue attente dans le salon, téléphone en veille) :
+   sans elle plus personne ne peut rejoindre, alors on se rebranche tout seul toutes les 3 secondes */
+function netKeep() { clearInterval(NET.keep); NET.keep = setInterval(() => { const p = NET.peer; if (p && !p.destroyed && p.disconnected) try { p.reconnect(); } catch (e) { } }, 3000); }
 async function needPeer() { if (window.Peer) return; try { await script(FILES.peer); } catch (e) { throw new Error("Le module réseau du jeu a été bloqué par ce navigateur ou ce réseau (bloqueur de publicité, filtre d'établissement). Essaie sans bloqueur, ou sur un autre réseau comme le partage de connexion du téléphone. Le mode solo marche quand même."); } }
 function emit(m) { for (const c of NET.conns.values()) if (c.open) try { c.send(m); } catch (e) { } onMsg(m); }
 function request(m) { if (G.host) hostMsg(G.me, m); else if (NET.conn && NET.conn.open) try { NET.conn.send(m); } catch (e) { } }
-function netClose() { try { if (NET.peer) NET.peer.destroy(); } catch (e) { } NET.peer = null; NET.conn = null; NET.conns.clear(); }
+function netClose() { clearInterval(NET.keep); try { if (NET.peer) NET.peer.destroy(); } catch (e) { } NET.peer = null; NET.code = ""; NET.conn = null; NET.conns.clear(); }
 function lobbyState() { return ["lob", [...G.players.values()].map(p => [p.id, p.name]), G.opts]; }
 async function hostCreate(name) {
   await needPeer(); netClose(); G.host = true; G.solo = false; G.me = 0; G.off = 0; G.players.clear(); G.players.set(0, newPlayer(0, name));
   return new Promise((res, rej) => { let tries = 0;
     const go = () => { const code = Array.from({ length: 4 }, () => "ABCDEFGHJKLMNPQRSTUVWXYZ"[Math.floor(Math.random() * 24)]).join(""); const peer = new window.Peer(PFX + code, peerOpts()); NET.peer = peer;
-      peer.on("open", () => { NET.code = code; res(code); });
+      peer.on("open", () => { NET.code = code; netKeep(); res(code); });
       peer.on("error", e => { if (e.type === "unavailable-id" && tries++ < 5) { peer.destroy(); go(); } else if (!NET.code) rej(new Error("Impossible de créer la partie : le service de mise en relation ne répond pas. Ce réseau le bloque peut-être (filtre d'établissement) : essaie sur un autre réseau, comme le partage de connexion du téléphone. Le mode solo marche partout.")); });
       peer.on("connection", c => { let id = null;
         c.on("data", m => { if (!Array.isArray(m)) return;
@@ -677,14 +682,21 @@ async function hostCreate(name) {
         c.on("close", () => { if (id == null) return; NET.conns.delete(id); const P = G.players.get(id); if (G.mode === "lobby") { G.players.delete(id); emit(lobbyState()); } else if (G.mode === "play" && P && P.st === "alive") { P.gone = true; if (P.role === "s") caught(id, 0, null, true); else emit(["feed", "Le Méchant a quitté la partie."]); } }); });
     }; go(); });
 }
-async function clientJoin(name, code) {
+async function clientJoin(name, code, onTry) {
   await needPeer(); netClose(); G.host = false; G.solo = false; G.players.clear();
-  return new Promise((res, rej) => { const peer = new window.Peer(undefined, peerOpts()); NET.peer = peer; let ok = false; const to = setTimeout(() => { if (!ok) rej(new Error("Pas de réponse. Vérifie le code.")); }, 14000);
-    peer.on("error", e => { if (!ok) { clearTimeout(to); rej(new Error(e.type === "peer-unavailable" ? "Aucune partie avec ce code." : "Connexion impossible : ce réseau bloque peut-être le jeu à plusieurs. Essaie sur un autre réseau, comme le partage de connexion du téléphone.")); } });
-    peer.on("open", () => { const c = peer.connect(PFX + code, { reliable: true, serialization: "json" }); NET.conn = c; NET.code = code;
+  /* jusqu'à 3 essais : la première liaison échoue parfois (réseau lent, hôte en train de se rebrancher) */
+  return new Promise((res, rej) => { const peer = new window.Peer(undefined, peerOpts()); NET.peer = peer; let ok = false, done = false, n = 0, to = 0;
+    const fail = msg => { if (ok || done) return; done = true; clearTimeout(to); rej(new Error(msg)); };
+    const attempt = () => { if (ok || done || NET.peer !== peer) return; n++; if (onTry) onTry(n);
+      const c = peer.connect(PFX + code, { reliable: true, serialization: "json" }); NET.conn = c; NET.code = code;
+      clearTimeout(to); to = setTimeout(() => { if (ok || done) return; try { c.close(); } catch (e) { } if (n < 3) attempt(); else fail("L'hôte ne répond pas. Vérifie le code, et que l'hôte est toujours dans le salon. Si ça continue, ce réseau bloque peut-être le jeu à plusieurs : essaie le partage de connexion du téléphone."); }, 9000);
       c.on("open", () => { c.send(["hello", name]); });
-      c.on("data", m => { if (!Array.isArray(m)) return; if (m[0] === "you") { G.me = m[1]; ok = true; clearTimeout(to); res(); syncClock(); } else if (m[0] === "no") { clearTimeout(to); rej(new Error(m[1])); } else onMsg(m); });
-      c.on("close", () => { if (G.mode !== "menu") { toMenu("La connexion avec l'hôte est coupée."); } }); }); });
+      c.on("data", m => { if (!Array.isArray(m) || NET.conn !== c) return; if (m[0] === "you") { G.me = m[1]; ok = true; clearTimeout(to); res(); syncClock(); } else if (m[0] === "no") fail(m[1]); else onMsg(m); });
+      c.on("close", () => { if (ok && NET.conn === c && G.mode !== "menu") toMenu("La connexion avec l'hôte est coupée."); }); };
+    peer.on("error", e => { if (ok || done) return;
+      if (e.type === "peer-unavailable") { clearTimeout(to); if (n < 3) to = setTimeout(attempt, 2500); else fail("Aucune partie avec ce code. Vérifie les 4 lettres, et que l'hôte est toujours dans le salon."); }
+      else fail("Connexion impossible : ce réseau bloque peut-être le jeu à plusieurs. Essaie sur un autre réseau, comme le partage de connexion du téléphone."); });
+    peer.on("open", attempt); });
 }
 function syncClock() { let n = 0, best = 1e9; const one = () => { if (!NET.conn || !NET.conn.open) return; NET.conn.send(["pi", performance.now()]); if (++n < 5) setTimeout(one, 350); }; NET.onPong = (t0, th) => { const rtt = performance.now() - t0; if (rtt < best) { best = rtt; G.off = th + rtt / 2000 - performance.now() / 1000; } }; one(); }
 /* messages reçus par l'hôte */
@@ -835,7 +847,7 @@ function initUI() {
   const busy = (b, on) => { ["bSolo", "bHost", "bJoin"].forEach(i => $(i).disabled = on); };
   $("bSolo").onclick = () => { audioOn(); netClose(); G.host = true; G.solo = true; G.me = 0; G.off = 0; G.players.clear(); G.players.set(0, newPlayer(0, name())); G.opts = { gran: 3, res: 12, dur: 480 }; hostStart(); };
   $("bHost").onclick = async () => { audioOn(); busy(1, true); $("menuMsg").textContent = "Création de la partie…"; try { await hostCreate(name()); G.opts = { gran: +$("oGran").value, res: +$("oRes").value, dur: +$("oDur").value }; $("menuMsg").textContent = ""; showLobby(); } catch (e) { $("menuMsg").textContent = e.message; netClose(); } busy(1, false); };
-  $("bJoin").onclick = async () => { audioOn(); const code = $("code").value.trim().toUpperCase(); if (code.length !== 4) { $("menuMsg").textContent = "Tape le code de 4 lettres donné par l'hôte."; return; } busy(1, true); $("menuMsg").textContent = "Connexion…"; try { await clientJoin(name(), code); $("menuMsg").textContent = ""; G.mode = "lobby"; showLobby(); } catch (e) { $("menuMsg").textContent = e.message; netClose(); } busy(1, false); };
+  $("bJoin").onclick = async () => { audioOn(); const code = $("code").value.trim().toUpperCase(); if (code.length !== 4) { $("menuMsg").textContent = "Tape le code de 4 lettres donné par l'hôte."; return; } busy(1, true); $("menuMsg").textContent = "Connexion…"; try { await clientJoin(name(), code, n => { $("menuMsg").textContent = n > 1 ? "Connexion… (essai " + n + " sur 3)" : "Connexion…"; }); $("menuMsg").textContent = ""; G.mode = "lobby"; showLobby(); } catch (e) { $("menuMsg").textContent = e.message; netClose(); } busy(1, false); };
   ["oGran", "oRes", "oDur"].forEach(i => $(i).onchange = () => { G.opts = { gran: +$("oGran").value, res: +$("oRes").value, dur: +$("oDur").value }; emit(lobbyState()); });
   $("bStart").onclick = () => { audioOn(); hostStart(); };
   $("unstuck").onclick = () => unstick(false); $("bLeave").onclick = () => toMenu(""); $("bMenu").onclick = () => toMenu(""); $("quit").onclick = () => toMenu("");
@@ -900,6 +912,45 @@ function cineOutro(R) {
     on() { const m = cineProp(7, ex.x + 3.8, ex.y - 0.2, 0, 0); m.userData.eyes.visible = true; this.m = m; G.final = true; SND.slam(); setTimeout(() => { if (G.cine && G.cine.s === this) SND.laugh(0.8); }, 1900); },
     f(k, dt) { animChar(this.m, dt, 0, k > 0.55); } };
   cineStart("end", [shot], now(), () => endGame(R));
+}
+
+/* ───────── 10 ter. mini-carte : le plan du niveau où l'on est, tourné dans le sens du regard ─────────
+   On y voit : soi (flèche blanche), les escaliers (carrés verts), la sortie (trait vert), les autres résidents joueurs
+   (points clairs) et la zone où chercher la clé (cercle doré). Le Méchant, lui, ne voit pas les résidents.
+   Quand un repère est trop loin, un point sur le bord du cercle donne sa direction. Touche M ou appui : carte plus grande. */
+const MM = { img: [], t: 0, big: false, cv: null, g: null };
+function miniBuild() {
+  const nx = W.nx, ny = W.ny; MM.cv = $("mini"); MM.g = MM.cv.getContext("2d"); MM.C = W.xy(1)[0] - W.xy(0)[0];
+  for (let L = 0; L < W.lv.length; L++) { const c = document.createElement("canvas"); c.width = nx; c.height = ny; const g = c.getContext("2d"), d = g.createImageData(nx, ny), A = W.lv[L].A, D = d.data;
+    for (let i = 0; i < W.N; i++) if (A[i]) { const edge = !(A[i - 1] && A[i + 1] && A[i - nx] && A[i + nx]), o = i * 4; D[o] = edge ? 236 : 150; D[o + 1] = edge ? 232 : 160; D[o + 2] = edge ? 220 : 182; D[o + 3] = edge ? 235 : 112; }
+    g.putImageData(d, 0, 0); MM.img[L] = c; }
+}
+function miniToggle() { MM.big = !MM.big; MM.cv.classList.toggle("big", MM.big); MM.t = 0; }
+function miniDraw() {
+  const cv = MM.cv, g = MM.g, P = me(), p = G.p, dpr = Math.min(2, window.devicePixelRatio || 1), S = Math.round((cv.clientWidth || 150) * dpr); if (cv.width !== S) { cv.width = S; cv.height = S; }
+  const alive = P.st === "alive", x = alive ? p.x : camera.position.x, y = alive ? p.y : camera.position.y, z = alive ? p.z : camera.position.z - EYE, L = W.level(z + 0.4), R = S / 2, range = MM.big ? 44 : 22, sc = R / range, cs = Math.cos(p.yaw), sn = Math.sin(p.yaw), u = dpr;
+  const toS = (wx, wy) => { const dx = wx - x, dy = wy - y; return [R + sc * (dx * sn - dy * cs), R - sc * (dx * cs + dy * sn)]; };
+  const pins = [], dot = (q, r, col, pin) => { const d = Math.hypot(q[0] - R, q[1] - R); if (d > R - 5 * u) { if (pin) pins.push([R + (q[0] - R) / d * (R - 6 * u), R + (q[1] - R) / d * (R - 6 * u), col]); return; } g.fillStyle = col; g.beginPath(); g.arc(q[0], q[1], r * u, 0, TAU); g.fill(); };
+  g.setTransform(1, 0, 0, 1, 0, 0); g.clearRect(0, 0, S, S); g.save(); g.beginPath(); g.arc(R, R, R - 1, 0, TAU); g.clip(); g.fillStyle = "rgba(8,9,11,.7)"; g.fillRect(0, 0, S, S);
+  g.translate(R, R); g.rotate(p.yaw - Math.PI / 2); g.scale(sc, -sc); g.translate(-x, -y); g.drawImage(MM.img[L] || MM.img[0], W.x0, W.y0, W.nx * MM.C, W.ny * MM.C); g.setTransform(1, 0, 0, 1, 0, 0);
+  /* zone de la clé : un cercle large, décalé, pour ne pas donner l'endroit exact */
+  const k = G.key; if (k && k.holder < 0 && G.role === "s" && k.L === L) { const h = Math.sin(k.x * 12.9898 + k.y * 78.233) * 43758.5453, a = (h - Math.floor(h)) * TAU, q = toS(k.x + Math.cos(a) * 5, k.y + Math.sin(a) * 5);
+    if (Math.hypot(q[0] - R, q[1] - R) > R + 9 * sc - 4 * u) dot(q, 0, "#e9c46a", true); else { g.beginPath(); g.arc(q[0], q[1], 9 * sc, 0, TAU); g.fillStyle = "rgba(233,196,106,.16)"; g.fill(); g.setLineDash([4 * u, 3 * u]); g.lineWidth = 1.4 * u; g.strokeStyle = "rgba(233,196,106,.85)"; g.stroke(); g.setLineDash([]); } }
+  /* escaliers ; celui qui descend le plus près est rappelé sur le bord */
+  let near = null, nd = 1e9; for (const l of W.links) for (const e of [[l.la, l.a, false], [l.lb, l.b, true]]) { if (e[0] !== L) continue; const q = toS(e[1][0], e[1][1]), d = Math.hypot(e[1][0] - x, e[1][1] - y);
+    if (e[2] && d < nd) { nd = d; near = q; } if (Math.hypot(q[0] - R, q[1] - R) < R - 5 * u) { g.fillStyle = "#49c98a"; g.fillRect(q[0] - 3.5 * u, q[1] - 3.5 * u, 7 * u, 7 * u); } }
+  if (near && G.role === "s") dot(near, 0, "#49c98a", true);
+  /* sortie */
+  if (L === 0) { const e = W.exit, a = toS(e.ax, e.ay), b = toS(e.bx, e.by), m = toS(e.x, e.y); if (Math.hypot(m[0] - R, m[1] - R) > R - 5 * u) dot(m, 0, G.exitOpen ? "#7dffb8" : "#49c98a", true); else { g.strokeStyle = G.exitOpen ? "#7dffb8" : "#49c98a"; g.lineWidth = 3.5 * u; g.lineCap = "round"; g.beginPath(); g.moveTo(a[0], a[1]); g.lineTo(b[0], b[1]); g.stroke(); } }
+  /* les autres joueurs : un résident voit les résidents, un spectateur voit tout le monde, le Méchant ne voit personne */
+  if (G.role === "s") for (const Q of G.players.values()) { if (Q.id === G.me || Q.st !== "alive" || W.level(Q.sz + 0.4) !== L || (Q.role === "m" && alive)) continue; dot(toS(Q.sx, Q.sy), 3, Q.role === "m" ? "#e0453a" : "#bfe8d2", false); }
+  /* soi */
+  g.fillStyle = "#fff"; g.strokeStyle = "rgba(0,0,0,.6)"; g.lineWidth = u; g.beginPath(); if (alive) { g.moveTo(R, R - 6.5 * u); g.lineTo(R + 4.6 * u, R + 5 * u); g.lineTo(R, R + 2.4 * u); g.lineTo(R - 4.6 * u, R + 5 * u); g.closePath(); } else g.arc(R, R, 3 * u, 0, TAU); g.fill(); g.stroke();
+  g.restore();
+  /* bord, repères lointains, nord */
+  g.lineWidth = 1.5 * u; g.strokeStyle = "rgba(255,255,255,.2)"; g.beginPath(); g.arc(R, R, R - u, 0, TAU); g.stroke();
+  for (const q of pins) { g.fillStyle = q[2]; g.strokeStyle = "rgba(0,0,0,.7)"; g.lineWidth = u; g.beginPath(); g.arc(q[0], q[1], 4 * u, 0, TAU); g.fill(); g.stroke(); }
+  g.font = "700 " + Math.round(10 * u) + "px system-ui,sans-serif"; g.textAlign = "center"; g.textBaseline = "middle"; g.fillStyle = "rgba(255,255,255,.62)"; g.fillText("N", R - cs * (R - 11 * u), R - sn * (R - 11 * u));
 }
 
 /* ───────── 11. boucle ───────── */
@@ -974,6 +1025,7 @@ function frame(tm) {
       if (G.scare && performance.now() - G.scare.t0 > (G.scare.dur || 1700)) { G.scare = null; scareG.visible = scareA.visible = false; $("flash").style.opacity = 0; $("fade").style.opacity = 0; specStart(); }
       if (G.scare && !G.scare.rig) $("flash").style.opacity = Math.random() < 0.3 ? 0.42 : 0.1;
       if (tm - hudT > 200) { hudT = tm; hud(t); }
+      if (tm - MM.t > 60 && !G.cine) { MM.t = tm; miniDraw(); }
     }
     if (G.mode === "play" && P.st !== "alive" && !G.scare && G.specFree && G.fc) specStep(dt);
     placeCam(dt);
@@ -1063,9 +1115,9 @@ async function main() {
       uLampPos: { value: new THREE.Vector3() }, uLampDir: { value: new THREE.Vector3(1, 0, 0) }, uLampP: { value: new THREE.Vector4(0, 0.955, 0.84, 30) },
       uSpPos: { value: [V4(), V4(), V4()] }, uSpDir: { value: [V4(), V4(), V4()] }, uPtPos: { value: Array.from({ length: 8 }, V4) }, uPtCol: { value: Array.from({ length: 8 }, () => new THREE.Vector3()) } });
     lampDir = new THREE.Vector3(1, 0, 0); tmpV = new THREE.Vector3();
-    buildWorld(POS, AUX8, AUX16, IDX); buildDecor(); buildSkins(); buildProps(); initInput();
+    buildWorld(POS, AUX8, AUX16, IDX); buildDecor(); buildSkins(); buildProps(); miniBuild(); initInput();
     step(); $("sLoad").hidden = true; $("sMenu").hidden = false; G.mode = "menu";
-    window.__jeu = { unstick, CK, G, W, U, NET, H, K, camera, renderer, scene, chunks, LIGHTS, hostStart, request, emit, now, SND, A, physics, interactions, hostActors, cineSkip, cineStart, cineProp };
+    window.__jeu = { unstick, CK, G, W, U, NET, H, K, camera, renderer, scene, chunks, LIGHTS, hostStart, request, emit, now, SND, A, physics, interactions, hostActors, cineSkip, cineStart, cineProp, MM, miniDraw };
     requestAnimationFrame(frame);
   } catch (err) { $("loadmsg").textContent = err.message || String(err); $("loadmsg").style.color = "#e0453a"; $("bar").style.display = "none"; console.error(err); }
 }
