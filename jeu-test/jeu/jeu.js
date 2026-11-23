@@ -190,10 +190,24 @@ let renderer, scene, camera, U = {}, chunks = [], exitDoor = null, chMat = null,
 function initGL() {
   renderer = new THREE.WebGLRenderer({ canvas: $("gl"), antialias: !TOUCH, alpha: false, powerPreference: "high-performance" });
   if (!renderer.capabilities.isWebGL2) throw new Error("Ce navigateur ne gère pas WebGL 2, nécessaire au jeu.");
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, TOUCH ? 1.25 : 1.6));
+  QA.base = Math.min(window.devicePixelRatio || 1, TOUCH ? 1.25 : 1.5); try { QA.lvl = clamp(+localStorage.getItem("jeu-ehpad-qualite") || 0, 0, QL.length - 1); } catch (e) { }
+  renderer.setPixelRatio(QA.base * QL[QA.lvl].s);
   scene = new THREE.Scene(); camera = new THREE.PerspectiveCamera(74, 1, 0.06, 2500); camera.up.set(0, 0, 1);
   frustum = new THREE.Frustum(); pmat = new THREE.Matrix4(); sph = new THREE.Sphere();
   resize(); window.addEventListener("resize", resize);
+}
+/* fluidité : le jeu règle seul la finesse de l'image et la distance d'affichage. Il compte les images par seconde :
+   trop peu, il descend d'un cran ; beaucoup depuis un moment, il remonte. Le cran trouvé est gardé pour la partie suivante. */
+const QL = [{ s: 1, far: 58, near: 24, det: 26, fog: 0.05 }, { s: 0.85, far: 52, near: 21, det: 23, fog: 0.055 }, { s: 0.72, far: 46, near: 19, det: 20, fog: 0.062 }, { s: 0.6, far: 40, near: 17, det: 17, fog: 0.07 }, { s: 0.5, far: 34, near: 15, det: 14, fog: 0.08 }];
+const QA = { lvl: 0, base: 1, n: 0, t: 0, low: 0, high: 0, hold: 0, wait: 45000, upT: -1e9, before: 0, useless: 0, lock: false };
+function qSet(l) { QA.lvl = clamp(l, 0, QL.length - 1); renderer.setPixelRatio(QA.base * QL[QA.lvl].s); resize(); try { localStorage.setItem("jeu-ehpad-qualite", String(QA.lvl)); } catch (e) { } }
+function qStep(tm) {
+  if (tm - QA.t > 1600) { QA.t = tm; QA.n = 0; return; }   // reprise après une pause ou une cinématique : on recommence à compter
+  QA.n++; if (tm - QA.t < 1000) return; const fps = QA.n * 1000 / (tm - QA.t); QA.n = 0; QA.t = tm; QA.fps = fps; if (document.hidden) return;
+  /* si baisser la qualité ne change rien (écran limité à 30 images par seconde, par exemple), on arrête de baisser */
+  if (QA.before) { QA.useless = fps < QA.before * 1.08 ? QA.useless + 1 : 0; QA.before = 0; if (QA.useless >= 2) { QA.lock = true; qSet(QA.lvl - 2); return; } }
+  if (fps < 42) { QA.high = 0; if (++QA.low >= 2 && QA.lvl < QL.length - 1 && !QA.lock) { QA.low = 0; if (tm - QA.upT < 15000) QA.wait = Math.min(600000, QA.wait * 2); QA.hold = tm + QA.wait; QA.before = fps; qSet(QA.lvl + 1); } }
+  else { QA.low = 0; if (fps > 56 && QA.lvl > 0 && tm > QA.hold) { if (++QA.high >= 8) { QA.high = 0; QA.upT = tm; QA.hold = tm + 20000; qSet(QA.lvl - 1); } } else QA.high = 0; }
 }
 function resize() { const w = window.innerWidth, h = window.innerHeight; renderer.setSize(w, h, false); camera.aspect = w / Math.max(h, 1); camera.updateProjectionMatrix(); }
 function tex2D(img, opt) { const t = new THREE.Texture(img); t.colorSpace = THREE.NoColorSpace; t.generateMipmaps = !!opt.mips; t.minFilter = opt.mips ? THREE.LinearMipmapLinearFilter : THREE.LinearFilter; t.magFilter = THREE.LinearFilter; t.wrapS = opt.repeatS ? THREE.RepeatWrapping : THREE.ClampToEdgeWrapping; t.wrapT = THREE.ClampToEdgeWrapping; t.needsUpdate = true; return t; }
@@ -213,6 +227,9 @@ function buildWorld(POS, AUX8, AUX16, IDX) {
   const lo = new THREE.Vector3(D.lo[0], D.lo[1], D.lo[2]), sc = new THREE.Vector3((D.hi[0] - D.lo[0]) / 65535, (D.hi[1] - D.lo[1]) / 65535, (D.hi[2] - D.lo[2]) / 65535);
   const hide = new Set(); for (const d of W.doors) if (d.open) hide.add(d.i);
   const exitEl = W.exit ? W.exit.i : -1; exitDoor = new THREE.Group(); scene.add(exitDoor);
+  /* les petits objets très détaillés (mains courantes et leurs supports, meubles, sanitaires, gaines) pèsent la moitié des triangles :
+     ils sont rangés à part et ne sont dessinés que de près (voir « det » dans la boucle d'affichage) */
+  const DET = /^(Mains courantes|Supports|Mobilier|Appareils sanitaires|Equipement spécialisé|Équipement spécialisé|Modèles génériques|Luminaires|Installations électriques)$/, isDet = (g, el) => { if (g.d === "CVC") return true; const e = D.el[el]; return !!e && DET.test(String(D.vals[e[3]])); };
   for (const g of D.groups) {
     if (g.d === "STR") continue;
     const pos = POS.subarray(g.v0 * 3, (g.v0 + g.vc) * 3), orig = IDX.subarray(g.i0, g.i0 + g.ic);
@@ -226,7 +243,7 @@ function buildWorld(POS, AUX8, AUX16, IDX) {
       let a = 1e9, b = 1e9, c = 1e9, d = -1, e = -1, f = -1;
       for (let i = p[1] * 3, n = (p[1] + p[2]) * 3; i < n; i += 3) { const x = pos[i], y = pos[i + 1], z = pos[i + 2]; if (x < a) a = x; if (x > d) d = x; if (y < b) b = y; if (y > e) e = y; if (z < c) c = z; if (z > f) f = z; }
       const bb = [lo.x + a * sc.x, lo.y + b * sc.y, lo.z + c * sc.z, lo.x + d * sc.x, lo.y + e * sc.y, lo.z + f * sc.z];
-      const cz = (bb[2] + bb[5]) / 2, key = el === exitEl ? "exit" : g.d === "SITE" ? "site" : Math.floor((bb[0] + bb[3]) / 24) + "," + Math.floor((bb[1] + bb[4]) / 24) + "," + (cz < 3.2 ? 0 : cz < 6.9 ? 1 : 2);
+      const cz = (bb[2] + bb[5]) / 2, key = el === exitEl ? "exit" : g.d === "SITE" ? "site" : Math.floor((bb[0] + bb[3]) / 24) + "," + Math.floor((bb[1] + bb[4]) / 24) + "," + (cz < 3.2 ? 0 : cz < 6.9 ? 1 : 2) + (cz < 6.9 && isDet(g, el) ? ",d" : "");
       let k = map.get(key); if (!k) { k = { n: 0, parts: [], bb: [1e9, 1e9, 1e9, -1e9, -1e9, -1e9] }; map.set(key, k); }
       k.n += p[4]; k.parts.push(p); for (let j = 0; j < 3; j++) { if (bb[j] < k.bb[j]) k.bb[j] = bb[j]; if (bb[j + 3] > k.bb[j + 3]) k.bb[j + 3] = bb[j + 3]; }
     }
@@ -236,7 +253,7 @@ function buildWorld(POS, AUX8, AUX16, IDX) {
       const mesh = new THREE.Mesh(geo, mat); mesh.position.copy(lo); mesh.scale.copy(sc); mesh.frustumCulled = false; mesh.renderOrder = g.kind === "G" ? 5 : 1;
       if (key === "exit") { const h = new THREE.Group(); h.add(mesh); exitDoor.add(h); continue; }
       scene.add(mesh); const b = k.bb;
-      chunks.push({ mesh, c: new THREE.Vector3((b[0] + b[3]) / 2, (b[1] + b[4]) / 2, (b[2] + b[5]) / 2), r: Math.hypot(b[3] - b[0], b[4] - b[1], b[5] - b[2]) / 2, always: key === "site", band: key === "site" ? -1 : +key.split(",")[2] });
+      chunks.push({ mesh, box: new THREE.Box3(new THREE.Vector3(b[0], b[1], b[2]), new THREE.Vector3(b[3], b[4], b[5])), c: new THREE.Vector3((b[0] + b[3]) / 2, (b[1] + b[4]) / 2, (b[2] + b[5]) / 2), r: Math.hypot(b[3] - b[0], b[4] - b[1], b[5] - b[2]) / 2, always: key === "site", glass: g.kind === "G", det: key.endsWith(",d"), band: key === "site" ? -1 : +key.split(",")[2] }); if (key === "site" && g.kind !== "G") mesh.renderOrder = 3;
     }
   }
   /* sol étendu, ciel, arbres */
@@ -485,7 +502,7 @@ function initInput() {
   addEventListener("keydown", e => { if (e.target && /INPUT|SELECT|TEXTAREA/.test(e.target.tagName)) return; if (G.mode !== "play") return;
     if (map[e.code]) { K[map[e.code]] = 1; e.preventDefault(); } if (e.code === "ShiftLeft" || e.code === "ShiftRight") K.run = true;
     if (G.cine) { if (!e.repeat && (e.code === "Space" || e.code === "Enter" || e.code === "KeyE")) cineSkip(); if (e.code === "Space") e.preventDefault(); return; }
-    if (e.repeat) return; if (e.code === "KeyF") toggleLamp(); if (e.code === "KeyR") cri(); if (e.code === "KeyV") toggleFree(); if (e.code === "KeyG") CK.q = true; if (e.code === "KeyB") unstick(false); if (e.key === "m" || e.key === "M") miniToggle(); if (e.code === "KeyC") toggleSlow(); if (e.code === "KeyE") { actQ = true; e.preventDefault(); } if (e.code === "Space") { K.jump = true; e.preventDefault(); } });
+    if (e.repeat) return; if (e.code === "KeyF") toggleLamp(); if (e.code === "KeyR") cri(); if (e.code === "KeyV") toggleFree(); if (e.code === "KeyG") CK.q = true; if (e.code === "KeyB") unstick(false); if (e.code === "KeyT") goSpawn(); if (e.key === "m" || e.key === "M") miniToggle(); if (e.code === "KeyC") toggleSlow(); if (e.code === "KeyE") { actQ = true; e.preventDefault(); } if (e.code === "Space") { K.jump = true; e.preventDefault(); } });
   addEventListener("keyup", e => { if (map[e.code]) K[map[e.code]] = 0; if (e.code === "ShiftLeft" || e.code === "ShiftRight") K.run = false; });
   addEventListener("blur", () => { K.f = K.b = K.l = K.r = 0; K.run = false; });
   if (!TOUCH) {
@@ -536,6 +553,22 @@ function tryMove(p, dx, dy) {
 }
 /* vrai si le joueur n'est pas sur le sol normal du niveau (sur un meuble, dans un creux…) : c'est là qu'on peut rester coincé */
 function offFloor(p) { const l = W.lv[p.lvl != null ? p.lvl : W.level(p.z + 0.4)], c = W.near(l.A, p.x, p.y, 3); return c < 0 || Math.abs(p.z - l.F[c]) > 0.1; }
+/* retour au point de départ : 3 secondes sans bouger, puis on est ramené là où on a commencé. Pas quand un chasseur est tout près, et pas plus d'une fois par minute. */
+function goSpawn() {
+  const p = G.p, P = me(), t = now(); if (!p || !P || P.st !== "alive" || G.mode !== "play" || G.cine || G.over || !G.spawn || t < G.t0) return;
+  if (G.home) { G.home = null; toast("Retour annulé", 1200); return; }
+  if (t < (p.homeT || 0)) { toast("Encore " + Math.ceil(p.homeT - t) + " s avant de pouvoir revenir au départ", 1800); return; }
+  if (G.role === "s" && (G.danger || 0) > 0.3) { toast("Impossible maintenant<small>Un chasseur est trop près.</small>", 2000); return; }
+  G.home = { t: t + 3, x: p.x, y: p.y, n: 4 };
+}
+function homeStep(t) {
+  const h = G.home, p = G.p; if (!h) return; const P = me();
+  if (!P || P.st !== "alive" || G.scare || G.over) { G.home = null; return; }
+  if (Math.hypot(p.x - h.x, p.y - h.y) > 0.5) { G.home = null; toast("Retour annulé<small>Il ne faut pas bouger.</small>", 1600); return; }
+  const n = Math.ceil(h.t - t); if (n !== h.n && n > 0) { h.n = n; toast("Retour au départ dans " + n + " s<small>Ne bouge pas. " + (TOUCH ? "Rappuie" : "Touche T") + " pour annuler.</small>", 1300); }
+  if (t < h.t) return; G.home = null; p.homeT = t + 60; const s = G.spawn; G.fadeT = performance.now(); $("fade").style.opacity = 1; SND.stairs();
+  setTimeout(() => { if (G.p !== p) return; p.x = s[0]; p.y = s[1]; p.z = s[2]; p.yaw = s[3]; p.pitch = 0; p.lvl = W.level(s[2] + 0.4); p.safe = [s[0], s[1], s[2]]; p.vx = p.vy = p.vz = 0; p.ground = true; p.camZ = null; p.stuckT = 0; G.linkCd = now() + 1.2; $("fade").style.opacity = 0; G.fadeT = 0; toast("Te revoilà au point de départ", 2200); }, 450);
+}
 function unstick(auto) {
   const p = G.p, P = me(); if (!p || !P || P.st !== "alive" || G.mode !== "play" || !p.safe) return; const t = now(); if (!auto && t < (p.unT || 0)) { toast("Encore " + Math.ceil(p.unT - t) + " s avant de pouvoir te débloquer", 1500); return; }
   if (!auto) p.unT = t + 10; p.x = p.safe[0]; p.y = p.safe[1]; p.z = p.safe[2]; p.lvl = W.level(p.z + 0.4); p.vx = p.vy = p.vz = 0; p.ground = true; p.camZ = null; p.stuckT = 0; toast(auto ? "Tu étais coincé<small>Retour au dernier endroit sûr.</small>" : "Débloqué<small>Retour au dernier endroit sûr.</small>", 2200);
@@ -750,7 +783,7 @@ function startGame(S) {
   if (!G.host) { G.players.clear(); S.names.forEach(n => G.players.set(n[0], newPlayer(n[0], n[1]))); }
   G.actors = S.acts.map(a => { const o = { id: a[0], kind: a[1], L: a[2], skin: a[3], x: a[4], y: a[5], base: a[6], st: 0, dir: Math.random() * TAU, mesh: makeChar(a[3]), wait: S.t0 + Math.random() * 9, vyaw: 0 }; setPath(o, [a[4], a[5]], 1, S.t0, 0); if (o.kind === "r") o.mesh.scale.setScalar(0.94 + (a[0] % 5) * 0.025); return o; });
   for (const P of G.players.values()) { P.role = P.id === S.villain ? "m" : "s"; P.st = "alive"; P.gone = false; P.by = null; const s = S.sp[P.id]; P.x = P.sx = s[0]; P.y = P.sy = s[1]; P.z = P.sz = s[2]; P.yaw = P.syaw = s[3]; P.f = 0; P.grabT = 0; P.fall = 0; if (P.id !== G.me) { P.mesh = makeChar(P.role === "m" ? 7 : P.id % 6); P.tag = nameTag(P.name, P.role === "m"); P.tag.position.z = P.role === "m" ? 2.12 : 1.97; P.mesh.add(P.tag); } }
-  const M = me(), s = S.sp[G.me]; G.role = M.role; EYE = G.role === "m" ? 1.74 : 1.5; G.p = { x: s[0], y: s[1], z: s[2], vx: 0, vy: 0, vz: 0, yaw: s[3], pitch: 0, ground: true, stam: 1, tired: false, lamp: G.role === "s", slow: false, bob: 0, camZ: null, moving: false, bat: 1, lvl: W.level(s[2] + 0.4), safe: [s[0], s[1], s[2]] };
+  const M = me(), s = S.sp[G.me]; G.role = M.role; EYE = G.role === "m" ? 1.74 : 1.5; G.p = { x: s[0], y: s[1], z: s[2], vx: 0, vy: 0, vz: 0, yaw: s[3], pitch: 0, ground: true, stam: 1, tired: false, lamp: G.role === "s", slow: false, bob: 0, camZ: null, moving: false, bat: 1, lvl: W.level(s[2] + 0.4), safe: [s[0], s[1], s[2]] }; G.spawn = [s[0], s[1], s[2], s[3]]; G.home = null;
   G.key = { x: S.key[0], y: S.key[1], z: S.key[2], L: S.key[3], holder: -1, hint: roomHint(S.key[0], S.key[1], S.key[3]) }; G.exitOpen = false; G.t0 = S.t0; G.dur = S.dur; G.mWait = 18; G.stunT = 0; G.scare = null; G.spec = null; G.ended = false; G.fadeT = 0; G.linkCd = 0; G.villain = S.villain;
   exitDoor.children.forEach(h => { h.position.y = 0; }); W.setDoor(W.exit, false); W.lv[0].B = W.lv[0].B0 ? W.lv[0].B0.slice() : W.lv[0].B; if (!W.lv[0].B0) W.lv[0].B0 = W.lv[0].B.slice();
   cookiesClear(); for (const c of (S.cook || [])) CK.pick.set(c[0], { id: c[0], x: c[1], y: c[2], z: c[3], L: c[4], mesh: cookieMesh(1.5) }); for (const c of CK.pick.values()) c.mesh.position.set(c.x, c.y, c.z + 0.55);
@@ -850,12 +883,12 @@ function initUI() {
   $("bJoin").onclick = async () => { audioOn(); const code = $("code").value.trim().toUpperCase(); if (code.length !== 4) { $("menuMsg").textContent = "Tape le code de 4 lettres donné par l'hôte."; return; } busy(1, true); $("menuMsg").textContent = "Connexion…"; try { await clientJoin(name(), code, n => { $("menuMsg").textContent = n > 1 ? "Connexion… (essai " + n + " sur 3)" : "Connexion…"; }); $("menuMsg").textContent = ""; G.mode = "lobby"; showLobby(); } catch (e) { $("menuMsg").textContent = e.message; netClose(); } busy(1, false); };
   ["oGran", "oRes", "oDur"].forEach(i => $(i).onchange = () => { G.opts = { gran: +$("oGran").value, res: +$("oRes").value, dur: +$("oDur").value }; emit(lobbyState()); });
   $("bStart").onclick = () => { audioOn(); hostStart(); };
-  $("unstuck").onclick = () => unstick(false); $("bLeave").onclick = () => toMenu(""); $("bMenu").onclick = () => toMenu(""); $("quit").onclick = () => toMenu("");
+  $("unstuck").onclick = () => unstick(false); $("respawn").onclick = () => goSpawn(); $("bLeave").onclick = () => toMenu(""); $("bMenu").onclick = () => toMenu(""); $("quit").onclick = () => toMenu("");
   $("bAgain").onclick = () => { audioOn(); if (G.solo) hostStart(); else { G.mode = "lobby"; emit(lobbyState()); } };
   $("bCopy").onclick = () => { const u = location.href.split("#")[0] + "#" + NET.code; const done = () => { $("bCopy").textContent = "Lien copié"; setTimeout(() => $("bCopy").textContent = "Copier le lien", 1600); }; try { navigator.clipboard.writeText(u).then(done, () => { $("lobMsg").textContent = u; }); } catch (e) { $("lobMsg").textContent = u; } };
   const h = (location.hash || "").slice(1).toUpperCase(); if (/^[A-Z]{4}$/.test(h)) $("code").value = h;
   /* grain d'image */
-  const cv = document.createElement("canvas"); cv.width = cv.height = 160; const c = cv.getContext("2d"), im = c.createImageData(160, 160); for (let i = 0; i < im.data.length; i += 4) { const v = Math.random() * 255; im.data[i] = im.data[i + 1] = im.data[i + 2] = v; im.data[i + 3] = 255; } c.putImageData(im, 0, 0); $("grain").style.backgroundImage = "url(" + cv.toDataURL() + ")";
+  const cv = document.createElement("canvas"); cv.width = cv.height = 160; const c = cv.getContext("2d"), im = c.createImageData(160, 160); for (let i = 0; i < im.data.length; i += 4) { const v = Math.random() * 2 - 1; im.data[i] = im.data[i + 1] = im.data[i + 2] = v > 0 ? 255 : 0; im.data[i + 3] = Math.abs(v) * 255; }   // points blancs ou noirs plus ou moins transparents : pas de mélange spécial, coûteux pour la carte graphique c.putImageData(im, 0, 0); $("grain").style.backgroundImage = "url(" + cv.toDataURL() + ")";
 }
 
 /* ───────── 10 bis. cinématiques : une courte au début de la partie, une courte à la fin ─────────
@@ -967,7 +1000,7 @@ function apparition(dt, t, danger, L) {
   if (c >= 0 && W.lv[L].A[c] && !W.blocked(x, y, z, 0.3) && W.los(p.x, p.y, z + 1.4, x, y, z + 1.4)) { ghost.position.set(x, y, W.lv[L].F[c]); ghost.visible = true; G.ghostOn = true; G.ghostEnd = t + 2.6; SND.whisper(); G.shakeT = performance.now() + 250; }
   else G.ghostT = t + 2;
 }
-let frameN = 0, lastT = 0, sendT = 0, tickT = 0, hudT = 0, lampDir = null, tmpV = null, tinkT = 0, creakT = 20;
+const vis = []; let frameN = 0, sTickT = 0, lastT = 0, sendT = 0, tickT = 0, hudT = 0, lampDir = null, tmpV = null, tinkT = 0, creakT = 20;
 function useLink(p, d) {
   G.fadeT = performance.now(); $("fade").style.opacity = 1; SND.stairs();
   setTimeout(() => { let tx = d[0], ty = d[1]; for (let a = 0; a < TAU; a += 0.6) { const x = d[0] + Math.cos(a + p.yaw) * 0.9, y = d[1] + Math.sin(a + p.yaw) * 0.9; if (!W.blocked(x, y, d[2]) && allowed(x, y, d[2], W.level(d[2] + 0.4))) { tx = x; ty = y; break; } }
@@ -1016,12 +1049,12 @@ function frame(tm) {
     const p = G.p, P = me();
     if (G.mode === "play" && !G.over) {
       physics(dt); P.x = p.x; P.y = p.y; P.z = p.z; P.yaw = p.yaw; P.pitch = p.pitch; P.f = (p.moving ? 1 : 0) | (p.run ? 2 : 0) | (p.lamp ? 4 : 0) | (p.slowNow ? 8 : 0);
-      interactions(t);
-      if (tm - sendT > 80) { sendT = tm; if (!G.host) request(["s", +p.x.toFixed(2), +p.y.toFixed(2), +p.z.toFixed(2), +p.yaw.toFixed(3), +p.pitch.toFixed(2), P.f]); }
+      interactions(t); homeStep(t);
+      if (tm - sendT > 50) { sendT = tm; if (!G.host) request(["s", +p.x.toFixed(2), +p.y.toFixed(2), +p.z.toFixed(2), +p.yaw.toFixed(3), +p.pitch.toFixed(2), P.f]); }
       cookiesStep(dt, t, tm);
       if (G.host && tm - tickT > 100) { tickT = tm; hostActors(t); hostCookies(t);
-        if (!G.solo) emit(["S", [...G.players.values()].filter(q => q.st === "alive").map(q => [q.id, +q.x.toFixed(2), +q.y.toFixed(2), +q.z.toFixed(2), +q.yaw.toFixed(3), +(q.pitch || 0).toFixed(2), q.f])]);
         if (!G.ended && t > G.t0 + G.dur) checkEnd(true); }
+      if (G.host && !G.solo && tm - sTickT > 50) { sTickT = tm; emit(["S", [...G.players.values()].filter(q => q.st === "alive").map(q => [q.id, +q.x.toFixed(2), +q.y.toFixed(2), +q.z.toFixed(2), +q.yaw.toFixed(3), +(q.pitch || 0).toFixed(2), q.f])]); }
       if (G.scare && performance.now() - G.scare.t0 > (G.scare.dur || 1700)) { G.scare = null; scareG.visible = scareA.visible = false; $("flash").style.opacity = 0; $("fade").style.opacity = 0; specStart(); }
       if (G.scare && !G.scare.rig) $("flash").style.opacity = Math.random() < 0.3 ? 0.42 : 0.1;
       if (tm - hudT > 200) { hudT = tm; hud(t); }
@@ -1036,7 +1069,7 @@ function frame(tm) {
       if (m.visible) { m.position.set(a.x, a.y, W.ground(a.x, a.y, z + 0.3)); m.rotation.z = a.vyaw; animChar(m, dt, a.mv ? a.sp : 0, a.kind === "g" && a.st === 1, t < (a.eatUntil || 0)); }
       if (a.kind === "g" && a.L === myL && d < ng) { ng = d; nearG = a; } }
     /* autres joueurs */
-    for (const Q of G.players.values()) { if (Q.id === G.me || !Q.mesh) continue; const k = Math.min(1, dt * 12), sp = Math.hypot(Q.x - Q.sx, Q.y - Q.sy) / Math.max(dt, 0.001) * k;
+    for (const Q of G.players.values()) { if (Q.id === G.me || !Q.mesh) continue; const k = Math.min(1, dt * 14), sp = Math.hypot(Q.x - Q.sx, Q.y - Q.sy) / Math.max(dt, 0.001) * k;
       Q.sx += (Q.x - Q.sx) * k; Q.sy += (Q.y - Q.sy) * k; Q.sz += (Q.z - Q.sz) * k; Q.syaw += angDiff(Q.yaw, Q.syaw) * k; Q.mesh.visible = (Q.st === "alive" || !!Q.fall) && !(G.scare && G.scare.hideP === Q.id); if (Q.tag) Q.tag.visible = P.st !== "alive" && !G.scare && !G.cine;
       if (Q.fall) { const kf = (performance.now() - Q.fall) / 1000;   // la victime vue par les autres : elle se débat puis tombe sur le dos
         if (kf > 3.2 || G.mode !== "play") { Q.fall = 0; Q.mesh.visible = false; Q.mesh.rotation.set(0, 0, Q.syaw); }
@@ -1084,14 +1117,19 @@ function frame(tm) {
   } else { /* menu : caméra qui tourne lentement au-dessus du bâtiment */
     const a = tm / 26000; camera.position.set(-38 + Math.cos(a) * 62, 48 + Math.sin(a) * 62, 26); camera.lookAt(-38, 48, 2); camera.updateMatrixWorld(); U.uLampP.value.x = 0; for (let i = 0; i < 8; i++) U.uPtPos.value[i].w = 0; for (let i = 0; i < 3; i++) U.uSpPos.value[i].w = 0; U.uNight.value.set(0.34, 0.42, 0.62);
   }
-  const CW = G.cine ? G.cine.s : null; U.uFog.value.w = CW ? CW.fog : G.mode === "play" || G.mode === "end" ? (camera.position.z > 8 ? 0.02 : 0.05) : 0.006;
+  const CW = G.cine ? G.cine.s : null; U.uFog.value.w = CW ? CW.fog : G.mode === "play" || G.mode === "end" ? (camera.position.z > 8 ? 0.02 : QL[QA.lvl].fog) : 0.006;
   pmat.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse); frustum.setFromProjectionMatrix(pmat);
   /* on n'affiche que ce qui peut se voir : dedans, le brouillard cache tout au-delà de ~55 m et les autres niveaux au-delà de ~24 m */
-  const inGame = G.mode === "play" || G.mode === "end", cz = camera.position.z, roof = cz > 8 || !!(CW && CW.wide), far = !inGame ? 400 : CW && CW.wide ? 170 : roof ? 120 : TOUCH ? 46 : 58, band = cz < 3.2 ? 0 : cz < 6.9 ? 1 : 2;
-  for (const c of chunks) { if (c.always) continue; sph.center.copy(c.c); sph.radius = c.r; const d = c.c.distanceTo(camera.position) - c.r; c.mesh.visible = d < far && (!inGame || roof || c.band === band || d < 24) && frustum.intersectsSphere(sph); }
+  const inGame = G.mode === "play" || G.mode === "end", cz = camera.position.z, roof = cz > 8 || !!(CW && CW.wide), wide = !!(CW && CW.wide), far = !inGame ? 400 : wide ? 170 : roof ? 120 : Math.min(QL[QA.lvl].far, TOUCH ? 46 : 58), nearB = QL[QA.lvl].near, detF = QL[QA.lvl].det, band = cz < 3.2 ? 0 : cz < 6.9 ? 1 : 2;
+  /* les morceaux visibles sont dessinés du plus proche au plus loin : la carte graphique saute alors tout ce qui est caché derrière un mur */
+  vis.length = 0;
+  for (const c of chunks) { if (c.always) continue; const d = c.box.distanceToPoint(camera.position);   // distance à la boîte du morceau, plus juste qu'une sphère pour des morceaux plats
+    const v = d < (c.det && inGame && !wide ? (c.band === band ? detF : 9) : roof && !wide && inGame && c.band < 2 ? 70 : far) && (!inGame || roof || c.band === band || d < nearB) && frustum.intersectsBox(c.box); c.mesh.visible = v; if (v && inGame && !c.glass) { c.d = d; vis.push(c); } }
+  if (vis.length) { vis.sort((a, b) => a.d - b.d); for (let i = 0; i < vis.length; i++) vis[i].mesh.renderOrder = 1 + i * 0.001; }
   /* au menu, 20 images par seconde suffisent (tout le bâtiment est affiché) */
   if (window.JEU_SANS_RENDU || (!inGame && (frameN++ % 3))) return;
   renderer.render(scene, camera);
+  if (G.mode === "play" && !G.cine) qStep(tm);
 }
 
 async function main() {
@@ -1117,7 +1155,7 @@ async function main() {
     lampDir = new THREE.Vector3(1, 0, 0); tmpV = new THREE.Vector3();
     buildWorld(POS, AUX8, AUX16, IDX); buildDecor(); buildSkins(); buildProps(); miniBuild(); initInput();
     step(); $("sLoad").hidden = true; $("sMenu").hidden = false; G.mode = "menu";
-    window.__jeu = { unstick, CK, G, W, U, NET, H, K, camera, renderer, scene, chunks, LIGHTS, hostStart, request, emit, now, SND, A, physics, interactions, hostActors, cineSkip, cineStart, cineProp, MM, miniDraw };
+    window.__jeu = { unstick, CK, G, W, U, NET, H, K, camera, renderer, scene, chunks, LIGHTS, hostStart, request, emit, now, SND, A, physics, interactions, hostActors, cineSkip, cineStart, cineProp, MM, miniDraw, QA, QL, qSet, goSpawn };
     requestAnimationFrame(frame);
   } catch (err) { $("loadmsg").textContent = err.message || String(err); $("loadmsg").style.color = "#e0453a"; $("bar").style.display = "none"; console.error(err); }
 }
