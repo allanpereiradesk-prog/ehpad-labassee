@@ -12,7 +12,7 @@ const angDiff = (a, b) => { let d = (a - b) % TAU; if (d > Math.PI) d -= TAU; if
 const TOUCH = matchMedia("(pointer:coarse)").matches || "ontouchstart" in window;
 if (TOUCH) document.body.classList.add("touch");
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-const FILES = { data: "donnees.js", model: "modele.js", images: "images.js", monde: "jeu/jeu_monde.js", peer: "jeu/peerjs.min.js" };
+const FILES = { data: "donnees.js", model: "modele.js", images: "images.js", monde: "jeu/jeu_monde.js", peer: "jeu/reseau.js" };
 let EYE = 1.5; const SPD = { slow: 1.0, walk: 2.2, run: 4.7, mWalk: 2.5, mRun: 5.0 };
 let THREE = window.THREE, W = null, D = null;
 
@@ -629,7 +629,7 @@ function hostCookies(t) {
 /* ───────── 9. réseau (PeerJS : un hôte, les autres s'y connectent) ───────── */
 const NET = { peer: null, conns: new Map(), conn: null, code: "", nid: 1 }, PFX = "allanbim-nuit-ehpad-";
 const peerOpts = () => Object.assign({ debug: 0 }, window.JEU_PEER || {});
-async function needPeer() { if (!window.Peer) await script(FILES.peer); }
+async function needPeer() { if (window.Peer) return; try { await script(FILES.peer); } catch (e) { throw new Error("Le module réseau du jeu a été bloqué par ce navigateur ou ce réseau (bloqueur de publicité, filtre d'établissement). Essaie sans bloqueur, ou sur un autre réseau comme le partage de connexion du téléphone. Le mode solo marche quand même."); } }
 function emit(m) { for (const c of NET.conns.values()) if (c.open) try { c.send(m); } catch (e) { } onMsg(m); }
 function request(m) { if (G.host) hostMsg(G.me, m); else if (NET.conn && NET.conn.open) try { NET.conn.send(m); } catch (e) { } }
 function netClose() { try { if (NET.peer) NET.peer.destroy(); } catch (e) { } NET.peer = null; NET.conn = null; NET.conns.clear(); }
@@ -639,7 +639,7 @@ async function hostCreate(name) {
   return new Promise((res, rej) => { let tries = 0;
     const go = () => { const code = Array.from({ length: 4 }, () => "ABCDEFGHJKLMNPQRSTUVWXYZ"[Math.floor(Math.random() * 24)]).join(""); const peer = new window.Peer(PFX + code, peerOpts()); NET.peer = peer;
       peer.on("open", () => { NET.code = code; res(code); });
-      peer.on("error", e => { if (e.type === "unavailable-id" && tries++ < 5) { peer.destroy(); go(); } else if (!NET.code) rej(new Error("Impossible de créer la partie : pas de connexion au service de mise en relation. Le mode à plusieurs demande internet et ne marche pas dans un aperçu ; le mode solo marche partout.")); });
+      peer.on("error", e => { if (e.type === "unavailable-id" && tries++ < 5) { peer.destroy(); go(); } else if (!NET.code) rej(new Error("Impossible de créer la partie : le service de mise en relation ne répond pas. Ce réseau le bloque peut-être (filtre d'établissement) : essaie sur un autre réseau, comme le partage de connexion du téléphone. Le mode solo marche partout.")); });
       peer.on("connection", c => { let id = null;
         c.on("data", m => { if (!Array.isArray(m)) return;
           if (m[0] === "hello") { if (G.mode !== "lobby" || G.players.size >= 8) { try { c.send(["no", G.mode !== "lobby" ? "La partie a déjà commencé." : "La partie est complète."]); } catch (e) { } return; } id = NET.nid++; NET.conns.set(id, c); G.players.set(id, newPlayer(id, String(m[1] || "Joueur").slice(0, 14))); c.send(["you", id]); emit(lobbyState()); }
@@ -650,7 +650,7 @@ async function hostCreate(name) {
 async function clientJoin(name, code) {
   await needPeer(); netClose(); G.host = false; G.solo = false; G.players.clear();
   return new Promise((res, rej) => { const peer = new window.Peer(undefined, peerOpts()); NET.peer = peer; let ok = false; const to = setTimeout(() => { if (!ok) rej(new Error("Pas de réponse. Vérifie le code.")); }, 14000);
-    peer.on("error", e => { if (!ok) { clearTimeout(to); rej(new Error(e.type === "peer-unavailable" ? "Aucune partie avec ce code." : "Connexion impossible. Le mode à plusieurs demande internet et ne marche pas dans un aperçu.")); } });
+    peer.on("error", e => { if (!ok) { clearTimeout(to); rej(new Error(e.type === "peer-unavailable" ? "Aucune partie avec ce code." : "Connexion impossible : ce réseau bloque peut-être le jeu à plusieurs. Essaie sur un autre réseau, comme le partage de connexion du téléphone.")); } });
     peer.on("open", () => { const c = peer.connect(PFX + code, { reliable: true, serialization: "json" }); NET.conn = c; NET.code = code;
       c.on("open", () => { c.send(["hello", name]); });
       c.on("data", m => { if (!Array.isArray(m)) return; if (m[0] === "you") { G.me = m[1]; ok = true; clearTimeout(to); res(); syncClock(); } else if (m[0] === "no") { clearTimeout(to); rej(new Error(m[1])); } else onMsg(m); });
